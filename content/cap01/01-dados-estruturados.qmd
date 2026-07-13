@@ -41,7 +41,7 @@ estado = pd.read_csv("dados/state.csv")
 estado.dtypes
 ```
 
-O pandas acertou dois tipos numéricos sem qualquer ajuda: `Population` virou `int64` porque é contagem de pessoas — discreto — e `Murder.Rate` virou `float64` porque é uma taxa — contínua. Mas repare em `State` e `Abbreviation`: ambos viraram `object`, que é como o pandas rotula texto genérico. Ele não sabe que são categóricos nominais. Para o pandas, `"Alabama"` e `"AL"` são só sequências de caracteres, tão desprovidas de estrutura quanto um comentário de texto livre.
+O pandas acertou dois tipos numéricos sem qualquer ajuda: `Population` virou `int64` porque é contagem de pessoas — discreto — e `Murder.Rate` virou `float64` porque é uma taxa — contínua. Mas repare em `State` e `Abbreviation`: ambos viraram `str`, que é como o pandas rotula texto genérico. Ele não sabe que são categóricos nominais. Para o pandas, `"Alabama"` e `"AL"` são só sequências de caracteres, tão desprovidas de estrutura quanto um comentário de texto livre.
 
 ::: {.exemplo}
 Isso é o que acontece quando ninguém declara o tipo explicitamente: o software cai de volta no genérico. Funciona, mas descarta informação — informação que o próximo passo recupera.

@@ -188,7 +188,9 @@ estado = pd.read_csv("dados/state.csv")
 estado.dtypes
 ```
 
-Saída real: `State` → `object` (string), `Population` → `int64`, `Murder.Rate` → `float64`, `Abbreviation` → `object`.
+Saída real (conferida no container, pandas 3.0.3): `State` → `str`, `Population` → `int64`, `Murder.Rate` → `float64`, `Abbreviation` → `str`.
+
+**Atenção:** é `str`, **não** `object`. O pandas 3 mudou o dtype padrão de texto. Se a prosa disser `object`, ela contradiz a saída impressa logo acima dela na página.
 
 O ponto a extrair: o pandas inferiu `int64` para população (discreto, é contagem de pessoas) e `float64` para a taxa (contínuo). Mas ele NÃO sabe que `State` é categórico nominal — para ele é só texto.
 

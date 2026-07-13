@@ -4,7 +4,130 @@
 Esta seção corresponde à seção 1.5 de @bruce2020.
 :::
 
-::: {.callout-warning}
-## Em construção
-O conteúdo desta seção ainda será escrito.
+```{python}
+#| label: setup
+#| include: false
+import pandas as pd
+import matplotlib.pyplot as plt
+
+plt.rcParams["figure.figsize"] = (7, 4)
+estado = pd.read_csv("dados/state.csv")
+```
+
+A seção 1.3 resumiu a população dos estados em um número — a localização. A seção 1.4 acrescentou um segundo número — a dispersão em torno dele. Os dois juntos já dizem bastante: onde os dados tendem a estar, e o quanto eles se afastam dali. Mas dois números continuam sendo um resumo, e todo resumo descarta informação. Esta seção para de resumir. Em vez de reduzir a distribuição a um ou dois pontos, ela olha a distribuição **inteira** — a forma completa que os dados assumem entre o menor e o maior valor.
+
+## Percentis e quantis
+
+O **percentil** P é o valor abaixo do qual está P% das observações. A mediana, que a seção 1.3 já usou, nada mais é do que o percentil 50 — o caso particular em que exatamente metade dos dados fica de cada lado. Falar em percentis é generalizar essa ideia para qualquer fração, não só a metade. O termo **quantil** é o mesmo conceito, expresso em proporção (0,05) em vez de porcentagem (5%); `quantile()` no pandas usa essa segunda convenção.
+
+```{python}
+#| label: percentis
+percentis = [0.05, 0.25, 0.5, 0.75, 0.95]
+tabela = pd.DataFrame(estado["Murder.Rate"].quantile(percentis))
+tabela.index = [f"{p:.0%}" for p in percentis]
+tabela.transpose()
+```
+
+Os cinco números da tabela dizem: 5% dos estados têm taxa de homicídios de até 1,6 por 100.000 habitantes; na outra ponta, 95% ficam até 6,51 — ou seja, só 5% (2 ou 3 estados, em 50) superam essa marca. O intervalo entre o percentil 5 e o percentil 95 cobre os 90% centrais da distribuição e é uma forma comum de descrever o "grosso" dos dados sem deixar os extremos dominarem a leitura, do mesmo jeito que a mediana evita que eles dominem a localização.
+
+## Boxplot
+
+O **boxplot** é uma leitura visual direta dos percentis. A caixa vai do primeiro ao terceiro quartil — e a largura dessa caixa é exatamente o IQR que a seção 1.4 calculou como medida de dispersão. Não é uma coincidência nem uma analogia: é a mesma conta, olhada de dois ângulos diferentes. A linha dentro da caixa marca a mediana. Os bigodes se estendem até 1,5 vez o IQR além de cada quartil, e qualquer observação além disso é desenhada como um ponto individual, não absorvida pela escala do gráfico.
+
+```{python}
+#| label: fig-boxplot
+#| fig-cap: "Boxplot da população dos estados. Os pontos acima do bigode são os estados atipicamente populosos."
+fig, ax = plt.subplots(figsize=(4, 5))
+(estado["Population"] / 1e6).plot.box(ax=ax)
+ax.set_ylabel("População (milhões)")
+plt.tight_layout()
+plt.show()
+```
+
+::: {.exemplo}
+Lendo o gráfico: metade dos estados tem entre 1,8 e 6,7 milhões de habitantes — é o que a caixa mostra. A mediana está em 4,4 milhões. E os quatro pontos isolados acima do bigode superior são Califórnia, Texas, Nova York e Flórida: os únicos estados populosos o bastante para escapar de 1,5×IQR além do terceiro quartil.
+:::
+
+## Tabela de frequência e histograma
+
+A **tabela de frequência** divide o intervalo de valores em faixas de largura igual e conta quantas observações caem em cada uma. `pd.cut` faz exatamente isso.
+
+```{python}
+#| label: freq
+faixas = pd.cut(estado["Population"], 10)
+faixas.value_counts().sort_index()
+```
+
+As faixas são de **largura** igual, não de **contagem** igual — e o resultado mostra isso sem meio-termo. A primeira faixa, sozinha, concentra 24 dos 50 estados; as faixas do topo têm um estado cada, ou nenhum. Isso não é um defeito do corte: é o retrato de uma distribuição com cauda longa à direita, a mesma assinatura que a média puxada para cima (seção 1.3) e o desvio-padrão inflado (seção 1.4) já haviam denunciado — agora visível na contagem, faixa por faixa.
+
+O **histograma** é essa mesma tabela desenhada: uma barra por faixa, com altura proporcional à contagem. As barras se encostam porque o eixo é contínuo — não há espaço entre "faixa 1" e "faixa 2" do jeito que há entre categorias distintas.
+
+```{python}
+#| label: fig-histograma
+#| fig-cap: "Histograma da população. As barras se encostam porque o eixo é contínuo."
+fig, ax = plt.subplots()
+(estado["Population"] / 1e6).plot.hist(ax=ax, bins=10, edgecolor="white")
+ax.set_xlabel("População (milhões)")
+ax.set_ylabel("Número de estados")
+plt.tight_layout()
+plt.show()
+```
+
+## Densidade
+
+A **curva de densidade** é uma versão suavizada do histograma: em vez de barras discretas, uma curva contínua que estima a forma subjacente da distribuição. A diferença crucial é a escala do eixo Y. Enquanto o histograma tradicional mostra contagem, a densidade é normalizada para que a área sob a curva valha exatamente 1 — é o preço de tratá-la como uma distribuição de probabilidade, não como uma lista de frequências.
+
+```{python}
+#| label: fig-densidade
+#| fig-cap: "Histograma da taxa de homicídios com a curva de densidade sobreposta."
+fig, ax = plt.subplots()
+estado["Murder.Rate"].plot.hist(ax=ax, density=True, xlim=[0, 12],
+                                bins=range(1, 12), edgecolor="white")
+estado["Murder.Rate"].plot.density(ax=ax, linewidth=2)
+ax.set_xlabel("Taxa de homicídios (por 100.000)")
+plt.tight_layout()
+plt.show()
+```
+
+::: {.conceito}
+O `density=True` no histograma é o que torna as duas curvas comparáveis nesse gráfico. Sem ele, o eixo Y do histograma seria **contagem** (quantos estados em cada faixa) e o da densidade seria **densidade de probabilidade** (área total igual a 1) — duas escalas diferentes convivendo no mesmo eixo. Nesse caso, a curva de densidade apareceria colada em zero, achatada pela contagem muito maior das barras.
+:::
+
+## Resumo
+
+| Ferramenta | O que mostra |
+|---|---|
+| Percentis / quantis | A posição exata de qualquer fração dos dados |
+| Boxplot | Q1, mediana, Q3 e outliers num único desenho compacto |
+| Tabela de frequência / histograma | Como a massa dos dados se distribui em faixas de largura igual |
+| Densidade | A forma contínua por trás das barras do histograma |
+
+::: {.conceito}
+**Regra prática:** localização (1.3) e dispersão (1.4) respondem "qual é o valor típico" e "o quanto os dados variam". Elas não respondem "qual é a forma da distribuição" — se ela é simétrica, se tem cauda longa, se há grupos isolados de valores extremos. Para isso, é preciso abrir mão do resumo e olhar a distribuição inteira, com as quatro ferramentas desta seção.
+:::
+
+## Exercícios
+
+**1.** A mediana da taxa de homicídios é 4,0 e o percentil 95 é 6,51. Interprete o segundo número em uma frase.
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+95% dos estados têm taxa de homicídios igual ou inferior a 6,51 por 100.000 habitantes; apenas 5% (2 ou 3 estados, em 50) ficam acima disso.
+:::
+
+**2.** No boxplot, por que os pontos acima do bigode são desenhados individualmente em vez de o bigode simplesmente se estender até eles?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+Por convenção, o bigode vai até 1,5×IQR além do quartil. Pontos além disso são candidatos a outlier e são marcados individualmente justamente para chamar atenção — o objetivo é que você os **veja**, e não que eles sejam absorvidos pela escala do gráfico.
+:::
+
+**3.** A tabela de frequência com `pd.cut` em 10 faixas colocou quase metade dos estados na primeira faixa. Isso é um defeito do método?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+Não — é um retrato fiel dos dados. `pd.cut` cria faixas de **largura** igual, e a distribuição de população dos estados é assimétrica. Se o objetivo fosse faixas de **contagem** igual, a ferramenta certa seria `pd.qcut` (que corta por quantis, não por largura). São perguntas diferentes: uma mostra a forma da distribuição, a outra a divide em grupos do mesmo tamanho.
 :::

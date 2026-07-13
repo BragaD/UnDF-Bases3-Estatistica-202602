@@ -1,0 +1,89 @@
+name: Render and Publish
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build-image:
+    name: Build da imagem
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login no GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build e push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          platforms: linux/amd64
+          push: true
+          tags: ghcr.io/bragad/undf-bases3-estatistica-202602:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  render:
+    name: Renderizar o livro
+    needs: build-image
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
+    container:
+      image: ghcr.io/bragad/undf-bases3-estatistica-202602:latest
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Marcar workspace como seguro para o git
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+      - name: Render
+        run: quarto render
+
+      - name: Upload do livro renderizado
+        uses: actions/upload-artifact@v4
+        with:
+          name: livro
+          path: _book/
+          retention-days: 7
+
+  publish:
+    name: Publicar no GitHub Pages
+    needs: render
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download do livro renderizado
+        uses: actions/download-artifact@v4
+        with:
+          name: livro
+          path: _book
+
+      - name: Publicar na branch gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./_book
+          publish_branch: gh-pages

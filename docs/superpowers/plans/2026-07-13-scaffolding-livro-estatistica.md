@@ -201,6 +201,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -f /tmp/quarto.deb \
     && rm -rf /var/lib/apt/lists/*
 
+# Um shell de login recarrega /etc/profile, que reescreve o PATH e descarta o
+# ENV PATH acima — deixando `python` apontar para o interpretador do sistema em
+# vez do venv. Isto garante o venv também em `bash -l` e `docker exec -it`.
+RUN echo 'export PATH="/opt/venv/bin:$PATH"' > /etc/profile.d/venv.sh
+
 WORKDIR /livro
 
 COPY pyproject.toml uv.lock .python-version ./

@@ -126,5 +126,35 @@ A média está à direita das outras duas, arrastada pela cauda de estados muito
 | Mediana | `{python} f"{mediana:,.0f}"` | Sim |
 
 ::: {.conceito}
-**Regra prática:** a média é o padrão, mas é frágil. Quando os dados têm cauda longa ou outliers plausíveis — renda, população, tempo de resposta de um servidor — a mediana ou a média aparada descrevem melhor o caso típico.
+**Regra prática:** a média é o padrão, mas é frágil. Quando os dados têm cauda longa ou outliers plausíveis — renda, população, valor de imóveis — a mediana ou a média aparada descrevem melhor o caso típico.
+:::
+
+## Exercícios
+
+**1.** A média aparada de 10% descartou os 5 estados mais populosos e os 5 menos populosos. Recalcule com aparo de 25%. O que acontece com a média aparada à medida que o aparo se aproxima de 50%?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+```python
+trim_mean(estado["Population"], 0.25)
+```
+
+Com aparo de 50%, todas as observações são descartadas exceto a(s) central(is) — a média aparada **converge para a mediana**. A média aparada é, portanto, uma família contínua entre a média (aparo 0) e a mediana (aparo 0,5).
+:::
+
+**2.** A média ponderada da taxa de homicídios (4,45) é maior que a média simples (4,07). O que isso diz sobre a relação entre população e taxa de homicídios nos estados?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+Ponderar pela população **aumenta** a estimativa, então os estados mais populosos tendem a ter taxas de homicídio mais altas que os menos populosos. Se não houvesse relação alguma entre tamanho e taxa, as duas médias seriam próximas.
+:::
+
+**3.** Um relatório afirma que "a renda média das famílias do país subiu 8% no último ano, mas a renda mediana ficou estável". Como isso é possível?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+A média é sensível a extremos e a mediana não. Um ganho concentrado no topo da distribuição — os mais ricos ficando mais ricos — eleva a soma total (e portanto a média) sem mover o valor central. É exatamente o padrão de uma distribuição assimétrica à direita cuja cauda se alonga.
 :::

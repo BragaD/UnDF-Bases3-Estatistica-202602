@@ -1,0 +1,29 @@
+# Regressão e Predição
+
+::: {.callout-note}
+Este capítulo é baseado no Capítulo 4 de @bruce2020.
+:::
+
+A regressão é onde a estatística encontra a engenharia de software: é o primeiro modelo preditivo, e o alicerce de quase tudo que veio depois. Ela serve a dois propósitos que costumam ser confundidos — **explicar** uma relação e **prever** um valor.
+
+Ao final deste capítulo, você será capaz de:
+
+- Ajustar e interpretar uma regressão linear simples e múltipla
+- Distinguir valores ajustados de resíduos, e usar ambos
+- Selecionar variáveis com critérios como AIC, sem cair em sobreajuste
+- Codificar variáveis categóricas (fatoriais) para entrar no modelo
+- Interpretar coeficientes na presença de correlação entre preditores — e saber quando não interpretá-los
+- Diagnosticar um modelo: outliers, pontos influentes, heterocedasticidade e não linearidade
+- Estender a regressão com termos polinomiais e splines
+
+## Seções
+
+| Seção | Tópico |
+|---|---|
+| [4.1](01-regressao-linear-simples.qmd) | Regressão Linear Simples |
+| [4.2](02-regressao-linear-multipla.qmd) | Regressão Linear Múltipla |
+| [4.3](03-predicao.qmd) | Predição com Regressão |
+| [4.4](04-variaveis-fatoriais.qmd) | Variáveis Fatoriais na Regressão |
+| [4.5](05-interpretando-equacao.qmd) | Interpretando a Equação de Regressão |
+| [4.6](06-diagnostico-regressao.qmd) | Diagnóstico de Regressão |
+| [4.7](07-polinomial-splines.qmd) | Regressão Polinomial e Splines |

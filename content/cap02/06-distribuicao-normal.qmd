@@ -1,0 +1,10 @@
+# Distribuição Normal
+
+::: {.callout-note}
+Esta seção corresponde à seção 2.6 de @bruce2020.
+:::
+
+::: {.callout-warning}
+## Em construção
+O conteúdo desta seção ainda será escrito.
+:::

@@ -1,0 +1,10 @@
+# Distribuição Binomial
+
+::: {.callout-note}
+Esta seção corresponde à seção 2.9 de @bruce2020.
+:::
+
+::: {.callout-warning}
+## Em construção
+O conteúdo desta seção ainda será escrito.
+:::

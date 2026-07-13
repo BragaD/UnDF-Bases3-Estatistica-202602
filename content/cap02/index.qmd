@@ -1,0 +1,33 @@
+# Dados e Distribuições Amostrais
+
+::: {.callout-note}
+Este capítulo é baseado no Capítulo 2 de @bruce2020.
+:::
+
+Uma amostra nunca é a população. A pergunta central deste capítulo é: quanto do que vemos na amostra é sinal, e quanto é acidente do sorteio?
+
+Ao final deste capítulo, você será capaz de:
+
+- Reconhecer viés de amostra e viés de seleção, e por que amostras grandes não os corrigem
+- Distinguir a distribuição dos **dados** da distribuição de uma **estatística**
+- Explicar o Teorema Central do Limite e o erro padrão
+- Usar o **bootstrap** para estimar a variabilidade de qualquer estatística, sem fórmula fechada
+- Construir e interpretar intervalos de confiança
+- Identificar as distribuições de referência — normal, t, binomial, qui-quadrado, F e Poisson — e quando cada uma aparece
+
+## Seções
+
+| Seção | Tópico |
+|---|---|
+| [2.1](01-amostragem-aleatoria.qmd) | Amostragem Aleatória e Viés de Amostra |
+| [2.2](02-vies-selecao.qmd) | Viés de Seleção |
+| [2.3](03-distribuicao-amostral.qmd) | Distribuição Amostral de uma Estatística |
+| [2.4](04-bootstrap.qmd) | Bootstrap |
+| [2.5](05-intervalos-confianca.qmd) | Intervalos de Confiança |
+| [2.6](06-distribuicao-normal.qmd) | Distribuição Normal |
+| [2.7](07-caudas-longas.qmd) | Distribuições de Cauda Longa |
+| [2.8](08-distribuicao-t.qmd) | Distribuição t de Student |
+| [2.9](09-distribuicao-binomial.qmd) | Distribuição Binomial |
+| [2.10](10-qui-quadrado.qmd) | Distribuição Qui-Quadrado |
+| [2.11](11-distribuicao-f.qmd) | Distribuição F |
+| [2.12](12-poisson.qmd) | Distribuição de Poisson e Relacionadas |

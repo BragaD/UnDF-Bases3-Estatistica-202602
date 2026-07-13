@@ -1,0 +1,10 @@
+# Correlação
+
+::: {.callout-note}
+Esta seção corresponde à seção 1.7 de @bruce2020.
+:::
+
+::: {.callout-warning}
+## Em construção
+O conteúdo desta seção ainda será escrito.
+:::

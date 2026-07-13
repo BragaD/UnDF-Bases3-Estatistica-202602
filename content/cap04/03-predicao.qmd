@@ -1,0 +1,10 @@
+# Predição com Regressão
+
+::: {.callout-note}
+Esta seção corresponde à seção 4.3 de @bruce2020.
+:::
+
+::: {.callout-warning}
+## Em construção
+O conteúdo desta seção ainda será escrito.
+:::

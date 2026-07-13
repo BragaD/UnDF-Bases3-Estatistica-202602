@@ -1,0 +1,33 @@
+# Experimentos Estatísticos e Testes de Significância
+
+::: {.callout-note}
+Este capítulo é baseado no Capítulo 3 de @bruce2020.
+:::
+
+O teste A/B é o experimento estatístico mais executado do mundo — e um dos mais mal interpretados. Este capítulo trata do desenho de experimentos e da pergunta que eles tentam responder: o efeito que eu vi é real, ou é ruído?
+
+Ao final deste capítulo, você será capaz de:
+
+- Desenhar um teste A/B e escolher a métrica antes de olhar o resultado
+- Formular hipótese nula e alternativa, e decidir entre teste uni e bicaudal
+- Usar **testes de permutação** para avaliar significância sem supor normalidade
+- Interpretar corretamente um valor-p — e reconhecer as interpretações erradas mais comuns
+- Aplicar testes t, ANOVA e qui-quadrado, sabendo qual cabe em qual situação
+- Entender o problema dos **testes múltiplos** e por que ele produz descobertas falsas
+- Calcular poder estatístico e tamanho de amostra necessário
+
+## Seções
+
+| Seção | Tópico |
+|---|---|
+| [3.1](01-teste-ab.qmd) | Teste A/B |
+| [3.2](02-testes-hipotese.qmd) | Testes de Hipótese |
+| [3.3](03-reamostragem.qmd) | Reamostragem |
+| [3.4](04-significancia-valor-p.qmd) | Significância Estatística e Valores-p |
+| [3.5](05-testes-t.qmd) | Testes t |
+| [3.6](06-testes-multiplos.qmd) | Testes Múltiplos |
+| [3.7](07-graus-liberdade.qmd) | Graus de Liberdade |
+| [3.8](08-anova.qmd) | ANOVA |
+| [3.9](09-teste-qui-quadrado.qmd) | Teste Qui-Quadrado |
+| [3.10](10-multi-armed-bandit.qmd) | Algoritmo Multi-Armed Bandit |
+| [3.11](11-poder-tamanho-amostra.qmd) | Poder e Tamanho da Amostra |

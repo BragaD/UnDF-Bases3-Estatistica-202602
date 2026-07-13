@@ -29,8 +29,94 @@ book:
       chapters:
         - href: content/cap01/index.qmd
           text: "Visão Geral"
+        - href: content/cap01/01-dados-estruturados.qmd
+          text: "Elementos de Dados Estruturados"
+        - href: content/cap01/02-dados-retangulares.qmd
+          text: "Dados Retangulares"
         - href: content/cap01/03-estimativas-localizacao.qmd
           text: "Estimativas de Localização"
+        - href: content/cap01/04-estimativas-variabilidade.qmd
+          text: "Estimativas de Variabilidade"
+        - href: content/cap01/05-distribuicao-dados.qmd
+          text: "Explorando a Distribuição dos Dados"
+        - href: content/cap01/06-dados-binarios-categoricos.qmd
+          text: "Dados Binários e Categóricos"
+        - href: content/cap01/07-correlacao.qmd
+          text: "Correlação"
+        - href: content/cap01/08-duas-ou-mais-variaveis.qmd
+          text: "Duas ou Mais Variáveis"
+    - part: "Capítulo 2: Dados e Distribuições Amostrais"
+      chapters:
+        - href: content/cap02/index.qmd
+          text: "Visão Geral"
+        - href: content/cap02/01-amostragem-aleatoria.qmd
+          text: "Amostragem Aleatória e Viés"
+        - href: content/cap02/02-vies-selecao.qmd
+          text: "Viés de Seleção"
+        - href: content/cap02/03-distribuicao-amostral.qmd
+          text: "Distribuição Amostral"
+        - href: content/cap02/04-bootstrap.qmd
+          text: "Bootstrap"
+        - href: content/cap02/05-intervalos-confianca.qmd
+          text: "Intervalos de Confiança"
+        - href: content/cap02/06-distribuicao-normal.qmd
+          text: "Distribuição Normal"
+        - href: content/cap02/07-caudas-longas.qmd
+          text: "Distribuições de Cauda Longa"
+        - href: content/cap02/08-distribuicao-t.qmd
+          text: "Distribuição t de Student"
+        - href: content/cap02/09-distribuicao-binomial.qmd
+          text: "Distribuição Binomial"
+        - href: content/cap02/10-qui-quadrado.qmd
+          text: "Distribuição Qui-Quadrado"
+        - href: content/cap02/11-distribuicao-f.qmd
+          text: "Distribuição F"
+        - href: content/cap02/12-poisson.qmd
+          text: "Distribuição de Poisson"
+    - part: "Capítulo 3: Experimentos Estatísticos e Testes de Significância"
+      chapters:
+        - href: content/cap03/index.qmd
+          text: "Visão Geral"
+        - href: content/cap03/01-teste-ab.qmd
+          text: "Teste A/B"
+        - href: content/cap03/02-testes-hipotese.qmd
+          text: "Testes de Hipótese"
+        - href: content/cap03/03-reamostragem.qmd
+          text: "Reamostragem"
+        - href: content/cap03/04-significancia-valor-p.qmd
+          text: "Significância e Valores-p"
+        - href: content/cap03/05-testes-t.qmd
+          text: "Testes t"
+        - href: content/cap03/06-testes-multiplos.qmd
+          text: "Testes Múltiplos"
+        - href: content/cap03/07-graus-liberdade.qmd
+          text: "Graus de Liberdade"
+        - href: content/cap03/08-anova.qmd
+          text: "ANOVA"
+        - href: content/cap03/09-teste-qui-quadrado.qmd
+          text: "Teste Qui-Quadrado"
+        - href: content/cap03/10-multi-armed-bandit.qmd
+          text: "Multi-Armed Bandit"
+        - href: content/cap03/11-poder-tamanho-amostra.qmd
+          text: "Poder e Tamanho da Amostra"
+    - part: "Capítulo 4: Regressão e Predição"
+      chapters:
+        - href: content/cap04/index.qmd
+          text: "Visão Geral"
+        - href: content/cap04/01-regressao-linear-simples.qmd
+          text: "Regressão Linear Simples"
+        - href: content/cap04/02-regressao-linear-multipla.qmd
+          text: "Regressão Linear Múltipla"
+        - href: content/cap04/03-predicao.qmd
+          text: "Predição com Regressão"
+        - href: content/cap04/04-variaveis-fatoriais.qmd
+          text: "Variáveis Fatoriais"
+        - href: content/cap04/05-interpretando-equacao.qmd
+          text: "Interpretando a Equação"
+        - href: content/cap04/06-diagnostico-regressao.qmd
+          text: "Diagnóstico de Regressão"
+        - href: content/cap04/07-polinomial-splines.qmd
+          text: "Polinomial e Splines"
 
 page-navigation: true
 

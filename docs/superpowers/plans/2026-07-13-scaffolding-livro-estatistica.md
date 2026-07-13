@@ -1597,8 +1597,12 @@ Expected: só `ok`.
 
 - [ ] **Nenhum caminho de dados relativo ao arquivo**
 
+Busque apenas em chamadas de leitura de arquivo, não na prosa: a seção 1.3 **menciona** `../../dados/` de propósito, num callout que ensina a não usá-lo. Um `grep` cru por `../../dados` daria falso positivo nela.
+
 ```bash
-grep -rn '\.\./\.\./dados' content/ && echo "ERRO: caminho relativo encontrado" || echo "caminhos de dados ok"
+grep -rnE '(read_csv|read_table|open|Path)\([^)]*\.\./\.\./dados' content/ \
+  && echo "ERRO: caminho relativo ao arquivo em chamada de leitura" \
+  || echo "caminhos de dados ok"
 ```
 Expected: `caminhos de dados ok`.
 

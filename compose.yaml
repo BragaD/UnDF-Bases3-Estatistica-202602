@@ -1,0 +1,9 @@
+services:
+  livro:
+    build:
+      context: .
+    image: bases3-estatistica:local
+    ports:
+      - "4200:4200"
+    volumes:
+      - .:/livro

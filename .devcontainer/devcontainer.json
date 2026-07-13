@@ -1,0 +1,20 @@
+{
+  "name": "Bases 3 — Estatística",
+  "dockerComposeFile": "../compose.yaml",
+  "service": "livro",
+  "workspaceFolder": "/livro",
+  "overrideCommand": true,
+  "forwardPorts": [4200],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "quarto.quarto",
+        "ms-python.python",
+        "ms-toolsai.jupyter"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/opt/venv/bin/python"
+      }
+    }
+  }
+}

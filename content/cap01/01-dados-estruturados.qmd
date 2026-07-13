@@ -4,7 +4,128 @@
 Esta seção corresponde à seção 1.1 de @bruce2020.
 :::
 
-::: {.callout-warning}
-## Em construção
-O conteúdo desta seção ainda será escrito.
+```{python}
+#| label: setup
+#| include: false
+import pandas as pd
+
+pd.set_option("display.max_columns", None)
+```
+
+Dado bruto — a leitura de um sensor, o clique de um usuário, uma frase de texto livre — não é, por si só, analisável. Antes de qualquer estatística, esse dado precisa ser **estruturado**: organizado em uma tabela, com cada coluna assumindo um tipo definido. É esse tipo que decide o que se pode fazer com a coluna depois.
+
+## A taxonomia
+
+Todo dado estruturado se encaixa em duas grandes famílias.
+
+**Numérico** é o que se mede em quantidade:
+
+- **Contínuo** — pode assumir qualquer valor dentro de um intervalo. Velocidade do vento, duração de um voo.
+- **Discreto** — só assume valores inteiros, tipicamente contagens. Número de ocorrências de um evento.
+
+**Categórico** é o que se classifica em grupos:
+
+- **Nominal** — categorias sem ordem natural. Estado da federação, tipo de tela de um celular.
+- **Ordinal** — categorias com ordem, mas sem distância numérica definida entre elas. Nota de satisfação de 1 a 5.
+- **Binário** — caso particular de categórico com exatamente dois valores. Sim/não, 0/1.
+
+## Por que a distinção importa
+
+Isso pareceria bobagem de nomenclatura se não tivesse consequência prática. O tipo de uma variável determina três coisas: qual gráfico faz sentido para ela, qual estatística pode ser calculada sobre ela, e como o software deve armazenar e validar seus valores. Errar o tipo — tratar ordinal como numérico, ou nominal como se tivesse ordem — não é um erro estético; é o tipo de erro que produz uma conclusão errada com aparência de rigor.
+
+## O que o pandas infere sozinho
+
+```{python}
+#| label: tipos
+estado = pd.read_csv("dados/state.csv")
+estado.dtypes
+```
+
+O pandas acertou dois tipos numéricos sem qualquer ajuda: `Population` virou `int64` porque é contagem de pessoas — discreto — e `Murder.Rate` virou `float64` porque é uma taxa — contínua. Mas repare em `State` e `Abbreviation`: ambos viraram `object`, que é como o pandas rotula texto genérico. Ele não sabe que são categóricos nominais. Para o pandas, `"Alabama"` e `"AL"` são só sequências de caracteres, tão desprovidas de estrutura quanto um comentário de texto livre.
+
+::: {.exemplo}
+Isso é o que acontece quando ninguém declara o tipo explicitamente: o software cai de volta no genérico. Funciona, mas descarta informação — informação que o próximo passo recupera.
+:::
+
+## Declarando o categórico
+
+```{python}
+#| label: categorico
+estado["Abbreviation"] = estado["Abbreviation"].astype("category")
+print(estado["Abbreviation"].dtype)
+print("categorias:", len(estado["Abbreviation"].cat.categories))
+```
+
+Agora `Abbreviation` é uma coluna `category`, com um conjunto fechado de 50 valores possíveis — um por estado. Internamente, o pandas passou a guardar um código inteiro por linha e mapear esse código para a string, em vez de repetir a string inteira 50 vezes. A informação semântica ("isto é uma categoria, não texto livre") e o ganho de memória vêm juntos.
+
+## O caso ordinal: quando a ordem é dado, não convenção
+
+Categórico nominal não tem ordem. Categórico ordinal tem — e essa diferença não é decorativa, ela muda o que o software permite fazer.
+
+```{python}
+#| label: ordinal
+from pandas.api.types import CategoricalDtype
+
+tamanho = CategoricalDtype(categories=["pequeno", "medio", "grande"], ordered=True)
+s = pd.Series(["grande", "pequeno", "medio"], dtype=tamanho)
+
+print("ordenado:", s.sort_values().tolist())
+print("maior que 'pequeno'?", s.gt("pequeno").tolist())
+print("máximo:", s.max())
+```
+
+Três coisas funcionam aqui, e nenhuma delas funcionaria com texto solto. A ordenação devolveu `['pequeno', 'medio', 'grande']` — não por alfabeto, mas pela ordem declarada em `categories`. Alfabeticamente, "grande" viria **antes** de "pequeno"; pela semântica que declaramos, vem **depois**. A comparação `s.gt("pequeno")` responde à pergunta certa para cada linha, e `s.max()` sabe que o máximo é "grande". O `ordered=True` foi o que ensinou ao pandas qual é a relação de ordem — sem ele, a única ordem disponível seria a do dicionário, que aqui não quer dizer nada.
+
+Agora o contraste. O mesmo dado, declarado como categórico **nominal** (sem `ordered=True`):
+
+```{python}
+#| label: nominal-erro
+nominal = pd.Series(["grande", "pequeno", "medio"], dtype="category")  # sem ordered=True
+
+try:
+    nominal.gt("pequeno")
+except TypeError as erro:
+    print("TypeError:", erro)
+```
+
+O pandas **se recusa a comparar**. E isso é uma feature, não uma limitação. Perguntar se um estado é "maior que" outro não significa coisa alguma — não existe ordem entre Alabama e Wyoming que a estatística reconheça. Um tipo nominal faz o software recusar a pergunta em vez de devolver uma resposta sem sentido; se `Abbreviation` respondesse a `>`, alguém acabaria ordenando estados por "grandeza" alfabética e tratando o resultado como se significasse algo. O erro barrado na origem é melhor que o número enganoso.
+
+::: {.conceito}
+Declarar o tipo de uma coluna não é burocracia de código, é a mesma decisão que se toma ao escolher entre média e mediana: o tipo é o que permite ao software (a) rejeitar automaticamente uma operação sem sentido, como ordenar estados por "grandeza" alfabética; (b) escolher o gráfico adequado — barras para nominal, algo que respeite a ordem para ordinal, histograma para contínuo; e (c) economizar memória, porque uma coluna `category` com poucos valores distintos guarda inteiros internamente em vez de repetir strings.
+:::
+
+## Resumo
+
+| Tipo | Exemplo | Gráfico típico |
+|---|---|---|
+| Numérico contínuo | Velocidade do vento | Histograma |
+| Numérico discreto | Número de ocorrências | Gráfico de barras |
+| Categórico nominal | Tipo de tela de celular | Gráfico de barras |
+| Categórico ordinal | Nota de satisfação (1–5) | Gráfico de barras ordenado |
+| Categórico binário | Sim/não | Gráfico de barras (2 categorias) |
+
+## Exercícios
+
+**1.** Classifique cada variável de `state.csv` (`State`, `Population`, `Murder.Rate`, `Abbreviation`) na taxonomia apresentada.
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+`State` e `Abbreviation` são categóricos nominais — identificam o estado, sem ordem entre eles. `Population` é numérico discreto — é uma contagem de pessoas. `Murder.Rate` é numérico contínuo — é uma taxa que pode assumir qualquer valor real não negativo.
+:::
+
+**2.** Uma pesquisa de satisfação registra respostas como 1, 2, 3, 4 ou 5. O pandas lê essa coluna como `int64`. Por que tratá-la como numérica pode enganar?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+Porque a distância entre 1 e 2 não é necessariamente igual à distância entre 4 e 5 — a escala é ordinal, não intervalar. Calcular a média dessas notas pressupõe que os intervalos entre categorias são iguais, o que raramente é uma suposição defensável para percepção humana. A mediana ou a moda descrevem o valor típico sem exigir essa suposição.
+:::
+
+**3.** O CEP (`ZipCode`) do conjunto `kc_tax` é lido como número pelo pandas. É numérico?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+Não. É categórico nominal codificado com dígitos. A média de dois CEPs não representa nada, e proximidade numérica entre dois CEPs não implica proximidade geográfica. Tratar identificadores numéricos como se fossem quantidades é um dos erros de tipo mais comuns na prática — e o `astype("category")` é o remédio direto.
 :::

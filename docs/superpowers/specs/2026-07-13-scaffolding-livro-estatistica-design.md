@@ -207,7 +207,7 @@ Boa parte do livro-texto é bootstrap, permutação e amostragem aleatória. Sem
 
 ## Documentação para agentes
 
-`CLAUDE.md` e `AGENTS.md` (espelhado, para o Codex), cobrindo:
+Só `CLAUDE.md` — decisão explícita de não manter `AGENTS.md` espelhado; `CLAUDE.md` é fonte única de instruções para agentes. Cobre:
 
 - Comandos: `uv sync`, `make preview`, `docker compose up`, `quarto render`
 - Estrutura `content/capXX/` e a regra de registro obrigatório no `_quarto.yml`

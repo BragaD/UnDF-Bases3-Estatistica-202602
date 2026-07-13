@@ -3,6 +3,10 @@ set -euo pipefail
 
 gerar_stub() {
   local caminho="$1" titulo="$2" secao="$3"
+  if [ -e "$caminho" ]; then
+    echo "skip $caminho (ja existe)"
+    return
+  fi
   cat > "$caminho" <<EOF
 # ${titulo}
 

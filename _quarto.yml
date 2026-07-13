@@ -117,15 +117,13 @@ book:
           text: "Diagnóstico de Regressão"
         - href: content/cap04/07-polinomial-splines.qmd
           text: "Polinomial e Splines"
-
-page-navigation: true
-
-page-footer:
-  border: true
-  left: "UnDF — Engenharia de Software e Sistemas de Informação — Estatística — 2026.2"
-  right:
-    - icon: github
-      href: "https://github.com/BragaD/UnDF-Bases3-Estatistica-202602"
+  page-navigation: true
+  page-footer:
+    border: true
+    left: "UnDF — Engenharia de Software e Sistemas de Informação — Estatística — 2026.2"
+    right:
+      - icon: github
+        href: "https://github.com/BragaD/UnDF-Bases3-Estatistica-202602"
 
 format:
   html:

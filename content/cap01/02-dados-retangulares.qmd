@@ -4,7 +4,109 @@
 Esta seção corresponde à seção 1.2 de @bruce2020.
 :::
 
-::: {.callout-warning}
-## Em construção
-O conteúdo desta seção ainda será escrito.
+```{python}
+#| label: setup
+#| include: false
+import pandas as pd
+```
+
+A seção anterior classificou o que cada coluna *é* — numérica ou categórica, contínua ou ordinal. Mas uma coluna isolada não existe sozinha: ela mora dentro de uma estrutura que a organiza junto de todas as outras. Essa estrutura, quase sempre, é uma tabela.
+
+## O DataFrame
+
+A forma retangular é tão comum na prática estatística que é fácil esquecer que é uma escolha, não uma lei da natureza: **linhas são registros** e **colunas são variáveis**. No Python, o objeto que implementa essa ideia é o `DataFrame` do pandas — uma matriz de dados com rótulos.
+
+```{python}
+#| label: estrutura
+estado = pd.read_csv("dados/state.csv")
+print("linhas x colunas:", estado.shape)
+estado.head()
+```
+
+`(50, 4)` são 50 linhas e 4 colunas — mas o par de números só significa alguma coisa porque sabemos, do dado, que cada linha é um estado e cada coluna é uma variável medida sobre ele. Trocar as duas dimensões — colocar variáveis nas linhas e estados nas colunas — descreveria os mesmos números sem descrever o mesmo problema.
+
+`estado.info()` complementa o `.head()`: além do formato, mostra quantos valores não nulos cada coluna tem e quanto de memória a tabela ocupa.
+
+```{python}
+#| label: info
+estado.info()
+```
+
+## O índice
+
+Toda linha de um DataFrame tem um rótulo — o **índice** — além de qualquer coluna de dados. Por padrão, o pandas usa a posição da linha: 0, 1, 2...
+
+```{python}
+#| label: indice
+print("índice padrão:", estado.index[:5].tolist())
+
+# Um índice significativo torna a busca por rótulo natural
+por_estado = estado.set_index("Abbreviation")
+por_estado.loc["CA"]
+```
+
+Substituir o índice numérico pela sigla do estado transforma `.loc["CA"]` de uma busca por posição em uma busca por rótulo, algo que a posição sozinha nunca permitiria fazer com sentido.
+
+::: {.conceito}
+O índice **não é uma coluna de dados** — é o rótulo das linhas, guardado separadamente do corpo da tabela. É por isso que `por_estado` tem só 3 colunas (`State`, `Population`, `Murder.Rate`): `set_index("Abbreviation")` **removeu** `Abbreviation` do corpo do DataFrame para usá-la como rótulo. Esquecer isso é fonte comum de bug — quem espera encontrar `Abbreviation` entre as colunas depois do `set_index` vai procurar por algo que já não está lá.
+:::
+
+## Vocabulário e seus sinônimos
+
+Estatística, aprendizado de máquina e ciência de dados descrevem a mesma tabela com palavras diferentes, e isso confunde mais do que deveria. A coluna que se usa para prever é chamada de *feature*, variável, atributo, preditor ou entrada. A coluna que se quer prever é o *outcome*, a resposta, a variável dependente, o alvo. Uma linha é indistintamente um registro, um caso, uma observação, um exemplo ou uma instância.
+
+::: {.exemplo}
+Imagine três textos sobre o mesmo problema de prever a taxa de homicídios a partir da população de um estado. Um artigo de estatística clássica fala em "variável dependente" e "variáveis independentes". Um tutorial de aprendizado de máquina fala em "target" e "features". Um relatório de negócios fala em "o que queremos prever" e "os atributos disponíveis". As três frases descrevem exatamente a mesma coisa — e um leitor que não souber disso vai achar que está diante de três ideias distintas, quando é uma só com três sotaques.
+:::
+
+Não há vocabulário "certo" entre esses — o que existe é o vocabulário da comunidade em que se está lendo ou escrevendo. Este livro usa *feature* e *outcome* por serem os termos mais neutros entre as três tradições.
+
+## Dados não retangulares
+
+Nem todo dado cabe numa tabela sem perder algo no processo. Três casos comuns:
+
+Em uma **série temporal**, a ordem entre as linhas carrega informação — a temperatura de hoje depende da de ontem de um jeito que a tabela, por si só, não representa. Uma tabela retangular guarda os valores, mas a sequência entre eles é uma estrutura adicional que precisa ser lembrada à parte.
+
+Em **dados espaciais**, o que importa são objetos e as coordenadas ou regiões que ocupam — pontos, linhas, polígonos — e a noção de distância ou vizinhança entre eles não é uma coluna, é uma relação geométrica.
+
+Em um **grafo** (uma rede), o que se descreve são relações entre pares de elementos — quem segue quem, quais cidades têm uma rota direta. Forçar isso numa tabela de registros independentes apaga exatamente a informação que importa: a conexão entre eles.
+
+Nos três casos, é possível *armazenar* o dado em uma ou mais tabelas — mas a forma retangular, sozinha, não representa a estrutura que faz o dado interessante. A ordem, a geometria e as relações precisam ser preservadas por fora da tabela, ou a análise que só olha para linhas e colunas vai errar a pergunta.
+
+## Resumo
+
+| Termo usado neste livro | Sinônimos que você vai encontrar |
+|---|---|
+| Feature | variável, atributo, preditor, entrada (input) |
+| Outcome | resposta, variável dependente, alvo (target), saída |
+| Registro | caso, observação, exemplo, instância |
+
+::: {.conceito}
+Todo o vocabulário estatístico deste livro pressupõe a forma retangular: linhas independentes, colunas com um tipo fixo. Quando o dado é uma série temporal, um mapa ou uma rede, essa pressuposição já não vale — e é preciso reconhecer isso antes de aplicar qualquer estimativa das próximas seções.
+:::
+
+## Exercícios
+
+**1.** `estado.shape` retorna `(50, 4)`. Qual é o significado de cada número, no vocabulário desta seção?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+50 é o número de registros (observações — um por estado); 4 é o número de features (as variáveis medidas sobre cada estado: `State`, `Population`, `Murder.Rate`, `Abbreviation`).
+:::
+
+**2.** Você quer prever a taxa de homicídios a partir da população. Qual coluna é o *outcome* e quais são as *features*?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+`Murder.Rate` é o outcome; `Population` é a feature. `State` e `Abbreviation` são identificadores, não features úteis — usá-los como preditor seria memorizar cada linha em vez de aprender um padrão que generalize.
+:::
+
+**3.** Um log de servidor tem timestamp, IP e URL, uma linha por requisição. É retangular? E se a pergunta for "qual a sequência típica de páginas antes de uma compra?"
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+A tabela é retangular — uma linha por requisição, colunas fixas. Mas a pergunta é sobre **sequência**: a ordem entre as linhas carrega a informação que importa, e a forma retangular não a representa por conta própria. É um caso em que a estrutura tabular armazena o dado, mas não o modela.
 :::

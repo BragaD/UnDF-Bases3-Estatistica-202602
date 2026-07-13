@@ -46,7 +46,7 @@
 | `content/capNN/index.qmd` | Visão geral + objetivos + tabela de seções |
 | `content/capNN/NN-*.qmd` | Uma seção do livro por arquivo |
 | `.github/workflows/quarto-render.yml` | Build da imagem → render no container → publish |
-| `CLAUDE.md` / `AGENTS.md` | Instruções para agentes |
+| `CLAUDE.md` | Instruções para agentes (fonte única — não há `AGENTS.md`) |
 | `README.md` | Instruções para humanos |
 
 ---
@@ -1367,11 +1367,12 @@ Estas dependem do repositório existir no GitHub e **não podem ser feitas por s
 
 **Files:**
 - Create: `CLAUDE.md`
-- Create: `AGENTS.md`
 - Create: `README.md`
 
 **Interfaces:**
 - Consumes: tudo das Tasks 1–7.
+
+> **Decisão do autor (2026-07-13):** **não** criar `AGENTS.md`. O repo de referência mantinha uma cópia literal do `CLAUDE.md`, mas isso é duplicação verbatim que inevitavelmente diverge. Aqui o `CLAUDE.md` é a única fonte de instruções para agentes.
 
 - [ ] **Step 1: Criar `CLAUDE.md`**
 
@@ -1482,26 +1483,7 @@ O nome da imagem é minúsculo e literal: o GHCR rejeita maiúsculas, então nã
 `_book/` e `_freeze/` são artefatos locais gitignorados. `docs/` **não** é gitignorado — guarda specs e planos.
 ````
 
-- [ ] **Step 2: Criar `AGENTS.md`**
-
-Mesmo conteúdo do `CLAUDE.md`, trocando apenas as 3 primeiras linhas (o cabeçalho) — é o que o repo de referência faz.
-
-```bash
-{
-  printf '# AGENTS.md\n\nThis file provides guidance to coding agents (Codex, etc.) when working with code in this repository.\n'
-  tail -n +4 CLAUDE.md
-} > AGENTS.md
-
-head -3 AGENTS.md
-```
-Expected:
-```
-# AGENTS.md
-
-This file provides guidance to coding agents (Codex, etc.) when working with code in this repository.
-```
-
-- [ ] **Step 3: Criar `README.md`**
+- [ ] **Step 2: Criar `README.md`**
 
 ````markdown
 # Bases 3 — Estatística
@@ -1566,19 +1548,22 @@ Os conjuntos em `dados/` vêm do [repositório oficial do livro](https://github.
 Material disponibilizado para fins educacionais. Os dados e exemplos originais são de autoria de Bruce, Bruce e Gedeck.
 ````
 
-- [ ] **Step 4: Verificar que os três arquivos existem e que o AGENTS espelha o CLAUDE**
+- [ ] **Step 3: Verificar que os dois arquivos existem e cobrem o essencial**
 
 Run:
 ```bash
-wc -l CLAUDE.md AGENTS.md README.md
-diff <(tail -n +4 CLAUDE.md) <(tail -n +4 AGENTS.md) && echo "AGENTS.md espelha CLAUDE.md a partir da linha 4"
+wc -l CLAUDE.md README.md
+for termo in "execute-dir" "opt/venv" "random_state" "_quarto.yml" "ghcr.io/bragad"; do
+  grep -q "$termo" CLAUDE.md && echo "ok   CLAUDE.md menciona: $termo" || echo "FALTA em CLAUDE.md: $termo"
+done
+test ! -e AGENTS.md && echo "ok   AGENTS.md não existe (decisão do autor)"
 ```
-Expected: os três arquivos têm conteúdo, e o `diff` não acusa diferença.
+Expected: os dois arquivos têm conteúdo, as 5 linhas `ok CLAUDE.md menciona:` aparecem, e `AGENTS.md não existe`.
 
-- [ ] **Step 5: Commit**
+- [ ] **Step 4: Commit**
 
 ```bash
-git add CLAUDE.md AGENTS.md README.md
+git add CLAUDE.md README.md
 git commit -m "docs: instrucoes para agentes e para humanos"
 ```
 

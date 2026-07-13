@@ -38,7 +38,14 @@ O livro-texto tem 7 capítulos. **O escopo desta disciplina são os capítulos 1
 
 ### Diretório de trabalho dos chunks
 
-`execute-dir: project` no `_quarto.yml`.
+`execute-dir: project` no `_quarto.yml` — sob o bloco `project:`, **não** sob `execute:`:
+
+```yaml
+project:
+  type: book
+  output-dir: _book
+  execute-dir: project
+```
 
 Isto é uma **melhoria deliberada sobre o repo de referência**, onde o diretório de trabalho era o do *arquivo*, obrigando todo chunk a referenciar dados como `../../dados/arquivo.csv` — uma pegadinha que o CLAUDE.md de lá precisava documentar. Com `execute-dir: project`, qualquer chunk, em qualquer capítulo, usa o caminho uniforme `dados/state.csv`.
 

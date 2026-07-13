@@ -1,4 +1,6 @@
 .DEFAULT_GOAL := help
+export UID := $(shell id -u)
+export GID := $(shell id -g)
 COMPOSE := docker compose
 RUN := $(COMPOSE) run --rm --no-deps livro
 

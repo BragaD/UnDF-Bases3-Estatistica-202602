@@ -3,6 +3,9 @@ services:
     build:
       context: .
     image: bases3-estatistica:local
+    user: "${UID:-1000}:${GID:-1000}"
+    environment:
+      - HOME=/tmp
     ports:
       - "4200:4200"
     volumes:

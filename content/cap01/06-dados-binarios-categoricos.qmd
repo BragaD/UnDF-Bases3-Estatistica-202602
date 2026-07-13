@@ -4,7 +4,137 @@
 Esta seção corresponde à seção 1.6 de @bruce2020.
 :::
 
-::: {.callout-warning}
-## Em construção
-O conteúdo desta seção ainda será escrito.
+```{python}
+#| label: setup
+#| include: false
+import pandas as pd
+import matplotlib.pyplot as plt
+
+plt.rcParams["figure.figsize"] = (7, 4)
+```
+
+A seção 1.5 abriu mão do resumo numérico e olhou a distribuição inteira — percentis, boxplot, histograma, densidade. Todo esse ferramental depende de uma coisa: os valores serem números, ordenáveis e subtraíveis entre si. Isso desmorona por completo diante de dado categórico. Não existe percentil 95 de uma causa de atraso de voo, nem um "ponto médio" entre `Weather` e `Security` para tirar uma mediana. A seção 1.1 já havia separado categórico de numérico — nominal, ordinal, binário — e é hora de ver o que sobra da caixa de ferramentas quando o dado é desse tipo.
+
+A resposta, adiantando: quase tudo muda, e o pouco que sobra é mais simples do que parece.
+
+## Os dados
+
+Vamos usar as causas de atraso de voo no aeroporto de Dallas/Fort Worth: problema atribuído à companhia aérea (`Carrier`), controle de tráfego aéreo (`ATC`), clima (`Weather`), segurança (`Security`) e atraso herdado de um voo anterior da mesma aeronave (`Inbound`). Cinco categorias nominais — nenhuma ordem natural entre elas, no sentido da seção 1.1.
+
+## Proporções: o resumo que substitui a média
+
+Para dado numérico, o primeiro resumo é uma medida de localização — média, média aparada, mediana. Nenhuma delas se aplica aqui: somar "Carrier + Weather" e dividir por dois não produz nada interpretável, porque não há distância nem ordem entre as categorias. O que resta, e é suficiente, é a **proporção** de cada categoria sobre o total.
+
+```{python}
+#| label: proporcoes
+dfw = pd.read_csv("dados/dfw_airline.csv")
+proporcoes = 100 * dfw / dfw.values.sum()
+proporcoes.round(2)
+```
+
+::: {.conceito}
+Repare no formato de `dfw`: uma linha, cinco colunas. Cada **coluna** é uma categoria, e o único valor de cada uma é a contagem de atrasos atribuídos a ela — o oposto do formato "uma linha por observação" que os capítulos anteriores usaram. É por isso que os próximos chunks recorrem a `.transpose()`: para virar as cinco colunas em cinco linhas, uma por causa, antes de desenhar o gráfico, extrair a moda ou calcular o valor esperado.
+:::
+
+`ATC` e `Inbound` somam sozinhos mais de 70% dos atrasos; `Security` responde por pouco mais de um décimo de 1%. É toda a "distribuição" que um dado categórico tem para oferecer — não uma forma contínua, mas um conjunto de fatias.
+
+## Gráfico de barras não é histograma
+
+```{python}
+#| label: fig-barras
+#| fig-cap: "Causas de atraso no aeroporto de Dallas/Fort Worth. As barras são separadas: o eixo é categórico, não contínuo."
+fig, ax = plt.subplots()
+dfw.transpose().plot.bar(ax=ax, legend=False, color="#4a90a4", edgecolor="white")
+ax.set_xlabel("Causa do atraso")
+ax.set_ylabel("Número de atrasos")
+plt.xticks(rotation=0)
+plt.tight_layout()
+plt.show()
+```
+
+É tentador olhar para esse gráfico como "o histograma da seção 1.5, com barras diferentes". Não é, e a diferença não é estética.
+
+::: {.conceito}
+No histograma, o eixo X é numérico e contínuo, e as barras se encostam **porque** não há espaço entre uma faixa e a seguinte — são pedaços contíguos da mesma reta de números. No gráfico de barras, o eixo X é categórico, e as barras vêm separadas de propósito: não existe "entre `ATC` e `Weather`", e a ordem em que as categorias aparecem no eixo é arbitrária, não informativa. Desenhar `Carrier`, `ATC`, `Weather`, `Security` e `Inbound` com barras encostadas sugeriria visualmente uma continuidade e uma ordem que os dados não têm — como se uma causa viesse "depois" da outra por algum motivo numérico. Não é preciosismo de estilo: é o mesmo cuidado que a seção 1.1 teve ao impedir que uma coluna nominal respondesse a perguntas de ordem.
+:::
+
+## A moda: a única "localização" possível
+
+```{python}
+#| label: moda
+moda = proporcoes.transpose().iloc[:, 0].idxmax()
+print(f"Moda (causa mais frequente): {moda}")
+```
+
+A **moda** — a categoria mais frequente — é a única medida de localização que sobrevive à falta de ordem e de distância entre categorias. Ela não exige somar nem ordenar nada: só contar qual fatia é a maior.
+
+::: {.exemplo}
+A moda de `dfw` é `Inbound`, com 42% dos atrasos — não `Carrier` nem `Weather`, as causas que viriam à mente primeiro ao pensar em "atraso de voo". A maior fonte de atraso em Dallas/Fort Worth não é uma causa local do próprio aeroporto: é um voo anterior da mesma aeronave chegando atrasado e empurrando o atraso adiante. O gargalo não está em Dallas — está na malha aérea inteira, se propagando de aeroporto em aeroporto.
+:::
+
+## Valor esperado
+
+Quando as categorias, além de uma proporção, carregam um valor numérico associado — um custo, um ganho, um tempo —, é possível ir além da moda. O **valor esperado** pondera cada valor pela probabilidade da categoria a que ele pertence:
+
+$$\text{VE} = \sum_{i=1}^{n} p_i \cdot v_i$$
+
+Suponha que uma companhia aérea estime o custo médio de compensação por passageiro, e que esse custo dependa da causa do atraso:
+
+```{python}
+#| label: valor-esperado
+# Uma companhia estima o custo médio de compensação por passageiro,
+# conforme a causa do atraso.
+custo = {"Carrier": 180, "ATC": 40, "Weather": 0, "Security": 25, "Inbound": 120}
+
+p = (dfw / dfw.values.sum()).transpose().iloc[:, 0]   # probabilidade de cada causa
+ve = sum(p[causa] * valor for causa, valor in custo.items())
+
+print(f"Valor esperado do custo por atraso: R$ {ve:.2f}")
+```
+
+R$ 104,55 não é o custo de nenhum atraso individual — nenhuma causa isolada custa exatamente isso. É o custo médio **por atraso**, se essa mistura de causas se repetisse indefinidamente. Uma causa cara e rara (`Security`, R$ 25, 0,12% dos casos) contribui quase nada ao total; uma causa mais barata e muito mais frequente (`ATC`, R$ 40, 30% dos casos) pode pesar mais no resultado final. O valor esperado não é dispersão nem localização de novo — é a base de toda decisão sob incerteza que a estatística tratará daqui em diante.
+
+## Resumo
+
+| Causa | Contagem | Proporção |
+|---|---|---|
+| Carrier | `{python} f"{dfw['Carrier'].iloc[0]:,.0f}"` | `{python} f"{proporcoes['Carrier'].iloc[0]:.2f}"`% |
+| ATC | `{python} f"{dfw['ATC'].iloc[0]:,.0f}"` | `{python} f"{proporcoes['ATC'].iloc[0]:.2f}"`% |
+| Weather | `{python} f"{dfw['Weather'].iloc[0]:,.0f}"` | `{python} f"{proporcoes['Weather'].iloc[0]:.2f}"`% |
+| Security | `{python} f"{dfw['Security'].iloc[0]:,.0f}"` | `{python} f"{proporcoes['Security'].iloc[0]:.2f}"`% |
+| Inbound | `{python} f"{dfw['Inbound'].iloc[0]:,.0f}"` | `{python} f"{proporcoes['Inbound'].iloc[0]:.2f}"`% |
+
+::: {.conceito}
+**Regra prática:** para dado numérico, o resumo é localização + dispersão + forma (seções 1.3 a 1.5). Para dado categórico nominal, isso colapsa em proporção e moda — não porque o dado categórico seja "mais pobre", mas porque perguntas de soma, distância e ordem simplesmente não fazem sentido nele. E quando cada categoria carrega um valor associado, o valor esperado combina probabilidade e consequência em um único número.
+:::
+
+## Exercícios
+
+**1.** A causa `Security` responde por 0,12% dos atrasos. Uma companhia deveria investir em reduzir atrasos de segurança?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+Pela frequência, não — `Security` é, de longe, a menor causa. Mas frequência não é tudo: o valor esperado depende também do **custo** de cada evento. Uma categoria rara e catastrófica pode ter valor esperado maior que uma categoria frequente e barata (um incidente de segurança grave pode custar muito mais que os R$ 25 por passageiro usados no exemplo). A pergunta certa combina probabilidade e consequência — nunca uma sozinha.
+:::
+
+**2.** Por que a moda é a única medida de localização que faz sentido para `dfw`?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+Porque as categorias de `dfw` são nominais — não há ordem nem distância entre "Weather" e "Security". Média e mediana exigem que os valores possam ser somados ou ordenados; nenhuma das duas operações significa algo quando o "valor" é o nome de uma causa de atraso. A moda só precisa contar qual categoria é a mais frequente, e essa pergunta continua fazendo sentido mesmo sem ordem nenhuma entre as categorias.
+:::
+
+**3.** Recalcule o valor esperado supondo que o custo de `Weather` sobe de R$ 0 para R$ 200. O que muda, e por que o efeito é pequeno?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+```python
+custo["Weather"] = 200
+sum(p[causa] * valor for causa, valor in custo.items())
+```
+
+O valor esperado sobe cerca de R$ 8 (0,0403 × 200 ≈ 8,05), passando de R$ 104,55 para cerca de R$ 112,60. O efeito é pequeno porque `Weather` tem probabilidade baixa (4%) — no valor esperado, cada custo entra **ponderado** pela sua probabilidade, não pelo valor bruto. É exatamente por isso que o valor esperado é a ferramenta certa para decisão: ele impede que um número grande, mas raro, domine a conclusão sozinho.
 :::

@@ -30,7 +30,7 @@ RUN echo 'export PATH="/opt/venv/bin:$PATH"' > /etc/profile.d/venv.sh
 WORKDIR /livro
 
 COPY pyproject.toml uv.lock .python-version ./
-RUN uv sync --frozen
+RUN uv sync --frozen --no-cache
 
 EXPOSE 4200
 

@@ -1,0 +1,36 @@
+# Bem-vindo {.unnumbered}
+
+Este é o material de apoio da disciplina **Bases 3 — Estatística**, oferecida aos cursos de **Engenharia de Software** e **Sistemas de Informação** da UnDF.
+
+## Sobre a Disciplina
+
+A disciplina apresenta a estatística do ponto de vista de quem constrói software e trabalha com dados: menos fórmulas decoradas, mais raciocínio sobre o que os dados dizem e o que eles não dizem. Todos os exemplos são em **Python**.
+
+Os temas são:
+
+- Análise exploratória de dados: estimativas de localização, variabilidade, distribuição e correlação
+- Amostragem, distribuições amostrais, bootstrap e intervalos de confiança
+- Experimentos estatísticos: testes A/B, testes de hipótese, valores-p, ANOVA e qui-quadrado
+- Regressão e predição: regressão linear simples e múltipla, diagnóstico e splines
+
+## Material Bibliográfico
+
+O livro-texto da disciplina é:
+
+> @bruce2020
+
+O código e os conjuntos de dados originais estão em [github.com/gedeck/practical-statistics-for-data-scientists](https://github.com/gedeck/practical-statistics-for-data-scientists). Esta disciplina cobre os **capítulos 1 a 4**; os capítulos 5 a 7, sobre aprendizado de máquina, são tratados em *Bases 5 — Ciência de Dados*.
+
+## Como Usar Este Material
+
+Cada capítulo traz:
+
+- Conceitos com exemplos executáveis em Python
+- Código que roda sobre conjuntos de dados reais, incluídos no repositório
+- Exercícios de fixação
+
+O ambiente completo (Python, bibliotecas e Quarto) está empacotado em um container Docker — veja o `README.md` para rodar o livro na sua máquina.
+
+## Licença {.unnumbered}
+
+Material disponibilizado para fins educacionais. Os dados e exemplos originais são de autoria de Bruce, Bruce e Gedeck [@bruce2020].

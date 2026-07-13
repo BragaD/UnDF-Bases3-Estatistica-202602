@@ -1,0 +1,61 @@
+project:
+  type: book
+  output-dir: _book
+  execute-dir: project
+
+execute:
+  freeze: auto
+
+jupyter: python3
+
+lang: pt
+
+book:
+  title: "Bases 3"
+  subtitle: "Estatística"
+  site-url: "https://BragaD.github.io/UnDF-Bases3-Estatistica-202602"
+  repo-url: "https://github.com/BragaD/UnDF-Bases3-Estatistica-202602"
+  repo-actions: [issue]
+  navbar:
+    logo: images/logo-undf.png
+    logo-alt: "Logo UnDF"
+    title: "Bases 3 — Estatística"
+  date: today
+  date-format: "DD/MM/YYYY"
+  chapters:
+    - text: "Início"
+      href: index.qmd
+
+page-navigation: true
+
+page-footer:
+  border: true
+  left: "UnDF — Engenharia de Software e Sistemas de Informação — Estatística — 2026.2"
+  right:
+    - icon: github
+      href: "https://github.com/BragaD/UnDF-Bases3-Estatistica-202602"
+
+format:
+  html:
+    theme:
+      light: cosmo
+      dark: darkly
+    css: styles.css
+    number-sections: false
+    include-after-body: spoiler.html
+    toc: true
+    toc-depth: 4
+    toc-title: "Nesta página"
+    link-external-icon: true
+    link-external-newwindow: true
+    code-copy: true
+    code-overflow: wrap
+
+bibliography: references.bib
+
+editor: source
+code-annotations: hover
+
+author:
+  - name: "Douglas Braga"
+    email: "douglas.braga@undf.edu.br"

@@ -113,7 +113,11 @@ O `collapse="true"` fecha o callout por padrão. É ofuscação honesta: não se
 
 ## Custo de render
 
-`sp500_data.csv.gz` tem 21 MB; `kc_tax.csv.gz` tem ~498 mil linhas. O primeiro render das seções 1.7 e 1.8 levará dezenas de segundos, e o CI (que renderiza do zero) deve ganhar 1–2 minutos. Aceitável; declarado para não surpreender.
+Medido no container, não estimado: ler `kc_tax.csv.gz` (498.249 linhas) leva **0,1 s**, e `sp500_data.csv.gz` (21 MB) é igualmente rápido. A leitura dos dados **não** é o gargalo.
+
+O custo real está no **KDE 2-D** da seção 1.8: calculá-lo sobre os 432.693 imóveis filtrados levaria minutos, e é exatamente por isso que o livro amostra 10.000 pontos. Com a amostra, o gráfico sai em segundos. O `FacetGrid` de hexbins e o heatmap do S&P 500 também são rápidos.
+
+Conclusão: o acréscimo ao tempo de render é modesto — dezenas de segundos, não minutos. O `freeze` cacheia depois do primeiro render.
 
 ## Verificação
 

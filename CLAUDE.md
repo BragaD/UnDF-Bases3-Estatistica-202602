@@ -83,7 +83,7 @@ Exemplo (verde).
 :::
 ```
 
-Para conteúdo protegido por senha (gabaritos), `spoiler.html` fornece o JS; use um div `.spoiler` com `data-password-hash` (SHA-256 hex) e `data-hint`.
+`spoiler.html` fornece o JS de um spoiler: um div `.spoiler` com `data-password-hash` (SHA-256 hex) e `data-hint`. **Isso é ofuscação, não proteção.** O conteúdo "protegido" viaja em texto puro no HTML publicado — o hash SHA-256 só alterna qual `<div>` fica visível; qualquer aluno lê tudo com Ctrl+U. **Nunca** use para gabaritos, provas ou qualquer coisa que o aluno não deva poder ver antes da hora. Serve só para "revelar a resposta depois de tentar" (ex.: resposta de um exercício de fixação) — algo que não tem problema estar visível no código-fonte.
 
 ### Ambiente
 

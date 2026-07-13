@@ -25,7 +25,11 @@
   height: auto;
 }
 
-/* ── Spoiler protegido por senha ── */
+/* ── Spoiler (ofuscação, não proteção) ── */
+.spoiler {
+  display: none;
+}
+
 .spoiler-content {
   display: none;
 }

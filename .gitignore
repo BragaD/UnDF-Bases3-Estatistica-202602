@@ -1,0 +1,23 @@
+# Quarto
+/.quarto/
+/_book/
+/_freeze/
+
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+**/*.quarto_ipynb
+
+# Ambiente
+.env
+
+# macOS
+.DS_Store
+
+# Editores
+.vscode/
+
+# Claude Code — preferências locais da máquina
+.claude/settings.local.json

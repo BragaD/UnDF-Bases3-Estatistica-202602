@@ -1,0 +1,22 @@
+[project]
+name = "bases3-estatistica"
+version = "0.1.0"
+description = "Livro Quarto — Bases 3: Estatística (UnDF)"
+requires-python = ">=3.12"
+dependencies = [
+    "pandas",
+    "numpy",
+    "scipy",
+    "statsmodels",
+    "scikit-learn",
+    "matplotlib",
+    "seaborn",
+    "wquantiles",
+    "adjustText",
+    "pygam",
+    "dmba",
+    "jupyter",
+]
+
+[tool.uv]
+package = false

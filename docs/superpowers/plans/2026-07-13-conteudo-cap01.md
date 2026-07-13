@@ -210,13 +210,37 @@ from pandas.api.types import CategoricalDtype
 tamanho = CategoricalDtype(categories=["pequeno", "medio", "grande"], ordered=True)
 s = pd.Series(["grande", "pequeno", "medio"], dtype=tamanho)
 
-print(s.sort_values().tolist())
-print("grande > pequeno ?", s[0] > s[1])
+print("ordenado:", s.sort_values().tolist())
+print("maior que 'pequeno'?", s.gt("pequeno").tolist())
+print("máximo:", s.max())
 ```
 
-Saída real: `['pequeno', 'medio', 'grande']` e `True`.
+Saídas reais (conferidas no container, pandas 3.0.3):
+```
+ordenado: ['pequeno', 'medio', 'grande']
+maior que 'pequeno'? [True, False, True]
+máximo: grande
+```
 
-Explique: com `ordered=True`, a comparação `>` funciona e a ordenação respeita a semântica, não o alfabeto. Num categórico nominal, `>` levantaria `TypeError` — e isso é uma **feature**, não uma limitação: o tipo impede uma operação que não faz sentido.
+Explique: a ordenação e a comparação respeitam a **semântica** declarada, não o alfabeto. Alfabeticamente, "grande" viria antes de "pequeno"; pela ordem declarada, vem depois.
+
+**Cuidado — armadilha do pandas 3:** NÃO escreva `s[0] > s[1]`. Indexar um elemento isolado de uma Series categórica devolve uma `str` Python pura, e a comparação vira lexicográfica **silenciosamente** — daria `False`, que é a resposta errada sem nenhum aviso. As comparações precisam ser feitas no nível da Series (`.gt()`, `.sort_values()`, `.max()`), que é onde o dtype ainda existe.
+
+Chunk que fecha o ponto — o categórico **nominal** se recusa a comparar:
+
+```python
+#| label: nominal-erro
+nominal = pd.Series(["grande", "pequeno", "medio"], dtype="category")  # sem ordered=True
+
+try:
+    nominal.gt("pequeno")
+except TypeError as erro:
+    print("TypeError:", erro)
+```
+
+Saída real: `TypeError: Unordered Categoricals can only compare equality or not`
+
+Este é o ponto didático central da seção: o tipo **impede** uma operação que não faz sentido. Perguntar se um estado é "maior que" outro, no sentido de ordem, não significa nada — e declarar o dado como nominal faz o software recusar a pergunta em vez de devolver uma resposta sem sentido. Isso é uma **feature**, não uma limitação.
 
 **Callout `.conceito` obrigatório:** declarar o tipo não é burocracia. É o que permite ao software rejeitar uma operação sem sentido (ordenar estados por "grandeza" alfabética), escolher o gráfico certo automaticamente e economizar memória (um `category` com 50 valores distintos guarda inteiros, não 50 strings repetidas).
 
@@ -236,11 +260,13 @@ Run:
 ```bash
 make render
 H=_book/content/cap01/01-dados-estruturados.html
-grep -c "pequeno" "$H"        # a saída do categórico ordenado
-grep -c 'callout-tip' "$H"    # exercícios
-grep -c "Em construção" "$H"  # o stub sumiu?
+grep -c "Unordered Categoricals" "$H"   # o TypeError do nominal foi capturado e impresso
+grep -c "callout-tip" "$H"              # exercícios
+grep -c "Em construção" "$H"            # o stub sumiu?
 ```
-Expected: `pequeno` ≥ 1; `callout-tip` = 3; `Em construção` = 0.
+Expected: `Unordered Categoricals` ≥ 1; `callout-tip` = 3; `Em construção` = 0.
+
+O primeiro grep é o que importa: ele prova que o chunk `nominal-erro` de fato executou, capturou o `TypeError` e imprimiu a mensagem. Se der 0, o exemplo central da seção não rodou.
 
 - [ ] **Step 4: Commit**
 

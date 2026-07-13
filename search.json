@@ -1,0 +1,635 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Bases 3",
+    "section": "",
+    "text": "Bem-vindo\nEste é o material de apoio da disciplina Bases 3 — Estatística, oferecida aos cursos de Engenharia de Software e Sistemas de Informação da UnDF.",
+    "crumbs": [
+      "Início"
+    ]
+  },
+  {
+    "objectID": "index.html#sobre-a-disciplina",
+    "href": "index.html#sobre-a-disciplina",
+    "title": "Bases 3",
+    "section": "Sobre a Disciplina",
+    "text": "Sobre a Disciplina\nA disciplina apresenta a estatística do ponto de vista de quem constrói software e trabalha com dados: menos fórmulas decoradas, mais raciocínio sobre o que os dados dizem e o que eles não dizem. Todos os exemplos são em Python.\nOs temas são:\n\nAnálise exploratória de dados: estimativas de localização, variabilidade, distribuição e correlação\nAmostragem, distribuições amostrais, bootstrap e intervalos de confiança\nExperimentos estatísticos: testes A/B, testes de hipótese, valores-p, ANOVA e qui-quadrado\nRegressão e predição: regressão linear simples e múltipla, diagnóstico e splines",
+    "crumbs": [
+      "Início"
+    ]
+  },
+  {
+    "objectID": "index.html#material-bibliográfico",
+    "href": "index.html#material-bibliográfico",
+    "title": "Bases 3",
+    "section": "Material Bibliográfico",
+    "text": "Material Bibliográfico\nO livro-texto da disciplina é:\n\nBruce et al. (2020)\n\nO código e os conjuntos de dados originais estão em github.com/gedeck/practical-statistics-for-data-scientists. Esta disciplina cobre os capítulos 1 a 4; os capítulos 5 a 7, sobre aprendizado de máquina, são tratados em Bases 5 — Ciência de Dados.",
+    "crumbs": [
+      "Início"
+    ]
+  },
+  {
+    "objectID": "index.html#como-usar-este-material",
+    "href": "index.html#como-usar-este-material",
+    "title": "Bases 3",
+    "section": "Como Usar Este Material",
+    "text": "Como Usar Este Material\nCada capítulo traz:\n\nConceitos com exemplos executáveis em Python\nCódigo que roda sobre conjuntos de dados reais, incluídos no repositório\nExercícios de fixação\n\nO ambiente completo (Python, bibliotecas e Quarto) está empacotado em um container Docker — veja o README.md para rodar o livro na sua máquina.",
+    "crumbs": [
+      "Início"
+    ]
+  },
+  {
+    "objectID": "index.html#licença",
+    "href": "index.html#licença",
+    "title": "Bases 3",
+    "section": "Licença",
+    "text": "Licença\nMaterial disponibilizado para fins educacionais. Os dados e exemplos originais são de autoria de Bruce, Bruce e Gedeck (Bruce et al. 2020).\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
+    "crumbs": [
+      "Início"
+    ]
+  },
+  {
+    "objectID": "content/cap01/index.html",
+    "href": "content/cap01/index.html",
+    "title": "Análise Exploratória de Dados",
+    "section": "",
+    "text": "Seções\nA estatística clássica nasceu preocupada com inferência: tirar conclusões sobre uma população grande a partir de uma amostra pequena. A análise exploratória de dados, proposta por John Tukey em 1962, inverte a ênfase — antes de testar qualquer hipótese, olhe para os dados.\nAo final deste capítulo, você será capaz de:",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Visão Geral</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/index.html#seções",
+    "href": "content/cap01/index.html#seções",
+    "title": "Análise Exploratória de Dados",
+    "section": "",
+    "text": "Seção\nTópico\n\n\n\n\n1.1\nElementos de Dados Estruturados\n\n\n1.2\nDados Retangulares\n\n\n1.3\nEstimativas de Localização\n\n\n1.4\nEstimativas de Variabilidade\n\n\n1.5\nExplorando a Distribuição dos Dados\n\n\n1.6\nExplorando Dados Binários e Categóricos\n\n\n1.7\nCorrelação\n\n\n1.8\nExplorando Duas ou Mais Variáveis\n\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Visão Geral</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/01-dados-estruturados.html",
+    "href": "content/cap01/01-dados-estruturados.html",
+    "title": "Elementos de Dados Estruturados",
+    "section": "",
+    "text": "Nota\n\n\n\nEsta seção corresponde à seção 1.1 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Elementos de Dados Estruturados</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/02-dados-retangulares.html",
+    "href": "content/cap01/02-dados-retangulares.html",
+    "title": "Dados Retangulares",
+    "section": "",
+    "text": "Nota\n\n\n\nEsta seção corresponde à seção 1.2 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Dados Retangulares</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/03-estimativas-localizacao.html",
+    "href": "content/cap01/03-estimativas-localizacao.html",
+    "title": "Estimativas de Localização",
+    "section": "",
+    "text": "Os dados\nUma variável com centenas ou milhares de valores é impossível de compreender olhando linha a linha. O primeiro passo da exploração é resumi-la por um valor típico: uma estimativa de onde a maior parte dos dados está.\nIsso parece trivial — “é só tirar a média” — e é exatamente por parecer trivial que dá errado tantas vezes.\nVamos usar população e taxa de homicídios (por 100.000 habitantes) dos 50 estados norte-americanos.\nestado = pd.read_csv(\"dados/state.csv\")\nestado.head()\n\n\n\n\n\n\n\n\nState\nPopulation\nMurder.Rate\nAbbreviation\n\n\n\n\n0\nAlabama\n4779736\n5.7\nAL\n\n\n1\nAlaska\n710231\n5.6\nAK\n\n\n2\nArizona\n6392017\n4.7\nAZ\n\n\n3\nArkansas\n2915918\n5.6\nAR\n\n\n4\nCalifornia\n37253956\n4.4\nCA",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Estimativas de Localização</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/03-estimativas-localizacao.html#os-dados",
+    "href": "content/cap01/03-estimativas-localizacao.html#os-dados",
+    "title": "Estimativas de Localização",
+    "section": "",
+    "text": "Note o caminho: dados/state.csv, e não ../../dados/state.csv. O _quarto.yml define execute-dir: project, então o diretório de trabalho de todo chunk é a raiz do projeto, independentemente de onde o arquivo .qmd esteja.",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Estimativas de Localização</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/03-estimativas-localizacao.html#média",
+    "href": "content/cap01/03-estimativas-localizacao.html#média",
+    "title": "Estimativas de Localização",
+    "section": "Média",
+    "text": "Média\nA média é a soma dos valores dividida pelo número de observações:\n\\[\\bar{x} = \\frac{\\sum_{i=1}^{n} x_i}{n}\\]\n\nmedia = estado[\"Population\"].mean()\nprint(f\"Média: {media:,.1f}\")\n\nMédia: 6,162,876.3\n\n\nA média é sensível a valores extremos. A população da Califórnia (~37 milhões) e a do Wyoming (~564 mil) diferem por um fator de 66 — e a Califórnia puxa a média para cima sozinha.",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Estimativas de Localização</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/03-estimativas-localizacao.html#média-aparada",
+    "href": "content/cap01/03-estimativas-localizacao.html#média-aparada",
+    "title": "Estimativas de Localização",
+    "section": "Média aparada",
+    "text": "Média aparada\nA média aparada descarta uma proporção fixa dos maiores e menores valores antes de calcular a média, o que a torna robusta a extremos:\n\\[\\bar{x}_{\\text{aparada}} = \\frac{\\sum_{i=p+1}^{n-p} x_{(i)}}{n - 2p}\\]\n\nmedia_aparada = trim_mean(estado[\"Population\"], 0.1)\nprint(f\"Média aparada (10%): {media_aparada:,.1f}\")\n\nMédia aparada (10%): 4,783,697.1\n\n\nAparar 10% de cada ponta remove os 5 estados mais populosos e os 5 menos populosos.",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Estimativas de Localização</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/03-estimativas-localizacao.html#mediana",
+    "href": "content/cap01/03-estimativas-localizacao.html#mediana",
+    "title": "Estimativas de Localização",
+    "section": "Mediana",
+    "text": "Mediana\nA mediana é o valor central dos dados ordenados. Ela depende apenas das observações do meio, então um valor extremo pode ser arbitrariamente grande sem movê-la. Com número par de observações — como aqui, n = 50 —, não existe um único valor central: a mediana é a média dos dois valores do meio. É por isso que o número calculado abaixo termina em “,5”: não há meia pessoa, há uma média entre duas observações vizinhas.\n\nmediana = estado[\"Population\"].median()\nprint(f\"Mediana: {mediana:,.1f}\")\n\nMediana: 4,436,369.5\n\n\n\nA mediana é 4,436,370 e a média é 6,162,876 — a média é cerca de 39% maior. Essa diferença é a assinatura de uma distribuição assimétrica à direita, e é a razão pela qual reportar renda mediana e não renda média é a prática padrão.",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Estimativas de Localização</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/03-estimativas-localizacao.html#estimativas-ponderadas",
+    "href": "content/cap01/03-estimativas-localizacao.html#estimativas-ponderadas",
+    "title": "Estimativas de Localização",
+    "section": "Estimativas ponderadas",
+    "text": "Estimativas ponderadas\nNem toda observação merece o mesmo peso. Para a taxa de homicídios, tratar cada estado igualmente daria ao Wyoming a mesma influência que à Califórnia — mas eles representam números muito diferentes de pessoas.\nA média ponderada corrige isso:\n\\[\\bar{x}_w = \\frac{\\sum_{i=1}^{n} w_i x_i}{\\sum_{i=1}^{n} w_i}\\]\n\nmedia_pond = np.average(estado[\"Murder.Rate\"], weights=estado[\"Population\"])\nmediana_pond = wquantiles.median(estado[\"Murder.Rate\"], weights=estado[\"Population\"])\n\nprint(f\"Média simples     : {estado['Murder.Rate'].mean():.4f}\")\nprint(f\"Média ponderada   : {media_pond:.4f}\")\nprint(f\"Mediana ponderada : {mediana_pond:.4f}\")\n\nMédia simples     : 4.0660\nMédia ponderada   : 4.4458\nMediana ponderada : 4.4000\n\n\nA média ponderada é a taxa de homicídios que uma pessoa média dos EUA enfrenta; a média simples é a taxa de um estado médio. São perguntas diferentes, com respostas diferentes.",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Estimativas de Localização</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/03-estimativas-localizacao.html#comparando-as-estimativas",
+    "href": "content/cap01/03-estimativas-localizacao.html#comparando-as-estimativas",
+    "title": "Estimativas de Localização",
+    "section": "Comparando as estimativas",
+    "text": "Comparando as estimativas\n\nfig, ax = plt.subplots()\n\nax.hist(estado[\"Population\"] / 1e6, bins=20, color=\"#b0c4d8\", edgecolor=\"white\")\nax.axvline(media / 1e6, color=\"#c0392b\", linestyle=\"-\", linewidth=2, label=f\"Média: {media/1e6:.1f}M\")\nax.axvline(media_aparada / 1e6, color=\"#e67e22\", linestyle=\"--\", linewidth=2, label=f\"Média aparada: {media_aparada/1e6:.1f}M\")\nax.axvline(mediana / 1e6, color=\"#27ae60\", linestyle=\":\", linewidth=2.5, label=f\"Mediana: {mediana/1e6:.1f}M\")\n\nax.set_xlabel(\"População (milhões)\")\nax.set_ylabel(\"Número de estados\")\nax.legend()\nplt.tight_layout()\nplt.show()\n\n\n\n\n\n\n\nFigura 4.1: As três estimativas de localização sobre a distribuição de população dos estados.\n\n\n\n\n\nA média está à direita das outras duas, arrastada pela cauda de estados muito populosos. A média aparada e a mediana quase coincidem — é isso que “robusto a extremos” significa na prática.",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Estimativas de Localização</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/03-estimativas-localizacao.html#resumo",
+    "href": "content/cap01/03-estimativas-localizacao.html#resumo",
+    "title": "Estimativas de Localização",
+    "section": "Resumo",
+    "text": "Resumo\n\n\n\nEstimativa\nValor\nRobusta a extremos?\n\n\n\n\nMédia\n6,162,876\nNão\n\n\nMédia aparada (10%)\n4,783,697\nSim\n\n\nMediana\n4,436,370\nSim\n\n\n\n\nRegra prática: a média é o padrão, mas é frágil. Quando os dados têm cauda longa ou outliers plausíveis — renda, população, tempo de resposta de um servidor — a mediana ou a média aparada descrevem melhor o caso típico.\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Estimativas de Localização</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/04-estimativas-variabilidade.html",
+    "href": "content/cap01/04-estimativas-variabilidade.html",
+    "title": "Estimativas de Variabilidade",
+    "section": "",
+    "text": "Nota\n\n\n\nEsta seção corresponde à seção 1.4 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Estimativas de Variabilidade</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/05-distribuicao-dados.html",
+    "href": "content/cap01/05-distribuicao-dados.html",
+    "title": "Explorando a Distribuição dos Dados",
+    "section": "",
+    "text": "Nota\n\n\n\nEsta seção corresponde à seção 1.5 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Explorando a Distribuição dos Dados</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/06-dados-binarios-categoricos.html",
+    "href": "content/cap01/06-dados-binarios-categoricos.html",
+    "title": "Explorando Dados Binários e Categóricos",
+    "section": "",
+    "text": "Nota\n\n\n\nEsta seção corresponde à seção 1.6 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Dados Binários e Categóricos</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/07-correlacao.html",
+    "href": "content/cap01/07-correlacao.html",
+    "title": "Correlação",
+    "section": "",
+    "text": "Nota\n\n\n\nEsta seção corresponde à seção 1.7 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Correlação</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/08-duas-ou-mais-variaveis.html",
+    "href": "content/cap01/08-duas-ou-mais-variaveis.html",
+    "title": "Explorando Duas ou Mais Variáveis",
+    "section": "",
+    "text": "Nota\n\n\n\nEsta seção corresponde à seção 1.8 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Duas ou Mais Variáveis</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap02/index.html",
+    "href": "content/cap02/index.html",
+    "title": "Dados e Distribuições Amostrais",
+    "section": "",
+    "text": "Seções\nUma amostra nunca é a população. A pergunta central deste capítulo é: quanto do que vemos na amostra é sinal, e quanto é acidente do sorteio?\nAo final deste capítulo, você será capaz de:",
+    "crumbs": [
+      "Capítulo 2: Dados e Distribuições Amostrais",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Visão Geral</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap02/index.html#seções",
+    "href": "content/cap02/index.html#seções",
+    "title": "Dados e Distribuições Amostrais",
+    "section": "",
+    "text": "Seção\nTópico\n\n\n\n\n2.1\nAmostragem Aleatória e Viés de Amostra\n\n\n2.2\nViés de Seleção\n\n\n2.3\nDistribuição Amostral de uma Estatística\n\n\n2.4\nBootstrap\n\n\n2.5\nIntervalos de Confiança\n\n\n2.6\nDistribuição Normal\n\n\n2.7\nDistribuições de Cauda Longa\n\n\n2.8\nDistribuição t de Student\n\n\n2.9\nDistribuição Binomial\n\n\n2.10\nDistribuição Qui-Quadrado\n\n\n2.11\nDistribuição F\n\n\n2.12\nDistribuição de Poisson e Relacionadas\n\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
+    "crumbs": [
+      "Capítulo 2: Dados e Distribuições Amostrais",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Visão Geral</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap02/01-amostragem-aleatoria.html",
+    "href": "content/cap02/01-amostragem-aleatoria.html",
+    "title": "Amostragem Aleatória e Viés de Amostra",
+    "section": "",
+    "text": "Nota\n\n\n\nEsta seção corresponde à seção 2.1 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
+    "crumbs": [
+      "Capítulo 2: Dados e Distribuições Amostrais",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Amostragem Aleatória e Viés</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap02/02-vies-selecao.html",
+    "href": "content/cap02/02-vies-selecao.html",
+    "title": "Viés de Seleção",
+    "section": "",
+    "text": "Nota\n\n\n\nEsta seção corresponde à seção 2.2 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
+    "crumbs": [
+      "Capítulo 2: Dados e Distribuições Amostrais",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Viés de Seleção</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap02/03-distribuicao-amostral.html",
+    "href": "content/cap02/03-distribuicao-amostral.html",
+    "title": "Distribuição Amostral de uma Estatística",
+    "section": "",
+    "text": "Nota\n\n\n\nEsta seção corresponde à seção 2.3 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
+    "crumbs": [
+      "Capítulo 2: Dados e Distribuições Amostrais",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Distribuição Amostral</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap02/04-bootstrap.html",
+    "href": "content/cap02/04-bootstrap.html",
+    "title": "Bootstrap",
+    "section": "",
+    "text": "Nota\n\n\n\nEsta seção corresponde à seção 2.4 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
+    "crumbs": [
+      "Capítulo 2: Dados e Distribuições Amostrais",
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Bootstrap</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap02/05-intervalos-confianca.html",
+    "href": "content/cap02/05-intervalos-confianca.html",
+    "title": "Intervalos de Confiança",
+    "section": "",
+    "text": "Nota\n\n\n\nEsta seção corresponde à seção 2.5 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
+    "crumbs": [
+      "Capítulo 2: Dados e Distribuições Amostrais",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>Intervalos de Confiança</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap02/06-distribuicao-normal.html",
+    "href": "content/cap02/06-distribuicao-normal.html",
+    "title": "Distribuição Normal",
+    "section": "",
+    "text": "Nota\n\n\n\nEsta seção corresponde à seção 2.6 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
+    "crumbs": [
+      "Capítulo 2: Dados e Distribuições Amostrais",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>Distribuição Normal</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap02/07-caudas-longas.html",
+    "href": "content/cap02/07-caudas-longas.html",
+    "title": "Distribuições de Cauda Longa",
+    "section": "",
+    "text": "Nota\n\n\n\nEsta seção corresponde à seção 2.7 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
+    "crumbs": [
+      "Capítulo 2: Dados e Distribuições Amostrais",
+      "<span class='chapter-number'>17</span>  <span class='chapter-title'>Distribuições de Cauda Longa</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap02/08-distribuicao-t.html",
+    "href": "content/cap02/08-distribuicao-t.html",
+    "title": "Distribuição t de Student",
+    "section": "",
+    "text": "Nota\n\n\n\nEsta seção corresponde à seção 2.8 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
+    "crumbs": [
+      "Capítulo 2: Dados e Distribuições Amostrais",
+      "<span class='chapter-number'>18</span>  <span class='chapter-title'>Distribuição t de Student</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap02/09-distribuicao-binomial.html",
+    "href": "content/cap02/09-distribuicao-binomial.html",
+    "title": "Distribuição Binomial",
+    "section": "",
+    "text": "Nota\n\n\n\nEsta seção corresponde à seção 2.9 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
+    "crumbs": [
+      "Capítulo 2: Dados e Distribuições Amostrais",
+      "<span class='chapter-number'>19</span>  <span class='chapter-title'>Distribuição Binomial</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap02/10-qui-quadrado.html",
+    "href": "content/cap02/10-qui-quadrado.html",
+    "title": "Distribuição Qui-Quadrado",
+    "section": "",
+    "text": "Nota\n\n\n\nEsta seção corresponde à seção 2.10 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
+    "crumbs": [
+      "Capítulo 2: Dados e Distribuições Amostrais",
+      "<span class='chapter-number'>20</span>  <span class='chapter-title'>Distribuição Qui-Quadrado</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap02/11-distribuicao-f.html",
+    "href": "content/cap02/11-distribuicao-f.html",
+    "title": "Distribuição F",
+    "section": "",
+    "text": "Nota\n\n\n\nEsta seção corresponde à seção 2.11 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
+    "crumbs": [
+      "Capítulo 2: Dados e Distribuições Amostrais",
+      "<span class='chapter-number'>21</span>  <span class='chapter-title'>Distribuição F</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap02/12-poisson.html",
+    "href": "content/cap02/12-poisson.html",
+    "title": "Distribuição de Poisson e Relacionadas",
+    "section": "",
+    "text": "Nota\n\n\n\nEsta seção corresponde à seção 2.12 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
+    "crumbs": [
+      "Capítulo 2: Dados e Distribuições Amostrais",
+      "<span class='chapter-number'>22</span>  <span class='chapter-title'>Distribuição de Poisson</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap03/index.html",
+    "href": "content/cap03/index.html",
+    "title": "Experimentos Estatísticos e Testes de Significância",
+    "section": "",
+    "text": "Seções\nO teste A/B é o experimento estatístico mais executado do mundo — e um dos mais mal interpretados. Este capítulo trata do desenho de experimentos e da pergunta que eles tentam responder: o efeito que eu vi é real, ou é ruído?\nAo final deste capítulo, você será capaz de:",
+    "crumbs": [
+      "Capítulo 3: Experimentos Estatísticos e Testes de Significância",
+      "<span class='chapter-number'>23</span>  <span class='chapter-title'>Visão Geral</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap03/index.html#seções",
+    "href": "content/cap03/index.html#seções",
+    "title": "Experimentos Estatísticos e Testes de Significância",
+    "section": "",
+    "text": "Seção\nTópico\n\n\n\n\n3.1\nTeste A/B\n\n\n3.2\nTestes de Hipótese\n\n\n3.3\nReamostragem\n\n\n3.4\nSignificância Estatística e Valores-p\n\n\n3.5\nTestes t\n\n\n3.6\nTestes Múltiplos\n\n\n3.7\nGraus de Liberdade\n\n\n3.8\nANOVA\n\n\n3.9\nTeste Qui-Quadrado\n\n\n3.10\nAlgoritmo Multi-Armed Bandit\n\n\n3.11\nPoder e Tamanho da Amostra\n\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
+    "crumbs": [
+      "Capítulo 3: Experimentos Estatísticos e Testes de Significância",
+      "<span class='chapter-number'>23</span>  <span class='chapter-title'>Visão Geral</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap03/01-teste-ab.html",
+    "href": "content/cap03/01-teste-ab.html",
+    "title": "Teste A/B",
+    "section": "",
+    "text": "Nota\n\n\n\nEsta seção corresponde à seção 3.1 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
+    "crumbs": [
+      "Capítulo 3: Experimentos Estatísticos e Testes de Significância",
+      "<span class='chapter-number'>24</span>  <span class='chapter-title'>Teste A/B</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap03/02-testes-hipotese.html",
+    "href": "content/cap03/02-testes-hipotese.html",
+    "title": "Testes de Hipótese",
+    "section": "",
+    "text": "Nota\n\n\n\nEsta seção corresponde à seção 3.2 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
+    "crumbs": [
+      "Capítulo 3: Experimentos Estatísticos e Testes de Significância",
+      "<span class='chapter-number'>25</span>  <span class='chapter-title'>Testes de Hipótese</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap03/03-reamostragem.html",
+    "href": "content/cap03/03-reamostragem.html",
+    "title": "Reamostragem",
+    "section": "",
+    "text": "Nota\n\n\n\nEsta seção corresponde à seção 3.3 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
+    "crumbs": [
+      "Capítulo 3: Experimentos Estatísticos e Testes de Significância",
+      "<span class='chapter-number'>26</span>  <span class='chapter-title'>Reamostragem</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap03/04-significancia-valor-p.html",
+    "href": "content/cap03/04-significancia-valor-p.html",
+    "title": "Significância Estatística e Valores-p",
+    "section": "",
+    "text": "Nota\n\n\n\nEsta seção corresponde à seção 3.4 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
+    "crumbs": [
+      "Capítulo 3: Experimentos Estatísticos e Testes de Significância",
+      "<span class='chapter-number'>27</span>  <span class='chapter-title'>Significância e Valores-p</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap03/05-testes-t.html",
+    "href": "content/cap03/05-testes-t.html",
+    "title": "Testes t",
+    "section": "",
+    "text": "Nota\n\n\n\nEsta seção corresponde à seção 3.5 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
+    "crumbs": [
+      "Capítulo 3: Experimentos Estatísticos e Testes de Significância",
+      "<span class='chapter-number'>28</span>  <span class='chapter-title'>Testes t</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap03/06-testes-multiplos.html",
+    "href": "content/cap03/06-testes-multiplos.html",
+    "title": "Testes Múltiplos",
+    "section": "",
+    "text": "Nota\n\n\n\nEsta seção corresponde à seção 3.6 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
+    "crumbs": [
+      "Capítulo 3: Experimentos Estatísticos e Testes de Significância",
+      "<span class='chapter-number'>29</span>  <span class='chapter-title'>Testes Múltiplos</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap03/07-graus-liberdade.html",
+    "href": "content/cap03/07-graus-liberdade.html",
+    "title": "Graus de Liberdade",
+    "section": "",
+    "text": "Nota\n\n\n\nEsta seção corresponde à seção 3.7 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
+    "crumbs": [
+      "Capítulo 3: Experimentos Estatísticos e Testes de Significância",
+      "<span class='chapter-number'>30</span>  <span class='chapter-title'>Graus de Liberdade</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap03/08-anova.html",
+    "href": "content/cap03/08-anova.html",
+    "title": "ANOVA",
+    "section": "",
+    "text": "Nota\n\n\n\nEsta seção corresponde à seção 3.8 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
+    "crumbs": [
+      "Capítulo 3: Experimentos Estatísticos e Testes de Significância",
+      "<span class='chapter-number'>31</span>  <span class='chapter-title'>ANOVA</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap03/09-teste-qui-quadrado.html",
+    "href": "content/cap03/09-teste-qui-quadrado.html",
+    "title": "Teste Qui-Quadrado",
+    "section": "",
+    "text": "Nota\n\n\n\nEsta seção corresponde à seção 3.9 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
+    "crumbs": [
+      "Capítulo 3: Experimentos Estatísticos e Testes de Significância",
+      "<span class='chapter-number'>32</span>  <span class='chapter-title'>Teste Qui-Quadrado</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap03/10-multi-armed-bandit.html",
+    "href": "content/cap03/10-multi-armed-bandit.html",
+    "title": "Algoritmo Multi-Armed Bandit",
+    "section": "",
+    "text": "Nota\n\n\n\nEsta seção corresponde à seção 3.10 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
+    "crumbs": [
+      "Capítulo 3: Experimentos Estatísticos e Testes de Significância",
+      "<span class='chapter-number'>33</span>  <span class='chapter-title'>Multi-Armed Bandit</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap03/11-poder-tamanho-amostra.html",
+    "href": "content/cap03/11-poder-tamanho-amostra.html",
+    "title": "Poder e Tamanho da Amostra",
+    "section": "",
+    "text": "Nota\n\n\n\nEsta seção corresponde à seção 3.11 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
+    "crumbs": [
+      "Capítulo 3: Experimentos Estatísticos e Testes de Significância",
+      "<span class='chapter-number'>34</span>  <span class='chapter-title'>Poder e Tamanho da Amostra</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap04/index.html",
+    "href": "content/cap04/index.html",
+    "title": "Regressão e Predição",
+    "section": "",
+    "text": "Seções\nA regressão é onde a estatística encontra a engenharia de software: é o primeiro modelo preditivo, e o alicerce de quase tudo que veio depois. Ela serve a dois propósitos que costumam ser confundidos — explicar uma relação e prever um valor.\nAo final deste capítulo, você será capaz de:",
+    "crumbs": [
+      "Capítulo 4: Regressão e Predição",
+      "<span class='chapter-number'>35</span>  <span class='chapter-title'>Visão Geral</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap04/index.html#seções",
+    "href": "content/cap04/index.html#seções",
+    "title": "Regressão e Predição",
+    "section": "",
+    "text": "Seção\nTópico\n\n\n\n\n4.1\nRegressão Linear Simples\n\n\n4.2\nRegressão Linear Múltipla\n\n\n4.3\nPredição com Regressão\n\n\n4.4\nVariáveis Fatoriais na Regressão\n\n\n4.5\nInterpretando a Equação de Regressão\n\n\n4.6\nDiagnóstico de Regressão\n\n\n4.7\nRegressão Polinomial e Splines\n\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
+    "crumbs": [
+      "Capítulo 4: Regressão e Predição",
+      "<span class='chapter-number'>35</span>  <span class='chapter-title'>Visão Geral</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap04/01-regressao-linear-simples.html",
+    "href": "content/cap04/01-regressao-linear-simples.html",
+    "title": "Regressão Linear Simples",
+    "section": "",
+    "text": "Nota\n\n\n\nEsta seção corresponde à seção 4.1 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
+    "crumbs": [
+      "Capítulo 4: Regressão e Predição",
+      "<span class='chapter-number'>36</span>  <span class='chapter-title'>Regressão Linear Simples</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap04/02-regressao-linear-multipla.html",
+    "href": "content/cap04/02-regressao-linear-multipla.html",
+    "title": "Regressão Linear Múltipla",
+    "section": "",
+    "text": "Nota\n\n\n\nEsta seção corresponde à seção 4.2 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
+    "crumbs": [
+      "Capítulo 4: Regressão e Predição",
+      "<span class='chapter-number'>37</span>  <span class='chapter-title'>Regressão Linear Múltipla</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap04/03-predicao.html",
+    "href": "content/cap04/03-predicao.html",
+    "title": "Predição com Regressão",
+    "section": "",
+    "text": "Nota\n\n\n\nEsta seção corresponde à seção 4.3 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
+    "crumbs": [
+      "Capítulo 4: Regressão e Predição",
+      "<span class='chapter-number'>38</span>  <span class='chapter-title'>Predição com Regressão</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap04/04-variaveis-fatoriais.html",
+    "href": "content/cap04/04-variaveis-fatoriais.html",
+    "title": "Variáveis Fatoriais na Regressão",
+    "section": "",
+    "text": "Nota\n\n\n\nEsta seção corresponde à seção 4.4 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
+    "crumbs": [
+      "Capítulo 4: Regressão e Predição",
+      "<span class='chapter-number'>39</span>  <span class='chapter-title'>Variáveis Fatoriais</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap04/05-interpretando-equacao.html",
+    "href": "content/cap04/05-interpretando-equacao.html",
+    "title": "Interpretando a Equação de Regressão",
+    "section": "",
+    "text": "Nota\n\n\n\nEsta seção corresponde à seção 4.5 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
+    "crumbs": [
+      "Capítulo 4: Regressão e Predição",
+      "<span class='chapter-number'>40</span>  <span class='chapter-title'>Interpretando a Equação</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap04/06-diagnostico-regressao.html",
+    "href": "content/cap04/06-diagnostico-regressao.html",
+    "title": "Diagnóstico de Regressão",
+    "section": "",
+    "text": "Nota\n\n\n\nEsta seção corresponde à seção 4.6 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
+    "crumbs": [
+      "Capítulo 4: Regressão e Predição",
+      "<span class='chapter-number'>41</span>  <span class='chapter-title'>Diagnóstico de Regressão</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap04/07-polinomial-splines.html",
+    "href": "content/cap04/07-polinomial-splines.html",
+    "title": "Regressão Polinomial e Splines",
+    "section": "",
+    "text": "Nota\n\n\n\nEsta seção corresponde à seção 4.7 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
+    "crumbs": [
+      "Capítulo 4: Regressão e Predição",
+      "<span class='chapter-number'>42</span>  <span class='chapter-title'>Polinomial e Splines</span>"
+    ]
+  }
+]

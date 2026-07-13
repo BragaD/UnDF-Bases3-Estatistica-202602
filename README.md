@@ -51,6 +51,16 @@ Alternativa sem instalar nada: abra o repositório no **GitHub Codespaces** ou n
 
 Todo arquivo novo em `content/` precisa ser registrado em `_quarto.yml` para aparecer no livro.
 
+## Publicação
+
+O CI (`.github/workflows/quarto-render.yml`) constrói a imagem, renderiza o livro e publica em `gh-pages` a cada push na `main` — mas há passos manuais, feitos **uma única vez** no GitHub, que nenhum job automatiza:
+
+1. Criar o repositório `BragaD/UnDF-Bases3-Estatistica-202602` e dar push na `main`.
+2. Em **Settings → Actions → General → Workflow permissions**, selecionar "Read and write permissions" (necessário para o job `publish` dar push em `gh-pages`).
+3. Depois que o primeiro workflow rodar com sucesso (e a branch `gh-pages` existir), ir em **Settings → Pages → Source** e escolher "Deploy from a branch" → branch `gh-pages`, pasta `/ (root)`.
+
+Até o passo 3 ser feito, a URL do site acima retorna 404, mesmo com o workflow passando.
+
 ## Dados
 
 Os conjuntos em `dados/` vêm do [repositório oficial do livro](https://github.com/gedeck/practical-statistics-for-data-scientists), com os nomes originais preservados. Veja `dados/README.md`.

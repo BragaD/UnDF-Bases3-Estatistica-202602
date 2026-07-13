@@ -25,6 +25,12 @@ book:
   chapters:
     - text: "Início"
       href: index.qmd
+    - part: "Capítulo 1: Análise Exploratória de Dados"
+      chapters:
+        - href: content/cap01/index.qmd
+          text: "Visão Geral"
+        - href: content/cap01/03-estimativas-localizacao.qmd
+          text: "Estimativas de Localização"
 
 page-navigation: true
 

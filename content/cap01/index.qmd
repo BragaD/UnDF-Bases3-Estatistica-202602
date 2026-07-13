@@ -1,0 +1,30 @@
+# Análise Exploratória de Dados
+
+::: {.callout-note}
+Este capítulo é baseado no Capítulo 1 de @bruce2020.
+:::
+
+A estatística clássica nasceu preocupada com inferência: tirar conclusões sobre uma população grande a partir de uma amostra pequena. A análise exploratória de dados, proposta por John Tukey em 1962, inverte a ênfase — antes de testar qualquer hipótese, **olhe para os dados**.
+
+Ao final deste capítulo, você será capaz de:
+
+- Distinguir os tipos de dados estruturados e por que essa distinção importa para o software
+- Resumir uma variável por estimativas de localização, sabendo quando a média engana e a mediana não
+- Medir a dispersão dos dados e reconhecer a diferença entre desvio-padrão e desvio absoluto mediano
+- Explorar a distribuição de uma variável com percentis, boxplots, histogramas e densidade
+- Tratar dados binários e categóricos
+- Medir e visualizar a correlação entre variáveis, e reconhecer suas armadilhas
+- Explorar relações entre duas ou mais variáveis, numéricas e categóricas
+
+## Seções
+
+| Seção | Tópico |
+|---|---|
+| [1.1](01-dados-estruturados.qmd) | Elementos de Dados Estruturados |
+| [1.2](02-dados-retangulares.qmd) | Dados Retangulares |
+| [1.3](03-estimativas-localizacao.qmd) | Estimativas de Localização |
+| [1.4](04-estimativas-variabilidade.qmd) | Estimativas de Variabilidade |
+| [1.5](05-distribuicao-dados.qmd) | Explorando a Distribuição dos Dados |
+| [1.6](06-dados-binarios-categoricos.qmd) | Explorando Dados Binários e Categóricos |
+| [1.7](07-correlacao.qmd) | Correlação |
+| [1.8](08-duas-ou-mais-variaveis.qmd) | Explorando Duas ou Mais Variáveis |

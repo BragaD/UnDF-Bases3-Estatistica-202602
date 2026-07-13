@@ -1,0 +1,130 @@
+# Estimativas de Localização
+
+::: {.callout-note}
+Esta seção corresponde à seção 1.3 de @bruce2020.
+:::
+
+```{python}
+#| label: setup
+#| include: false
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.stats import trim_mean
+import wquantiles
+
+plt.rcParams["figure.figsize"] = (7, 4)
+```
+
+Uma variável com centenas ou milhares de valores é impossível de compreender olhando linha a linha. O primeiro passo da exploração é resumi-la por um **valor típico**: uma estimativa de onde a maior parte dos dados está.
+
+Isso parece trivial — "é só tirar a média" — e é exatamente por parecer trivial que dá errado tantas vezes.
+
+## Os dados
+
+Vamos usar população e taxa de homicídios (por 100.000 habitantes) dos 50 estados norte-americanos.
+
+```{python}
+#| label: carrega
+estado = pd.read_csv("dados/state.csv")
+estado.head()
+```
+
+::: {.conceito}
+Note o caminho: `dados/state.csv`, e não `../../dados/state.csv`. O `_quarto.yml` define `execute-dir: project`, então o diretório de trabalho de todo chunk é a raiz do projeto, independentemente de onde o arquivo `.qmd` esteja.
+:::
+
+## Média
+
+A **média** é a soma dos valores dividida pelo número de observações:
+
+$$\bar{x} = \frac{\sum_{i=1}^{n} x_i}{n}$$
+
+```{python}
+#| label: media
+media = estado["Population"].mean()
+print(f"Média: {media:,.1f}")
+```
+
+A média é sensível a valores extremos. A população da Califórnia (~37 milhões) e a do Wyoming (~564 mil) diferem por um fator de 66 — e a Califórnia puxa a média para cima sozinha.
+
+## Média aparada
+
+A **média aparada** descarta uma proporção fixa dos maiores e menores valores antes de calcular a média, o que a torna robusta a extremos:
+
+$$\bar{x}_{\text{aparada}} = \frac{\sum_{i=p+1}^{n-p} x_{(i)}}{n - 2p}$$
+
+```{python}
+#| label: media-aparada
+media_aparada = trim_mean(estado["Population"], 0.1)
+print(f"Média aparada (10%): {media_aparada:,.1f}")
+```
+
+Aparar 10% de cada ponta remove os 5 estados mais populosos e os 5 menos populosos.
+
+## Mediana
+
+A **mediana** é o valor central dos dados ordenados. Ela depende apenas das observações do meio, então um valor extremo pode ser arbitrariamente grande sem movê-la.
+
+```{python}
+#| label: mediana
+mediana = estado["Population"].median()
+print(f"Mediana: {mediana:,.1f}")
+```
+
+::: {.exemplo}
+A mediana é `{python} f"{mediana:,.0f}"` e a média é `{python} f"{media:,.0f}"` — a média é cerca de 39% maior. Essa diferença é a assinatura de uma distribuição assimétrica à direita, e é a razão pela qual reportar renda mediana e não renda média é a prática padrão.
+:::
+
+## Estimativas ponderadas
+
+Nem toda observação merece o mesmo peso. Para a taxa de homicídios, tratar cada estado igualmente daria ao Wyoming a mesma influência que à Califórnia — mas eles representam números muito diferentes de pessoas.
+
+A **média ponderada** corrige isso:
+
+$$\bar{x}_w = \frac{\sum_{i=1}^{n} w_i x_i}{\sum_{i=1}^{n} w_i}$$
+
+```{python}
+#| label: ponderadas
+media_pond = np.average(estado["Murder.Rate"], weights=estado["Population"])
+mediana_pond = wquantiles.median(estado["Murder.Rate"], weights=estado["Population"])
+
+print(f"Média simples     : {estado['Murder.Rate'].mean():.4f}")
+print(f"Média ponderada   : {media_pond:.4f}")
+print(f"Mediana ponderada : {mediana_pond:.4f}")
+```
+
+A média ponderada é a taxa de homicídios que uma pessoa média dos EUA enfrenta; a média simples é a taxa de um estado médio. São perguntas diferentes, com respostas diferentes.
+
+## Comparando as estimativas
+
+```{python}
+#| label: fig-localizacao
+#| fig-cap: "As três estimativas de localização sobre a distribuição de população dos estados."
+fig, ax = plt.subplots()
+
+ax.hist(estado["Population"] / 1e6, bins=20, color="#b0c4d8", edgecolor="white")
+ax.axvline(media / 1e6, color="#c0392b", linestyle="-", linewidth=2, label=f"Média: {media/1e6:.1f}M")
+ax.axvline(media_aparada / 1e6, color="#e67e22", linestyle="--", linewidth=2, label=f"Média aparada: {media_aparada/1e6:.1f}M")
+ax.axvline(mediana / 1e6, color="#27ae60", linestyle=":", linewidth=2.5, label=f"Mediana: {mediana/1e6:.1f}M")
+
+ax.set_xlabel("População (milhões)")
+ax.set_ylabel("Número de estados")
+ax.legend()
+plt.tight_layout()
+plt.show()
+```
+
+A média está à direita das outras duas, arrastada pela cauda de estados muito populosos. A média aparada e a mediana quase coincidem — é isso que "robusto a extremos" significa na prática.
+
+## Resumo
+
+| Estimativa | Valor | Robusta a extremos? |
+|---|---|---|
+| Média | `{python} f"{media:,.0f}"` | Não |
+| Média aparada (10%) | `{python} f"{media_aparada:,.0f}"` | Sim |
+| Mediana | `{python} f"{mediana:,.0f}"` | Sim |
+
+::: {.conceito}
+**Regra prática:** a média é o padrão, mas é frágil. Quando os dados têm cauda longa ou outliers plausíveis — renda, população, tempo de resposta de um servidor — a mediana ou a média aparada descrevem melhor o caso típico.
+:::

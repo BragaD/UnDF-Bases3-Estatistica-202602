@@ -56,7 +56,7 @@ print(estado["Abbreviation"].dtype)
 print("categorias:", len(estado["Abbreviation"].cat.categories))
 ```
 
-Agora `Abbreviation` é uma coluna `category`, com um conjunto fechado de 50 valores possíveis — um por estado. Internamente, o pandas passou a guardar um código inteiro por linha e mapear esse código para a string, em vez de repetir a string inteira 50 vezes. A informação semântica ("isto é uma categoria, não texto livre") e o ganho de memória vêm juntos.
+Agora `Abbreviation` é uma coluna `category`, com um conjunto fechado de 50 valores possíveis — um por estado. Aqui o ganho é **semântico**, não de memória: as 50 siglas são todas distintas, não há string repetida para deduplicar, e o overhead de guardar um código inteiro por linha *além* do mapa código→string na verdade custa um pouco mais (medido: 2.682 bytes como `str` contra 2.732 como `category`). A economia de memória do `category` aparece quando poucos valores distintos se repetem em muitas linhas — uma coluna de 10.000 linhas com só 4 categorias, por exemplo, cai de ~535 KB como `str` para ~10 KB como `category`, porque aí sim há repetição para deduplicar. Com `Abbreviation`, o que se ganha é outra coisa: declarar que a coluna é categórica, não texto livre.
 
 ## O caso ordinal: quando a ordem é dado, não convenção
 

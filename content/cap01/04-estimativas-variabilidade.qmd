@@ -14,7 +14,7 @@ from statsmodels import robust
 from formato import num
 
 plt.rcParams["figure.figsize"] = (7, 4)
-estado = pd.read_csv("dados/state.csv")
+estado = pd.read_csv("dados/estados.csv")
 ```
 
 A seção 1.3 resumiu a população dos estados por um valor típico — média, média aparada, mediana — e viu a média se deslocar para longe das outras duas, puxada pela cauda de estados muito populosos. Localização é só metade da história. A outra metade responde a uma pergunta diferente: quão espalhados os dados estão em torno desse valor típico? Essa é a **variabilidade**, ou dispersão.
@@ -35,11 +35,11 @@ $$s = \sqrt{\frac{\sum_{i=1}^{n}(x_i - \bar{x})^2}{n-1}}$$
 
 ```{python}
 #| label: desvio-padrao
-desvio = estado["Population"].std()
+desvio = estado["Populacao"].std()
 print(f"Desvio-padrão: {num(desvio)}")
 ```
 
-Tirar a raiz quadrada devolve o desvio-padrão à unidade original dos dados (pessoas, no caso), enquanto a variância fica em pessoas ao quadrado — uma unidade sem interpretação direta. Isso, somado à conveniência matemática de trabalhar com quadrados, é o motivo do desvio-padrão ser a medida de dispersão mais citada. Não é porque seja a mais robusta: é o contrário. Elevar ao quadrado amplifica desvios grandes muito mais do que pequenos, então o desvio-padrão é **ainda mais sensível a extremos que a própria média** — e a média já não era robusta.
+Tirar a raiz quadrada devolve o desvio-padrão à unidade original dos dados (habitantes, no caso), enquanto a variância fica em habitantes ao quadrado — uma unidade sem interpretação direta. Isso, somado à conveniência matemática de trabalhar com quadrados, é o motivo do desvio-padrão ser a medida de dispersão mais citada. Não é porque seja a mais robusta: é o contrário. Elevar ao quadrado amplifica desvios grandes muito mais do que pequenos, então o desvio-padrão é **ainda mais sensível a extremos que a própria média** — e a média já não era robusta.
 
 ## Estimativas robustas: IQR e MAD
 
@@ -49,7 +49,7 @@ A **amplitude interquartil** (IQR) é a diferença entre o 75º e o 25º percent
 
 ```{python}
 #| label: iqr
-iqr = estado["Population"].quantile(0.75) - estado["Population"].quantile(0.25)
+iqr = estado["Populacao"].quantile(0.75) - estado["Populacao"].quantile(0.25)
 print(f"IQR: {num(iqr)}")
 ```
 
@@ -59,11 +59,11 @@ $$\text{MAD} = \frac{\text{mediana}\big(|x_i - \text{mediana}(x)|\big)}{0{,}6745
 
 ```{python}
 #| label: mad
-mad = robust.scale.mad(estado["Population"])
+mad = robust.scale.mad(estado["Populacao"])
 print(f"MAD: {num(mad)}")
 
 # O mesmo cálculo, explicitamente — para mostrar de onde vem o 0,6745
-mad_manual = abs(estado["Population"] - estado["Population"].median()).median() / 0.6744897501960817
+mad_manual = abs(estado["Populacao"] - estado["Populacao"].median()).median() / 0.6744897501960817
 print(f"MAD (manual): {num(mad_manual)}")
 ```
 
@@ -72,10 +72,10 @@ Os dois cálculos batem exatamente: a função `robust.scale.mad` da `statsmodel
 ```{python}
 #| label: fig-variabilidade
 #| fig-cap: "As três medidas de dispersão sobre a distribuição de população dos estados."
-mediana = estado["Population"].median()
+mediana = estado["Populacao"].median()
 fig, ax = plt.subplots()
 
-ax.hist(estado["Population"] / 1e6, bins=20, color="#b0c4d8", edgecolor="white")
+ax.hist(estado["Populacao"] / 1e6, bins=20, color="#b0c4d8", edgecolor="white")
 ax.axvline(mediana / 1e6, color="#2c3e50", linewidth=2, label=f"Mediana: {num(mediana/1e6, 1)}M")
 
 for medida, valor, cor, estilo in [
@@ -94,7 +94,7 @@ plt.show()
 ```
 
 ::: {.conceito}
-O desvio-padrão (6,8M) é quase o dobro do MAD (3,8M). Essa distância entre uma medida sensível a extremos e uma medida robusta é o mesmo sinal que a diferença entre média e mediana já tinha dado na seção 1.3: a distribuição de população dos estados tem **cauda longa à direita**. Quando as duas famílias de estimativas — a sensível e a robusta — discordam tanto, é a cauda longa falando, não um capricho do cálculo.
+O desvio-padrão (9,26M) é quase o dobro do MAD (4,75M) — a razão entre os dois é 1,95, ainda mais próxima do dobro do que costuma aparecer. Essa distância entre uma medida sensível a extremos e uma medida robusta é o mesmo sinal que a diferença entre média e mediana já tinha dado na seção 1.3: a distribuição de população dos estados tem **cauda longa à direita**. Quanto mais as duas famílias de estimativas — a sensível e a robusta — discordam, mais forte é o sinal de cauda longa, não um capricho do cálculo.
 :::
 
 ## Resumo
@@ -119,7 +119,7 @@ Se a população de cada estado fosse multiplicada por 1.000, o desvio-padrão e
 Porque ela é sempre exatamente zero — é uma propriedade algébrica da média, não um fato sobre os dados. Os desvios positivos cancelam os negativos por construção. Daí a necessidade de eliminar o sinal, elevando ao quadrado (variância, desvio-padrão) ou tomando o módulo (desvio absoluto médio, MAD).
 :::
 
-**2.** O desvio-padrão da população dos estados é 6,85M e o MAD é 3,85M — quase o dobro. O que essa razão diz sobre os dados?
+**2.** O desvio-padrão da população dos estados é 9,26M e o MAD é 4,75M — quase o dobro. O que essa razão diz sobre os dados?
 
 ::: {.callout-tip collapse="true"}
 ## Resposta

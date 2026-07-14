@@ -155,12 +155,26 @@ function mediaAparada(x, prop) {
 
 ```{ojs}
 //| echo: false
+// Sem `format` customizado, de propósito: o Inputs.range renderiza uma caixa
+// <input type="number"> ao lado do slider, e ela rejeita qualquer string não
+// numérica — um format que devolvesse "37,3 M" deixaria a caixa VAZIA. Sem ele,
+// a caixa mostra o valor, acompanha o slider e aceita digitação.
+//
+// O slider está em habitantes, não em milhões, para que o valor inicial seja
+// exatamente 37.253.956 — a população real da Califórnia. Em milhões, o
+// Observable arredondaria o valor inicial para o step, e a média do widget
+// deixaria de bater com a que o chunk Python imprime acima nesta mesma página.
 viewof pop_ca = Inputs.range([1_000_000, 300_000_000], {
   step: 1,
   value: 37253956,
-  label: "População da Califórnia:",
-  format: x => (x / 1e6).toLocaleString("pt-BR", {minimumFractionDigits: 1, maximumFractionDigits: 1}) + " M"
+  label: "População da Califórnia (habitantes):"
 })
+```
+
+```{ojs}
+//| echo: false
+md`Califórnia: **${fmt(pop_ca)}** habitantes — ${fmt(pop_ca / 1e6)} milhões.
+${pop_ca === 37253956 ? "É o valor real." : "O valor real é 37.253.956."}`
 ```
 
 ```{ojs}
@@ -214,11 +228,12 @@ Nos extremos, a média aparada deixa de ser uma terceira estimativa e vira uma d
 
 ```{ojs}
 //| echo: false
+// O "%" vai no rótulo, não num `format` — a caixa <input type="number"> ao lado
+// do slider rejeitaria "10%" e ficaria vazia.
 viewof aparo = Inputs.range([0, 50], {
   step: 1,
   value: 10,
-  label: "Aparo em cada ponta:",
-  format: x => x + "%"
+  label: "Aparo em cada ponta (%):"
 })
 ```
 

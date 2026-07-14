@@ -48,6 +48,24 @@ def main():
             if n < 2:
                 falhas.append(f"esperava 2 sliders, achei {n}")
 
+            # 1b. As caixas numéricas ao lado dos sliders estão preenchidas?
+            #
+            # O Inputs.range renderiza um <input type="number"> ao lado do slider.
+            # Ele REJEITA qualquer string não numérica: um `format` customizado que
+            # devolva "37,3 M" ou "10%" deixa a caixa VAZIA — silenciosamente, sem
+            # erro de render. Foi o que aconteceu na primeira versão destes widgets.
+            caixas = page.locator('input[type="number"]')
+            valores_caixas = [caixas.nth(i).input_value() for i in range(caixas.count())]
+            print(f"caixas numéricas: {valores_caixas}")
+            if caixas.count() < 2:
+                falhas.append(f"esperava 2 caixas numéricas, achei {caixas.count()}")
+            for i, v in enumerate(valores_caixas):
+                if not v:
+                    falhas.append(
+                        f"a caixa numérica {i} está VAZIA — provavelmente um `format` "
+                        f"customizado no Inputs.range devolvendo string não numérica"
+                    )
+
             # 2. Carga inicial: os números do widget batem com os do chunk Python?
             inicial = numeros_da_tabela(page)
             print(f"widget A na carga inicial: {inicial}")
@@ -69,6 +87,13 @@ def main():
                 falhas.append(f"a mediana MUDOU para {depois[2]} — deveria ser robusta ao outlier")
             if len(depois) >= 1 and depois[0] == MEDIA_REAL:
                 falhas.append("a média NÃO mudou — deveria perseguir o outlier")
+
+            # 3b. A caixa numérica acompanhou o arrasto do slider?
+            caixa_a = caixas.nth(0).input_value()
+            print(f"caixa do slider A após arrastar: {caixa_a!r}")
+            if caixa_a != "300000000":
+                falhas.append(f"a caixa do slider A mostra {caixa_a!r}, esperava '300000000' "
+                              f"— ela não está acompanhando o slider")
 
             # 4. Slider B em 50%: a média aparada tem que pousar na mediana.
             sliders.nth(1).fill("50")

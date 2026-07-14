@@ -13,7 +13,8 @@
 ## Global Constraints
 
 - **O arquivo a modificar é um só:** `content/cap01/03-estimativas-localizacao.qmd`. Ele é a seção-modelo do livro inteiro e já passou por revisão — **não reescreva o que já está lá**. Os widgets entram **depois** da seção `## Resumo` e **antes** de `## Exercícios`.
-- **Os números do chunk Python são intocáveis**, e a página os imprime nesta grafia exata (vírgula de milhar, ponto decimal — é o `f"{x:,.1f}"` do Python): `6,162,876.3` · `4,783,697.1` · `4,436,369.5`. Nenhuma alteração pode mudá-los, e **o widget deve exibi-los na mesma grafia** — do contrário o mesmo número apareceria de dois jeitos na mesma página.
+- **Os VALORES do chunk Python são intocáveis; a GRAFIA muda na Task 2.** Depois dela, o livro imprime em formato brasileiro: `6.162.876,3` · `4.783.697,1` · `4.436.369,5`. Nenhuma alteração pode mudar os dígitos, e **o widget deve exibi-los na mesma grafia dos chunks** — do contrário o mesmo número apareceria de dois jeitos na mesma página.
+- **Formato brasileiro em todo número impresso** (a partir da Task 2): use `from formato import num` nos chunks Python e `toLocaleString("pt-BR", ...)` no OJS.
 - **O código OJS fica oculto:** toda célula `{ojs}` leva `//| echo: false`. É JavaScript num livro que ensina Python — exibi-lo sugeriria que o aluno precisa aprendê-lo.
 - **Fonte única de dados:** os widgets leem o DataFrame `estado` via `ojs_define`. Proibido recarregar o CSV ou embutir os 50 valores como literal.
 - **Render sempre via container:** `make render`. Não há Quarto/Python confiáveis no host.
@@ -176,7 +177,7 @@ e a contagem de `ojs-cell` ≥ 5.
 
 Run:
 ```bash
-grep -oE 'Média: 6,162,876\.3|Média aparada \(10%\): 4,783,697\.1|Mediana: 4,436,369\.5' _book/content/cap01/03-estimativas-localizacao.html | sort -u
+grep -oE 'Média: 6\.162\.876,3|Média aparada \(10%\): 4\.783\.697,1|Mediana: 4\.436\.369,5' _book/content/cap01/03-estimativas-localizacao.html | sort -u
 ```
 Expected: os três números, intactos.
 
@@ -189,7 +190,133 @@ git commit -m "feat: widget interativo do outlier na secao 1.3"
 
 ---
 
-## Task 2: Widget B — o aparo
+## Task 2: Formatação brasileira dos números (livro inteiro)
+
+**Decisão do autor (2026-07-14):** os números do livro saem em **formato brasileiro** — `6.162.876,3`, não `6,162,876.3`. É um livro em português; o formato americano era só o padrão do `f"{x:,.1f}"` do Python, nunca uma escolha.
+
+Esta task vem ANTES do Widget B de propósito: assim o widget B já nasce em português, em vez de nascer em inglês para ser reescrito depois.
+
+**Files:**
+- Create: `formato.py` (raiz do projeto)
+- Modify: `content/cap01/03-estimativas-localizacao.qmd` (5 usos + o `fmt` do OJS)
+- Modify: `content/cap01/04-estimativas-variabilidade.qmd` (7 usos)
+- Modify: `content/cap01/06-dados-binarios-categoricos.qmd` (7 usos)
+- Modify: `content/cap01/08-duas-ou-mais-variaveis.qmd` (3 usos)
+
+**Interfaces:**
+- Produces: a função `num(x, casas=1)`, importada por todo chunk que imprime número; e o `fmt` do OJS, que passa a espelhá-la. A Task 3 (Widget B) consome ambos.
+
+- [ ] **Step 1: Criar `formato.py` na raiz do projeto**
+
+Verificado neste projeto: com `execute-dir: project`, a raiz é o cwd dos chunks e `from formato import num` importa sem nenhum ajuste de `sys.path`.
+
+```python
+"""Formatação numérica no padrão brasileiro.
+
+O `f"{x:,.1f}"` do Python usa o padrão americano (vírgula de milhar, ponto
+decimal). Este livro é em português, então os números saem invertidos:
+6.162.876,3 e não 6,162,876.3.
+"""
+
+
+def num(x, casas=1):
+    """Formata um número no padrão brasileiro.
+
+    >>> num(6162876.3)
+    '6.162.876,3'
+    >>> num(6162876.3, 0)
+    '6.162.876'
+    >>> num(4.4458, 4)
+    '4,4458'
+    """
+    s = f"{x:,.{casas}f}"
+    # troca os separadores usando um marcador intermediário, para não
+    # sobrescrever o que acabou de ser trocado
+    return s.replace(",", "\x00").replace(".", ",").replace("\x00", ".")
+```
+
+Verifique: `docker compose run --rm --no-deps livro python -c "from formato import num; print(num(6162876.3), num(6162876.3, 0), num(4.4458, 4))"`
+Expected: `6.162.876,3 6.162.876 4,4458`
+
+- [ ] **Step 2: Converter os 25 usos nos 4 arquivos**
+
+Em cada arquivo, acrescente `from formato import num` ao chunk `setup` (que já tem `#| include: false`), e troque toda formatação americana pelo helper.
+
+O padrão da troca:
+
+| Antes | Depois |
+|---|---|
+| `print(f"Média: {media:,.1f}")` | `print(f"Média: {num(media)}")` |
+| `` `{python} f"{media:,.0f}"` `` | `` `{python} num(media, 0)` `` |
+| `print(f"registros brutos: {len(kc):,}")` | `print(f"registros brutos: {num(len(kc), 0)}")` |
+
+**Não toque** em: as tabelas exibidas pelo pandas (`estado.head()`, matriz de correlação, crosstab) — são saídas de dados brutos, não estatísticas calculadas, e o pandas as formata sozinho; e os eixos dos gráficos matplotlib.
+
+Os arquivos e a contagem de usos: `03-estimativas-localizacao.qmd` (5), `04-estimativas-variabilidade.qmd` (7), `06-dados-binarios-categoricos.qmd` (7), `08-duas-ou-mais-variaveis.qmd` (3).
+
+- [ ] **Step 3: Alinhar o `fmt` do OJS ao mesmo padrão**
+
+No `content/cap01/03-estimativas-localizacao.qmd`, o widget A hoje formata em inglês. Troque:
+
+```javascript
+fmt = x => x.toLocaleString("en-US", {minimumFractionDigits: 1, maximumFractionDigits: 1})
+```
+
+por:
+
+```javascript
+// Espelha o num() do formato.py, usado nos chunks Python desta mesma página.
+// Se divergirem, o mesmo número apareceria de dois jeitos na mesma tela.
+fmt = x => x.toLocaleString("pt-BR", {minimumFractionDigits: 1, maximumFractionDigits: 1})
+```
+
+E o comentário acima dele, que hoje justifica o inglês, passa a justificar o português. O `format` do slider (`(x / 1e6).toFixed(1) + " M"`) também vira `pt-BR`:
+
+```javascript
+format: x => (x / 1e6).toLocaleString("pt-BR", {minimumFractionDigits: 1, maximumFractionDigits: 1}) + " M"
+```
+
+- [ ] **Step 4: Renderizar e conferir os números na nova grafia**
+
+Run:
+```bash
+make render
+H1=_book/content/cap01/03-estimativas-localizacao.html
+H4=_book/content/cap01/04-estimativas-variabilidade.html
+grep -oE 'Média: 6\.162\.876,3|Média aparada \(10%\): 4\.783\.697,1|Mediana: 4\.436\.369,5' "$H1" | sort -u
+grep -oE 'Desvio-padrão: 6\.848\.235,3|IQR: 4\.847\.308,0|MAD: 3\.849\.876,1' "$H4" | sort -u
+```
+Expected — os MESMOS valores de antes, na grafia brasileira:
+```
+Média: 6.162.876,3
+Média aparada (10%): 4.783.697,1
+Mediana: 4.436.369,5
+Desvio-padrão: 6.848.235,3
+IQR: 4.847.308,0
+MAD: 3.849.876,1
+```
+
+O valor **numérico** não pode mudar — só a grafia. Se algum dígito mudar, a conversão quebrou o cálculo.
+
+- [ ] **Step 5: Conferir que não restou nenhum número em formato americano**
+
+Run:
+```bash
+grep -rn ':,\.[0-9]f\|:,}\|:,\.0f\|:,\.1f' content/cap01/*.qmd && echo "AINDA HÁ FORMATO AMERICANO" || echo "conversão completa"
+grep -rc 'en-US' content/cap01/*.qmd | grep -v ':0' && echo "AINDA HÁ en-US no OJS" || echo "OJS em pt-BR"
+```
+Expected: `conversão completa` e `OJS em pt-BR`.
+
+- [ ] **Step 6: Commit**
+
+```bash
+git add formato.py content/cap01/
+git commit -m "feat: numeros do livro em formato brasileiro"
+```
+
+---
+
+## Task 3: Widget B — o aparo
 
 **Files:**
 - Modify: `content/cap01/03-estimativas-localizacao.qmd`
@@ -275,7 +402,7 @@ make render
 H=_book/content/cap01/03-estimativas-localizacao.html
 grep -c 'ojs-cell' "$H"
 grep -c 'callout-tip' "$H"
-grep -oE 'Média: 6,162,876\.3|Mediana: 4,436,369\.5' "$H" | sort -u
+grep -oE 'Média: 6\.162\.876,3|Mediana: 4\.436\.369,5' "$H" | sort -u
 ```
 Expected: `ojs-cell` ≥ 9; `callout-tip` = 3 (os exercícios seguem intactos); os dois números do Python inalterados.
 
@@ -288,7 +415,7 @@ git commit -m "feat: widget interativo do aparo na secao 1.3"
 
 ---
 
-## Task 3: Verificação no navegador e documentação
+## Task 4: Verificação no navegador e documentação
 
 Esta é a task que dá valor às duas anteriores. Uma célula `{ojs}` quebrada **renderiza sem erro** e simplesmente não aparece na página, ou aparece e não responde. Os `grep` das tasks 1 e 2 provam que o código chegou ao HTML — não provam que ele **funciona**. Só um navegador de verdade prova.
 
@@ -321,8 +448,8 @@ URL = "http://localhost:8000/content/cap01/03-estimativas-localizacao.html"
 
 # Os mesmos números que o chunk Python imprime na página. Se o widget mostrar
 # outra coisa na carga inicial, ele não está lendo os dados do livro.
-MEDIA_REAL = "6,162,876.3"
-MEDIANA_REAL = "4,436,369.5"
+MEDIA_REAL = "6.162.876,3"
+MEDIANA_REAL = "4.436.369,5"
 
 
 def numeros_da_tabela(page):
@@ -422,9 +549,9 @@ docker run --rm \
 Expected (o primeiro `docker run` baixa a imagem e demora):
 ```
 sliders encontrados: 2
-widget A na carga inicial: ['6,162,876.3', '4,783,697.1', '4,436,369.5']
-widget A com CA em 300 M : ['11,416,756.4', '4,783,697.1', '4,436,369.5']
-widget B com aparo 50%: média aparada pousou em 4,436,369.5
+widget A na carga inicial: ['6.162.876,3', '4.783.697,1', '4.436.369,5']
+widget A com CA em 300 M : ['11.416.756,4', '4.783.697,1', '4.436.369,5']
+widget B com aparo 50%: média aparada pousou em 4.436.369,5
 
 OK — os dois widgets carregam, são reativos e batem com os números do livro
 ```
@@ -495,7 +622,7 @@ Expected: nenhum vestígio de Pyodide/Shinylive.
 - [ ] **Os números do chunk Python sobreviveram**
 
 ```bash
-grep -oE 'Média: 6,162,876\.3|Média aparada \(10%\): 4,783,697\.1|Mediana: 4,436,369\.5' \
+grep -oE 'Média: 6\.162\.876,3|Média aparada \(10%\): 4\.783\.697,1|Mediana: 4\.436\.369,5' \
   _book/content/cap01/03-estimativas-localizacao.html | sort -u
 ```
 Expected: os três.

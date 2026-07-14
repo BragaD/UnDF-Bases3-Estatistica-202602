@@ -8,7 +8,9 @@ Esta seção corresponde à seção 1.5 de @bruce2020.
 #| label: setup
 #| include: false
 import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
+from scipy import stats
 from formato import num
 
 plt.rcParams["figure.figsize"] = (7, 4)
@@ -94,6 +96,112 @@ plt.show()
 O `density=True` no histograma é o que torna as duas curvas comparáveis nesse gráfico. Sem ele, o eixo Y do histograma seria **contagem** (quantos estados em cada faixa) e o da densidade seria **densidade de probabilidade** (área total igual a 1) — duas escalas diferentes convivendo no mesmo eixo. Nesse caso, a curva de densidade apareceria colada em zero, achatada pela contagem muito maior das barras.
 :::
 
+## Assimetria
+
+As seções 1.3 e 1.4 reduziram a população dos estados a dois números: um valor típico e uma medida de quanto os dados se espalham em torno dele. Considere agora três turmas fictícias de 25 alunos, com boletins **idênticos**: média 65, desvio-padrão 12. Se essas duas estatísticas fossem tudo que existisse para descrever uma turma, seria razoável supor que as três se parecem. Elas não se parecem: uma tem a maioria das notas abaixo da média com um rastro de notas altas puxando para cima; outra é o espelho exato dessa primeira; a terceira não tem rastro para nenhum lado. Média e variância dizem **onde** os dados estão centrados e **quão espalhados** eles estão — nenhuma das duas diz uma palavra sobre a **forma**.
+
+```{python}
+#| label: turmas
+N, MEDIA, DESVIO = 25, 65.0, 12.0
+
+def padroniza(x, media=MEDIA, desvio=DESVIO):
+    """Crava média e desvio exatos, via z-score e reescala.
+
+    A assimetria é invariante a transformação linear — ela sobrevive intacta.
+    É isso que permite três conjuntos com a MESMA média e a MESMA variância,
+    mas formas diferentes.
+    """
+    x = np.asarray(x, float)
+    return (x - x.mean()) / x.std(ddof=1) * desvio + media
+
+# Um gerador por turma: a ordem de consumo do RNG não pode alterar um conjunto
+# em silêncio quando outro mudar.
+turma_a = padroniza(np.random.default_rng(42).lognormal(0, 1.0, N))
+
+# Espelho em torno da média: preserva média e variância, e inverte o SINAL da
+# assimetria — exatamente, não aproximadamente.
+turma_b = 2 * MEDIA - turma_a
+
+# Simétrica POR CONSTRUÇÃO, não por amostragem: 12 desvios, seus 12 espelhos,
+# e o centro. A assimetria é exatamente zero, não "próxima de zero".
+desvios = np.abs(np.random.default_rng(7).normal(0, 1, (N - 1) // 2))
+turma_c = padroniza(np.concatenate([-desvios, [0.0], desvios]))
+
+turmas = {"A — à direita": turma_a, "B — à esquerda": turma_b, "C — simétrica": turma_c}
+
+# As garantias são verificadas, não afirmadas.
+assert np.allclose([t.mean() for t in turmas.values()], MEDIA)
+assert np.allclose([t.var(ddof=1) for t in turmas.values()], DESVIO ** 2)
+assert np.isclose(stats.skew(turma_a, bias=False), -stats.skew(turma_b, bias=False))
+assert np.isclose(stats.skew(turma_c, bias=False), 0, atol=1e-12)
+assert all(t.min() >= 0 and t.max() <= 100 for t in turmas.values())
+```
+
+A turma A vem de uma distribuição lognormal — sabidamente de cauda longa à direita — reescalada por `padroniza()` até ter exatamente a média e o desvio-padrão combinados; a assimetria sobrevive a essa reescala porque é invariante a transformações lineares. A turma B é o espelho exato de A em torno de 65: mesma média, mesma variância, assimetria com o sinal invertido, ponto a ponto. A turma C não vem de sorteio nenhum — é montada aos pares simétricos ao redor do centro e só depois reescalada, então sua assimetria não fica *perto* de zero: ela **é** zero, por construção. Os `assert` no fim do bloco não são um comentário sobre o código: são a verificação de que as três turmas realmente têm a mesma média, a mesma variância, assimetrias exatamente opostas (A e B) ou exatamente nula (C), e nenhuma nota fora de [0, 100]. Se alguma dessas garantias falhasse, o exemplo estaria quebrado, e é melhor o livro recusar a compilar do que publicá-lo assim.
+
+As quatro estatísticas a seguir tornam a diferença impossível de ignorar:
+
+```{python}
+#| label: tabela-assimetria
+resumo = pd.DataFrame(
+    {
+        "Média": [num(t.mean(), 1) for t in turmas.values()],
+        "Mediana": [num(np.median(t), 1) for t in turmas.values()],
+        "Variância": [num(t.var(ddof=1), 1) for t in turmas.values()],
+        "Assimetria": [num(stats.skew(t, bias=False), 2) for t in turmas.values()],
+    },
+    index=list(turmas),
+)
+resumo
+```
+
+A regra emerge sozinha da tabela, sem precisar ser decorada. Assimetria **positiva** → cauda à direita → **média maior que a mediana** (65,0 > 61,1, turma A). Assimetria **negativa** → cauda à esquerda → **média menor que a mediana** (65,0 < 68,9, turma B). Assimetria **zero** → **média igual à mediana** (65,0 = 65,0, turma C).
+
+O motivo é o mesmo que a seção 1.3 já expôs para a média sozinha, agora com um número que o mede: a cauda longa arrasta a média, porque ela soma todos os valores — inclusive os poucos que estão longe do resto —, e não move a mediana, que só enxerga o valor do meio da fila.
+
+::: {.conceito}
+**Regra prática:** assimetria positiva significa cauda à direita e média acima da mediana; assimetria negativa significa cauda à esquerda e média abaixo da mediana; assimetria zero significa média e mediana coincidindo. O sinal da assimetria é o sinal da diferença entre média e mediana.
+:::
+
+O histograma deixa a mesma história visível:
+
+```{python}
+#| label: fig-assimetria
+#| fig-cap: "Três turmas com a mesma média e a mesma variância — e formas completamente diferentes. A linha vermelha é a média; a verde tracejada, a mediana."
+fig, eixos = plt.subplots(1, 3, figsize=(11, 3.3), sharey=True)
+
+for ax, (nome, notas) in zip(eixos, turmas.items()):
+    ax.hist(notas, bins=np.arange(30, 101, 7), color="#b0c4d8", edgecolor="white")
+    ax.axvline(notas.mean(), color="#c0392b", linewidth=2)
+    ax.axvline(np.median(notas), color="#27ae60", linestyle="--", linewidth=2)
+    ax.set_title(nome, fontsize=10)
+    ax.set_xlabel("Nota")
+
+eixos[0].set_ylabel("Alunos")
+plt.tight_layout()
+plt.show()
+```
+
+No painel A, a maioria das notas se aglomera abaixo de 65, com um rastro de notas altas se estendendo para a direita — é esse rastro que empurra a linha vermelha (média) para além da linha verde tracejada (mediana). No painel B a imagem é o espelho: a maioria das notas fica acima de 65, com o rastro agora à esquerda, e a média fica abaixo da mediana. No painel C não há rastro para nenhum dos dois lados, e as duas linhas praticamente se sobrepõem. O `sharey=True` importa: sem ele, cada painel escolheria sua própria escala vertical, e a comparação entre as três formas ficaria distorcida.
+
+A **assimetria** (skewness) mede esse desequilíbrio entre as caudas em um único número:
+
+$$g_1 = \frac{\frac{1}{n}\sum_{i=1}^{n}(x_i - \bar{x})^3}{s^3}$$
+
+O expoente 3 é o que faz a fórmula funcionar: ele **preserva o sinal** do desvio. Um desvio acima da média entra positivo; um desvio abaixo, negativo — e eles se cancelariam, como cancelam na média dos desvios simples (seção 1.4), a menos que uma das caudas seja mais comprida ou mais extrema que a outra. É exatamente esse desequilíbrio residual que sobra depois do cancelamento. Compare com o desvio-padrão: ali o desvio é **elevado ao quadrado**, o quadrado de um número negativo é positivo, o sinal desaparece — e é por isso que o desvio-padrão, por mais que meça dispersão, não diz absolutamente nada sobre para qual lado os dados pendem.
+
+Voltando aos dados reais das 27 unidades federativas:
+
+```{python}
+#| label: assimetria-real
+print(f"População das UFs  : {num(stats.skew(estado['Populacao'], bias=False), 2)}")
+print(f"Taxa de homicídios : {num(stats.skew(estado['Taxa.Homicidios'], bias=False), 2)}")
+```
+
+A população tem assimetria de **2,96** — fortemente à direita. É a mesma razão, vista por outro ângulo, pela qual a seção 1.3 encontrou uma média 90% maior que a mediana: um único estado, São Paulo, está tão distante do resto que arrasta a média para cima sem deslocar a mediana um centímetro. A taxa de homicídios, com **-0,19**, está quase simétrica — média e mediana quase coincidem, e a distância entre elas quase desaparece.
+
+Essa cauda à direita também não é acaso. A seção 1.4 mostrou, ao tentar aumentar o desvio-padrão da taxa de homicídios sem mexer na média, que o piso em zero trava quanto uma variável positiva pode se espalhar para **baixo** — mas não trava nada para **cima**. É essa assimetria estrutural entre o chão e a ausência de teto que empurra população, renda e tantas outras variáveis que só existem como números positivos sempre para o mesmo lado: a direita.
+
 ## Resumo
 
 | Ferramenta | O que mostra |
@@ -131,4 +239,12 @@ Por convenção, o bigode vai até 1,5×IQR além do quartil. Pontos além disso
 ## Resposta
 
 Não — é um retrato fiel dos dados. `pd.cut` cria faixas de **largura** igual, e a distribuição de população dos estados é assimétrica. Se o objetivo fosse faixas de **contagem** igual, a ferramenta certa seria `pd.qcut` (que corta por quantis, não por largura). São perguntas diferentes: uma mostra a forma da distribuição, a outra a divide em grupos do mesmo tamanho.
+:::
+
+**4.** Um relatório informa que a renda média de um município é R\$ 4.200 e a mediana é R\$ 2.100. Sem ver os dados, o que você pode afirmar sobre a assimetria da distribuição de renda? E se média e mediana fossem iguais?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+A média é o dobro da mediana, então a assimetria é **positiva** (à direita): há uma cauda de rendas altas puxando a média para cima, enquanto a mediana permanece onde está a maior parte das pessoas. É o padrão universal da renda, e a razão pela qual se reporta a mediana. Se média e mediana fossem iguais, a distribuição seria simétrica — o que, para renda, praticamente não acontece.
 :::

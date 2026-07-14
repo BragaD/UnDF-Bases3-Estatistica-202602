@@ -16,7 +16,7 @@ plt.rcParams["figure.figsize"] = (7, 4)
 
 A seção anterior resolveu um problema específico: dadas duas variáveis **numéricas**, elas se movem juntas? A resposta coube em um único número — o r de Pearson — e num gráfico de dispersão que mostrava a mesma informação para o olho. Essa dupla funciona bem enquanto duas condições se mantêm: as duas variáveis precisam ser numéricas, e precisa haver poucos pontos o bastante para uma nuvem de pontos ser legível.
 
-Nenhuma das duas condições é garantida, e esta seção lida com o que sobra quando elas faltam. E se as duas variáveis forem **categóricas** — sem "subir" nem "descer" para medir? E se uma for categórica e a outra numérica — que ferramenta substitui o r? E se houver tantos pontos que a própria nuvem de pontos deixe de funcionar? A seção segue esses três pares de tipos, na ordem do título: numérico × numérico, categórico × categórico, categórico × numérico — e fecha olhando para mais de duas variáveis ao mesmo tempo.
+Nenhuma das duas condições é garantida, e esta seção lida com o que sobra quando elas faltam. E se as duas variáveis forem **categóricas** — sem "subir" nem "descer" para medir? E se uma for categórica e a outra numérica — que ferramenta substitui o r? E se houver tantos pontos que a própria nuvem de pontos deixe de funcionar? A seção segue esses três pares de tipos, na ordem das subseções a seguir: numérico × numérico, categórico × categórico, categórico × numérico — e fecha olhando para mais de duas variáveis ao mesmo tempo.
 
 ## Numérico × numérico: quando o gráfico de dispersão não basta
 

@@ -9,6 +9,7 @@ Esta seção corresponde à seção 1.5 de @bruce2020.
 #| include: false
 import pandas as pd
 import matplotlib.pyplot as plt
+from formato import num
 
 plt.rcParams["figure.figsize"] = (7, 4)
 estado = pd.read_csv("dados/state.csv")
@@ -25,7 +26,7 @@ O **percentil** P é o valor abaixo do qual está P% das observações. A median
 percentis = [0.05, 0.25, 0.5, 0.75, 0.95]
 tabela = pd.DataFrame(estado["Murder.Rate"].quantile(percentis))
 tabela.index = [f"{p:.0%}" for p in percentis]
-tabela.transpose()
+tabela.transpose().map(lambda v: num(v, 2))
 ```
 
 Os cinco números da tabela dizem: 5% dos estados têm taxa de homicídios de até 1,6 por 100.000 habitantes; na outra ponta, 95% ficam até 6,51 — ou seja, só 5% (2 ou 3 estados, em 50) superam essa marca. O intervalo entre o percentil 5 e o percentil 95 cobre os 90% centrais da distribuição e é uma forma comum de descrever o "grosso" dos dados sem deixar os extremos dominarem a leitura, do mesmo jeito que a mediana evita que eles dominem a localização.

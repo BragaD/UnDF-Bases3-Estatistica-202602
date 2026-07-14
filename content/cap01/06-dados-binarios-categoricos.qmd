@@ -30,7 +30,7 @@ Para dado numérico, o primeiro resumo é uma medida de localização — média
 #| label: proporcoes
 dfw = pd.read_csv("dados/dfw_airline.csv")
 proporcoes = 100 * dfw / dfw.values.sum()
-proporcoes.round(2)
+proporcoes.round(2).map(lambda v: num(v, 2))
 ```
 
 ::: {.conceito}

@@ -103,7 +103,7 @@ Olhe a coluna `Charged Off`. A grade C tem 6.023 empréstimos inadimplentes — 
 prop = contagem.copy().loc["A":"G", :].astype(float)
 prop.loc[:, "Charged Off":"Late"] = prop.loc[:, "Charged Off":"Late"].div(prop["All"], axis=0)
 prop["All"] = prop["All"] / sum(prop["All"])
-prop.round(3)
+prop.round(3).map(lambda v: num(v, 3))
 ```
 
 Dividir cada linha pelo seu próprio total remove o tamanho do grupo da conta e isola o que interessa: a taxa. E aí o padrão que a grade deveria capturar aparece, limpo.

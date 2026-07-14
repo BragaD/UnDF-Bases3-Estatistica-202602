@@ -28,9 +28,9 @@ Para obter um número útil é preciso eliminar o sinal antes de tirar a média.
 
 ## Desvio-padrão e variância
 
-A **variância** é a média dos desvios ao quadrado, e o **desvio-padrão** é a sua raiz quadrada:
+A **variância** é a soma dos desvios ao quadrado dividida por $n-1$, e o **desvio-padrão** é a sua raiz quadrada:
 
-$$s = \sqrt{\frac{\sum_{i=1}^{n}(x_i - \bar{x})^2}{n-1}} \qquad \text{IQR} = Q_{75} - Q_{25}$$
+$$s = \sqrt{\frac{\sum_{i=1}^{n}(x_i - \bar{x})^2}{n-1}}$$
 
 ```{python}
 #| label: desvio-padrao

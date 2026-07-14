@@ -9,6 +9,7 @@ Esta seção corresponde à seção 1.6 de @bruce2020.
 #| include: false
 import pandas as pd
 import matplotlib.pyplot as plt
+from formato import num
 
 plt.rcParams["figure.figsize"] = (7, 4)
 ```
@@ -98,11 +99,11 @@ R$ 104,55 não é o custo de nenhum atraso individual — nenhuma causa isolada 
 
 | Causa | Contagem | Proporção |
 |---|---|---|
-| Carrier | `{python} f"{dfw['Carrier'].iloc[0]:,.0f}"` | `{python} f"{proporcoes['Carrier'].iloc[0]:.2f}"`% |
-| ATC | `{python} f"{dfw['ATC'].iloc[0]:,.0f}"` | `{python} f"{proporcoes['ATC'].iloc[0]:.2f}"`% |
-| Weather | `{python} f"{dfw['Weather'].iloc[0]:,.0f}"` | `{python} f"{proporcoes['Weather'].iloc[0]:.2f}"`% |
-| Security | `{python} f"{dfw['Security'].iloc[0]:,.0f}"` | `{python} f"{proporcoes['Security'].iloc[0]:.2f}"`% |
-| Inbound | `{python} f"{dfw['Inbound'].iloc[0]:,.0f}"` | `{python} f"{proporcoes['Inbound'].iloc[0]:.2f}"`% |
+| Carrier | `{python} num(dfw['Carrier'].iloc[0], 0)` | `{python} f"{proporcoes['Carrier'].iloc[0]:.2f}"`% |
+| ATC | `{python} num(dfw['ATC'].iloc[0], 0)` | `{python} f"{proporcoes['ATC'].iloc[0]:.2f}"`% |
+| Weather | `{python} num(dfw['Weather'].iloc[0], 0)` | `{python} f"{proporcoes['Weather'].iloc[0]:.2f}"`% |
+| Security | `{python} num(dfw['Security'].iloc[0], 0)` | `{python} f"{proporcoes['Security'].iloc[0]:.2f}"`% |
+| Inbound | `{python} num(dfw['Inbound'].iloc[0], 0)` | `{python} f"{proporcoes['Inbound'].iloc[0]:.2f}"`% |
 
 ::: {.conceito}
 **Regra prática:** para dado numérico, o resumo é localização + dispersão + forma (seções 1.3 a 1.5). Para dado categórico nominal, isso colapsa em proporção e moda — não porque o dado categórico seja "mais pobre", mas porque perguntas de soma, distância e ordem simplesmente não fazem sentido nele. E quando cada categoria carrega um valor associado, o valor esperado combina probabilidade e consequência em um único número.

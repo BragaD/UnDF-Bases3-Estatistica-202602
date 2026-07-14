@@ -11,6 +11,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from statsmodels import robust
+from formato import num
 
 plt.rcParams["figure.figsize"] = (7, 4)
 estado = pd.read_csv("dados/state.csv")
@@ -35,7 +36,7 @@ $$s = \sqrt{\frac{\sum_{i=1}^{n}(x_i - \bar{x})^2}{n-1}}$$
 ```{python}
 #| label: desvio-padrao
 desvio = estado["Population"].std()
-print(f"Desvio-padrão: {desvio:,.1f}")
+print(f"Desvio-padrão: {num(desvio)}")
 ```
 
 Tirar a raiz quadrada devolve o desvio-padrão à unidade original dos dados (pessoas, no caso), enquanto a variância fica em pessoas ao quadrado — uma unidade sem interpretação direta. Isso, somado à conveniência matemática de trabalhar com quadrados, é o motivo do desvio-padrão ser a medida de dispersão mais citada. Não é porque seja a mais robusta: é o contrário. Elevar ao quadrado amplifica desvios grandes muito mais do que pequenos, então o desvio-padrão é **ainda mais sensível a extremos que a própria média** — e a média já não era robusta.
@@ -49,7 +50,7 @@ A **amplitude interquartil** (IQR) é a diferença entre o 75º e o 25º percent
 ```{python}
 #| label: iqr
 iqr = estado["Population"].quantile(0.75) - estado["Population"].quantile(0.25)
-print(f"IQR: {iqr:,.1f}")
+print(f"IQR: {num(iqr)}")
 ```
 
 O **desvio absoluto mediano** (MAD) segue a mesma lógica dos desvios em torno da média, mas trocando média por mediana nos dois lugares — tanto no ponto de referência quanto na forma de resumir os desvios:
@@ -59,11 +60,11 @@ $$\text{MAD} = \frac{\text{mediana}\big(|x_i - \text{mediana}(x)|\big)}{0{,}6745
 ```{python}
 #| label: mad
 mad = robust.scale.mad(estado["Population"])
-print(f"MAD: {mad:,.1f}")
+print(f"MAD: {num(mad)}")
 
 # O mesmo cálculo, explicitamente — para mostrar de onde vem o 0,6745
 mad_manual = abs(estado["Population"] - estado["Population"].median()).median() / 0.6744897501960817
-print(f"MAD (manual): {mad_manual:,.1f}")
+print(f"MAD (manual): {num(mad_manual)}")
 ```
 
 Os dois cálculos batem exatamente: a função `robust.scale.mad` da `statsmodels` não faz nada além dessa conta. O fator 0,6745 no denominador não é arbitrário — ele calibra o MAD para que, sob uma distribuição normal, o valor resultante seja diretamente comparável ao desvio-padrão. Sem essa calibração, MAD e desvio-padrão viveriam em escalas diferentes e comparar os dois números não teria sentido.
@@ -100,9 +101,9 @@ O desvio-padrão (6,8M) é quase o dobro do MAD (3,8M). Essa distância entre um
 
 | Medida | Valor | Robusta a extremos? |
 |---|---|---|
-| Desvio-padrão | `{python} f"{desvio:,.0f}"` | Não |
-| IQR | `{python} f"{iqr:,.0f}"` | Sim |
-| MAD | `{python} f"{mad:,.0f}"` | Sim |
+| Desvio-padrão | `{python} num(desvio, 0)` | Não |
+| IQR | `{python} num(iqr, 0)` | Sim |
+| MAD | `{python} num(mad, 0)` | Sim |
 
 ::: {.exemplo}
 Se a população de cada estado fosse multiplicada por 1.000, o desvio-padrão e o IQR também seriam multiplicados por 1.000: ambos herdam a unidade dos dados e escalam linearmente com eles. A variância, por estar em unidade ao quadrado, seria multiplicada por 1.000.000. É exatamente esse descasamento de unidade que faz o desvio-padrão, e não a variância, ser reportado na prática.

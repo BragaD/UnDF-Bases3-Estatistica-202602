@@ -10,6 +10,7 @@ Esta seção corresponde à seção 1.8 de @bruce2020.
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+from formato import num
 
 plt.rcParams["figure.figsize"] = (7, 4)
 ```
@@ -25,12 +26,12 @@ Vamos usar avaliações fiscais de imóveis do condado de King, em Washington: �
 ```{python}
 #| label: carrega-kc
 kc = pd.read_csv("dados/kc_tax.csv.gz")
-print(f"registros brutos: {len(kc):,}")
+print(f"registros brutos: {num(len(kc), 0)}")
 
 kc0 = kc.loc[(kc.TaxAssessedValue < 750000) &
              (kc.SqFtTotLiving > 100) &
              (kc.SqFtTotLiving < 3500), :]
-print(f"após filtrar extremos: {len(kc0):,}")
+print(f"após filtrar extremos: {num(len(kc0), 0)}")
 ```
 
 O filtro derruba os registros de `498,249` para `432,693`. Não é uma correção estatística — é uma decisão de visualização: os poucos imóveis de valor extremo (acima de US\$ 750 mil) ou de área implausível (menor que 100 pés² ou maior que 3.500) esticariam os eixos do gráfico até comprimir o grosso dos dados, que é a parte que interessa, num canto minúsculo da tela.

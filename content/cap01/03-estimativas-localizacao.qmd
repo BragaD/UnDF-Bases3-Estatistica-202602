@@ -12,6 +12,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.stats import trim_mean
 import wquantiles
+from formato import num
 
 plt.rcParams["figure.figsize"] = (7, 4)
 ```
@@ -44,7 +45,7 @@ $$\bar{x} = \frac{\sum_{i=1}^{n} x_i}{n}$$
 ```{python}
 #| label: media
 media = estado["Population"].mean()
-print(f"Média: {media:,.1f}")
+print(f"Média: {num(media)}")
 ```
 
 A média é sensível a valores extremos. A população da Califórnia (~37 milhões) e a do Wyoming (~564 mil) diferem por um fator de 66 — e a Califórnia puxa a média para cima sozinha.
@@ -58,7 +59,7 @@ $$\bar{x}_{\text{aparada}} = \frac{\sum_{i=p+1}^{n-p} x_{(i)}}{n - 2p}$$
 ```{python}
 #| label: media-aparada
 media_aparada = trim_mean(estado["Population"], 0.1)
-print(f"Média aparada (10%): {media_aparada:,.1f}")
+print(f"Média aparada (10%): {num(media_aparada)}")
 ```
 
 Aparar 10% de cada ponta remove os 5 estados mais populosos e os 5 menos populosos.
@@ -70,11 +71,11 @@ A **mediana** é o valor central dos dados ordenados. Ela depende apenas das obs
 ```{python}
 #| label: mediana
 mediana = estado["Population"].median()
-print(f"Mediana: {mediana:,.1f}")
+print(f"Mediana: {num(mediana)}")
 ```
 
 ::: {.exemplo}
-A mediana é `{python} f"{mediana:,.0f}"` e a média é `{python} f"{media:,.0f}"` — a média é cerca de 39% maior. Essa diferença é a assinatura de uma distribuição assimétrica à direita, e é a razão pela qual reportar renda mediana e não renda média é a prática padrão.
+A mediana é `{python} num(mediana, 0)` e a média é `{python} num(media, 0)` — a média é cerca de 39% maior. Essa diferença é a assinatura de uma distribuição assimétrica à direita, e é a razão pela qual reportar renda mediana e não renda média é a prática padrão.
 :::
 
 ## Estimativas ponderadas
@@ -122,9 +123,9 @@ A média está à direita das outras duas, arrastada pela cauda de estados muito
 
 | Estimativa | Valor | Robusta a extremos? |
 |---|---|---|
-| Média | `{python} f"{media:,.0f}"` | Não |
-| Média aparada (10%) | `{python} f"{media_aparada:,.0f}"` | Sim |
-| Mediana | `{python} f"{mediana:,.0f}"` | Sim |
+| Média | `{python} num(media, 0)` | Não |
+| Média aparada (10%) | `{python} num(media_aparada, 0)` | Sim |
+| Mediana | `{python} num(mediana, 0)` | Sim |
 
 ::: {.conceito}
 **Regra prática:** a média é o padrão, mas é frágil. Quando os dados têm cauda longa ou outliers plausíveis — renda, população, valor de imóveis — a mediana ou a média aparada descrevem melhor o caso típico.
@@ -138,10 +139,9 @@ Os números acima são uma fotografia. Para ver a média *perseguindo* um outlie
 //| echo: false
 estados = transpose(dados)
 
-// Espelha o formato do f"{x:,.1f}" que o chunk Python usa acima nesta mesma
-// página. Trocar para pt-BR aqui faria o MESMO número aparecer de dois jeitos
-// diferentes na mesma página (6.162.876,3 vs 6,162,876.3) — o aluno notaria.
-fmt = x => x.toLocaleString("en-US", {minimumFractionDigits: 1, maximumFractionDigits: 1})
+// Espelha o num() do formato.py, usado nos chunks Python desta mesma página.
+// Se divergirem, o mesmo número apareceria de dois jeitos na mesma tela.
+fmt = x => x.toLocaleString("pt-BR", {minimumFractionDigits: 1, maximumFractionDigits: 1})
 
 // Mesma definição do scipy.stats.trim_mean: corta k = floor(n × prop)
 // observações de cada ponta e tira a média do que sobra.
@@ -159,7 +159,7 @@ viewof pop_ca = Inputs.range([1_000_000, 300_000_000], {
   step: 1,
   value: 37253956,
   label: "População da Califórnia:",
-  format: x => (x / 1e6).toFixed(1) + " M"
+  format: x => (x / 1e6).toLocaleString("pt-BR", {minimumFractionDigits: 1, maximumFractionDigits: 1}) + " M"
 })
 ```
 

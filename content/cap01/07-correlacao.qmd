@@ -23,7 +23,7 @@ O **coeficiente de correlação de Pearson** mede o grau de associação **linea
 
 $$r = \frac{\sum_{i=1}^{n}(x_i - \bar{x})(y_i - \bar{y})}{(n-1)\, s_x \, s_y}$$
 
-O numerador é uma covariância: soma, para cada observação, o produto do quanto $x$ se afasta da sua média pelo quanto $y$ se afasta da sua. Se as duas variáveis tendem a se afastar da média **no mesmo sentido**, a maioria dos produtos é positiva, e a soma cresce; se tendem a se afastar em sentidos opostos, a soma fica negativa. O denominador — o produto dos dois desvios padrão, $s_x$ e $s_y$ — é o que faz de $r$ um número **adimensional**, preso entre $-1$ e $+1$, e por isso comparável entre pares de variáveis com unidades completamente diferentes: preço de ação, temperatura, taxa de homicídio, o que for.
+O numerador é a soma dos produtos cruzados — a covariância, a menos do fator $1/(n-1)$: soma, para cada observação, o produto do quanto $x$ se afasta da sua média pelo quanto $y$ se afasta da sua. Se as duas variáveis tendem a se afastar da média **no mesmo sentido**, a maioria dos produtos é positiva, e a soma cresce; se tendem a se afastar em sentidos opostos, a soma fica negativa. O denominador — o produto dos dois desvios padrão, $s_x$ e $s_y$ — é o que faz de $r$ um número **adimensional**, preso entre $-1$ e $+1$, e por isso comparável entre pares de variáveis com unidades completamente diferentes: preço de ação, temperatura, taxa de homicídio, o que for.
 
 $r = 1$ é associação linear positiva perfeita; $r = -1$ é associação linear negativa perfeita; $r = 0$ é ausência de associação linear (mais adiante nesta seção, isso vai precisar de um cuidado extra).
 

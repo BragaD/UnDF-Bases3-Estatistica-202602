@@ -177,7 +177,7 @@ plt.show()
 Os quatro CEPs somam 98105 → 4.481 imóveis, 98108 → 5.535, 98126 → 5.631 e 98188 → 4.043 — juntos, uma fração dos 432.693 originais, escolhida para caber em quatro painéis legíveis. O `extent` fixo em todos os painéis (mesma faixa de área e de valor) é o que torna os quatro comparáveis entre si: sem ele, cada painel escalaria os eixos para os seus próprios dados, e uma diferença de inclinação real poderia se confundir com um artefato de escala.
 
 ::: {.exemplo}
-O 98105 fica perto da Universidade de Washington, e destoa dos outros três: valor mediano de US\$ 537 mil para uma área mediana de 1.690 pés² — cerca de US\$ 325 por pé². No 98188, a mesma conta dá US\$ 210 mil para 1.560 pés², pouco mais de US\$ 137 por pé². A mesma área compra menos da metade do valor, dependendo só do CEP: a relação entre área e valor **muda de inclinação** por bairro, algo que o hexbin e o KDE agregados da primeira parte desta seção — que somavam todos os CEPs do condado numa única superfície — não tinham como revelar.
+O 98105 fica perto da Universidade de Washington, e destoa dos outros três: valor mediano de US\$ 537 mil para uma área mediana de 1.690 pés² — cerca de US\$ 318 por pé². No 98188, a mesma conta dá US\$ 210 mil para 1.560 pés², cerca de US\$ 135 por pé². A mesma área compra menos da metade do valor, dependendo só do CEP: a relação entre área e valor **muda de inclinação** por bairro, algo que o hexbin e o KDE agregados da primeira parte desta seção — que somavam todos os CEPs do condado numa única superfície — não tinham como revelar.
 :::
 
 ## Resumo

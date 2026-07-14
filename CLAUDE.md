@@ -110,3 +110,24 @@ Segundo detalhe não óbvio: o Dockerfile grava `/etc/profile.d/venv.sh` reexpor
 O nome da imagem é minúsculo e literal: o GHCR rejeita maiúsculas, então não dá para usar `${{ github.repository_owner }}` (que resolveria para `BragaD`).
 
 `_book/` e `_freeze/` são artefatos locais gitignorados. `docs/` **não** é gitignorado — guarda specs e planos.
+
+### Widgets interativos (Observable JS)
+
+A seção 1.3 tem dois widgets em células `{ojs}`, nativas do Quarto: rodam no navegador do leitor, **não somam bytes ao site** e não afetam o `freeze` nem o CI.
+
+Os dados vêm do próprio chunk Python da seção, via `ojs_define(dados = estado)` — uma fonte, dois consumidores. Nunca recarregue o CSV no OJS nem embuta os valores como literal.
+
+O código OJS vai sempre com `//| echo: false`. É JavaScript num livro que ensina Python: exibi-lo sugeriria ao aluno que ele precisa aprendê-lo.
+
+**Shinylive foi avaliado e recusado.** Ele embute o Pyodide e as wheels dos pacotes: medi **46 MB** (numpy + matplotlib) a **64 MB** (com scipy) adicionados ao site, e uma espera de download real para o aluno. O critério que decidiu: *o código faz parte da lição?* Nestes widgets, não — a lição é a intuição sobre robustez, e o código é o instrumento. Se um dia o objetivo for o aluno **ler e editar Python de verdade**, o Shinylive volta à mesa e os 46 MB se justificam.
+
+**Verificação:** `grep` no HTML não basta — uma célula `{ojs}` quebrada renderiza sem erro e simplesmente não aparece. Rode o teste de navegador:
+
+```bash
+make render
+docker run --rm -v "$PWD/_book:/site:ro" -v "$PWD/scripts:/scripts:ro" \
+  mcr.microsoft.com/playwright/python:v1.61.0-noble \
+  bash -c "pip install --quiet playwright==1.61.0 && python /scripts/verifica-widgets.py"
+```
+
+Detalhe não óbvio: apesar do nome, esta imagem **não** vem com o pacote Python `playwright` pré-instalado — só os binários dos navegadores, em `/ms-playwright`. O `pip install playwright==1.61.0` (mesma versão do tag da imagem) é obrigatório antes de importar `playwright.sync_api`, senão o script falha com `ModuleNotFoundError`. O Playwright em si **não** entra na imagem do livro: ela ficaria centenas de MB maior à toa, e o CI a baixaria a cada push.

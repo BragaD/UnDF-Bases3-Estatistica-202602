@@ -666,11 +666,11 @@ Nota
 <h2 class="anchored" data-anchor-id="o-dataframe">O DataFrame</h2>
 <p>A forma retangular é tão comum na prática estatística que é fácil esquecer que é uma escolha, não uma lei da natureza: <strong>linhas são registros</strong> e <strong>colunas são variáveis</strong>. No Python, o objeto que implementa essa ideia é o <code>DataFrame</code> do pandas — uma matriz de dados com rótulos.</p>
 <div id="cell-estrutura" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>estado <span class="op">=</span> pd.read_csv(<span class="st">"dados/state.csv"</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>estado <span class="op">=</span> pd.read_csv(<span class="st">"dados/estados.csv"</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"linhas x colunas:"</span>, estado.shape)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>estado.head()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>linhas x colunas: (50, 4)</code></pre>
+<pre><code>linhas x colunas: (27, 4)</code></pre>
 </div>
 <div id="estrutura" class="cell-output cell-output-display" data-execution_count="2">
 <div>
@@ -680,47 +680,47 @@ Nota
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">State</th>
-<th data-quarto-table-cell-role="th">Population</th>
-<th data-quarto-table-cell-role="th">Murder.Rate</th>
-<th data-quarto-table-cell-role="th">Abbreviation</th>
+<th data-quarto-table-cell-role="th">Estado</th>
+<th data-quarto-table-cell-role="th">Populacao</th>
+<th data-quarto-table-cell-role="th">Taxa.Homicidios</th>
+<th data-quarto-table-cell-role="th">Sigla</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">0</th>
-<td>Alabama</td>
-<td>4779736</td>
-<td>5.7</td>
-<td>AL</td>
+<td>Rondônia</td>
+<td>1746227</td>
+<td>29.78</td>
+<td>RO</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">1</th>
-<td>Alaska</td>
-<td>710231</td>
-<td>5.6</td>
-<td>AK</td>
+<td>Acre</td>
+<td>880631</td>
+<td>19.65</td>
+<td>AC</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">2</th>
-<td>Arizona</td>
-<td>6392017</td>
-<td>4.7</td>
-<td>AZ</td>
+<td>Amazonas</td>
+<td>4281209</td>
+<td>30.97</td>
+<td>AM</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">3</th>
-<td>Arkansas</td>
-<td>2915918</td>
-<td>5.6</td>
-<td>AR</td>
+<td>Roraima</td>
+<td>716793</td>
+<td>23.58</td>
+<td>RR</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">4</th>
-<td>California</td>
-<td>37253956</td>
-<td>4.4</td>
-<td>CA</td>
+<td>Pará</td>
+<td>8664306</td>
+<td>25.77</td>
+<td>PA</td>
 </tr>
 </tbody>
 </table>
@@ -728,22 +728,22 @@ Nota
 </div>
 </div>
 </div>
-<p><code>(50, 4)</code> são 50 linhas e 4 colunas — mas o par de números só significa alguma coisa porque sabemos, do dado, que cada linha é um estado e cada coluna é uma variável medida sobre ele. Trocar as duas dimensões — colocar variáveis nas linhas e estados nas colunas — descreveria os mesmos números sem descrever o mesmo problema.</p>
+<p><code>(27, 4)</code> são 27 linhas e 4 colunas — mas o par de números só significa alguma coisa porque sabemos, do dado, que cada linha é uma unidade federativa e cada coluna é uma variável medida sobre ela. Trocar as duas dimensões — colocar variáveis nas linhas e estados nas colunas — descreveria os mesmos números sem descrever o mesmo problema.</p>
 <p><code>estado.info()</code> complementa o <code>.head()</code>: além do formato, mostra quantos valores não nulos cada coluna tem e quanto de memória a tabela ocupa.</p>
 <div id="info" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>estado.info()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;class 'pandas.DataFrame'&gt;
-RangeIndex: 50 entries, 0 to 49
+RangeIndex: 27 entries, 0 to 26
 Data columns (total 4 columns):
- #   Column        Non-Null Count  Dtype  
----  ------        --------------  -----  
- 0   State         50 non-null     str    
- 1   Population    50 non-null     int64  
- 2   Murder.Rate   50 non-null     float64
- 3   Abbreviation  50 non-null     str    
+ #   Column           Non-Null Count  Dtype  
+---  ------           --------------  -----  
+ 0   Estado           27 non-null     str    
+ 1   Populacao        27 non-null     int64  
+ 2   Taxa.Homicidios  27 non-null     float64
+ 3   Sigla            27 non-null     str    
 dtypes: float64(1), int64(1), str(2)
-memory usage: 1.7 KB</code></pre>
+memory usage: 996.0 bytes</code></pre>
 </div>
 </div>
 </section>
@@ -754,21 +754,21 @@ memory usage: 1.7 KB</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"índice padrão:"</span>, estado.index[:<span class="dv">5</span>].tolist())</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Um índice significativo torna a busca por rótulo natural</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>por_estado <span class="op">=</span> estado.set_index(<span class="st">"Abbreviation"</span>)</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>por_estado.loc[<span class="st">"CA"</span>]</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>por_estado <span class="op">=</span> estado.set_index(<span class="st">"Sigla"</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>por_estado.loc[<span class="st">"SP"</span>]</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>índice padrão: [0, 1, 2, 3, 4]</code></pre>
 </div>
 <div id="indice" class="cell-output cell-output-display" data-execution_count="4">
-<pre><code>State          California
-Population       37253956
-Murder.Rate           4.4
-Name: CA, dtype: object</code></pre>
+<pre><code>Estado             São Paulo
+Populacao           45973194
+Taxa.Homicidios         6.16
+Name: SP, dtype: object</code></pre>
 </div>
 </div>
-<p>Substituir o índice numérico pela sigla do estado transforma <code>.loc["CA"]</code> de uma busca por posição em uma busca por rótulo, algo que a posição sozinha nunca permitiria fazer com sentido.</p>
+<p>Substituir o índice numérico pela sigla do estado transforma <code>.loc["SP"]</code> de uma busca por posição em uma busca por rótulo, algo que a posição sozinha nunca permitiria fazer com sentido.</p>
 <div class="conceito">
-<p>O índice <strong>não é uma coluna de dados</strong> — é o rótulo das linhas, guardado separadamente do corpo da tabela. É por isso que <code>por_estado</code> tem só 3 colunas (<code>State</code>, <code>Population</code>, <code>Murder.Rate</code>): <code>set_index("Abbreviation")</code> <strong>removeu</strong> <code>Abbreviation</code> do corpo do DataFrame para usá-la como rótulo. Esquecer isso é fonte comum de bug — quem espera encontrar <code>Abbreviation</code> entre as colunas depois do <code>set_index</code> vai procurar por algo que já não está lá.</p>
+<p>O índice <strong>não é uma coluna de dados</strong> — é o rótulo das linhas, guardado separadamente do corpo da tabela. É por isso que <code>por_estado</code> tem só 3 colunas (<code>Estado</code>, <code>Populacao</code>, <code>Taxa.Homicidios</code>): <code>set_index("Sigla")</code> <strong>removeu</strong> <code>Sigla</code> do corpo do DataFrame para usá-la como rótulo. Esquecer isso é fonte comum de bug — quem espera encontrar <code>Sigla</code> entre as colunas depois do <code>set_index</code> vai procurar por algo que já não está lá.</p>
 </div>
 </section>
 <section id="vocabulário-e-seus-sinônimos" class="level2">
@@ -817,7 +817,7 @@ Name: CA, dtype: object</code></pre>
 </section>
 <section id="exercícios" class="level2">
 <h2 class="anchored" data-anchor-id="exercícios">Exercícios</h2>
-<p><strong>1.</strong> <code>estado.shape</code> retorna <code>(50, 4)</code>. Qual é o significado de cada número, no vocabulário desta seção?</p>
+<p><strong>1.</strong> <code>estado.shape</code> retorna <code>(27, 4)</code>. Qual é o significado de cada número, no vocabulário desta seção?</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -830,7 +830,7 @@ Name: CA, dtype: object</code></pre>
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>50 é o número de registros (observações — um por estado); 4 é o número de colunas — mas só <code>Population</code> e <code>Murder.Rate</code> são features, variáveis medidas sobre cada estado. <code>State</code> e <code>Abbreviation</code> identificam o registro, não medem nada sobre ele.</p>
+<p>27 é o número de registros (observações — um por unidade federativa); 4 é o número de colunas — mas só <code>Populacao</code> e <code>Taxa.Homicidios</code> são features, variáveis medidas sobre cada estado. <code>Estado</code> e <code>Sigla</code> identificam o registro, não medem nada sobre ele.</p>
 </div>
 </div>
 </div>
@@ -847,7 +847,7 @@ Name: CA, dtype: object</code></pre>
 </div>
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><code>Murder.Rate</code> é o outcome; <code>Population</code> é a feature. <code>State</code> e <code>Abbreviation</code> são identificadores, não features úteis — usá-los como preditor seria memorizar cada linha em vez de aprender um padrão que generalize.</p>
+<p><code>Taxa.Homicidios</code> é o outcome; <code>Populacao</code> é a feature. <code>Estado</code> e <code>Sigla</code> são identificadores, não features úteis — usá-los como preditor seria memorizar cada linha em vez de aprender um padrão que generalize.</p>
 </div>
 </div>
 </div>

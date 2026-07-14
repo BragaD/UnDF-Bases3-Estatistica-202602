@@ -667,9 +667,9 @@ Nota
 <p>O <strong>percentil</strong> P é o valor abaixo do qual está P% das observações. A mediana, que a seção 1.3 já usou, nada mais é do que o percentil 50 — o caso particular em que exatamente metade dos dados fica de cada lado. Falar em percentis é generalizar essa ideia para qualquer fração, não só a metade. O termo <strong>quantil</strong> é o mesmo conceito, expresso em proporção (0,05) em vez de porcentagem (5%); <code>quantile()</code> no pandas usa essa segunda convenção.</p>
 <div id="cell-percentis" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>percentis <span class="op">=</span> [<span class="fl">0.05</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>, <span class="fl">0.95</span>]</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>tabela <span class="op">=</span> pd.DataFrame(estado[<span class="st">"Murder.Rate"</span>].quantile(percentis))</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>tabela <span class="op">=</span> pd.DataFrame(estado[<span class="st">"Taxa.Homicidios"</span>].quantile(percentis))</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>tabela.index <span class="op">=</span> [<span class="ss">f"</span><span class="sc">{</span>p<span class="sc">:.0%}</span><span class="ss">"</span> <span class="cf">for</span> p <span class="kw">in</span> percentis]</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>tabela.transpose().<span class="bu">map</span>(<span class="kw">lambda</span> v: num(v, <span class="dv">2</span>))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>tabela.transpose().<span class="bu">map</span>(<span class="kw">lambda</span> v: num(v, <span class="dv">3</span>))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div id="percentis" class="cell-output cell-output-display" data-execution_count="2">
 <div>
 
@@ -687,12 +687,12 @@ Nota
 </thead>
 <tbody>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">Murder.Rate</th>
-<td>1,60</td>
-<td>2,42</td>
-<td>4,00</td>
-<td>5,55</td>
-<td>6,51</td>
+<th data-quarto-table-cell-role="th">Taxa.Homicidios</th>
+<td>8,238</td>
+<td>16,165</td>
+<td>23,130</td>
+<td>30,295</td>
+<td>35,197</td>
 </tr>
 </tbody>
 </table>
@@ -700,14 +700,14 @@ Nota
 </div>
 </div>
 </div>
-<p>Os cinco números da tabela dizem: 5% dos estados têm taxa de homicídios de até 1,6 por 100.000 habitantes; na outra ponta, 95% ficam até 6,51 — ou seja, só 5% (2 ou 3 estados, em 50) superam essa marca. O intervalo entre o percentil 5 e o percentil 95 cobre os 90% centrais da distribuição e é uma forma comum de descrever o “grosso” dos dados sem deixar os extremos dominarem a leitura, do mesmo jeito que a mediana evita que eles dominem a localização.</p>
+<p>Os cinco números da tabela dizem: 5% dos estados têm taxa de homicídios de até 8,238 por 100.000 habitantes — os dois estados menos violentos do país; na outra ponta, 95% ficam até 35,197, ou seja, só 5% (2 estados, em 27) superam essa marca. O intervalo entre o percentil 5 e o percentil 95 cobre os 90% centrais da distribuição e é uma forma comum de descrever o “grosso” dos dados sem deixar os extremos dominarem a leitura, do mesmo jeito que a mediana evita que eles dominem a localização.</p>
 </section>
 <section id="boxplot" class="level2">
 <h2 class="anchored" data-anchor-id="boxplot">Boxplot</h2>
 <p>O <strong>boxplot</strong> é uma leitura visual direta dos percentis. A caixa vai do primeiro ao terceiro quartil — e a largura dessa caixa é exatamente o IQR que a seção 1.4 calculou como medida de dispersão. Não é uma coincidência nem uma analogia: é a mesma conta, olhada de dois ângulos diferentes. A linha dentro da caixa marca a mediana. Os bigodes se estendem até 1,5 vez o IQR além de cada quartil, e qualquer observação além disso é desenhada como um ponto individual, não absorvida pela escala do gráfico.</p>
 <div id="cell-fig-boxplot" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">4</span>, <span class="dv">5</span>))</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>(estado[<span class="st">"Population"</span>] <span class="op">/</span> <span class="fl">1e6</span>).plot.box(ax<span class="op">=</span>ax)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>(estado[<span class="st">"Populacao"</span>] <span class="op">/</span> <span class="fl">1e6</span>).plot.box(ax<span class="op">=</span>ax)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"População (milhões)"</span>)</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
@@ -725,35 +725,35 @@ Figura&nbsp;6.1: Boxplot da população dos estados. Os pontos acima do bigode s
 </div>
 </div>
 <div class="exemplo">
-<p>Lendo o gráfico: metade dos estados tem entre 1,8 e 6,7 milhões de habitantes — é o que a caixa mostra. A mediana está em 4,4 milhões. E os quatro pontos isolados acima do bigode superior são Califórnia, Texas, Nova York e Flórida: os únicos estados populosos o bastante para escapar de 1,5×IQR além do terceiro quartil.</p>
+<p>Lendo o gráfico: metade dos estados tem entre 2,9 e 9,4 milhões de habitantes — é o que a caixa mostra. A mediana está em 4,1 milhões. E os dois pontos isolados acima do bigode superior são Minas Gerais (21,3 milhões) e São Paulo (46,0 milhões): os únicos estados populosos o bastante para escapar de 1,5×IQR além do terceiro quartil.</p>
 </div>
 </section>
 <section id="tabela-de-frequência-e-histograma" class="level2">
 <h2 class="anchored" data-anchor-id="tabela-de-frequência-e-histograma">Tabela de frequência e histograma</h2>
 <p>A <strong>tabela de frequência</strong> divide o intervalo de valores em faixas de largura igual e conta quantas observações caem em cada uma. <code>pd.cut</code> faz exatamente isso.</p>
 <div id="cell-freq" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>faixas <span class="op">=</span> pd.cut(estado[<span class="st">"Population"</span>], <span class="dv">10</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>faixas <span class="op">=</span> pd.cut(estado[<span class="st">"Populacao"</span>], <span class="dv">10</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>faixas.value_counts().sort_index()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div id="freq" class="cell-output cell-output-display" data-execution_count="4">
-<pre><code>Population
-(526935.67, 4232659.0]      24
-(4232659.0, 7901692.0]      14
-(7901692.0, 11570725.0]      6
-(11570725.0, 15239758.0]     2
-(15239758.0, 18908791.0]     1
-(18908791.0, 22577824.0]     1
-(22577824.0, 26246857.0]     1
-(26246857.0, 29915890.0]     0
-(29915890.0, 33584923.0]     0
-(33584923.0, 37253956.0]     1
+<pre><code>Populacao
+(671536.599, 5242433.1]     15
+(5242433.1, 9768073.2]       6
+(9768073.2, 14293713.3]      2
+(14293713.3, 18819353.4]     2
+(18819353.4, 23344993.5]     1
+(23344993.5, 27870633.6]     0
+(27870633.6, 32396273.7]     0
+(32396273.7, 36921913.8]     0
+(36921913.8, 41447553.9]     0
+(41447553.9, 45973194.0]     1
 Name: count, dtype: int64</code></pre>
 </div>
 </div>
-<p>As faixas são de <strong>largura</strong> igual, não de <strong>contagem</strong> igual — e o resultado mostra isso sem meio-termo. A primeira faixa, sozinha, concentra 24 dos 50 estados; as faixas do topo têm um estado cada, ou nenhum. Isso não é um defeito do corte: é o retrato de uma distribuição com cauda longa à direita, a mesma assinatura que a média puxada para cima (seção 1.3) e o desvio-padrão inflado (seção 1.4) já haviam denunciado — agora visível na contagem, faixa por faixa.</p>
+<p>As faixas são de <strong>largura</strong> igual, não de <strong>contagem</strong> igual — e o resultado mostra isso sem meio-termo. A primeira faixa, sozinha, concentra 15 dos 27 estados — mais da metade; as faixas do topo têm um estado cada, ou nenhum. Isso não é um defeito do corte: é o retrato de uma distribuição com cauda longa à direita, a mesma assinatura que a média puxada para cima (seção 1.3) e o desvio-padrão inflado (seção 1.4) já haviam denunciado — agora visível na contagem, faixa por faixa.</p>
 <p>O <strong>histograma</strong> é essa mesma tabela desenhada: uma barra por faixa, com altura proporcional à contagem. As barras se encostam porque o eixo é contínuo — não há espaço entre “faixa 1” e “faixa 2” do jeito que há entre categorias distintas.</p>
 <div id="cell-fig-histograma" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>(estado[<span class="st">"Population"</span>] <span class="op">/</span> <span class="fl">1e6</span>).plot.hist(ax<span class="op">=</span>ax, bins<span class="op">=</span><span class="dv">10</span>, edgecolor<span class="op">=</span><span class="st">"white"</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>(estado[<span class="st">"Populacao"</span>] <span class="op">/</span> <span class="fl">1e6</span>).plot.hist(ax<span class="op">=</span>ax, bins<span class="op">=</span><span class="dv">10</span>, edgecolor<span class="op">=</span><span class="st">"white"</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"População (milhões)"</span>)</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Número de estados"</span>)</span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
@@ -777,9 +777,9 @@ Figura&nbsp;6.2: Histograma da população. As barras se encostam porque o eixo 
 <p>A <strong>curva de densidade</strong> é uma versão suavizada do histograma: em vez de barras discretas, uma curva contínua que estima a forma subjacente da distribuição. A diferença crucial é a escala do eixo Y. Enquanto o histograma tradicional mostra contagem, a densidade é normalizada para que a área sob a curva valha exatamente 1 — é o preço de tratá-la como uma distribuição de probabilidade, não como uma lista de frequências.</p>
 <div id="cell-fig-densidade" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>estado[<span class="st">"Murder.Rate"</span>].plot.hist(ax<span class="op">=</span>ax, density<span class="op">=</span><span class="va">True</span>, xlim<span class="op">=</span>[<span class="dv">0</span>, <span class="dv">12</span>],</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>                                bins<span class="op">=</span><span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">12</span>), edgecolor<span class="op">=</span><span class="st">"white"</span>)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>estado[<span class="st">"Murder.Rate"</span>].plot.density(ax<span class="op">=</span>ax, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>estado[<span class="st">"Taxa.Homicidios"</span>].plot.hist(ax<span class="op">=</span>ax, density<span class="op">=</span><span class="va">True</span>, xlim<span class="op">=</span>[<span class="dv">0</span>, <span class="dv">40</span>],</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>                                bins<span class="op">=</span><span class="bu">range</span>(<span class="dv">0</span>, <span class="dv">40</span>, <span class="dv">2</span>), edgecolor<span class="op">=</span><span class="st">"white"</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>estado[<span class="st">"Taxa.Homicidios"</span>].plot.density(ax<span class="op">=</span>ax, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Taxa de homicídios (por 100.000)"</span>)</span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
@@ -838,7 +838,7 @@ Figura&nbsp;6.3: Histograma da taxa de homicídios com a curva de densidade sobr
 </section>
 <section id="exercícios" class="level2">
 <h2 class="anchored" data-anchor-id="exercícios">Exercícios</h2>
-<p><strong>1.</strong> A mediana da taxa de homicídios é 4,0 e o percentil 95 é 6,51. Interprete o segundo número em uma frase.</p>
+<p><strong>1.</strong> A mediana da taxa de homicídios é 23,130 e o percentil 95 é 35,197. Interprete o segundo número em uma frase.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -851,7 +851,7 @@ Figura&nbsp;6.3: Histograma da taxa de homicídios com a curva de densidade sobr
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>95% dos estados têm taxa de homicídios igual ou inferior a 6,51 por 100.000 habitantes; apenas 5% (2 ou 3 estados, em 50) ficam acima disso.</p>
+<p>95% dos estados têm taxa de homicídios igual ou inferior a 35,197 por 100.000 habitantes; apenas 5% (2 estados, em 27) ficam acima disso.</p>
 </div>
 </div>
 </div>
@@ -872,7 +872,7 @@ Figura&nbsp;6.3: Histograma da taxa de homicídios com a curva de densidade sobr
 </div>
 </div>
 </div>
-<p><strong>3.</strong> A tabela de frequência com <code>pd.cut</code> em 10 faixas colocou quase metade dos estados na primeira faixa. Isso é um defeito do método?</p>
+<p><strong>3.</strong> A tabela de frequência com <code>pd.cut</code> em 10 faixas colocou mais da metade dos estados (15 de 27) na primeira faixa. Isso é um defeito do método?</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">

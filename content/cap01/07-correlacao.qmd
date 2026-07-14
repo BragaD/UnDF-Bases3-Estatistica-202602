@@ -4,7 +4,162 @@
 Esta seção corresponde à seção 1.7 de @bruce2020.
 :::
 
-::: {.callout-warning}
-## Em construção
-O conteúdo desta seção ainda será escrito.
+```{python}
+#| label: setup
+#| include: false
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+plt.rcParams["figure.figsize"] = (7, 4)
+```
+
+Da seção 1.3 até a 1.6, cada ferramenta olhou para **uma** variável de cada vez: a localização e a dispersão da população dos estados, a forma de uma distribuição, a proporção de uma causa de atraso. A pergunta agora é outra, e é nova neste capítulo: dadas **duas** variáveis numéricas, elas se movem juntas? Quando uma sobe, a outra também sobe — ou desce, ou fica indiferente?
+
+## Coeficiente de correlação de Pearson
+
+O **coeficiente de correlação de Pearson** mede o grau de associação **linear** entre duas variáveis numéricas:
+
+$$r = \frac{\sum_{i=1}^{n}(x_i - \bar{x})(y_i - \bar{y})}{(n-1)\, s_x \, s_y}$$
+
+O numerador é uma covariância: soma, para cada observação, o produto do quanto $x$ se afasta da sua média pelo quanto $y$ se afasta da sua. Se as duas variáveis tendem a se afastar da média **no mesmo sentido**, a maioria dos produtos é positiva, e a soma cresce; se tendem a se afastar em sentidos opostos, a soma fica negativa. O denominador — o produto dos dois desvios padrão, $s_x$ e $s_y$ — é o que faz de $r$ um número **adimensional**, preso entre $-1$ e $+1$, e por isso comparável entre pares de variáveis com unidades completamente diferentes: preço de ação, temperatura, taxa de homicídio, o que for.
+
+$r = 1$ é associação linear positiva perfeita; $r = -1$ é associação linear negativa perfeita; $r = 0$ é ausência de associação linear (mais adiante nesta seção, isso vai precisar de um cuidado extra).
+
+## Os dados
+
+Vamos usar retornos diários de ações e ETFs (fundos negociados em bolsa) do S&P 500, entre 1993 e 2015.
+
+```{python}
+#| label: carrega
+setores = pd.read_csv("dados/sp500_sectors.csv")
+precos  = pd.read_csv("dados/sp500_data.csv.gz", index_col=0)
+
+simbolos_telecom = setores[setores["sector"] == "telecommunications_services"]["symbol"]
+telecom = precos.loc[precos.index >= "2012-07-01", simbolos_telecom]
+
+print("dias x empresas:", telecom.shape)
+telecom.head()
+```
+
+`telecom` tem 754 dias de negociação e 5 empresas de telecomunicações: T (AT&T), CTL (CenturyLink), FTR (Frontier), VZ (Verizon) e LVLT (Level 3).
+
+::: {.conceito}
+`precos.index` é uma string ("1993-01-29", e não uma data), mas a comparação `precos.index >= "2012-07-01"` ainda funciona porque datas no formato ISO (`AAAA-MM-DD`) comparam corretamente como texto: ordem alfabética e ordem cronológica coincidem. E `simbolos_telecom` é uma `Series`, não uma lista — `precos.loc[..., simbolos_telecom]` aceita os dois formatos para selecionar colunas, e preserva a ordem em que os símbolos aparecem em `simbolos_telecom`.
+:::
+
+## Matriz de correlação
+
+Com mais de duas variáveis, faz sentido calcular a correlação de **todo par**, não de um par isolado. O resultado é a **matriz de correlação**: simétrica (a correlação de T com VZ é a mesma de VZ com T) e com 1 na diagonal (toda variável tem correlação perfeita consigo mesma).
+
+```{python}
+#| label: matriz
+telecom.corr().round(3)
+```
+
+::: {.exemplo}
+A maior correlação do grupo é entre T e VZ: `{python} f"{telecom.corr().loc['T', 'VZ']:.3f}"`. Não é coincidência: AT&T e Verizon são as duas maiores operadoras de telecomunicações dos Estados Unidos, e seus retornos diários respondem aos mesmos choques de mercado — taxa de juros, regulação do setor, expectativa de crescimento da economia. Empresas menores e mais heterogêneas do grupo, como LVLT, têm correlação bem mais baixa com as demais (0,242 a 0,287): compartilham menos desses choques comuns.
+:::
+
+```{python}
+#| label: fig-scatter
+#| fig-cap: "Retornos diários de AT&T (T) contra Verizon (VZ). A nuvem é alongada na diagonal — o sinal visual de correlação positiva."
+fig, ax = plt.subplots(figsize=(5, 5))
+ax.scatter(telecom["T"], telecom["VZ"], alpha=0.5, s=20, color="#2c7fb8")
+ax.axhline(0, color="grey", linewidth=0.8)
+ax.axvline(0, color="grey", linewidth=0.8)
+ax.set_xlabel("Retorno diário — AT&T (T)")
+ax.set_ylabel("Retorno diário — Verizon (VZ)")
+plt.tight_layout()
+plt.show()
+```
+
+O gráfico de dispersão é a contrapartida visual do número: a nuvem de pontos é alongada na diagonal, subindo da esquerda para a direita. Dias em que T sobe tendem a ser dias em que VZ também sobe. $r = 0{,}678$ é essa mesma informação, resumida em um único número.
+
+## Heatmap: a matriz de correlação como imagem
+
+Uma matriz de 5 × 5 ainda se lê em números. Uma de 17 × 17 não. Nesses casos, transformar a matriz em uma imagem colorida — um **heatmap** — é o único jeito prático de enxergar o padrão.
+
+```{python}
+#| label: fig-heatmap
+#| fig-cap: "Correlação dos retornos diários entre fundos negociados em bolsa (ETFs)."
+etfs = precos.loc[precos.index > "2012-07-01",
+                  setores[setores["sector"] == "etf"]["symbol"]]
+
+fig, ax = plt.subplots(figsize=(7, 6))
+sns.heatmap(etfs.corr(), vmin=-1, vmax=1,
+            cmap=sns.diverging_palette(20, 220, as_cmap=True), ax=ax)
+plt.tight_layout()
+plt.show()
+```
+
+São 17 ETFs: XLI, QQQ, SPY, DIA, GLD, VXX, USO, IWM, XLE, XLY, XLU, XLB, XTL, XLV, XLP, XLF e XLK.
+
+::: {.conceito}
+A paleta usada é **divergente** — vai de um tom em uma ponta a outro tom na ponta oposta, passando por uma cor neutra no meio —, e centrada em zero (`vmin=-1, vmax=1`). Essa escolha não é estética: zero é o único ponto da escala com significado próprio, a fronteira entre "andam juntas" e "andam ao contrário". Uma paleta sequencial (clara para escura) esconderia justamente essa fronteira; a divergente a torna visível de relance.
+:::
+
+Duas leituras saltam do heatmap. Primeiro, SPY, DIA e IWM — três índices amplos do mercado americano (S&P 500, Dow Jones e Russell 2000, respectivamente) — formam um bloco fortemente correlacionado entre si: são medidas diferentes de essencialmente a mesma coisa, o mercado como um todo. Segundo, VXX aparece como um bloco de cor oposta a quase todo o resto — correlação **negativa** com praticamente todos os demais ETFs. VXX acompanha a volatilidade do mercado, e volatilidade sobe justamente quando os preços caem: é o mecanismo por trás do sinal trocado, e é exatamente esse contraste que a paleta divergente foi escolhida para deixar evidente.
+
+## Três armadilhas
+
+::: {.conceito}
+**As três armadilhas da correlação:**
+
+1. **Correlação não implica causalidade.** T e VZ sobem e descem juntas porque respondem aos mesmos choques de mercado — uma causa comum —, não porque uma "causa" a outra.
+2. **O coeficiente é sensível a outliers.** Um único ponto extremo, longe da nuvem principal, pode criar uma correlação artificial ou mascarar uma correlação real, dependendo de onde ele cai.
+3. **Ele mede apenas relação linear.** Duas variáveis podem ter uma dependência determinística forte e correlação de Pearson igual a zero.
+:::
+
+A terceira armadilha é a mais contraintuitiva das três, e vale prová-la em vez de só declará-la.
+
+```{python}
+#| label: nao-linear
+x = np.linspace(-1, 1, 200)
+y = x ** 2
+
+print(f"Correlação entre x e x²: {np.corrcoef(x, y)[0, 1]:.10f}")
+```
+
+$y = x^2$ é o exemplo mais determinístico que existe: conhecendo $x$, você sabe $y$ com certeza absoluta, sem incerteza nenhuma. E ainda assim a correlação entre eles é, na prática, zero — o valor calculado é da ordem de $10^{-17}$, um erro de arredondamento de ponto flutuante em torno de um zero exato. A razão é a simetria da parábola em torno de zero: para cada $x$ positivo que empurra a covariância para cima, existe um $x$ negativo simétrico que a empurra para baixo na mesma medida, e os dois efeitos se cancelam por completo. **Correlação zero significa "sem relação linear" — não significa "sem relação".** É a diferença entre as duas frases que faz da correlação uma ferramenta poderosa, mas estreita: ela responde a uma pergunta específica, e é preciso saber qual.
+
+## Resumo
+
+| Par | Correlação (r) |
+|---|---|
+| T × VZ | `{python} f"{telecom.corr().loc['T', 'VZ']:.3f}"` |
+| T × CTL | `{python} f"{telecom.corr().loc['T', 'CTL']:.3f}"` |
+| T × FTR | `{python} f"{telecom.corr().loc['T', 'FTR']:.3f}"` |
+| T × LVLT | `{python} f"{telecom.corr().loc['T', 'LVLT']:.3f}"` |
+| CTL × FTR | `{python} f"{telecom.corr().loc['CTL', 'FTR']:.3f}"` |
+
+::: {.conceito}
+**Regra prática:** correlação alta é um convite a investigar, não uma conclusão. Antes de interpretar um $r$, olhe o gráfico de dispersão — ele revela outliers que o número esconde e formas não lineares que o número não enxerga.
+:::
+
+## Exercícios
+
+**1.** A correlação entre T e VZ é 0,678. Isso significa que o preço da AT&T causa o preço da Verizon?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+Não. As duas são grandes operadoras de telecomunicações expostas aos mesmos fatores — taxa de juros, regulação do setor, ciclo econômico. A correlação vem de uma **causa comum**, não de uma causar a outra. Este é o erro mais frequente na leitura de correlações.
+:::
+
+**2.** No heatmap, o VXX aparece em um bloco de cor oposta (correlação negativa) contra quase todos os demais ETFs. Por quê?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+O VXX acompanha a volatilidade do mercado, que sobe justamente quando os preços caem. É por isso que a paleta divergente importa: ela torna o sinal — negativo contra positivo — visível de relance, e o zero é uma referência com significado real, não um ponto arbitrário da escala.
+:::
+
+**3.** O código mostrou que a correlação entre `x` e `x²` é zero, embora `y` seja completamente determinado por `x`. Explique.
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+Pearson mede associação **linear**. A parábola é simétrica em torno de zero: para cada $x$ positivo que puxa a covariância para cima, existe um $x$ negativo que a puxa para baixo na mesma medida, e os efeitos se cancelam. Uma correlação de zero descarta relação linear — não descarta relação.
 :::

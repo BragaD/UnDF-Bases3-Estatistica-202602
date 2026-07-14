@@ -1,5 +1,25 @@
 # Conjuntos de Dados
 
+## `estados.csv` — dado brasileiro (gerado por nós)
+
+27 unidades federativas, com população e taxa de homicídios de **2024**.
+
+| Coluna | Fonte |
+|---|---|
+| `Estado`, `Sigla` | IBGE — [API de localidades](https://servicodados.ibge.gov.br/api/v1/localidades/estados) |
+| `Populacao` | IBGE — SIDRA, tabela 6579, variável 9324, ano 2024 |
+| `Taxa.Homicidios` | Atlas da Violência (Ipea/FBSP), 2024 — por 100 mil habitantes |
+
+Gerado por `scripts/gerar-dados-brasil.py`, que roda **uma única vez**:
+
+```bash
+docker compose run --rm --no-deps livro python scripts/gerar-dados-brasil.py
+```
+
+O CSV bruto do Atlas está versionado em `dados/brutos/`. A API do Atlas
+(`/atlasviolencia/api/v1/...`) saiu do ar na reformulação do site (v3) e hoje
+devolve HTML — sem o arquivo bruto, o pipeline não seria reproduzível.
+
 Os arquivos deste diretório vêm do repositório oficial do livro-texto:
 
 **Bruce, Bruce & Gedeck — *Practical Statistics for Data Scientists*, 2ª ed. (O'Reilly, 2020)**

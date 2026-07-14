@@ -81,7 +81,7 @@ div.csl-indent {
 }</style>
 
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -131,6 +131,11 @@ div.csl-indent {
     "search-label": "Procurar"
   }
 }</script>
+<script type="module" src="../../site_libs/quarto-ojs/quarto-ojs-runtime.js"></script>
+<link href="../../site_libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -639,6 +644,7 @@ window.Quarto = {
   <li><a href="#desvio-e-por-que-não-usar-a-média-dos-desvios" id="toc-desvio-e-por-que-não-usar-a-média-dos-desvios" class="nav-link active" data-scroll-target="#desvio-e-por-que-não-usar-a-média-dos-desvios">Desvio e por que não usar a média dos desvios</a></li>
   <li><a href="#desvio-padrão-e-variância" id="toc-desvio-padrão-e-variância" class="nav-link" data-scroll-target="#desvio-padrão-e-variância">Desvio-padrão e variância</a></li>
   <li><a href="#estimativas-robustas-iqr-e-mad" id="toc-estimativas-robustas-iqr-e-mad" class="nav-link" data-scroll-target="#estimativas-robustas-iqr-e-mad">Estimativas robustas: IQR e MAD</a></li>
+  <li><a href="#mexa-no-desvio-padrão" id="toc-mexa-no-desvio-padrão" class="nav-link" data-scroll-target="#mexa-no-desvio-padrão">Mexa no desvio-padrão</a></li>
   <li><a href="#resumo" id="toc-resumo" class="nav-link" data-scroll-target="#resumo">Resumo</a></li>
   <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios">Exercícios</a></li>
   </ul>
@@ -686,6 +692,9 @@ Nota
 <p>Esta seção corresponde à seção 1.4 de <span class="citation" data-cites="bruce2020">Bruce et al. (<a href="#ref-bruce2020" role="doc-biblioref">2020</a>)</span>.</p>
 </div>
 </div>
+<div id="exporta-ojs" class="cell" data-execution_count="2">
+<script type="ojs-define">{"contents": [{"name": "dados", "value": {"Estado": ["Rond\u00f4nia", "Acre", "Amazonas", "Roraima", "Par\u00e1", "Amap\u00e1", "Tocantins", "Maranh\u00e3o", "Piau\u00ed", "Cear\u00e1", "Rio Grande do Norte", "Para\u00edba", "Pernambuco", "Alagoas", "Sergipe", "Bahia", "Minas Gerais", "Esp\u00edrito Santo", "Rio de Janeiro", "S\u00e3o Paulo", "Paran\u00e1", "Santa Catarina", "Rio Grande do Sul", "Mato Grosso do Sul", "Mato Grosso", "Goi\u00e1s", "Distrito Federal"], "Populacao": [1746227, 880631, 4281209, 716793, 8664306, 802837, 1577342, 7010960, 3375646, 9233656, 3446071, 4145040, 9539029, 3220104, 2291077, 14850513, 21322691, 4102129, 17219679, 45973194, 11824665, 8058441, 11229915, 2901895, 3836399, 7350483, 2982818], "Taxa.Homicidios": [29.78, 19.65, 30.97, 23.58, 25.77, 32.01, 19.02, 30.81, 20.47, 34.14, 23.13, 25.45, 36.78, 35.65, 22.87, 33.14, 12.63, 25.43, 18.99, 6.16, 15.71, 7.56, 15.14, 15.61, 27.06, 16.62, 9.82], "Sigla": ["RO", "AC", "AM", "RR", "PA", "AP", "TO", "MA", "PI", "CE", "RN", "PB", "PE", "AL", "SE", "BA", "MG", "ES", "RJ", "SP", "PR", "SC", "RS", "MS", "MT", "GO", "DF"]}}]}</script>
+</div>
 <p>A seção 1.3 resumiu a população dos estados por um valor típico — média, média aparada, mediana — e viu a média se deslocar para longe das outras duas, puxada pela cauda de estados muito populosos. Localização é só metade da história. A outra metade responde a uma pergunta diferente: quão espalhados os dados estão em torno desse valor típico? Essa é a <strong>variabilidade</strong>, ou dispersão.</p>
 <p>Dois estados podem ter a mesma população mediana e mesmo assim serem completamente diferentes: num, quase todo mundo mora em cidades de tamanho parecido; no outro, uma metrópole convive com dezenas de municípios minúsculos. A localização não distingue esses dois casos. A dispersão, sim.</p>
 <section id="desvio-e-por-que-não-usar-a-média-dos-desvios" class="level2">
@@ -697,7 +706,7 @@ Nota
 <h2 class="anchored" data-anchor-id="desvio-padrão-e-variância">Desvio-padrão e variância</h2>
 <p>A <strong>variância</strong> é a soma dos desvios ao quadrado dividida por <span class="math inline">\(n-1\)</span>, e o <strong>desvio-padrão</strong> é a sua raiz quadrada:</p>
 <p><span class="math display">\[s = \sqrt{\frac{\sum_{i=1}^{n}(x_i - \bar{x})^2}{n-1}}\]</span></p>
-<div id="desvio-padrao" class="cell" data-execution_count="2">
+<div id="desvio-padrao" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>desvio <span class="op">=</span> estado[<span class="st">"Populacao"</span>].std()</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Desvio-padrão: </span><span class="sc">{</span>num(desvio)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -710,7 +719,7 @@ Nota
 <h2 class="anchored" data-anchor-id="estimativas-robustas-iqr-e-mad">Estimativas robustas: IQR e MAD</h2>
 <p>Assim como a mediana substitui a média quando extremos distorcem a localização, existem substitutos robustos para o desvio-padrão.</p>
 <p>A <strong>amplitude interquartil</strong> (IQR) é a diferença entre o 75º e o 25º percentil — a largura da metade central dos dados, ignorando completamente o que acontece nas pontas:</p>
-<div id="iqr" class="cell" data-execution_count="3">
+<div id="iqr" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>iqr <span class="op">=</span> estado[<span class="st">"Populacao"</span>].quantile(<span class="fl">0.75</span>) <span class="op">-</span> estado[<span class="st">"Populacao"</span>].quantile(<span class="fl">0.25</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"IQR: </span><span class="sc">{</span>num(iqr)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -719,7 +728,7 @@ Nota
 </div>
 <p>O <strong>desvio absoluto mediano</strong> (MAD) segue a mesma lógica dos desvios em torno da média, mas trocando média por mediana nos dois lugares — tanto no ponto de referência quanto na forma de resumir os desvios:</p>
 <p><span class="math display">\[\text{MAD} = \frac{\text{mediana}\big(|x_i - \text{mediana}(x)|\big)}{0{,}6745}\]</span></p>
-<div id="mad" class="cell" data-execution_count="4">
+<div id="mad" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>mad <span class="op">=</span> robust.scale.mad(estado[<span class="st">"Populacao"</span>])</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"MAD: </span><span class="sc">{</span>num(mad)<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -732,7 +741,7 @@ MAD (manual): 4.752.396,9</code></pre>
 </div>
 </div>
 <p>Os dois cálculos batem exatamente: a função <code>robust.scale.mad</code> da <code>statsmodels</code> não faz nada além dessa conta. O fator 0,6745 no denominador não é arbitrário — ele calibra o MAD para que, sob uma distribuição normal, o valor resultante seja diretamente comparável ao desvio-padrão. Sem essa calibração, MAD e desvio-padrão viveriam em escalas diferentes e comparar os dois números não teria sentido.</p>
-<div id="cell-fig-variabilidade" class="cell" data-execution_count="5">
+<div id="cell-fig-variabilidade" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>mediana <span class="op">=</span> estado[<span class="st">"Populacao"</span>].median()</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -768,6 +777,128 @@ Figura&nbsp;5.1: As três medidas de dispersão sobre a distribuição de popula
 <div class="conceito">
 <p>O desvio-padrão (9,26M) é quase o dobro do MAD (4,75M) — a razão entre os dois é 1,95, ainda mais próxima do dobro do que costuma aparecer. Essa distância entre uma medida sensível a extremos e uma medida robusta é o mesmo sinal que a diferença entre média e mediana já tinha dado na seção 1.3: a distribuição de população dos estados tem <strong>cauda longa à direita</strong>. Quanto mais as duas famílias de estimativas — a sensível e a robusta — discordam, mais forte é o sinal de cauda longa, não um capricho do cálculo.</p>
 </div>
+</section>
+<section id="mexa-no-desvio-padrão" class="level2">
+<h2 class="anchored" data-anchor-id="mexa-no-desvio-padrão">Mexa no desvio-padrão</h2>
+<p>Os números acima são uma fotografia de uma única distribuição. Para separar de vez o que é a <strong>média</strong> do que é o <strong>desvio-padrão</strong>, o widget abaixo faz algo que nenhum gráfico estático consegue: muda a dispersão da taxa de homicídios sem tocar na média. Arraste o controle e observe a linha vermelha — ela não se move um pixel. Média e desvio-padrão são parâmetros independentes: um descreve <em>onde</em> os dados estão centrados, o outro descreve <em>quão longe</em> eles se espalham desse centro, e mudar um não obriga o outro a mudar.</p>
+<p>O truque por trás disso é o z-score. Cada estado tem um z-score real, <span class="math inline">\(z_i = (x_i - \bar{x}) / s\)</span>, calculado uma única vez a partir dos dados verdadeiros. Para gerar uma taxa com um desvio-padrão diferente, basta inverter a fórmula: <span class="math inline">\(x_i' = \bar{x} + z_i \times s_{\text{novo}}\)</span>. Essa não é uma aproximação — é a mesma identidade algébrica em outra direção, e ela devolve exatamente a média <span class="math inline">\(\bar{x}\)</span> para qualquer <span class="math inline">\(s_{\text{novo}}\)</span> que você escolher.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb8" data-startfrom="115" data-source-offset="-0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 114;"><span id="cb8-115"><a href="#cb8-115" aria-hidden="true" tabindex="-1"></a>estados <span class="op">=</span> <span class="fu">transpose</span>(dados)</span>
+<span id="cb8-116"><a href="#cb8-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-117"><a href="#cb8-117" aria-hidden="true" tabindex="-1"></a>fmt <span class="op">=</span> x <span class="kw">=&gt;</span> x<span class="op">.</span><span class="fu">toLocaleString</span>(<span class="st">"pt-BR"</span><span class="op">,</span> {<span class="dt">minimumFractionDigits</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span> <span class="dt">maximumFractionDigits</span><span class="op">:</span> <span class="dv">1</span>})</span>
+<span id="cb8-118"><a href="#cb8-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-119"><a href="#cb8-119" aria-hidden="true" tabindex="-1"></a><span class="co">// O z-score da taxa real, calculado UMA vez. É ele que permite mudar o desvio</span></span>
+<span id="cb8-120"><a href="#cb8-120" aria-hidden="true" tabindex="-1"></a><span class="co">// sem mexer na média: taxa' = μ + z × σ_novo devolve exatamente a média μ e</span></span>
+<span id="cb8-121"><a href="#cb8-121" aria-hidden="true" tabindex="-1"></a><span class="co">// exatamente o desvio σ_novo. Não é aproximação — é identidade algébrica.</span></span>
+<span id="cb8-122"><a href="#cb8-122" aria-hidden="true" tabindex="-1"></a><span class="co">// d3.deviation usa n−1, igual ao .std(ddof=1) do pandas.</span></span>
+<span id="cb8-123"><a href="#cb8-123" aria-hidden="true" tabindex="-1"></a>base <span class="op">=</span> {</span>
+<span id="cb8-124"><a href="#cb8-124" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> taxas <span class="op">=</span> estados<span class="op">.</span><span class="fu">map</span>(d <span class="kw">=&gt;</span> d[<span class="st">"Taxa.Homicidios"</span>])<span class="op">;</span></span>
+<span id="cb8-125"><a href="#cb8-125" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> mu <span class="op">=</span> d3<span class="op">.</span><span class="fu">mean</span>(taxas)<span class="op">;</span></span>
+<span id="cb8-126"><a href="#cb8-126" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> sd <span class="op">=</span> d3<span class="op">.</span><span class="fu">deviation</span>(taxas)<span class="op">;</span></span>
+<span id="cb8-127"><a href="#cb8-127" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> {</span>
+<span id="cb8-128"><a href="#cb8-128" aria-hidden="true" tabindex="-1"></a>    mu<span class="op">,</span></span>
+<span id="cb8-129"><a href="#cb8-129" aria-hidden="true" tabindex="-1"></a>    sd<span class="op">,</span></span>
+<span id="cb8-130"><a href="#cb8-130" aria-hidden="true" tabindex="-1"></a>    <span class="dt">z</span><span class="op">:</span> estados<span class="op">.</span><span class="fu">map</span>(d <span class="kw">=&gt;</span> ({<span class="dt">sigla</span><span class="op">:</span> d<span class="op">.</span><span class="at">Sigla</span><span class="op">,</span> <span class="dt">z</span><span class="op">:</span> (d[<span class="st">"Taxa.Homicidios"</span>] <span class="op">-</span> mu) <span class="op">/</span> sd}))</span>
+<span id="cb8-131"><a href="#cb8-131" aria-hidden="true" tabindex="-1"></a>  }<span class="op">;</span></span>
+<span id="cb8-132"><a href="#cb8-132" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-2" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-3" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb9" data-startfrom="136" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 135;"><span id="cb9-136"><a href="#cb9-136" aria-hidden="true" tabindex="-1"></a><span class="co">// Sem `format` customizado: a caixa &lt;input type="number"&gt; ao lado do slider</span></span>
+<span id="cb9-137"><a href="#cb9-137" aria-hidden="true" tabindex="-1"></a><span class="co">// rejeita string não numérica e ficaria vazia. A unidade vai no rótulo.</span></span>
+<span id="cb9-138"><a href="#cb9-138" aria-hidden="true" tabindex="-1"></a><span class="co">//</span></span>
+<span id="cb9-139"><a href="#cb9-139" aria-hidden="true" tabindex="-1"></a><span class="co">// O máximo é 11,8 e não é capricho: acima disso, São Paulo (a menor taxa do</span></span>
+<span id="cb9-140"><a href="#cb9-140" aria-hidden="true" tabindex="-1"></a><span class="co">// país) passaria a ter taxa NEGATIVA. Ver a prosa.</span></span>
+<span id="cb9-141"><a href="#cb9-141" aria-hidden="true" tabindex="-1"></a>viewof desvio <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">4</span><span class="op">,</span> <span class="fl">11.8</span>]<span class="op">,</span> {</span>
+<span id="cb9-142"><a href="#cb9-142" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="fl">0.01</span><span class="op">,</span></span>
+<span id="cb9-143"><a href="#cb9-143" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="fl">8.61</span><span class="op">,</span></span>
+<span id="cb9-144"><a href="#cb9-144" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"Desvio-padrão da taxa:"</span></span>
+<span id="cb9-145"><a href="#cb9-145" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-2" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb10" data-startfrom="151" data-source-offset="-0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 150;"><span id="cb10-151"><a href="#cb10-151" aria-hidden="true" tabindex="-1"></a>taxasAjustadas <span class="op">=</span> base<span class="op">.</span><span class="at">z</span><span class="op">.</span><span class="fu">map</span>(d <span class="kw">=&gt;</span> ({<span class="dt">sigla</span><span class="op">:</span> d<span class="op">.</span><span class="at">sigla</span><span class="op">,</span> <span class="dt">taxa</span><span class="op">:</span> base<span class="op">.</span><span class="at">mu</span> <span class="op">+</span> d<span class="op">.</span><span class="at">z</span> <span class="op">*</span> desvio}))</span>
+<span id="cb10-152"><a href="#cb10-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-153"><a href="#cb10-153" aria-hidden="true" tabindex="-1"></a>menor <span class="op">=</span> taxasAjustadas<span class="op">.</span><span class="fu">reduce</span>((a<span class="op">,</span> b) <span class="kw">=&gt;</span> (a<span class="op">.</span><span class="at">taxa</span> <span class="op">&lt;</span> b<span class="op">.</span><span class="at">taxa</span> <span class="op">?</span> a <span class="op">:</span> b))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-3-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-3-2" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+</div>
+<p>Repare que os dois eixos do gráfico abaixo estão <strong>travados</strong> — o eixo x sempre vai de 0 a 45, o eixo y sempre vai de 0 a 8, não importa o que o slider faça. Isso é proposital: um eixo que se reajusta automaticamente absorveria o efeito da mudança, e as barras sempre pareceriam “do mesmo tamanho” — exatamente o que este widget existe para desmentir. Com o eixo fixo, dispersão maior significa, visivelmente, barras mais espalhadas e mais baixas; dispersão menor significa barras mais estreitas e mais altas, todas se apertando contra a linha vermelha da média.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb11" data-startfrom="159" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 158;"><span id="cb11-159"><a href="#cb11-159" aria-hidden="true" tabindex="-1"></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
+<span id="cb11-160"><a href="#cb11-160" aria-hidden="true" tabindex="-1"></a>  <span class="dt">height</span><span class="op">:</span> <span class="dv">300</span><span class="op">,</span></span>
+<span id="cb11-161"><a href="#cb11-161" aria-hidden="true" tabindex="-1"></a>  <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">45</span><span class="op">,</span></span>
+<span id="cb11-162"><a href="#cb11-162" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Os DOIS eixos travados, de propósito: um eixo que se reajusta mascara</span></span>
+<span id="cb11-163"><a href="#cb11-163" aria-hidden="true" tabindex="-1"></a>  <span class="co">// justamente o efeito que este widget existe para mostrar.</span></span>
+<span id="cb11-164"><a href="#cb11-164" aria-hidden="true" tabindex="-1"></a>  <span class="dt">x</span><span class="op">:</span> {<span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">45</span>]<span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Taxa de homicídios (por 100 mil) →"</span>}<span class="op">,</span></span>
+<span id="cb11-165"><a href="#cb11-165" aria-hidden="true" tabindex="-1"></a>  <span class="dt">y</span><span class="op">:</span> {<span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">8</span>]<span class="op">,</span> <span class="dt">grid</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"↑ Número de estados"</span>}<span class="op">,</span></span>
+<span id="cb11-166"><a href="#cb11-166" aria-hidden="true" tabindex="-1"></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
+<span id="cb11-167"><a href="#cb11-167" aria-hidden="true" tabindex="-1"></a>    Plot<span class="op">.</span><span class="fu">rectY</span>(taxasAjustadas<span class="op">,</span> Plot<span class="op">.</span><span class="fu">binX</span>({<span class="dt">y</span><span class="op">:</span> <span class="st">"count"</span>}<span class="op">,</span> {</span>
+<span id="cb11-168"><a href="#cb11-168" aria-hidden="true" tabindex="-1"></a>      <span class="dt">x</span><span class="op">:</span> <span class="st">"taxa"</span><span class="op">,</span></span>
+<span id="cb11-169"><a href="#cb11-169" aria-hidden="true" tabindex="-1"></a>      <span class="dt">thresholds</span><span class="op">:</span> d3<span class="op">.</span><span class="fu">range</span>(<span class="dv">0</span><span class="op">,</span> <span class="fl">45.1</span><span class="op">,</span> <span class="fl">2.5</span>)<span class="op">,</span></span>
+<span id="cb11-170"><a href="#cb11-170" aria-hidden="true" tabindex="-1"></a>      <span class="dt">fill</span><span class="op">:</span> <span class="st">"#b0c4d8"</span></span>
+<span id="cb11-171"><a href="#cb11-171" aria-hidden="true" tabindex="-1"></a>    }))<span class="op">,</span></span>
+<span id="cb11-172"><a href="#cb11-172" aria-hidden="true" tabindex="-1"></a>    Plot<span class="op">.</span><span class="fu">ruleX</span>([base<span class="op">.</span><span class="at">mu</span>]<span class="op">,</span> {<span class="dt">stroke</span><span class="op">:</span> <span class="st">"#c0392b"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">2</span>})<span class="op">,</span></span>
+<span id="cb11-173"><a href="#cb11-173" aria-hidden="true" tabindex="-1"></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="dv">0</span>])</span>
+<span id="cb11-174"><a href="#cb11-174" aria-hidden="true" tabindex="-1"></a>  ]</span>
+<span id="cb11-175"><a href="#cb11-175" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-4" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb12" data-startfrom="180" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 179;"><span id="cb12-180"><a href="#cb12-180" aria-hidden="true" tabindex="-1"></a><span class="fu">md</span><span class="vs">`Média: **</span><span class="sc">${</span><span class="fu">fmt</span>(base<span class="op">.</span><span class="at">mu</span>)<span class="sc">}</span><span class="vs">** — a linha vermelha, que **não se move**.</span></span>
+<span id="cb12-181"><a href="#cb12-181" aria-hidden="true" tabindex="-1"></a><span class="vs">Desvio-padrão: **</span><span class="sc">${</span><span class="fu">fmt</span>(desvio)<span class="sc">}</span><span class="vs">** (o real é </span><span class="sc">${</span><span class="fu">fmt</span>(base<span class="op">.</span><span class="at">sd</span>)<span class="sc">}</span><span class="vs">).</span></span>
+<span id="cb12-182"><a href="#cb12-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-183"><a href="#cb12-183" aria-hidden="true" tabindex="-1"></a><span class="vs">Menor taxa: **</span><span class="sc">${</span><span class="fu">fmt</span>(menor<span class="op">.</span><span class="at">taxa</span>)<span class="sc">}</span><span class="vs">** (</span><span class="sc">${</span>menor<span class="op">.</span><span class="at">sigla</span><span class="sc">}</span><span class="vs">) — Maior: **</span><span class="sc">${</span><span class="fu">fmt</span>(d3<span class="op">.</span><span class="fu">max</span>(taxasAjustadas<span class="op">,</span> d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">taxa</span>))<span class="sc">}</span><span class="vs">**`</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-5" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+<p>Por que o slider para em 11,8, e não continua até 15 ou 20? Não é capricho de quem construiu o widget — é uma restrição matemática. O desvio-padrão máximo que essa distribuição pode ter, mantendo a média fixa em 22,74, é</p>
+<p><span class="math display">\[\sigma_{\text{crítico}} = \frac{\mu}{|z_{\min}|} = \frac{22{,}74}{1{,}926} = 11{,}81\]</span></p>
+<p>onde <span class="math inline">\(z_{\min} = -1{,}926\)</span> é o z-score de São Paulo — a <strong>menor</strong> taxa do país (6,16 por 100 mil). Acima de 11,81, a fórmula <span class="math inline">\(x_i' = \bar{x} + z_i \times s_{\text{novo}}\)</span> empurraria a taxa de São Paulo para um valor <strong>negativo</strong>. Taxa de homicídios negativa não existe: não há como matar menos que zero pessoas a cada 100 mil habitantes. Arraste o slider até o fim e veja a menor taxa da tabela encostar em zero — é exatamente esse limite sendo alcançado.</p>
+<p>Essa restrição não é peculiaridade da taxa de homicídios: <strong>o piso em zero limita quanta dispersão uma variável positiva pode ter, dada a sua média.</strong> Uma variável que não pode ser negativa tem, por construção, muito mais espaço para se espalhar para cima do que para baixo — o chão está sempre a uma distância finita da média, o teto não está a distância nenhuma. É por isso que renda, população e tempo de espera, entre tantas outras variáveis que só existem como números positivos, tendem a ser <strong>assimétricas à direita</strong>: a cauda longa de valores altos não tem para onde recuar, mas a variação para baixo esbarra em zero muito antes. A seção 1.5 retoma exatamente essa assimetria — e agora você já viu de onde ela nasce.</p>
 </section>
 <section id="resumo" class="level2">
 <h2 class="anchored" data-anchor-id="resumo">Resumo</h2>
@@ -912,6 +1043,17 @@ document.addEventListener('DOMContentLoaded', function () {
     input.addEventListener('keydown', e => { if (e.key === 'Enter') tryUnlock(); });
   });
 });
+</script>
+<script type="ojs-module-contents">
+eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6ImVzdGFkb3MgPSB0cmFuc3Bvc2UoZGFkb3MpXG5cbmZtdCA9IHggPT4geC50b0xvY2FsZVN0cmluZyhcInB0LUJSXCIsIHttaW5pbXVtRnJhY3Rpb25EaWdpdHM6IDEsIG1heGltdW1GcmFjdGlvbkRpZ2l0czogMX0pXG5cbi8vIE8gei1zY29yZSBkYSB0YXhhIHJlYWwsIGNhbGN1bGFkbyBVTUEgdmV6LiDDiSBlbGUgcXVlIHBlcm1pdGUgbXVkYXIgbyBkZXN2aW9cbi8vIHNlbSBtZXhlciBuYSBtw6lkaWE6IHRheGEnID0gzrwgKyB6IMOXIM+DX25vdm8gZGV2b2x2ZSBleGF0YW1lbnRlIGEgbcOpZGlhIM68IGVcbi8vIGV4YXRhbWVudGUgbyBkZXN2aW8gz4Nfbm92by4gTsOjbyDDqSBhcHJveGltYcOnw6NvIOKAlCDDqSBpZGVudGlkYWRlIGFsZ8OpYnJpY2EuXG4vLyBkMy5kZXZpYXRpb24gdXNhIG7iiJIxLCBpZ3VhbCBhbyAuc3RkKGRkb2Y9MSkgZG8gcGFuZGFzLlxuYmFzZSA9IHtcbiAgY29uc3QgdGF4YXMgPSBlc3RhZG9zLm1hcChkID0+IGRbXCJUYXhhLkhvbWljaWRpb3NcIl0pO1xuICBjb25zdCBtdSA9IGQzLm1lYW4odGF4YXMpO1xuICBjb25zdCBzZCA9IGQzLmRldmlhdGlvbih0YXhhcyk7XG4gIHJldHVybiB7XG4gICAgbXUsXG4gICAgc2QsXG4gICAgejogZXN0YWRvcy5tYXAoZCA9PiAoe3NpZ2xhOiBkLlNpZ2xhLCB6OiAoZFtcIlRheGEuSG9taWNpZGlvc1wiXSAtIG11KSAvIHNkfSkpXG4gIH07XG59XG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJjZWxsTmFtZSI6Im9qcy1jZWxsLTIiLCJpbmxpbmUiOmZhbHNlLCJzb3VyY2UiOiIvLyBTZW0gYGZvcm1hdGAgY3VzdG9taXphZG86IGEgY2FpeGEgPGlucHV0IHR5cGU9XCJudW1iZXJcIj4gYW8gbGFkbyBkbyBzbGlkZXJcbi8vIHJlamVpdGEgc3RyaW5nIG7Do28gbnVtw6lyaWNhIGUgZmljYXJpYSB2YXppYS4gQSB1bmlkYWRlIHZhaSBubyByw7N0dWxvLlxuLy9cbi8vIE8gbcOheGltbyDDqSAxMSw4IGUgbsOjbyDDqSBjYXByaWNobzogYWNpbWEgZGlzc28sIFPDo28gUGF1bG8gKGEgbWVub3IgdGF4YSBkb1xuLy8gcGHDrXMpIHBhc3NhcmlhIGEgdGVyIHRheGEgTkVHQVRJVkEuIFZlciBhIHByb3NhLlxudmlld29mIGRlc3ZpbyA9IElucHV0cy5yYW5nZShbNCwgMTEuOF0sIHtcbiAgc3RlcDogMC4wMSxcbiAgdmFsdWU6IDguNjEsXG4gIGxhYmVsOiBcIkRlc3Zpby1wYWRyw6NvIGRhIHRheGE6XCJcbn0pXG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJjZWxsTmFtZSI6Im9qcy1jZWxsLTMiLCJpbmxpbmUiOmZhbHNlLCJzb3VyY2UiOiJ0YXhhc0FqdXN0YWRhcyA9IGJhc2Uuei5tYXAoZCA9PiAoe3NpZ2xhOiBkLnNpZ2xhLCB0YXhhOiBiYXNlLm11ICsgZC56ICogZGVzdmlvfSkpXG5cbm1lbm9yID0gdGF4YXNBanVzdGFkYXMucmVkdWNlKChhLCBiKSA9PiAoYS50YXhhIDwgYi50YXhhID8gYSA6IGIpKVxuIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0IiwiY2VsbE5hbWUiOiJvanMtY2VsbC00IiwiaW5saW5lIjpmYWxzZSwic291cmNlIjoiUGxvdC5wbG90KHtcbiAgaGVpZ2h0OiAzMDAsXG4gIG1hcmdpbkxlZnQ6IDQ1LFxuICAvLyBPcyBET0lTIGVpeG9zIHRyYXZhZG9zLCBkZSBwcm9ww7NzaXRvOiB1bSBlaXhvIHF1ZSBzZSByZWFqdXN0YSBtYXNjYXJhXG4gIC8vIGp1c3RhbWVudGUgbyBlZmVpdG8gcXVlIGVzdGUgd2lkZ2V0IGV4aXN0ZSBwYXJhIG1vc3RyYXIuXG4gIHg6IHtkb21haW46IFswLCA0NV0sIGxhYmVsOiBcIlRheGEgZGUgaG9taWPDrWRpb3MgKHBvciAxMDAgbWlsKSDihpJcIn0sXG4gIHk6IHtkb21haW46IFswLCA4XSwgZ3JpZDogdHJ1ZSwgbGFiZWw6IFwi4oaRIE7Dum1lcm8gZGUgZXN0YWRvc1wifSxcbiAgbWFya3M6IFtcbiAgICBQbG90LnJlY3RZKHRheGFzQWp1c3RhZGFzLCBQbG90LmJpblgoe3k6IFwiY291bnRcIn0sIHtcbiAgICAgIHg6IFwidGF4YVwiLFxuICAgICAgdGhyZXNob2xkczogZDMucmFuZ2UoMCwgNDUuMSwgMi41KSxcbiAgICAgIGZpbGw6IFwiI2IwYzRkOFwiXG4gICAgfSkpLFxuICAgIFBsb3QucnVsZVgoW2Jhc2UubXVdLCB7c3Ryb2tlOiBcIiNjMDM5MmJcIiwgc3Ryb2tlV2lkdGg6IDJ9KSxcbiAgICBQbG90LnJ1bGVZKFswXSlcbiAgXVxufSlcbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtNSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6Im1kYE3DqWRpYTogKioke2ZtdChiYXNlLm11KX0qKiDigJQgYSBsaW5oYSB2ZXJtZWxoYSwgcXVlICoqbsOjbyBzZSBtb3ZlKiouXG5EZXN2aW8tcGFkcsOjbzogKioke2ZtdChkZXN2aW8pfSoqIChvIHJlYWwgw6kgJHtmbXQoYmFzZS5zZCl9KS5cblxuTWVub3IgdGF4YTogKioke2ZtdChtZW5vci50YXhhKX0qKiAoJHttZW5vci5zaWdsYX0pIOKAlCBNYWlvcjogKioke2ZtdChkMy5tYXgodGF4YXNBanVzdGFkYXMsIGQgPT4gZC50YXhhKSl9KipgXG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6InNoaW55SW5wdXQoJ2Rlc3ZpbycpIn1dfQ==
+</script>
+<script type="module">
+if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
+window._ojs.paths.runtimeToDoc = "../../content/cap01";
+window._ojs.paths.runtimeToRoot = "../..";
+window._ojs.paths.docToRoot = "../..";
+window._ojs.selfContained = false;
+window._ojs.runtime.interpretFromScriptTags();
 </script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {

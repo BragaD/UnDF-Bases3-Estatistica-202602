@@ -135,6 +135,35 @@ div.csl-indent {
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../../styles.css">
 </head>
@@ -614,6 +643,7 @@ div.csl-indent {
   <li><a href="#boxplot" id="toc-boxplot" class="nav-link" data-scroll-target="#boxplot">Boxplot</a></li>
   <li><a href="#tabela-de-frequência-e-histograma" id="toc-tabela-de-frequência-e-histograma" class="nav-link" data-scroll-target="#tabela-de-frequência-e-histograma">Tabela de frequência e histograma</a></li>
   <li><a href="#densidade" id="toc-densidade" class="nav-link" data-scroll-target="#densidade">Densidade</a></li>
+  <li><a href="#assimetria" id="toc-assimetria" class="nav-link" data-scroll-target="#assimetria">Assimetria</a></li>
   <li><a href="#resumo" id="toc-resumo" class="nav-link" data-scroll-target="#resumo">Resumo</a></li>
   <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios">Exercícios</a></li>
   </ul>
@@ -800,6 +830,147 @@ Figura&nbsp;6.3: Histograma da taxa de homicídios com a curva de densidade sobr
 <p>O <code>density=True</code> no histograma é o que torna as duas curvas comparáveis nesse gráfico. Sem ele, o eixo Y do histograma seria <strong>contagem</strong> (quantos estados em cada faixa) e o da densidade seria <strong>densidade de probabilidade</strong> (área total igual a 1) — duas escalas diferentes convivendo no mesmo eixo. Nesse caso, a curva de densidade apareceria colada em zero, achatada pela contagem muito maior das barras.</p>
 </div>
 </section>
+<section id="assimetria" class="level2">
+<h2 class="anchored" data-anchor-id="assimetria">Assimetria</h2>
+<p>As seções 1.3 e 1.4 reduziram a população dos estados a dois números: um valor típico e uma medida de quanto os dados se espalham em torno dele. Considere agora três turmas fictícias de 25 alunos, com boletins <strong>idênticos</strong>: média 65, desvio-padrão 12. Se essas duas estatísticas fossem tudo que existisse para descrever uma turma, seria razoável supor que as três se parecem. Elas não se parecem: uma tem a maioria das notas abaixo da média com um rastro de notas altas puxando para cima; outra é o espelho exato dessa primeira; a terceira não tem rastro para nenhum lado. Média e variância dizem <strong>onde</strong> os dados estão centrados e <strong>quão espalhados</strong> eles estão — nenhuma das duas diz uma palavra sobre a <strong>forma</strong>.</p>
+<div id="turmas" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>N, MEDIA, DESVIO <span class="op">=</span> <span class="dv">25</span>, <span class="fl">65.0</span>, <span class="fl">12.0</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> padroniza(x, media<span class="op">=</span>MEDIA, desvio<span class="op">=</span>DESVIO):</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Crava média e desvio exatos, via z-score e reescala.</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">    A assimetria é invariante a transformação linear — ela sobrevive intacta.</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co">    É isso que permite três conjuntos com a MESMA média e a MESMA variância,</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">    mas formas diferentes.</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> np.asarray(x, <span class="bu">float</span>)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (x <span class="op">-</span> x.mean()) <span class="op">/</span> x.std(ddof<span class="op">=</span><span class="dv">1</span>) <span class="op">*</span> desvio <span class="op">+</span> media</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Um gerador por turma: a ordem de consumo do RNG não pode alterar um conjunto</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co"># em silêncio quando outro mudar.</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>turma_a <span class="op">=</span> padroniza(np.random.default_rng(<span class="dv">42</span>).lognormal(<span class="dv">0</span>, <span class="fl">1.0</span>, N))</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Espelho em torno da média: preserva média e variância, e inverte o SINAL da</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="co"># assimetria — exatamente, não aproximadamente.</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>turma_b <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> MEDIA <span class="op">-</span> turma_a</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Simétrica POR CONSTRUÇÃO, não por amostragem: 12 desvios, seus 12 espelhos,</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="co"># e o centro. A assimetria é exatamente zero, não "próxima de zero".</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>desvios <span class="op">=</span> np.<span class="bu">abs</span>(np.random.default_rng(<span class="dv">7</span>).normal(<span class="dv">0</span>, <span class="dv">1</span>, (N <span class="op">-</span> <span class="dv">1</span>) <span class="op">//</span> <span class="dv">2</span>))</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>turma_c <span class="op">=</span> padroniza(np.concatenate([<span class="op">-</span>desvios, [<span class="fl">0.0</span>], desvios]))</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>turmas <span class="op">=</span> {<span class="st">"A — à direita"</span>: turma_a, <span class="st">"B — à esquerda"</span>: turma_b, <span class="st">"C — simétrica"</span>: turma_c}</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a><span class="co"># As garantias são verificadas, não afirmadas.</span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> np.allclose([t.mean() <span class="cf">for</span> t <span class="kw">in</span> turmas.values()], MEDIA)</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> np.allclose([t.var(ddof<span class="op">=</span><span class="dv">1</span>) <span class="cf">for</span> t <span class="kw">in</span> turmas.values()], DESVIO <span class="op">**</span> <span class="dv">2</span>)</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> np.isclose(stats.skew(turma_a, bias<span class="op">=</span><span class="va">False</span>), <span class="op">-</span>stats.skew(turma_b, bias<span class="op">=</span><span class="va">False</span>))</span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> np.isclose(stats.skew(turma_c, bias<span class="op">=</span><span class="va">False</span>), <span class="dv">0</span>, atol<span class="op">=</span><span class="fl">1e-12</span>)</span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="bu">all</span>(t.<span class="bu">min</span>() <span class="op">&gt;=</span> <span class="dv">0</span> <span class="kw">and</span> t.<span class="bu">max</span>() <span class="op">&lt;=</span> <span class="dv">100</span> <span class="cf">for</span> t <span class="kw">in</span> turmas.values())</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>A turma A vem de uma distribuição lognormal — sabidamente de cauda longa à direita — reescalada por <code>padroniza()</code> até ter exatamente a média e o desvio-padrão combinados; a assimetria sobrevive a essa reescala porque é invariante a transformações lineares. A turma B é o espelho exato de A em torno de 65: mesma média, mesma variância, assimetria com o sinal invertido, ponto a ponto. A turma C não vem de sorteio nenhum — é montada aos pares simétricos ao redor do centro e só depois reescalada, então sua assimetria não fica <em>perto</em> de zero: ela <strong>é</strong> zero, por construção. Os <code>assert</code> no fim do bloco não são um comentário sobre o código: são a verificação de que as três turmas realmente têm a mesma média, a mesma variância, assimetrias exatamente opostas (A e B) ou exatamente nula (C), e nenhuma nota fora de [0, 100]. Se alguma dessas garantias falhasse, o exemplo estaria quebrado, e é melhor o livro recusar a compilar do que publicá-lo assim.</p>
+<p>As quatro estatísticas a seguir tornam a diferença impossível de ignorar:</p>
+<div id="cell-tabela-assimetria" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>resumo <span class="op">=</span> pd.DataFrame(</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Média"</span>: [num(t.mean(), <span class="dv">1</span>) <span class="cf">for</span> t <span class="kw">in</span> turmas.values()],</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Mediana"</span>: [num(np.median(t), <span class="dv">1</span>) <span class="cf">for</span> t <span class="kw">in</span> turmas.values()],</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Variância"</span>: [num(t.var(ddof<span class="op">=</span><span class="dv">1</span>), <span class="dv">1</span>) <span class="cf">for</span> t <span class="kw">in</span> turmas.values()],</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Assimetria"</span>: [num(stats.skew(t, bias<span class="op">=</span><span class="va">False</span>), <span class="dv">2</span>) <span class="cf">for</span> t <span class="kw">in</span> turmas.values()],</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    index<span class="op">=</span><span class="bu">list</span>(turmas),</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>resumo</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="tabela-assimetria" class="cell-output cell-output-display" data-execution_count="8">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Média</th>
+<th data-quarto-table-cell-role="th">Mediana</th>
+<th data-quarto-table-cell-role="th">Variância</th>
+<th data-quarto-table-cell-role="th">Assimetria</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">A — à direita</th>
+<td>65,0</td>
+<td>61,1</td>
+<td>144,0</td>
+<td>0,81</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">B — à esquerda</th>
+<td>65,0</td>
+<td>68,9</td>
+<td>144,0</td>
+<td>-0,81</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">C — simétrica</th>
+<td>65,0</td>
+<td>65,0</td>
+<td>144,0</td>
+<td>0,00</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>A regra emerge sozinha da tabela, sem precisar ser decorada. Assimetria <strong>positiva</strong> → cauda à direita → <strong>média maior que a mediana</strong> (65,0 &gt; 61,1, turma A). Assimetria <strong>negativa</strong> → cauda à esquerda → <strong>média menor que a mediana</strong> (65,0 &lt; 68,9, turma B). Assimetria <strong>zero</strong> → <strong>média igual à mediana</strong> (65,0 = 65,0, turma C).</p>
+<p>O motivo é o mesmo que a seção 1.3 já expôs para a média sozinha, agora com um número que o mede: a cauda longa arrasta a média, porque ela soma todos os valores — inclusive os poucos que estão longe do resto —, e não move a mediana, que só enxerga o valor do meio da fila.</p>
+<div class="conceito">
+<p><strong>Regra prática:</strong> assimetria positiva significa cauda à direita e média acima da mediana; assimetria negativa significa cauda à esquerda e média abaixo da mediana; assimetria zero significa média e mediana coincidindo. O sinal da assimetria é o sinal da diferença entre média e mediana.</p>
+</div>
+<p>O histograma deixa a mesma história visível:</p>
+<div id="cell-fig-assimetria" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>fig, eixos <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">11</span>, <span class="fl">3.3</span>), sharey<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ax, (nome, notas) <span class="kw">in</span> <span class="bu">zip</span>(eixos, turmas.items()):</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    ax.hist(notas, bins<span class="op">=</span>np.arange(<span class="dv">30</span>, <span class="dv">101</span>, <span class="dv">7</span>), color<span class="op">=</span><span class="st">"#b0c4d8"</span>, edgecolor<span class="op">=</span><span class="st">"white"</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    ax.axvline(notas.mean(), color<span class="op">=</span><span class="st">"#c0392b"</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    ax.axvline(np.median(notas), color<span class="op">=</span><span class="st">"#27ae60"</span>, linestyle<span class="op">=</span><span class="st">"--"</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    ax.set_title(nome, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    ax.set_xlabel(<span class="st">"Nota"</span>)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>eixos[<span class="dv">0</span>].set_ylabel(<span class="st">"Alunos"</span>)</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="fig-assimetria" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-assimetria-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="05-distribuicao-dados_files/figure-html/fig-assimetria-output-1.png" width="1045" height="307" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-assimetria-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;6.4: Três turmas com a mesma média e a mesma variância — e formas completamente diferentes. A linha vermelha é a média; a verde tracejada, a mediana.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>No painel A, a maioria das notas se aglomera abaixo de 65, com um rastro de notas altas se estendendo para a direita — é esse rastro que empurra a linha vermelha (média) para além da linha verde tracejada (mediana). No painel B a imagem é o espelho: a maioria das notas fica acima de 65, com o rastro agora à esquerda, e a média fica abaixo da mediana. No painel C não há rastro para nenhum dos dois lados, e as duas linhas praticamente se sobrepõem. O <code>sharey=True</code> importa: sem ele, cada painel escolheria sua própria escala vertical, e a comparação entre as três formas ficaria distorcida.</p>
+<p>A <strong>assimetria</strong> (skewness) mede esse desequilíbrio entre as caudas em um único número:</p>
+<p><span class="math display">\[g_1 = \frac{\frac{1}{n}\sum_{i=1}^{n}(x_i - \bar{x})^3}{s^3}\]</span></p>
+<p>O expoente 3 é o que faz a fórmula funcionar: ele <strong>preserva o sinal</strong> do desvio. Um desvio acima da média entra positivo; um desvio abaixo, negativo — e eles se cancelariam, como cancelam na média dos desvios simples (seção 1.4), a menos que uma das caudas seja mais comprida ou mais extrema que a outra. É exatamente esse desequilíbrio residual que sobra depois do cancelamento. Compare com o desvio-padrão: ali o desvio é <strong>elevado ao quadrado</strong>, o quadrado de um número negativo é positivo, o sinal desaparece — e é por isso que o desvio-padrão, por mais que meça dispersão, não diz absolutamente nada sobre para qual lado os dados pendem.</p>
+<p>Voltando aos dados reais das 27 unidades federativas:</p>
+<div id="assimetria-real" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"População das UFs  : </span><span class="sc">{</span>num(stats.skew(estado[<span class="st">'Populacao'</span>], bias<span class="op">=</span><span class="va">False</span>), <span class="dv">2</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Taxa de homicídios : </span><span class="sc">{</span>num(stats.skew(estado[<span class="st">'Taxa.Homicidios'</span>], bias<span class="op">=</span><span class="va">False</span>), <span class="dv">2</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>População das UFs  : 2,96
+Taxa de homicídios : -0,19</code></pre>
+</div>
+</div>
+<p>A população tem assimetria de <strong>2,96</strong> — fortemente à direita. É a mesma razão, vista por outro ângulo, pela qual a seção 1.3 encontrou uma média 90% maior que a mediana: um único estado, São Paulo, está tão distante do resto que arrasta a média para cima sem deslocar a mediana um centímetro. A taxa de homicídios, com <strong>-0,19</strong>, está quase simétrica — média e mediana quase coincidem, e a distância entre elas quase desaparece.</p>
+<p>Essa cauda à direita também não é acaso. A seção 1.4 mostrou, ao tentar aumentar o desvio-padrão da taxa de homicídios sem mexer na média, que o piso em zero trava quanto uma variável positiva pode se espalhar para <strong>baixo</strong> — mas não trava nada para <strong>cima</strong>. É essa assimetria estrutural entre o chão e a ausência de teto que empurra população, renda e tantas outras variáveis que só existem como números positivos sempre para o mesmo lado: a direita.</p>
+</section>
 <section id="resumo" class="level2">
 <h2 class="anchored" data-anchor-id="resumo">Resumo</h2>
 <table class="caption-top table">
@@ -886,6 +1057,23 @@ Figura&nbsp;6.3: Histograma da taxa de homicídios com a curva de densidade sobr
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Não — é um retrato fiel dos dados. <code>pd.cut</code> cria faixas de <strong>largura</strong> igual, e a distribuição de população dos estados é assimétrica. Se o objetivo fosse faixas de <strong>contagem</strong> igual, a ferramenta certa seria <code>pd.qcut</code> (que corta por quantis, não por largura). São perguntas diferentes: uma mostra a forma da distribuição, a outra a divide em grupos do mesmo tamanho.</p>
+</div>
+</div>
+</div>
+<p><strong>4.</strong> Um relatório informa que a renda média de um município é R$ 4.200 e a mediana é R$ 2.100. Sem ver os dados, o que você pode afirmar sobre a assimetria da distribuição de renda? E se média e mediana fossem iguais?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>A média é o dobro da mediana, então a assimetria é <strong>positiva</strong> (à direita): há uma cauda de rendas altas puxando a média para cima, enquanto a mediana permanece onde está a maior parte das pessoas. É o padrão universal da renda, e a razão pela qual se reporta a mediana. Se média e mediana fossem iguais, a distribuição seria simétrica — o que, para renda, praticamente não acontece.</p>
 </div>
 </div>
 </div>

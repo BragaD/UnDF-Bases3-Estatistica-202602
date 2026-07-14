@@ -699,9 +699,9 @@ Nota
 <p><span class="math display">\[s = \sqrt{\frac{\sum_{i=1}^{n}(x_i - \bar{x})^2}{n-1}}\]</span></p>
 <div id="desvio-padrao" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>desvio <span class="op">=</span> estado[<span class="st">"Population"</span>].std()</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Desvio-padrão: </span><span class="sc">{</span>desvio<span class="sc">:,.1f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Desvio-padrão: </span><span class="sc">{</span>num(desvio)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Desvio-padrão: 6,848,235.3</code></pre>
+<pre><code>Desvio-padrão: 6.848.235,3</code></pre>
 </div>
 </div>
 <p>Tirar a raiz quadrada devolve o desvio-padrão à unidade original dos dados (pessoas, no caso), enquanto a variância fica em pessoas ao quadrado — uma unidade sem interpretação direta. Isso, somado à conveniência matemática de trabalhar com quadrados, é o motivo do desvio-padrão ser a medida de dispersão mais citada. Não é porque seja a mais robusta: é o contrário. Elevar ao quadrado amplifica desvios grandes muito mais do que pequenos, então o desvio-padrão é <strong>ainda mais sensível a extremos que a própria média</strong> — e a média já não era robusta.</p>
@@ -712,23 +712,23 @@ Nota
 <p>A <strong>amplitude interquartil</strong> (IQR) é a diferença entre o 75º e o 25º percentil — a largura da metade central dos dados, ignorando completamente o que acontece nas pontas:</p>
 <div id="iqr" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>iqr <span class="op">=</span> estado[<span class="st">"Population"</span>].quantile(<span class="fl">0.75</span>) <span class="op">-</span> estado[<span class="st">"Population"</span>].quantile(<span class="fl">0.25</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"IQR: </span><span class="sc">{</span>iqr<span class="sc">:,.1f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"IQR: </span><span class="sc">{</span>num(iqr)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>IQR: 4,847,308.0</code></pre>
+<pre><code>IQR: 4.847.308,0</code></pre>
 </div>
 </div>
 <p>O <strong>desvio absoluto mediano</strong> (MAD) segue a mesma lógica dos desvios em torno da média, mas trocando média por mediana nos dois lugares — tanto no ponto de referência quanto na forma de resumir os desvios:</p>
 <p><span class="math display">\[\text{MAD} = \frac{\text{mediana}\big(|x_i - \text{mediana}(x)|\big)}{0{,}6745}\]</span></p>
 <div id="mad" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>mad <span class="op">=</span> robust.scale.mad(estado[<span class="st">"Population"</span>])</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"MAD: </span><span class="sc">{</span>mad<span class="sc">:,.1f}</span><span class="ss">"</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"MAD: </span><span class="sc">{</span>num(mad)<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># O mesmo cálculo, explicitamente — para mostrar de onde vem o 0,6745</span></span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>mad_manual <span class="op">=</span> <span class="bu">abs</span>(estado[<span class="st">"Population"</span>] <span class="op">-</span> estado[<span class="st">"Population"</span>].median()).median() <span class="op">/</span> <span class="fl">0.6744897501960817</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"MAD (manual): </span><span class="sc">{</span>mad_manual<span class="sc">:,.1f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"MAD (manual): </span><span class="sc">{</span>num(mad_manual)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>MAD: 3,849,876.1
-MAD (manual): 3,849,876.1</code></pre>
+<pre><code>MAD: 3.849.876,1
+MAD (manual): 3.849.876,1</code></pre>
 </div>
 </div>
 <p>Os dois cálculos batem exatamente: a função <code>robust.scale.mad</code> da <code>statsmodels</code> não faz nada além dessa conta. O fator 0,6745 no denominador não é arbitrário — ele calibra o MAD para que, sob uma distribuição normal, o valor resultante seja diretamente comparável ao desvio-padrão. Sem essa calibração, MAD e desvio-padrão viveriam em escalas diferentes e comparar os dois números não teria sentido.</p>
@@ -737,7 +737,7 @@ MAD (manual): 3,849,876.1</code></pre>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>ax.hist(estado[<span class="st">"Population"</span>] <span class="op">/</span> <span class="fl">1e6</span>, bins<span class="op">=</span><span class="dv">20</span>, color<span class="op">=</span><span class="st">"#b0c4d8"</span>, edgecolor<span class="op">=</span><span class="st">"white"</span>)</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>ax.axvline(mediana <span class="op">/</span> <span class="fl">1e6</span>, color<span class="op">=</span><span class="st">"#2c3e50"</span>, linewidth<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="ss">f"Mediana: </span><span class="sc">{</span>mediana<span class="op">/</span><span class="fl">1e6</span><span class="sc">:.1f}</span><span class="ss">M"</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>ax.axvline(mediana <span class="op">/</span> <span class="fl">1e6</span>, color<span class="op">=</span><span class="st">"#2c3e50"</span>, linewidth<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="ss">f"Mediana: </span><span class="sc">{</span>num(mediana<span class="op">/</span><span class="fl">1e6</span>, <span class="dv">1</span>)<span class="sc">}</span><span class="ss">M"</span>)</span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> medida, valor, cor, estilo <span class="kw">in</span> [</span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Desvio-padrão"</span>, desvio, <span class="st">"#c0392b"</span>, <span class="st">"-"</span>),</span>
@@ -745,7 +745,7 @@ MAD (manual): 3,849,876.1</code></pre>
 <span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"MAD"</span>, mad, <span class="st">"#27ae60"</span>, <span class="st">":"</span>),</span>
 <span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>]:</span>
 <span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    ax.axvline((mediana <span class="op">+</span> valor) <span class="op">/</span> <span class="fl">1e6</span>, color<span class="op">=</span>cor, linestyle<span class="op">=</span>estilo, linewidth<span class="op">=</span><span class="dv">2</span>,</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>               label<span class="op">=</span><span class="ss">f"</span><span class="sc">{</span>medida<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>valor<span class="op">/</span><span class="fl">1e6</span><span class="sc">:.1f}</span><span class="ss">M"</span>)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>               label<span class="op">=</span><span class="ss">f"</span><span class="sc">{</span>medida<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>num(valor<span class="op">/</span><span class="fl">1e6</span>, <span class="dv">1</span>)<span class="sc">}</span><span class="ss">M"</span>)</span>
 <span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"População (milhões)"</span>)</span>
 <span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Número de estados"</span>)</span>
@@ -782,17 +782,17 @@ Figura&nbsp;5.1: As três medidas de dispersão sobre a distribuição de popula
 <tbody>
 <tr class="odd">
 <td>Desvio-padrão</td>
-<td>6,848,235</td>
+<td>6.848.235</td>
 <td>Não</td>
 </tr>
 <tr class="even">
 <td>IQR</td>
-<td>4,847,308</td>
+<td>4.847.308</td>
 <td>Sim</td>
 </tr>
 <tr class="odd">
 <td>MAD</td>
-<td>3,849,876</td>
+<td>3.849.876</td>
 <td>Sim</td>
 </tr>
 </tbody>

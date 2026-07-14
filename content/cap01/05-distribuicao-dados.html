@@ -669,7 +669,7 @@ Nota
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>percentis <span class="op">=</span> [<span class="fl">0.05</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>, <span class="fl">0.95</span>]</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>tabela <span class="op">=</span> pd.DataFrame(estado[<span class="st">"Murder.Rate"</span>].quantile(percentis))</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>tabela.index <span class="op">=</span> [<span class="ss">f"</span><span class="sc">{</span>p<span class="sc">:.0%}</span><span class="ss">"</span> <span class="cf">for</span> p <span class="kw">in</span> percentis]</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>tabela.transpose()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>tabela.transpose().<span class="bu">map</span>(<span class="kw">lambda</span> v: num(v, <span class="dv">2</span>))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div id="percentis" class="cell-output cell-output-display" data-execution_count="2">
 <div>
 
@@ -688,11 +688,11 @@ Nota
 <tbody>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">Murder.Rate</th>
-<td>1.6</td>
-<td>2.425</td>
-<td>4.0</td>
-<td>5.55</td>
-<td>6.51</td>
+<td>1,60</td>
+<td>2,42</td>
+<td>4,00</td>
+<td>5,55</td>
+<td>6,51</td>
 </tr>
 </tbody>
 </table>

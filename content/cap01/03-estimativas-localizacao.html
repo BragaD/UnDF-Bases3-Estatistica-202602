@@ -131,6 +131,8 @@ div.csl-indent {
     "search-label": "Procurar"
   }
 }</script>
+<script type="module" src="../../site_libs/quarto-ojs/quarto-ojs-runtime.js"></script>
+<link href="../../site_libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
@@ -646,6 +648,8 @@ window.Quarto = {
   <li><a href="#estimativas-ponderadas" id="toc-estimativas-ponderadas" class="nav-link" data-scroll-target="#estimativas-ponderadas">Estimativas ponderadas</a></li>
   <li><a href="#comparando-as-estimativas" id="toc-comparando-as-estimativas" class="nav-link" data-scroll-target="#comparando-as-estimativas">Comparando as estimativas</a></li>
   <li><a href="#resumo" id="toc-resumo" class="nav-link" data-scroll-target="#resumo">Resumo</a></li>
+  <li><a href="#arraste-o-outlier" id="toc-arraste-o-outlier" class="nav-link" data-scroll-target="#arraste-o-outlier">Arraste o outlier</a></li>
+  <li><a href="#arraste-o-aparo" id="toc-arraste-o-aparo" class="nav-link" data-scroll-target="#arraste-o-aparo">Arraste o aparo</a></li>
   <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios">Exercícios</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/BragaD/UnDF-Bases3-Estatistica-202602/issues/new" class="toc-action"><i class="bi bi-github"></i>Criar uma issue</a></li></ul></div></nav>
@@ -697,10 +701,14 @@ Nota
 <section id="os-dados" class="level2">
 <h2 class="anchored" data-anchor-id="os-dados">Os dados</h2>
 <p>Vamos usar população e taxa de homicídios (por 100.000 habitantes) dos 50 estados norte-americanos.</p>
-<div id="cell-carrega" class="cell" data-execution_count="2">
+<div id="carrega" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>estado <span class="op">=</span> pd.read_csv(<span class="st">"dados/state.csv"</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>estado.head()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="carrega" class="cell-output cell-output-display" data-execution_count="2">
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>ojs_define(dados <span class="op">=</span> estado)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>estado.head()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="carrega-1" class="cell-output cell-output-display">
+<script type="ojs-define">{"contents": [{"name": "dados", "value": {"State": ["Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"], "Population": [4779736, 710231, 6392017, 2915918, 37253956, 5029196, 3574097, 897934, 18801310, 9687653, 1360301, 1567582, 12830632, 6483802, 3046355, 2853118, 4339367, 4533372, 1328361, 5773552, 6547629, 9883640, 5303925, 2967297, 5988927, 989415, 1826341, 2700551, 1316470, 8791894, 2059179, 19378102, 9535483, 672591, 11536504, 3751351, 3831074, 12702379, 1052567, 4625364, 814180, 6346105, 25145561, 2763885, 625741, 8001024, 6724540, 1852994, 5686986, 563626], "Murder.Rate": [5.7, 5.6, 4.7, 5.6, 4.4, 2.8, 2.4, 5.8, 5.8, 5.7, 1.8, 2.0, 5.3, 5.0, 1.9, 3.1, 3.6, 10.3, 1.6, 6.1, 2.0, 5.4, 1.6, 8.6, 6.6, 3.6, 2.9, 6.0, 0.9, 3.9, 4.8, 3.1, 5.1, 3.0, 4.0, 4.5, 2.0, 4.8, 2.4, 6.4, 2.3, 5.7, 4.4, 2.3, 1.6, 4.1, 2.5, 4.0, 2.9, 2.7], "Abbreviation": ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"]}}]}</script>
+</div>
+<div id="carrega-2" class="cell-output cell-output-display" data-execution_count="2">
 <div>
 
 
@@ -766,9 +774,9 @@ Nota
 <p><span class="math display">\[\bar{x} = \frac{\sum_{i=1}^{n} x_i}{n}\]</span></p>
 <div id="media" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>media <span class="op">=</span> estado[<span class="st">"Population"</span>].mean()</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Média: </span><span class="sc">{</span>media<span class="sc">:,.1f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Média: </span><span class="sc">{</span>num(media)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Média: 6,162,876.3</code></pre>
+<pre><code>Média: 6.162.876,3</code></pre>
 </div>
 </div>
 <p>A média é sensível a valores extremos. A população da Califórnia (~37 milhões) e a do Wyoming (~564 mil) diferem por um fator de 66 — e a Califórnia puxa a média para cima sozinha.</p>
@@ -779,9 +787,9 @@ Nota
 <p><span class="math display">\[\bar{x}_{\text{aparada}} = \frac{\sum_{i=p+1}^{n-p} x_{(i)}}{n - 2p}\]</span></p>
 <div id="media-aparada" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>media_aparada <span class="op">=</span> trim_mean(estado[<span class="st">"Population"</span>], <span class="fl">0.1</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Média aparada (10%): </span><span class="sc">{</span>media_aparada<span class="sc">:,.1f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Média aparada (10%): </span><span class="sc">{</span>num(media_aparada)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Média aparada (10%): 4,783,697.1</code></pre>
+<pre><code>Média aparada (10%): 4.783.697,1</code></pre>
 </div>
 </div>
 <p>Aparar 10% de cada ponta remove os 5 estados mais populosos e os 5 menos populosos.</p>
@@ -791,13 +799,13 @@ Nota
 <p>A <strong>mediana</strong> é o valor central dos dados ordenados. Ela depende apenas das observações do meio, então um valor extremo pode ser arbitrariamente grande sem movê-la. Com número par de observações — como aqui, n = 50 —, não existe um único valor central: a mediana é a <strong>média dos dois valores do meio</strong>. É por isso que o número calculado abaixo termina em <code>.5</code>, meio entre duas unidades: não há meia pessoa, há uma média entre duas observações vizinhas.</p>
 <div id="mediana" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>mediana <span class="op">=</span> estado[<span class="st">"Population"</span>].median()</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mediana: </span><span class="sc">{</span>mediana<span class="sc">:,.1f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mediana: </span><span class="sc">{</span>num(mediana)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Mediana: 4,436,369.5</code></pre>
+<pre><code>Mediana: 4.436.369,5</code></pre>
 </div>
 </div>
 <div class="exemplo">
-<p>A mediana é 4,436,370 e a média é 6,162,876 — a média é cerca de 39% maior. Essa diferença é a assinatura de uma distribuição assimétrica à direita, e é a razão pela qual reportar renda mediana e não renda média é a prática padrão.</p>
+<p>A mediana é 4.436.370 e a média é 6.162.876 — a média é cerca de 39% maior. Essa diferença é a assinatura de uma distribuição assimétrica à direita, e é a razão pela qual reportar renda mediana e não renda média é a prática padrão.</p>
 </div>
 </section>
 <section id="estimativas-ponderadas" class="level2">
@@ -809,13 +817,13 @@ Nota
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>media_pond <span class="op">=</span> np.average(estado[<span class="st">"Murder.Rate"</span>], weights<span class="op">=</span>estado[<span class="st">"Population"</span>])</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>mediana_pond <span class="op">=</span> wquantiles.median(estado[<span class="st">"Murder.Rate"</span>], weights<span class="op">=</span>estado[<span class="st">"Population"</span>])</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Média simples     : </span><span class="sc">{</span>estado[<span class="st">'Murder.Rate'</span>]<span class="sc">.</span>mean()<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Média ponderada   : </span><span class="sc">{</span>media_pond<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mediana ponderada : </span><span class="sc">{</span>mediana_pond<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Média simples     : </span><span class="sc">{</span>num(estado[<span class="st">'Murder.Rate'</span>].mean(), <span class="dv">4</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Média ponderada   : </span><span class="sc">{</span>num(media_pond, <span class="dv">4</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mediana ponderada : </span><span class="sc">{</span>num(mediana_pond, <span class="dv">4</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Média simples     : 4.0660
-Média ponderada   : 4.4458
-Mediana ponderada : 4.4000</code></pre>
+<pre><code>Média simples     : 4,0660
+Média ponderada   : 4,4458
+Mediana ponderada : 4,4000</code></pre>
 </div>
 </div>
 <p>A média ponderada é a taxa de homicídios que uma pessoa média dos EUA enfrenta; a média simples é a taxa de um estado médio. São perguntas diferentes, com respostas diferentes.</p>
@@ -826,9 +834,9 @@ Mediana ponderada : 4.4000</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>ax.hist(estado[<span class="st">"Population"</span>] <span class="op">/</span> <span class="fl">1e6</span>, bins<span class="op">=</span><span class="dv">20</span>, color<span class="op">=</span><span class="st">"#b0c4d8"</span>, edgecolor<span class="op">=</span><span class="st">"white"</span>)</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>ax.axvline(media <span class="op">/</span> <span class="fl">1e6</span>, color<span class="op">=</span><span class="st">"#c0392b"</span>, linestyle<span class="op">=</span><span class="st">"-"</span>, linewidth<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="ss">f"Média: </span><span class="sc">{</span>media<span class="op">/</span><span class="fl">1e6</span><span class="sc">:.1f}</span><span class="ss">M"</span>)</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>ax.axvline(media_aparada <span class="op">/</span> <span class="fl">1e6</span>, color<span class="op">=</span><span class="st">"#e67e22"</span>, linestyle<span class="op">=</span><span class="st">"--"</span>, linewidth<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="ss">f"Média aparada: </span><span class="sc">{</span>media_aparada<span class="op">/</span><span class="fl">1e6</span><span class="sc">:.1f}</span><span class="ss">M"</span>)</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>ax.axvline(mediana <span class="op">/</span> <span class="fl">1e6</span>, color<span class="op">=</span><span class="st">"#27ae60"</span>, linestyle<span class="op">=</span><span class="st">":"</span>, linewidth<span class="op">=</span><span class="fl">2.5</span>, label<span class="op">=</span><span class="ss">f"Mediana: </span><span class="sc">{</span>mediana<span class="op">/</span><span class="fl">1e6</span><span class="sc">:.1f}</span><span class="ss">M"</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>ax.axvline(media <span class="op">/</span> <span class="fl">1e6</span>, color<span class="op">=</span><span class="st">"#c0392b"</span>, linestyle<span class="op">=</span><span class="st">"-"</span>, linewidth<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="ss">f"Média: </span><span class="sc">{</span>num(media<span class="op">/</span><span class="fl">1e6</span>, <span class="dv">1</span>)<span class="sc">}</span><span class="ss">M"</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>ax.axvline(media_aparada <span class="op">/</span> <span class="fl">1e6</span>, color<span class="op">=</span><span class="st">"#e67e22"</span>, linestyle<span class="op">=</span><span class="st">"--"</span>, linewidth<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="ss">f"Média aparada: </span><span class="sc">{</span>num(media_aparada<span class="op">/</span><span class="fl">1e6</span>, <span class="dv">1</span>)<span class="sc">}</span><span class="ss">M"</span>)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>ax.axvline(mediana <span class="op">/</span> <span class="fl">1e6</span>, color<span class="op">=</span><span class="st">"#27ae60"</span>, linestyle<span class="op">=</span><span class="st">":"</span>, linewidth<span class="op">=</span><span class="fl">2.5</span>, label<span class="op">=</span><span class="ss">f"Mediana: </span><span class="sc">{</span>num(mediana<span class="op">/</span><span class="fl">1e6</span>, <span class="dv">1</span>)<span class="sc">}</span><span class="ss">M"</span>)</span>
 <span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"População (milhões)"</span>)</span>
 <span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Número de estados"</span>)</span>
@@ -863,23 +871,215 @@ Figura&nbsp;4.1: As três estimativas de localização sobre a distribuição de
 <tbody>
 <tr class="odd">
 <td>Média</td>
-<td>6,162,876</td>
+<td>6.162.876</td>
 <td>Não</td>
 </tr>
 <tr class="even">
 <td>Média aparada (10%)</td>
-<td>4,783,697</td>
+<td>4.783.697</td>
 <td>Sim</td>
 </tr>
 <tr class="odd">
 <td>Mediana</td>
-<td>4,436,370</td>
+<td>4.436.370</td>
 <td>Sim</td>
 </tr>
 </tbody>
 </table>
 <div class="conceito">
 <p><strong>Regra prática:</strong> a média é o padrão, mas é frágil. Quando os dados têm cauda longa ou outliers plausíveis — renda, população, valor de imóveis — a mediana ou a média aparada descrevem melhor o caso típico.</p>
+</div>
+</section>
+<section id="arraste-o-outlier" class="level2">
+<h2 class="anchored" data-anchor-id="arraste-o-outlier">Arraste o outlier</h2>
+<p>Os números acima são uma fotografia. Para ver a média <em>perseguindo</em> um outlier — em vez de apenas ler que ela faz isso — arraste a população da Califórnia no controle abaixo até 300 milhões e observe as três linhas do histograma. A vermelha (média) desliza atrás do seu cursor. A verde (mediana) não se mexe um milímetro. A laranja (média aparada de 10%) também fica parada: descartar os 5 estados mais populosos tira a Califórnia do cálculo antes que ela tenha chance de puxar nada.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb11" data-startfrom="140" data-source-offset="-0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 139;"><span id="cb11-140"><a href="#cb11-140" aria-hidden="true" tabindex="-1"></a>estados <span class="op">=</span> <span class="fu">transpose</span>(dados)</span>
+<span id="cb11-141"><a href="#cb11-141" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-142"><a href="#cb11-142" aria-hidden="true" tabindex="-1"></a><span class="co">// Espelha o num() do formato.py, usado nos chunks Python desta mesma página.</span></span>
+<span id="cb11-143"><a href="#cb11-143" aria-hidden="true" tabindex="-1"></a><span class="co">// Se divergirem, o mesmo número apareceria de dois jeitos na mesma tela.</span></span>
+<span id="cb11-144"><a href="#cb11-144" aria-hidden="true" tabindex="-1"></a>fmt <span class="op">=</span> x <span class="kw">=&gt;</span> x<span class="op">.</span><span class="fu">toLocaleString</span>(<span class="st">"pt-BR"</span><span class="op">,</span> {<span class="dt">minimumFractionDigits</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span> <span class="dt">maximumFractionDigits</span><span class="op">:</span> <span class="dv">1</span>})</span>
+<span id="cb11-145"><a href="#cb11-145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-146"><a href="#cb11-146" aria-hidden="true" tabindex="-1"></a><span class="co">// Mesma definição do scipy.stats.trim_mean: corta k = floor(n × prop)</span></span>
+<span id="cb11-147"><a href="#cb11-147" aria-hidden="true" tabindex="-1"></a><span class="co">// observações de cada ponta e tira a média do que sobra.</span></span>
+<span id="cb11-148"><a href="#cb11-148" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mediaAparada</span>(x<span class="op">,</span> prop) {</span>
+<span id="cb11-149"><a href="#cb11-149" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> s <span class="op">=</span> [<span class="op">...</span>x]<span class="op">.</span><span class="fu">sort</span>(d3<span class="op">.</span><span class="at">ascending</span>)<span class="op">;</span></span>
+<span id="cb11-150"><a href="#cb11-150" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> k <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">floor</span>(s<span class="op">.</span><span class="at">length</span> <span class="op">*</span> prop)<span class="op">;</span></span>
+<span id="cb11-151"><a href="#cb11-151" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> nucleo <span class="op">=</span> s<span class="op">.</span><span class="fu">slice</span>(k<span class="op">,</span> s<span class="op">.</span><span class="at">length</span> <span class="op">-</span> k)<span class="op">;</span></span>
+<span id="cb11-152"><a href="#cb11-152" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> nucleo<span class="op">.</span><span class="at">length</span> <span class="op">?</span> d3<span class="op">.</span><span class="fu">mean</span>(nucleo) <span class="op">:</span> d3<span class="op">.</span><span class="fu">median</span>(s)<span class="op">;</span></span>
+<span id="cb11-153"><a href="#cb11-153" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-2" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-3" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb12" data-startfrom="157" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 156;"><span id="cb12-157"><a href="#cb12-157" aria-hidden="true" tabindex="-1"></a>viewof pop_ca <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">1_000_000</span><span class="op">,</span> <span class="dv">300_000_000</span>]<span class="op">,</span> {</span>
+<span id="cb12-158"><a href="#cb12-158" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb12-159"><a href="#cb12-159" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">37253956</span><span class="op">,</span></span>
+<span id="cb12-160"><a href="#cb12-160" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"População da Califórnia:"</span><span class="op">,</span></span>
+<span id="cb12-161"><a href="#cb12-161" aria-hidden="true" tabindex="-1"></a>  <span class="dt">format</span><span class="op">:</span> x <span class="kw">=&gt;</span> (x <span class="op">/</span> <span class="fl">1e6</span>)<span class="op">.</span><span class="fu">toLocaleString</span>(<span class="st">"pt-BR"</span><span class="op">,</span> {<span class="dt">minimumFractionDigits</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span> <span class="dt">maximumFractionDigits</span><span class="op">:</span> <span class="dv">1</span>}) <span class="op">+</span> <span class="st">" M"</span></span>
+<span id="cb12-162"><a href="#cb12-162" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-2" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb13" data-startfrom="168" data-source-offset="-0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 167;"><span id="cb13-168"><a href="#cb13-168" aria-hidden="true" tabindex="-1"></a>popsA <span class="op">=</span> estados<span class="op">.</span><span class="fu">map</span>(d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">State</span> <span class="op">===</span> <span class="st">"California"</span> <span class="op">?</span> pop_ca <span class="op">:</span> d<span class="op">.</span><span class="at">Population</span>)</span>
+<span id="cb13-169"><a href="#cb13-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-170"><a href="#cb13-170" aria-hidden="true" tabindex="-1"></a>estatA <span class="op">=</span> ({</span>
+<span id="cb13-171"><a href="#cb13-171" aria-hidden="true" tabindex="-1"></a>  <span class="dt">media</span><span class="op">:</span>   d3<span class="op">.</span><span class="fu">mean</span>(popsA)<span class="op">,</span></span>
+<span id="cb13-172"><a href="#cb13-172" aria-hidden="true" tabindex="-1"></a>  <span class="dt">aparada</span><span class="op">:</span> <span class="fu">mediaAparada</span>(popsA<span class="op">,</span> <span class="fl">0.10</span>)<span class="op">,</span></span>
+<span id="cb13-173"><a href="#cb13-173" aria-hidden="true" tabindex="-1"></a>  <span class="dt">mediana</span><span class="op">:</span> d3<span class="op">.</span><span class="fu">median</span>(popsA)</span>
+<span id="cb13-174"><a href="#cb13-174" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-3-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-3-2" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb14" data-startfrom="178" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 177;"><span id="cb14-178"><a href="#cb14-178" aria-hidden="true" tabindex="-1"></a><span class="fu">html</span><span class="vs">`&lt;table class="table"&gt;</span></span>
+<span id="cb14-179"><a href="#cb14-179" aria-hidden="true" tabindex="-1"></a><span class="vs">  &lt;thead&gt;&lt;tr&gt;&lt;th&gt;Estimativa&lt;/th&gt;&lt;th style="text-align:right"&gt;Valor&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;</span></span>
+<span id="cb14-180"><a href="#cb14-180" aria-hidden="true" tabindex="-1"></a><span class="vs">  &lt;tbody&gt;</span></span>
+<span id="cb14-181"><a href="#cb14-181" aria-hidden="true" tabindex="-1"></a><span class="vs">    &lt;tr&gt;&lt;td&gt;&lt;span style="color:#c0392b"&gt;━&lt;/span&gt; Média&lt;/td&gt;</span></span>
+<span id="cb14-182"><a href="#cb14-182" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;td style="text-align:right"&gt;&lt;strong&gt;</span><span class="sc">${</span><span class="fu">fmt</span>(estatA<span class="op">.</span><span class="at">media</span>)<span class="sc">}</span><span class="vs">&lt;/strong&gt;&lt;/td&gt;&lt;/tr&gt;</span></span>
+<span id="cb14-183"><a href="#cb14-183" aria-hidden="true" tabindex="-1"></a><span class="vs">    &lt;tr&gt;&lt;td&gt;&lt;span style="color:#e67e22"&gt;┅&lt;/span&gt; Média aparada (10%)&lt;/td&gt;</span></span>
+<span id="cb14-184"><a href="#cb14-184" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;td style="text-align:right"&gt;&lt;strong&gt;</span><span class="sc">${</span><span class="fu">fmt</span>(estatA<span class="op">.</span><span class="at">aparada</span>)<span class="sc">}</span><span class="vs">&lt;/strong&gt;&lt;/td&gt;&lt;/tr&gt;</span></span>
+<span id="cb14-185"><a href="#cb14-185" aria-hidden="true" tabindex="-1"></a><span class="vs">    &lt;tr&gt;&lt;td&gt;&lt;span style="color:#27ae60"&gt;┈&lt;/span&gt; Mediana&lt;/td&gt;</span></span>
+<span id="cb14-186"><a href="#cb14-186" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;td style="text-align:right"&gt;&lt;strong&gt;</span><span class="sc">${</span><span class="fu">fmt</span>(estatA<span class="op">.</span><span class="at">mediana</span>)<span class="sc">}</span><span class="vs">&lt;/strong&gt;&lt;/td&gt;&lt;/tr&gt;</span></span>
+<span id="cb14-187"><a href="#cb14-187" aria-hidden="true" tabindex="-1"></a><span class="vs">  &lt;/tbody&gt;</span></span>
+<span id="cb14-188"><a href="#cb14-188" aria-hidden="true" tabindex="-1"></a><span class="vs">&lt;/table&gt;`</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-4" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb15" data-startfrom="193" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 192;"><span id="cb15-193"><a href="#cb15-193" aria-hidden="true" tabindex="-1"></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
+<span id="cb15-194"><a href="#cb15-194" aria-hidden="true" tabindex="-1"></a>  <span class="dt">height</span><span class="op">:</span> <span class="dv">260</span><span class="op">,</span></span>
+<span id="cb15-195"><a href="#cb15-195" aria-hidden="true" tabindex="-1"></a>  <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">55</span><span class="op">,</span></span>
+<span id="cb15-196"><a href="#cb15-196" aria-hidden="true" tabindex="-1"></a>  <span class="dt">x</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"População (milhões) →"</span>}<span class="op">,</span></span>
+<span id="cb15-197"><a href="#cb15-197" aria-hidden="true" tabindex="-1"></a>  <span class="dt">y</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"↑ Número de estados"</span><span class="op">,</span> <span class="dt">grid</span><span class="op">:</span> <span class="kw">true</span>}<span class="op">,</span></span>
+<span id="cb15-198"><a href="#cb15-198" aria-hidden="true" tabindex="-1"></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
+<span id="cb15-199"><a href="#cb15-199" aria-hidden="true" tabindex="-1"></a>    Plot<span class="op">.</span><span class="fu">rectY</span>(popsA<span class="op">,</span> Plot<span class="op">.</span><span class="fu">binX</span>({<span class="dt">y</span><span class="op">:</span> <span class="st">"count"</span>}<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> d <span class="kw">=&gt;</span> d <span class="op">/</span> <span class="fl">1e6</span><span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="st">"#b0c4d8"</span><span class="op">,</span> <span class="dt">thresholds</span><span class="op">:</span> <span class="dv">20</span>}))<span class="op">,</span></span>
+<span id="cb15-200"><a href="#cb15-200" aria-hidden="true" tabindex="-1"></a>    Plot<span class="op">.</span><span class="fu">ruleX</span>([estatA<span class="op">.</span><span class="at">media</span> <span class="op">/</span> <span class="fl">1e6</span>]<span class="op">,</span>   {<span class="dt">stroke</span><span class="op">:</span> <span class="st">"#c0392b"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">2</span>})<span class="op">,</span></span>
+<span id="cb15-201"><a href="#cb15-201" aria-hidden="true" tabindex="-1"></a>    Plot<span class="op">.</span><span class="fu">ruleX</span>([estatA<span class="op">.</span><span class="at">aparada</span> <span class="op">/</span> <span class="fl">1e6</span>]<span class="op">,</span> {<span class="dt">stroke</span><span class="op">:</span> <span class="st">"#e67e22"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">2</span><span class="op">,</span> <span class="dt">strokeDasharray</span><span class="op">:</span> <span class="st">"5 3"</span>})<span class="op">,</span></span>
+<span id="cb15-202"><a href="#cb15-202" aria-hidden="true" tabindex="-1"></a>    Plot<span class="op">.</span><span class="fu">ruleX</span>([estatA<span class="op">.</span><span class="at">mediana</span> <span class="op">/</span> <span class="fl">1e6</span>]<span class="op">,</span> {<span class="dt">stroke</span><span class="op">:</span> <span class="st">"#27ae60"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="fl">2.5</span><span class="op">,</span> <span class="dt">strokeDasharray</span><span class="op">:</span> <span class="st">"1 3"</span>})<span class="op">,</span></span>
+<span id="cb15-203"><a href="#cb15-203" aria-hidden="true" tabindex="-1"></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="dv">0</span>])</span>
+<span id="cb15-204"><a href="#cb15-204" aria-hidden="true" tabindex="-1"></a>  ]</span>
+<span id="cb15-205"><a href="#cb15-205" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-5" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+</section>
+<section id="arraste-o-aparo" class="level2">
+<h2 class="anchored" data-anchor-id="arraste-o-aparo">Arraste o aparo</h2>
+<p>O widget anterior fixou o aparo em 10% e moveu o outlier. Este agora faz o inverso: a população fica como está, e quem se move é o próprio aparo, de 0% a 50%.</p>
+<p>Nos extremos, a média aparada deixa de ser uma terceira estimativa e vira uma das outras duas. Em 0%, <code>k = 0</code> — nada é descartado, e a aparada <em>é</em> a média. Em 50%, <code>k = 25</code> de cada ponta: com 50 estados, os 25 maiores e os 25 menores saem do cálculo, o núcleo fica vazio, e a função devolve a mediana por definição. Entre um extremo e outro não há salto: é uma família contínua, com o aparo como parâmetro que a percorre. Mova o controle abaixo e acompanhe o ponto laranja migrar do vermelho (média) até o verde (mediana).</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb16" data-startfrom="216" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 215;"><span id="cb16-216"><a href="#cb16-216" aria-hidden="true" tabindex="-1"></a>viewof aparo <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">0</span><span class="op">,</span> <span class="dv">50</span>]<span class="op">,</span> {</span>
+<span id="cb16-217"><a href="#cb16-217" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb16-218"><a href="#cb16-218" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="dv">10</span><span class="op">,</span></span>
+<span id="cb16-219"><a href="#cb16-219" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"Aparo em cada ponta:"</span><span class="op">,</span></span>
+<span id="cb16-220"><a href="#cb16-220" aria-hidden="true" tabindex="-1"></a>  <span class="dt">format</span><span class="op">:</span> x <span class="kw">=&gt;</span> x <span class="op">+</span> <span class="st">"%"</span></span>
+<span id="cb16-221"><a href="#cb16-221" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-6" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb17" data-startfrom="227" data-source-offset="-0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 226;"><span id="cb17-227"><a href="#cb17-227" aria-hidden="true" tabindex="-1"></a>popsB <span class="op">=</span> estados<span class="op">.</span><span class="fu">map</span>(d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">Population</span>)</span>
+<span id="cb17-228"><a href="#cb17-228" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-229"><a href="#cb17-229" aria-hidden="true" tabindex="-1"></a>estatB <span class="op">=</span> ({</span>
+<span id="cb17-230"><a href="#cb17-230" aria-hidden="true" tabindex="-1"></a>  <span class="dt">media</span><span class="op">:</span>   d3<span class="op">.</span><span class="fu">mean</span>(popsB)<span class="op">,</span></span>
+<span id="cb17-231"><a href="#cb17-231" aria-hidden="true" tabindex="-1"></a>  <span class="dt">aparada</span><span class="op">:</span> <span class="fu">mediaAparada</span>(popsB<span class="op">,</span> aparo <span class="op">/</span> <span class="dv">100</span>)<span class="op">,</span></span>
+<span id="cb17-232"><a href="#cb17-232" aria-hidden="true" tabindex="-1"></a>  <span class="dt">mediana</span><span class="op">:</span> d3<span class="op">.</span><span class="fu">median</span>(popsB)<span class="op">,</span></span>
+<span id="cb17-233"><a href="#cb17-233" aria-hidden="true" tabindex="-1"></a>  <span class="dt">cortados</span><span class="op">:</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">floor</span>(popsB<span class="op">.</span><span class="at">length</span> <span class="op">*</span> aparo <span class="op">/</span> <span class="dv">100</span>)</span>
+<span id="cb17-234"><a href="#cb17-234" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-7-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-7-2" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb18" data-startfrom="238" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 237;"><span id="cb18-238"><a href="#cb18-238" aria-hidden="true" tabindex="-1"></a><span class="fu">md</span><span class="vs">`Aparo de **</span><span class="sc">${</span>aparo<span class="sc">}</span><span class="vs">%** — descarta **</span><span class="sc">${</span>estatB<span class="op">.</span><span class="at">cortados</span><span class="sc">}</span><span class="vs">** estados de cada ponta.</span></span>
+<span id="cb18-239"><a href="#cb18-239" aria-hidden="true" tabindex="-1"></a><span class="vs">A média aparada vale **</span><span class="sc">${</span><span class="fu">fmt</span>(estatB<span class="op">.</span><span class="at">aparada</span>)<span class="sc">}</span><span class="vs">**.`</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-8" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb19" data-startfrom="244" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 243;"><span id="cb19-244"><a href="#cb19-244" aria-hidden="true" tabindex="-1"></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
+<span id="cb19-245"><a href="#cb19-245" aria-hidden="true" tabindex="-1"></a>  <span class="dt">height</span><span class="op">:</span> <span class="dv">130</span><span class="op">,</span></span>
+<span id="cb19-246"><a href="#cb19-246" aria-hidden="true" tabindex="-1"></a>  <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">55</span><span class="op">,</span></span>
+<span id="cb19-247"><a href="#cb19-247" aria-hidden="true" tabindex="-1"></a>  <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">40</span><span class="op">,</span></span>
+<span id="cb19-248"><a href="#cb19-248" aria-hidden="true" tabindex="-1"></a>  <span class="dt">x</span><span class="op">:</span> {<span class="dt">domain</span><span class="op">:</span> [<span class="fl">4.2</span><span class="op">,</span> <span class="fl">6.4</span>]<span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"População (milhões) →"</span>}<span class="op">,</span></span>
+<span id="cb19-249"><a href="#cb19-249" aria-hidden="true" tabindex="-1"></a>  <span class="dt">y</span><span class="op">:</span> {<span class="dt">axis</span><span class="op">:</span> <span class="kw">null</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="op">-</span><span class="dv">1</span><span class="op">,</span> <span class="dv">1</span>]}<span class="op">,</span></span>
+<span id="cb19-250"><a href="#cb19-250" aria-hidden="true" tabindex="-1"></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
+<span id="cb19-251"><a href="#cb19-251" aria-hidden="true" tabindex="-1"></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="dv">0</span>]<span class="op">,</span> {<span class="dt">stroke</span><span class="op">:</span> <span class="st">"#ccc"</span>})<span class="op">,</span></span>
+<span id="cb19-252"><a href="#cb19-252" aria-hidden="true" tabindex="-1"></a>    Plot<span class="op">.</span><span class="fu">link</span>([{<span class="dt">x1</span><span class="op">:</span> estatB<span class="op">.</span><span class="at">mediana</span> <span class="op">/</span> <span class="fl">1e6</span><span class="op">,</span> <span class="dt">x2</span><span class="op">:</span> estatB<span class="op">.</span><span class="at">media</span> <span class="op">/</span> <span class="fl">1e6</span>}]<span class="op">,</span></span>
+<span id="cb19-253"><a href="#cb19-253" aria-hidden="true" tabindex="-1"></a>              {<span class="dt">x1</span><span class="op">:</span> <span class="st">"x1"</span><span class="op">,</span> <span class="dt">x2</span><span class="op">:</span> <span class="st">"x2"</span><span class="op">,</span> <span class="dt">y1</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">y2</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">stroke</span><span class="op">:</span> <span class="st">"#ccc"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">6</span>})<span class="op">,</span></span>
+<span id="cb19-254"><a href="#cb19-254" aria-hidden="true" tabindex="-1"></a>    Plot<span class="op">.</span><span class="fu">dot</span>([{<span class="dt">x</span><span class="op">:</span> estatB<span class="op">.</span><span class="at">media</span> <span class="op">/</span> <span class="fl">1e6</span>}]<span class="op">,</span>   {<span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">r</span><span class="op">:</span> <span class="dv">7</span><span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="st">"#c0392b"</span>})<span class="op">,</span></span>
+<span id="cb19-255"><a href="#cb19-255" aria-hidden="true" tabindex="-1"></a>    Plot<span class="op">.</span><span class="fu">dot</span>([{<span class="dt">x</span><span class="op">:</span> estatB<span class="op">.</span><span class="at">mediana</span> <span class="op">/</span> <span class="fl">1e6</span>}]<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">r</span><span class="op">:</span> <span class="dv">7</span><span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="st">"#27ae60"</span>})<span class="op">,</span></span>
+<span id="cb19-256"><a href="#cb19-256" aria-hidden="true" tabindex="-1"></a>    Plot<span class="op">.</span><span class="fu">dot</span>([{<span class="dt">x</span><span class="op">:</span> estatB<span class="op">.</span><span class="at">aparada</span> <span class="op">/</span> <span class="fl">1e6</span>}]<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">r</span><span class="op">:</span> <span class="dv">10</span><span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="st">"#e67e22"</span><span class="op">,</span></span>
+<span id="cb19-257"><a href="#cb19-257" aria-hidden="true" tabindex="-1"></a>                                           <span class="dt">stroke</span><span class="op">:</span> <span class="st">"white"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">2</span>})<span class="op">,</span></span>
+<span id="cb19-258"><a href="#cb19-258" aria-hidden="true" tabindex="-1"></a>    Plot<span class="op">.</span><span class="fu">text</span>([{<span class="dt">x</span><span class="op">:</span> estatB<span class="op">.</span><span class="at">media</span> <span class="op">/</span> <span class="fl">1e6</span>}]<span class="op">,</span>   {<span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="fl">0.6</span><span class="op">,</span> <span class="dt">text</span><span class="op">:</span> [<span class="st">"média"</span>]<span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="st">"#c0392b"</span>})<span class="op">,</span></span>
+<span id="cb19-259"><a href="#cb19-259" aria-hidden="true" tabindex="-1"></a>    Plot<span class="op">.</span><span class="fu">text</span>([{<span class="dt">x</span><span class="op">:</span> estatB<span class="op">.</span><span class="at">mediana</span> <span class="op">/</span> <span class="fl">1e6</span>}]<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="fl">0.6</span><span class="op">,</span> <span class="dt">text</span><span class="op">:</span> [<span class="st">"mediana"</span>]<span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="st">"#27ae60"</span>})<span class="op">,</span></span>
+<span id="cb19-260"><a href="#cb19-260" aria-hidden="true" tabindex="-1"></a>    Plot<span class="op">.</span><span class="fu">text</span>([{<span class="dt">x</span><span class="op">:</span> estatB<span class="op">.</span><span class="at">aparada</span> <span class="op">/</span> <span class="fl">1e6</span>}]<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="op">-</span><span class="fl">0.6</span><span class="op">,</span> <span class="dt">text</span><span class="op">:</span> [<span class="st">"aparada"</span>]<span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="st">"#e67e22"</span>})</span>
+<span id="cb19-261"><a href="#cb19-261" aria-hidden="true" tabindex="-1"></a>  ]</span>
+<span id="cb19-262"><a href="#cb19-262" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-9" data-nodetype="expression">
+
+</div>
+</div>
 </div>
 </section>
 <section id="exercícios" class="level2">
@@ -897,8 +1097,9 @@ Figura&nbsp;4.1: As três estimativas de localização sobre a distribuição de
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>trim_mean(estado[<span class="st">"Population"</span>], <span class="fl">0.25</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>trim_mean(estado[<span class="st">"Population"</span>], <span class="fl">0.25</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Com aparo de 50%, todas as observações são descartadas exceto a(s) central(is) — a média aparada <strong>converge para a mediana</strong>. A média aparada é, portanto, uma família contínua entre a média (aparo 0) e a mediana (aparo 0,5).</p>
+<p>Arraste o slider do aparo até 50% no widget acima: a média aparada pousa exatamente sobre a mediana.</p>
 </div>
 </div>
 </div>
@@ -994,6 +1195,17 @@ document.addEventListener('DOMContentLoaded', function () {
     input.addEventListener('keydown', e => { if (e.key === 'Enter') tryUnlock(); });
   });
 });
+</script>
+<script type="ojs-module-contents">
+eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6ImVzdGFkb3MgPSB0cmFuc3Bvc2UoZGFkb3MpXG5cbi8vIEVzcGVsaGEgbyBudW0oKSBkbyBmb3JtYXRvLnB5LCB1c2FkbyBub3MgY2h1bmtzIFB5dGhvbiBkZXN0YSBtZXNtYSBww6FnaW5hLlxuLy8gU2UgZGl2ZXJnaXJlbSwgbyBtZXNtbyBuw7ptZXJvIGFwYXJlY2VyaWEgZGUgZG9pcyBqZWl0b3MgbmEgbWVzbWEgdGVsYS5cbmZtdCA9IHggPT4geC50b0xvY2FsZVN0cmluZyhcInB0LUJSXCIsIHttaW5pbXVtRnJhY3Rpb25EaWdpdHM6IDEsIG1heGltdW1GcmFjdGlvbkRpZ2l0czogMX0pXG5cbi8vIE1lc21hIGRlZmluacOnw6NvIGRvIHNjaXB5LnN0YXRzLnRyaW1fbWVhbjogY29ydGEgayA9IGZsb29yKG4gw5cgcHJvcClcbi8vIG9ic2VydmHDp8O1ZXMgZGUgY2FkYSBwb250YSBlIHRpcmEgYSBtw6lkaWEgZG8gcXVlIHNvYnJhLlxuZnVuY3Rpb24gbWVkaWFBcGFyYWRhKHgsIHByb3ApIHtcbiAgY29uc3QgcyA9IFsuLi54XS5zb3J0KGQzLmFzY2VuZGluZyk7XG4gIGNvbnN0IGsgPSBNYXRoLmZsb29yKHMubGVuZ3RoICogcHJvcCk7XG4gIGNvbnN0IG51Y2xlbyA9IHMuc2xpY2Uoaywgcy5sZW5ndGggLSBrKTtcbiAgcmV0dXJuIG51Y2xlby5sZW5ndGggPyBkMy5tZWFuKG51Y2xlbykgOiBkMy5tZWRpYW4ocyk7XG59XG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJjZWxsTmFtZSI6Im9qcy1jZWxsLTIiLCJpbmxpbmUiOmZhbHNlLCJzb3VyY2UiOiJ2aWV3b2YgcG9wX2NhID0gSW5wdXRzLnJhbmdlKFsxXzAwMF8wMDAsIDMwMF8wMDBfMDAwXSwge1xuICBzdGVwOiAxLFxuICB2YWx1ZTogMzcyNTM5NTYsXG4gIGxhYmVsOiBcIlBvcHVsYcOnw6NvIGRhIENhbGlmw7NybmlhOlwiLFxuICBmb3JtYXQ6IHggPT4gKHggLyAxZTYpLnRvTG9jYWxlU3RyaW5nKFwicHQtQlJcIiwge21pbmltdW1GcmFjdGlvbkRpZ2l0czogMSwgbWF4aW11bUZyYWN0aW9uRGlnaXRzOiAxfSkgKyBcIiBNXCJcbn0pXG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJjZWxsTmFtZSI6Im9qcy1jZWxsLTMiLCJpbmxpbmUiOmZhbHNlLCJzb3VyY2UiOiJwb3BzQSA9IGVzdGFkb3MubWFwKGQgPT4gZC5TdGF0ZSA9PT0gXCJDYWxpZm9ybmlhXCIgPyBwb3BfY2EgOiBkLlBvcHVsYXRpb24pXG5cbmVzdGF0QSA9ICh7XG4gIG1lZGlhOiAgIGQzLm1lYW4ocG9wc0EpLFxuICBhcGFyYWRhOiBtZWRpYUFwYXJhZGEocG9wc0EsIDAuMTApLFxuICBtZWRpYW5hOiBkMy5tZWRpYW4ocG9wc0EpXG59KVxuIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0IiwiY2VsbE5hbWUiOiJvanMtY2VsbC00IiwiaW5saW5lIjpmYWxzZSwic291cmNlIjoiaHRtbGA8dGFibGUgY2xhc3M9XCJ0YWJsZVwiPlxuICA8dGhlYWQ+PHRyPjx0aD5Fc3RpbWF0aXZhPC90aD48dGggc3R5bGU9XCJ0ZXh0LWFsaWduOnJpZ2h0XCI+VmFsb3I8L3RoPjwvdHI+PC90aGVhZD5cbiAgPHRib2R5PlxuICAgIDx0cj48dGQ+PHNwYW4gc3R5bGU9XCJjb2xvcjojYzAzOTJiXCI+4pSBPC9zcGFuPiBNw6lkaWE8L3RkPlxuICAgICAgICA8dGQgc3R5bGU9XCJ0ZXh0LWFsaWduOnJpZ2h0XCI+PHN0cm9uZz4ke2ZtdChlc3RhdEEubWVkaWEpfTwvc3Ryb25nPjwvdGQ+PC90cj5cbiAgICA8dHI+PHRkPjxzcGFuIHN0eWxlPVwiY29sb3I6I2U2N2UyMlwiPuKUhTwvc3Bhbj4gTcOpZGlhIGFwYXJhZGEgKDEwJSk8L3RkPlxuICAgICAgICA8dGQgc3R5bGU9XCJ0ZXh0LWFsaWduOnJpZ2h0XCI+PHN0cm9uZz4ke2ZtdChlc3RhdEEuYXBhcmFkYSl9PC9zdHJvbmc+PC90ZD48L3RyPlxuICAgIDx0cj48dGQ+PHNwYW4gc3R5bGU9XCJjb2xvcjojMjdhZTYwXCI+4pSIPC9zcGFuPiBNZWRpYW5hPC90ZD5cbiAgICAgICAgPHRkIHN0eWxlPVwidGV4dC1hbGlnbjpyaWdodFwiPjxzdHJvbmc+JHtmbXQoZXN0YXRBLm1lZGlhbmEpfTwvc3Ryb25nPjwvdGQ+PC90cj5cbiAgPC90Ym9keT5cbjwvdGFibGU+YFxuIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0IiwiY2VsbE5hbWUiOiJvanMtY2VsbC01IiwiaW5saW5lIjpmYWxzZSwic291cmNlIjoiUGxvdC5wbG90KHtcbiAgaGVpZ2h0OiAyNjAsXG4gIG1hcmdpbkxlZnQ6IDU1LFxuICB4OiB7bGFiZWw6IFwiUG9wdWxhw6fDo28gKG1pbGjDtWVzKSDihpJcIn0sXG4gIHk6IHtsYWJlbDogXCLihpEgTsO6bWVybyBkZSBlc3RhZG9zXCIsIGdyaWQ6IHRydWV9LFxuICBtYXJrczogW1xuICAgIFBsb3QucmVjdFkocG9wc0EsIFBsb3QuYmluWCh7eTogXCJjb3VudFwifSwge3g6IGQgPT4gZCAvIDFlNiwgZmlsbDogXCIjYjBjNGQ4XCIsIHRocmVzaG9sZHM6IDIwfSkpLFxuICAgIFBsb3QucnVsZVgoW2VzdGF0QS5tZWRpYSAvIDFlNl0sICAge3N0cm9rZTogXCIjYzAzOTJiXCIsIHN0cm9rZVdpZHRoOiAyfSksXG4gICAgUGxvdC5ydWxlWChbZXN0YXRBLmFwYXJhZGEgLyAxZTZdLCB7c3Ryb2tlOiBcIiNlNjdlMjJcIiwgc3Ryb2tlV2lkdGg6IDIsIHN0cm9rZURhc2hhcnJheTogXCI1IDNcIn0pLFxuICAgIFBsb3QucnVsZVgoW2VzdGF0QS5tZWRpYW5hIC8gMWU2XSwge3N0cm9rZTogXCIjMjdhZTYwXCIsIHN0cm9rZVdpZHRoOiAyLjUsIHN0cm9rZURhc2hhcnJheTogXCIxIDNcIn0pLFxuICAgIFBsb3QucnVsZVkoWzBdKVxuICBdXG59KVxuIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0IiwiY2VsbE5hbWUiOiJvanMtY2VsbC02IiwiaW5saW5lIjpmYWxzZSwic291cmNlIjoidmlld29mIGFwYXJvID0gSW5wdXRzLnJhbmdlKFswLCA1MF0sIHtcbiAgc3RlcDogMSxcbiAgdmFsdWU6IDEwLFxuICBsYWJlbDogXCJBcGFybyBlbSBjYWRhIHBvbnRhOlwiLFxuICBmb3JtYXQ6IHggPT4geCArIFwiJVwiXG59KVxuIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0IiwiY2VsbE5hbWUiOiJvanMtY2VsbC03IiwiaW5saW5lIjpmYWxzZSwic291cmNlIjoicG9wc0IgPSBlc3RhZG9zLm1hcChkID0+IGQuUG9wdWxhdGlvbilcblxuZXN0YXRCID0gKHtcbiAgbWVkaWE6ICAgZDMubWVhbihwb3BzQiksXG4gIGFwYXJhZGE6IG1lZGlhQXBhcmFkYShwb3BzQiwgYXBhcm8gLyAxMDApLFxuICBtZWRpYW5hOiBkMy5tZWRpYW4ocG9wc0IpLFxuICBjb3J0YWRvczogTWF0aC5mbG9vcihwb3BzQi5sZW5ndGggKiBhcGFybyAvIDEwMClcbn0pXG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJjZWxsTmFtZSI6Im9qcy1jZWxsLTgiLCJpbmxpbmUiOmZhbHNlLCJzb3VyY2UiOiJtZGBBcGFybyBkZSAqKiR7YXBhcm99JSoqIOKAlCBkZXNjYXJ0YSAqKiR7ZXN0YXRCLmNvcnRhZG9zfSoqIGVzdGFkb3MgZGUgY2FkYSBwb250YS5cbkEgbcOpZGlhIGFwYXJhZGEgdmFsZSAqKiR7Zm10KGVzdGF0Qi5hcGFyYWRhKX0qKi5gXG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJjZWxsTmFtZSI6Im9qcy1jZWxsLTkiLCJpbmxpbmUiOmZhbHNlLCJzb3VyY2UiOiJQbG90LnBsb3Qoe1xuICBoZWlnaHQ6IDEzMCxcbiAgbWFyZ2luTGVmdDogNTUsXG4gIG1hcmdpbkJvdHRvbTogNDAsXG4gIHg6IHtkb21haW46IFs0LjIsIDYuNF0sIGxhYmVsOiBcIlBvcHVsYcOnw6NvIChtaWxow7Vlcykg4oaSXCJ9LFxuICB5OiB7YXhpczogbnVsbCwgZG9tYWluOiBbLTEsIDFdfSxcbiAgbWFya3M6IFtcbiAgICBQbG90LnJ1bGVZKFswXSwge3N0cm9rZTogXCIjY2NjXCJ9KSxcbiAgICBQbG90LmxpbmsoW3t4MTogZXN0YXRCLm1lZGlhbmEgLyAxZTYsIHgyOiBlc3RhdEIubWVkaWEgLyAxZTZ9XSxcbiAgICAgICAgICAgICAge3gxOiBcIngxXCIsIHgyOiBcIngyXCIsIHkxOiAwLCB5MjogMCwgc3Ryb2tlOiBcIiNjY2NcIiwgc3Ryb2tlV2lkdGg6IDZ9KSxcbiAgICBQbG90LmRvdChbe3g6IGVzdGF0Qi5tZWRpYSAvIDFlNn1dLCAgIHt4OiBcInhcIiwgeTogMCwgcjogNywgZmlsbDogXCIjYzAzOTJiXCJ9KSxcbiAgICBQbG90LmRvdChbe3g6IGVzdGF0Qi5tZWRpYW5hIC8gMWU2fV0sIHt4OiBcInhcIiwgeTogMCwgcjogNywgZmlsbDogXCIjMjdhZTYwXCJ9KSxcbiAgICBQbG90LmRvdChbe3g6IGVzdGF0Qi5hcGFyYWRhIC8gMWU2fV0sIHt4OiBcInhcIiwgeTogMCwgcjogMTAsIGZpbGw6IFwiI2U2N2UyMlwiLFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHN0cm9rZTogXCJ3aGl0ZVwiLCBzdHJva2VXaWR0aDogMn0pLFxuICAgIFBsb3QudGV4dChbe3g6IGVzdGF0Qi5tZWRpYSAvIDFlNn1dLCAgIHt4OiBcInhcIiwgeTogMC42LCB0ZXh0OiBbXCJtw6lkaWFcIl0sIGZpbGw6IFwiI2MwMzkyYlwifSksXG4gICAgUGxvdC50ZXh0KFt7eDogZXN0YXRCLm1lZGlhbmEgLyAxZTZ9XSwge3g6IFwieFwiLCB5OiAwLjYsIHRleHQ6IFtcIm1lZGlhbmFcIl0sIGZpbGw6IFwiIzI3YWU2MFwifSksXG4gICAgUGxvdC50ZXh0KFt7eDogZXN0YXRCLmFwYXJhZGEgLyAxZTZ9XSwge3g6IFwieFwiLCB5OiAtMC42LCB0ZXh0OiBbXCJhcGFyYWRhXCJdLCBmaWxsOiBcIiNlNjdlMjJcIn0pXG4gIF1cbn0pXG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6InNoaW55SW5wdXQoJ3BvcF9jYScpIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJzaGlueUlucHV0KCdhcGFybycpIn1dfQ==
+</script>
+<script type="module">
+if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
+window._ojs.paths.runtimeToDoc = "../../content/cap01";
+window._ojs.paths.runtimeToRoot = "../..";
+window._ojs.paths.docToRoot = "../..";
+window._ojs.selfContained = false;
+window._ojs.runtime.interpretFromScriptTags();
 </script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {

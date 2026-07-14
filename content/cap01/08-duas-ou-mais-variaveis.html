@@ -668,18 +668,18 @@ Nota
 <p>Vamos usar avaliações fiscais de imóveis do condado de King, em Washington: área construída e valor venal.</p>
 <div id="carrega-kc" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>kc <span class="op">=</span> pd.read_csv(<span class="st">"dados/kc_tax.csv.gz"</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"registros brutos: </span><span class="sc">{</span><span class="bu">len</span>(kc)<span class="sc">:,}</span><span class="ss">"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"registros brutos: </span><span class="sc">{</span>num(<span class="bu">len</span>(kc), <span class="dv">0</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>kc0 <span class="op">=</span> kc.loc[(kc.TaxAssessedValue <span class="op">&lt;</span> <span class="dv">750000</span>) <span class="op">&amp;</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>             (kc.SqFtTotLiving <span class="op">&gt;</span> <span class="dv">100</span>) <span class="op">&amp;</span></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>             (kc.SqFtTotLiving <span class="op">&lt;</span> <span class="dv">3500</span>), :]</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"após filtrar extremos: </span><span class="sc">{</span><span class="bu">len</span>(kc0)<span class="sc">:,}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"após filtrar extremos: </span><span class="sc">{</span>num(<span class="bu">len</span>(kc0), <span class="dv">0</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>registros brutos: 498,249
-após filtrar extremos: 432,693</code></pre>
+<pre><code>registros brutos: 498.249
+após filtrar extremos: 432.693</code></pre>
 </div>
 </div>
-<p>O filtro derruba os registros de <code>498,249</code> para <code>432,693</code>. Não é uma correção estatística — é uma decisão de visualização: os poucos imóveis de valor extremo (acima de US$ 750 mil) ou de área implausível (menor que 100 pés² ou maior que 3.500) esticariam os eixos do gráfico até comprimir o grosso dos dados, que é a parte que interessa, num canto minúsculo da tela.</p>
+<p>O filtro derruba os registros de <code>498.249</code> para <code>432.693</code>. Não é uma correção estatística — é uma decisão de visualização: os poucos imóveis de valor extremo (acima de US$ 750 mil) ou de área implausível (menor que 100 pés² ou maior que 3.500) esticariam os eixos do gráfico até comprimir o grosso dos dados, que é a parte que interessa, num canto minúsculo da tela.</p>
 <div class="conceito">
 <p>432.693 pontos ainda é um problema, mesmo depois do filtro. Um gráfico de dispersão como o da seção anterior — cada observação, um ponto — funcionava com 754 dias de negociação. Com quinhentas vezes mais pontos, a maior parte do plano acaba coberta várias vezes, os pontos se empilham uns sobre os outros, e a região mais densa vira uma mancha sólida e escura. Justamente onde mais importaria distinguir “muito denso” de “pouco denso”, o gráfico de dispersão não distingue nada — a informação de <strong>quantos</strong> pontos caem ali já se perdeu antes de chegar à tela.</p>
 </div>
@@ -846,7 +846,7 @@ Figura&nbsp;9.2: Curvas de nível da mesma relação. O KDE roda sobre uma amost
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>prop <span class="op">=</span> contagem.copy().loc[<span class="st">"A"</span>:<span class="st">"G"</span>, :].astype(<span class="bu">float</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>prop.loc[:, <span class="st">"Charged Off"</span>:<span class="st">"Late"</span>] <span class="op">=</span> prop.loc[:, <span class="st">"Charged Off"</span>:<span class="st">"Late"</span>].div(prop[<span class="st">"All"</span>], axis<span class="op">=</span><span class="dv">0</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>prop[<span class="st">"All"</span>] <span class="op">=</span> prop[<span class="st">"All"</span>] <span class="op">/</span> <span class="bu">sum</span>(prop[<span class="st">"All"</span>])</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>prop.<span class="bu">round</span>(<span class="dv">3</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>prop.<span class="bu">round</span>(<span class="dv">3</span>).<span class="bu">map</span>(<span class="kw">lambda</span> v: num(v, <span class="dv">3</span>))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div id="crosstab-pct" class="cell-output cell-output-display" data-execution_count="6">
 <div>
 
@@ -873,59 +873,59 @@ Figura&nbsp;9.2: Curvas de nível da mesma relação. O KDE roda sobre uma amost
 <tbody>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">A</th>
-<td>0.022</td>
-<td>0.690</td>
-<td>0.282</td>
-<td>0.006</td>
-<td>0.161</td>
+<td>0,022</td>
+<td>0,690</td>
+<td>0,282</td>
+<td>0,006</td>
+<td>0,161</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">B</th>
-<td>0.040</td>
-<td>0.709</td>
-<td>0.235</td>
-<td>0.016</td>
-<td>0.294</td>
+<td>0,040</td>
+<td>0,709</td>
+<td>0,235</td>
+<td>0,016</td>
+<td>0,294</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">C</th>
-<td>0.050</td>
-<td>0.736</td>
-<td>0.191</td>
-<td>0.023</td>
-<td>0.268</td>
+<td>0,050</td>
+<td>0,736</td>
+<td>0,191</td>
+<td>0,023</td>
+<td>0,268</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">D</th>
-<td>0.067</td>
-<td>0.717</td>
-<td>0.184</td>
-<td>0.031</td>
-<td>0.165</td>
+<td>0,067</td>
+<td>0,717</td>
+<td>0,184</td>
+<td>0,031</td>
+<td>0,165</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">E</th>
-<td>0.082</td>
-<td>0.708</td>
-<td>0.171</td>
-<td>0.039</td>
-<td>0.077</td>
+<td>0,082</td>
+<td>0,708</td>
+<td>0,171</td>
+<td>0,039</td>
+<td>0,077</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">F</th>
-<td>0.118</td>
-<td>0.654</td>
-<td>0.180</td>
-<td>0.047</td>
-<td>0.029</td>
+<td>0,118</td>
+<td>0,654</td>
+<td>0,180</td>
+<td>0,047</td>
+<td>0,029</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">G</th>
-<td>0.126</td>
-<td>0.614</td>
-<td>0.198</td>
-<td>0.061</td>
-<td>0.007</td>
+<td>0,126</td>
+<td>0,614</td>
+<td>0,198</td>
+<td>0,061</td>
+<td>0,007</td>
 </tr>
 </tbody>
 </table>
@@ -935,7 +935,7 @@ Figura&nbsp;9.2: Curvas de nível da mesma relação. O KDE roda sobre uma amost
 </div>
 <p>Dividir cada linha pelo seu próprio total remove o tamanho do grupo da conta e isola o que interessa: a taxa. E aí o padrão que a grade deveria capturar aparece, limpo.</p>
 <div class="exemplo">
-<p>A proporção de <code>Charged Off</code> cresce <strong>monotonicamente</strong> de A a G: 2.2% em A, subindo sem uma única inversão até 12.6% em G. É exatamente o que o rótulo “grade de risco” promete — e a tabela de contagem, dominada pelo tamanho de cada grupo, escondia esse padrão em vez de revelá-lo.</p>
+<p>A proporção de <code>Charged Off</code> cresce <strong>monotonicamente</strong> de A a G: 2,2% em A, subindo sem uma única inversão até 12,6% em G. É exatamente o que o rótulo “grade de risco” promete — e a tabela de contagem, dominada pelo tamanho de cada grupo, escondia esse padrão em vez de revelá-lo.</p>
 </div>
 </section>
 <section id="categórico-numérico-boxplot-agrupado-e-violin-plot" class="level2">

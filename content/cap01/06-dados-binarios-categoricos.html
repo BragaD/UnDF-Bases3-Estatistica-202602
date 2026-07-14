@@ -703,7 +703,7 @@ Nota
 <div id="cell-proporcoes" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>dfw <span class="op">=</span> pd.read_csv(<span class="st">"dados/dfw_airline.csv"</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>proporcoes <span class="op">=</span> <span class="dv">100</span> <span class="op">*</span> dfw <span class="op">/</span> dfw.values.<span class="bu">sum</span>()</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>proporcoes.<span class="bu">round</span>(<span class="dv">2</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>proporcoes.<span class="bu">round</span>(<span class="dv">2</span>).<span class="bu">map</span>(<span class="kw">lambda</span> v: num(v, <span class="dv">2</span>))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div id="proporcoes" class="cell-output cell-output-display" data-execution_count="2">
 <div>
 
@@ -722,11 +722,11 @@ Nota
 <tbody>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">0</th>
-<td>23.02</td>
-<td>30.4</td>
-<td>4.03</td>
-<td>0.12</td>
-<td>42.43</td>
+<td>23,02</td>
+<td>30,40</td>
+<td>4,03</td>
+<td>0,12</td>
+<td>42,43</td>
 </tr>
 </tbody>
 </table>
@@ -794,9 +794,9 @@ Figura&nbsp;7.1: Causas de atraso no aeroporto de Dallas/Fort Worth. As barras s
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> (dfw <span class="op">/</span> dfw.values.<span class="bu">sum</span>()).transpose().iloc[:, <span class="dv">0</span>]   <span class="co"># probabilidade de cada causa</span></span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>ve <span class="op">=</span> <span class="bu">sum</span>(p[causa] <span class="op">*</span> valor <span class="cf">for</span> causa, valor <span class="kw">in</span> custo.items())</span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Valor esperado do custo por atraso: R$ </span><span class="sc">{</span>ve<span class="sc">:.2f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Valor esperado do custo por atraso: R$ </span><span class="sc">{</span>num(ve, <span class="dv">2</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Valor esperado do custo por atraso: R$ 104.55</code></pre>
+<pre><code>Valor esperado do custo por atraso: R$ 104,55</code></pre>
 </div>
 </div>
 <p>R$ 104,55 não é o custo de nenhum atraso individual — nenhuma causa isolada custa exatamente isso. É o custo médio <strong>por atraso</strong>, se essa mistura de causas se repetisse indefinidamente. Uma causa rara contribui quase nada mesmo quando não é a mais barata (<code>Security</code>, R$ 25 em 0,12% dos casos, entra com R$ 0,03 no total); uma causa de custo intermediário mas frequente (<code>ATC</code>, R$ 40 em 30% dos casos) entra com R$ 12,16 — 400 vezes mais. O valor esperado não é dispersão nem localização de novo — é a base de toda decisão sob incerteza que a estatística tratará daqui em diante.</p>
@@ -814,28 +814,28 @@ Figura&nbsp;7.1: Causas de atraso no aeroporto de Dallas/Fort Worth. As barras s
 <tbody>
 <tr class="odd">
 <td>Carrier</td>
-<td>64,263</td>
-<td>23.02%</td>
+<td>64.263</td>
+<td>23,02%</td>
 </tr>
 <tr class="even">
 <td>ATC</td>
-<td>84,856</td>
-<td>30.40%</td>
+<td>84.856</td>
+<td>30,40%</td>
 </tr>
 <tr class="odd">
 <td>Weather</td>
-<td>11,235</td>
-<td>4.03%</td>
+<td>11.235</td>
+<td>4,03%</td>
 </tr>
 <tr class="even">
 <td>Security</td>
 <td>343</td>
-<td>0.12%</td>
+<td>0,12%</td>
 </tr>
 <tr class="odd">
 <td>Inbound</td>
-<td>118,428</td>
-<td>42.43%</td>
+<td>118.428</td>
+<td>42,43%</td>
 </tr>
 </tbody>
 </table>

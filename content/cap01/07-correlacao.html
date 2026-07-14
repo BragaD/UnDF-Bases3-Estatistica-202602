@@ -785,7 +785,7 @@ Nota
 <h2 class="anchored" data-anchor-id="matriz-de-correlação">Matriz de correlação</h2>
 <p>Com mais de duas variáveis, faz sentido calcular a correlação de <strong>todo par</strong>, não de um par isolado. O resultado é a <strong>matriz de correlação</strong>: simétrica (a correlação de T com VZ é a mesma de VZ com T) e com 1 na diagonal (toda variável tem correlação perfeita consigo mesma).</p>
 <div id="cell-matriz" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>telecom.corr().<span class="bu">round</span>(<span class="dv">3</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>telecom.corr().<span class="bu">round</span>(<span class="dv">3</span>).<span class="bu">map</span>(<span class="kw">lambda</span> v: num(v, <span class="dv">3</span>))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div id="matriz" class="cell-output cell-output-display" data-execution_count="3">
 <div>
 
@@ -804,43 +804,43 @@ Nota
 <tbody>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">T</th>
-<td>1.000</td>
-<td>0.475</td>
-<td>0.328</td>
-<td>0.678</td>
-<td>0.279</td>
+<td>1,000</td>
+<td>0,475</td>
+<td>0,328</td>
+<td>0,678</td>
+<td>0,279</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">CTL</th>
-<td>0.475</td>
-<td>1.000</td>
-<td>0.420</td>
-<td>0.417</td>
-<td>0.287</td>
+<td>0,475</td>
+<td>1,000</td>
+<td>0,420</td>
+<td>0,417</td>
+<td>0,287</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">FTR</th>
-<td>0.328</td>
-<td>0.420</td>
-<td>1.000</td>
-<td>0.287</td>
-<td>0.260</td>
+<td>0,328</td>
+<td>0,420</td>
+<td>1,000</td>
+<td>0,287</td>
+<td>0,260</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">VZ</th>
-<td>0.678</td>
-<td>0.417</td>
-<td>0.287</td>
-<td>1.000</td>
-<td>0.242</td>
+<td>0,678</td>
+<td>0,417</td>
+<td>0,287</td>
+<td>1,000</td>
+<td>0,242</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">LVLT</th>
-<td>0.279</td>
-<td>0.287</td>
-<td>0.260</td>
-<td>0.242</td>
-<td>1.000</td>
+<td>0,279</td>
+<td>0,287</td>
+<td>0,260</td>
+<td>0,242</td>
+<td>1,000</td>
 </tr>
 </tbody>
 </table>
@@ -849,7 +849,7 @@ Nota
 </div>
 </div>
 <div class="exemplo">
-<p>A maior correlação do grupo é entre T e VZ: 0.678. Não é coincidência: AT&amp;T e Verizon são as duas maiores operadoras de telecomunicações dos Estados Unidos, e seus retornos diários respondem aos mesmos choques de mercado — taxa de juros, regulação do setor, expectativa de crescimento da economia. Empresas menores e mais heterogêneas do grupo, como LVLT, têm correlação bem mais baixa com as demais (0,242 a 0,287): compartilham menos desses choques comuns.</p>
+<p>A maior correlação do grupo é entre T e VZ: 0,678. Não é coincidência: AT&amp;T e Verizon são as duas maiores operadoras de telecomunicações dos Estados Unidos, e seus retornos diários respondem aos mesmos choques de mercado — taxa de juros, regulação do setor, expectativa de crescimento da economia. Empresas menores e mais heterogêneas do grupo, como LVLT, têm correlação bem mais baixa com as demais (0,242 a 0,287): compartilham menos desses choques comuns.</p>
 </div>
 <div id="cell-fig-scatter" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">5</span>))</span>
@@ -940,23 +940,23 @@ Figura&nbsp;8.2: Correlação dos retornos diários entre fundos negociados em b
 <tbody>
 <tr class="odd">
 <td>T × VZ</td>
-<td>0.678</td>
+<td>0,678</td>
 </tr>
 <tr class="even">
 <td>T × CTL</td>
-<td>0.475</td>
+<td>0,475</td>
 </tr>
 <tr class="odd">
 <td>T × FTR</td>
-<td>0.328</td>
+<td>0,328</td>
 </tr>
 <tr class="even">
 <td>T × LVLT</td>
-<td>0.279</td>
+<td>0,279</td>
 </tr>
 <tr class="odd">
 <td>CTL × FTR</td>
-<td>0.420</td>
+<td>0,420</td>
 </tr>
 </tbody>
 </table>

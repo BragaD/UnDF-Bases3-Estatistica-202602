@@ -119,7 +119,7 @@ A terceira armadilha é a mais contraintuitiva das três, e vale prová-la em ve
 x = np.linspace(-1, 1, 200)
 y = x ** 2
 
-print(f"Correlação entre x e x²: {np.corrcoef(x, y)[0, 1]:.10f}")
+print(f"Correlação entre x e x²: {np.corrcoef(x, y)[0, 1]:.3e}")
 ```
 
 $y = x^2$ é o exemplo mais determinístico que existe: conhecendo $x$, você sabe $y$ com certeza absoluta, sem incerteza nenhuma. E ainda assim a correlação entre eles é, na prática, zero — o valor calculado é da ordem de $10^{-17}$, um erro de arredondamento de ponto flutuante em torno de um zero exato. A razão é a simetria da parábola em torno de zero: para cada $x$ positivo que empurra a covariância para cima, existe um $x$ negativo simétrico que a empurra para baixo na mesma medida, e os dois efeitos se cancelam por completo. **Correlação zero significa "sem relação linear" — não significa "sem relação".** É a diferença entre as duas frases que faz da correlação uma ferramenta poderosa, mas estreita: ela responde a uma pergunta específica, e é preciso saber qual.

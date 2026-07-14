@@ -64,7 +64,7 @@ Aparar 10% de cada ponta remove os 5 estados mais populosos e os 5 menos populos
 
 ## Mediana
 
-A **mediana** é o valor central dos dados ordenados. Ela depende apenas das observações do meio, então um valor extremo pode ser arbitrariamente grande sem movê-la. Com número par de observações — como aqui, n = 50 —, não existe um único valor central: a mediana é a **média dos dois valores do meio**. É por isso que o número calculado abaixo termina em ",5": não há meia pessoa, há uma média entre duas observações vizinhas.
+A **mediana** é o valor central dos dados ordenados. Ela depende apenas das observações do meio, então um valor extremo pode ser arbitrariamente grande sem movê-la. Com número par de observações — como aqui, n = 50 —, não existe um único valor central: a mediana é a **média dos dois valores do meio**. É por isso que o número calculado abaixo termina em `.5`, meio entre duas unidades: não há meia pessoa, há uma média entre duas observações vizinhas.
 
 ```{python}
 #| label: mediana

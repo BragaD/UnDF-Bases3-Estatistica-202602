@@ -105,7 +105,7 @@ O desvio-padrão (6,8M) é quase o dobro do MAD (3,8M). Essa distância entre um
 | MAD | `{python} f"{mad:,.0f}"` | Sim |
 
 ::: {.exemplo}
-Se a população de cada estado fosse multiplicada por 1.000 — trocando a unidade de pessoas para "milhares de pessoas" —, o desvio-padrão e o IQR também seriam multiplicados por 1.000: ambos herdam a unidade dos dados e escalam linearmente com eles. A variância, por estar em unidade ao quadrado, seria multiplicada por 1.000.000. É exatamente esse descasamento de unidade que faz o desvio-padrão, e não a variância, ser reportado na prática.
+Se a população de cada estado fosse multiplicada por 1.000, o desvio-padrão e o IQR também seriam multiplicados por 1.000: ambos herdam a unidade dos dados e escalam linearmente com eles. A variância, por estar em unidade ao quadrado, seria multiplicada por 1.000.000. É exatamente esse descasamento de unidade que faz o desvio-padrão, e não a variância, ser reportado na prática.
 :::
 
 ## Exercícios

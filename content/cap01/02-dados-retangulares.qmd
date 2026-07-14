@@ -92,7 +92,7 @@ Todo o vocabulário estatístico deste livro pressupõe a forma retangular: linh
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
-50 é o número de registros (observações — um por estado); 4 é o número de features (as variáveis medidas sobre cada estado: `State`, `Population`, `Murder.Rate`, `Abbreviation`).
+50 é o número de registros (observações — um por estado); 4 é o número de colunas — mas só `Population` e `Murder.Rate` são features, variáveis medidas sobre cada estado. `State` e `Abbreviation` identificam o registro, não medem nada sobre ele.
 :::
 
 **2.** Você quer prever a taxa de homicídios a partir da população. Qual coluna é o *outcome* e quais são as *features*?

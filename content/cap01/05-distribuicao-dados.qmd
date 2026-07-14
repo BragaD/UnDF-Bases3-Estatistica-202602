@@ -184,6 +184,31 @@ plt.show()
 
 No painel A, a maioria das notas se aglomera abaixo de 65, com um rastro de notas altas se estendendo para a direita — é esse rastro que empurra a linha vermelha (média) para além da linha verde tracejada (mediana). No painel B a imagem é o espelho: a maioria das notas fica acima de 65, com o rastro agora à esquerda, e a média fica abaixo da mediana. No painel C não há rastro para nenhum dos dois lados, e as duas linhas praticamente se sobrepõem. O `sharey=True` importa: sem ele, cada painel escolheria sua própria escala vertical, e a comparação entre as três formas ficaria distorcida.
 
+O histograma mostra a forma inteira, mas a assimetria aparece igualmente bem no **boxplot** — que resume cada turma em cinco números. Empilhando os três lado a lado, a diferença salta aos olhos mesmo sem contar nenhuma nota:
+
+```{python}
+#| label: fig-boxplot-assimetria
+#| fig-cap: "As mesmas três turmas em boxplot. A linha central é a mediana; a caixa vai do primeiro ao terceiro quartil; os bigodes alcançam o restante das notas."
+fig, ax = plt.subplots(figsize=(8, 3))
+
+caixas = ax.boxplot(
+    [turma_c, turma_b, turma_a],          # de baixo para cima: simétrica, esquerda, direita
+    tick_labels=["C — simétrica", "B — à esquerda", "A — à direita"],
+    vert=False,
+    patch_artist=True,
+    medianprops={"color": "#27ae60", "linewidth": 2},
+    widths=0.6,
+)
+for caixa in caixas["boxes"]:
+    caixa.set(facecolor="#b0c4d8", edgecolor="#2c3e50")
+
+ax.set_xlabel("Nota")
+plt.tight_layout()
+plt.show()
+```
+
+Repare em **onde a linha da mediana cai dentro da caixa**. Na turma A (à direita), ela encosta no lado esquerdo da caixa — abaixo do centro — e o bigode direito é longo, alcançando as poucas notas altas; é a mesma cauda à direita do histograma, agora comprimida em uma barra. Na turma B a caixa é o espelho perfeito: mediana encostada à direita, bigode longo à esquerda. Na turma C a mediana fica no centro exato e os dois bigodes têm o mesmo comprimento. Uma caixa cuja mediana não está no meio, ou cujos bigodes têm comprimentos diferentes, é um boxplot lhe dizendo, sem nenhum número, que a distribuição é assimétrica.
+
 A **assimetria** (skewness) mede esse desequilíbrio entre as caudas em um único número:
 
 $$g_1 = \frac{\frac{1}{n}\sum_{i=1}^{n}(x_i - \bar{x})^3}{s^3}$$

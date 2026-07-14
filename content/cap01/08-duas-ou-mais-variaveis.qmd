@@ -94,7 +94,7 @@ contagem
 São 450.961 empréstimos ao todo (célula `All`/`All`), divididos em quatro status (`Charged Off` — inadimplente, prejuízo assumido; `Current` — em dia; `Fully Paid` — quitado; `Late` — atrasado) e sete graus de risco.
 
 ::: {.conceito}
-Olhe a coluna `Charged Off`. A grade B tem 5.302 empréstimos inadimplentes — mais que qualquer outra grade, inclusive mais que E, F e G somadas. É tentador ler isso como "B é a grade mais arriscada da carteira". Mas a contagem mistura duas coisas: o quão arriscada é a grade, e o quão grande é a grade. B sozinha tem 132.370 empréstimos — quase o dobro de C, a segunda maior —, então é claro que tem mais de tudo, inclusive mais inadimplência. Comparar contagens brutas entre grupos de tamanhos tão diferentes é um erro clássico, e é exatamente o que a tabela de contagem convida a fazer.
+Olhe a coluna `Charged Off`. A grade C tem 6.023 empréstimos inadimplentes — mais que qualquer outra grade, mais que E, F e G somadas. É tentador ler isso como "C é a grade mais arriscada da carteira". Mas a contagem mistura duas coisas: o quão arriscada é a grade, e o quão grande é a grade. B e C sozinhas concentram mais da metade da carteira (132.370 e 120.875 empréstimos), então é claro que têm mais de tudo, inclusive mais inadimplência. Comparar contagens brutas entre grupos de tamanhos tão diferentes é um erro clássico, e é exatamente o que a tabela de contagem convida a fazer.
 :::
 
 ```{python}

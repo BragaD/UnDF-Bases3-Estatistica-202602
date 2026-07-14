@@ -18,12 +18,12 @@ A forma retangular é tão comum na prática estatística que é fácil esquecer
 
 ```{python}
 #| label: estrutura
-estado = pd.read_csv("dados/state.csv")
+estado = pd.read_csv("dados/estados.csv")
 print("linhas x colunas:", estado.shape)
 estado.head()
 ```
 
-`(50, 4)` são 50 linhas e 4 colunas — mas o par de números só significa alguma coisa porque sabemos, do dado, que cada linha é um estado e cada coluna é uma variável medida sobre ele. Trocar as duas dimensões — colocar variáveis nas linhas e estados nas colunas — descreveria os mesmos números sem descrever o mesmo problema.
+`(27, 4)` são 27 linhas e 4 colunas — mas o par de números só significa alguma coisa porque sabemos, do dado, que cada linha é uma unidade federativa e cada coluna é uma variável medida sobre ela. Trocar as duas dimensões — colocar variáveis nas linhas e estados nas colunas — descreveria os mesmos números sem descrever o mesmo problema.
 
 `estado.info()` complementa o `.head()`: além do formato, mostra quantos valores não nulos cada coluna tem e quanto de memória a tabela ocupa.
 
@@ -41,14 +41,14 @@ Toda linha de um DataFrame tem um rótulo — o **índice** — além de qualque
 print("índice padrão:", estado.index[:5].tolist())
 
 # Um índice significativo torna a busca por rótulo natural
-por_estado = estado.set_index("Abbreviation")
-por_estado.loc["CA"]
+por_estado = estado.set_index("Sigla")
+por_estado.loc["SP"]
 ```
 
-Substituir o índice numérico pela sigla do estado transforma `.loc["CA"]` de uma busca por posição em uma busca por rótulo, algo que a posição sozinha nunca permitiria fazer com sentido.
+Substituir o índice numérico pela sigla do estado transforma `.loc["SP"]` de uma busca por posição em uma busca por rótulo, algo que a posição sozinha nunca permitiria fazer com sentido.
 
 ::: {.conceito}
-O índice **não é uma coluna de dados** — é o rótulo das linhas, guardado separadamente do corpo da tabela. É por isso que `por_estado` tem só 3 colunas (`State`, `Population`, `Murder.Rate`): `set_index("Abbreviation")` **removeu** `Abbreviation` do corpo do DataFrame para usá-la como rótulo. Esquecer isso é fonte comum de bug — quem espera encontrar `Abbreviation` entre as colunas depois do `set_index` vai procurar por algo que já não está lá.
+O índice **não é uma coluna de dados** — é o rótulo das linhas, guardado separadamente do corpo da tabela. É por isso que `por_estado` tem só 3 colunas (`Estado`, `Populacao`, `Taxa.Homicidios`): `set_index("Sigla")` **removeu** `Sigla` do corpo do DataFrame para usá-la como rótulo. Esquecer isso é fonte comum de bug — quem espera encontrar `Sigla` entre as colunas depois do `set_index` vai procurar por algo que já não está lá.
 :::
 
 ## Vocabulário e seus sinônimos
@@ -87,12 +87,12 @@ Todo o vocabulário estatístico deste livro pressupõe a forma retangular: linh
 
 ## Exercícios
 
-**1.** `estado.shape` retorna `(50, 4)`. Qual é o significado de cada número, no vocabulário desta seção?
+**1.** `estado.shape` retorna `(27, 4)`. Qual é o significado de cada número, no vocabulário desta seção?
 
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
-50 é o número de registros (observações — um por estado); 4 é o número de colunas — mas só `Population` e `Murder.Rate` são features, variáveis medidas sobre cada estado. `State` e `Abbreviation` identificam o registro, não medem nada sobre ele.
+27 é o número de registros (observações — um por unidade federativa); 4 é o número de colunas — mas só `Populacao` e `Taxa.Homicidios` são features, variáveis medidas sobre cada estado. `Estado` e `Sigla` identificam o registro, não medem nada sobre ele.
 :::
 
 **2.** Você quer prever a taxa de homicídios a partir da população. Qual coluna é o *outcome* e quais são as *features*?
@@ -100,7 +100,7 @@ Todo o vocabulário estatístico deste livro pressupõe a forma retangular: linh
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
-`Murder.Rate` é o outcome; `Population` é a feature. `State` e `Abbreviation` são identificadores, não features úteis — usá-los como preditor seria memorizar cada linha em vez de aprender um padrão que generalize.
+`Taxa.Homicidios` é o outcome; `Populacao` é a feature. `Estado` e `Sigla` são identificadores, não features úteis — usá-los como preditor seria memorizar cada linha em vez de aprender um padrão que generalize.
 :::
 
 **3.** Um log de servidor tem timestamp, IP e URL, uma linha por requisição. É retangular? E se a pergunta for "qual a sequência típica de páginas antes de uma compra?"

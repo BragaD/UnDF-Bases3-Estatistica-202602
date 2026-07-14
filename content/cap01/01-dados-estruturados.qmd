@@ -37,11 +37,11 @@ Isso pareceria bobagem de nomenclatura se não tivesse consequência prática. O
 
 ```{python}
 #| label: tipos
-estado = pd.read_csv("dados/state.csv")
+estado = pd.read_csv("dados/estados.csv")
 estado.dtypes
 ```
 
-O pandas acertou dois tipos numéricos sem qualquer ajuda: `Population` virou `int64` porque é contagem de pessoas — discreto — e `Murder.Rate` virou `float64` porque é uma taxa — contínua. Mas repare em `State` e `Abbreviation`: ambos viraram `str`, que é como o pandas rotula texto genérico. Ele não sabe que são categóricos nominais. Para o pandas, `"Alabama"` e `"AL"` são só sequências de caracteres, tão desprovidas de estrutura quanto um comentário de texto livre.
+O pandas acertou dois tipos numéricos sem qualquer ajuda: `Populacao` virou `int64` porque é contagem de pessoas — discreto — e `Taxa.Homicidios` virou `float64` porque é uma taxa — contínua. Mas repare em `Estado` e `Sigla`: ambos viraram `str`, que é como o pandas rotula texto genérico. Ele não sabe que são categóricos nominais. Para o pandas, `"São Paulo"` e `"SP"` são só sequências de caracteres, tão desprovidas de estrutura quanto um comentário de texto livre.
 
 ::: {.exemplo}
 Isso é o que acontece quando ninguém declara o tipo explicitamente: o software cai de volta no genérico. Funciona, mas descarta informação — informação que o próximo passo recupera.
@@ -51,12 +51,12 @@ Isso é o que acontece quando ninguém declara o tipo explicitamente: o software
 
 ```{python}
 #| label: categorico
-estado["Abbreviation"] = estado["Abbreviation"].astype("category")
-print(estado["Abbreviation"].dtype)
-print("categorias:", len(estado["Abbreviation"].cat.categories))
+estado["Sigla"] = estado["Sigla"].astype("category")
+print(estado["Sigla"].dtype)
+print("categorias:", len(estado["Sigla"].cat.categories))
 ```
 
-Agora `Abbreviation` é uma coluna `category`, com um conjunto fechado de 50 valores possíveis — um por estado. Aqui o ganho é **semântico**, não de memória: as 50 siglas são todas distintas, não há string repetida para deduplicar, e o overhead de guardar um código inteiro por linha *além* do mapa código→string na verdade custa um pouco mais (medido: 2.682 bytes como `str` contra 2.732 como `category`). A economia de memória do `category` aparece quando poucos valores distintos se repetem em muitas linhas — uma coluna de 10.000 linhas com só 4 categorias, por exemplo, cai de ~535 KB como `str` para ~10 KB como `category`, porque aí sim há repetição para deduplicar. Com `Abbreviation`, o que se ganha é outra coisa: declarar que a coluna é categórica, não texto livre.
+Agora `Sigla` é uma coluna `category`, com um conjunto fechado de 27 valores possíveis — um por unidade federativa. Aqui o ganho é **semântico**, não de memória: as 27 siglas são todas distintas, não há string repetida para deduplicar, e o overhead de guardar um código inteiro por linha *além* do mapa código→string na verdade custa um pouco mais (medido: 1.509 bytes como `str` contra 1.536 como `category`). A economia de memória do `category` aparece quando poucos valores distintos se repetem em muitas linhas — uma coluna de 10.000 linhas com só 4 categorias, por exemplo, cai de ~535 KB como `str` para ~10 KB como `category`, porque aí sim há repetição para deduplicar. Com `Sigla`, o que se ganha é outra coisa: declarar que a coluna é categórica, não texto livre.
 
 ## O caso ordinal: quando a ordem é dado, não convenção
 
@@ -88,7 +88,7 @@ except TypeError as erro:
     print("TypeError:", erro)
 ```
 
-O pandas **se recusa a comparar**. E isso é uma feature, não uma limitação. Perguntar se um estado é "maior que" outro não significa coisa alguma — não existe ordem entre Alabama e Wyoming que a estatística reconheça. Um tipo nominal faz o software recusar a pergunta em vez de devolver uma resposta sem sentido; se `Abbreviation` respondesse a `>`, alguém acabaria ordenando estados por "grandeza" alfabética e tratando o resultado como se significasse algo. O erro barrado na origem é melhor que o número enganoso.
+O pandas **se recusa a comparar**. E isso é uma feature, não uma limitação. Perguntar se um estado é "maior que" outro não significa coisa alguma — não existe ordem entre Pernambuco e Tocantins que a estatística reconheça. Um tipo nominal faz o software recusar a pergunta em vez de devolver uma resposta sem sentido; se `Sigla` respondesse a `>`, alguém acabaria ordenando estados por "grandeza" alfabética e tratando o resultado como se significasse algo. O erro barrado na origem é melhor que o número enganoso.
 
 ::: {.conceito}
 Declarar o tipo de uma coluna não é burocracia de código, é a mesma decisão que se toma ao escolher entre média e mediana: o tipo é o que permite ao software (a) rejeitar automaticamente uma operação sem sentido, como ordenar estados por "grandeza" alfabética; (b) escolher o gráfico adequado — barras para nominal, algo que respeite a ordem para ordinal, histograma para contínuo; e (c) economizar memória, porque uma coluna `category` com poucos valores distintos guarda inteiros internamente em vez de repetir strings.
@@ -106,12 +106,12 @@ Declarar o tipo de uma coluna não é burocracia de código, é a mesma decisão
 
 ## Exercícios
 
-**1.** Classifique cada variável de `state.csv` (`State`, `Population`, `Murder.Rate`, `Abbreviation`) na taxonomia apresentada.
+**1.** Classifique cada variável de `estados.csv` (`Estado`, `Populacao`, `Taxa.Homicidios`, `Sigla`) na taxonomia apresentada.
 
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
-`State` e `Abbreviation` são categóricos nominais — identificam o estado, sem ordem entre eles. `Population` é numérico discreto — é uma contagem de pessoas. `Murder.Rate` é numérico contínuo — é uma taxa que pode assumir qualquer valor real não negativo.
+`Estado` e `Sigla` são categóricos nominais — identificam o estado, sem ordem entre eles. `Populacao` é numérico discreto — é uma contagem de pessoas. `Taxa.Homicidios` é numérico contínuo — é uma taxa que pode assumir qualquer valor real não negativo.
 :::
 
 **2.** Uma pesquisa de satisfação registra respostas como 1, 2, 3, 4 ou 5. O pandas lê essa coluna como `int64`. Por que tratá-la como numérica pode enganar?

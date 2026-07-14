@@ -956,13 +956,49 @@ Figura&nbsp;6.4: Três turmas com a mesma média e a mesma variância — e form
 </div>
 </div>
 <p>No painel A, a maioria das notas se aglomera abaixo de 65, com um rastro de notas altas se estendendo para a direita — é esse rastro que empurra a linha vermelha (média) para além da linha verde tracejada (mediana). No painel B a imagem é o espelho: a maioria das notas fica acima de 65, com o rastro agora à esquerda, e a média fica abaixo da mediana. No painel C não há rastro para nenhum dos dois lados, e as duas linhas praticamente se sobrepõem. O <code>sharey=True</code> importa: sem ele, cada painel escolheria sua própria escala vertical, e a comparação entre as três formas ficaria distorcida.</p>
+<p>O histograma mostra a forma inteira, mas a assimetria aparece igualmente bem no <strong>boxplot</strong> — que resume cada turma em cinco números. Empilhando os três lado a lado, a diferença salta aos olhos mesmo sem contar nenhuma nota:</p>
+<div id="cell-fig-boxplot-assimetria" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">3</span>))</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>caixas <span class="op">=</span> ax.boxplot(</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    [turma_c, turma_b, turma_a],          <span class="co"># de baixo para cima: simétrica, esquerda, direita</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    tick_labels<span class="op">=</span>[<span class="st">"C — simétrica"</span>, <span class="st">"B — à esquerda"</span>, <span class="st">"A — à direita"</span>],</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    vert<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    patch_artist<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    medianprops<span class="op">=</span>{<span class="st">"color"</span>: <span class="st">"#27ae60"</span>, <span class="st">"linewidth"</span>: <span class="dv">2</span>},</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    widths<span class="op">=</span><span class="fl">0.6</span>,</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> caixa <span class="kw">in</span> caixas[<span class="st">"boxes"</span>]:</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    caixa.<span class="bu">set</span>(facecolor<span class="op">=</span><span class="st">"#b0c4d8"</span>, edgecolor<span class="op">=</span><span class="st">"#2c3e50"</span>)</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Nota"</span>)</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/tmp/ipykernel_347/294545130.py:3: MatplotlibDeprecationWarning: vert: bool was deprecated in Matplotlib 3.11 and will be removed in 3.13. Use orientation: {'vertical', 'horizontal'} instead.
+  caixas = ax.boxplot(</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div id="fig-boxplot-assimetria" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-boxplot-assimetria-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="05-distribuicao-dados_files/figure-html/fig-boxplot-assimetria-output-2.png" width="765" height="278" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-boxplot-assimetria-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;6.5: As mesmas três turmas em boxplot. A linha central é a mediana; a caixa vai do primeiro ao terceiro quartil; os bigodes alcançam o restante das notas.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Repare em <strong>onde a linha da mediana cai dentro da caixa</strong>. Na turma A (à direita), ela encosta no lado esquerdo da caixa — abaixo do centro — e o bigode direito é longo, alcançando as poucas notas altas; é a mesma cauda à direita do histograma, agora comprimida em uma barra. Na turma B a caixa é o espelho perfeito: mediana encostada à direita, bigode longo à esquerda. Na turma C a mediana fica no centro exato e os dois bigodes têm o mesmo comprimento. Uma caixa cuja mediana não está no meio, ou cujos bigodes têm comprimentos diferentes, é um boxplot lhe dizendo, sem nenhum número, que a distribuição é assimétrica.</p>
 <p>A <strong>assimetria</strong> (skewness) mede esse desequilíbrio entre as caudas em um único número:</p>
 <p><span class="math display">\[g_1 = \frac{\frac{1}{n}\sum_{i=1}^{n}(x_i - \bar{x})^3}{s^3}\]</span></p>
 <p>O expoente 3 é o que faz a fórmula funcionar: ele <strong>preserva o sinal</strong> do desvio. Um desvio acima da média entra positivo; um desvio abaixo, negativo — e eles se cancelariam, como cancelam na média dos desvios simples (seção 1.4), a menos que uma das caudas seja mais comprida ou mais extrema que a outra. É exatamente esse desequilíbrio residual que sobra depois do cancelamento. Compare com o desvio-padrão: ali o desvio é <strong>elevado ao quadrado</strong>, o quadrado de um número negativo é positivo, o sinal desaparece — e é por isso que o desvio-padrão, por mais que meça dispersão, não diz absolutamente nada sobre para qual lado os dados pendem.</p>
 <p>Voltando aos dados reais das 27 unidades federativas:</p>
-<div id="assimetria-real" class="cell" data-execution_count="10">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"População das UFs  : </span><span class="sc">{</span>num(stats.skew(estado[<span class="st">'Populacao'</span>], bias<span class="op">=</span><span class="va">False</span>), <span class="dv">2</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Taxa de homicídios : </span><span class="sc">{</span>num(stats.skew(estado[<span class="st">'Taxa.Homicidios'</span>], bias<span class="op">=</span><span class="va">False</span>), <span class="dv">2</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="assimetria-real" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"População das UFs  : </span><span class="sc">{</span>num(stats.skew(estado[<span class="st">'Populacao'</span>], bias<span class="op">=</span><span class="va">False</span>), <span class="dv">2</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Taxa de homicídios : </span><span class="sc">{</span>num(stats.skew(estado[<span class="st">'Taxa.Homicidios'</span>], bias<span class="op">=</span><span class="va">False</span>), <span class="dv">2</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>População das UFs  : 2,96
 Taxa de homicídios : -0,19</code></pre>

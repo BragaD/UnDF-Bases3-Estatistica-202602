@@ -34,7 +34,7 @@ kc0 = kc.loc[(kc.TaxAssessedValue < 750000) &
 print(f"após filtrar extremos: {num(len(kc0), 0)}")
 ```
 
-O filtro derruba os registros de `498,249` para `432,693`. Não é uma correção estatística — é uma decisão de visualização: os poucos imóveis de valor extremo (acima de US\$ 750 mil) ou de área implausível (menor que 100 pés² ou maior que 3.500) esticariam os eixos do gráfico até comprimir o grosso dos dados, que é a parte que interessa, num canto minúsculo da tela.
+O filtro derruba os registros de `498.249` para `432.693`. Não é uma correção estatística — é uma decisão de visualização: os poucos imóveis de valor extremo (acima de US\$ 750 mil) ou de área implausível (menor que 100 pés² ou maior que 3.500) esticariam os eixos do gráfico até comprimir o grosso dos dados, que é a parte que interessa, num canto minúsculo da tela.
 
 ::: {.conceito}
 432.693 pontos ainda é um problema, mesmo depois do filtro. Um gráfico de dispersão como o da seção anterior — cada observação, um ponto — funcionava com 754 dias de negociação. Com quinhentas vezes mais pontos, a maior parte do plano acaba coberta várias vezes, os pontos se empilham uns sobre os outros, e a região mais densa vira uma mancha sólida e escura. Justamente onde mais importaria distinguir "muito denso" de "pouco denso", o gráfico de dispersão não distingue nada — a informação de **quantos** pontos caem ali já se perdeu antes de chegar à tela.

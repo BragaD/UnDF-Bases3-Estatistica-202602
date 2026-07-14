@@ -56,7 +56,7 @@ Com mais de duas variáveis, faz sentido calcular a correlação de **todo par**
 
 ```{python}
 #| label: matriz
-telecom.corr().round(3)
+telecom.corr().round(3).map(lambda v: num(v, 3))
 ```
 
 ::: {.exemplo}

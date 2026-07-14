@@ -206,6 +206,63 @@ Plot.plot({
 })
 ```
 
+## Arraste o aparo
+
+O widget anterior fixou o aparo em 10% e moveu o outlier. Este agora faz o inverso: a população fica como está, e quem se move é o próprio aparo, de 0% a 50%.
+
+Nos extremos, a média aparada deixa de ser uma terceira estimativa e vira uma das outras duas. Em 0%, `k = 0` — nada é descartado, e a aparada *é* a média. Em 50%, `k = 25` de cada ponta: com 50 estados, os 25 maiores e os 25 menores saem do cálculo, o núcleo fica vazio, e a função devolve a mediana por definição. Entre um extremo e outro não há salto: é uma família contínua, com o aparo como parâmetro que a percorre. Mova o controle abaixo e acompanhe o ponto laranja migrar do vermelho (média) até o verde (mediana).
+
+```{ojs}
+//| echo: false
+viewof aparo = Inputs.range([0, 50], {
+  step: 1,
+  value: 10,
+  label: "Aparo em cada ponta:",
+  format: x => x + "%"
+})
+```
+
+```{ojs}
+//| echo: false
+popsB = estados.map(d => d.Population)
+
+estatB = ({
+  media:   d3.mean(popsB),
+  aparada: mediaAparada(popsB, aparo / 100),
+  mediana: d3.median(popsB),
+  cortados: Math.floor(popsB.length * aparo / 100)
+})
+```
+
+```{ojs}
+//| echo: false
+md`Aparo de **${aparo}%** — descarta **${estatB.cortados}** estados de cada ponta.
+A média aparada vale **${fmt(estatB.aparada)}**.`
+```
+
+```{ojs}
+//| echo: false
+Plot.plot({
+  height: 130,
+  marginLeft: 55,
+  marginBottom: 40,
+  x: {domain: [4.2, 6.4], label: "População (milhões) →"},
+  y: {axis: null, domain: [-1, 1]},
+  marks: [
+    Plot.ruleY([0], {stroke: "#ccc"}),
+    Plot.link([{x1: estatB.mediana / 1e6, x2: estatB.media / 1e6}],
+              {x1: "x1", x2: "x2", y1: 0, y2: 0, stroke: "#ccc", strokeWidth: 6}),
+    Plot.dot([{x: estatB.media / 1e6}],   {x: "x", y: 0, r: 7, fill: "#c0392b"}),
+    Plot.dot([{x: estatB.mediana / 1e6}], {x: "x", y: 0, r: 7, fill: "#27ae60"}),
+    Plot.dot([{x: estatB.aparada / 1e6}], {x: "x", y: 0, r: 10, fill: "#e67e22",
+                                           stroke: "white", strokeWidth: 2}),
+    Plot.text([{x: estatB.media / 1e6}],   {x: "x", y: 0.6, text: ["média"], fill: "#c0392b"}),
+    Plot.text([{x: estatB.mediana / 1e6}], {x: "x", y: 0.6, text: ["mediana"], fill: "#27ae60"}),
+    Plot.text([{x: estatB.aparada / 1e6}], {x: "x", y: -0.6, text: ["aparada"], fill: "#e67e22"})
+  ]
+})
+```
+
 ## Exercícios
 
 **1.** A média aparada de 10% descartou os 5 estados mais populosos e os 5 menos populosos. Recalcule com aparo de 25%. O que acontece com a média aparada à medida que o aparo se aproxima de 50%?
@@ -218,6 +275,8 @@ trim_mean(estado["Population"], 0.25)
 ```
 
 Com aparo de 50%, todas as observações são descartadas exceto a(s) central(is) — a média aparada **converge para a mediana**. A média aparada é, portanto, uma família contínua entre a média (aparo 0) e a mediana (aparo 0,5).
+
+Arraste o slider do aparo até 50% no widget acima: a média aparada pousa exatamente sobre a mediana.
 :::
 
 **2.** A média ponderada da taxa de homicídios (4,45) é maior que a média simples (4,07). O que isso diz sobre a relação entre população e taxa de homicídios nos estados?

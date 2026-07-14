@@ -23,6 +23,57 @@ MEDIANA_REAL = "4.145.040,0"
 N_ESTADOS = 27
 ESTADO_MEDIANO = "PB"
 
+URL_DISPERSAO = "http://localhost:8000/content/cap01/04-estimativas-variabilidade.html"
+
+# A média da taxa, que o widget da 1.4 NÃO pode mover — é o ponto da seção.
+MEDIA_TAXA = "22,7"
+
+
+def verifica_dispersao(nav, falhas):
+    """O widget da 1.4: mexer no desvio não move a média, e os eixos não se mexem."""
+    page = nav.new_page()
+    erros = []
+    page.on("pageerror", lambda e: erros.append(str(e)))
+    page.goto(URL_DISPERSAO, wait_until="networkidle")
+    page.wait_for_selector('input[type="range"]', timeout=20000)
+
+    slider = page.locator('input[type="range"]').first
+    caixa = page.locator('input[type="number"]').first
+    print(f"widget 1.4 — caixa do slider: {caixa.input_value()!r}")
+    if not caixa.input_value():
+        falhas.append("a caixa do slider da 1.4 está VAZIA — um `format` customizado?")
+
+    def eixos_e_media():
+        """Os rótulos do eixo x, os do eixo y, e o texto da média."""
+        svg = page.locator("svg").last
+        rotulos = svg.locator("text").all_inner_texts()
+        corpo = page.inner_text("body")
+        return rotulos, MEDIA_TAXA in corpo
+
+    rot_ini, tem_media = eixos_e_media()
+    if not tem_media:
+        falhas.append(f"não achei a média ({MEDIA_TAXA}) na página da 1.4")
+
+    # Mover o desvio de ponta a ponta NÃO pode mudar os eixos nem a média.
+    for valor in ["4", "11.8"]:
+        slider.fill(valor)
+        slider.dispatch_event("input")
+        page.wait_for_timeout(600)
+        rot, tem_media = eixos_e_media()
+        if rot != rot_ini:
+            falhas.append(
+                f"com desvio {valor}, os rótulos dos eixos MUDARAM — eles deveriam "
+                f"estar travados, senão o gráfico mascara o efeito"
+            )
+        if not tem_media:
+            falhas.append(f"com desvio {valor}, a média deixou de ser {MEDIA_TAXA} — "
+                          f"a transformação deveria preservá-la")
+
+    print("widget 1.4: eixos travados e média imóvel de ponta a ponta do slider")
+    if erros:
+        falhas.append(f"erros de JS na página 1.4: {erros[:2]}")
+    page.close()
+
 
 def numeros_da_tabela(page):
     """Os três valores da tabela do Widget A, na ordem: média, aparada, mediana."""
@@ -152,6 +203,8 @@ def main():
             # 6. Nenhum erro de JavaScript.
             if erros:
                 falhas.append(f"erros de JS na página: {erros[:3]}")
+
+            verifica_dispersao(nav, falhas)
 
             nav.close()
     finally:

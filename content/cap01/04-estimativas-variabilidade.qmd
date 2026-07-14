@@ -17,6 +17,13 @@ plt.rcParams["figure.figsize"] = (7, 4)
 estado = pd.read_csv("dados/estados.csv")
 ```
 
+```{python}
+#| label: exporta-ojs
+#| echo: false
+#| output: false
+ojs_define(dados = estado)
+```
+
 A seção 1.3 resumiu a população dos estados por um valor típico — média, média aparada, mediana — e viu a média se deslocar para longe das outras duas, puxada pela cauda de estados muito populosos. Localização é só metade da história. A outra metade responde a uma pergunta diferente: quão espalhados os dados estão em torno desse valor típico? Essa é a **variabilidade**, ou dispersão.
 
 Dois estados podem ter a mesma população mediana e mesmo assim serem completamente diferentes: num, quase todo mundo mora em cidades de tamanho parecido; no outro, uma metrópole convive com dezenas de municípios minúsculos. A localização não distingue esses dois casos. A dispersão, sim.
@@ -96,6 +103,94 @@ plt.show()
 ::: {.conceito}
 O desvio-padrão (9,26M) é quase o dobro do MAD (4,75M) — a razão entre os dois é 1,95, ainda mais próxima do dobro do que costuma aparecer. Essa distância entre uma medida sensível a extremos e uma medida robusta é o mesmo sinal que a diferença entre média e mediana já tinha dado na seção 1.3: a distribuição de população dos estados tem **cauda longa à direita**. Quanto mais as duas famílias de estimativas — a sensível e a robusta — discordam, mais forte é o sinal de cauda longa, não um capricho do cálculo.
 :::
+
+## Mexa no desvio-padrão
+
+Os números acima são uma fotografia de uma única distribuição. Para separar de vez o que é a **média** do que é o **desvio-padrão**, o widget abaixo faz algo que nenhum gráfico estático consegue: muda a dispersão da taxa de homicídios sem tocar na média. Arraste o controle e observe a linha vermelha — ela não se move um pixel. Média e desvio-padrão são parâmetros independentes: um descreve *onde* os dados estão centrados, o outro descreve *quão longe* eles se espalham desse centro, e mudar um não obriga o outro a mudar.
+
+O truque por trás disso é o z-score. Cada estado tem um z-score real, $z_i = (x_i - \bar{x}) / s$, calculado uma única vez a partir dos dados verdadeiros. Para gerar uma taxa com um desvio-padrão diferente, basta inverter a fórmula: $x_i' = \bar{x} + z_i \times s_{\text{novo}}$. Essa não é uma aproximação — é a mesma identidade algébrica em outra direção, e ela devolve exatamente a média $\bar{x}$ para qualquer $s_{\text{novo}}$ que você escolher.
+
+```{ojs}
+//| echo: false
+estados = transpose(dados)
+
+fmt = x => x.toLocaleString("pt-BR", {minimumFractionDigits: 1, maximumFractionDigits: 1})
+
+// O z-score da taxa real, calculado UMA vez. É ele que permite mudar o desvio
+// sem mexer na média: taxa' = μ + z × σ_novo devolve exatamente a média μ e
+// exatamente o desvio σ_novo. Não é aproximação — é identidade algébrica.
+// d3.deviation usa n−1, igual ao .std(ddof=1) do pandas.
+base = {
+  const taxas = estados.map(d => d["Taxa.Homicidios"]);
+  const mu = d3.mean(taxas);
+  const sd = d3.deviation(taxas);
+  return {
+    mu,
+    sd,
+    z: estados.map(d => ({sigla: d.Sigla, z: (d["Taxa.Homicidios"] - mu) / sd}))
+  };
+}
+```
+
+```{ojs}
+//| echo: false
+// Sem `format` customizado: a caixa <input type="number"> ao lado do slider
+// rejeita string não numérica e ficaria vazia. A unidade vai no rótulo.
+//
+// O máximo é 11,8 e não é capricho: acima disso, São Paulo (a menor taxa do
+// país) passaria a ter taxa NEGATIVA. Ver a prosa.
+viewof desvio = Inputs.range([4, 11.8], {
+  step: 0.01,
+  value: 8.61,
+  label: "Desvio-padrão da taxa:"
+})
+```
+
+```{ojs}
+//| echo: false
+taxasAjustadas = base.z.map(d => ({sigla: d.sigla, taxa: base.mu + d.z * desvio}))
+
+menor = taxasAjustadas.reduce((a, b) => (a.taxa < b.taxa ? a : b))
+```
+
+Repare que os dois eixos do gráfico abaixo estão **travados** — o eixo x sempre vai de 0 a 45, o eixo y sempre vai de 0 a 8, não importa o que o slider faça. Isso é proposital: um eixo que se reajusta automaticamente absorveria o efeito da mudança, e as barras sempre pareceriam "do mesmo tamanho" — exatamente o que este widget existe para desmentir. Com o eixo fixo, dispersão maior significa, visivelmente, barras mais espalhadas e mais baixas; dispersão menor significa barras mais estreitas e mais altas, todas se apertando contra a linha vermelha da média.
+
+```{ojs}
+//| echo: false
+Plot.plot({
+  height: 300,
+  marginLeft: 45,
+  // Os DOIS eixos travados, de propósito: um eixo que se reajusta mascara
+  // justamente o efeito que este widget existe para mostrar.
+  x: {domain: [0, 45], label: "Taxa de homicídios (por 100 mil) →"},
+  y: {domain: [0, 8], grid: true, label: "↑ Número de estados"},
+  marks: [
+    Plot.rectY(taxasAjustadas, Plot.binX({y: "count"}, {
+      x: "taxa",
+      thresholds: d3.range(0, 45.1, 2.5),
+      fill: "#b0c4d8"
+    })),
+    Plot.ruleX([base.mu], {stroke: "#c0392b", strokeWidth: 2}),
+    Plot.ruleY([0])
+  ]
+})
+```
+
+```{ojs}
+//| echo: false
+md`Média: **${fmt(base.mu)}** — a linha vermelha, que **não se move**.
+Desvio-padrão: **${fmt(desvio)}** (o real é ${fmt(base.sd)}).
+
+Menor taxa: **${fmt(menor.taxa)}** (${menor.sigla}) — Maior: **${fmt(d3.max(taxasAjustadas, d => d.taxa))}**`
+```
+
+Por que o slider para em 11,8, e não continua até 15 ou 20? Não é capricho de quem construiu o widget — é uma restrição matemática. O desvio-padrão máximo que essa distribuição pode ter, mantendo a média fixa em 22,74, é
+
+$$\sigma_{\text{crítico}} = \frac{\mu}{|z_{\min}|} = \frac{22{,}74}{1{,}926} = 11{,}81$$
+
+onde $z_{\min} = -1{,}926$ é o z-score de São Paulo — a **menor** taxa do país (6,16 por 100 mil). Acima de 11,81, a fórmula $x_i' = \bar{x} + z_i \times s_{\text{novo}}$ empurraria a taxa de São Paulo para um valor **negativo**. Taxa de homicídios negativa não existe: não há como matar menos que zero pessoas a cada 100 mil habitantes. Arraste o slider até o fim e veja a menor taxa da tabela encostar em zero — é exatamente esse limite sendo alcançado.
+
+Essa restrição não é peculiaridade da taxa de homicídios: **o piso em zero limita quanta dispersão uma variável positiva pode ter, dada a sua média.** Uma variável que não pode ser negativa tem, por construção, muito mais espaço para se espalhar para cima do que para baixo — o chão está sempre a uma distância finita da média, o teto não está a distância nenhuma. É por isso que renda, população e tempo de espera, entre tantas outras variáveis que só existem como números positivos, tendem a ser **assimétricas à direita**: a cauda longa de valores altos não tem para onde recuar, mas a variação para baixo esbarra em zero muito antes. A seção 1.5 retoma exatamente essa assimetria — e agora você já viu de onde ela nasce.
 
 ## Resumo
 

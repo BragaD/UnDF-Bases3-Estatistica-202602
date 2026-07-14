@@ -18,6 +18,11 @@ URL = "http://localhost:8000/content/cap01/03-estimativas-localizacao.html"
 MEDIA_REAL = "7.873.472,2"
 MEDIANA_REAL = "4.145.040,0"
 
+# As 27 unidades federativas. O estado mediano é a Paraíba — e a lista do widget
+# de aparo deve deixá-lo como único sobrevivente quando o aparo chega a 50%.
+N_ESTADOS = 27
+ESTADO_MEDIANO = "PB"
+
 
 def numeros_da_tabela(page):
     """Os três valores da tabela do Widget A, na ordem: média, aparada, mediana."""
@@ -95,7 +100,34 @@ def main():
                 falhas.append(f"a caixa do slider A mostra {caixa_a!r}, esperava '300000000' "
                               f"— ela não está acompanhando o slider")
 
-            # 4. Slider B em 50%: a média aparada tem que pousar na mediana.
+            # 4. A lista de estados do widget B: ordenada, e os cortados vêm das
+            #    duas pontas. Com aparo 0% ninguém é cortado; com 10%, dois de
+            #    cada ponta (int(27 × 0,1) = 2).
+            itens = page.locator(".aparo-item")
+            print(f"estados na lista do aparo: {itens.count()}")
+            if itens.count() != N_ESTADOS:
+                falhas.append(f"a lista tem {itens.count()} estados, esperava {N_ESTADOS}")
+
+            siglas = [s.strip() for s in page.locator(".aparo-item .sigla").all_inner_texts()]
+            if siglas and (siglas[0] != "RR" or siglas[-1] != "SP"):
+                falhas.append(
+                    f"a lista não está ordenada por população: começa em {siglas[0]} "
+                    f"e termina em {siglas[-1]} — esperava RR (menor) ... SP (maior)"
+                )
+
+            for aparo, k in [(0, 0), (10, 2)]:
+                sliders.nth(1).fill(str(aparo))
+                sliders.nth(1).dispatch_event("input")
+                page.wait_for_timeout(500)
+                vermelhos = page.locator(".aparo-item.cortado").count()
+                if vermelhos != 2 * k:
+                    falhas.append(
+                        f"com aparo {aparo}%, {vermelhos} estados em vermelho — esperava {2 * k}"
+                    )
+
+            # 5. Slider B em 50%: a média aparada tem que pousar na mediana, e na
+            #    lista deve sobrar UM único estado — o mediano (a Paraíba). É a
+            #    definição "aparar 50% = mediana" acontecendo na tela.
             sliders.nth(1).fill("50")
             sliders.nth(1).dispatch_event("input")
             page.wait_for_timeout(800)
@@ -105,7 +137,19 @@ def main():
             else:
                 print(f"widget B com aparo 50%: média aparada pousou em {MEDIANA_REAL}")
 
-            # 5. Nenhum erro de JavaScript.
+            sobreviventes = [
+                page.locator(".aparo-item .sigla").nth(i).inner_text().strip()
+                for i in range(itens.count())
+                if "cortado" not in (itens.nth(i).get_attribute("class") or "")
+            ]
+            print(f"com aparo 50%, sobrevive(m): {sobreviventes}")
+            if sobreviventes != [ESTADO_MEDIANO]:
+                falhas.append(
+                    f"com aparo 50% sobrou {sobreviventes}, esperava só ['{ESTADO_MEDIANO}'] "
+                    f"— aparar 50% descarta tudo menos o estado mediano"
+                )
+
+            # 6. Nenhum erro de JavaScript.
             if erros:
                 falhas.append(f"erros de JS na página: {erros[:3]}")
 

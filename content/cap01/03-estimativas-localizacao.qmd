@@ -266,6 +266,38 @@ md`Aparo de **${aparo}%** — descarta **${estatB.cortados}** estados de cada po
 A média aparada vale **${fmt(estatB.aparada)}**.`
 ```
 
+Abaixo, as 27 unidades federativas em fila, ordenadas da menos populosa para a mais populosa, com a população em milhões. Os estados que o aparo **descarta** ficam em vermelho — e é fácil ver de onde eles saem: sempre das duas pontas, nunca do meio. É essa simetria que torna a média aparada robusta.
+
+Leve o aparo até 50% e olhe quem sobra: **a Paraíba, sozinha**. Não é coincidência — é a mesma Paraíba que apareceu na seção da mediana, o estado que fica no meio da fila. Aparar 50% descarta tudo menos o centro, e a média de um único valor é esse valor. É por isso que a média aparada de 50% **é** a mediana: você acabou de ver a definição virar a outra na tela.
+
+```{ojs}
+//| echo: false
+// A fila ordenada é a mesma que a mediaAparada() constrói internamente: ela
+// ordena, corta k de cada ponta e tira a média do núcleo. Aqui o aluno vê o
+// corte acontecer, em vez de só ler que ele acontece.
+listaAparo = {
+  const ordenados = [...estados].sort((a, b) => d3.ascending(a.Populacao, b.Populacao));
+  const k = estatB.cortados;
+  const n = ordenados.length;
+
+  return html`<div class="aparo-lista">
+    ${ordenados.map((d, i) => {
+      const cortado = i < k || i >= n - k;
+      return html`<div class="aparo-item ${cortado ? "cortado" : ""}">
+        <span class="sigla">${d.Sigla}</span>
+        <span class="valor">${fmt(d.Populacao / 1e6)}</span>
+      </div>`;
+    })}
+  </div>`;
+}
+```
+
+```{ojs}
+//| echo: false
+md`<p class="aparo-legenda">Em vermelho, os **${estatB.cortados * 2}** estados descartados
+(${estatB.cortados} de cada ponta). Restam **${popsB.length - estatB.cortados * 2}** no cálculo da média aparada.</p>`
+```
+
 ```{ojs}
 //| echo: false
 Plot.plot({

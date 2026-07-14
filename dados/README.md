@@ -27,13 +27,12 @@ Os arquivos deste diretório vêm do repositório oficial do livro-texto:
 
 Os nomes originais foram preservados para que o código do livro rode sem adaptação.
 
-Estão aqui apenas os 14 conjuntos usados pelos **capítulos 1–4**, que são o escopo desta
+Estão aqui apenas os 13 conjuntos usados pelos **capítulos 1–4**, que são o escopo desta
 disciplina. Os demais (`loan_data.csv.gz`, `loan200.csv`, `loan3000.csv`,
 `full_train_set.csv.gz`, `housetasks.csv`) pertencem aos capítulos 5–7 e não foram incluídos.
 
 | Arquivo | Usado em |
 |---|---|
-| `state.csv` | 1.3 Estimativas de Localização, 1.4 Variabilidade, 1.5 Distribuição |
 | `dfw_airline.csv` | 1.6 Dados Binários e Categóricos |
 | `sp500_data.csv.gz` | 1.7 Correlação, 2.7 Caudas Longas |
 | `sp500_sectors.csv` | 1.7 Correlação |
@@ -54,7 +53,7 @@ O `_quarto.yml` define `execute-dir: project`, então o diretório de trabalho d
 qualquer chunk é a **raiz do projeto**, não a pasta do `.qmd`. Use sempre:
 
 ````python
-estado = pd.read_csv("dados/state.csv")
+estado = pd.read_csv("dados/estados.csv")
 ````
 
-Nunca `../../dados/state.csv`.
+Nunca `../../dados/estados.csv`.

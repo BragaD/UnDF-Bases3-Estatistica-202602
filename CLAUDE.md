@@ -58,11 +58,23 @@ A maioria das seções ainda é **stub** (título + `callout-note` + aviso de co
 `_quarto.yml` define `project: execute-dir: project`, então o diretório de trabalho de **todo** chunk é a raiz do projeto, independentemente de onde o `.qmd` esteja:
 
 ```python
-estado = pd.read_csv("dados/state.csv")   # ✓
-estado = pd.read_csv("../../dados/state.csv")   # ✗ nunca
+estado = pd.read_csv("dados/estados.csv")   # ✓
+estado = pd.read_csv("../../dados/estados.csv")   # ✗ nunca
 ```
 
-Os 14 CSVs em `dados/` mantêm os nomes originais do repositório do livro, para que o código do livro-texto rode sem adaptação. `dados/README.md` mapeia cada arquivo à seção que o usa.
+Os 13 CSVs do livro-texto em `dados/` mantêm os nomes originais do repositório do livro, para que o código do livro-texto rode sem adaptação. `dados/README.md` mapeia cada arquivo à seção que o usa.
+
+**O dado dos estados é brasileiro.** `dados/estados.csv` traz as 27 unidades federativas com população (IBGE, 2024) e taxa de homicídios (Atlas da Violência, 2024). Colunas em português: `Estado`, `Populacao`, `Taxa.Homicidios`, `Sigla`.
+
+Ele é **gerado por nós**, não vem do livro-texto: `scripts/gerar-dados-brasil.py` junta três fontes e roda **uma única vez** (o CSV é commitado). O pipeline não é um chunk do livro — o aluno não precisa ver a mecânica de juntar três fontes para aprender o que é uma mediana, e um livro que faz chamadas de rede a cada render é frágil.
+
+O CSV bruto do Atlas está versionado em `dados/brutos/` porque a API do Atlas saiu do ar na reformulação do site (v3) e hoje devolve HTML.
+
+Três consequências que diferenciam o dado brasileiro do americano que ele substituiu, e que estão embutidas na prosa do Capítulo 1:
+
+1. **n = 27 é ímpar** — a mediana é uma observação de verdade (é a população da Paraíba), não a média de duas. A seção 1.3 ensina os dois casos.
+2. **A média ponderada da taxa é MENOR que a simples** (18,79 contra 22,74), ao contrário dos EUA. São Paulo tem a maior população do país e a menor taxa de homicídios — a violência letal se concentra nos estados menos populosos.
+3. **São Paulo é o outlier populacional** (46 M contra 717 mil de Roraima, 64×), e é ele que os widgets da seção 1.3 movem.
 
 ### Sementes em chunks estocásticos — obrigatório
 

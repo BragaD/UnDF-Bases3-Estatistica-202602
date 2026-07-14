@@ -109,7 +109,7 @@ prop.round(3)
 Dividir cada linha pelo seu próprio total remove o tamanho do grupo da conta e isola o que interessa: a taxa. E aí o padrão que a grade deveria capturar aparece, limpo.
 
 ::: {.exemplo}
-A proporção de `Charged Off` cresce **monotonicamente** de A a G: `{python} f"{prop.loc['A', 'Charged Off']*100:.1f}"`% em A, subindo sem uma única inversão até `{python} f"{prop.loc['G', 'Charged Off']*100:.1f}"`% em G. É exatamente o que o rótulo "grade de risco" promete — e a tabela de contagem, dominada pelo tamanho de cada grupo, escondia esse padrão em vez de revelá-lo.
+A proporção de `Charged Off` cresce **monotonicamente** de A a G: `{python} num(prop.loc['A', 'Charged Off']*100, 1)`% em A, subindo sem uma única inversão até `{python} num(prop.loc['G', 'Charged Off']*100, 1)`% em G. É exatamente o que o rótulo "grade de risco" promete — e a tabela de contagem, dominada pelo tamanho de cada grupo, escondia esse padrão em vez de revelá-lo.
 :::
 
 ## Categórico × numérico: boxplot agrupado e violin plot

@@ -76,7 +76,7 @@ mediana = estado["Population"].median()
 fig, ax = plt.subplots()
 
 ax.hist(estado["Population"] / 1e6, bins=20, color="#b0c4d8", edgecolor="white")
-ax.axvline(mediana / 1e6, color="#2c3e50", linewidth=2, label=f"Mediana: {mediana/1e6:.1f}M")
+ax.axvline(mediana / 1e6, color="#2c3e50", linewidth=2, label=f"Mediana: {num(mediana/1e6, 1)}M")
 
 for medida, valor, cor, estilo in [
     ("Desvio-padrão", desvio, "#c0392b", "-"),
@@ -84,7 +84,7 @@ for medida, valor, cor, estilo in [
     ("MAD", mad, "#27ae60", ":"),
 ]:
     ax.axvline((mediana + valor) / 1e6, color=cor, linestyle=estilo, linewidth=2,
-               label=f"{medida}: {valor/1e6:.1f}M")
+               label=f"{medida}: {num(valor/1e6, 1)}M")
 
 ax.set_xlabel("População (milhões)")
 ax.set_ylabel("Número de estados")

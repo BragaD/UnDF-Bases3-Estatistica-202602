@@ -90,7 +90,7 @@ custo = {"Carrier": 180, "ATC": 40, "Weather": 0, "Security": 25, "Inbound": 120
 p = (dfw / dfw.values.sum()).transpose().iloc[:, 0]   # probabilidade de cada causa
 ve = sum(p[causa] * valor for causa, valor in custo.items())
 
-print(f"Valor esperado do custo por atraso: R$ {ve:.2f}")
+print(f"Valor esperado do custo por atraso: R$ {num(ve, 2)}")
 ```
 
 R$ 104,55 não é o custo de nenhum atraso individual — nenhuma causa isolada custa exatamente isso. É o custo médio **por atraso**, se essa mistura de causas se repetisse indefinidamente. Uma causa rara contribui quase nada mesmo quando não é a mais barata (`Security`, R$ 25 em 0,12% dos casos, entra com R$ 0,03 no total); uma causa de custo intermediário mas frequente (`ATC`, R$ 40 em 30% dos casos) entra com R$ 12,16 — 400 vezes mais. O valor esperado não é dispersão nem localização de novo — é a base de toda decisão sob incerteza que a estatística tratará daqui em diante.
@@ -99,11 +99,11 @@ R$ 104,55 não é o custo de nenhum atraso individual — nenhuma causa isolada 
 
 | Causa | Contagem | Proporção |
 |---|---|---|
-| Carrier | `{python} num(dfw['Carrier'].iloc[0], 0)` | `{python} f"{proporcoes['Carrier'].iloc[0]:.2f}"`% |
-| ATC | `{python} num(dfw['ATC'].iloc[0], 0)` | `{python} f"{proporcoes['ATC'].iloc[0]:.2f}"`% |
-| Weather | `{python} num(dfw['Weather'].iloc[0], 0)` | `{python} f"{proporcoes['Weather'].iloc[0]:.2f}"`% |
-| Security | `{python} num(dfw['Security'].iloc[0], 0)` | `{python} f"{proporcoes['Security'].iloc[0]:.2f}"`% |
-| Inbound | `{python} num(dfw['Inbound'].iloc[0], 0)` | `{python} f"{proporcoes['Inbound'].iloc[0]:.2f}"`% |
+| Carrier | `{python} num(dfw['Carrier'].iloc[0], 0)` | `{python} num(proporcoes['Carrier'].iloc[0], 2)`% |
+| ATC | `{python} num(dfw['ATC'].iloc[0], 0)` | `{python} num(proporcoes['ATC'].iloc[0], 2)`% |
+| Weather | `{python} num(dfw['Weather'].iloc[0], 0)` | `{python} num(proporcoes['Weather'].iloc[0], 2)`% |
+| Security | `{python} num(dfw['Security'].iloc[0], 0)` | `{python} num(proporcoes['Security'].iloc[0], 2)`% |
+| Inbound | `{python} num(dfw['Inbound'].iloc[0], 0)` | `{python} num(proporcoes['Inbound'].iloc[0], 2)`% |
 
 ::: {.conceito}
 **Regra prática:** para dado numérico, o resumo é localização + dispersão + forma (seções 1.3 a 1.5). Para dado categórico nominal, isso colapsa em proporção e moda — não porque o dado categórico seja "mais pobre", mas porque perguntas de soma, distância e ordem simplesmente não fazem sentido nele. E quando cada categoria carrega um valor associado, o valor esperado combina probabilidade e consequência em um único número.

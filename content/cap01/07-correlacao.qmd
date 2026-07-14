@@ -11,6 +11,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+from formato import num
 
 plt.rcParams["figure.figsize"] = (7, 4)
 ```
@@ -59,7 +60,7 @@ telecom.corr().round(3)
 ```
 
 ::: {.exemplo}
-A maior correlação do grupo é entre T e VZ: `{python} f"{telecom.corr().loc['T', 'VZ']:.3f}"`. Não é coincidência: AT&T e Verizon são as duas maiores operadoras de telecomunicações dos Estados Unidos, e seus retornos diários respondem aos mesmos choques de mercado — taxa de juros, regulação do setor, expectativa de crescimento da economia. Empresas menores e mais heterogêneas do grupo, como LVLT, têm correlação bem mais baixa com as demais (0,242 a 0,287): compartilham menos desses choques comuns.
+A maior correlação do grupo é entre T e VZ: `{python} num(telecom.corr().loc['T', 'VZ'], 3)`. Não é coincidência: AT&T e Verizon são as duas maiores operadoras de telecomunicações dos Estados Unidos, e seus retornos diários respondem aos mesmos choques de mercado — taxa de juros, regulação do setor, expectativa de crescimento da economia. Empresas menores e mais heterogêneas do grupo, como LVLT, têm correlação bem mais baixa com as demais (0,242 a 0,287): compartilham menos desses choques comuns.
 :::
 
 ```{python}
@@ -128,11 +129,11 @@ $y = x^2$ é o exemplo mais determinístico que existe: conhecendo $x$, você sa
 
 | Par | Correlação (r) |
 |---|---|
-| T × VZ | `{python} f"{telecom.corr().loc['T', 'VZ']:.3f}"` |
-| T × CTL | `{python} f"{telecom.corr().loc['T', 'CTL']:.3f}"` |
-| T × FTR | `{python} f"{telecom.corr().loc['T', 'FTR']:.3f}"` |
-| T × LVLT | `{python} f"{telecom.corr().loc['T', 'LVLT']:.3f}"` |
-| CTL × FTR | `{python} f"{telecom.corr().loc['CTL', 'FTR']:.3f}"` |
+| T × VZ | `{python} num(telecom.corr().loc['T', 'VZ'], 3)` |
+| T × CTL | `{python} num(telecom.corr().loc['T', 'CTL'], 3)` |
+| T × FTR | `{python} num(telecom.corr().loc['T', 'FTR'], 3)` |
+| T × LVLT | `{python} num(telecom.corr().loc['T', 'LVLT'], 3)` |
+| CTL × FTR | `{python} num(telecom.corr().loc['CTL', 'FTR'], 3)` |
 
 ::: {.conceito}
 **Regra prática:** correlação alta é um convite a investigar, não uma conclusão. Antes de interpretar um $r$, olhe o gráfico de dispersão — ele revela outliers que o número esconde e formas não lineares que o número não enxerga.

@@ -91,9 +91,9 @@ $$\bar{x}_w = \frac{\sum_{i=1}^{n} w_i x_i}{\sum_{i=1}^{n} w_i}$$
 media_pond = np.average(estado["Murder.Rate"], weights=estado["Population"])
 mediana_pond = wquantiles.median(estado["Murder.Rate"], weights=estado["Population"])
 
-print(f"Média simples     : {estado['Murder.Rate'].mean():.4f}")
-print(f"Média ponderada   : {media_pond:.4f}")
-print(f"Mediana ponderada : {mediana_pond:.4f}")
+print(f"Média simples     : {num(estado['Murder.Rate'].mean(), 4)}")
+print(f"Média ponderada   : {num(media_pond, 4)}")
+print(f"Mediana ponderada : {num(mediana_pond, 4)}")
 ```
 
 A média ponderada é a taxa de homicídios que uma pessoa média dos EUA enfrenta; a média simples é a taxa de um estado médio. São perguntas diferentes, com respostas diferentes.
@@ -106,9 +106,9 @@ A média ponderada é a taxa de homicídios que uma pessoa média dos EUA enfren
 fig, ax = plt.subplots()
 
 ax.hist(estado["Population"] / 1e6, bins=20, color="#b0c4d8", edgecolor="white")
-ax.axvline(media / 1e6, color="#c0392b", linestyle="-", linewidth=2, label=f"Média: {media/1e6:.1f}M")
-ax.axvline(media_aparada / 1e6, color="#e67e22", linestyle="--", linewidth=2, label=f"Média aparada: {media_aparada/1e6:.1f}M")
-ax.axvline(mediana / 1e6, color="#27ae60", linestyle=":", linewidth=2.5, label=f"Mediana: {mediana/1e6:.1f}M")
+ax.axvline(media / 1e6, color="#c0392b", linestyle="-", linewidth=2, label=f"Média: {num(media/1e6, 1)}M")
+ax.axvline(media_aparada / 1e6, color="#e67e22", linestyle="--", linewidth=2, label=f"Média aparada: {num(media_aparada/1e6, 1)}M")
+ax.axvline(mediana / 1e6, color="#27ae60", linestyle=":", linewidth=2.5, label=f"Mediana: {num(mediana/1e6, 1)}M")
 
 ax.set_xlabel("População (milhões)")
 ax.set_ylabel("Número de estados")

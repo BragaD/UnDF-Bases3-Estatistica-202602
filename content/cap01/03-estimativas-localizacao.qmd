@@ -23,17 +23,17 @@ Isso parece trivial — "é só tirar a média" — e é exatamente por parecer 
 
 ## Os dados
 
-Vamos usar população e taxa de homicídios (por 100.000 habitantes) dos 50 estados norte-americanos.
+Vamos usar população e taxa de homicídios (por 100.000 habitantes) das 27 unidades federativas brasileiras.
 
 ```{python}
 #| label: carrega
-estado = pd.read_csv("dados/state.csv")
+estado = pd.read_csv("dados/estados.csv")
 ojs_define(dados = estado)
 estado.head()
 ```
 
 ::: {.conceito}
-Note o caminho: `dados/state.csv`, e não `../../dados/state.csv`. O `_quarto.yml` define `execute-dir: project`, então o diretório de trabalho de todo chunk é a raiz do projeto, independentemente de onde o arquivo `.qmd` esteja.
+Note o caminho: `dados/estados.csv`, e não `../../dados/estados.csv`. O `_quarto.yml` define `execute-dir: project`, então o diretório de trabalho de todo chunk é a raiz do projeto, independentemente de onde o arquivo `.qmd` esteja.
 :::
 
 ## Média
@@ -44,11 +44,11 @@ $$\bar{x} = \frac{\sum_{i=1}^{n} x_i}{n}$$
 
 ```{python}
 #| label: media
-media = estado["Population"].mean()
+media = estado["Populacao"].mean()
 print(f"Média: {num(media)}")
 ```
 
-A média é sensível a valores extremos. A população da Califórnia (~37 milhões) e a do Wyoming (~564 mil) diferem por um fator de 66 — e a Califórnia puxa a média para cima sozinha.
+A média é sensível a valores extremos. A população de São Paulo (~46 milhões) e a de Roraima (~717 mil) diferem por um fator de 64 — e São Paulo puxa a média para cima sozinho.
 
 ## Média aparada
 
@@ -58,29 +58,38 @@ $$\bar{x}_{\text{aparada}} = \frac{\sum_{i=p+1}^{n-p} x_{(i)}}{n - 2p}$$
 
 ```{python}
 #| label: media-aparada
-media_aparada = trim_mean(estado["Population"], 0.1)
+media_aparada = trim_mean(estado["Populacao"], 0.1)
 print(f"Média aparada (10%): {num(media_aparada)}")
 ```
 
-Aparar 10% de cada ponta remove os 5 estados mais populosos e os 5 menos populosos.
+Aparar 10% de cada ponta remove os 2 estados mais populosos e os 2 menos populosos.
 
 ## Mediana
 
-A **mediana** é o valor central dos dados ordenados. Ela depende apenas das observações do meio, então um valor extremo pode ser arbitrariamente grande sem movê-la. Com número par de observações — como aqui, n = 50 —, não existe um único valor central: a mediana é a **média dos dois valores do meio**. É por isso que o número calculado abaixo termina em `.5`, meio entre duas unidades: não há meia pessoa, há uma média entre duas observações vizinhas.
+A **mediana** é o valor central dos dados ordenados. Ela depende apenas das observações do meio, então um valor extremo pode ser arbitrariamente grande sem movê-la. A definição completa tem dois casos:
+
+- Com **n ímpar** — como aqui, n = 27 —, existe um único valor central: o 14º estado da fila ordenada. A mediana **é uma observação de verdade**, não uma conta.
+- Com **n par**, não há um único valor central: a mediana é a **média dos dois valores do meio**, e é por isso que ela pode terminar em `,5` — não há meia pessoa, há uma média entre duas observações vizinhas.
 
 ```{python}
 #| label: mediana
-mediana = estado["Population"].median()
+mediana = estado["Populacao"].median()
 print(f"Mediana: {num(mediana)}")
+
+# Qual estado é a mediana? Com n ímpar, ela é uma observação de verdade.
+estado_mediano = estado.loc[estado["Populacao"] == mediana, "Estado"].iloc[0]
+print(f"É a população de: {estado_mediano}")
 ```
 
+A mediana calculada acima não é um número que a conta inventou: é a população de um estado real, a **Paraíba** — o estado que ficou exatamente no meio da fila quando as 27 unidades federativas são ordenadas por população.
+
 ::: {.exemplo}
-A mediana é `{python} num(mediana, 0)` e a média é `{python} num(media, 0)` — a média é cerca de 39% maior. Essa diferença é a assinatura de uma distribuição assimétrica à direita, e é a razão pela qual reportar renda mediana e não renda média é a prática padrão.
+A mediana é `{python} num(mediana, 0)` e a média é `{python} num(media, 0)` — a média é cerca de 90% maior. Essa diferença é a assinatura de uma distribuição assimétrica à direita, e é a razão pela qual reportar renda mediana e não renda média é a prática padrão.
 :::
 
 ## Estimativas ponderadas
 
-Nem toda observação merece o mesmo peso. Para a taxa de homicídios, tratar cada estado igualmente daria ao Wyoming a mesma influência que à Califórnia — mas eles representam números muito diferentes de pessoas.
+Nem toda observação merece o mesmo peso. Para a taxa de homicídios, tratar cada estado igualmente daria a Roraima a mesma influência que a São Paulo — mas eles representam números muito diferentes de pessoas.
 
 A **média ponderada** corrige isso:
 
@@ -88,15 +97,17 @@ $$\bar{x}_w = \frac{\sum_{i=1}^{n} w_i x_i}{\sum_{i=1}^{n} w_i}$$
 
 ```{python}
 #| label: ponderadas
-media_pond = np.average(estado["Murder.Rate"], weights=estado["Population"])
-mediana_pond = wquantiles.median(estado["Murder.Rate"], weights=estado["Population"])
+media_pond = np.average(estado["Taxa.Homicidios"], weights=estado["Populacao"])
+mediana_pond = wquantiles.median(estado["Taxa.Homicidios"], weights=estado["Populacao"])
 
-print(f"Média simples     : {num(estado['Murder.Rate'].mean(), 4)}")
+print(f"Média simples     : {num(estado['Taxa.Homicidios'].mean(), 4)}")
 print(f"Média ponderada   : {num(media_pond, 4)}")
 print(f"Mediana ponderada : {num(mediana_pond, 4)}")
 ```
 
-A média ponderada é a taxa de homicídios que uma pessoa média dos EUA enfrenta; a média simples é a taxa de um estado médio. São perguntas diferentes, com respostas diferentes.
+Aqui a ponderada é **menor** que a simples — o oposto do que se veria nos Estados Unidos. O motivo é um único estado: São Paulo tem a maior população do país (45.973.194 habitantes) e a menor taxa de homicídios (6,16 por 100.000) — sozinho, ele puxa a média ponderada para baixo. A violência letal no Brasil se concentra nos estados **menos** populosos, sobretudo no Norte e no Nordeste, e ponderar pela população dilui o peso deles na conta.
+
+A média ponderada é a taxa de homicídios que uma pessoa média do Brasil enfrenta; a média simples é a taxa de um estado médio. São perguntas diferentes, com respostas diferentes — e a **direção** em que elas diferem não é uma lei da estatística, é um fato empírico sobre o país que está sendo medido.
 
 ## Comparando as estimativas
 
@@ -105,7 +116,7 @@ A média ponderada é a taxa de homicídios que uma pessoa média dos EUA enfren
 #| fig-cap: "As três estimativas de localização sobre a distribuição de população dos estados."
 fig, ax = plt.subplots()
 
-ax.hist(estado["Population"] / 1e6, bins=20, color="#b0c4d8", edgecolor="white")
+ax.hist(estado["Populacao"] / 1e6, bins=20, color="#b0c4d8", edgecolor="white")
 ax.axvline(media / 1e6, color="#c0392b", linestyle="-", linewidth=2, label=f"Média: {num(media/1e6, 1)}M")
 ax.axvline(media_aparada / 1e6, color="#e67e22", linestyle="--", linewidth=2, label=f"Média aparada: {num(media_aparada/1e6, 1)}M")
 ax.axvline(mediana / 1e6, color="#27ae60", linestyle=":", linewidth=2.5, label=f"Mediana: {num(mediana/1e6, 1)}M")
@@ -133,7 +144,7 @@ A média está à direita das outras duas, arrastada pela cauda de estados muito
 
 ## Arraste o outlier
 
-Os números acima são uma fotografia. Para ver a média *perseguindo* um outlier — em vez de apenas ler que ela faz isso — arraste a população da Califórnia no controle abaixo até 300 milhões e observe as três linhas do histograma. A vermelha (média) desliza atrás do seu cursor. A verde (mediana) não se mexe um milímetro. A laranja (média aparada de 10%) também fica parada: descartar os 5 estados mais populosos tira a Califórnia do cálculo antes que ela tenha chance de puxar nada.
+Os números acima são uma fotografia. Para ver a média *perseguindo* um outlier — em vez de apenas ler que ela faz isso — arraste a população de São Paulo no controle abaixo até 300 milhões e observe as três linhas do histograma. A vermelha (média) desliza atrás do seu cursor. A verde (mediana) não se mexe um milímetro. A laranja (média aparada de 10%) também fica parada: descartar os 2 estados mais populosos tira São Paulo do cálculo antes que ele tenha chance de puxar nada.
 
 ```{ojs}
 //| echo: false
@@ -157,29 +168,29 @@ function mediaAparada(x, prop) {
 //| echo: false
 // Sem `format` customizado, de propósito: o Inputs.range renderiza uma caixa
 // <input type="number"> ao lado do slider, e ela rejeita qualquer string não
-// numérica — um format que devolvesse "37,3 M" deixaria a caixa VAZIA. Sem ele,
+// numérica — um format que devolvesse "46,0 M" deixaria a caixa VAZIA. Sem ele,
 // a caixa mostra o valor, acompanha o slider e aceita digitação.
 //
 // O slider está em habitantes, não em milhões, para que o valor inicial seja
-// exatamente 37.253.956 — a população real da Califórnia. Em milhões, o
+// exatamente 45.973.194 — a população real de São Paulo. Em milhões, o
 // Observable arredondaria o valor inicial para o step, e a média do widget
 // deixaria de bater com a que o chunk Python imprime acima nesta mesma página.
-viewof pop_ca = Inputs.range([1_000_000, 300_000_000], {
+viewof pop_sp = Inputs.range([1_000_000, 300_000_000], {
   step: 1,
-  value: 37253956,
-  label: "População da Califórnia (habitantes):"
+  value: 45973194,
+  label: "População de São Paulo (habitantes):"
 })
 ```
 
 ```{ojs}
 //| echo: false
-md`Califórnia: **${fmt(pop_ca)}** habitantes — ${fmt(pop_ca / 1e6)} milhões.
-${pop_ca === 37253956 ? "É o valor real." : "O valor real é 37.253.956."}`
+md`São Paulo: **${fmt(pop_sp)}** habitantes — ${fmt(pop_sp / 1e6)} milhões.
+${pop_sp === 45973194 ? "É o valor real." : "O valor real é 45.973.194."}`
 ```
 
 ```{ojs}
 //| echo: false
-popsA = estados.map(d => d.State === "California" ? pop_ca : d.Population)
+popsA = estados.map(d => d.Sigla === "SP" ? pop_sp : d.Populacao)
 
 estatA = ({
   media:   d3.mean(popsA),
@@ -224,7 +235,7 @@ Plot.plot({
 
 O widget anterior fixou o aparo em 10% e moveu o outlier. Este agora faz o inverso: a população fica como está, e quem se move é o próprio aparo, de 0% a 50%.
 
-Nos extremos, a média aparada deixa de ser uma terceira estimativa e vira uma das outras duas. Em 0%, `k = 0` — nada é descartado, e a aparada *é* a média. Em 50%, `k = 25` de cada ponta: com 50 estados, os 25 maiores e os 25 menores saem do cálculo, o núcleo fica vazio, e a função devolve a mediana por definição. Entre um extremo e outro não há salto: é uma família contínua, com o aparo como parâmetro que a percorre. Mova o controle abaixo e acompanhe o ponto laranja migrar do vermelho (média) até o verde (mediana).
+Nos extremos, a média aparada deixa de ser uma terceira estimativa e vira uma das outras duas. Em 0%, `k = 0` — nada é descartado, e a aparada *é* a média. Em 50%, `k = 13` de cada ponta: com 27 estados, os 13 maiores e os 13 menores saem do cálculo, sobra só o estado central, e a função devolve a mediana por definição. Entre um extremo e outro não há salto: é uma família contínua, com o aparo como parâmetro que a percorre. Mova o controle abaixo e acompanhe o ponto laranja migrar do vermelho (média) até o verde (mediana).
 
 ```{ojs}
 //| echo: false
@@ -239,7 +250,7 @@ viewof aparo = Inputs.range([0, 50], {
 
 ```{ojs}
 //| echo: false
-popsB = estados.map(d => d.Population)
+popsB = estados.map(d => d.Populacao)
 
 estatB = ({
   media:   d3.mean(popsB),
@@ -261,7 +272,7 @@ Plot.plot({
   height: 130,
   marginLeft: 55,
   marginBottom: 40,
-  x: {domain: [4.2, 6.4], label: "População (milhões) →"},
+  x: {domain: [3.9, 8.1], label: "População (milhões) →"},
   y: {axis: null, domain: [-1, 1]},
   marks: [
     Plot.ruleY([0], {stroke: "#ccc"}),
@@ -280,13 +291,13 @@ Plot.plot({
 
 ## Exercícios
 
-**1.** A média aparada de 10% descartou os 5 estados mais populosos e os 5 menos populosos. Recalcule com aparo de 25%. O que acontece com a média aparada à medida que o aparo se aproxima de 50%?
+**1.** A média aparada de 10% descartou os 2 estados mais populosos e os 2 menos populosos. Recalcule com aparo de 25%. O que acontece com a média aparada à medida que o aparo se aproxima de 50%?
 
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
 ```python
-trim_mean(estado["Population"], 0.25)
+trim_mean(estado["Populacao"], 0.25)
 ```
 
 Com aparo de 50%, todas as observações são descartadas exceto a(s) central(is) — a média aparada **converge para a mediana**. A média aparada é, portanto, uma família contínua entre a média (aparo 0) e a mediana (aparo 0,5).
@@ -294,12 +305,12 @@ Com aparo de 50%, todas as observações são descartadas exceto a(s) central(is
 Arraste o slider do aparo até 50% no widget acima: a média aparada pousa exatamente sobre a mediana.
 :::
 
-**2.** A média ponderada da taxa de homicídios (4,45) é maior que a média simples (4,07). O que isso diz sobre a relação entre população e taxa de homicídios nos estados?
+**2.** A média ponderada da taxa de homicídios (18,79) é menor que a média simples (22,74). O que isso diz sobre a relação entre população e taxa de homicídios nos estados?
 
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
-Ponderar pela população **aumenta** a estimativa, então os estados mais populosos tendem a ter taxas de homicídio mais altas que os menos populosos. Se não houvesse relação alguma entre tamanho e taxa, as duas médias seriam próximas.
+Ponderar pela população **reduz** a estimativa, então os estados mais populosos tendem a ter taxas de homicídio mais **baixas** que os menos populosos — o oposto do que se observaria nos Estados Unidos. São Paulo, o estado mais populoso do país, tem a menor taxa de homicídios do Brasil (6,16), e sozinho arrasta a média ponderada para baixo. Se não houvesse relação alguma entre tamanho e taxa, as duas médias seriam próximas; a diferença mostra que há relação — e a direção dela (positiva nos EUA, negativa no Brasil) é um fato sobre cada país, não uma consequência automática de ponderar.
 :::
 
 **3.** Um relatório afirma que "a renda média das famílias do país subiu 8% no último ano, mas a renda mediana ficou estável". Como isso é possível?

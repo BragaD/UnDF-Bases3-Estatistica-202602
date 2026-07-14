@@ -15,8 +15,8 @@ URL = "http://localhost:8000/content/cap01/03-estimativas-localizacao.html"
 
 # Os mesmos números que o chunk Python imprime na página. Se o widget mostrar
 # outra coisa na carga inicial, ele não está lendo os dados do livro.
-MEDIA_REAL = "6.162.876,3"
-MEDIANA_REAL = "4.436.369,5"
+MEDIA_REAL = "7.873.472,2"
+MEDIANA_REAL = "4.145.040,0"
 
 
 def numeros_da_tabela(page):
@@ -80,7 +80,7 @@ def main():
             sliders.nth(0).dispatch_event("input")
             page.wait_for_timeout(800)
             depois = numeros_da_tabela(page)
-            print(f"widget A com CA em 300 M : {depois}")
+            print(f"widget A com SP em 300 M : {depois}")
             if depois == inicial:
                 falhas.append("mover o slider A não mudou nada — o widget não é reativo")
             if len(depois) >= 3 and depois[2] != MEDIANA_REAL:

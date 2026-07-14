@@ -92,7 +92,7 @@ ve = sum(p[causa] * valor for causa, valor in custo.items())
 print(f"Valor esperado do custo por atraso: R$ {ve:.2f}")
 ```
 
-R$ 104,55 não é o custo de nenhum atraso individual — nenhuma causa isolada custa exatamente isso. É o custo médio **por atraso**, se essa mistura de causas se repetisse indefinidamente. Uma causa cara e rara (`Security`, R$ 25, 0,12% dos casos) contribui quase nada ao total; uma causa mais barata e muito mais frequente (`ATC`, R$ 40, 30% dos casos) pode pesar mais no resultado final. O valor esperado não é dispersão nem localização de novo — é a base de toda decisão sob incerteza que a estatística tratará daqui em diante.
+R$ 104,55 não é o custo de nenhum atraso individual — nenhuma causa isolada custa exatamente isso. É o custo médio **por atraso**, se essa mistura de causas se repetisse indefinidamente. Uma causa rara contribui quase nada mesmo quando não é a mais barata (`Security`, R$ 25 em 0,12% dos casos, entra com R$ 0,03 no total); uma causa de custo intermediário mas frequente (`ATC`, R$ 40 em 30% dos casos) entra com R$ 12,16 — 400 vezes mais. O valor esperado não é dispersão nem localização de novo — é a base de toda decisão sob incerteza que a estatística tratará daqui em diante.
 
 ## Resumo
 

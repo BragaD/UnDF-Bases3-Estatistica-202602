@@ -4,7 +4,216 @@
 Esta seção corresponde à seção 1.8 de @bruce2020.
 :::
 
-::: {.callout-warning}
-## Em construção
-O conteúdo desta seção ainda será escrito.
+```{python}
+#| label: setup
+#| include: false
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+plt.rcParams["figure.figsize"] = (7, 4)
+```
+
+A seção anterior resolveu um problema específico: dadas duas variáveis **numéricas**, elas se movem juntas? A resposta coube em um único número — o r de Pearson — e num gráfico de dispersão que mostrava a mesma informação para o olho. Essa dupla funciona bem enquanto duas condições se mantêm: as duas variáveis precisam ser numéricas, e precisa haver poucos pontos o bastante para uma nuvem de pontos ser legível.
+
+Nenhuma das duas condições é garantida, e esta seção lida com o que sobra quando elas faltam. E se as duas variáveis forem **categóricas** — sem "subir" nem "descer" para medir? E se uma for categórica e a outra numérica — que ferramenta substitui o r? E se houver tantos pontos que a própria nuvem de pontos deixe de funcionar? A seção segue esses três pares de tipos, na ordem do título: numérico × numérico, categórico × categórico, categórico × numérico — e fecha olhando para mais de duas variáveis ao mesmo tempo.
+
+## Numérico × numérico: quando o gráfico de dispersão não basta
+
+Vamos usar avaliações fiscais de imóveis do condado de King, em Washington: área construída e valor venal.
+
+```{python}
+#| label: carrega-kc
+kc = pd.read_csv("dados/kc_tax.csv.gz")
+print(f"registros brutos: {len(kc):,}")
+
+kc0 = kc.loc[(kc.TaxAssessedValue < 750000) &
+             (kc.SqFtTotLiving > 100) &
+             (kc.SqFtTotLiving < 3500), :]
+print(f"após filtrar extremos: {len(kc0):,}")
+```
+
+O filtro derruba os registros de `498,249` para `432,693`. Não é uma correção estatística — é uma decisão de visualização: os poucos imóveis de valor extremo (acima de US\$ 750 mil) ou de área implausível (menor que 100 pés² ou maior que 3.500) esticariam os eixos do gráfico até comprimir o grosso dos dados, que é a parte que interessa, num canto minúsculo da tela.
+
+::: {.conceito}
+432.693 pontos ainda é um problema, mesmo depois do filtro. Um gráfico de dispersão como o da seção anterior — cada observação, um ponto — funcionava com 754 dias de negociação. Com quinhentas vezes mais pontos, a maior parte do plano acaba coberta várias vezes, os pontos se empilham uns sobre os outros, e a região mais densa vira uma mancha sólida e escura. Justamente onde mais importaria distinguir "muito denso" de "pouco denso", o gráfico de dispersão não distingue nada — a informação de **quantos** pontos caem ali já se perdeu antes de chegar à tela.
+:::
+
+Duas ferramentas resolvem isso sem descartar pontos: o **hexbin**, que divide o plano em células hexagonais e colore cada uma pela contagem, e o **contorno de densidade** (KDE), que estima uma superfície contínua de densidade e a desenha como curvas de nível.
+
+```{python}
+#| label: fig-hexbin
+#| fig-cap: "Valor venal contra área construída, em 432.693 imóveis de King County. Cada hexágono é colorido pela quantidade de imóveis que caem nele."
+fig, ax = plt.subplots(figsize=(6, 5))
+kc0.plot.hexbin(x="SqFtTotLiving", y="TaxAssessedValue",
+                gridsize=30, sharex=False, ax=ax)
+ax.set_xlabel("Área construída (pés²)")
+ax.set_ylabel("Valor venal (US$)")
+plt.tight_layout()
+plt.show()
+```
+
+O hexbin não desenha um ponto por imóvel: ele conta quantos imóveis caem em cada célula e traduz a contagem em cor. O núcleo mais escuro concentra a imensa maioria dos 432 mil imóveis — área entre 1.000 e 2.000 pés², valor entre US\$ 200 mil e US\$ 400 mil —, e a nuvem se afina para as bordas. A relação positiva entre área e valor, que ficaria invisível numa mancha de pontos sobrepostos, aparece como a diagonal ao longo da qual as células mais escuras se alinham.
+
+O KDE bidimensional sobre os 432.693 imóveis é caro — na prática, minutos de espera a cada render. Uma amostra de 10.000 pontos já basta para capturar a forma da densidade, e é isso que o código a seguir faz.
+
+::: {.conceito}
+Esta é a primeira seção do livro com um componente aleatório, e por isso a primeira em que a semente importa de fato. Sem `random_state=42`, cada `quarto render` sortearia 10.000 imóveis diferentes, e o contorno mudaria de forma sutil a cada execução: o gráfico publicado nunca seria o mesmo duas vezes, o cache do `freeze` perderia sentido — ele reexecuta um chunk quando o texto muda, não quando o sorteio decide mudar sozinho —, e cada `push` acumularia um diff de ruído no site. É por isso que todo chunk deste livro com gerador aleatório fixa a semente, e é aqui que essa regra encontra seu primeiro caso real.
+:::
+
+```{python}
+#| label: fig-kde
+#| fig-cap: "Curvas de nível da mesma relação. O KDE roda sobre uma amostra de 10.000 imóveis — com semente fixa, para o gráfico ser reprodutível."
+amostra = kc0.sample(10000, random_state=42)
+
+fig, ax = plt.subplots(figsize=(6, 5))
+sns.kdeplot(data=amostra, x="SqFtTotLiving", y="TaxAssessedValue", ax=ax)
+ax.set_xlabel("Área construída (pés²)")
+ax.set_ylabel("Valor venal (US$)")
+plt.tight_layout()
+plt.show()
+```
+
+As curvas de nível contam a mesma história do hexbin, só que mais suave: cada curva une pontos de densidade igual, como as isolinhas de um mapa topográfico. O centro concêntrico confirma o núcleo que o hexbin já mostrava, e a densidade cai gradualmente em todas as direções a partir dele — sem os degraus abruptos de célula para célula que o hexbin, por ser discreto, necessariamente tem.
+
+## Categórico × categórico: a tabela de contingência
+
+A pergunta muda de figura quando nenhuma das duas variáveis tem uma ordem numérica para "subir" ou "descer" — não existe correlação entre duas categorias. A ferramenta aqui não é um coeficiente nem uma nuvem de pontos: é uma tabela.
+
+Vamos usar empréstimos do LendingClub, classificados por grau de risco (`grade`, de A — o melhor — a G) e por status atual (`status`).
+
+```{python}
+#| label: crosstab
+lc = pd.read_csv("dados/lc_loans.csv")
+
+contagem = lc.pivot_table(index="grade", columns="status",
+                          aggfunc=lambda x: len(x), margins=True)
+contagem
+```
+
+São 450.961 empréstimos ao todo (célula `All`/`All`), divididos em quatro status (`Charged Off` — inadimplente, prejuízo assumido; `Current` — em dia; `Fully Paid` — quitado; `Late` — atrasado) e sete graus de risco.
+
+::: {.conceito}
+Olhe a coluna `Charged Off`. A grade B tem 5.302 empréstimos inadimplentes — mais que qualquer outra grade, inclusive mais que E, F e G somadas. É tentador ler isso como "B é a grade mais arriscada da carteira". Mas a contagem mistura duas coisas: o quão arriscada é a grade, e o quão grande é a grade. B sozinha tem 132.370 empréstimos — quase o dobro de C, a segunda maior —, então é claro que tem mais de tudo, inclusive mais inadimplência. Comparar contagens brutas entre grupos de tamanhos tão diferentes é um erro clássico, e é exatamente o que a tabela de contagem convida a fazer.
+:::
+
+```{python}
+#| label: crosstab-pct
+prop = contagem.copy().loc["A":"G", :].astype(float)
+prop.loc[:, "Charged Off":"Late"] = prop.loc[:, "Charged Off":"Late"].div(prop["All"], axis=0)
+prop["All"] = prop["All"] / sum(prop["All"])
+prop.round(3)
+```
+
+Dividir cada linha pelo seu próprio total remove o tamanho do grupo da conta e isola o que interessa: a taxa. E aí o padrão que a grade deveria capturar aparece, limpo.
+
+::: {.exemplo}
+A proporção de `Charged Off` cresce **monotonicamente** de A a G: `{python} f"{prop.loc['A', 'Charged Off']*100:.1f}"`% em A, subindo sem uma única inversão até `{python} f"{prop.loc['G', 'Charged Off']*100:.1f}"`% em G. É exatamente o que o rótulo "grade de risco" promete — e a tabela de contagem, dominada pelo tamanho de cada grupo, escondia esse padrão em vez de revelá-lo.
+:::
+
+## Categórico × numérico: boxplot agrupado e violin plot
+
+Aqui uma variável é categórica e a outra numérica. Nem o r de Pearson se aplica — ele pede duas variáveis numéricas —, nem a tabela de contingência — ela pede duas categóricas. A ferramenta natural é comparar a distribuição da variável numérica **dentro de cada categoria**, e o boxplot generaliza bem para isso: uma caixa por categoria, lado a lado.
+
+Vamos usar o percentual diário de voos atrasados por causa atribuível à própria companhia aérea (`pct_carrier_delay`), por companhia (`airline`).
+
+```{python}
+#| label: fig-boxplot-grupo
+#| fig-cap: "Percentual diário de voos atrasados por causa da companhia, por companhia aérea."
+voos = pd.read_csv("dados/airline_stats.csv")
+
+fig, ax = plt.subplots(figsize=(7, 5))
+voos.boxplot(by="airline", column="pct_carrier_delay", ax=ax)
+ax.set_xlabel("")
+ax.set_ylabel("% diário de voos atrasados")
+ax.set_ylim(0, 50)
+plt.suptitle("")
+plt.title("")
+plt.xticks(rotation=20)
+plt.tight_layout()
+plt.show()
+```
+
+São 33.468 dias-companhia, distribuídos entre 6 companhias aéreas. As medianas (a linha dentro de cada caixa) ordenam as companhias de forma nítida: Alaska tem a mediana mais baixa, 3,23% — a melhor do grupo —; American tem a mais alta, 8,43% — a pior. No meio, Delta (5,55%), United (6,45%), Southwest (6,96%) e Jet Blue (7,66%) ocupam posições intermediárias, nessa ordem.
+
+```{python}
+#| label: fig-violin
+#| fig-cap: "O mesmo dado em violin plot. A largura mostra a densidade — o que o boxplot resume em cinco números."
+fig, ax = plt.subplots(figsize=(7, 5))
+sns.violinplot(data=voos, x="airline", y="pct_carrier_delay",
+               ax=ax, inner="quartile", color="#b0c4d8")
+ax.set_xlabel("")
+ax.set_ylabel("% diário de voos atrasados")
+ax.set_ylim(0, 50)
+plt.xticks(rotation=20)
+plt.tight_layout()
+plt.show()
+```
+
+::: {.conceito}
+O boxplot resume cada distribuição em cinco números — mínimo, quartis, mediana, máximo, ajustados por outliers. É compacto, mas apaga a **forma**: duas distribuições bem diferentes — uma concentrada num único pico, outra com dois picos separados — podem produzir boxplots quase idênticos, porque cinco números não distinguem "concentrado no meio" de "concentrado em dois lugares". O violin plot troca a caixa por uma densidade espelhada dos dois lados: a largura em cada altura é proporcional à quantidade de voos com aquele percentual de atraso. A Alaska ilustra o ponto — cerca de 10% dos seus dias têm atraso por causa própria praticamente zero, uma concentração que o violin mostra como um bojo perto do eixo e que o boxplot, ocupado em resumir tudo à mediana e aos quartis, deixa passar como só "o quartil inferior é baixo".
+:::
+
+## Múltiplas variáveis: condicionando por uma terceira
+
+Tudo até aqui comparou exatamente duas variáveis. Perguntas reais costumam ter uma terceira à espreita: será que a relação entre área e valor do imóvel é a mesma em qualquer lugar, ou ela muda dependendo do bairro? A forma de responder é **condicionar**: fixar um valor da terceira variável de cada vez e repetir o gráfico de par para cada um. Visualmente, isso é uma grade de painéis pequenos — um `FacetGrid` — em vez de um único gráfico agregado.
+
+```{python}
+#| label: fig-facet
+#| fig-cap: "Área construída contra valor venal, condicionado ao CEP. A inclinação da relação muda de bairro para bairro."
+kc_ceps = kc0.loc[kc0.ZipCode.isin([98188, 98105, 98108, 98126]), :]
+
+def hexbin(x, y, color, **kwargs):
+    cmap = sns.light_palette(color, as_cmap=True)
+    plt.hexbin(x, y, gridsize=25, cmap=cmap, **kwargs)
+
+g = sns.FacetGrid(kc_ceps, col="ZipCode", col_wrap=2, height=3.2)
+g.map(hexbin, "SqFtTotLiving", "TaxAssessedValue", extent=[0, 3500, 0, 700000])
+g.set_axis_labels("Área construída (pés²)", "Valor venal (US$)")
+plt.tight_layout()
+plt.show()
+```
+
+Os quatro CEPs somam 98105 → 4.481 imóveis, 98108 → 5.535, 98126 → 5.631 e 98188 → 4.043 — juntos, uma fração dos 432.693 originais, escolhida para caber em quatro painéis legíveis. O `extent` fixo em todos os painéis (mesma faixa de área e de valor) é o que torna os quatro comparáveis entre si: sem ele, cada painel escalaria os eixos para os seus próprios dados, e uma diferença de inclinação real poderia se confundir com um artefato de escala.
+
+::: {.exemplo}
+O 98105 fica perto da Universidade de Washington, e destoa dos outros três: valor mediano de US\$ 537 mil para uma área mediana de 1.690 pés² — cerca de US\$ 325 por pé². No 98188, a mesma conta dá US\$ 210 mil para 1.560 pés², pouco mais de US\$ 137 por pé². A mesma área compra menos da metade do valor, dependendo só do CEP: a relação entre área e valor **muda de inclinação** por bairro, algo que o hexbin e o KDE agregados da primeira parte desta seção — que somavam todos os CEPs do condado numa única superfície — não tinham como revelar.
+:::
+
+## Resumo
+
+| Par de tipos | Ferramenta |
+|---|---|
+| Numérico × numérico | Gráfico de dispersão; hexbin ou contorno KDE quando há muitos pontos |
+| Categórico × categórico | Tabela de contingência — em proporção por linha, não em contagem bruta |
+| Categórico × numérico | Boxplot agrupado; violin plot quando a forma da distribuição importa |
+
+::: {.conceito}
+**Regra prática:** o tipo das duas variáveis decide a ferramenta, não o contrário. Antes de escolher um gráfico, pergunte que tipo é cada variável — e, se uma delas for numérica com muitos pontos, pergunte também quantos são. Um gráfico de dispersão que funcionou com 754 pontos na seção anterior simplesmente não funciona com 432 mil.
+:::
+
+## Exercícios
+
+**1.** Por que o gráfico de dispersão falha com 432 mil imóveis, e o hexbin não?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+Com centenas de milhares de pontos, eles se sobrepõem maciçamente, e a região mais densa vira uma mancha sólida — a informação de **quantos** pontos há em cada região do plano se perde antes de chegar à tela. O hexbin não desenha pontos individuais: divide o plano em células hexagonais e colore cada uma pela contagem de imóveis que caem nela, transformando densidade em cor. Isso continua legível justamente onde o gráfico de dispersão satura.
+:::
+
+**2.** Na tabela de contingência em contagem, a grade B tem mais empréstimos `Charged Off` (5.302) que a grade G (409). Isso significa que B é mais arriscada que G?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+Não. B tem 132.370 empréstimos e G tem apenas 3.241 — B tem mais de tudo simplesmente porque é um grupo muito maior. Em **proporção**, a taxa de inadimplência de G (12,6%) é bem maior que a de B (4,0%). Comparar contagens brutas entre grupos de tamanhos muito diferentes é um erro clássico; a normalização por linha existe exatamente para evitá-lo.
+:::
+
+**3.** Se o chunk do KDE não tivesse `random_state=42`, o que aconteceria a cada `quarto render`?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+O `sample(10000)` sortearia 10.000 imóveis diferentes a cada execução, e o contorno de densidade mudaria de forma sutil todas as vezes. O gráfico publicado nunca seria o mesmo duas vezes, o cache do `freeze` deixaria de fazer sentido — ele existe para não reexecutar chunks que não mudaram, e um chunk aleatório sem semente "muda" sozinho a cada render — e cada `push` acumularia um diff de ruído no site. É por isso que todo chunk com componente aleatório neste livro fixa a semente.
 :::

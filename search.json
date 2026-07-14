@@ -76,7 +76,84 @@
     "href": "content/cap01/01-dados-estruturados.html",
     "title": "Elementos de Dados Estruturados",
     "section": "",
-    "text": "Nota\n\n\n\nEsta seção corresponde à seção 1.1 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
+    "text": "A taxonomia\nDado bruto — a leitura de um sensor, o clique de um usuário, uma frase de texto livre — não é, por si só, analisável. Antes de qualquer estatística, esse dado precisa ser estruturado: organizado em uma tabela, com cada coluna assumindo um tipo definido. É esse tipo que decide o que se pode fazer com a coluna depois.\nTodo dado estruturado se encaixa em duas grandes famílias.\nNumérico é o que se mede em quantidade:\nCategórico é o que se classifica em grupos:",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Elementos de Dados Estruturados</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/01-dados-estruturados.html#a-taxonomia",
+    "href": "content/cap01/01-dados-estruturados.html#a-taxonomia",
+    "title": "Elementos de Dados Estruturados",
+    "section": "",
+    "text": "Contínuo — pode assumir qualquer valor dentro de um intervalo. Velocidade do vento, duração de um voo.\nDiscreto — só assume valores inteiros, tipicamente contagens. Número de ocorrências de um evento.\n\n\n\nNominal — categorias sem ordem natural. Estado da federação, tipo de tela de um celular.\nOrdinal — categorias com ordem, mas sem distância numérica definida entre elas. Nota de satisfação de 1 a 5.\nBinário — caso particular de categórico com exatamente dois valores. Sim/não, 0/1.",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Elementos de Dados Estruturados</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/01-dados-estruturados.html#por-que-a-distinção-importa",
+    "href": "content/cap01/01-dados-estruturados.html#por-que-a-distinção-importa",
+    "title": "Elementos de Dados Estruturados",
+    "section": "Por que a distinção importa",
+    "text": "Por que a distinção importa\nIsso pareceria bobagem de nomenclatura se não tivesse consequência prática. O tipo de uma variável determina três coisas: qual gráfico faz sentido para ela, qual estatística pode ser calculada sobre ela, e como o software deve armazenar e validar seus valores. Errar o tipo — tratar ordinal como numérico, ou nominal como se tivesse ordem — não é um erro estético; é o tipo de erro que produz uma conclusão errada com aparência de rigor.",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Elementos de Dados Estruturados</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/01-dados-estruturados.html#o-que-o-pandas-infere-sozinho",
+    "href": "content/cap01/01-dados-estruturados.html#o-que-o-pandas-infere-sozinho",
+    "title": "Elementos de Dados Estruturados",
+    "section": "O que o pandas infere sozinho",
+    "text": "O que o pandas infere sozinho\n\nestado = pd.read_csv(\"dados/state.csv\")\nestado.dtypes\n\nState               str\nPopulation        int64\nMurder.Rate     float64\nAbbreviation        str\ndtype: object\n\n\nO pandas acertou dois tipos numéricos sem qualquer ajuda: Population virou int64 porque é contagem de pessoas — discreto — e Murder.Rate virou float64 porque é uma taxa — contínua. Mas repare em State e Abbreviation: ambos viraram str, que é como o pandas rotula texto genérico. Ele não sabe que são categóricos nominais. Para o pandas, \"Alabama\" e \"AL\" são só sequências de caracteres, tão desprovidas de estrutura quanto um comentário de texto livre.\n\nIsso é o que acontece quando ninguém declara o tipo explicitamente: o software cai de volta no genérico. Funciona, mas descarta informação — informação que o próximo passo recupera.",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Elementos de Dados Estruturados</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/01-dados-estruturados.html#declarando-o-categórico",
+    "href": "content/cap01/01-dados-estruturados.html#declarando-o-categórico",
+    "title": "Elementos de Dados Estruturados",
+    "section": "Declarando o categórico",
+    "text": "Declarando o categórico\n\nestado[\"Abbreviation\"] = estado[\"Abbreviation\"].astype(\"category\")\nprint(estado[\"Abbreviation\"].dtype)\nprint(\"categorias:\", len(estado[\"Abbreviation\"].cat.categories))\n\ncategory\ncategorias: 50\n\n\nAgora Abbreviation é uma coluna category, com um conjunto fechado de 50 valores possíveis — um por estado. Aqui o ganho é semântico, não de memória: as 50 siglas são todas distintas, não há string repetida para deduplicar, e o overhead de guardar um código inteiro por linha além do mapa código→string na verdade custa um pouco mais (medido: 2.682 bytes como str contra 2.732 como category). A economia de memória do category aparece quando poucos valores distintos se repetem em muitas linhas — uma coluna de 10.000 linhas com só 4 categorias, por exemplo, cai de ~535 KB como str para ~10 KB como category, porque aí sim há repetição para deduplicar. Com Abbreviation, o que se ganha é outra coisa: declarar que a coluna é categórica, não texto livre.",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Elementos de Dados Estruturados</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/01-dados-estruturados.html#o-caso-ordinal-quando-a-ordem-é-dado-não-convenção",
+    "href": "content/cap01/01-dados-estruturados.html#o-caso-ordinal-quando-a-ordem-é-dado-não-convenção",
+    "title": "Elementos de Dados Estruturados",
+    "section": "O caso ordinal: quando a ordem é dado, não convenção",
+    "text": "O caso ordinal: quando a ordem é dado, não convenção\nCategórico nominal não tem ordem. Categórico ordinal tem — e essa diferença não é decorativa, ela muda o que o software permite fazer.\n\nfrom pandas.api.types import CategoricalDtype\n\ntamanho = CategoricalDtype(categories=[\"pequeno\", \"medio\", \"grande\"], ordered=True)\ns = pd.Series([\"grande\", \"pequeno\", \"medio\"], dtype=tamanho)\n\nprint(\"ordenado:\", s.sort_values().tolist())\nprint(\"maior que 'pequeno'?\", s.gt(\"pequeno\").tolist())\nprint(\"máximo:\", s.max())\n\nordenado: ['pequeno', 'medio', 'grande']\nmaior que 'pequeno'? [True, False, True]\nmáximo: grande\n\n\nTrês coisas funcionam aqui, e nenhuma delas funcionaria com texto solto. A ordenação devolveu ['pequeno', 'medio', 'grande'] — não por alfabeto, mas pela ordem declarada em categories. Alfabeticamente, “grande” viria antes de “pequeno”; pela semântica que declaramos, vem depois. A comparação s.gt(\"pequeno\") responde à pergunta certa para cada linha, e s.max() sabe que o máximo é “grande”. O ordered=True foi o que ensinou ao pandas qual é a relação de ordem — sem ele, a única ordem disponível seria a do dicionário, que aqui não quer dizer nada.\nAgora o contraste. O mesmo dado, declarado como categórico nominal (sem ordered=True):\n\nnominal = pd.Series([\"grande\", \"pequeno\", \"medio\"], dtype=\"category\")  # sem ordered=True\n\ntry:\n    nominal.gt(\"pequeno\")\nexcept TypeError as erro:\n    print(\"TypeError:\", erro)\n\nTypeError: Unordered Categoricals can only compare equality or not\n\n\nO pandas se recusa a comparar. E isso é uma feature, não uma limitação. Perguntar se um estado é “maior que” outro não significa coisa alguma — não existe ordem entre Alabama e Wyoming que a estatística reconheça. Um tipo nominal faz o software recusar a pergunta em vez de devolver uma resposta sem sentido; se Abbreviation respondesse a &gt;, alguém acabaria ordenando estados por “grandeza” alfabética e tratando o resultado como se significasse algo. O erro barrado na origem é melhor que o número enganoso.\n\nDeclarar o tipo de uma coluna não é burocracia de código, é a mesma decisão que se toma ao escolher entre média e mediana: o tipo é o que permite ao software (a) rejeitar automaticamente uma operação sem sentido, como ordenar estados por “grandeza” alfabética; (b) escolher o gráfico adequado — barras para nominal, algo que respeite a ordem para ordinal, histograma para contínuo; e (c) economizar memória, porque uma coluna category com poucos valores distintos guarda inteiros internamente em vez de repetir strings.",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Elementos de Dados Estruturados</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/01-dados-estruturados.html#resumo",
+    "href": "content/cap01/01-dados-estruturados.html#resumo",
+    "title": "Elementos de Dados Estruturados",
+    "section": "Resumo",
+    "text": "Resumo\n\n\n\n\n\n\n\n\nTipo\nExemplo\nGráfico típico\n\n\n\n\nNumérico contínuo\nVelocidade do vento\nHistograma\n\n\nNumérico discreto\nNúmero de ocorrências\nGráfico de barras\n\n\nCategórico nominal\nTipo de tela de celular\nGráfico de barras\n\n\nCategórico ordinal\nNota de satisfação (1–5)\nGráfico de barras ordenado\n\n\nCategórico binário\nSim/não\nGráfico de barras (2 categorias)",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Elementos de Dados Estruturados</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/01-dados-estruturados.html#exercícios",
+    "href": "content/cap01/01-dados-estruturados.html#exercícios",
+    "title": "Elementos de Dados Estruturados",
+    "section": "Exercícios",
+    "text": "Exercícios\n1. Classifique cada variável de state.csv (State, Population, Murder.Rate, Abbreviation) na taxonomia apresentada.\n\n\n\n\n\n\nDicaResposta\n\n\n\n\n\nState e Abbreviation são categóricos nominais — identificam o estado, sem ordem entre eles. Population é numérico discreto — é uma contagem de pessoas. Murder.Rate é numérico contínuo — é uma taxa que pode assumir qualquer valor real não negativo.\n\n\n\n2. Uma pesquisa de satisfação registra respostas como 1, 2, 3, 4 ou 5. O pandas lê essa coluna como int64. Por que tratá-la como numérica pode enganar?\n\n\n\n\n\n\nDicaResposta\n\n\n\n\n\nPorque a distância entre 1 e 2 não é necessariamente igual à distância entre 4 e 5 — a escala é ordinal, não intervalar. Calcular a média dessas notas pressupõe que os intervalos entre categorias são iguais, o que raramente é uma suposição defensável para percepção humana. A mediana ou a moda descrevem o valor típico sem exigir essa suposição.\n\n\n\n3. O CEP (ZipCode) do conjunto kc_tax é lido como número pelo pandas. É numérico?\n\n\n\n\n\n\nDicaResposta\n\n\n\n\n\nNão. É categórico nominal codificado com dígitos. A média de dois CEPs não representa nada, e proximidade numérica entre dois CEPs não implica proximidade geográfica. Tratar identificadores numéricos como se fossem quantidades é um dos erros de tipo mais comuns na prática — e o astype(\"category\") é o remédio direto.\n\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
     "crumbs": [
       "Capítulo 1: Análise Exploratória de Dados",
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Elementos de Dados Estruturados</span>"
@@ -87,7 +164,62 @@
     "href": "content/cap01/02-dados-retangulares.html",
     "title": "Dados Retangulares",
     "section": "",
-    "text": "Nota\n\n\n\nEsta seção corresponde à seção 1.2 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
+    "text": "O DataFrame\nA seção anterior classificou o que cada coluna é — numérica ou categórica, contínua ou ordinal. Mas uma coluna isolada não existe sozinha: ela mora dentro de uma estrutura que a organiza junto de todas as outras. Essa estrutura, quase sempre, é uma tabela.\nA forma retangular é tão comum na prática estatística que é fácil esquecer que é uma escolha, não uma lei da natureza: linhas são registros e colunas são variáveis. No Python, o objeto que implementa essa ideia é o DataFrame do pandas — uma matriz de dados com rótulos.\nestado = pd.read_csv(\"dados/state.csv\")\nprint(\"linhas x colunas:\", estado.shape)\nestado.head()\n\nlinhas x colunas: (50, 4)\n\n\n\n\n\n\n\n\n\nState\nPopulation\nMurder.Rate\nAbbreviation\n\n\n\n\n0\nAlabama\n4779736\n5.7\nAL\n\n\n1\nAlaska\n710231\n5.6\nAK\n\n\n2\nArizona\n6392017\n4.7\nAZ\n\n\n3\nArkansas\n2915918\n5.6\nAR\n\n\n4\nCalifornia\n37253956\n4.4\nCA\n(50, 4) são 50 linhas e 4 colunas — mas o par de números só significa alguma coisa porque sabemos, do dado, que cada linha é um estado e cada coluna é uma variável medida sobre ele. Trocar as duas dimensões — colocar variáveis nas linhas e estados nas colunas — descreveria os mesmos números sem descrever o mesmo problema.\nestado.info() complementa o .head(): além do formato, mostra quantos valores não nulos cada coluna tem e quanto de memória a tabela ocupa.\nestado.info()\n\n&lt;class 'pandas.DataFrame'&gt;\nRangeIndex: 50 entries, 0 to 49\nData columns (total 4 columns):\n #   Column        Non-Null Count  Dtype  \n---  ------        --------------  -----  \n 0   State         50 non-null     str    \n 1   Population    50 non-null     int64  \n 2   Murder.Rate   50 non-null     float64\n 3   Abbreviation  50 non-null     str    \ndtypes: float64(1), int64(1), str(2)\nmemory usage: 1.7 KB",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Dados Retangulares</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/02-dados-retangulares.html#o-índice",
+    "href": "content/cap01/02-dados-retangulares.html#o-índice",
+    "title": "Dados Retangulares",
+    "section": "O índice",
+    "text": "O índice\nToda linha de um DataFrame tem um rótulo — o índice — além de qualquer coluna de dados. Por padrão, o pandas usa a posição da linha: 0, 1, 2…\n\nprint(\"índice padrão:\", estado.index[:5].tolist())\n\n# Um índice significativo torna a busca por rótulo natural\npor_estado = estado.set_index(\"Abbreviation\")\npor_estado.loc[\"CA\"]\n\níndice padrão: [0, 1, 2, 3, 4]\n\n\nState          California\nPopulation       37253956\nMurder.Rate           4.4\nName: CA, dtype: object\n\n\nSubstituir o índice numérico pela sigla do estado transforma .loc[\"CA\"] de uma busca por posição em uma busca por rótulo, algo que a posição sozinha nunca permitiria fazer com sentido.\n\nO índice não é uma coluna de dados — é o rótulo das linhas, guardado separadamente do corpo da tabela. É por isso que por_estado tem só 3 colunas (State, Population, Murder.Rate): set_index(\"Abbreviation\") removeu Abbreviation do corpo do DataFrame para usá-la como rótulo. Esquecer isso é fonte comum de bug — quem espera encontrar Abbreviation entre as colunas depois do set_index vai procurar por algo que já não está lá.",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Dados Retangulares</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/02-dados-retangulares.html#vocabulário-e-seus-sinônimos",
+    "href": "content/cap01/02-dados-retangulares.html#vocabulário-e-seus-sinônimos",
+    "title": "Dados Retangulares",
+    "section": "Vocabulário e seus sinônimos",
+    "text": "Vocabulário e seus sinônimos\nEstatística, aprendizado de máquina e ciência de dados descrevem a mesma tabela com palavras diferentes, e isso confunde mais do que deveria. A coluna que se usa para prever é chamada de feature, variável, atributo, preditor ou entrada. A coluna que se quer prever é o outcome, a resposta, a variável dependente, o alvo. Uma linha é indistintamente um registro, um caso, uma observação, um exemplo ou uma instância.\n\nImagine três textos sobre o mesmo problema de prever a taxa de homicídios a partir da população de um estado. Um artigo de estatística clássica fala em “variável dependente” e “variáveis independentes”. Um tutorial de aprendizado de máquina fala em “target” e “features”. Um relatório de negócios fala em “o que queremos prever” e “os atributos disponíveis”. As três frases descrevem exatamente a mesma coisa — e um leitor que não souber disso vai achar que está diante de três ideias distintas, quando é uma só com três sotaques.\n\nNão há vocabulário “certo” entre esses — o que existe é o vocabulário da comunidade em que se está lendo ou escrevendo. Este livro usa feature e outcome por serem os termos mais neutros entre as três tradições.",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Dados Retangulares</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/02-dados-retangulares.html#dados-não-retangulares",
+    "href": "content/cap01/02-dados-retangulares.html#dados-não-retangulares",
+    "title": "Dados Retangulares",
+    "section": "Dados não retangulares",
+    "text": "Dados não retangulares\nNem todo dado cabe numa tabela sem perder algo no processo. Três casos comuns:\nEm uma série temporal, a ordem entre as linhas carrega informação — a temperatura de hoje depende da de ontem de um jeito que a tabela, por si só, não representa. Uma tabela retangular guarda os valores, mas a sequência entre eles é uma estrutura adicional que precisa ser lembrada à parte.\nEm dados espaciais, o que importa são objetos e as coordenadas ou regiões que ocupam — pontos, linhas, polígonos — e a noção de distância ou vizinhança entre eles não é uma coluna, é uma relação geométrica.\nEm um grafo (uma rede), o que se descreve são relações entre pares de elementos — quem segue quem, quais cidades têm uma rota direta. Forçar isso numa tabela de registros independentes apaga exatamente a informação que importa: a conexão entre eles.\nNos três casos, é possível armazenar o dado em uma ou mais tabelas — mas a forma retangular, sozinha, não representa a estrutura que faz o dado interessante. A ordem, a geometria e as relações precisam ser preservadas por fora da tabela, ou a análise que só olha para linhas e colunas vai errar a pergunta.",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Dados Retangulares</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/02-dados-retangulares.html#resumo",
+    "href": "content/cap01/02-dados-retangulares.html#resumo",
+    "title": "Dados Retangulares",
+    "section": "Resumo",
+    "text": "Resumo\n\n\n\nTermo usado neste livro\nSinônimos que você vai encontrar\n\n\n\n\nFeature\nvariável, atributo, preditor, entrada (input)\n\n\nOutcome\nresposta, variável dependente, alvo (target), saída\n\n\nRegistro\ncaso, observação, exemplo, instância\n\n\n\n\nTodo o vocabulário estatístico deste livro pressupõe a forma retangular: linhas independentes, colunas com um tipo fixo. Quando o dado é uma série temporal, um mapa ou uma rede, essa pressuposição já não vale — e é preciso reconhecer isso antes de aplicar qualquer estimativa das próximas seções.",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Dados Retangulares</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/02-dados-retangulares.html#exercícios",
+    "href": "content/cap01/02-dados-retangulares.html#exercícios",
+    "title": "Dados Retangulares",
+    "section": "Exercícios",
+    "text": "Exercícios\n1. estado.shape retorna (50, 4). Qual é o significado de cada número, no vocabulário desta seção?\n\n\n\n\n\n\nDicaResposta\n\n\n\n\n\n50 é o número de registros (observações — um por estado); 4 é o número de colunas — mas só Population e Murder.Rate são features, variáveis medidas sobre cada estado. State e Abbreviation identificam o registro, não medem nada sobre ele.\n\n\n\n2. Você quer prever a taxa de homicídios a partir da população. Qual coluna é o outcome e quais são as features?\n\n\n\n\n\n\nDicaResposta\n\n\n\n\n\nMurder.Rate é o outcome; Population é a feature. State e Abbreviation são identificadores, não features úteis — usá-los como preditor seria memorizar cada linha em vez de aprender um padrão que generalize.\n\n\n\n3. Um log de servidor tem timestamp, IP e URL, uma linha por requisição. É retangular? E se a pergunta for “qual a sequência típica de páginas antes de uma compra?”\n\n\n\n\n\n\nDicaResposta\n\n\n\n\n\nA tabela é retangular — uma linha por requisição, colunas fixas. Mas a pergunta é sobre sequência: a ordem entre as linhas carrega a informação que importa, e a forma retangular não a representa por conta própria. É um caso em que a estrutura tabular armazena o dado, mas não o modela.\n\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
     "crumbs": [
       "Capítulo 1: Análise Exploratória de Dados",
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Dados Retangulares</span>"
@@ -142,7 +274,7 @@
     "href": "content/cap01/03-estimativas-localizacao.html#mediana",
     "title": "Estimativas de Localização",
     "section": "Mediana",
-    "text": "Mediana\nA mediana é o valor central dos dados ordenados. Ela depende apenas das observações do meio, então um valor extremo pode ser arbitrariamente grande sem movê-la. Com número par de observações — como aqui, n = 50 —, não existe um único valor central: a mediana é a média dos dois valores do meio. É por isso que o número calculado abaixo termina em “,5”: não há meia pessoa, há uma média entre duas observações vizinhas.\n\nmediana = estado[\"Population\"].median()\nprint(f\"Mediana: {mediana:,.1f}\")\n\nMediana: 4,436,369.5\n\n\n\nA mediana é 4,436,370 e a média é 6,162,876 — a média é cerca de 39% maior. Essa diferença é a assinatura de uma distribuição assimétrica à direita, e é a razão pela qual reportar renda mediana e não renda média é a prática padrão.",
+    "text": "Mediana\nA mediana é o valor central dos dados ordenados. Ela depende apenas das observações do meio, então um valor extremo pode ser arbitrariamente grande sem movê-la. Com número par de observações — como aqui, n = 50 —, não existe um único valor central: a mediana é a média dos dois valores do meio. É por isso que o número calculado abaixo termina em .5, meio entre duas unidades: não há meia pessoa, há uma média entre duas observações vizinhas.\n\nmediana = estado[\"Population\"].median()\nprint(f\"Mediana: {mediana:,.1f}\")\n\nMediana: 4,436,369.5\n\n\n\nA mediana é 4,436,370 e a média é 6,162,876 — a média é cerca de 39% maior. Essa diferença é a assinatura de uma distribuição assimétrica à direita, e é a razão pela qual reportar renda mediana e não renda média é a prática padrão.",
     "crumbs": [
       "Capítulo 1: Análise Exploratória de Dados",
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Estimativas de Localização</span>"
@@ -175,7 +307,18 @@
     "href": "content/cap01/03-estimativas-localizacao.html#resumo",
     "title": "Estimativas de Localização",
     "section": "Resumo",
-    "text": "Resumo\n\n\n\nEstimativa\nValor\nRobusta a extremos?\n\n\n\n\nMédia\n6,162,876\nNão\n\n\nMédia aparada (10%)\n4,783,697\nSim\n\n\nMediana\n4,436,370\nSim\n\n\n\n\nRegra prática: a média é o padrão, mas é frágil. Quando os dados têm cauda longa ou outliers plausíveis — renda, população, tempo de resposta de um servidor — a mediana ou a média aparada descrevem melhor o caso típico.\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
+    "text": "Resumo\n\n\n\nEstimativa\nValor\nRobusta a extremos?\n\n\n\n\nMédia\n6,162,876\nNão\n\n\nMédia aparada (10%)\n4,783,697\nSim\n\n\nMediana\n4,436,370\nSim\n\n\n\n\nRegra prática: a média é o padrão, mas é frágil. Quando os dados têm cauda longa ou outliers plausíveis — renda, população, valor de imóveis — a mediana ou a média aparada descrevem melhor o caso típico.",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Estimativas de Localização</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/03-estimativas-localizacao.html#exercícios",
+    "href": "content/cap01/03-estimativas-localizacao.html#exercícios",
+    "title": "Estimativas de Localização",
+    "section": "Exercícios",
+    "text": "Exercícios\n1. A média aparada de 10% descartou os 5 estados mais populosos e os 5 menos populosos. Recalcule com aparo de 25%. O que acontece com a média aparada à medida que o aparo se aproxima de 50%?\n\n\n\n\n\n\nDicaResposta\n\n\n\n\n\ntrim_mean(estado[\"Population\"], 0.25)\nCom aparo de 50%, todas as observações são descartadas exceto a(s) central(is) — a média aparada converge para a mediana. A média aparada é, portanto, uma família contínua entre a média (aparo 0) e a mediana (aparo 0,5).\n\n\n\n2. A média ponderada da taxa de homicídios (4,45) é maior que a média simples (4,07). O que isso diz sobre a relação entre população e taxa de homicídios nos estados?\n\n\n\n\n\n\nDicaResposta\n\n\n\n\n\nPonderar pela população aumenta a estimativa, então os estados mais populosos tendem a ter taxas de homicídio mais altas que os menos populosos. Se não houvesse relação alguma entre tamanho e taxa, as duas médias seriam próximas.\n\n\n\n3. Um relatório afirma que “a renda média das famílias do país subiu 8% no último ano, mas a renda mediana ficou estável”. Como isso é possível?\n\n\n\n\n\n\nDicaResposta\n\n\n\n\n\nA média é sensível a extremos e a mediana não. Um ganho concentrado no topo da distribuição — os mais ricos ficando mais ricos — eleva a soma total (e portanto a média) sem mover o valor central. É exatamente o padrão de uma distribuição assimétrica à direita cuja cauda se alonga.\n\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
     "crumbs": [
       "Capítulo 1: Análise Exploratória de Dados",
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Estimativas de Localização</span>"
@@ -186,7 +329,51 @@
     "href": "content/cap01/04-estimativas-variabilidade.html",
     "title": "Estimativas de Variabilidade",
     "section": "",
-    "text": "Nota\n\n\n\nEsta seção corresponde à seção 1.4 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
+    "text": "Desvio e por que não usar a média dos desvios\nA seção 1.3 resumiu a população dos estados por um valor típico — média, média aparada, mediana — e viu a média se deslocar para longe das outras duas, puxada pela cauda de estados muito populosos. Localização é só metade da história. A outra metade responde a uma pergunta diferente: quão espalhados os dados estão em torno desse valor típico? Essa é a variabilidade, ou dispersão.\nDois estados podem ter a mesma população mediana e mesmo assim serem completamente diferentes: num, quase todo mundo mora em cidades de tamanho parecido; no outro, uma metrópole convive com dezenas de municípios minúsculos. A localização não distingue esses dois casos. A dispersão, sim.\nA forma mais direta de medir dispersão é olhar o desvio de cada observação em relação à média, \\(x_i - \\bar{x}\\), e resumir esses desvios em um único número. O problema é que a média aritmética dos desvios é sempre zero — não importa o quão espalhados os dados estejam. Isso não é uma propriedade dos dados: é uma consequência algébrica de como a própria média é definida. Os desvios positivos e negativos cancelam exatamente.\nPara obter um número útil é preciso eliminar o sinal antes de tirar a média. Há duas formas padrão de fazer isso: elevar cada desvio ao quadrado, ou tomar seu valor absoluto. A primeira leva à variância e ao desvio-padrão; a segunda, ao desvio absoluto médio.",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Estimativas de Variabilidade</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/04-estimativas-variabilidade.html#desvio-padrão-e-variância",
+    "href": "content/cap01/04-estimativas-variabilidade.html#desvio-padrão-e-variância",
+    "title": "Estimativas de Variabilidade",
+    "section": "Desvio-padrão e variância",
+    "text": "Desvio-padrão e variância\nA variância é a soma dos desvios ao quadrado dividida por \\(n-1\\), e o desvio-padrão é a sua raiz quadrada:\n\\[s = \\sqrt{\\frac{\\sum_{i=1}^{n}(x_i - \\bar{x})^2}{n-1}}\\]\n\ndesvio = estado[\"Population\"].std()\nprint(f\"Desvio-padrão: {desvio:,.1f}\")\n\nDesvio-padrão: 6,848,235.3\n\n\nTirar a raiz quadrada devolve o desvio-padrão à unidade original dos dados (pessoas, no caso), enquanto a variância fica em pessoas ao quadrado — uma unidade sem interpretação direta. Isso, somado à conveniência matemática de trabalhar com quadrados, é o motivo do desvio-padrão ser a medida de dispersão mais citada. Não é porque seja a mais robusta: é o contrário. Elevar ao quadrado amplifica desvios grandes muito mais do que pequenos, então o desvio-padrão é ainda mais sensível a extremos que a própria média — e a média já não era robusta.",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Estimativas de Variabilidade</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/04-estimativas-variabilidade.html#estimativas-robustas-iqr-e-mad",
+    "href": "content/cap01/04-estimativas-variabilidade.html#estimativas-robustas-iqr-e-mad",
+    "title": "Estimativas de Variabilidade",
+    "section": "Estimativas robustas: IQR e MAD",
+    "text": "Estimativas robustas: IQR e MAD\nAssim como a mediana substitui a média quando extremos distorcem a localização, existem substitutos robustos para o desvio-padrão.\nA amplitude interquartil (IQR) é a diferença entre o 75º e o 25º percentil — a largura da metade central dos dados, ignorando completamente o que acontece nas pontas:\n\niqr = estado[\"Population\"].quantile(0.75) - estado[\"Population\"].quantile(0.25)\nprint(f\"IQR: {iqr:,.1f}\")\n\nIQR: 4,847,308.0\n\n\nO desvio absoluto mediano (MAD) segue a mesma lógica dos desvios em torno da média, mas trocando média por mediana nos dois lugares — tanto no ponto de referência quanto na forma de resumir os desvios:\n\\[\\text{MAD} = \\frac{\\text{mediana}\\big(|x_i - \\text{mediana}(x)|\\big)}{0{,}6745}\\]\n\nmad = robust.scale.mad(estado[\"Population\"])\nprint(f\"MAD: {mad:,.1f}\")\n\n# O mesmo cálculo, explicitamente — para mostrar de onde vem o 0,6745\nmad_manual = abs(estado[\"Population\"] - estado[\"Population\"].median()).median() / 0.6744897501960817\nprint(f\"MAD (manual): {mad_manual:,.1f}\")\n\nMAD: 3,849,876.1\nMAD (manual): 3,849,876.1\n\n\nOs dois cálculos batem exatamente: a função robust.scale.mad da statsmodels não faz nada além dessa conta. O fator 0,6745 no denominador não é arbitrário — ele calibra o MAD para que, sob uma distribuição normal, o valor resultante seja diretamente comparável ao desvio-padrão. Sem essa calibração, MAD e desvio-padrão viveriam em escalas diferentes e comparar os dois números não teria sentido.\n\nmediana = estado[\"Population\"].median()\nfig, ax = plt.subplots()\n\nax.hist(estado[\"Population\"] / 1e6, bins=20, color=\"#b0c4d8\", edgecolor=\"white\")\nax.axvline(mediana / 1e6, color=\"#2c3e50\", linewidth=2, label=f\"Mediana: {mediana/1e6:.1f}M\")\n\nfor medida, valor, cor, estilo in [\n    (\"Desvio-padrão\", desvio, \"#c0392b\", \"-\"),\n    (\"IQR\", iqr, \"#e67e22\", \"--\"),\n    (\"MAD\", mad, \"#27ae60\", \":\"),\n]:\n    ax.axvline((mediana + valor) / 1e6, color=cor, linestyle=estilo, linewidth=2,\n               label=f\"{medida}: {valor/1e6:.1f}M\")\n\nax.set_xlabel(\"População (milhões)\")\nax.set_ylabel(\"Número de estados\")\nax.legend()\nplt.tight_layout()\nplt.show()\n\n\n\n\n\n\n\nFigura 5.1: As três medidas de dispersão sobre a distribuição de população dos estados.\n\n\n\n\n\n\nO desvio-padrão (6,8M) é quase o dobro do MAD (3,8M). Essa distância entre uma medida sensível a extremos e uma medida robusta é o mesmo sinal que a diferença entre média e mediana já tinha dado na seção 1.3: a distribuição de população dos estados tem cauda longa à direita. Quando as duas famílias de estimativas — a sensível e a robusta — discordam tanto, é a cauda longa falando, não um capricho do cálculo.",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Estimativas de Variabilidade</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/04-estimativas-variabilidade.html#resumo",
+    "href": "content/cap01/04-estimativas-variabilidade.html#resumo",
+    "title": "Estimativas de Variabilidade",
+    "section": "Resumo",
+    "text": "Resumo\n\n\n\nMedida\nValor\nRobusta a extremos?\n\n\n\n\nDesvio-padrão\n6,848,235\nNão\n\n\nIQR\n4,847,308\nSim\n\n\nMAD\n3,849,876\nSim\n\n\n\n\nSe a população de cada estado fosse multiplicada por 1.000, o desvio-padrão e o IQR também seriam multiplicados por 1.000: ambos herdam a unidade dos dados e escalam linearmente com eles. A variância, por estar em unidade ao quadrado, seria multiplicada por 1.000.000. É exatamente esse descasamento de unidade que faz o desvio-padrão, e não a variância, ser reportado na prática.",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Estimativas de Variabilidade</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/04-estimativas-variabilidade.html#exercícios",
+    "href": "content/cap01/04-estimativas-variabilidade.html#exercícios",
+    "title": "Estimativas de Variabilidade",
+    "section": "Exercícios",
+    "text": "Exercícios\n1. Por que não se usa simplesmente a média dos desvios em relação à média como medida de dispersão?\n\n\n\n\n\n\nDicaResposta\n\n\n\n\n\nPorque ela é sempre exatamente zero — é uma propriedade algébrica da média, não um fato sobre os dados. Os desvios positivos cancelam os negativos por construção. Daí a necessidade de eliminar o sinal, elevando ao quadrado (variância, desvio-padrão) ou tomando o módulo (desvio absoluto médio, MAD).\n\n\n\n2. O desvio-padrão da população dos estados é 6,85M e o MAD é 3,85M — quase o dobro. O que essa razão diz sobre os dados?\n\n\n\n\n\n\nDicaResposta\n\n\n\n\n\nQue há observações extremas puxando o desvio-padrão para cima. Sob uma distribuição normal, MAD e desvio-padrão seriam próximos — é para isso que serve o fator 0,6745 na fórmula do MAD. Uma razão desvio-padrão/MAD muito maior que 1 é um diagnóstico prático de cauda longa ou outliers, tal como a distância entre média e mediana foi na seção 1.3.\n\n\n\n3. Se você multiplicar todas as populações por 1.000, o que acontece com o desvio-padrão? E com o IQR?\n\n\n\n\n\n\nDicaResposta\n\n\n\n\n\nAmbos são multiplicados por 1.000. As medidas de dispersão têm a mesma unidade dos dados e escalam linearmente com eles. A variância, ao contrário, seria multiplicada por 1.000.000 — ela está em unidade ao quadrado, o que é justamente o inconveniente que motiva o uso do desvio-padrão no lugar dela.\n\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
     "crumbs": [
       "Capítulo 1: Análise Exploratória de Dados",
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Estimativas de Variabilidade</span>"
@@ -197,7 +384,62 @@
     "href": "content/cap01/05-distribuicao-dados.html",
     "title": "Explorando a Distribuição dos Dados",
     "section": "",
-    "text": "Nota\n\n\n\nEsta seção corresponde à seção 1.5 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
+    "text": "Percentis e quantis\nA seção 1.3 resumiu a população dos estados em um número — a localização. A seção 1.4 acrescentou um segundo número — a dispersão em torno dele. Os dois juntos já dizem bastante: onde os dados tendem a estar, e o quanto eles se afastam dali. Mas dois números continuam sendo um resumo, e todo resumo descarta informação. Esta seção para de resumir. Em vez de reduzir a distribuição a um ou dois pontos, ela olha a distribuição inteira — a forma completa que os dados assumem entre o menor e o maior valor.\nO percentil P é o valor abaixo do qual está P% das observações. A mediana, que a seção 1.3 já usou, nada mais é do que o percentil 50 — o caso particular em que exatamente metade dos dados fica de cada lado. Falar em percentis é generalizar essa ideia para qualquer fração, não só a metade. O termo quantil é o mesmo conceito, expresso em proporção (0,05) em vez de porcentagem (5%); quantile() no pandas usa essa segunda convenção.\npercentis = [0.05, 0.25, 0.5, 0.75, 0.95]\ntabela = pd.DataFrame(estado[\"Murder.Rate\"].quantile(percentis))\ntabela.index = [f\"{p:.0%}\" for p in percentis]\ntabela.transpose()\n\n\n\n\n\n\n\n\n5%\n25%\n50%\n75%\n95%\n\n\n\n\nMurder.Rate\n1.6\n2.425\n4.0\n5.55\n6.51\nOs cinco números da tabela dizem: 5% dos estados têm taxa de homicídios de até 1,6 por 100.000 habitantes; na outra ponta, 95% ficam até 6,51 — ou seja, só 5% (2 ou 3 estados, em 50) superam essa marca. O intervalo entre o percentil 5 e o percentil 95 cobre os 90% centrais da distribuição e é uma forma comum de descrever o “grosso” dos dados sem deixar os extremos dominarem a leitura, do mesmo jeito que a mediana evita que eles dominem a localização.",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Explorando a Distribuição dos Dados</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/05-distribuicao-dados.html#boxplot",
+    "href": "content/cap01/05-distribuicao-dados.html#boxplot",
+    "title": "Explorando a Distribuição dos Dados",
+    "section": "Boxplot",
+    "text": "Boxplot\nO boxplot é uma leitura visual direta dos percentis. A caixa vai do primeiro ao terceiro quartil — e a largura dessa caixa é exatamente o IQR que a seção 1.4 calculou como medida de dispersão. Não é uma coincidência nem uma analogia: é a mesma conta, olhada de dois ângulos diferentes. A linha dentro da caixa marca a mediana. Os bigodes se estendem até 1,5 vez o IQR além de cada quartil, e qualquer observação além disso é desenhada como um ponto individual, não absorvida pela escala do gráfico.\n\nfig, ax = plt.subplots(figsize=(4, 5))\n(estado[\"Population\"] / 1e6).plot.box(ax=ax)\nax.set_ylabel(\"População (milhões)\")\nplt.tight_layout()\nplt.show()\n\n\n\n\n\n\n\nFigura 6.1: Boxplot da população dos estados. Os pontos acima do bigode são os estados atipicamente populosos.\n\n\n\n\n\n\nLendo o gráfico: metade dos estados tem entre 1,8 e 6,7 milhões de habitantes — é o que a caixa mostra. A mediana está em 4,4 milhões. E os quatro pontos isolados acima do bigode superior são Califórnia, Texas, Nova York e Flórida: os únicos estados populosos o bastante para escapar de 1,5×IQR além do terceiro quartil.",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Explorando a Distribuição dos Dados</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/05-distribuicao-dados.html#tabela-de-frequência-e-histograma",
+    "href": "content/cap01/05-distribuicao-dados.html#tabela-de-frequência-e-histograma",
+    "title": "Explorando a Distribuição dos Dados",
+    "section": "Tabela de frequência e histograma",
+    "text": "Tabela de frequência e histograma\nA tabela de frequência divide o intervalo de valores em faixas de largura igual e conta quantas observações caem em cada uma. pd.cut faz exatamente isso.\n\nfaixas = pd.cut(estado[\"Population\"], 10)\nfaixas.value_counts().sort_index()\n\nPopulation\n(526935.67, 4232659.0]      24\n(4232659.0, 7901692.0]      14\n(7901692.0, 11570725.0]      6\n(11570725.0, 15239758.0]     2\n(15239758.0, 18908791.0]     1\n(18908791.0, 22577824.0]     1\n(22577824.0, 26246857.0]     1\n(26246857.0, 29915890.0]     0\n(29915890.0, 33584923.0]     0\n(33584923.0, 37253956.0]     1\nName: count, dtype: int64\n\n\nAs faixas são de largura igual, não de contagem igual — e o resultado mostra isso sem meio-termo. A primeira faixa, sozinha, concentra 24 dos 50 estados; as faixas do topo têm um estado cada, ou nenhum. Isso não é um defeito do corte: é o retrato de uma distribuição com cauda longa à direita, a mesma assinatura que a média puxada para cima (seção 1.3) e o desvio-padrão inflado (seção 1.4) já haviam denunciado — agora visível na contagem, faixa por faixa.\nO histograma é essa mesma tabela desenhada: uma barra por faixa, com altura proporcional à contagem. As barras se encostam porque o eixo é contínuo — não há espaço entre “faixa 1” e “faixa 2” do jeito que há entre categorias distintas.\n\nfig, ax = plt.subplots()\n(estado[\"Population\"] / 1e6).plot.hist(ax=ax, bins=10, edgecolor=\"white\")\nax.set_xlabel(\"População (milhões)\")\nax.set_ylabel(\"Número de estados\")\nplt.tight_layout()\nplt.show()\n\n\n\n\n\n\n\nFigura 6.2: Histograma da população. As barras se encostam porque o eixo é contínuo.",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Explorando a Distribuição dos Dados</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/05-distribuicao-dados.html#densidade",
+    "href": "content/cap01/05-distribuicao-dados.html#densidade",
+    "title": "Explorando a Distribuição dos Dados",
+    "section": "Densidade",
+    "text": "Densidade\nA curva de densidade é uma versão suavizada do histograma: em vez de barras discretas, uma curva contínua que estima a forma subjacente da distribuição. A diferença crucial é a escala do eixo Y. Enquanto o histograma tradicional mostra contagem, a densidade é normalizada para que a área sob a curva valha exatamente 1 — é o preço de tratá-la como uma distribuição de probabilidade, não como uma lista de frequências.\n\nfig, ax = plt.subplots()\nestado[\"Murder.Rate\"].plot.hist(ax=ax, density=True, xlim=[0, 12],\n                                bins=range(1, 12), edgecolor=\"white\")\nestado[\"Murder.Rate\"].plot.density(ax=ax, linewidth=2)\nax.set_xlabel(\"Taxa de homicídios (por 100.000)\")\nplt.tight_layout()\nplt.show()\n\n\n\n\n\n\n\nFigura 6.3: Histograma da taxa de homicídios com a curva de densidade sobreposta.\n\n\n\n\n\n\nO density=True no histograma é o que torna as duas curvas comparáveis nesse gráfico. Sem ele, o eixo Y do histograma seria contagem (quantos estados em cada faixa) e o da densidade seria densidade de probabilidade (área total igual a 1) — duas escalas diferentes convivendo no mesmo eixo. Nesse caso, a curva de densidade apareceria colada em zero, achatada pela contagem muito maior das barras.",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Explorando a Distribuição dos Dados</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/05-distribuicao-dados.html#resumo",
+    "href": "content/cap01/05-distribuicao-dados.html#resumo",
+    "title": "Explorando a Distribuição dos Dados",
+    "section": "Resumo",
+    "text": "Resumo\n\n\n\n\n\n\n\nFerramenta\nO que mostra\n\n\n\n\nPercentis / quantis\nA posição exata de qualquer fração dos dados\n\n\nBoxplot\nQ1, mediana, Q3 e outliers num único desenho compacto\n\n\nTabela de frequência / histograma\nComo a massa dos dados se distribui em faixas de largura igual\n\n\nDensidade\nA forma contínua por trás das barras do histograma\n\n\n\n\nRegra prática: localização (1.3) e dispersão (1.4) respondem “qual é o valor típico” e “o quanto os dados variam”. Elas não respondem “qual é a forma da distribuição” — se ela é simétrica, se tem cauda longa, se há grupos isolados de valores extremos. Para isso, é preciso abrir mão do resumo e olhar a distribuição inteira, com as quatro ferramentas desta seção.",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Explorando a Distribuição dos Dados</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/05-distribuicao-dados.html#exercícios",
+    "href": "content/cap01/05-distribuicao-dados.html#exercícios",
+    "title": "Explorando a Distribuição dos Dados",
+    "section": "Exercícios",
+    "text": "Exercícios\n1. A mediana da taxa de homicídios é 4,0 e o percentil 95 é 6,51. Interprete o segundo número em uma frase.\n\n\n\n\n\n\nDicaResposta\n\n\n\n\n\n95% dos estados têm taxa de homicídios igual ou inferior a 6,51 por 100.000 habitantes; apenas 5% (2 ou 3 estados, em 50) ficam acima disso.\n\n\n\n2. No boxplot, por que os pontos acima do bigode são desenhados individualmente em vez de o bigode simplesmente se estender até eles?\n\n\n\n\n\n\nDicaResposta\n\n\n\n\n\nPor convenção, o bigode vai até 1,5×IQR além do quartil. Pontos além disso são candidatos a outlier e são marcados individualmente justamente para chamar atenção — o objetivo é que você os veja, e não que eles sejam absorvidos pela escala do gráfico.\n\n\n\n3. A tabela de frequência com pd.cut em 10 faixas colocou quase metade dos estados na primeira faixa. Isso é um defeito do método?\n\n\n\n\n\n\nDicaResposta\n\n\n\n\n\nNão — é um retrato fiel dos dados. pd.cut cria faixas de largura igual, e a distribuição de população dos estados é assimétrica. Se o objetivo fosse faixas de contagem igual, a ferramenta certa seria pd.qcut (que corta por quantis, não por largura). São perguntas diferentes: uma mostra a forma da distribuição, a outra a divide em grupos do mesmo tamanho.\n\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
     "crumbs": [
       "Capítulo 1: Análise Exploratória de Dados",
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>Explorando a Distribuição dos Dados</span>"
@@ -208,7 +450,73 @@
     "href": "content/cap01/06-dados-binarios-categoricos.html",
     "title": "Explorando Dados Binários e Categóricos",
     "section": "",
-    "text": "Nota\n\n\n\nEsta seção corresponde à seção 1.6 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
+    "text": "Os dados\nA seção 1.5 abriu mão do resumo numérico e olhou a distribuição inteira — percentis, boxplot, histograma, densidade. Todo esse ferramental depende de uma coisa: os valores serem números, ordenáveis e subtraíveis entre si. Isso desmorona por completo diante de dado categórico. Não existe percentil 95 de uma causa de atraso de voo, nem um “ponto médio” entre Weather e Security para tirar uma mediana. A seção 1.1 já havia separado categórico de numérico — nominal, ordinal, binário — e é hora de ver o que sobra da caixa de ferramentas quando o dado é desse tipo.\nA resposta, adiantando: quase tudo muda, e o pouco que sobra é mais simples do que parece.\nVamos usar as causas de atraso de voo no aeroporto de Dallas/Fort Worth: problema atribuído à companhia aérea (Carrier), controle de tráfego aéreo (ATC), clima (Weather), segurança (Security) e atraso herdado de um voo anterior da mesma aeronave (Inbound). Cinco categorias nominais — nenhuma ordem natural entre elas, no sentido da seção 1.1.",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Dados Binários e Categóricos</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/06-dados-binarios-categoricos.html#proporções-o-resumo-que-substitui-a-média",
+    "href": "content/cap01/06-dados-binarios-categoricos.html#proporções-o-resumo-que-substitui-a-média",
+    "title": "Explorando Dados Binários e Categóricos",
+    "section": "Proporções: o resumo que substitui a média",
+    "text": "Proporções: o resumo que substitui a média\nPara dado numérico, o primeiro resumo é uma medida de localização — média, média aparada, mediana. Nenhuma delas se aplica aqui: somar “Carrier + Weather” e dividir por dois não produz nada interpretável, porque não há distância nem ordem entre as categorias. O que resta, e é suficiente, é a proporção de cada categoria sobre o total.\n\ndfw = pd.read_csv(\"dados/dfw_airline.csv\")\nproporcoes = 100 * dfw / dfw.values.sum()\nproporcoes.round(2)\n\n\n\n\n\n\n\n\nCarrier\nATC\nWeather\nSecurity\nInbound\n\n\n\n\n0\n23.02\n30.4\n4.03\n0.12\n42.43\n\n\n\n\n\n\n\n\nRepare no formato de dfw: uma linha, cinco colunas. Cada coluna é uma categoria, e o único valor de cada uma é a contagem de atrasos atribuídos a ela — o oposto do formato “uma linha por observação” que os capítulos anteriores usaram. É por isso que os próximos chunks recorrem a .transpose(): para virar as cinco colunas em cinco linhas, uma por causa, antes de desenhar o gráfico, extrair a moda ou calcular o valor esperado.\n\nATC e Inbound somam sozinhos mais de 70% dos atrasos; Security responde por pouco mais de um décimo de 1%. É toda a “distribuição” que um dado categórico tem para oferecer — não uma forma contínua, mas um conjunto de fatias.",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Dados Binários e Categóricos</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/06-dados-binarios-categoricos.html#gráfico-de-barras-não-é-histograma",
+    "href": "content/cap01/06-dados-binarios-categoricos.html#gráfico-de-barras-não-é-histograma",
+    "title": "Explorando Dados Binários e Categóricos",
+    "section": "Gráfico de barras não é histograma",
+    "text": "Gráfico de barras não é histograma\n\nfig, ax = plt.subplots()\ndfw.transpose().plot.bar(ax=ax, legend=False, color=\"#4a90a4\", edgecolor=\"white\")\nax.set_xlabel(\"Causa do atraso\")\nax.set_ylabel(\"Número de atrasos\")\nplt.xticks(rotation=0)\nplt.tight_layout()\nplt.show()\n\n\n\n\n\n\n\nFigura 7.1: Causas de atraso no aeroporto de Dallas/Fort Worth. As barras são separadas: o eixo é categórico, não contínuo.\n\n\n\n\n\nÉ tentador olhar para esse gráfico como “o histograma da seção 1.5, com barras diferentes”. Não é, e a diferença não é estética.\n\nNo histograma, o eixo X é numérico e contínuo, e as barras se encostam porque não há espaço entre uma faixa e a seguinte — são pedaços contíguos da mesma reta de números. No gráfico de barras, o eixo X é categórico, e as barras vêm separadas de propósito: não existe “entre ATC e Weather”, e a ordem em que as categorias aparecem no eixo é arbitrária, não informativa. Desenhar Carrier, ATC, Weather, Security e Inbound com barras encostadas sugeriria visualmente uma continuidade e uma ordem que os dados não têm — como se uma causa viesse “depois” da outra por algum motivo numérico. Não é preciosismo de estilo: é o mesmo cuidado que a seção 1.1 teve ao impedir que uma coluna nominal respondesse a perguntas de ordem.",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Dados Binários e Categóricos</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/06-dados-binarios-categoricos.html#a-moda-a-única-localização-possível",
+    "href": "content/cap01/06-dados-binarios-categoricos.html#a-moda-a-única-localização-possível",
+    "title": "Explorando Dados Binários e Categóricos",
+    "section": "A moda: a única “localização” possível",
+    "text": "A moda: a única “localização” possível\n\nmoda = proporcoes.transpose().iloc[:, 0].idxmax()\nprint(f\"Moda (causa mais frequente): {moda}\")\n\nModa (causa mais frequente): Inbound\n\n\nA moda — a categoria mais frequente — é a única medida de localização que sobrevive à falta de ordem e de distância entre categorias. Ela não exige somar nem ordenar nada: só contar qual fatia é a maior.\n\nA moda de dfw é Inbound, com 42% dos atrasos — não Carrier nem Weather, as causas que viriam à mente primeiro ao pensar em “atraso de voo”. A maior fonte de atraso em Dallas/Fort Worth não é uma causa local do próprio aeroporto: é um voo anterior da mesma aeronave chegando atrasado e empurrando o atraso adiante. O gargalo não está em Dallas — está na malha aérea inteira, se propagando de aeroporto em aeroporto.",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Dados Binários e Categóricos</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/06-dados-binarios-categoricos.html#valor-esperado",
+    "href": "content/cap01/06-dados-binarios-categoricos.html#valor-esperado",
+    "title": "Explorando Dados Binários e Categóricos",
+    "section": "Valor esperado",
+    "text": "Valor esperado\nQuando as categorias, além de uma proporção, carregam um valor numérico associado — um custo, um ganho, um tempo —, é possível ir além da moda. O valor esperado pondera cada valor pela probabilidade da categoria a que ele pertence:\n\\[\\text{VE} = \\sum_{i=1}^{n} p_i \\cdot v_i\\]\nSuponha que uma companhia aérea estime o custo médio de compensação por passageiro, e que esse custo dependa da causa do atraso:\n\n# Uma companhia estima o custo médio de compensação por passageiro,\n# conforme a causa do atraso.\ncusto = {\"Carrier\": 180, \"ATC\": 40, \"Weather\": 0, \"Security\": 25, \"Inbound\": 120}\n\np = (dfw / dfw.values.sum()).transpose().iloc[:, 0]   # probabilidade de cada causa\nve = sum(p[causa] * valor for causa, valor in custo.items())\n\nprint(f\"Valor esperado do custo por atraso: R$ {ve:.2f}\")\n\nValor esperado do custo por atraso: R$ 104.55\n\n\nR$ 104,55 não é o custo de nenhum atraso individual — nenhuma causa isolada custa exatamente isso. É o custo médio por atraso, se essa mistura de causas se repetisse indefinidamente. Uma causa rara contribui quase nada mesmo quando não é a mais barata (Security, R$ 25 em 0,12% dos casos, entra com R$ 0,03 no total); uma causa de custo intermediário mas frequente (ATC, R$ 40 em 30% dos casos) entra com R$ 12,16 — 400 vezes mais. O valor esperado não é dispersão nem localização de novo — é a base de toda decisão sob incerteza que a estatística tratará daqui em diante.",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Dados Binários e Categóricos</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/06-dados-binarios-categoricos.html#resumo",
+    "href": "content/cap01/06-dados-binarios-categoricos.html#resumo",
+    "title": "Explorando Dados Binários e Categóricos",
+    "section": "Resumo",
+    "text": "Resumo\n\n\n\nCausa\nContagem\nProporção\n\n\n\n\nCarrier\n64,263\n23.02%\n\n\nATC\n84,856\n30.40%\n\n\nWeather\n11,235\n4.03%\n\n\nSecurity\n343\n0.12%\n\n\nInbound\n118,428\n42.43%\n\n\n\n\nRegra prática: para dado numérico, o resumo é localização + dispersão + forma (seções 1.3 a 1.5). Para dado categórico nominal, isso colapsa em proporção e moda — não porque o dado categórico seja “mais pobre”, mas porque perguntas de soma, distância e ordem simplesmente não fazem sentido nele. E quando cada categoria carrega um valor associado, o valor esperado combina probabilidade e consequência em um único número.",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Dados Binários e Categóricos</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/06-dados-binarios-categoricos.html#exercícios",
+    "href": "content/cap01/06-dados-binarios-categoricos.html#exercícios",
+    "title": "Explorando Dados Binários e Categóricos",
+    "section": "Exercícios",
+    "text": "Exercícios\n1. A causa Security responde por 0,12% dos atrasos. Uma companhia deveria investir em reduzir atrasos de segurança?\n\n\n\n\n\n\nDicaResposta\n\n\n\n\n\nPela frequência, não — Security é, de longe, a menor causa. Mas frequência não é tudo: o valor esperado depende também do custo de cada evento. Uma categoria rara e catastrófica pode ter valor esperado maior que uma categoria frequente e barata (um incidente de segurança grave pode custar muito mais que os R$ 25 por passageiro usados no exemplo). A pergunta certa combina probabilidade e consequência — nunca uma sozinha.\n\n\n\n2. Por que a moda é a única medida de localização que faz sentido para dfw?\n\n\n\n\n\n\nDicaResposta\n\n\n\n\n\nPorque as categorias de dfw são nominais — não há ordem nem distância entre “Weather” e “Security”. Média e mediana exigem que os valores possam ser somados ou ordenados; nenhuma das duas operações significa algo quando o “valor” é o nome de uma causa de atraso. A moda só precisa contar qual categoria é a mais frequente, e essa pergunta continua fazendo sentido mesmo sem ordem nenhuma entre as categorias.\n\n\n\n3. Recalcule o valor esperado supondo que o custo de Weather sobe de R$ 0 para R$ 200. O que muda, e por que o efeito é pequeno?\n\n\n\n\n\n\nDicaResposta\n\n\n\n\n\ncusto[\"Weather\"] = 200\nsum(p[causa] * valor for causa, valor in custo.items())\nO valor esperado sobe cerca de R$ 8 (0,0403 × 200 ≈ 8,05), passando de R$ 104,55 para cerca de R$ 112,60. O efeito é pequeno porque Weather tem probabilidade baixa (4%) — no valor esperado, cada custo entra ponderado pela sua probabilidade, não pelo valor bruto. É exatamente por isso que o valor esperado é a ferramenta certa para decisão: ele impede que um número grande, mas raro, domine a conclusão sozinho.\n\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
     "crumbs": [
       "Capítulo 1: Análise Exploratória de Dados",
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>Dados Binários e Categóricos</span>"
@@ -219,7 +527,73 @@
     "href": "content/cap01/07-correlacao.html",
     "title": "Correlação",
     "section": "",
-    "text": "Nota\n\n\n\nEsta seção corresponde à seção 1.7 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
+    "text": "Coeficiente de correlação de Pearson\nDa seção 1.3 até a 1.6, cada ferramenta olhou para uma variável de cada vez: a localização e a dispersão da população dos estados, a forma de uma distribuição, a proporção de uma causa de atraso. A pergunta agora é outra, e é nova neste capítulo: dadas duas variáveis numéricas, elas se movem juntas? Quando uma sobe, a outra também sobe — ou desce, ou fica indiferente?\nO coeficiente de correlação de Pearson mede o grau de associação linear entre duas variáveis numéricas:\n\\[r = \\frac{\\sum_{i=1}^{n}(x_i - \\bar{x})(y_i - \\bar{y})}{(n-1)\\, s_x \\, s_y}\\]\nO numerador é a soma dos produtos cruzados — a covariância, a menos do fator \\(1/(n-1)\\): soma, para cada observação, o produto do quanto \\(x\\) se afasta da sua média pelo quanto \\(y\\) se afasta da sua. Se as duas variáveis tendem a se afastar da média no mesmo sentido, a maioria dos produtos é positiva, e a soma cresce; se tendem a se afastar em sentidos opostos, a soma fica negativa. O denominador — o produto dos dois desvios padrão, \\(s_x\\) e \\(s_y\\) — é o que faz de \\(r\\) um número adimensional, preso entre \\(-1\\) e \\(+1\\), e por isso comparável entre pares de variáveis com unidades completamente diferentes: preço de ação, temperatura, taxa de homicídio, o que for.\n\\(r = 1\\) é associação linear positiva perfeita; \\(r = -1\\) é associação linear negativa perfeita; \\(r = 0\\) é ausência de associação linear (mais adiante nesta seção, isso vai precisar de um cuidado extra).",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Correlação</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/07-correlacao.html#os-dados",
+    "href": "content/cap01/07-correlacao.html#os-dados",
+    "title": "Correlação",
+    "section": "Os dados",
+    "text": "Os dados\nVamos usar retornos diários de ações e ETFs (fundos negociados em bolsa) do S&P 500, entre 1993 e 2015.\n\nsetores = pd.read_csv(\"dados/sp500_sectors.csv\")\nprecos  = pd.read_csv(\"dados/sp500_data.csv.gz\", index_col=0)\n\nsimbolos_telecom = setores[setores[\"sector\"] == \"telecommunications_services\"][\"symbol\"]\ntelecom = precos.loc[precos.index &gt;= \"2012-07-01\", simbolos_telecom]\n\nprint(\"dias x empresas:\", telecom.shape)\ntelecom.head()\n\ndias x empresas: (754, 5)\n\n\n\n\n\n\n\n\n\nT\nCTL\nFTR\nVZ\nLVLT\n\n\n\n\n2012-07-02\n0.422496\n0.140847\n0.070879\n0.554180\n-0.519998\n\n\n2012-07-03\n-0.177448\n0.066280\n0.070879\n-0.025976\n-0.049999\n\n\n2012-07-05\n-0.160548\n-0.132563\n0.055128\n-0.051956\n-0.180000\n\n\n2012-07-06\n0.342205\n0.132563\n0.007875\n0.140106\n-0.359999\n\n\n2012-07-09\n0.136883\n0.124279\n-0.023626\n0.253943\n0.180000\n\n\n\n\n\n\n\ntelecom tem 754 dias de negociação e 5 empresas de telecomunicações: T (AT&T), CTL (CenturyLink), FTR (Frontier), VZ (Verizon) e LVLT (Level 3).\n\nprecos.index é uma string (“1993-01-29”, e não uma data), mas a comparação precos.index &gt;= \"2012-07-01\" ainda funciona porque datas no formato ISO (AAAA-MM-DD) comparam corretamente como texto: ordem alfabética e ordem cronológica coincidem. E simbolos_telecom é uma Series, não uma lista — precos.loc[..., simbolos_telecom] aceita os dois formatos para selecionar colunas, e preserva a ordem em que os símbolos aparecem em simbolos_telecom.",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Correlação</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/07-correlacao.html#matriz-de-correlação",
+    "href": "content/cap01/07-correlacao.html#matriz-de-correlação",
+    "title": "Correlação",
+    "section": "Matriz de correlação",
+    "text": "Matriz de correlação\nCom mais de duas variáveis, faz sentido calcular a correlação de todo par, não de um par isolado. O resultado é a matriz de correlação: simétrica (a correlação de T com VZ é a mesma de VZ com T) e com 1 na diagonal (toda variável tem correlação perfeita consigo mesma).\n\ntelecom.corr().round(3)\n\n\n\n\n\n\n\n\nT\nCTL\nFTR\nVZ\nLVLT\n\n\n\n\nT\n1.000\n0.475\n0.328\n0.678\n0.279\n\n\nCTL\n0.475\n1.000\n0.420\n0.417\n0.287\n\n\nFTR\n0.328\n0.420\n1.000\n0.287\n0.260\n\n\nVZ\n0.678\n0.417\n0.287\n1.000\n0.242\n\n\nLVLT\n0.279\n0.287\n0.260\n0.242\n1.000\n\n\n\n\n\n\n\n\nA maior correlação do grupo é entre T e VZ: 0.678. Não é coincidência: AT&T e Verizon são as duas maiores operadoras de telecomunicações dos Estados Unidos, e seus retornos diários respondem aos mesmos choques de mercado — taxa de juros, regulação do setor, expectativa de crescimento da economia. Empresas menores e mais heterogêneas do grupo, como LVLT, têm correlação bem mais baixa com as demais (0,242 a 0,287): compartilham menos desses choques comuns.\n\n\nfig, ax = plt.subplots(figsize=(5, 5))\nax.scatter(telecom[\"T\"], telecom[\"VZ\"], alpha=0.5, s=20, color=\"#2c7fb8\")\nax.axhline(0, color=\"grey\", linewidth=0.8)\nax.axvline(0, color=\"grey\", linewidth=0.8)\nax.set_xlabel(\"Retorno diário — AT&T (T)\")\nax.set_ylabel(\"Retorno diário — Verizon (VZ)\")\nplt.tight_layout()\nplt.show()\n\n\n\n\n\n\n\nFigura 8.1: Retornos diários de AT&T (T) contra Verizon (VZ). A nuvem é alongada na diagonal — o sinal visual de correlação positiva.\n\n\n\n\n\nO gráfico de dispersão é a contrapartida visual do número: a nuvem de pontos é alongada na diagonal, subindo da esquerda para a direita. Dias em que T sobe tendem a ser dias em que VZ também sobe. \\(r = 0{,}678\\) é essa mesma informação, resumida em um único número.",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Correlação</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/07-correlacao.html#heatmap-a-matriz-de-correlação-como-imagem",
+    "href": "content/cap01/07-correlacao.html#heatmap-a-matriz-de-correlação-como-imagem",
+    "title": "Correlação",
+    "section": "Heatmap: a matriz de correlação como imagem",
+    "text": "Heatmap: a matriz de correlação como imagem\nUma matriz de 5 × 5 ainda se lê em números. Uma de 17 × 17 não. Nesses casos, transformar a matriz em uma imagem colorida — um heatmap — é o único jeito prático de enxergar o padrão.\n\netfs = precos.loc[precos.index &gt; \"2012-07-01\",\n                  setores[setores[\"sector\"] == \"etf\"][\"symbol\"]]\n\nfig, ax = plt.subplots(figsize=(7, 6))\nsns.heatmap(etfs.corr(), vmin=-1, vmax=1,\n            cmap=sns.diverging_palette(20, 220, as_cmap=True), ax=ax)\nplt.tight_layout()\nplt.show()\n\n\n\n\n\n\n\nFigura 8.2: Correlação dos retornos diários entre fundos negociados em bolsa (ETFs).\n\n\n\n\n\nSão 17 ETFs: XLI, QQQ, SPY, DIA, GLD, VXX, USO, IWM, XLE, XLY, XLU, XLB, XTL, XLV, XLP, XLF e XLK.\n\nA paleta usada é divergente — vai de um tom em uma ponta a outro tom na ponta oposta, passando por uma cor neutra no meio —, e centrada em zero (vmin=-1, vmax=1). Essa escolha não é estética: zero é o único ponto da escala com significado próprio, a fronteira entre “andam juntas” e “andam ao contrário”. Uma paleta sequencial (clara para escura) esconderia justamente essa fronteira; a divergente a torna visível de relance.\n\nDuas leituras saltam do heatmap. Primeiro, SPY, DIA e IWM — três índices amplos do mercado americano (S&P 500, Dow Jones e Russell 2000, respectivamente) — formam um bloco fortemente correlacionado entre si: são medidas diferentes de essencialmente a mesma coisa, o mercado como um todo. Segundo, VXX aparece como um bloco de cor oposta a quase todo o resto — correlação negativa com praticamente todos os demais ETFs. VXX acompanha a volatilidade do mercado, e volatilidade sobe justamente quando os preços caem: é o mecanismo por trás do sinal trocado, e é exatamente esse contraste que a paleta divergente foi escolhida para deixar evidente.",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Correlação</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/07-correlacao.html#três-armadilhas",
+    "href": "content/cap01/07-correlacao.html#três-armadilhas",
+    "title": "Correlação",
+    "section": "Três armadilhas",
+    "text": "Três armadilhas\n\nAs três armadilhas da correlação:\n\nCorrelação não implica causalidade. T e VZ sobem e descem juntas porque respondem aos mesmos choques de mercado — uma causa comum —, não porque uma “causa” a outra.\nO coeficiente é sensível a outliers. Um único ponto extremo, longe da nuvem principal, pode criar uma correlação artificial ou mascarar uma correlação real, dependendo de onde ele cai.\nEle mede apenas relação linear. Duas variáveis podem ter uma dependência determinística forte e correlação de Pearson igual a zero.\n\n\nA terceira armadilha é a mais contraintuitiva das três, e vale prová-la em vez de só declará-la.\n\nx = np.linspace(-1, 1, 200)\ny = x ** 2\n\nprint(f\"Correlação entre x e x²: {np.corrcoef(x, y)[0, 1]:.3e}\")\n\nCorrelação entre x e x²: 6.989e-17\n\n\n\\(y = x^2\\) é o exemplo mais determinístico que existe: conhecendo \\(x\\), você sabe \\(y\\) com certeza absoluta, sem incerteza nenhuma. E ainda assim a correlação entre eles é, na prática, zero — o valor calculado é da ordem de \\(10^{-17}\\), um erro de arredondamento de ponto flutuante em torno de um zero exato. A razão é a simetria da parábola em torno de zero: para cada \\(x\\) positivo que empurra a covariância para cima, existe um \\(x\\) negativo simétrico que a empurra para baixo na mesma medida, e os dois efeitos se cancelam por completo. Correlação zero significa “sem relação linear” — não significa “sem relação”. É a diferença entre as duas frases que faz da correlação uma ferramenta poderosa, mas estreita: ela responde a uma pergunta específica, e é preciso saber qual.",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Correlação</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/07-correlacao.html#resumo",
+    "href": "content/cap01/07-correlacao.html#resumo",
+    "title": "Correlação",
+    "section": "Resumo",
+    "text": "Resumo\n\n\n\nPar\nCorrelação (r)\n\n\n\n\nT × VZ\n0.678\n\n\nT × CTL\n0.475\n\n\nT × FTR\n0.328\n\n\nT × LVLT\n0.279\n\n\nCTL × FTR\n0.420\n\n\n\n\nRegra prática: correlação alta é um convite a investigar, não uma conclusão. Antes de interpretar um \\(r\\), olhe o gráfico de dispersão — ele revela outliers que o número esconde e formas não lineares que o número não enxerga.",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Correlação</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/07-correlacao.html#exercícios",
+    "href": "content/cap01/07-correlacao.html#exercícios",
+    "title": "Correlação",
+    "section": "Exercícios",
+    "text": "Exercícios\n1. A correlação entre T e VZ é 0,678. Isso significa que o preço da AT&T causa o preço da Verizon?\n\n\n\n\n\n\nDicaResposta\n\n\n\n\n\nNão. As duas são grandes operadoras de telecomunicações expostas aos mesmos fatores — taxa de juros, regulação do setor, ciclo econômico. A correlação vem de uma causa comum, não de uma causar a outra. Este é o erro mais frequente na leitura de correlações.\n\n\n\n2. No heatmap, o VXX aparece em um bloco de cor oposta (correlação negativa) contra quase todos os demais ETFs. Por quê?\n\n\n\n\n\n\nDicaResposta\n\n\n\n\n\nO VXX acompanha a volatilidade do mercado, que sobe justamente quando os preços caem. É por isso que a paleta divergente importa: ela torna o sinal — negativo contra positivo — visível de relance, e o zero é uma referência com significado real, não um ponto arbitrário da escala.\n\n\n\n3. O código mostrou que a correlação entre x e x² é zero, embora y seja completamente determinado por x. Explique.\n\n\n\n\n\n\nDicaResposta\n\n\n\n\n\nPearson mede associação linear. A parábola é simétrica em torno de zero: para cada \\(x\\) positivo que puxa a covariância para cima, existe um \\(x\\) negativo que a puxa para baixo na mesma medida, e os efeitos se cancelam. Uma correlação de zero descarta relação linear — não descarta relação.\n\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
     "crumbs": [
       "Capítulo 1: Análise Exploratória de Dados",
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Correlação</span>"
@@ -230,7 +604,73 @@
     "href": "content/cap01/08-duas-ou-mais-variaveis.html",
     "title": "Explorando Duas ou Mais Variáveis",
     "section": "",
-    "text": "Nota\n\n\n\nEsta seção corresponde à seção 1.8 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
+    "text": "Numérico × numérico: quando o gráfico de dispersão não basta\nA seção anterior resolveu um problema específico: dadas duas variáveis numéricas, elas se movem juntas? A resposta coube em um único número — o r de Pearson — e num gráfico de dispersão que mostrava a mesma informação para o olho. Essa dupla funciona bem enquanto duas condições se mantêm: as duas variáveis precisam ser numéricas, e precisa haver poucos pontos o bastante para uma nuvem de pontos ser legível.\nNenhuma das duas condições é garantida, e esta seção lida com o que sobra quando elas faltam. E se as duas variáveis forem categóricas — sem “subir” nem “descer” para medir? E se uma for categórica e a outra numérica — que ferramenta substitui o r? E se houver tantos pontos que a própria nuvem de pontos deixe de funcionar? A seção segue esses três pares de tipos, na ordem das subseções a seguir: numérico × numérico, categórico × categórico, categórico × numérico — e fecha olhando para mais de duas variáveis ao mesmo tempo.\nVamos usar avaliações fiscais de imóveis do condado de King, em Washington: área construída e valor venal.\nkc = pd.read_csv(\"dados/kc_tax.csv.gz\")\nprint(f\"registros brutos: {len(kc):,}\")\n\nkc0 = kc.loc[(kc.TaxAssessedValue &lt; 750000) &\n             (kc.SqFtTotLiving &gt; 100) &\n             (kc.SqFtTotLiving &lt; 3500), :]\nprint(f\"após filtrar extremos: {len(kc0):,}\")\n\nregistros brutos: 498,249\napós filtrar extremos: 432,693\nO filtro derruba os registros de 498,249 para 432,693. Não é uma correção estatística — é uma decisão de visualização: os poucos imóveis de valor extremo (acima de US$ 750 mil) ou de área implausível (menor que 100 pés² ou maior que 3.500) esticariam os eixos do gráfico até comprimir o grosso dos dados, que é a parte que interessa, num canto minúsculo da tela.\nDuas ferramentas resolvem isso sem descartar pontos: o hexbin, que divide o plano em células hexagonais e colore cada uma pela contagem, e o contorno de densidade (KDE), que estima uma superfície contínua de densidade e a desenha como curvas de nível.\nfig, ax = plt.subplots(figsize=(6, 5))\nkc0.plot.hexbin(x=\"SqFtTotLiving\", y=\"TaxAssessedValue\",\n                gridsize=30, sharex=False, ax=ax)\nax.set_xlabel(\"Área construída (pés²)\")\nax.set_ylabel(\"Valor venal (US$)\")\nplt.tight_layout()\nplt.show()\n\n\n\n\n\n\n\nFigura 9.1: Valor venal contra área construída, em 432.693 imóveis de King County. Cada hexágono é colorido pela quantidade de imóveis que caem nele.\nO hexbin não desenha um ponto por imóvel: ele conta quantos imóveis caem em cada célula e traduz a contagem em cor. O núcleo mais escuro concentra a imensa maioria dos 432 mil imóveis — área entre 1.000 e 2.000 pés², valor entre US$ 200 mil e US$ 400 mil —, e a nuvem se afina para as bordas. A relação positiva entre área e valor, que ficaria invisível numa mancha de pontos sobrepostos, aparece como a diagonal ao longo da qual as células mais escuras se alinham.\nO KDE bidimensional sobre os 432.693 imóveis é caro — na prática, minutos de espera a cada render. Uma amostra de 10.000 pontos já basta para capturar a forma da densidade, e é isso que o código a seguir faz.\namostra = kc0.sample(10000, random_state=42)\n\nfig, ax = plt.subplots(figsize=(6, 5))\nsns.kdeplot(data=amostra, x=\"SqFtTotLiving\", y=\"TaxAssessedValue\", ax=ax)\nax.set_xlabel(\"Área construída (pés²)\")\nax.set_ylabel(\"Valor venal (US$)\")\nplt.tight_layout()\nplt.show()\n\n\n\n\n\n\n\nFigura 9.2: Curvas de nível da mesma relação. O KDE roda sobre uma amostra de 10.000 imóveis — com semente fixa, para o gráfico ser reprodutível.\nAs curvas de nível contam a mesma história do hexbin, só que mais suave: cada curva une pontos de densidade igual, como as isolinhas de um mapa topográfico. O centro concêntrico confirma o núcleo que o hexbin já mostrava, e a densidade cai gradualmente em todas as direções a partir dele — sem os degraus abruptos de célula para célula que o hexbin, por ser discreto, necessariamente tem.",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Duas ou Mais Variáveis</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/08-duas-ou-mais-variaveis.html#numérico-numérico-quando-o-gráfico-de-dispersão-não-basta",
+    "href": "content/cap01/08-duas-ou-mais-variaveis.html#numérico-numérico-quando-o-gráfico-de-dispersão-não-basta",
+    "title": "Explorando Duas ou Mais Variáveis",
+    "section": "",
+    "text": "432.693 pontos ainda é um problema, mesmo depois do filtro. Um gráfico de dispersão como o da seção anterior — cada observação, um ponto — funcionava com 754 dias de negociação. Com quinhentas vezes mais pontos, a maior parte do plano acaba coberta várias vezes, os pontos se empilham uns sobre os outros, e a região mais densa vira uma mancha sólida e escura. Justamente onde mais importaria distinguir “muito denso” de “pouco denso”, o gráfico de dispersão não distingue nada — a informação de quantos pontos caem ali já se perdeu antes de chegar à tela.\n\n\n\n\n\n\nEsta é a primeira seção do livro com um componente aleatório, e por isso a primeira em que a semente importa de fato. Sem random_state=42, cada quarto render sortearia 10.000 imóveis diferentes, e o contorno mudaria de forma sutil a cada execução: o gráfico publicado nunca seria o mesmo duas vezes, o cache do freeze perderia sentido — ele reexecuta um chunk quando o texto muda, não quando o sorteio decide mudar sozinho —, e cada push acumularia um diff de ruído no site. É por isso que todo chunk deste livro com gerador aleatório fixa a semente, e é aqui que essa regra encontra seu primeiro caso real.",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Duas ou Mais Variáveis</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/08-duas-ou-mais-variaveis.html#categórico-categórico-a-tabela-de-contingência",
+    "href": "content/cap01/08-duas-ou-mais-variaveis.html#categórico-categórico-a-tabela-de-contingência",
+    "title": "Explorando Duas ou Mais Variáveis",
+    "section": "Categórico × categórico: a tabela de contingência",
+    "text": "Categórico × categórico: a tabela de contingência\nA pergunta muda de figura quando nenhuma das duas variáveis tem uma ordem numérica para “subir” ou “descer” — não existe correlação entre duas categorias. A ferramenta aqui não é um coeficiente nem uma nuvem de pontos: é uma tabela.\nVamos usar empréstimos do LendingClub, classificados por grau de risco (grade, de A — o melhor — a G) e por status atual (status).\n\nlc = pd.read_csv(\"dados/lc_loans.csv\")\n\ncontagem = lc.pivot_table(index=\"grade\", columns=\"status\",\n                          aggfunc=lambda x: len(x), margins=True)\ncontagem\n\n\n\n\n\n\n\nstatus\nCharged Off\nCurrent\nFully Paid\nLate\nAll\n\n\ngrade\n\n\n\n\n\n\n\n\n\nA\n1562\n50051\n20408\n469\n72490\n\n\nB\n5302\n93852\n31160\n2056\n132370\n\n\nC\n6023\n88928\n23147\n2777\n120875\n\n\nD\n5007\n53281\n13681\n2308\n74277\n\n\nE\n2842\n24639\n5949\n1374\n34804\n\n\nF\n1526\n8444\n2328\n606\n12904\n\n\nG\n409\n1990\n643\n199\n3241\n\n\nAll\n22671\n321185\n97316\n9789\n450961\n\n\n\n\n\n\n\nSão 450.961 empréstimos ao todo (célula All/All), divididos em quatro status (Charged Off — inadimplente, prejuízo assumido; Current — em dia; Fully Paid — quitado; Late — atrasado) e sete graus de risco.\n\nOlhe a coluna Charged Off. A grade C tem 6.023 empréstimos inadimplentes — mais que qualquer outra grade, mais que E, F e G somadas. É tentador ler isso como “C é a grade mais arriscada da carteira”. Mas a contagem mistura duas coisas: o quão arriscada é a grade, e o quão grande é a grade. B e C sozinhas concentram mais da metade da carteira (132.370 e 120.875 empréstimos), então é claro que têm mais de tudo, inclusive mais inadimplência. Comparar contagens brutas entre grupos de tamanhos tão diferentes é um erro clássico, e é exatamente o que a tabela de contagem convida a fazer.\n\n\nprop = contagem.copy().loc[\"A\":\"G\", :].astype(float)\nprop.loc[:, \"Charged Off\":\"Late\"] = prop.loc[:, \"Charged Off\":\"Late\"].div(prop[\"All\"], axis=0)\nprop[\"All\"] = prop[\"All\"] / sum(prop[\"All\"])\nprop.round(3)\n\n\n\n\n\n\n\nstatus\nCharged Off\nCurrent\nFully Paid\nLate\nAll\n\n\ngrade\n\n\n\n\n\n\n\n\n\nA\n0.022\n0.690\n0.282\n0.006\n0.161\n\n\nB\n0.040\n0.709\n0.235\n0.016\n0.294\n\n\nC\n0.050\n0.736\n0.191\n0.023\n0.268\n\n\nD\n0.067\n0.717\n0.184\n0.031\n0.165\n\n\nE\n0.082\n0.708\n0.171\n0.039\n0.077\n\n\nF\n0.118\n0.654\n0.180\n0.047\n0.029\n\n\nG\n0.126\n0.614\n0.198\n0.061\n0.007\n\n\n\n\n\n\n\nDividir cada linha pelo seu próprio total remove o tamanho do grupo da conta e isola o que interessa: a taxa. E aí o padrão que a grade deveria capturar aparece, limpo.\n\nA proporção de Charged Off cresce monotonicamente de A a G: 2.2% em A, subindo sem uma única inversão até 12.6% em G. É exatamente o que o rótulo “grade de risco” promete — e a tabela de contagem, dominada pelo tamanho de cada grupo, escondia esse padrão em vez de revelá-lo.",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Duas ou Mais Variáveis</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/08-duas-ou-mais-variaveis.html#categórico-numérico-boxplot-agrupado-e-violin-plot",
+    "href": "content/cap01/08-duas-ou-mais-variaveis.html#categórico-numérico-boxplot-agrupado-e-violin-plot",
+    "title": "Explorando Duas ou Mais Variáveis",
+    "section": "Categórico × numérico: boxplot agrupado e violin plot",
+    "text": "Categórico × numérico: boxplot agrupado e violin plot\nAqui uma variável é categórica e a outra numérica. Nem o r de Pearson se aplica — ele pede duas variáveis numéricas —, nem a tabela de contingência — ela pede duas categóricas. A ferramenta natural é comparar a distribuição da variável numérica dentro de cada categoria, e o boxplot generaliza bem para isso: uma caixa por categoria, lado a lado.\nVamos usar o percentual diário de voos atrasados por causa atribuível à própria companhia aérea (pct_carrier_delay), por companhia (airline).\n\nvoos = pd.read_csv(\"dados/airline_stats.csv\")\n\nfig, ax = plt.subplots(figsize=(7, 5))\nvoos.boxplot(by=\"airline\", column=\"pct_carrier_delay\", ax=ax)\nax.set_xlabel(\"\")\nax.set_ylabel(\"% diário de voos atrasados\")\nax.set_ylim(0, 50)\nplt.suptitle(\"\")\nplt.title(\"\")\nplt.xticks(rotation=20)\nplt.tight_layout()\nplt.show()\n\n\n\n\n\n\n\nFigura 9.3: Percentual diário de voos atrasados por causa da companhia, por companhia aérea.\n\n\n\n\n\nSão 33.468 dias-companhia, distribuídos entre 6 companhias aéreas. As medianas (a linha dentro de cada caixa) ordenam as companhias de forma nítida: Alaska tem a mediana mais baixa, 3,23% — a melhor do grupo —; American tem a mais alta, 8,43% — a pior. No meio, Delta (5,55%), United (6,45%), Southwest (6,96%) e Jet Blue (7,66%) ocupam posições intermediárias, nessa ordem.\n\nfig, ax = plt.subplots(figsize=(7, 5))\nsns.violinplot(data=voos, x=\"airline\", y=\"pct_carrier_delay\",\n               ax=ax, inner=\"quartile\", color=\"#b0c4d8\")\nax.set_xlabel(\"\")\nax.set_ylabel(\"% diário de voos atrasados\")\nax.set_ylim(0, 50)\nplt.xticks(rotation=20)\nplt.tight_layout()\nplt.show()\n\n\n\n\n\n\n\nFigura 9.4: O mesmo dado em violin plot. A largura mostra a densidade — o que o boxplot resume em cinco números.\n\n\n\n\n\n\nO boxplot resume cada distribuição em cinco números — mínimo, quartis, mediana, máximo, ajustados por outliers. É compacto, mas apaga a forma: duas distribuições bem diferentes — uma concentrada num único pico, outra com dois picos separados — podem produzir boxplots quase idênticos, porque cinco números não distinguem “concentrado no meio” de “concentrado em dois lugares”. O violin plot troca a caixa por uma densidade espelhada dos dois lados: a largura em cada altura é proporcional à quantidade de voos com aquele percentual de atraso. A Alaska ilustra o ponto — cerca de 10% dos seus dias têm atraso por causa própria praticamente zero, uma concentração que o violin mostra como um bojo perto do eixo e que o boxplot, ocupado em resumir tudo à mediana e aos quartis, deixa passar como só “o quartil inferior é baixo”.",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Duas ou Mais Variáveis</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/08-duas-ou-mais-variaveis.html#múltiplas-variáveis-condicionando-por-uma-terceira",
+    "href": "content/cap01/08-duas-ou-mais-variaveis.html#múltiplas-variáveis-condicionando-por-uma-terceira",
+    "title": "Explorando Duas ou Mais Variáveis",
+    "section": "Múltiplas variáveis: condicionando por uma terceira",
+    "text": "Múltiplas variáveis: condicionando por uma terceira\nTudo até aqui comparou exatamente duas variáveis. Perguntas reais costumam ter uma terceira à espreita: será que a relação entre área e valor do imóvel é a mesma em qualquer lugar, ou ela muda dependendo do bairro? A forma de responder é condicionar: fixar um valor da terceira variável de cada vez e repetir o gráfico de par para cada um. Visualmente, isso é uma grade de painéis pequenos — um FacetGrid — em vez de um único gráfico agregado.\n\nkc_ceps = kc0.loc[kc0.ZipCode.isin([98188, 98105, 98108, 98126]), :]\n\ndef hexbin(x, y, color, **kwargs):\n    cmap = sns.light_palette(color, as_cmap=True)\n    plt.hexbin(x, y, gridsize=25, cmap=cmap, **kwargs)\n\ng = sns.FacetGrid(kc_ceps, col=\"ZipCode\", col_wrap=2, height=3.2)\ng.map(hexbin, \"SqFtTotLiving\", \"TaxAssessedValue\", extent=[0, 3500, 0, 700000])\ng.set_axis_labels(\"Área construída (pés²)\", \"Valor venal (US$)\")\nplt.tight_layout()\nplt.show()\n\n\n\n\n\n\n\nFigura 9.5: Área construída contra valor venal, condicionado ao CEP. A inclinação da relação muda de bairro para bairro.\n\n\n\n\n\nOs quatro CEPs somam 98105 → 4.481 imóveis, 98108 → 5.535, 98126 → 5.631 e 98188 → 4.043 — juntos, uma fração dos 432.693 originais, escolhida para caber em quatro painéis legíveis. O extent fixo em todos os painéis (mesma faixa de área e de valor) é o que torna os quatro comparáveis entre si: sem ele, cada painel escalaria os eixos para os seus próprios dados, e uma diferença de inclinação real poderia se confundir com um artefato de escala.\n\nO 98105 fica perto da Universidade de Washington, e destoa dos outros três: valor mediano de US$ 537 mil para uma área mediana de 1.690 pés² — cerca de US$ 318 por pé². No 98188, a mesma conta dá US$ 210 mil para 1.560 pés², cerca de US$ 135 por pé². A mesma área compra menos da metade do valor, dependendo só do CEP: a relação entre área e valor muda de inclinação por bairro, algo que o hexbin e o KDE agregados da primeira parte desta seção — que somavam todos os CEPs do condado numa única superfície — não tinham como revelar.",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Duas ou Mais Variáveis</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/08-duas-ou-mais-variaveis.html#resumo",
+    "href": "content/cap01/08-duas-ou-mais-variaveis.html#resumo",
+    "title": "Explorando Duas ou Mais Variáveis",
+    "section": "Resumo",
+    "text": "Resumo\n\n\n\n\n\n\n\nPar de tipos\nFerramenta\n\n\n\n\nNumérico × numérico\nGráfico de dispersão; hexbin ou contorno KDE quando há muitos pontos\n\n\nCategórico × categórico\nTabela de contingência — em proporção por linha, não em contagem bruta\n\n\nCategórico × numérico\nBoxplot agrupado; violin plot quando a forma da distribuição importa\n\n\n\n\nRegra prática: o tipo das duas variáveis decide a ferramenta, não o contrário. Antes de escolher um gráfico, pergunte que tipo é cada variável — e, se uma delas for numérica com muitos pontos, pergunte também quantos são. Um gráfico de dispersão que funcionou com 754 pontos na seção anterior simplesmente não funciona com 432 mil.",
+    "crumbs": [
+      "Capítulo 1: Análise Exploratória de Dados",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Duas ou Mais Variáveis</span>"
+    ]
+  },
+  {
+    "objectID": "content/cap01/08-duas-ou-mais-variaveis.html#exercícios",
+    "href": "content/cap01/08-duas-ou-mais-variaveis.html#exercícios",
+    "title": "Explorando Duas ou Mais Variáveis",
+    "section": "Exercícios",
+    "text": "Exercícios\n1. Por que o gráfico de dispersão falha com 432 mil imóveis, e o hexbin não?\n\n\n\n\n\n\nDicaResposta\n\n\n\n\n\nCom centenas de milhares de pontos, eles se sobrepõem maciçamente, e a região mais densa vira uma mancha sólida — a informação de quantos pontos há em cada região do plano se perde antes de chegar à tela. O hexbin não desenha pontos individuais: divide o plano em células hexagonais e colore cada uma pela contagem de imóveis que caem nela, transformando densidade em cor. Isso continua legível justamente onde o gráfico de dispersão satura.\n\n\n\n2. Na tabela de contingência em contagem, a grade B tem mais empréstimos Charged Off (5.302) que a grade G (409). Isso significa que B é mais arriscada que G?\n\n\n\n\n\n\nDicaResposta\n\n\n\n\n\nNão. B tem 132.370 empréstimos e G tem apenas 3.241 — B tem mais de tudo simplesmente porque é um grupo muito maior. Em proporção, a taxa de inadimplência de G (12,6%) é bem maior que a de B (4,0%). Comparar contagens brutas entre grupos de tamanhos muito diferentes é um erro clássico; a normalização por linha existe exatamente para evitá-lo.\n\n\n\n3. Se o chunk do KDE não tivesse random_state=42, o que aconteceria a cada quarto render?\n\n\n\n\n\n\nDicaResposta\n\n\n\n\n\nO sample(10000) sortearia 10.000 imóveis diferentes a cada execução, e o contorno de densidade mudaria de forma sutil todas as vezes. O gráfico publicado nunca seria o mesmo duas vezes, o cache do freeze deixaria de fazer sentido — ele existe para não reexecutar chunks que não mudaram, e um chunk aleatório sem semente “muda” sozinho a cada render — e cada push acumularia um diff de ruído no site. É por isso que todo chunk com componente aleatório neste livro fixa a semente.\n\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
     "crumbs": [
       "Capítulo 1: Análise Exploratória de Dados",
       "<span class='chapter-number'>9</span>  <span class='chapter-title'>Duas ou Mais Variáveis</span>"

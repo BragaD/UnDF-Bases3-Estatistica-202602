@@ -24,6 +24,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 /* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
@@ -97,6 +132,35 @@ div.csl-indent {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../../styles.css">
 </head>
@@ -567,8 +631,18 @@ div.csl-indent {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Nesta página</h2>
+   
+  <ul>
+  <li><a href="#desvio-e-por-que-não-usar-a-média-dos-desvios" id="toc-desvio-e-por-que-não-usar-a-média-dos-desvios" class="nav-link active" data-scroll-target="#desvio-e-por-que-não-usar-a-média-dos-desvios">Desvio e por que não usar a média dos desvios</a></li>
+  <li><a href="#desvio-padrão-e-variância" id="toc-desvio-padrão-e-variância" class="nav-link" data-scroll-target="#desvio-padrão-e-variância">Desvio-padrão e variância</a></li>
+  <li><a href="#estimativas-robustas-iqr-e-mad" id="toc-estimativas-robustas-iqr-e-mad" class="nav-link" data-scroll-target="#estimativas-robustas-iqr-e-mad">Estimativas robustas: IQR e MAD</a></li>
+  <li><a href="#resumo" id="toc-resumo" class="nav-link" data-scroll-target="#resumo">Resumo</a></li>
+  <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios">Exercícios</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/BragaD/UnDF-Bases3-Estatistica-202602/issues/new" class="toc-action"><i class="bi bi-github"></i>Criar uma issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -612,17 +686,172 @@ Nota
 <p>Esta seção corresponde à seção 1.4 de <span class="citation" data-cites="bruce2020">Bruce et al. (<a href="#ref-bruce2020" role="doc-biblioref">2020</a>)</span>.</p>
 </div>
 </div>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
+<p>A seção 1.3 resumiu a população dos estados por um valor típico — média, média aparada, mediana — e viu a média se deslocar para longe das outras duas, puxada pela cauda de estados muito populosos. Localização é só metade da história. A outra metade responde a uma pergunta diferente: quão espalhados os dados estão em torno desse valor típico? Essa é a <strong>variabilidade</strong>, ou dispersão.</p>
+<p>Dois estados podem ter a mesma população mediana e mesmo assim serem completamente diferentes: num, quase todo mundo mora em cidades de tamanho parecido; no outro, uma metrópole convive com dezenas de municípios minúsculos. A localização não distingue esses dois casos. A dispersão, sim.</p>
+<section id="desvio-e-por-que-não-usar-a-média-dos-desvios" class="level2">
+<h2 class="anchored" data-anchor-id="desvio-e-por-que-não-usar-a-média-dos-desvios">Desvio e por que não usar a média dos desvios</h2>
+<p>A forma mais direta de medir dispersão é olhar o <strong>desvio</strong> de cada observação em relação à média, <span class="math inline">\(x_i - \bar{x}\)</span>, e resumir esses desvios em um único número. O problema é que a média aritmética dos desvios é sempre zero — não importa o quão espalhados os dados estejam. Isso não é uma propriedade dos dados: é uma consequência algébrica de como a própria média é definida. Os desvios positivos e negativos cancelam exatamente.</p>
+<p>Para obter um número útil é preciso eliminar o sinal antes de tirar a média. Há duas formas padrão de fazer isso: elevar cada desvio ao quadrado, ou tomar seu valor absoluto. A primeira leva à variância e ao desvio-padrão; a segunda, ao desvio absoluto médio.</p>
+</section>
+<section id="desvio-padrão-e-variância" class="level2">
+<h2 class="anchored" data-anchor-id="desvio-padrão-e-variância">Desvio-padrão e variância</h2>
+<p>A <strong>variância</strong> é a soma dos desvios ao quadrado dividida por <span class="math inline">\(n-1\)</span>, e o <strong>desvio-padrão</strong> é a sua raiz quadrada:</p>
+<p><span class="math display">\[s = \sqrt{\frac{\sum_{i=1}^{n}(x_i - \bar{x})^2}{n-1}}\]</span></p>
+<div id="desvio-padrao" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>desvio <span class="op">=</span> estado[<span class="st">"Population"</span>].std()</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Desvio-padrão: </span><span class="sc">{</span>desvio<span class="sc">:,.1f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Desvio-padrão: 6,848,235.3</code></pre>
+</div>
+</div>
+<p>Tirar a raiz quadrada devolve o desvio-padrão à unidade original dos dados (pessoas, no caso), enquanto a variância fica em pessoas ao quadrado — uma unidade sem interpretação direta. Isso, somado à conveniência matemática de trabalhar com quadrados, é o motivo do desvio-padrão ser a medida de dispersão mais citada. Não é porque seja a mais robusta: é o contrário. Elevar ao quadrado amplifica desvios grandes muito mais do que pequenos, então o desvio-padrão é <strong>ainda mais sensível a extremos que a própria média</strong> — e a média já não era robusta.</p>
+</section>
+<section id="estimativas-robustas-iqr-e-mad" class="level2">
+<h2 class="anchored" data-anchor-id="estimativas-robustas-iqr-e-mad">Estimativas robustas: IQR e MAD</h2>
+<p>Assim como a mediana substitui a média quando extremos distorcem a localização, existem substitutos robustos para o desvio-padrão.</p>
+<p>A <strong>amplitude interquartil</strong> (IQR) é a diferença entre o 75º e o 25º percentil — a largura da metade central dos dados, ignorando completamente o que acontece nas pontas:</p>
+<div id="iqr" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>iqr <span class="op">=</span> estado[<span class="st">"Population"</span>].quantile(<span class="fl">0.75</span>) <span class="op">-</span> estado[<span class="st">"Population"</span>].quantile(<span class="fl">0.25</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"IQR: </span><span class="sc">{</span>iqr<span class="sc">:,.1f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>IQR: 4,847,308.0</code></pre>
+</div>
+</div>
+<p>O <strong>desvio absoluto mediano</strong> (MAD) segue a mesma lógica dos desvios em torno da média, mas trocando média por mediana nos dois lugares — tanto no ponto de referência quanto na forma de resumir os desvios:</p>
+<p><span class="math display">\[\text{MAD} = \frac{\text{mediana}\big(|x_i - \text{mediana}(x)|\big)}{0{,}6745}\]</span></p>
+<div id="mad" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>mad <span class="op">=</span> robust.scale.mad(estado[<span class="st">"Population"</span>])</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"MAD: </span><span class="sc">{</span>mad<span class="sc">:,.1f}</span><span class="ss">"</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># O mesmo cálculo, explicitamente — para mostrar de onde vem o 0,6745</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>mad_manual <span class="op">=</span> <span class="bu">abs</span>(estado[<span class="st">"Population"</span>] <span class="op">-</span> estado[<span class="st">"Population"</span>].median()).median() <span class="op">/</span> <span class="fl">0.6744897501960817</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"MAD (manual): </span><span class="sc">{</span>mad_manual<span class="sc">:,.1f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>MAD: 3,849,876.1
+MAD (manual): 3,849,876.1</code></pre>
+</div>
+</div>
+<p>Os dois cálculos batem exatamente: a função <code>robust.scale.mad</code> da <code>statsmodels</code> não faz nada além dessa conta. O fator 0,6745 no denominador não é arbitrário — ele calibra o MAD para que, sob uma distribuição normal, o valor resultante seja diretamente comparável ao desvio-padrão. Sem essa calibração, MAD e desvio-padrão viveriam em escalas diferentes e comparar os dois números não teria sentido.</p>
+<div id="cell-fig-variabilidade" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>mediana <span class="op">=</span> estado[<span class="st">"Population"</span>].median()</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>ax.hist(estado[<span class="st">"Population"</span>] <span class="op">/</span> <span class="fl">1e6</span>, bins<span class="op">=</span><span class="dv">20</span>, color<span class="op">=</span><span class="st">"#b0c4d8"</span>, edgecolor<span class="op">=</span><span class="st">"white"</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>ax.axvline(mediana <span class="op">/</span> <span class="fl">1e6</span>, color<span class="op">=</span><span class="st">"#2c3e50"</span>, linewidth<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="ss">f"Mediana: </span><span class="sc">{</span>mediana<span class="op">/</span><span class="fl">1e6</span><span class="sc">:.1f}</span><span class="ss">M"</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> medida, valor, cor, estilo <span class="kw">in</span> [</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Desvio-padrão"</span>, desvio, <span class="st">"#c0392b"</span>, <span class="st">"-"</span>),</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"IQR"</span>, iqr, <span class="st">"#e67e22"</span>, <span class="st">"--"</span>),</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"MAD"</span>, mad, <span class="st">"#27ae60"</span>, <span class="st">":"</span>),</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>]:</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    ax.axvline((mediana <span class="op">+</span> valor) <span class="op">/</span> <span class="fl">1e6</span>, color<span class="op">=</span>cor, linestyle<span class="op">=</span>estilo, linewidth<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>               label<span class="op">=</span><span class="ss">f"</span><span class="sc">{</span>medida<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>valor<span class="op">/</span><span class="fl">1e6</span><span class="sc">:.1f}</span><span class="ss">M"</span>)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"População (milhões)"</span>)</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Número de estados"</span>)</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>ax.legend()</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="fig-variabilidade" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-variabilidade-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04-estimativas-variabilidade_files/figure-html/fig-variabilidade-output-1.png" width="663" height="374" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-variabilidade-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;5.1: As três medidas de dispersão sobre a distribuição de população dos estados.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="conceito">
+<p>O desvio-padrão (6,8M) é quase o dobro do MAD (3,8M). Essa distância entre uma medida sensível a extremos e uma medida robusta é o mesmo sinal que a diferença entre média e mediana já tinha dado na seção 1.3: a distribuição de população dos estados tem <strong>cauda longa à direita</strong>. Quando as duas famílias de estimativas — a sensível e a robusta — discordam tanto, é a cauda longa falando, não um capricho do cálculo.</p>
+</div>
+</section>
+<section id="resumo" class="level2">
+<h2 class="anchored" data-anchor-id="resumo">Resumo</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Medida</th>
+<th>Valor</th>
+<th>Robusta a extremos?</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Desvio-padrão</td>
+<td>6,848,235</td>
+<td>Não</td>
+</tr>
+<tr class="even">
+<td>IQR</td>
+<td>4,847,308</td>
+<td>Sim</td>
+</tr>
+<tr class="odd">
+<td>MAD</td>
+<td>3,849,876</td>
+<td>Sim</td>
+</tr>
+</tbody>
+</table>
+<div class="exemplo">
+<p>Se a população de cada estado fosse multiplicada por 1.000, o desvio-padrão e o IQR também seriam multiplicados por 1.000: ambos herdam a unidade dos dados e escalam linearmente com eles. A variância, por estar em unidade ao quadrado, seria multiplicada por 1.000.000. É exatamente esse descasamento de unidade que faz o desvio-padrão, e não a variância, ser reportado na prática.</p>
+</div>
+</section>
+<section id="exercícios" class="level2">
+<h2 class="anchored" data-anchor-id="exercícios">Exercícios</h2>
+<p><strong>1.</strong> Por que não se usa simplesmente a média dos desvios em relação à média como medida de dispersão?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Aviso</span>Em construção
+<span class="screen-reader-only">Dica</span>Resposta
 </div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>O conteúdo desta seção ainda será escrito.</p>
+<p>Porque ela é sempre exatamente zero — é uma propriedade algébrica da média, não um fato sobre os dados. Os desvios positivos cancelam os negativos por construção. Daí a necessidade de eliminar o sinal, elevando ao quadrado (variância, desvio-padrão) ou tomando o módulo (desvio absoluto médio, MAD).</p>
+</div>
+</div>
+</div>
+<p><strong>2.</strong> O desvio-padrão da população dos estados é 6,85M e o MAD é 3,85M — quase o dobro. O que essa razão diz sobre os dados?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Que há observações extremas puxando o desvio-padrão para cima. Sob uma distribuição normal, MAD e desvio-padrão seriam próximos — é para isso que serve o fator 0,6745 na fórmula do MAD. Uma razão desvio-padrão/MAD muito maior que 1 é um diagnóstico prático de cauda longa ou outliers, tal como a distância entre média e mediana foi na seção 1.3.</p>
+</div>
+</div>
+</div>
+<p><strong>3.</strong> Se você multiplicar todas as populações por 1.000, o que acontece com o desvio-padrão? E com o IQR?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Ambos são multiplicados por 1.000. As medidas de dispersão têm a mesma unidade dos dados e escalam linearmente com eles. A variância, ao contrário, seria multiplicada por 1.000.000 — ela está em unidade ao quadrado, o que é justamente o inconveniente que motiva o uso do desvio-padrão no lugar dela.</p>
+</div>
 </div>
 </div>
 
@@ -632,6 +861,7 @@ Nota
 Bruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. <em>Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python</em>. 2nd ed. O’Reilly Media.
 </div>
 </div>
+</section>
 
 </main> <!-- /main -->
 <script>
@@ -1162,7 +1392,7 @@ document.addEventListener('DOMContentLoaded', function () {
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><ul><li><a href="https://github.com/BragaD/UnDF-Bases3-Estatistica-202602/issues/new" class="toc-action"><i class="bi bi-github"></i>Criar uma issue</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/BragaD/UnDF-Bases3-Estatistica-202602/issues/new" class="toc-action"><i class="bi bi-github"></i>Criar uma issue</a></li></ul></div></div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item compact">

@@ -24,6 +24,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 /* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
@@ -46,7 +81,7 @@ div.csl-indent {
 }</style>
 
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -96,7 +131,39 @@ div.csl-indent {
     "search-label": "Procurar"
   }
 }</script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
 
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../../styles.css">
 </head>
@@ -567,8 +634,20 @@ div.csl-indent {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Nesta página</h2>
+   
+  <ul>
+  <li><a href="#coeficiente-de-correlação-de-pearson" id="toc-coeficiente-de-correlação-de-pearson" class="nav-link active" data-scroll-target="#coeficiente-de-correlação-de-pearson">Coeficiente de correlação de Pearson</a></li>
+  <li><a href="#os-dados" id="toc-os-dados" class="nav-link" data-scroll-target="#os-dados">Os dados</a></li>
+  <li><a href="#matriz-de-correlação" id="toc-matriz-de-correlação" class="nav-link" data-scroll-target="#matriz-de-correlação">Matriz de correlação</a></li>
+  <li><a href="#heatmap-a-matriz-de-correlação-como-imagem" id="toc-heatmap-a-matriz-de-correlação-como-imagem" class="nav-link" data-scroll-target="#heatmap-a-matriz-de-correlação-como-imagem">Heatmap: a matriz de correlação como imagem</a></li>
+  <li><a href="#três-armadilhas" id="toc-três-armadilhas" class="nav-link" data-scroll-target="#três-armadilhas">Três armadilhas</a></li>
+  <li><a href="#resumo" id="toc-resumo" class="nav-link" data-scroll-target="#resumo">Resumo</a></li>
+  <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios">Exercícios</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/BragaD/UnDF-Bases3-Estatistica-202602/issues/new" class="toc-action"><i class="bi bi-github"></i>Criar uma issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -612,17 +691,330 @@ Nota
 <p>Esta seção corresponde à seção 1.7 de <span class="citation" data-cites="bruce2020">Bruce et al. (<a href="#ref-bruce2020" role="doc-biblioref">2020</a>)</span>.</p>
 </div>
 </div>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
+<p>Da seção 1.3 até a 1.6, cada ferramenta olhou para <strong>uma</strong> variável de cada vez: a localização e a dispersão da população dos estados, a forma de uma distribuição, a proporção de uma causa de atraso. A pergunta agora é outra, e é nova neste capítulo: dadas <strong>duas</strong> variáveis numéricas, elas se movem juntas? Quando uma sobe, a outra também sobe — ou desce, ou fica indiferente?</p>
+<section id="coeficiente-de-correlação-de-pearson" class="level2">
+<h2 class="anchored" data-anchor-id="coeficiente-de-correlação-de-pearson">Coeficiente de correlação de Pearson</h2>
+<p>O <strong>coeficiente de correlação de Pearson</strong> mede o grau de associação <strong>linear</strong> entre duas variáveis numéricas:</p>
+<p><span class="math display">\[r = \frac{\sum_{i=1}^{n}(x_i - \bar{x})(y_i - \bar{y})}{(n-1)\, s_x \, s_y}\]</span></p>
+<p>O numerador é a soma dos produtos cruzados — a covariância, a menos do fator <span class="math inline">\(1/(n-1)\)</span>: soma, para cada observação, o produto do quanto <span class="math inline">\(x\)</span> se afasta da sua média pelo quanto <span class="math inline">\(y\)</span> se afasta da sua. Se as duas variáveis tendem a se afastar da média <strong>no mesmo sentido</strong>, a maioria dos produtos é positiva, e a soma cresce; se tendem a se afastar em sentidos opostos, a soma fica negativa. O denominador — o produto dos dois desvios padrão, <span class="math inline">\(s_x\)</span> e <span class="math inline">\(s_y\)</span> — é o que faz de <span class="math inline">\(r\)</span> um número <strong>adimensional</strong>, preso entre <span class="math inline">\(-1\)</span> e <span class="math inline">\(+1\)</span>, e por isso comparável entre pares de variáveis com unidades completamente diferentes: preço de ação, temperatura, taxa de homicídio, o que for.</p>
+<p><span class="math inline">\(r = 1\)</span> é associação linear positiva perfeita; <span class="math inline">\(r = -1\)</span> é associação linear negativa perfeita; <span class="math inline">\(r = 0\)</span> é ausência de associação linear (mais adiante nesta seção, isso vai precisar de um cuidado extra).</p>
+</section>
+<section id="os-dados" class="level2">
+<h2 class="anchored" data-anchor-id="os-dados">Os dados</h2>
+<p>Vamos usar retornos diários de ações e ETFs (fundos negociados em bolsa) do S&amp;P 500, entre 1993 e 2015.</p>
+<div id="cell-carrega" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>setores <span class="op">=</span> pd.read_csv(<span class="st">"dados/sp500_sectors.csv"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>precos  <span class="op">=</span> pd.read_csv(<span class="st">"dados/sp500_data.csv.gz"</span>, index_col<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>simbolos_telecom <span class="op">=</span> setores[setores[<span class="st">"sector"</span>] <span class="op">==</span> <span class="st">"telecommunications_services"</span>][<span class="st">"symbol"</span>]</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>telecom <span class="op">=</span> precos.loc[precos.index <span class="op">&gt;=</span> <span class="st">"2012-07-01"</span>, simbolos_telecom]</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"dias x empresas:"</span>, telecom.shape)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>telecom.head()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>dias x empresas: (754, 5)</code></pre>
+</div>
+<div id="carrega" class="cell-output cell-output-display" data-execution_count="2">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">T</th>
+<th data-quarto-table-cell-role="th">CTL</th>
+<th data-quarto-table-cell-role="th">FTR</th>
+<th data-quarto-table-cell-role="th">VZ</th>
+<th data-quarto-table-cell-role="th">LVLT</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2012-07-02</th>
+<td>0.422496</td>
+<td>0.140847</td>
+<td>0.070879</td>
+<td>0.554180</td>
+<td>-0.519998</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">2012-07-03</th>
+<td>-0.177448</td>
+<td>0.066280</td>
+<td>0.070879</td>
+<td>-0.025976</td>
+<td>-0.049999</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2012-07-05</th>
+<td>-0.160548</td>
+<td>-0.132563</td>
+<td>0.055128</td>
+<td>-0.051956</td>
+<td>-0.180000</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">2012-07-06</th>
+<td>0.342205</td>
+<td>0.132563</td>
+<td>0.007875</td>
+<td>0.140106</td>
+<td>-0.359999</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2012-07-09</th>
+<td>0.136883</td>
+<td>0.124279</td>
+<td>-0.023626</td>
+<td>0.253943</td>
+<td>0.180000</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p><code>telecom</code> tem 754 dias de negociação e 5 empresas de telecomunicações: T (AT&amp;T), CTL (CenturyLink), FTR (Frontier), VZ (Verizon) e LVLT (Level 3).</p>
+<div class="conceito">
+<p><code>precos.index</code> é uma string (“1993-01-29”, e não uma data), mas a comparação <code>precos.index &gt;= "2012-07-01"</code> ainda funciona porque datas no formato ISO (<code>AAAA-MM-DD</code>) comparam corretamente como texto: ordem alfabética e ordem cronológica coincidem. E <code>simbolos_telecom</code> é uma <code>Series</code>, não uma lista — <code>precos.loc[..., simbolos_telecom]</code> aceita os dois formatos para selecionar colunas, e preserva a ordem em que os símbolos aparecem em <code>simbolos_telecom</code>.</p>
+</div>
+</section>
+<section id="matriz-de-correlação" class="level2">
+<h2 class="anchored" data-anchor-id="matriz-de-correlação">Matriz de correlação</h2>
+<p>Com mais de duas variáveis, faz sentido calcular a correlação de <strong>todo par</strong>, não de um par isolado. O resultado é a <strong>matriz de correlação</strong>: simétrica (a correlação de T com VZ é a mesma de VZ com T) e com 1 na diagonal (toda variável tem correlação perfeita consigo mesma).</p>
+<div id="cell-matriz" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>telecom.corr().<span class="bu">round</span>(<span class="dv">3</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="matriz" class="cell-output cell-output-display" data-execution_count="3">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">T</th>
+<th data-quarto-table-cell-role="th">CTL</th>
+<th data-quarto-table-cell-role="th">FTR</th>
+<th data-quarto-table-cell-role="th">VZ</th>
+<th data-quarto-table-cell-role="th">LVLT</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">T</th>
+<td>1.000</td>
+<td>0.475</td>
+<td>0.328</td>
+<td>0.678</td>
+<td>0.279</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">CTL</th>
+<td>0.475</td>
+<td>1.000</td>
+<td>0.420</td>
+<td>0.417</td>
+<td>0.287</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">FTR</th>
+<td>0.328</td>
+<td>0.420</td>
+<td>1.000</td>
+<td>0.287</td>
+<td>0.260</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">VZ</th>
+<td>0.678</td>
+<td>0.417</td>
+<td>0.287</td>
+<td>1.000</td>
+<td>0.242</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">LVLT</th>
+<td>0.279</td>
+<td>0.287</td>
+<td>0.260</td>
+<td>0.242</td>
+<td>1.000</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="exemplo">
+<p>A maior correlação do grupo é entre T e VZ: 0.678. Não é coincidência: AT&amp;T e Verizon são as duas maiores operadoras de telecomunicações dos Estados Unidos, e seus retornos diários respondem aos mesmos choques de mercado — taxa de juros, regulação do setor, expectativa de crescimento da economia. Empresas menores e mais heterogêneas do grupo, como LVLT, têm correlação bem mais baixa com as demais (0,242 a 0,287): compartilham menos desses choques comuns.</p>
+</div>
+<div id="cell-fig-scatter" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">5</span>))</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>ax.scatter(telecom[<span class="st">"T"</span>], telecom[<span class="st">"VZ"</span>], alpha<span class="op">=</span><span class="fl">0.5</span>, s<span class="op">=</span><span class="dv">20</span>, color<span class="op">=</span><span class="st">"#2c7fb8"</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>ax.axhline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">"grey"</span>, linewidth<span class="op">=</span><span class="fl">0.8</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>ax.axvline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">"grey"</span>, linewidth<span class="op">=</span><span class="fl">0.8</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Retorno diário — AT&amp;T (T)"</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Retorno diário — Verizon (VZ)"</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="fig-scatter" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-scatter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="07-correlacao_files/figure-html/fig-scatter-output-1.png" width="473" height="470" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-scatter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;8.1: Retornos diários de AT&amp;T (T) contra Verizon (VZ). A nuvem é alongada na diagonal — o sinal visual de correlação positiva.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>O gráfico de dispersão é a contrapartida visual do número: a nuvem de pontos é alongada na diagonal, subindo da esquerda para a direita. Dias em que T sobe tendem a ser dias em que VZ também sobe. <span class="math inline">\(r = 0{,}678\)</span> é essa mesma informação, resumida em um único número.</p>
+</section>
+<section id="heatmap-a-matriz-de-correlação-como-imagem" class="level2">
+<h2 class="anchored" data-anchor-id="heatmap-a-matriz-de-correlação-como-imagem">Heatmap: a matriz de correlação como imagem</h2>
+<p>Uma matriz de 5 × 5 ainda se lê em números. Uma de 17 × 17 não. Nesses casos, transformar a matriz em uma imagem colorida — um <strong>heatmap</strong> — é o único jeito prático de enxergar o padrão.</p>
+<div id="cell-fig-heatmap" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>etfs <span class="op">=</span> precos.loc[precos.index <span class="op">&gt;</span> <span class="st">"2012-07-01"</span>,</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>                  setores[setores[<span class="st">"sector"</span>] <span class="op">==</span> <span class="st">"etf"</span>][<span class="st">"symbol"</span>]]</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="dv">6</span>))</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>sns.heatmap(etfs.corr(), vmin<span class="op">=-</span><span class="dv">1</span>, vmax<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>            cmap<span class="op">=</span>sns.diverging_palette(<span class="dv">20</span>, <span class="dv">220</span>, as_cmap<span class="op">=</span><span class="va">True</span>), ax<span class="op">=</span>ax)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="fig-heatmap" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-heatmap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="07-correlacao_files/figure-html/fig-heatmap-output-1.png" width="649" height="568" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-heatmap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;8.2: Correlação dos retornos diários entre fundos negociados em bolsa (ETFs).
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>São 17 ETFs: XLI, QQQ, SPY, DIA, GLD, VXX, USO, IWM, XLE, XLY, XLU, XLB, XTL, XLV, XLP, XLF e XLK.</p>
+<div class="conceito">
+<p>A paleta usada é <strong>divergente</strong> — vai de um tom em uma ponta a outro tom na ponta oposta, passando por uma cor neutra no meio —, e centrada em zero (<code>vmin=-1, vmax=1</code>). Essa escolha não é estética: zero é o único ponto da escala com significado próprio, a fronteira entre “andam juntas” e “andam ao contrário”. Uma paleta sequencial (clara para escura) esconderia justamente essa fronteira; a divergente a torna visível de relance.</p>
+</div>
+<p>Duas leituras saltam do heatmap. Primeiro, SPY, DIA e IWM — três índices amplos do mercado americano (S&amp;P 500, Dow Jones e Russell 2000, respectivamente) — formam um bloco fortemente correlacionado entre si: são medidas diferentes de essencialmente a mesma coisa, o mercado como um todo. Segundo, VXX aparece como um bloco de cor oposta a quase todo o resto — correlação <strong>negativa</strong> com praticamente todos os demais ETFs. VXX acompanha a volatilidade do mercado, e volatilidade sobe justamente quando os preços caem: é o mecanismo por trás do sinal trocado, e é exatamente esse contraste que a paleta divergente foi escolhida para deixar evidente.</p>
+</section>
+<section id="três-armadilhas" class="level2">
+<h2 class="anchored" data-anchor-id="três-armadilhas">Três armadilhas</h2>
+<div class="conceito">
+<p><strong>As três armadilhas da correlação:</strong></p>
+<ol type="1">
+<li><strong>Correlação não implica causalidade.</strong> T e VZ sobem e descem juntas porque respondem aos mesmos choques de mercado — uma causa comum —, não porque uma “causa” a outra.</li>
+<li><strong>O coeficiente é sensível a outliers.</strong> Um único ponto extremo, longe da nuvem principal, pode criar uma correlação artificial ou mascarar uma correlação real, dependendo de onde ele cai.</li>
+<li><strong>Ele mede apenas relação linear.</strong> Duas variáveis podem ter uma dependência determinística forte e correlação de Pearson igual a zero.</li>
+</ol>
+</div>
+<p>A terceira armadilha é a mais contraintuitiva das três, e vale prová-la em vez de só declará-la.</p>
+<div id="nao-linear" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">200</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> x <span class="op">**</span> <span class="dv">2</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Correlação entre x e x²: </span><span class="sc">{</span>np<span class="sc">.</span>corrcoef(x, y)[<span class="dv">0</span>, <span class="dv">1</span>]<span class="sc">:.3e}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Correlação entre x e x²: 6.989e-17</code></pre>
+</div>
+</div>
+<p><span class="math inline">\(y = x^2\)</span> é o exemplo mais determinístico que existe: conhecendo <span class="math inline">\(x\)</span>, você sabe <span class="math inline">\(y\)</span> com certeza absoluta, sem incerteza nenhuma. E ainda assim a correlação entre eles é, na prática, zero — o valor calculado é da ordem de <span class="math inline">\(10^{-17}\)</span>, um erro de arredondamento de ponto flutuante em torno de um zero exato. A razão é a simetria da parábola em torno de zero: para cada <span class="math inline">\(x\)</span> positivo que empurra a covariância para cima, existe um <span class="math inline">\(x\)</span> negativo simétrico que a empurra para baixo na mesma medida, e os dois efeitos se cancelam por completo. <strong>Correlação zero significa “sem relação linear” — não significa “sem relação”.</strong> É a diferença entre as duas frases que faz da correlação uma ferramenta poderosa, mas estreita: ela responde a uma pergunta específica, e é preciso saber qual.</p>
+</section>
+<section id="resumo" class="level2">
+<h2 class="anchored" data-anchor-id="resumo">Resumo</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Par</th>
+<th>Correlação (r)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>T × VZ</td>
+<td>0.678</td>
+</tr>
+<tr class="even">
+<td>T × CTL</td>
+<td>0.475</td>
+</tr>
+<tr class="odd">
+<td>T × FTR</td>
+<td>0.328</td>
+</tr>
+<tr class="even">
+<td>T × LVLT</td>
+<td>0.279</td>
+</tr>
+<tr class="odd">
+<td>CTL × FTR</td>
+<td>0.420</td>
+</tr>
+</tbody>
+</table>
+<div class="conceito">
+<p><strong>Regra prática:</strong> correlação alta é um convite a investigar, não uma conclusão. Antes de interpretar um <span class="math inline">\(r\)</span>, olhe o gráfico de dispersão — ele revela outliers que o número esconde e formas não lineares que o número não enxerga.</p>
+</div>
+</section>
+<section id="exercícios" class="level2">
+<h2 class="anchored" data-anchor-id="exercícios">Exercícios</h2>
+<p><strong>1.</strong> A correlação entre T e VZ é 0,678. Isso significa que o preço da AT&amp;T causa o preço da Verizon?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Aviso</span>Em construção
+<span class="screen-reader-only">Dica</span>Resposta
 </div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>O conteúdo desta seção ainda será escrito.</p>
+<p>Não. As duas são grandes operadoras de telecomunicações expostas aos mesmos fatores — taxa de juros, regulação do setor, ciclo econômico. A correlação vem de uma <strong>causa comum</strong>, não de uma causar a outra. Este é o erro mais frequente na leitura de correlações.</p>
+</div>
+</div>
+</div>
+<p><strong>2.</strong> No heatmap, o VXX aparece em um bloco de cor oposta (correlação negativa) contra quase todos os demais ETFs. Por quê?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>O VXX acompanha a volatilidade do mercado, que sobe justamente quando os preços caem. É por isso que a paleta divergente importa: ela torna o sinal — negativo contra positivo — visível de relance, e o zero é uma referência com significado real, não um ponto arbitrário da escala.</p>
+</div>
+</div>
+</div>
+<p><strong>3.</strong> O código mostrou que a correlação entre <code>x</code> e <code>x²</code> é zero, embora <code>y</code> seja completamente determinado por <code>x</code>. Explique.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Pearson mede associação <strong>linear</strong>. A parábola é simétrica em torno de zero: para cada <span class="math inline">\(x\)</span> positivo que puxa a covariância para cima, existe um <span class="math inline">\(x\)</span> negativo que a puxa para baixo na mesma medida, e os efeitos se cancelam. Uma correlação de zero descarta relação linear — não descarta relação.</p>
+</div>
 </div>
 </div>
 
@@ -632,6 +1024,7 @@ Nota
 Bruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. <em>Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python</em>. 2nd ed. O’Reilly Media.
 </div>
 </div>
+</section>
 
 </main> <!-- /main -->
 <script>
@@ -1162,7 +1555,7 @@ document.addEventListener('DOMContentLoaded', function () {
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><ul><li><a href="https://github.com/BragaD/UnDF-Bases3-Estatistica-202602/issues/new" class="toc-action"><i class="bi bi-github"></i>Criar uma issue</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/BragaD/UnDF-Bases3-Estatistica-202602/issues/new" class="toc-action"><i class="bi bi-github"></i>Criar uma issue</a></li></ul></div></div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item compact">

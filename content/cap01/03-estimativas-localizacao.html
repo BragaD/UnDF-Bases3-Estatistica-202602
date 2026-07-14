@@ -646,6 +646,7 @@ window.Quarto = {
   <li><a href="#estimativas-ponderadas" id="toc-estimativas-ponderadas" class="nav-link" data-scroll-target="#estimativas-ponderadas">Estimativas ponderadas</a></li>
   <li><a href="#comparando-as-estimativas" id="toc-comparando-as-estimativas" class="nav-link" data-scroll-target="#comparando-as-estimativas">Comparando as estimativas</a></li>
   <li><a href="#resumo" id="toc-resumo" class="nav-link" data-scroll-target="#resumo">Resumo</a></li>
+  <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios">Exercícios</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/BragaD/UnDF-Bases3-Estatistica-202602/issues/new" class="toc-action"><i class="bi bi-github"></i>Criar uma issue</a></li></ul></div></nav>
     </div>
@@ -787,7 +788,7 @@ Nota
 </section>
 <section id="mediana" class="level2">
 <h2 class="anchored" data-anchor-id="mediana">Mediana</h2>
-<p>A <strong>mediana</strong> é o valor central dos dados ordenados. Ela depende apenas das observações do meio, então um valor extremo pode ser arbitrariamente grande sem movê-la. Com número par de observações — como aqui, n = 50 —, não existe um único valor central: a mediana é a <strong>média dos dois valores do meio</strong>. É por isso que o número calculado abaixo termina em “,5”: não há meia pessoa, há uma média entre duas observações vizinhas.</p>
+<p>A <strong>mediana</strong> é o valor central dos dados ordenados. Ela depende apenas das observações do meio, então um valor extremo pode ser arbitrariamente grande sem movê-la. Com número par de observações — como aqui, n = 50 —, não existe um único valor central: a mediana é a <strong>média dos dois valores do meio</strong>. É por isso que o número calculado abaixo termina em <code>.5</code>, meio entre duas unidades: não há meia pessoa, há uma média entre duas observações vizinhas.</p>
 <div id="mediana" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>mediana <span class="op">=</span> estado[<span class="st">"Population"</span>].median()</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mediana: </span><span class="sc">{</span>mediana<span class="sc">:,.1f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
@@ -878,7 +879,62 @@ Figura&nbsp;4.1: As três estimativas de localização sobre a distribuição de
 </tbody>
 </table>
 <div class="conceito">
-<p><strong>Regra prática:</strong> a média é o padrão, mas é frágil. Quando os dados têm cauda longa ou outliers plausíveis — renda, população, tempo de resposta de um servidor — a mediana ou a média aparada descrevem melhor o caso típico.</p>
+<p><strong>Regra prática:</strong> a média é o padrão, mas é frágil. Quando os dados têm cauda longa ou outliers plausíveis — renda, população, valor de imóveis — a mediana ou a média aparada descrevem melhor o caso típico.</p>
+</div>
+</section>
+<section id="exercícios" class="level2">
+<h2 class="anchored" data-anchor-id="exercícios">Exercícios</h2>
+<p><strong>1.</strong> A média aparada de 10% descartou os 5 estados mais populosos e os 5 menos populosos. Recalcule com aparo de 25%. O que acontece com a média aparada à medida que o aparo se aproxima de 50%?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>trim_mean(estado[<span class="st">"Population"</span>], <span class="fl">0.25</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Com aparo de 50%, todas as observações são descartadas exceto a(s) central(is) — a média aparada <strong>converge para a mediana</strong>. A média aparada é, portanto, uma família contínua entre a média (aparo 0) e a mediana (aparo 0,5).</p>
+</div>
+</div>
+</div>
+<p><strong>2.</strong> A média ponderada da taxa de homicídios (4,45) é maior que a média simples (4,07). O que isso diz sobre a relação entre população e taxa de homicídios nos estados?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Ponderar pela população <strong>aumenta</strong> a estimativa, então os estados mais populosos tendem a ter taxas de homicídio mais altas que os menos populosos. Se não houvesse relação alguma entre tamanho e taxa, as duas médias seriam próximas.</p>
+</div>
+</div>
+</div>
+<p><strong>3.</strong> Um relatório afirma que “a renda média das famílias do país subiu 8% no último ano, mas a renda mediana ficou estável”. Como isso é possível?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>A média é sensível a extremos e a mediana não. Um ganho concentrado no topo da distribuição — os mais ricos ficando mais ricos — eleva a soma total (e portanto a média) sem mover o valor central. É exatamente o padrão de uma distribuição assimétrica à direita cuja cauda se alonga.</p>
+</div>
+</div>
 </div>
 
 

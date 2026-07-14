@@ -24,6 +24,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 /* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
@@ -46,7 +81,7 @@ div.csl-indent {
 }</style>
 
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -96,6 +131,9 @@ div.csl-indent {
     "search-label": "Procurar"
   }
 }</script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 <link rel="stylesheet" href="../../styles.css">
@@ -567,8 +605,19 @@ div.csl-indent {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Nesta página</h2>
+   
+  <ul>
+  <li><a href="#percentis-e-quantis" id="toc-percentis-e-quantis" class="nav-link active" data-scroll-target="#percentis-e-quantis">Percentis e quantis</a></li>
+  <li><a href="#boxplot" id="toc-boxplot" class="nav-link" data-scroll-target="#boxplot">Boxplot</a></li>
+  <li><a href="#tabela-de-frequência-e-histograma" id="toc-tabela-de-frequência-e-histograma" class="nav-link" data-scroll-target="#tabela-de-frequência-e-histograma">Tabela de frequência e histograma</a></li>
+  <li><a href="#densidade" id="toc-densidade" class="nav-link" data-scroll-target="#densidade">Densidade</a></li>
+  <li><a href="#resumo" id="toc-resumo" class="nav-link" data-scroll-target="#resumo">Resumo</a></li>
+  <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios">Exercícios</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/BragaD/UnDF-Bases3-Estatistica-202602/issues/new" class="toc-action"><i class="bi bi-github"></i>Criar uma issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -612,17 +661,232 @@ Nota
 <p>Esta seção corresponde à seção 1.5 de <span class="citation" data-cites="bruce2020">Bruce et al. (<a href="#ref-bruce2020" role="doc-biblioref">2020</a>)</span>.</p>
 </div>
 </div>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
+<p>A seção 1.3 resumiu a população dos estados em um número — a localização. A seção 1.4 acrescentou um segundo número — a dispersão em torno dele. Os dois juntos já dizem bastante: onde os dados tendem a estar, e o quanto eles se afastam dali. Mas dois números continuam sendo um resumo, e todo resumo descarta informação. Esta seção para de resumir. Em vez de reduzir a distribuição a um ou dois pontos, ela olha a distribuição <strong>inteira</strong> — a forma completa que os dados assumem entre o menor e o maior valor.</p>
+<section id="percentis-e-quantis" class="level2">
+<h2 class="anchored" data-anchor-id="percentis-e-quantis">Percentis e quantis</h2>
+<p>O <strong>percentil</strong> P é o valor abaixo do qual está P% das observações. A mediana, que a seção 1.3 já usou, nada mais é do que o percentil 50 — o caso particular em que exatamente metade dos dados fica de cada lado. Falar em percentis é generalizar essa ideia para qualquer fração, não só a metade. O termo <strong>quantil</strong> é o mesmo conceito, expresso em proporção (0,05) em vez de porcentagem (5%); <code>quantile()</code> no pandas usa essa segunda convenção.</p>
+<div id="cell-percentis" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>percentis <span class="op">=</span> [<span class="fl">0.05</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>, <span class="fl">0.95</span>]</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>tabela <span class="op">=</span> pd.DataFrame(estado[<span class="st">"Murder.Rate"</span>].quantile(percentis))</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>tabela.index <span class="op">=</span> [<span class="ss">f"</span><span class="sc">{</span>p<span class="sc">:.0%}</span><span class="ss">"</span> <span class="cf">for</span> p <span class="kw">in</span> percentis]</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>tabela.transpose()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="percentis" class="cell-output cell-output-display" data-execution_count="2">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">5%</th>
+<th data-quarto-table-cell-role="th">25%</th>
+<th data-quarto-table-cell-role="th">50%</th>
+<th data-quarto-table-cell-role="th">75%</th>
+<th data-quarto-table-cell-role="th">95%</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Murder.Rate</th>
+<td>1.6</td>
+<td>2.425</td>
+<td>4.0</td>
+<td>5.55</td>
+<td>6.51</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Os cinco números da tabela dizem: 5% dos estados têm taxa de homicídios de até 1,6 por 100.000 habitantes; na outra ponta, 95% ficam até 6,51 — ou seja, só 5% (2 ou 3 estados, em 50) superam essa marca. O intervalo entre o percentil 5 e o percentil 95 cobre os 90% centrais da distribuição e é uma forma comum de descrever o “grosso” dos dados sem deixar os extremos dominarem a leitura, do mesmo jeito que a mediana evita que eles dominem a localização.</p>
+</section>
+<section id="boxplot" class="level2">
+<h2 class="anchored" data-anchor-id="boxplot">Boxplot</h2>
+<p>O <strong>boxplot</strong> é uma leitura visual direta dos percentis. A caixa vai do primeiro ao terceiro quartil — e a largura dessa caixa é exatamente o IQR que a seção 1.4 calculou como medida de dispersão. Não é uma coincidência nem uma analogia: é a mesma conta, olhada de dois ângulos diferentes. A linha dentro da caixa marca a mediana. Os bigodes se estendem até 1,5 vez o IQR além de cada quartil, e qualquer observação além disso é desenhada como um ponto individual, não absorvida pela escala do gráfico.</p>
+<div id="cell-fig-boxplot" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">4</span>, <span class="dv">5</span>))</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>(estado[<span class="st">"Population"</span>] <span class="op">/</span> <span class="fl">1e6</span>).plot.box(ax<span class="op">=</span>ax)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"População (milhões)"</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="fig-boxplot" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-boxplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="05-distribuicao-dados_files/figure-html/fig-boxplot-output-1.png" width="375" height="470" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-boxplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;6.1: Boxplot da população dos estados. Os pontos acima do bigode são os estados atipicamente populosos.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="exemplo">
+<p>Lendo o gráfico: metade dos estados tem entre 1,8 e 6,7 milhões de habitantes — é o que a caixa mostra. A mediana está em 4,4 milhões. E os quatro pontos isolados acima do bigode superior são Califórnia, Texas, Nova York e Flórida: os únicos estados populosos o bastante para escapar de 1,5×IQR além do terceiro quartil.</p>
+</div>
+</section>
+<section id="tabela-de-frequência-e-histograma" class="level2">
+<h2 class="anchored" data-anchor-id="tabela-de-frequência-e-histograma">Tabela de frequência e histograma</h2>
+<p>A <strong>tabela de frequência</strong> divide o intervalo de valores em faixas de largura igual e conta quantas observações caem em cada uma. <code>pd.cut</code> faz exatamente isso.</p>
+<div id="cell-freq" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>faixas <span class="op">=</span> pd.cut(estado[<span class="st">"Population"</span>], <span class="dv">10</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>faixas.value_counts().sort_index()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="freq" class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>Population
+(526935.67, 4232659.0]      24
+(4232659.0, 7901692.0]      14
+(7901692.0, 11570725.0]      6
+(11570725.0, 15239758.0]     2
+(15239758.0, 18908791.0]     1
+(18908791.0, 22577824.0]     1
+(22577824.0, 26246857.0]     1
+(26246857.0, 29915890.0]     0
+(29915890.0, 33584923.0]     0
+(33584923.0, 37253956.0]     1
+Name: count, dtype: int64</code></pre>
+</div>
+</div>
+<p>As faixas são de <strong>largura</strong> igual, não de <strong>contagem</strong> igual — e o resultado mostra isso sem meio-termo. A primeira faixa, sozinha, concentra 24 dos 50 estados; as faixas do topo têm um estado cada, ou nenhum. Isso não é um defeito do corte: é o retrato de uma distribuição com cauda longa à direita, a mesma assinatura que a média puxada para cima (seção 1.3) e o desvio-padrão inflado (seção 1.4) já haviam denunciado — agora visível na contagem, faixa por faixa.</p>
+<p>O <strong>histograma</strong> é essa mesma tabela desenhada: uma barra por faixa, com altura proporcional à contagem. As barras se encostam porque o eixo é contínuo — não há espaço entre “faixa 1” e “faixa 2” do jeito que há entre categorias distintas.</p>
+<div id="cell-fig-histograma" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>(estado[<span class="st">"Population"</span>] <span class="op">/</span> <span class="fl">1e6</span>).plot.hist(ax<span class="op">=</span>ax, bins<span class="op">=</span><span class="dv">10</span>, edgecolor<span class="op">=</span><span class="st">"white"</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"População (milhões)"</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Número de estados"</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="fig-histograma" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-histograma-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="05-distribuicao-dados_files/figure-html/fig-histograma-output-1.png" width="663" height="374" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-histograma-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;6.2: Histograma da população. As barras se encostam porque o eixo é contínuo.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="densidade" class="level2">
+<h2 class="anchored" data-anchor-id="densidade">Densidade</h2>
+<p>A <strong>curva de densidade</strong> é uma versão suavizada do histograma: em vez de barras discretas, uma curva contínua que estima a forma subjacente da distribuição. A diferença crucial é a escala do eixo Y. Enquanto o histograma tradicional mostra contagem, a densidade é normalizada para que a área sob a curva valha exatamente 1 — é o preço de tratá-la como uma distribuição de probabilidade, não como uma lista de frequências.</p>
+<div id="cell-fig-densidade" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>estado[<span class="st">"Murder.Rate"</span>].plot.hist(ax<span class="op">=</span>ax, density<span class="op">=</span><span class="va">True</span>, xlim<span class="op">=</span>[<span class="dv">0</span>, <span class="dv">12</span>],</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>                                bins<span class="op">=</span><span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">12</span>), edgecolor<span class="op">=</span><span class="st">"white"</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>estado[<span class="st">"Murder.Rate"</span>].plot.density(ax<span class="op">=</span>ax, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Taxa de homicídios (por 100.000)"</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="fig-densidade" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-densidade-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="05-distribuicao-dados_files/figure-html/fig-densidade-output-1.png" width="665" height="374" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-densidade-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;6.3: Histograma da taxa de homicídios com a curva de densidade sobreposta.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="conceito">
+<p>O <code>density=True</code> no histograma é o que torna as duas curvas comparáveis nesse gráfico. Sem ele, o eixo Y do histograma seria <strong>contagem</strong> (quantos estados em cada faixa) e o da densidade seria <strong>densidade de probabilidade</strong> (área total igual a 1) — duas escalas diferentes convivendo no mesmo eixo. Nesse caso, a curva de densidade apareceria colada em zero, achatada pela contagem muito maior das barras.</p>
+</div>
+</section>
+<section id="resumo" class="level2">
+<h2 class="anchored" data-anchor-id="resumo">Resumo</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Ferramenta</th>
+<th>O que mostra</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Percentis / quantis</td>
+<td>A posição exata de qualquer fração dos dados</td>
+</tr>
+<tr class="even">
+<td>Boxplot</td>
+<td>Q1, mediana, Q3 e outliers num único desenho compacto</td>
+</tr>
+<tr class="odd">
+<td>Tabela de frequência / histograma</td>
+<td>Como a massa dos dados se distribui em faixas de largura igual</td>
+</tr>
+<tr class="even">
+<td>Densidade</td>
+<td>A forma contínua por trás das barras do histograma</td>
+</tr>
+</tbody>
+</table>
+<div class="conceito">
+<p><strong>Regra prática:</strong> localização (1.3) e dispersão (1.4) respondem “qual é o valor típico” e “o quanto os dados variam”. Elas não respondem “qual é a forma da distribuição” — se ela é simétrica, se tem cauda longa, se há grupos isolados de valores extremos. Para isso, é preciso abrir mão do resumo e olhar a distribuição inteira, com as quatro ferramentas desta seção.</p>
+</div>
+</section>
+<section id="exercícios" class="level2">
+<h2 class="anchored" data-anchor-id="exercícios">Exercícios</h2>
+<p><strong>1.</strong> A mediana da taxa de homicídios é 4,0 e o percentil 95 é 6,51. Interprete o segundo número em uma frase.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Aviso</span>Em construção
+<span class="screen-reader-only">Dica</span>Resposta
 </div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>O conteúdo desta seção ainda será escrito.</p>
+<p>95% dos estados têm taxa de homicídios igual ou inferior a 6,51 por 100.000 habitantes; apenas 5% (2 ou 3 estados, em 50) ficam acima disso.</p>
+</div>
+</div>
+</div>
+<p><strong>2.</strong> No boxplot, por que os pontos acima do bigode são desenhados individualmente em vez de o bigode simplesmente se estender até eles?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Por convenção, o bigode vai até 1,5×IQR além do quartil. Pontos além disso são candidatos a outlier e são marcados individualmente justamente para chamar atenção — o objetivo é que você os <strong>veja</strong>, e não que eles sejam absorvidos pela escala do gráfico.</p>
+</div>
+</div>
+</div>
+<p><strong>3.</strong> A tabela de frequência com <code>pd.cut</code> em 10 faixas colocou quase metade dos estados na primeira faixa. Isso é um defeito do método?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Não — é um retrato fiel dos dados. <code>pd.cut</code> cria faixas de <strong>largura</strong> igual, e a distribuição de população dos estados é assimétrica. Se o objetivo fosse faixas de <strong>contagem</strong> igual, a ferramenta certa seria <code>pd.qcut</code> (que corta por quantis, não por largura). São perguntas diferentes: uma mostra a forma da distribuição, a outra a divide em grupos do mesmo tamanho.</p>
+</div>
 </div>
 </div>
 
@@ -632,6 +896,7 @@ Nota
 Bruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. <em>Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python</em>. 2nd ed. O’Reilly Media.
 </div>
 </div>
+</section>
 
 </main> <!-- /main -->
 <script>
@@ -1162,7 +1427,7 @@ document.addEventListener('DOMContentLoaded', function () {
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><ul><li><a href="https://github.com/BragaD/UnDF-Bases3-Estatistica-202602/issues/new" class="toc-action"><i class="bi bi-github"></i>Criar uma issue</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/BragaD/UnDF-Bases3-Estatistica-202602/issues/new" class="toc-action"><i class="bi bi-github"></i>Criar uma issue</a></li></ul></div></div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item compact">

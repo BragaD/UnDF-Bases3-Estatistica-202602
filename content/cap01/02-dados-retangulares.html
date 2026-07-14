@@ -24,6 +24,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 /* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
@@ -46,7 +81,7 @@ div.csl-indent {
 }</style>
 
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -96,6 +131,9 @@ div.csl-indent {
     "search-label": "Procurar"
   }
 }</script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 <link rel="stylesheet" href="../../styles.css">
@@ -567,8 +605,19 @@ div.csl-indent {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Nesta página</h2>
+   
+  <ul>
+  <li><a href="#o-dataframe" id="toc-o-dataframe" class="nav-link active" data-scroll-target="#o-dataframe">O DataFrame</a></li>
+  <li><a href="#o-índice" id="toc-o-índice" class="nav-link" data-scroll-target="#o-índice">O índice</a></li>
+  <li><a href="#vocabulário-e-seus-sinônimos" id="toc-vocabulário-e-seus-sinônimos" class="nav-link" data-scroll-target="#vocabulário-e-seus-sinônimos">Vocabulário e seus sinônimos</a></li>
+  <li><a href="#dados-não-retangulares" id="toc-dados-não-retangulares" class="nav-link" data-scroll-target="#dados-não-retangulares">Dados não retangulares</a></li>
+  <li><a href="#resumo" id="toc-resumo" class="nav-link" data-scroll-target="#resumo">Resumo</a></li>
+  <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios">Exercícios</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/BragaD/UnDF-Bases3-Estatistica-202602/issues/new" class="toc-action"><i class="bi bi-github"></i>Criar uma issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -612,17 +661,211 @@ Nota
 <p>Esta seção corresponde à seção 1.2 de <span class="citation" data-cites="bruce2020">Bruce et al. (<a href="#ref-bruce2020" role="doc-biblioref">2020</a>)</span>.</p>
 </div>
 </div>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
+<p>A seção anterior classificou o que cada coluna <em>é</em> — numérica ou categórica, contínua ou ordinal. Mas uma coluna isolada não existe sozinha: ela mora dentro de uma estrutura que a organiza junto de todas as outras. Essa estrutura, quase sempre, é uma tabela.</p>
+<section id="o-dataframe" class="level2">
+<h2 class="anchored" data-anchor-id="o-dataframe">O DataFrame</h2>
+<p>A forma retangular é tão comum na prática estatística que é fácil esquecer que é uma escolha, não uma lei da natureza: <strong>linhas são registros</strong> e <strong>colunas são variáveis</strong>. No Python, o objeto que implementa essa ideia é o <code>DataFrame</code> do pandas — uma matriz de dados com rótulos.</p>
+<div id="cell-estrutura" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>estado <span class="op">=</span> pd.read_csv(<span class="st">"dados/state.csv"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"linhas x colunas:"</span>, estado.shape)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>estado.head()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>linhas x colunas: (50, 4)</code></pre>
+</div>
+<div id="estrutura" class="cell-output cell-output-display" data-execution_count="2">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">State</th>
+<th data-quarto-table-cell-role="th">Population</th>
+<th data-quarto-table-cell-role="th">Murder.Rate</th>
+<th data-quarto-table-cell-role="th">Abbreviation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>Alabama</td>
+<td>4779736</td>
+<td>5.7</td>
+<td>AL</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>Alaska</td>
+<td>710231</td>
+<td>5.6</td>
+<td>AK</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>Arizona</td>
+<td>6392017</td>
+<td>4.7</td>
+<td>AZ</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>Arkansas</td>
+<td>2915918</td>
+<td>5.6</td>
+<td>AR</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>California</td>
+<td>37253956</td>
+<td>4.4</td>
+<td>CA</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p><code>(50, 4)</code> são 50 linhas e 4 colunas — mas o par de números só significa alguma coisa porque sabemos, do dado, que cada linha é um estado e cada coluna é uma variável medida sobre ele. Trocar as duas dimensões — colocar variáveis nas linhas e estados nas colunas — descreveria os mesmos números sem descrever o mesmo problema.</p>
+<p><code>estado.info()</code> complementa o <code>.head()</code>: além do formato, mostra quantos valores não nulos cada coluna tem e quanto de memória a tabela ocupa.</p>
+<div id="info" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>estado.info()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;class 'pandas.DataFrame'&gt;
+RangeIndex: 50 entries, 0 to 49
+Data columns (total 4 columns):
+ #   Column        Non-Null Count  Dtype  
+---  ------        --------------  -----  
+ 0   State         50 non-null     str    
+ 1   Population    50 non-null     int64  
+ 2   Murder.Rate   50 non-null     float64
+ 3   Abbreviation  50 non-null     str    
+dtypes: float64(1), int64(1), str(2)
+memory usage: 1.7 KB</code></pre>
+</div>
+</div>
+</section>
+<section id="o-índice" class="level2">
+<h2 class="anchored" data-anchor-id="o-índice">O índice</h2>
+<p>Toda linha de um DataFrame tem um rótulo — o <strong>índice</strong> — além de qualquer coluna de dados. Por padrão, o pandas usa a posição da linha: 0, 1, 2…</p>
+<div id="cell-indice" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"índice padrão:"</span>, estado.index[:<span class="dv">5</span>].tolist())</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Um índice significativo torna a busca por rótulo natural</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>por_estado <span class="op">=</span> estado.set_index(<span class="st">"Abbreviation"</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>por_estado.loc[<span class="st">"CA"</span>]</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>índice padrão: [0, 1, 2, 3, 4]</code></pre>
+</div>
+<div id="indice" class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>State          California
+Population       37253956
+Murder.Rate           4.4
+Name: CA, dtype: object</code></pre>
+</div>
+</div>
+<p>Substituir o índice numérico pela sigla do estado transforma <code>.loc["CA"]</code> de uma busca por posição em uma busca por rótulo, algo que a posição sozinha nunca permitiria fazer com sentido.</p>
+<div class="conceito">
+<p>O índice <strong>não é uma coluna de dados</strong> — é o rótulo das linhas, guardado separadamente do corpo da tabela. É por isso que <code>por_estado</code> tem só 3 colunas (<code>State</code>, <code>Population</code>, <code>Murder.Rate</code>): <code>set_index("Abbreviation")</code> <strong>removeu</strong> <code>Abbreviation</code> do corpo do DataFrame para usá-la como rótulo. Esquecer isso é fonte comum de bug — quem espera encontrar <code>Abbreviation</code> entre as colunas depois do <code>set_index</code> vai procurar por algo que já não está lá.</p>
+</div>
+</section>
+<section id="vocabulário-e-seus-sinônimos" class="level2">
+<h2 class="anchored" data-anchor-id="vocabulário-e-seus-sinônimos">Vocabulário e seus sinônimos</h2>
+<p>Estatística, aprendizado de máquina e ciência de dados descrevem a mesma tabela com palavras diferentes, e isso confunde mais do que deveria. A coluna que se usa para prever é chamada de <em>feature</em>, variável, atributo, preditor ou entrada. A coluna que se quer prever é o <em>outcome</em>, a resposta, a variável dependente, o alvo. Uma linha é indistintamente um registro, um caso, uma observação, um exemplo ou uma instância.</p>
+<div class="exemplo">
+<p>Imagine três textos sobre o mesmo problema de prever a taxa de homicídios a partir da população de um estado. Um artigo de estatística clássica fala em “variável dependente” e “variáveis independentes”. Um tutorial de aprendizado de máquina fala em “target” e “features”. Um relatório de negócios fala em “o que queremos prever” e “os atributos disponíveis”. As três frases descrevem exatamente a mesma coisa — e um leitor que não souber disso vai achar que está diante de três ideias distintas, quando é uma só com três sotaques.</p>
+</div>
+<p>Não há vocabulário “certo” entre esses — o que existe é o vocabulário da comunidade em que se está lendo ou escrevendo. Este livro usa <em>feature</em> e <em>outcome</em> por serem os termos mais neutros entre as três tradições.</p>
+</section>
+<section id="dados-não-retangulares" class="level2">
+<h2 class="anchored" data-anchor-id="dados-não-retangulares">Dados não retangulares</h2>
+<p>Nem todo dado cabe numa tabela sem perder algo no processo. Três casos comuns:</p>
+<p>Em uma <strong>série temporal</strong>, a ordem entre as linhas carrega informação — a temperatura de hoje depende da de ontem de um jeito que a tabela, por si só, não representa. Uma tabela retangular guarda os valores, mas a sequência entre eles é uma estrutura adicional que precisa ser lembrada à parte.</p>
+<p>Em <strong>dados espaciais</strong>, o que importa são objetos e as coordenadas ou regiões que ocupam — pontos, linhas, polígonos — e a noção de distância ou vizinhança entre eles não é uma coluna, é uma relação geométrica.</p>
+<p>Em um <strong>grafo</strong> (uma rede), o que se descreve são relações entre pares de elementos — quem segue quem, quais cidades têm uma rota direta. Forçar isso numa tabela de registros independentes apaga exatamente a informação que importa: a conexão entre eles.</p>
+<p>Nos três casos, é possível <em>armazenar</em> o dado em uma ou mais tabelas — mas a forma retangular, sozinha, não representa a estrutura que faz o dado interessante. A ordem, a geometria e as relações precisam ser preservadas por fora da tabela, ou a análise que só olha para linhas e colunas vai errar a pergunta.</p>
+</section>
+<section id="resumo" class="level2">
+<h2 class="anchored" data-anchor-id="resumo">Resumo</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Termo usado neste livro</th>
+<th>Sinônimos que você vai encontrar</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Feature</td>
+<td>variável, atributo, preditor, entrada (input)</td>
+</tr>
+<tr class="even">
+<td>Outcome</td>
+<td>resposta, variável dependente, alvo (target), saída</td>
+</tr>
+<tr class="odd">
+<td>Registro</td>
+<td>caso, observação, exemplo, instância</td>
+</tr>
+</tbody>
+</table>
+<div class="conceito">
+<p>Todo o vocabulário estatístico deste livro pressupõe a forma retangular: linhas independentes, colunas com um tipo fixo. Quando o dado é uma série temporal, um mapa ou uma rede, essa pressuposição já não vale — e é preciso reconhecer isso antes de aplicar qualquer estimativa das próximas seções.</p>
+</div>
+</section>
+<section id="exercícios" class="level2">
+<h2 class="anchored" data-anchor-id="exercícios">Exercícios</h2>
+<p><strong>1.</strong> <code>estado.shape</code> retorna <code>(50, 4)</code>. Qual é o significado de cada número, no vocabulário desta seção?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Aviso</span>Em construção
+<span class="screen-reader-only">Dica</span>Resposta
 </div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>O conteúdo desta seção ainda será escrito.</p>
+<p>50 é o número de registros (observações — um por estado); 4 é o número de colunas — mas só <code>Population</code> e <code>Murder.Rate</code> são features, variáveis medidas sobre cada estado. <code>State</code> e <code>Abbreviation</code> identificam o registro, não medem nada sobre ele.</p>
+</div>
+</div>
+</div>
+<p><strong>2.</strong> Você quer prever a taxa de homicídios a partir da população. Qual coluna é o <em>outcome</em> e quais são as <em>features</em>?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><code>Murder.Rate</code> é o outcome; <code>Population</code> é a feature. <code>State</code> e <code>Abbreviation</code> são identificadores, não features úteis — usá-los como preditor seria memorizar cada linha em vez de aprender um padrão que generalize.</p>
+</div>
+</div>
+</div>
+<p><strong>3.</strong> Um log de servidor tem timestamp, IP e URL, uma linha por requisição. É retangular? E se a pergunta for “qual a sequência típica de páginas antes de uma compra?”</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>A tabela é retangular — uma linha por requisição, colunas fixas. Mas a pergunta é sobre <strong>sequência</strong>: a ordem entre as linhas carrega a informação que importa, e a forma retangular não a representa por conta própria. É um caso em que a estrutura tabular armazena o dado, mas não o modela.</p>
+</div>
 </div>
 </div>
 
@@ -632,6 +875,7 @@ Nota
 Bruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. <em>Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python</em>. 2nd ed. O’Reilly Media.
 </div>
 </div>
+</section>
 
 </main> <!-- /main -->
 <script>
@@ -1162,7 +1406,7 @@ document.addEventListener('DOMContentLoaded', function () {
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><ul><li><a href="https://github.com/BragaD/UnDF-Bases3-Estatistica-202602/issues/new" class="toc-action"><i class="bi bi-github"></i>Criar uma issue</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/BragaD/UnDF-Bases3-Estatistica-202602/issues/new" class="toc-action"><i class="bi bi-github"></i>Criar uma issue</a></li></ul></div></div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item compact">

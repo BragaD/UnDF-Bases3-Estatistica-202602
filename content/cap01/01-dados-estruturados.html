@@ -24,6 +24,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 /* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
@@ -567,8 +602,20 @@ div.csl-indent {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Nesta página</h2>
+   
+  <ul>
+  <li><a href="#a-taxonomia" id="toc-a-taxonomia" class="nav-link active" data-scroll-target="#a-taxonomia">A taxonomia</a></li>
+  <li><a href="#por-que-a-distinção-importa" id="toc-por-que-a-distinção-importa" class="nav-link" data-scroll-target="#por-que-a-distinção-importa">Por que a distinção importa</a></li>
+  <li><a href="#o-que-o-pandas-infere-sozinho" id="toc-o-que-o-pandas-infere-sozinho" class="nav-link" data-scroll-target="#o-que-o-pandas-infere-sozinho">O que o pandas infere sozinho</a></li>
+  <li><a href="#declarando-o-categórico" id="toc-declarando-o-categórico" class="nav-link" data-scroll-target="#declarando-o-categórico">Declarando o categórico</a></li>
+  <li><a href="#o-caso-ordinal-quando-a-ordem-é-dado-não-convenção" id="toc-o-caso-ordinal-quando-a-ordem-é-dado-não-convenção" class="nav-link" data-scroll-target="#o-caso-ordinal-quando-a-ordem-é-dado-não-convenção">O caso ordinal: quando a ordem é dado, não convenção</a></li>
+  <li><a href="#resumo" id="toc-resumo" class="nav-link" data-scroll-target="#resumo">Resumo</a></li>
+  <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios">Exercícios</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/BragaD/UnDF-Bases3-Estatistica-202602/issues/new" class="toc-action"><i class="bi bi-github"></i>Criar uma issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -612,17 +659,188 @@ Nota
 <p>Esta seção corresponde à seção 1.1 de <span class="citation" data-cites="bruce2020">Bruce et al. (<a href="#ref-bruce2020" role="doc-biblioref">2020</a>)</span>.</p>
 </div>
 </div>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
+<p>Dado bruto — a leitura de um sensor, o clique de um usuário, uma frase de texto livre — não é, por si só, analisável. Antes de qualquer estatística, esse dado precisa ser <strong>estruturado</strong>: organizado em uma tabela, com cada coluna assumindo um tipo definido. É esse tipo que decide o que se pode fazer com a coluna depois.</p>
+<section id="a-taxonomia" class="level2">
+<h2 class="anchored" data-anchor-id="a-taxonomia">A taxonomia</h2>
+<p>Todo dado estruturado se encaixa em duas grandes famílias.</p>
+<p><strong>Numérico</strong> é o que se mede em quantidade:</p>
+<ul>
+<li><strong>Contínuo</strong> — pode assumir qualquer valor dentro de um intervalo. Velocidade do vento, duração de um voo.</li>
+<li><strong>Discreto</strong> — só assume valores inteiros, tipicamente contagens. Número de ocorrências de um evento.</li>
+</ul>
+<p><strong>Categórico</strong> é o que se classifica em grupos:</p>
+<ul>
+<li><strong>Nominal</strong> — categorias sem ordem natural. Estado da federação, tipo de tela de um celular.</li>
+<li><strong>Ordinal</strong> — categorias com ordem, mas sem distância numérica definida entre elas. Nota de satisfação de 1 a 5.</li>
+<li><strong>Binário</strong> — caso particular de categórico com exatamente dois valores. Sim/não, 0/1.</li>
+</ul>
+</section>
+<section id="por-que-a-distinção-importa" class="level2">
+<h2 class="anchored" data-anchor-id="por-que-a-distinção-importa">Por que a distinção importa</h2>
+<p>Isso pareceria bobagem de nomenclatura se não tivesse consequência prática. O tipo de uma variável determina três coisas: qual gráfico faz sentido para ela, qual estatística pode ser calculada sobre ela, e como o software deve armazenar e validar seus valores. Errar o tipo — tratar ordinal como numérico, ou nominal como se tivesse ordem — não é um erro estético; é o tipo de erro que produz uma conclusão errada com aparência de rigor.</p>
+</section>
+<section id="o-que-o-pandas-infere-sozinho" class="level2">
+<h2 class="anchored" data-anchor-id="o-que-o-pandas-infere-sozinho">O que o pandas infere sozinho</h2>
+<div id="cell-tipos" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>estado <span class="op">=</span> pd.read_csv(<span class="st">"dados/state.csv"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>estado.dtypes</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="tipos" class="cell-output cell-output-display" data-execution_count="2">
+<pre><code>State               str
+Population        int64
+Murder.Rate     float64
+Abbreviation        str
+dtype: object</code></pre>
+</div>
+</div>
+<p>O pandas acertou dois tipos numéricos sem qualquer ajuda: <code>Population</code> virou <code>int64</code> porque é contagem de pessoas — discreto — e <code>Murder.Rate</code> virou <code>float64</code> porque é uma taxa — contínua. Mas repare em <code>State</code> e <code>Abbreviation</code>: ambos viraram <code>str</code>, que é como o pandas rotula texto genérico. Ele não sabe que são categóricos nominais. Para o pandas, <code>"Alabama"</code> e <code>"AL"</code> são só sequências de caracteres, tão desprovidas de estrutura quanto um comentário de texto livre.</p>
+<div class="exemplo">
+<p>Isso é o que acontece quando ninguém declara o tipo explicitamente: o software cai de volta no genérico. Funciona, mas descarta informação — informação que o próximo passo recupera.</p>
+</div>
+</section>
+<section id="declarando-o-categórico" class="level2">
+<h2 class="anchored" data-anchor-id="declarando-o-categórico">Declarando o categórico</h2>
+<div id="categorico" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>estado[<span class="st">"Abbreviation"</span>] <span class="op">=</span> estado[<span class="st">"Abbreviation"</span>].astype(<span class="st">"category"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(estado[<span class="st">"Abbreviation"</span>].dtype)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"categorias:"</span>, <span class="bu">len</span>(estado[<span class="st">"Abbreviation"</span>].cat.categories))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>category
+categorias: 50</code></pre>
+</div>
+</div>
+<p>Agora <code>Abbreviation</code> é uma coluna <code>category</code>, com um conjunto fechado de 50 valores possíveis — um por estado. Aqui o ganho é <strong>semântico</strong>, não de memória: as 50 siglas são todas distintas, não há string repetida para deduplicar, e o overhead de guardar um código inteiro por linha <em>além</em> do mapa código→string na verdade custa um pouco mais (medido: 2.682 bytes como <code>str</code> contra 2.732 como <code>category</code>). A economia de memória do <code>category</code> aparece quando poucos valores distintos se repetem em muitas linhas — uma coluna de 10.000 linhas com só 4 categorias, por exemplo, cai de ~535 KB como <code>str</code> para ~10 KB como <code>category</code>, porque aí sim há repetição para deduplicar. Com <code>Abbreviation</code>, o que se ganha é outra coisa: declarar que a coluna é categórica, não texto livre.</p>
+</section>
+<section id="o-caso-ordinal-quando-a-ordem-é-dado-não-convenção" class="level2">
+<h2 class="anchored" data-anchor-id="o-caso-ordinal-quando-a-ordem-é-dado-não-convenção">O caso ordinal: quando a ordem é dado, não convenção</h2>
+<p>Categórico nominal não tem ordem. Categórico ordinal tem — e essa diferença não é decorativa, ela muda o que o software permite fazer.</p>
+<div id="ordinal" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pandas.api.types <span class="im">import</span> CategoricalDtype</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>tamanho <span class="op">=</span> CategoricalDtype(categories<span class="op">=</span>[<span class="st">"pequeno"</span>, <span class="st">"medio"</span>, <span class="st">"grande"</span>], ordered<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> pd.Series([<span class="st">"grande"</span>, <span class="st">"pequeno"</span>, <span class="st">"medio"</span>], dtype<span class="op">=</span>tamanho)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"ordenado:"</span>, s.sort_values().tolist())</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"maior que 'pequeno'?"</span>, s.gt(<span class="st">"pequeno"</span>).tolist())</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"máximo:"</span>, s.<span class="bu">max</span>())</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>ordenado: ['pequeno', 'medio', 'grande']
+maior que 'pequeno'? [True, False, True]
+máximo: grande</code></pre>
+</div>
+</div>
+<p>Três coisas funcionam aqui, e nenhuma delas funcionaria com texto solto. A ordenação devolveu <code>['pequeno', 'medio', 'grande']</code> — não por alfabeto, mas pela ordem declarada em <code>categories</code>. Alfabeticamente, “grande” viria <strong>antes</strong> de “pequeno”; pela semântica que declaramos, vem <strong>depois</strong>. A comparação <code>s.gt("pequeno")</code> responde à pergunta certa para cada linha, e <code>s.max()</code> sabe que o máximo é “grande”. O <code>ordered=True</code> foi o que ensinou ao pandas qual é a relação de ordem — sem ele, a única ordem disponível seria a do dicionário, que aqui não quer dizer nada.</p>
+<p>Agora o contraste. O mesmo dado, declarado como categórico <strong>nominal</strong> (sem <code>ordered=True</code>):</p>
+<div id="nominal-erro" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>nominal <span class="op">=</span> pd.Series([<span class="st">"grande"</span>, <span class="st">"pequeno"</span>, <span class="st">"medio"</span>], dtype<span class="op">=</span><span class="st">"category"</span>)  <span class="co"># sem ordered=True</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    nominal.gt(<span class="st">"pequeno"</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">TypeError</span> <span class="im">as</span> erro:</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"TypeError:"</span>, erro)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>TypeError: Unordered Categoricals can only compare equality or not</code></pre>
+</div>
+</div>
+<p>O pandas <strong>se recusa a comparar</strong>. E isso é uma feature, não uma limitação. Perguntar se um estado é “maior que” outro não significa coisa alguma — não existe ordem entre Alabama e Wyoming que a estatística reconheça. Um tipo nominal faz o software recusar a pergunta em vez de devolver uma resposta sem sentido; se <code>Abbreviation</code> respondesse a <code>&gt;</code>, alguém acabaria ordenando estados por “grandeza” alfabética e tratando o resultado como se significasse algo. O erro barrado na origem é melhor que o número enganoso.</p>
+<div class="conceito">
+<p>Declarar o tipo de uma coluna não é burocracia de código, é a mesma decisão que se toma ao escolher entre média e mediana: o tipo é o que permite ao software (a) rejeitar automaticamente uma operação sem sentido, como ordenar estados por “grandeza” alfabética; (b) escolher o gráfico adequado — barras para nominal, algo que respeite a ordem para ordinal, histograma para contínuo; e (c) economizar memória, porque uma coluna <code>category</code> com poucos valores distintos guarda inteiros internamente em vez de repetir strings.</p>
+</div>
+</section>
+<section id="resumo" class="level2">
+<h2 class="anchored" data-anchor-id="resumo">Resumo</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Tipo</th>
+<th>Exemplo</th>
+<th>Gráfico típico</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Numérico contínuo</td>
+<td>Velocidade do vento</td>
+<td>Histograma</td>
+</tr>
+<tr class="even">
+<td>Numérico discreto</td>
+<td>Número de ocorrências</td>
+<td>Gráfico de barras</td>
+</tr>
+<tr class="odd">
+<td>Categórico nominal</td>
+<td>Tipo de tela de celular</td>
+<td>Gráfico de barras</td>
+</tr>
+<tr class="even">
+<td>Categórico ordinal</td>
+<td>Nota de satisfação (1–5)</td>
+<td>Gráfico de barras ordenado</td>
+</tr>
+<tr class="odd">
+<td>Categórico binário</td>
+<td>Sim/não</td>
+<td>Gráfico de barras (2 categorias)</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="exercícios" class="level2">
+<h2 class="anchored" data-anchor-id="exercícios">Exercícios</h2>
+<p><strong>1.</strong> Classifique cada variável de <code>state.csv</code> (<code>State</code>, <code>Population</code>, <code>Murder.Rate</code>, <code>Abbreviation</code>) na taxonomia apresentada.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Aviso</span>Em construção
+<span class="screen-reader-only">Dica</span>Resposta
 </div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>O conteúdo desta seção ainda será escrito.</p>
+<p><code>State</code> e <code>Abbreviation</code> são categóricos nominais — identificam o estado, sem ordem entre eles. <code>Population</code> é numérico discreto — é uma contagem de pessoas. <code>Murder.Rate</code> é numérico contínuo — é uma taxa que pode assumir qualquer valor real não negativo.</p>
+</div>
+</div>
+</div>
+<p><strong>2.</strong> Uma pesquisa de satisfação registra respostas como 1, 2, 3, 4 ou 5. O pandas lê essa coluna como <code>int64</code>. Por que tratá-la como numérica pode enganar?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Porque a distância entre 1 e 2 não é necessariamente igual à distância entre 4 e 5 — a escala é ordinal, não intervalar. Calcular a média dessas notas pressupõe que os intervalos entre categorias são iguais, o que raramente é uma suposição defensável para percepção humana. A mediana ou a moda descrevem o valor típico sem exigir essa suposição.</p>
+</div>
+</div>
+</div>
+<p><strong>3.</strong> O CEP (<code>ZipCode</code>) do conjunto <code>kc_tax</code> é lido como número pelo pandas. É numérico?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Não. É categórico nominal codificado com dígitos. A média de dois CEPs não representa nada, e proximidade numérica entre dois CEPs não implica proximidade geográfica. Tratar identificadores numéricos como se fossem quantidades é um dos erros de tipo mais comuns na prática — e o <code>astype("category")</code> é o remédio direto.</p>
+</div>
 </div>
 </div>
 
@@ -632,6 +850,7 @@ Nota
 Bruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. <em>Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python</em>. 2nd ed. O’Reilly Media.
 </div>
 </div>
+</section>
 
 </main> <!-- /main -->
 <script>
@@ -1162,7 +1381,7 @@ document.addEventListener('DOMContentLoaded', function () {
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><ul><li><a href="https://github.com/BragaD/UnDF-Bases3-Estatistica-202602/issues/new" class="toc-action"><i class="bi bi-github"></i>Criar uma issue</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/BragaD/UnDF-Bases3-Estatistica-202602/issues/new" class="toc-action"><i class="bi bi-github"></i>Criar uma issue</a></li></ul></div></div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item compact">

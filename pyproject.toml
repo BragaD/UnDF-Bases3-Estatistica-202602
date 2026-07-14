@@ -3,19 +3,28 @@ name = "bases3-estatistica"
 version = "0.1.0"
 description = "Livro Quarto — Bases 3: Estatística (UnDF)"
 requires-python = ">=3.12"
+# Limites de versão: o uv.lock trava as versões exatas, mas um `make lock` futuro
+# resolveria livremente e poderia puxar uma versão incompatível. Isso já aconteceu:
+# o pandas 3 mudou o dtype padrão de texto (object -> str) e a indexação de Series
+# categóricas, quebrando dois exemplos do capítulo 1 SEM levantar exceção — apenas
+# devolvendo a resposta errada. Os limites abaixo transformam essa classe de falha
+# silenciosa num conflito de resolução explícito.
+#
+# Pacotes 0.x levam limite no MINOR, não na major: pela convenção do semver, num
+# 0.x é o minor que carrega mudanças incompatíveis, então "<1" não protegeria nada.
 dependencies = [
-    "pandas",
-    "numpy",
-    "scipy",
-    "statsmodels",
-    "scikit-learn",
-    "matplotlib",
-    "seaborn",
-    "wquantiles",
-    "adjustText",
-    "pygam",
-    "dmba",
-    "jupyter",
+    "pandas>=3,<4",
+    "numpy>=2,<3",
+    "scipy>=1,<2",
+    "scikit-learn>=1,<2",
+    "matplotlib>=3,<4",
+    "adjustText>=1,<2",
+    "jupyter>=1,<2",
+    "statsmodels>=0.14,<0.15",
+    "seaborn>=0.13,<0.14",
+    "pygam>=0.12,<0.13",
+    "wquantiles>=0.6,<0.7",
+    "dmba>=0.2,<0.3",
 ]
 
 [tool.uv]

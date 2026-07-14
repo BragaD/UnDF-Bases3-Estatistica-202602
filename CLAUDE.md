@@ -26,6 +26,12 @@ make clean     # remove _book/, _freeze/, .quarto/
 
 Ao adicionar uma dependência Python: edite `pyproject.toml` → `make lock` → `make build`.
 
+**Toda dependência leva limite superior de versão.** Pacotes 1.x+ levam limite na major (`"pandas>=3,<4"`); pacotes **0.x levam limite no minor** (`"statsmodels>=0.14,<0.15"`), porque num 0.x é o minor que carrega mudanças incompatíveis — `<1` não protegeria nada.
+
+O motivo é concreto, não teórico: o pandas 3 mudou o dtype padrão de texto (`object` → `str`) e a indexação de Series categóricas, e isso quebrou dois exemplos do Capítulo 1 **sem levantar exceção** — apenas devolvendo a resposta errada (`s[0] > s[1]` passou a comparar strings alfabeticamente e retornar `False` em silêncio). O `uv.lock` protege a reprodutibilidade de hoje, mas sem os limites um `make lock` futuro resolveria livremente e reintroduziria a mesma classe de falha silenciosa. Os limites transformam isso num conflito de resolução explícito.
+
+Se um limite bloquear um upgrade que você quer, suba-o **deliberadamente** e re-renderize o livro conferindo os números — não o remova.
+
 `execute: freeze: auto` está ativo: o Quarto só reexecuta chunks cujo fonte mudou. O cache fica em `_freeze/` (gitignorado). Se um chunk parecer "preso" com saída velha, `make clean`.
 
 ## Arquitetura

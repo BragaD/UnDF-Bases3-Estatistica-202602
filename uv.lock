@@ -159,18 +159,18 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
-    { name = "adjusttext" },
-    { name = "dmba" },
-    { name = "jupyter" },
-    { name = "matplotlib" },
-    { name = "numpy" },
-    { name = "pandas" },
-    { name = "pygam" },
-    { name = "scikit-learn" },
-    { name = "scipy" },
-    { name = "seaborn" },
-    { name = "statsmodels" },
-    { name = "wquantiles" },
+    { name = "adjusttext", specifier = ">=1,<2" },
+    { name = "dmba", specifier = ">=0.2,<0.3" },
+    { name = "jupyter", specifier = ">=1,<2" },
+    { name = "matplotlib", specifier = ">=3,<4" },
+    { name = "numpy", specifier = ">=2,<3" },
+    { name = "pandas", specifier = ">=3,<4" },
+    { name = "pygam", specifier = ">=0.12,<0.13" },
+    { name = "scikit-learn", specifier = ">=1,<2" },
+    { name = "scipy", specifier = ">=1,<2" },
+    { name = "seaborn", specifier = ">=0.13,<0.14" },
+    { name = "statsmodels", specifier = ">=0.14,<0.15" },
+    { name = "wquantiles", specifier = ">=0.6,<0.7" },
 ]
 
 [[package]]

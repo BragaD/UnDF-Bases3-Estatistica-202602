@@ -25,7 +25,13 @@ check: ## Diagnóstico do Quarto dentro do container
 lock: ## Regenera o uv.lock a partir do pyproject.toml
 	uv lock
 
-clean: ## Remove artefatos de render
+clean: ## Remove artefatos de render (inclusive o lixo que um render abortado deixa)
 	rm -rf _book _freeze .quarto
+# O Quarto cria .html e *_files DENTRO de content/ durante o render e os apaga no
+# final. Se o render aborta (o bind mount do Docker no macOS às vezes falha com
+# "Directory not empty"), esse lixo fica — e TRAVA o render seguinte, que não
+# consegue remover um diretório não vazio. Também polui o git status.
+	find content -name '*_files' -type d -exec rm -rf {} + 2>/dev/null || true
+	find content -name '*.html' -type f -delete 2>/dev/null || true
 
 .PHONY: help build preview render shell check lock clean

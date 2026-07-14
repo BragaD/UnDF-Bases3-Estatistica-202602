@@ -3,6 +3,13 @@
 /_book/
 /_freeze/
 
+# Lixo que um render abortado deixa dentro de content/. O Quarto cria estes
+# arquivos durante o render e os apaga no fim; se ele aborta (o bind mount do
+# Docker no macOS às vezes falha com "Directory not empty"), eles ficam — e
+# travam o render seguinte. O `make clean` os remove.
+content/**/*.html
+content/**/*_files/
+
 # Python
 .venv/
 __pycache__/

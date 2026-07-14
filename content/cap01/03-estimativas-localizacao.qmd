@@ -27,6 +27,7 @@ Vamos usar população e taxa de homicídios (por 100.000 habitantes) dos 50 est
 ```{python}
 #| label: carrega
 estado = pd.read_csv("dados/state.csv")
+ojs_define(dados = estado)
 estado.head()
 ```
 
@@ -128,6 +129,82 @@ A média está à direita das outras duas, arrastada pela cauda de estados muito
 ::: {.conceito}
 **Regra prática:** a média é o padrão, mas é frágil. Quando os dados têm cauda longa ou outliers plausíveis — renda, população, valor de imóveis — a mediana ou a média aparada descrevem melhor o caso típico.
 :::
+
+## Arraste o outlier
+
+Os números acima são uma fotografia. Para ver a média *perseguindo* um outlier — em vez de apenas ler que ela faz isso — arraste a população da Califórnia no controle abaixo até 300 milhões e observe as três linhas do histograma. A vermelha (média) desliza atrás do seu cursor. A verde (mediana) não se mexe um milímetro. A laranja (média aparada de 10%) também fica parada: descartar os 5 estados mais populosos tira a Califórnia do cálculo antes que ela tenha chance de puxar nada.
+
+```{ojs}
+//| echo: false
+estados = transpose(dados)
+
+// Espelha o formato do f"{x:,.1f}" que o chunk Python usa acima nesta mesma
+// página. Trocar para pt-BR aqui faria o MESMO número aparecer de dois jeitos
+// diferentes na mesma página (6.162.876,3 vs 6,162,876.3) — o aluno notaria.
+fmt = x => x.toLocaleString("en-US", {minimumFractionDigits: 1, maximumFractionDigits: 1})
+
+// Mesma definição do scipy.stats.trim_mean: corta k = floor(n × prop)
+// observações de cada ponta e tira a média do que sobra.
+function mediaAparada(x, prop) {
+  const s = [...x].sort(d3.ascending);
+  const k = Math.floor(s.length * prop);
+  const nucleo = s.slice(k, s.length - k);
+  return nucleo.length ? d3.mean(nucleo) : d3.median(s);
+}
+```
+
+```{ojs}
+//| echo: false
+viewof pop_ca = Inputs.range([1_000_000, 300_000_000], {
+  step: 1,
+  value: 37253956,
+  label: "População da Califórnia:",
+  format: x => (x / 1e6).toFixed(1) + " M"
+})
+```
+
+```{ojs}
+//| echo: false
+popsA = estados.map(d => d.State === "California" ? pop_ca : d.Population)
+
+estatA = ({
+  media:   d3.mean(popsA),
+  aparada: mediaAparada(popsA, 0.10),
+  mediana: d3.median(popsA)
+})
+```
+
+```{ojs}
+//| echo: false
+html`<table class="table">
+  <thead><tr><th>Estimativa</th><th style="text-align:right">Valor</th></tr></thead>
+  <tbody>
+    <tr><td><span style="color:#c0392b">━</span> Média</td>
+        <td style="text-align:right"><strong>${fmt(estatA.media)}</strong></td></tr>
+    <tr><td><span style="color:#e67e22">┅</span> Média aparada (10%)</td>
+        <td style="text-align:right"><strong>${fmt(estatA.aparada)}</strong></td></tr>
+    <tr><td><span style="color:#27ae60">┈</span> Mediana</td>
+        <td style="text-align:right"><strong>${fmt(estatA.mediana)}</strong></td></tr>
+  </tbody>
+</table>`
+```
+
+```{ojs}
+//| echo: false
+Plot.plot({
+  height: 260,
+  marginLeft: 55,
+  x: {label: "População (milhões) →"},
+  y: {label: "↑ Número de estados", grid: true},
+  marks: [
+    Plot.rectY(popsA, Plot.binX({y: "count"}, {x: d => d / 1e6, fill: "#b0c4d8", thresholds: 20})),
+    Plot.ruleX([estatA.media / 1e6],   {stroke: "#c0392b", strokeWidth: 2}),
+    Plot.ruleX([estatA.aparada / 1e6], {stroke: "#e67e22", strokeWidth: 2, strokeDasharray: "5 3"}),
+    Plot.ruleX([estatA.mediana / 1e6], {stroke: "#27ae60", strokeWidth: 2.5, strokeDasharray: "1 3"}),
+    Plot.ruleY([0])
+  ]
+})
+```
 
 ## Exercícios
 

@@ -103,7 +103,7 @@ contagem = lc.pivot_table(index="Nota", columns="Situacao",
 contagem
 ```
 
-São 450.961 empréstimos ao todo (célula `All`/`All`), divididos em quatro situações (`Inadimplente` — prejuízo assumido; `Em dia`; `Quitado`; `Atrasado`) e sete notas de risco.
+São 450.961 empréstimos ao todo (célula `All`/`All`), divididos em quatro situações (`Atrasado`; `Em dia`; `Inadimplente` — prejuízo assumido; `Quitado`) e sete notas de risco.
 
 ::: {.conceito}
 Olhe a coluna `Inadimplente`. A nota C tem 6.023 empréstimos inadimplentes — mais que qualquer outra nota, mais que E, F e G somadas. É tentador ler isso como "C é a nota mais arriscada da carteira". Mas a contagem mistura duas coisas: o quão arriscada é a nota, e o quão grande é a nota. B e C sozinhas concentram mais da metade da carteira (132.370 e 120.875 empréstimos), então é claro que têm mais de tudo, inclusive mais inadimplência. Comparar contagens brutas entre grupos de tamanhos tão diferentes é um erro clássico, e é exatamente o que a tabela de contagem convida a fazer.

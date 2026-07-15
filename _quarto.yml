@@ -132,6 +132,7 @@ format:
       dark: darkly
     css: styles.css
     number-sections: false
+    include-in-header: modo-leitura.html
     include-after-body: spoiler.html
     toc: true
     toc-depth: 4

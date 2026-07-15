@@ -833,54 +833,18 @@ Figura&nbsp;6.3: Histograma da taxa de homicídios com a curva de densidade sobr
 <section id="assimetria" class="level2">
 <h2 class="anchored" data-anchor-id="assimetria">Assimetria</h2>
 <p>As seções 1.3 e 1.4 reduziram a população dos estados a dois números: um valor típico e uma medida de quanto os dados se espalham em torno dele. Considere agora três turmas fictícias de 25 alunos, com boletins <strong>idênticos</strong>: média 65, desvio-padrão 12. Se essas duas estatísticas fossem tudo que existisse para descrever uma turma, seria razoável supor que as três se parecem. Elas não se parecem: uma tem a maioria das notas abaixo da média com um rastro de notas altas puxando para cima; outra é o espelho exato dessa primeira; a terceira não tem rastro para nenhum lado. Média e variância dizem <strong>onde</strong> os dados estão centrados e <strong>quão espalhados</strong> eles estão — nenhuma das duas diz uma palavra sobre a <strong>forma</strong>.</p>
-<div id="turmas" class="cell" data-execution_count="7">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>N, MEDIA, DESVIO <span class="op">=</span> <span class="dv">25</span>, <span class="fl">65.0</span>, <span class="fl">12.0</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> padroniza(x, media<span class="op">=</span>MEDIA, desvio<span class="op">=</span>DESVIO):</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Crava média e desvio exatos, via z-score e reescala.</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">    A assimetria é invariante a transformação linear — ela sobrevive intacta.</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co">    É isso que permite três conjuntos com a MESMA média e a MESMA variância,</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">    mas formas diferentes.</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> np.asarray(x, <span class="bu">float</span>)</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (x <span class="op">-</span> x.mean()) <span class="op">/</span> x.std(ddof<span class="op">=</span><span class="dv">1</span>) <span class="op">*</span> desvio <span class="op">+</span> media</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Um gerador por turma: a ordem de consumo do RNG não pode alterar um conjunto</span></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co"># em silêncio quando outro mudar.</span></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>turma_a <span class="op">=</span> padroniza(np.random.default_rng(<span class="dv">42</span>).lognormal(<span class="dv">0</span>, <span class="fl">1.0</span>, N))</span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Espelho em torno da média: preserva média e variância, e inverte o SINAL da</span></span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="co"># assimetria — exatamente, não aproximadamente.</span></span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>turma_b <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> MEDIA <span class="op">-</span> turma_a</span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Simétrica POR CONSTRUÇÃO, não por amostragem: 12 desvios, seus 12 espelhos,</span></span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="co"># e o centro. A assimetria é exatamente zero, não "próxima de zero".</span></span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>desvios <span class="op">=</span> np.<span class="bu">abs</span>(np.random.default_rng(<span class="dv">7</span>).normal(<span class="dv">0</span>, <span class="dv">1</span>, (N <span class="op">-</span> <span class="dv">1</span>) <span class="op">//</span> <span class="dv">2</span>))</span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>turma_c <span class="op">=</span> padroniza(np.concatenate([<span class="op">-</span>desvios, [<span class="fl">0.0</span>], desvios]))</span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>turmas <span class="op">=</span> {<span class="st">"A — à direita"</span>: turma_a, <span class="st">"B — à esquerda"</span>: turma_b, <span class="st">"C — simétrica"</span>: turma_c}</span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a><span class="co"># As garantias são verificadas, não afirmadas.</span></span>
-<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> np.allclose([t.mean() <span class="cf">for</span> t <span class="kw">in</span> turmas.values()], MEDIA)</span>
-<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> np.allclose([t.var(ddof<span class="op">=</span><span class="dv">1</span>) <span class="cf">for</span> t <span class="kw">in</span> turmas.values()], DESVIO <span class="op">**</span> <span class="dv">2</span>)</span>
-<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> np.isclose(stats.skew(turma_a, bias<span class="op">=</span><span class="va">False</span>), <span class="op">-</span>stats.skew(turma_b, bias<span class="op">=</span><span class="va">False</span>))</span>
-<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> np.isclose(stats.skew(turma_c, bias<span class="op">=</span><span class="va">False</span>), <span class="dv">0</span>, atol<span class="op">=</span><span class="fl">1e-12</span>)</span>
-<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="bu">all</span>(t.<span class="bu">min</span>() <span class="op">&gt;=</span> <span class="dv">0</span> <span class="kw">and</span> t.<span class="bu">max</span>() <span class="op">&lt;=</span> <span class="dv">100</span> <span class="cf">for</span> t <span class="kw">in</span> turmas.values())</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>A turma A vem de uma distribuição lognormal — sabidamente de cauda longa à direita — reescalada por <code>padroniza()</code> até ter exatamente a média e o desvio-padrão combinados; a assimetria sobrevive a essa reescala porque é invariante a transformações lineares. A turma B é o espelho exato de A em torno de 65: mesma média, mesma variância, assimetria com o sinal invertido, ponto a ponto. A turma C não vem de sorteio nenhum — é montada aos pares simétricos ao redor do centro e só depois reescalada, então sua assimetria não fica <em>perto</em> de zero: ela <strong>é</strong> zero, por construção. Os <code>assert</code> no fim do bloco não são um comentário sobre o código: são a verificação de que as três turmas realmente têm a mesma média, a mesma variância, assimetrias exatamente opostas (A e B) ou exatamente nula (C), e nenhuma nota fora de [0, 100]. Se alguma dessas garantias falhasse, o exemplo estaria quebrado, e é melhor o livro recusar a compilar do que publicá-lo assim.</p>
 <p>As quatro estatísticas a seguir tornam a diferença impossível de ignorar:</p>
 <div id="cell-tabela-assimetria" class="cell" data-execution_count="8">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>resumo <span class="op">=</span> pd.DataFrame(</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    {</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Média"</span>: [num(t.mean(), <span class="dv">1</span>) <span class="cf">for</span> t <span class="kw">in</span> turmas.values()],</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Mediana"</span>: [num(np.median(t), <span class="dv">1</span>) <span class="cf">for</span> t <span class="kw">in</span> turmas.values()],</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Variância"</span>: [num(t.var(ddof<span class="op">=</span><span class="dv">1</span>), <span class="dv">1</span>) <span class="cf">for</span> t <span class="kw">in</span> turmas.values()],</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Assimetria"</span>: [num(stats.skew(t, bias<span class="op">=</span><span class="va">False</span>), <span class="dv">2</span>) <span class="cf">for</span> t <span class="kw">in</span> turmas.values()],</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    },</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    index<span class="op">=</span><span class="bu">list</span>(turmas),</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>resumo</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>resumo <span class="op">=</span> pd.DataFrame(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Média"</span>: [num(t.mean(), <span class="dv">1</span>) <span class="cf">for</span> t <span class="kw">in</span> turmas.values()],</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Mediana"</span>: [num(np.median(t), <span class="dv">1</span>) <span class="cf">for</span> t <span class="kw">in</span> turmas.values()],</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Variância"</span>: [num(t.var(ddof<span class="op">=</span><span class="dv">1</span>), <span class="dv">1</span>) <span class="cf">for</span> t <span class="kw">in</span> turmas.values()],</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Assimetria"</span>: [num(stats.skew(t, bias<span class="op">=</span><span class="va">False</span>), <span class="dv">2</span>) <span class="cf">for</span> t <span class="kw">in</span> turmas.values()],</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    index<span class="op">=</span><span class="bu">list</span>(turmas),</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>resumo</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div id="tabela-assimetria" class="cell-output cell-output-display" data-execution_count="8">
 <div>
 
@@ -930,18 +894,18 @@ Figura&nbsp;6.3: Histograma da taxa de homicídios com a curva de densidade sobr
 </div>
 <p>O histograma deixa a mesma história visível:</p>
 <div id="cell-fig-assimetria" class="cell" data-execution_count="9">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>fig, eixos <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">11</span>, <span class="fl">3.3</span>), sharey<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ax, (nome, notas) <span class="kw">in</span> <span class="bu">zip</span>(eixos, turmas.items()):</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    ax.hist(notas, bins<span class="op">=</span>np.arange(<span class="dv">30</span>, <span class="dv">101</span>, <span class="dv">7</span>), color<span class="op">=</span><span class="st">"#b0c4d8"</span>, edgecolor<span class="op">=</span><span class="st">"white"</span>)</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    ax.axvline(notas.mean(), color<span class="op">=</span><span class="st">"#c0392b"</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    ax.axvline(np.median(notas), color<span class="op">=</span><span class="st">"#27ae60"</span>, linestyle<span class="op">=</span><span class="st">"--"</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    ax.set_title(nome, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    ax.set_xlabel(<span class="st">"Nota"</span>)</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>eixos[<span class="dv">0</span>].set_ylabel(<span class="st">"Alunos"</span>)</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>fig, eixos <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">11</span>, <span class="fl">3.3</span>), sharey<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ax, (nome, notas) <span class="kw">in</span> <span class="bu">zip</span>(eixos, turmas.items()):</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    ax.hist(notas, bins<span class="op">=</span>np.arange(<span class="dv">30</span>, <span class="dv">101</span>, <span class="dv">7</span>), color<span class="op">=</span><span class="st">"#b0c4d8"</span>, edgecolor<span class="op">=</span><span class="st">"white"</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    ax.axvline(notas.mean(), color<span class="op">=</span><span class="st">"#c0392b"</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    ax.axvline(np.median(notas), color<span class="op">=</span><span class="st">"#27ae60"</span>, linestyle<span class="op">=</span><span class="st">"--"</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    ax.set_title(nome, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    ax.set_xlabel(<span class="st">"Nota"</span>)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>eixos[<span class="dv">0</span>].set_ylabel(<span class="st">"Alunos"</span>)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div id="fig-assimetria" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -958,22 +922,22 @@ Figura&nbsp;6.4: Três turmas com a mesma média e a mesma variância — e form
 <p>No painel A, a maioria das notas se aglomera abaixo de 65, com um rastro de notas altas se estendendo para a direita — é esse rastro que empurra a linha vermelha (média) para além da linha verde tracejada (mediana). No painel B a imagem é o espelho: a maioria das notas fica acima de 65, com o rastro agora à esquerda, e a média fica abaixo da mediana. No painel C não há rastro para nenhum dos dois lados, e as duas linhas praticamente se sobrepõem. O <code>sharey=True</code> importa: sem ele, cada painel escolheria sua própria escala vertical, e a comparação entre as três formas ficaria distorcida.</p>
 <p>O histograma mostra a forma inteira, mas a assimetria aparece igualmente bem no <strong>boxplot</strong> — que resume cada turma em cinco números. Empilhando os três lado a lado, a diferença salta aos olhos mesmo sem contar nenhuma nota:</p>
 <div id="cell-fig-boxplot-assimetria" class="cell" data-execution_count="10">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">3</span>))</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>caixas <span class="op">=</span> ax.boxplot(</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    [turma_c, turma_b, turma_a],          <span class="co"># de baixo para cima: simétrica, esquerda, direita</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    tick_labels<span class="op">=</span>[<span class="st">"C — simétrica"</span>, <span class="st">"B — à esquerda"</span>, <span class="st">"A — à direita"</span>],</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    vert<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    patch_artist<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    medianprops<span class="op">=</span>{<span class="st">"color"</span>: <span class="st">"#27ae60"</span>, <span class="st">"linewidth"</span>: <span class="dv">2</span>},</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    widths<span class="op">=</span><span class="fl">0.6</span>,</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> caixa <span class="kw">in</span> caixas[<span class="st">"boxes"</span>]:</span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    caixa.<span class="bu">set</span>(facecolor<span class="op">=</span><span class="st">"#b0c4d8"</span>, edgecolor<span class="op">=</span><span class="st">"#2c3e50"</span>)</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Nota"</span>)</span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">3</span>))</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>caixas <span class="op">=</span> ax.boxplot(</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    [turma_c, turma_b, turma_a],          <span class="co"># de baixo para cima: simétrica, esquerda, direita</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    tick_labels<span class="op">=</span>[<span class="st">"C — simétrica"</span>, <span class="st">"B — à esquerda"</span>, <span class="st">"A — à direita"</span>],</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    vert<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    patch_artist<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    medianprops<span class="op">=</span>{<span class="st">"color"</span>: <span class="st">"#27ae60"</span>, <span class="st">"linewidth"</span>: <span class="dv">2</span>},</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    widths<span class="op">=</span><span class="fl">0.6</span>,</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> caixa <span class="kw">in</span> caixas[<span class="st">"boxes"</span>]:</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    caixa.<span class="bu">set</span>(facecolor<span class="op">=</span><span class="st">"#b0c4d8"</span>, edgecolor<span class="op">=</span><span class="st">"#2c3e50"</span>)</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Nota"</span>)</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>/tmp/ipykernel_347/294545130.py:3: MatplotlibDeprecationWarning: vert: bool was deprecated in Matplotlib 3.11 and will be removed in 3.13. Use orientation: {'vertical', 'horizontal'} instead.
   caixas = ax.boxplot(</code></pre>
@@ -997,8 +961,8 @@ Figura&nbsp;6.5: As mesmas três turmas em boxplot. A linha central é a mediana
 <p>O expoente 3 é o que faz a fórmula funcionar: ele <strong>preserva o sinal</strong> do desvio. Um desvio acima da média entra positivo; um desvio abaixo, negativo — e eles se cancelariam, como cancelam na média dos desvios simples (seção 1.4), a menos que uma das caudas seja mais comprida ou mais extrema que a outra. É exatamente esse desequilíbrio residual que sobra depois do cancelamento. Compare com o desvio-padrão: ali o desvio é <strong>elevado ao quadrado</strong>, o quadrado de um número negativo é positivo, o sinal desaparece — e é por isso que o desvio-padrão, por mais que meça dispersão, não diz absolutamente nada sobre para qual lado os dados pendem.</p>
 <p>Voltando aos dados reais das 27 unidades federativas:</p>
 <div id="assimetria-real" class="cell" data-execution_count="11">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"População das UFs  : </span><span class="sc">{</span>num(stats.skew(estado[<span class="st">'Populacao'</span>], bias<span class="op">=</span><span class="va">False</span>), <span class="dv">2</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Taxa de homicídios : </span><span class="sc">{</span>num(stats.skew(estado[<span class="st">'Taxa.Homicidios'</span>], bias<span class="op">=</span><span class="va">False</span>), <span class="dv">2</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"População das UFs  : </span><span class="sc">{</span>num(stats.skew(estado[<span class="st">'Populacao'</span>], bias<span class="op">=</span><span class="va">False</span>), <span class="dv">2</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Taxa de homicídios : </span><span class="sc">{</span>num(stats.skew(estado[<span class="st">'Taxa.Homicidios'</span>], bias<span class="op">=</span><span class="va">False</span>), <span class="dv">2</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>População das UFs  : 2,96
 Taxa de homicídios : -0,19</code></pre>

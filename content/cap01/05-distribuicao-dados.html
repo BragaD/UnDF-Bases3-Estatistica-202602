@@ -131,6 +131,50 @@ div.csl-indent {
     "search-label": "Procurar"
   }
 }</script>
+<script>
+// Modo leitura: um botão que esconde as duas barras laterais e centraliza o
+// texto. A escolha é lembrada entre páginas (localStorage). Ver o CSS em
+// styles.css (classe html.modo-leitura e .btn-modo-leitura).
+(function () {
+  var CHAVE = "bases3-modo-leitura";
+
+  // 1. Aplicar o estado salvo ANTES do primeiro paint, para não haver flash das
+  //    barras aparecendo e sumindo. Este script está no <head>, então roda antes
+  //    de o <body> ser desenhado.
+  try {
+    if (localStorage.getItem(CHAVE) === "1") {
+      document.documentElement.classList.add("modo-leitura");
+    }
+  } catch (e) {}
+
+  // 2. Injetar o botão e ligar o toggle quando o DOM estiver pronto.
+  document.addEventListener("DOMContentLoaded", function () {
+    var btn = document.createElement("button");
+    btn.className = "btn-modo-leitura";
+    btn.type = "button";
+
+    function rotular() {
+      var ativo = document.documentElement.classList.contains("modo-leitura");
+      btn.innerHTML = ativo
+        ? '<i class="bi bi-layout-sidebar-inset"></i> Mostrar menus'
+        : '<i class="bi bi-arrows-angle-expand"></i> Modo leitura';
+      btn.setAttribute("aria-pressed", ativo ? "true" : "false");
+    }
+
+    rotular();
+
+    btn.addEventListener("click", function () {
+      var ativo = document.documentElement.classList.toggle("modo-leitura");
+      try {
+        localStorage.setItem(CHAVE, ativo ? "1" : "0");
+      } catch (e) {}
+      rotular();
+    });
+
+    document.body.appendChild(btn);
+  });
+})();
+</script>
 <script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
@@ -939,7 +983,7 @@ Figura&nbsp;6.4: Três turmas com a mesma média e a mesma variância — e form
 <span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
 <span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>/tmp/ipykernel_347/294545130.py:3: MatplotlibDeprecationWarning: vert: bool was deprecated in Matplotlib 3.11 and will be removed in 3.13. Use orientation: {'vertical', 'horizontal'} instead.
+<pre><code>/tmp/ipykernel_348/294545130.py:3: MatplotlibDeprecationWarning: vert: bool was deprecated in Matplotlib 3.11 and will be removed in 3.13. Use orientation: {'vertical', 'horizontal'} instead.
   caixas = ax.boxplot(</code></pre>
 </div>
 <div class="cell-output cell-output-display">

@@ -209,3 +209,63 @@
 .sidebar-title {
   font-weight: 700;
 }
+
+/* ── Modo leitura: esconde as duas barras e centraliza o texto ──
+   Só no desktop (≥992px), onde o Quarto sempre mostra o sidebar. No celular o
+   próprio Quarto já recolhe o menu num botão, então aqui vira no-op. */
+@media (min-width: 992px) {
+  html.modo-leitura #quarto-sidebar,
+  html.modo-leitura #quarto-margin-sidebar {
+    display: none !important;
+  }
+  /* As barras ocupam colunas do grid do Quarto; escondê-las não basta —
+     o conteúdo precisa passar a ocupar a largura toda e se recentralizar. */
+  html.modo-leitura #quarto-document-content {
+    grid-column: 1 / -1 !important;
+  }
+  html.modo-leitura #quarto-document-content .content,
+  html.modo-leitura main.content {
+    max-width: 900px;
+    margin-inline: auto;
+  }
+}
+
+/* Botão flutuante do modo leitura */
+.btn-modo-leitura {
+  position: fixed;
+  bottom: 1.3rem;
+  right: 1.3rem;
+  z-index: 1080;
+  display: none;                 /* só no desktop (regra @media abaixo) */
+  align-items: center;
+  gap: 0.45em;
+  padding: 0.45em 0.8em;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #ffffff;
+  color: #2c3e50;
+  cursor: pointer;
+  font-size: 0.85em;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
+}
+
+.btn-modo-leitura:hover {
+  background-color: #f2f6fa;
+}
+
+@media (min-width: 992px) {
+  .btn-modo-leitura {
+    display: inline-flex;
+  }
+}
+
+/* Tema escuro */
+.quarto-dark .btn-modo-leitura {
+  background-color: #1a2f3e;
+  color: #dce8f5;
+  border-color: #3a5a70;
+}
+
+.quarto-dark .btn-modo-leitura:hover {
+  background-color: #223c4e;
+}

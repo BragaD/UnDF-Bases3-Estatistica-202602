@@ -34,10 +34,26 @@ Vamos usar retornos diários de ações e ETFs (fundos negociados em bolsa) do S
 
 ```{python}
 #| label: carrega
-setores = pd.read_csv("dados/sp500_sectors.csv")
+SETORES = {
+    "consumer_discretionary": "consumo_discricionario",
+    "consumer_staples": "consumo_essencial",
+    "energy": "energia",
+    "etf": "etf",
+    "financials": "financeiro",
+    "health_care": "saude",
+    "industrials": "industrial",
+    "information_technology": "tecnologia_da_informacao",
+    "materials": "materiais",
+    "telecommunications_services": "telecomunicacoes",
+    "utilities": "utilidade_publica",
+}
+setores = pd.read_csv("dados/sp500_sectors.csv").rename(
+    columns={"sector": "Setor", "symbol": "Simbolo"}
+)
+setores["Setor"] = setores["Setor"].replace(SETORES)
 precos  = pd.read_csv("dados/sp500_data.csv.gz", index_col=0)
 
-simbolos_telecom = setores[setores["sector"] == "telecommunications_services"]["symbol"]
+simbolos_telecom = setores[setores["Setor"] == "telecomunicacoes"]["Simbolo"]
 telecom = precos.loc[precos.index >= "2012-07-01", simbolos_telecom]
 
 print("dias x empresas:", telecom.shape)
@@ -86,7 +102,7 @@ Uma matriz de 5 × 5 ainda se lê em números. Uma de 17 × 17 não. Nesses caso
 #| label: fig-heatmap
 #| fig-cap: "Correlação dos retornos diários entre fundos negociados em bolsa (ETFs)."
 etfs = precos.loc[precos.index > "2012-07-01",
-                  setores[setores["sector"] == "etf"]["symbol"]]
+                  setores[setores["Setor"] == "etf"]["Simbolo"]]
 
 fig, ax = plt.subplots(figsize=(7, 6))
 sns.heatmap(etfs.corr(), vmin=-1, vmax=1,

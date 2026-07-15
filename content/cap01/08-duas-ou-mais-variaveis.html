@@ -101,9 +101,9 @@ div.csl-indent {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-408a4e7dab8ba2f39144676ed6f22a2b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-0fe1f9a4b76cef9b8d591c7931aac72a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-408a4e7dab8ba2f39144676ed6f22a2b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-919afcecfa5e73491d13bd02fdf8a845.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-207a82166aa4203b00c124a7d7659b56.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-919afcecfa5e73491d13bd02fdf8a845.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -711,13 +711,17 @@ Nota
 <h2 class="anchored" data-anchor-id="numérico-numérico-quando-o-gráfico-de-dispersão-não-basta">Numérico × numérico: quando o gráfico de dispersão não basta</h2>
 <p>Vamos usar avaliações fiscais de imóveis do condado de King, em Washington: área construída e valor venal.</p>
 <div id="carrega-kc" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>kc <span class="op">=</span> pd.read_csv(<span class="st">"dados/kc_tax.csv.gz"</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"registros brutos: </span><span class="sc">{</span>num(<span class="bu">len</span>(kc), <span class="dv">0</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>kc0 <span class="op">=</span> kc.loc[(kc.TaxAssessedValue <span class="op">&lt;</span> <span class="dv">750000</span>) <span class="op">&amp;</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>             (kc.SqFtTotLiving <span class="op">&gt;</span> <span class="dv">100</span>) <span class="op">&amp;</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>             (kc.SqFtTotLiving <span class="op">&lt;</span> <span class="dv">3500</span>), :]</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"após filtrar extremos: </span><span class="sc">{</span>num(<span class="bu">len</span>(kc0), <span class="dv">0</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>kc <span class="op">=</span> pd.read_csv(<span class="st">"dados/kc_tax.csv.gz"</span>).rename(columns<span class="op">=</span>{</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TaxAssessedValue"</span>: <span class="st">"ValorVenal"</span>,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SqFtTotLiving"</span>: <span class="st">"AreaConstruida"</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ZipCode"</span>: <span class="st">"CEP"</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"registros brutos: </span><span class="sc">{</span>num(<span class="bu">len</span>(kc), <span class="dv">0</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>kc0 <span class="op">=</span> kc.loc[(kc.ValorVenal <span class="op">&lt;</span> <span class="dv">750000</span>) <span class="op">&amp;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>             (kc.AreaConstruida <span class="op">&gt;</span> <span class="dv">100</span>) <span class="op">&amp;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>             (kc.AreaConstruida <span class="op">&lt;</span> <span class="dv">3500</span>), :]</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"após filtrar extremos: </span><span class="sc">{</span>num(<span class="bu">len</span>(kc0), <span class="dv">0</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>registros brutos: 498.249
 após filtrar extremos: 432.693</code></pre>
@@ -730,7 +734,7 @@ após filtrar extremos: 432.693</code></pre>
 <p>Duas ferramentas resolvem isso sem descartar pontos: o <strong>hexbin</strong>, que divide o plano em células hexagonais e colore cada uma pela contagem, e o <strong>contorno de densidade</strong> (KDE), que estima uma superfície contínua de densidade e a desenha como curvas de nível.</p>
 <div id="cell-fig-hexbin" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">5</span>))</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>kc0.plot.hexbin(x<span class="op">=</span><span class="st">"SqFtTotLiving"</span>, y<span class="op">=</span><span class="st">"TaxAssessedValue"</span>,</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>kc0.plot.hexbin(x<span class="op">=</span><span class="st">"AreaConstruida"</span>, y<span class="op">=</span><span class="st">"ValorVenal"</span>,</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>                gridsize<span class="op">=</span><span class="dv">30</span>, sharex<span class="op">=</span><span class="va">False</span>, ax<span class="op">=</span>ax)</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Área construída (pés²)"</span>)</span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Valor venal (US$)"</span>)</span>
@@ -758,7 +762,7 @@ Figura&nbsp;9.1: Valor venal contra área construída, em 432.693 imóveis de Ki
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>amostra <span class="op">=</span> kc0.sample(<span class="dv">10000</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">5</span>))</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>sns.kdeplot(data<span class="op">=</span>amostra, x<span class="op">=</span><span class="st">"SqFtTotLiving"</span>, y<span class="op">=</span><span class="st">"TaxAssessedValue"</span>, ax<span class="op">=</span>ax)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>sns.kdeplot(data<span class="op">=</span>amostra, x<span class="op">=</span><span class="st">"AreaConstruida"</span>, y<span class="op">=</span><span class="st">"ValorVenal"</span>, ax<span class="op">=</span>ax)</span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Área construída (pés²)"</span>)</span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Valor venal (US$)"</span>)</span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
@@ -781,13 +785,20 @@ Figura&nbsp;9.2: Curvas de nível da mesma relação. O KDE roda sobre uma amost
 <section id="categórico-categórico-a-tabela-de-contingência" class="level2">
 <h2 class="anchored" data-anchor-id="categórico-categórico-a-tabela-de-contingência">Categórico × categórico: a tabela de contingência</h2>
 <p>A pergunta muda de figura quando nenhuma das duas variáveis tem uma ordem numérica para “subir” ou “descer” — não existe correlação entre duas categorias. A ferramenta aqui não é um coeficiente nem uma nuvem de pontos: é uma tabela.</p>
-<p>Vamos usar empréstimos do LendingClub, classificados por grau de risco (<code>grade</code>, de A — o melhor — a G) e por status atual (<code>status</code>).</p>
+<p>Vamos usar empréstimos do LendingClub, classificados por nota de risco (<code>Nota</code>, de A — a melhor — a G) e por situação atual (<code>Situacao</code>).</p>
 <div id="cell-crosstab" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>lc <span class="op">=</span> pd.read_csv(<span class="st">"dados/lc_loans.csv"</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>contagem <span class="op">=</span> lc.pivot_table(index<span class="op">=</span><span class="st">"grade"</span>, columns<span class="op">=</span><span class="st">"status"</span>,</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                          aggfunc<span class="op">=</span><span class="kw">lambda</span> x: <span class="bu">len</span>(x), margins<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>contagem</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>SITUACAO <span class="op">=</span> {</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Fully Paid"</span>: <span class="st">"Quitado"</span>,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Current"</span>: <span class="st">"Em dia"</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Late"</span>: <span class="st">"Atrasado"</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Charged Off"</span>: <span class="st">"Inadimplente"</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>lc <span class="op">=</span> pd.read_csv(<span class="st">"dados/lc_loans.csv"</span>).rename(columns<span class="op">=</span>{<span class="st">"status"</span>: <span class="st">"Situacao"</span>, <span class="st">"grade"</span>: <span class="st">"Nota"</span>})</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>lc[<span class="st">"Situacao"</span>] <span class="op">=</span> lc[<span class="st">"Situacao"</span>].replace(SITUACAO)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>contagem <span class="op">=</span> lc.pivot_table(index<span class="op">=</span><span class="st">"Nota"</span>, columns<span class="op">=</span><span class="st">"Situacao"</span>,</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>                          aggfunc<span class="op">=</span><span class="kw">lambda</span> x: <span class="bu">len</span>(x), margins<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>contagem</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div id="crosstab" class="cell-output cell-output-display" data-execution_count="5">
 <div>
 
@@ -795,15 +806,15 @@ Figura&nbsp;9.2: Curvas de nível da mesma relação. O KDE roda sobre uma amost
 <table class="dataframe caption-top table table-sm table-striped small" data-border="1">
 <thead>
 <tr class="header">
-<th data-quarto-table-cell-role="th">status</th>
-<th data-quarto-table-cell-role="th">Charged Off</th>
-<th data-quarto-table-cell-role="th">Current</th>
-<th data-quarto-table-cell-role="th">Fully Paid</th>
-<th data-quarto-table-cell-role="th">Late</th>
+<th data-quarto-table-cell-role="th">Situacao</th>
+<th data-quarto-table-cell-role="th">Atrasado</th>
+<th data-quarto-table-cell-role="th">Em dia</th>
+<th data-quarto-table-cell-role="th">Inadimplente</th>
+<th data-quarto-table-cell-role="th">Quitado</th>
 <th data-quarto-table-cell-role="th">All</th>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">grade</th>
+<th data-quarto-table-cell-role="th">Nota</th>
 <th data-quarto-table-cell-role="th"></th>
 <th data-quarto-table-cell-role="th"></th>
 <th data-quarto-table-cell-role="th"></th>
@@ -814,66 +825,66 @@ Figura&nbsp;9.2: Curvas de nível da mesma relação. O KDE roda sobre uma amost
 <tbody>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">A</th>
-<td>1562</td>
-<td>50051</td>
-<td>20408</td>
 <td>469</td>
+<td>50051</td>
+<td>1562</td>
+<td>20408</td>
 <td>72490</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">B</th>
-<td>5302</td>
-<td>93852</td>
-<td>31160</td>
 <td>2056</td>
+<td>93852</td>
+<td>5302</td>
+<td>31160</td>
 <td>132370</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">C</th>
-<td>6023</td>
-<td>88928</td>
-<td>23147</td>
 <td>2777</td>
+<td>88928</td>
+<td>6023</td>
+<td>23147</td>
 <td>120875</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">D</th>
-<td>5007</td>
-<td>53281</td>
-<td>13681</td>
 <td>2308</td>
+<td>53281</td>
+<td>5007</td>
+<td>13681</td>
 <td>74277</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">E</th>
-<td>2842</td>
-<td>24639</td>
-<td>5949</td>
 <td>1374</td>
+<td>24639</td>
+<td>2842</td>
+<td>5949</td>
 <td>34804</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">F</th>
-<td>1526</td>
-<td>8444</td>
-<td>2328</td>
 <td>606</td>
+<td>8444</td>
+<td>1526</td>
+<td>2328</td>
 <td>12904</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">G</th>
-<td>409</td>
-<td>1990</td>
-<td>643</td>
 <td>199</td>
+<td>1990</td>
+<td>409</td>
+<td>643</td>
 <td>3241</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">All</th>
-<td>22671</td>
-<td>321185</td>
-<td>97316</td>
 <td>9789</td>
+<td>321185</td>
+<td>22671</td>
+<td>97316</td>
 <td>450961</td>
 </tr>
 </tbody>
@@ -882,15 +893,16 @@ Figura&nbsp;9.2: Curvas de nível da mesma relação. O KDE roda sobre uma amost
 </div>
 </div>
 </div>
-<p>São 450.961 empréstimos ao todo (célula <code>All</code>/<code>All</code>), divididos em quatro status (<code>Charged Off</code> — inadimplente, prejuízo assumido; <code>Current</code> — em dia; <code>Fully Paid</code> — quitado; <code>Late</code> — atrasado) e sete graus de risco.</p>
+<p>São 450.961 empréstimos ao todo (célula <code>All</code>/<code>All</code>), divididos em quatro situações (<code>Atrasado</code>; <code>Em dia</code>; <code>Inadimplente</code> — prejuízo assumido; <code>Quitado</code>) e sete notas de risco.</p>
 <div class="conceito">
-<p>Olhe a coluna <code>Charged Off</code>. A grade C tem 6.023 empréstimos inadimplentes — mais que qualquer outra grade, mais que E, F e G somadas. É tentador ler isso como “C é a grade mais arriscada da carteira”. Mas a contagem mistura duas coisas: o quão arriscada é a grade, e o quão grande é a grade. B e C sozinhas concentram mais da metade da carteira (132.370 e 120.875 empréstimos), então é claro que têm mais de tudo, inclusive mais inadimplência. Comparar contagens brutas entre grupos de tamanhos tão diferentes é um erro clássico, e é exatamente o que a tabela de contagem convida a fazer.</p>
+<p>Olhe a coluna <code>Inadimplente</code>. A nota C tem 6.023 empréstimos inadimplentes — mais que qualquer outra nota, mais que E, F e G somadas. É tentador ler isso como “C é a nota mais arriscada da carteira”. Mas a contagem mistura duas coisas: o quão arriscada é a nota, e o quão grande é a nota. B e C sozinhas concentram mais da metade da carteira (132.370 e 120.875 empréstimos), então é claro que têm mais de tudo, inclusive mais inadimplência. Comparar contagens brutas entre grupos de tamanhos tão diferentes é um erro clássico, e é exatamente o que a tabela de contagem convida a fazer.</p>
 </div>
 <div id="cell-crosstab-pct" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>prop <span class="op">=</span> contagem.copy().loc[<span class="st">"A"</span>:<span class="st">"G"</span>, :].astype(<span class="bu">float</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>prop.loc[:, <span class="st">"Charged Off"</span>:<span class="st">"Late"</span>] <span class="op">=</span> prop.loc[:, <span class="st">"Charged Off"</span>:<span class="st">"Late"</span>].div(prop[<span class="st">"All"</span>], axis<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>prop[<span class="st">"All"</span>] <span class="op">=</span> prop[<span class="st">"All"</span>] <span class="op">/</span> <span class="bu">sum</span>(prop[<span class="st">"All"</span>])</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>prop.<span class="bu">round</span>(<span class="dv">3</span>).<span class="bu">map</span>(<span class="kw">lambda</span> v: num(v, <span class="dv">3</span>))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>situacoes <span class="op">=</span> [c <span class="cf">for</span> c <span class="kw">in</span> prop.columns <span class="cf">if</span> c <span class="op">!=</span> <span class="st">"All"</span>]</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>prop.loc[:, situacoes] <span class="op">=</span> prop.loc[:, situacoes].div(prop[<span class="st">"All"</span>], axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>prop[<span class="st">"All"</span>] <span class="op">=</span> prop[<span class="st">"All"</span>] <span class="op">/</span> <span class="bu">sum</span>(prop[<span class="st">"All"</span>])</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>prop.<span class="bu">round</span>(<span class="dv">3</span>).<span class="bu">map</span>(<span class="kw">lambda</span> v: num(v, <span class="dv">3</span>))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div id="crosstab-pct" class="cell-output cell-output-display" data-execution_count="6">
 <div>
 
@@ -898,15 +910,15 @@ Figura&nbsp;9.2: Curvas de nível da mesma relação. O KDE roda sobre uma amost
 <table class="dataframe caption-top table table-sm table-striped small" data-border="1">
 <thead>
 <tr class="header">
-<th data-quarto-table-cell-role="th">status</th>
-<th data-quarto-table-cell-role="th">Charged Off</th>
-<th data-quarto-table-cell-role="th">Current</th>
-<th data-quarto-table-cell-role="th">Fully Paid</th>
-<th data-quarto-table-cell-role="th">Late</th>
+<th data-quarto-table-cell-role="th">Situacao</th>
+<th data-quarto-table-cell-role="th">Atrasado</th>
+<th data-quarto-table-cell-role="th">Em dia</th>
+<th data-quarto-table-cell-role="th">Inadimplente</th>
+<th data-quarto-table-cell-role="th">Quitado</th>
 <th data-quarto-table-cell-role="th">All</th>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">grade</th>
+<th data-quarto-table-cell-role="th">Nota</th>
 <th data-quarto-table-cell-role="th"></th>
 <th data-quarto-table-cell-role="th"></th>
 <th data-quarto-table-cell-role="th"></th>
@@ -917,58 +929,58 @@ Figura&nbsp;9.2: Curvas de nível da mesma relação. O KDE roda sobre uma amost
 <tbody>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">A</th>
-<td>0,022</td>
-<td>0,690</td>
-<td>0,282</td>
 <td>0,006</td>
+<td>0,690</td>
+<td>0,022</td>
+<td>0,282</td>
 <td>0,161</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">B</th>
-<td>0,040</td>
-<td>0,709</td>
-<td>0,235</td>
 <td>0,016</td>
+<td>0,709</td>
+<td>0,040</td>
+<td>0,235</td>
 <td>0,294</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">C</th>
-<td>0,050</td>
-<td>0,736</td>
-<td>0,191</td>
 <td>0,023</td>
+<td>0,736</td>
+<td>0,050</td>
+<td>0,191</td>
 <td>0,268</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">D</th>
-<td>0,067</td>
-<td>0,717</td>
-<td>0,184</td>
 <td>0,031</td>
+<td>0,717</td>
+<td>0,067</td>
+<td>0,184</td>
 <td>0,165</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">E</th>
-<td>0,082</td>
-<td>0,708</td>
-<td>0,171</td>
 <td>0,039</td>
+<td>0,708</td>
+<td>0,082</td>
+<td>0,171</td>
 <td>0,077</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">F</th>
-<td>0,118</td>
-<td>0,654</td>
-<td>0,180</td>
 <td>0,047</td>
+<td>0,654</td>
+<td>0,118</td>
+<td>0,180</td>
 <td>0,029</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">G</th>
-<td>0,126</td>
-<td>0,614</td>
-<td>0,198</td>
 <td>0,061</td>
+<td>0,614</td>
+<td>0,126</td>
+<td>0,198</td>
 <td>0,007</td>
 </tr>
 </tbody>
@@ -977,28 +989,33 @@ Figura&nbsp;9.2: Curvas de nível da mesma relação. O KDE roda sobre uma amost
 </div>
 </div>
 </div>
-<p>Dividir cada linha pelo seu próprio total remove o tamanho do grupo da conta e isola o que interessa: a taxa. E aí o padrão que a grade deveria capturar aparece, limpo.</p>
+<p>Dividir cada linha pelo seu próprio total remove o tamanho do grupo da conta e isola o que interessa: a taxa. E aí o padrão que a nota deveria capturar aparece, limpo.</p>
 <div class="exemplo">
-<p>A proporção de <code>Charged Off</code> cresce <strong>monotonicamente</strong> de A a G: 2,2% em A, subindo sem uma única inversão até 12,6% em G. É exatamente o que o rótulo “grade de risco” promete — e a tabela de contagem, dominada pelo tamanho de cada grupo, escondia esse padrão em vez de revelá-lo.</p>
+<p>A proporção de <code>Inadimplente</code> cresce <strong>monotonicamente</strong> de A a G: 2,2% em A, subindo sem uma única inversão até 12,6% em G. É exatamente o que o rótulo “nota de risco” promete — e a tabela de contagem, dominada pelo tamanho de cada grupo, escondia esse padrão em vez de revelá-lo.</p>
 </div>
 </section>
 <section id="categórico-numérico-boxplot-agrupado-e-violin-plot" class="level2">
 <h2 class="anchored" data-anchor-id="categórico-numérico-boxplot-agrupado-e-violin-plot">Categórico × numérico: boxplot agrupado e violin plot</h2>
 <p>Aqui uma variável é categórica e a outra numérica. Nem o r de Pearson se aplica — ele pede duas variáveis numéricas —, nem a tabela de contingência — ela pede duas categóricas. A ferramenta natural é comparar a distribuição da variável numérica <strong>dentro de cada categoria</strong>, e o boxplot generaliza bem para isso: uma caixa por categoria, lado a lado.</p>
-<p>Vamos usar o percentual diário de voos atrasados por causa atribuível à própria companhia aérea (<code>pct_carrier_delay</code>), por companhia (<code>airline</code>).</p>
+<p>Vamos usar o percentual diário de voos atrasados por causa atribuível à própria companhia aérea (<code>pct_atraso_companhia</code>), por companhia (<code>Companhia</code>).</p>
 <div id="cell-fig-boxplot-grupo" class="cell" data-execution_count="7">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>voos <span class="op">=</span> pd.read_csv(<span class="st">"dados/airline_stats.csv"</span>)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="dv">5</span>))</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>voos.boxplot(by<span class="op">=</span><span class="st">"airline"</span>, column<span class="op">=</span><span class="st">"pct_carrier_delay"</span>, ax<span class="op">=</span>ax)</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">""</span>)</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"</span><span class="sc">% d</span><span class="st">iário de voos atrasados"</span>)</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>ax.set_ylim(<span class="dv">0</span>, <span class="dv">50</span>)</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">""</span>)</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">""</span>)</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">20</span>)</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>voos <span class="op">=</span> pd.read_csv(<span class="st">"dados/airline_stats.csv"</span>).rename(columns<span class="op">=</span>{</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"pct_carrier_delay"</span>: <span class="st">"pct_atraso_companhia"</span>,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"pct_atc_delay"</span>: <span class="st">"pct_atraso_controle"</span>,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"pct_weather_delay"</span>: <span class="st">"pct_atraso_clima"</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"airline"</span>: <span class="st">"Companhia"</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="dv">5</span>))</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>voos.boxplot(by<span class="op">=</span><span class="st">"Companhia"</span>, column<span class="op">=</span><span class="st">"pct_atraso_companhia"</span>, ax<span class="op">=</span>ax)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">""</span>)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"</span><span class="sc">% d</span><span class="st">iário de voos atrasados"</span>)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>ax.set_ylim(<span class="dv">0</span>, <span class="dv">50</span>)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">""</span>)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">""</span>)</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">20</span>)</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div id="fig-boxplot-grupo" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -1015,7 +1032,7 @@ Figura&nbsp;9.3: Percentual diário de voos atrasados por causa da companhia, po
 <p>São 33.468 dias-companhia, distribuídos entre 6 companhias aéreas. As medianas (a linha dentro de cada caixa) ordenam as companhias de forma nítida: Alaska tem a mediana mais baixa, 3,23% — a melhor do grupo —; American tem a mais alta, 8,43% — a pior. No meio, Delta (5,55%), United (6,45%), Southwest (6,96%) e Jet Blue (7,66%) ocupam posições intermediárias, nessa ordem.</p>
 <div id="cell-fig-violin" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="dv">5</span>))</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>sns.violinplot(data<span class="op">=</span>voos, x<span class="op">=</span><span class="st">"airline"</span>, y<span class="op">=</span><span class="st">"pct_carrier_delay"</span>,</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>sns.violinplot(data<span class="op">=</span>voos, x<span class="op">=</span><span class="st">"Companhia"</span>, y<span class="op">=</span><span class="st">"pct_atraso_companhia"</span>,</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>               ax<span class="op">=</span>ax, inner<span class="op">=</span><span class="st">"quartile"</span>, color<span class="op">=</span><span class="st">"#b0c4d8"</span>)</span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">""</span>)</span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"</span><span class="sc">% d</span><span class="st">iário de voos atrasados"</span>)</span>
@@ -1044,14 +1061,14 @@ Figura&nbsp;9.4: O mesmo dado em violin plot. A largura mostra a densidade — o
 <h2 class="anchored" data-anchor-id="múltiplas-variáveis-condicionando-por-uma-terceira">Múltiplas variáveis: condicionando por uma terceira</h2>
 <p>Tudo até aqui comparou exatamente duas variáveis. Perguntas reais costumam ter uma terceira à espreita: será que a relação entre área e valor do imóvel é a mesma em qualquer lugar, ou ela muda dependendo do bairro? A forma de responder é <strong>condicionar</strong>: fixar um valor da terceira variável de cada vez e repetir o gráfico de par para cada um. Visualmente, isso é uma grade de painéis pequenos — um <code>FacetGrid</code> — em vez de um único gráfico agregado.</p>
 <div id="cell-fig-facet" class="cell" data-execution_count="9">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>kc_ceps <span class="op">=</span> kc0.loc[kc0.ZipCode.isin([<span class="dv">98188</span>, <span class="dv">98105</span>, <span class="dv">98108</span>, <span class="dv">98126</span>]), :]</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>kc_ceps <span class="op">=</span> kc0.loc[kc0.CEP.isin([<span class="dv">98188</span>, <span class="dv">98105</span>, <span class="dv">98108</span>, <span class="dv">98126</span>]), :]</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> hexbin(x, y, color, <span class="op">**</span>kwargs):</span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    cmap <span class="op">=</span> sns.light_palette(color, as_cmap<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    plt.hexbin(x, y, gridsize<span class="op">=</span><span class="dv">25</span>, cmap<span class="op">=</span>cmap, <span class="op">**</span>kwargs)</span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> sns.FacetGrid(kc_ceps, col<span class="op">=</span><span class="st">"ZipCode"</span>, col_wrap<span class="op">=</span><span class="dv">2</span>, height<span class="op">=</span><span class="fl">3.2</span>)</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>g.<span class="bu">map</span>(hexbin, <span class="st">"SqFtTotLiving"</span>, <span class="st">"TaxAssessedValue"</span>, extent<span class="op">=</span>[<span class="dv">0</span>, <span class="dv">3500</span>, <span class="dv">0</span>, <span class="dv">700000</span>])</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> sns.FacetGrid(kc_ceps, col<span class="op">=</span><span class="st">"CEP"</span>, col_wrap<span class="op">=</span><span class="dv">2</span>, height<span class="op">=</span><span class="fl">3.2</span>)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>g.<span class="bu">map</span>(hexbin, <span class="st">"AreaConstruida"</span>, <span class="st">"ValorVenal"</span>, extent<span class="op">=</span>[<span class="dv">0</span>, <span class="dv">3500</span>, <span class="dv">0</span>, <span class="dv">700000</span>])</span>
 <span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>g.set_axis_labels(<span class="st">"Área construída (pés²)"</span>, <span class="st">"Valor venal (US$)"</span>)</span>
 <span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
 <span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1124,7 +1141,7 @@ Figura&nbsp;9.5: Área construída contra valor venal, condicionado ao CEP. A in
 </div>
 </div>
 </div>
-<p><strong>2.</strong> Na tabela de contingência em contagem, a grade B tem mais empréstimos <code>Charged Off</code> (5.302) que a grade G (409). Isso significa que B é mais arriscada que G?</p>
+<p><strong>2.</strong> Na tabela de contingência em contagem, a nota B tem mais empréstimos <code>Inadimplente</code> (5.302) que a nota G (409). Isso significa que B é mais arriscada que G?</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">

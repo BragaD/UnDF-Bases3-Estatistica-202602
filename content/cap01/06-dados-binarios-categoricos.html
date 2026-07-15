@@ -101,9 +101,9 @@ div.csl-indent {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-408a4e7dab8ba2f39144676ed6f22a2b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-0fe1f9a4b76cef9b8d591c7931aac72a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-408a4e7dab8ba2f39144676ed6f22a2b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-919afcecfa5e73491d13bd02fdf8a845.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-207a82166aa4203b00c124a7d7659b56.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-919afcecfa5e73491d13bd02fdf8a845.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -735,19 +735,25 @@ Nota
 <p>Esta seção corresponde à seção 1.6 de <span class="citation" data-cites="bruce2020">Bruce et al. (<a href="#ref-bruce2020" role="doc-biblioref">2020</a>)</span>.</p>
 </div>
 </div>
-<p>A seção 1.5 abriu mão do resumo numérico e olhou a distribuição inteira — percentis, boxplot, histograma, densidade. Todo esse ferramental depende de uma coisa: os valores serem números, ordenáveis e subtraíveis entre si. Isso desmorona por completo diante de dado categórico. Não existe percentil 95 de uma causa de atraso de voo, nem um “ponto médio” entre <code>Weather</code> e <code>Security</code> para tirar uma mediana. A seção 1.1 já havia separado categórico de numérico — nominal, ordinal, binário — e é hora de ver o que sobra da caixa de ferramentas quando o dado é desse tipo.</p>
+<p>A seção 1.5 abriu mão do resumo numérico e olhou a distribuição inteira — percentis, boxplot, histograma, densidade. Todo esse ferramental depende de uma coisa: os valores serem números, ordenáveis e subtraíveis entre si. Isso desmorona por completo diante de dado categórico. Não existe percentil 95 de uma causa de atraso de voo, nem um “ponto médio” entre <code>Clima</code> e <code>Seguranca</code> para tirar uma mediana. A seção 1.1 já havia separado categórico de numérico — nominal, ordinal, binário — e é hora de ver o que sobra da caixa de ferramentas quando o dado é desse tipo.</p>
 <p>A resposta, adiantando: quase tudo muda, e o pouco que sobra é mais simples do que parece.</p>
 <section id="os-dados" class="level2">
 <h2 class="anchored" data-anchor-id="os-dados">Os dados</h2>
-<p>Vamos usar as causas de atraso de voo no aeroporto de Dallas/Fort Worth: problema atribuído à companhia aérea (<code>Carrier</code>), controle de tráfego aéreo (<code>ATC</code>), clima (<code>Weather</code>), segurança (<code>Security</code>) e atraso herdado de um voo anterior da mesma aeronave (<code>Inbound</code>). Cinco categorias nominais — nenhuma ordem natural entre elas, no sentido da seção 1.1.</p>
+<p>Vamos usar as causas de atraso de voo no aeroporto de Dallas/Fort Worth: problema atribuído à companhia aérea (<code>Companhia</code>), controle de tráfego aéreo (<code>ControleAereo</code>), clima (<code>Clima</code>), segurança (<code>Seguranca</code>) e atraso herdado de um voo anterior da mesma aeronave (<code>VooAnterior</code>). Cinco categorias nominais — nenhuma ordem natural entre elas, no sentido da seção 1.1.</p>
 </section>
 <section id="proporções-o-resumo-que-substitui-a-média" class="level2">
 <h2 class="anchored" data-anchor-id="proporções-o-resumo-que-substitui-a-média">Proporções: o resumo que substitui a média</h2>
-<p>Para dado numérico, o primeiro resumo é uma medida de localização — média, média aparada, mediana. Nenhuma delas se aplica aqui: somar “Carrier + Weather” e dividir por dois não produz nada interpretável, porque não há distância nem ordem entre as categorias. O que resta, e é suficiente, é a <strong>proporção</strong> de cada categoria sobre o total.</p>
+<p>Para dado numérico, o primeiro resumo é uma medida de localização — média, média aparada, mediana. Nenhuma delas se aplica aqui: somar “Companhia + Clima” e dividir por dois não produz nada interpretável, porque não há distância nem ordem entre as categorias. O que resta, e é suficiente, é a <strong>proporção</strong> de cada categoria sobre o total.</p>
 <div id="cell-proporcoes" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>dfw <span class="op">=</span> pd.read_csv(<span class="st">"dados/dfw_airline.csv"</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>proporcoes <span class="op">=</span> <span class="dv">100</span> <span class="op">*</span> dfw <span class="op">/</span> dfw.values.<span class="bu">sum</span>()</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>proporcoes.<span class="bu">round</span>(<span class="dv">2</span>).<span class="bu">map</span>(<span class="kw">lambda</span> v: num(v, <span class="dv">2</span>))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>dfw <span class="op">=</span> pd.read_csv(<span class="st">"dados/dfw_airline.csv"</span>).rename(columns<span class="op">=</span>{</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Carrier"</span>: <span class="st">"Companhia"</span>,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ATC"</span>: <span class="st">"ControleAereo"</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Weather"</span>: <span class="st">"Clima"</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Security"</span>: <span class="st">"Seguranca"</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Inbound"</span>: <span class="st">"VooAnterior"</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>proporcoes <span class="op">=</span> <span class="dv">100</span> <span class="op">*</span> dfw <span class="op">/</span> dfw.values.<span class="bu">sum</span>()</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>proporcoes.<span class="bu">round</span>(<span class="dv">2</span>).<span class="bu">map</span>(<span class="kw">lambda</span> v: num(v, <span class="dv">2</span>))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div id="proporcoes" class="cell-output cell-output-display" data-execution_count="2">
 <div>
 
@@ -756,11 +762,11 @@ Nota
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">Carrier</th>
-<th data-quarto-table-cell-role="th">ATC</th>
-<th data-quarto-table-cell-role="th">Weather</th>
-<th data-quarto-table-cell-role="th">Security</th>
-<th data-quarto-table-cell-role="th">Inbound</th>
+<th data-quarto-table-cell-role="th">Companhia</th>
+<th data-quarto-table-cell-role="th">ControleAereo</th>
+<th data-quarto-table-cell-role="th">Clima</th>
+<th data-quarto-table-cell-role="th">Seguranca</th>
+<th data-quarto-table-cell-role="th">VooAnterior</th>
 </tr>
 </thead>
 <tbody>
@@ -781,7 +787,7 @@ Nota
 <div class="conceito">
 <p>Repare no formato de <code>dfw</code>: uma linha, cinco colunas. Cada <strong>coluna</strong> é uma categoria, e o único valor de cada uma é a contagem de atrasos atribuídos a ela — o oposto do formato “uma linha por observação” que os capítulos anteriores usaram. É por isso que os próximos chunks recorrem a <code>.transpose()</code>: para virar as cinco colunas em cinco linhas, uma por causa, antes de desenhar o gráfico, extrair a moda ou calcular o valor esperado.</p>
 </div>
-<p><code>ATC</code> e <code>Inbound</code> somam sozinhos mais de 70% dos atrasos; <code>Security</code> responde por pouco mais de um décimo de 1%. É toda a “distribuição” que um dado categórico tem para oferecer — não uma forma contínua, mas um conjunto de fatias.</p>
+<p><code>ControleAereo</code> e <code>VooAnterior</code> somam sozinhos mais de 70% dos atrasos; <code>Seguranca</code> responde por pouco mais de um décimo de 1%. É toda a “distribuição” que um dado categórico tem para oferecer — não uma forma contínua, mas um conjunto de fatias.</p>
 </section>
 <section id="gráfico-de-barras-não-é-histograma" class="level2">
 <h2 class="anchored" data-anchor-id="gráfico-de-barras-não-é-histograma">Gráfico de barras não é histograma</h2>
@@ -808,7 +814,7 @@ Figura&nbsp;7.1: Causas de atraso no aeroporto de Dallas/Fort Worth. As barras s
 </div>
 <p>É tentador olhar para esse gráfico como “o histograma da seção 1.5, com barras diferentes”. Não é, e a diferença não é estética.</p>
 <div class="conceito">
-<p>No histograma, o eixo X é numérico e contínuo, e as barras se encostam <strong>porque</strong> não há espaço entre uma faixa e a seguinte — são pedaços contíguos da mesma reta de números. No gráfico de barras, o eixo X é categórico, e as barras vêm separadas de propósito: não existe “entre <code>ATC</code> e <code>Weather</code>”, e a ordem em que as categorias aparecem no eixo é arbitrária, não informativa. Desenhar <code>Carrier</code>, <code>ATC</code>, <code>Weather</code>, <code>Security</code> e <code>Inbound</code> com barras encostadas sugeriria visualmente uma continuidade e uma ordem que os dados não têm — como se uma causa viesse “depois” da outra por algum motivo numérico. Não é preciosismo de estilo: é o mesmo cuidado que a seção 1.1 teve ao impedir que uma coluna nominal respondesse a perguntas de ordem.</p>
+<p>No histograma, o eixo X é numérico e contínuo, e as barras se encostam <strong>porque</strong> não há espaço entre uma faixa e a seguinte — são pedaços contíguos da mesma reta de números. No gráfico de barras, o eixo X é categórico, e as barras vêm separadas de propósito: não existe “entre <code>ControleAereo</code> e <code>Clima</code>”, e a ordem em que as categorias aparecem no eixo é arbitrária, não informativa. Desenhar <code>Companhia</code>, <code>ControleAereo</code>, <code>Clima</code>, <code>Seguranca</code> e <code>VooAnterior</code> com barras encostadas sugeriria visualmente uma continuidade e uma ordem que os dados não têm — como se uma causa viesse “depois” da outra por algum motivo numérico. Não é preciosismo de estilo: é o mesmo cuidado que a seção 1.1 teve ao impedir que uma coluna nominal respondesse a perguntas de ordem.</p>
 </div>
 </section>
 <section id="a-moda-a-única-localização-possível" class="level2">
@@ -817,12 +823,12 @@ Figura&nbsp;7.1: Causas de atraso no aeroporto de Dallas/Fort Worth. As barras s
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>moda <span class="op">=</span> proporcoes.transpose().iloc[:, <span class="dv">0</span>].idxmax()</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Moda (causa mais frequente): </span><span class="sc">{</span>moda<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Moda (causa mais frequente): Inbound</code></pre>
+<pre><code>Moda (causa mais frequente): VooAnterior</code></pre>
 </div>
 </div>
 <p>A <strong>moda</strong> — a categoria mais frequente — é a única medida de localização que sobrevive à falta de ordem e de distância entre categorias. Ela não exige somar nem ordenar nada: só contar qual fatia é a maior.</p>
 <div class="exemplo">
-<p>A moda de <code>dfw</code> é <code>Inbound</code>, com 42% dos atrasos — não <code>Carrier</code> nem <code>Weather</code>, as causas que viriam à mente primeiro ao pensar em “atraso de voo”. A maior fonte de atraso em Dallas/Fort Worth não é uma causa local do próprio aeroporto: é um voo anterior da mesma aeronave chegando atrasado e empurrando o atraso adiante. O gargalo não está em Dallas — está na malha aérea inteira, se propagando de aeroporto em aeroporto.</p>
+<p>A moda de <code>dfw</code> é <code>VooAnterior</code>, com 42% dos atrasos — não <code>Companhia</code> nem <code>Clima</code>, as causas que viriam à mente primeiro ao pensar em “atraso de voo”. A maior fonte de atraso em Dallas/Fort Worth não é uma causa local do próprio aeroporto: é um voo anterior da mesma aeronave chegando atrasado e empurrando o atraso adiante. O gargalo não está em Dallas — está na malha aérea inteira, se propagando de aeroporto em aeroporto.</p>
 </div>
 </section>
 <section id="valor-esperado" class="level2">
@@ -833,7 +839,7 @@ Figura&nbsp;7.1: Causas de atraso no aeroporto de Dallas/Fort Worth. As barras s
 <div id="valor-esperado" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Uma companhia estima o custo médio de compensação por passageiro,</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># conforme a causa do atraso.</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>custo <span class="op">=</span> {<span class="st">"Carrier"</span>: <span class="dv">180</span>, <span class="st">"ATC"</span>: <span class="dv">40</span>, <span class="st">"Weather"</span>: <span class="dv">0</span>, <span class="st">"Security"</span>: <span class="dv">25</span>, <span class="st">"Inbound"</span>: <span class="dv">120</span>}</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>custo <span class="op">=</span> {<span class="st">"Companhia"</span>: <span class="dv">180</span>, <span class="st">"ControleAereo"</span>: <span class="dv">40</span>, <span class="st">"Clima"</span>: <span class="dv">0</span>, <span class="st">"Seguranca"</span>: <span class="dv">25</span>, <span class="st">"VooAnterior"</span>: <span class="dv">120</span>}</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> (dfw <span class="op">/</span> dfw.values.<span class="bu">sum</span>()).transpose().iloc[:, <span class="dv">0</span>]   <span class="co"># probabilidade de cada causa</span></span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>ve <span class="op">=</span> <span class="bu">sum</span>(p[causa] <span class="op">*</span> valor <span class="cf">for</span> causa, valor <span class="kw">in</span> custo.items())</span>
@@ -843,7 +849,7 @@ Figura&nbsp;7.1: Causas de atraso no aeroporto de Dallas/Fort Worth. As barras s
 <pre><code>Valor esperado do custo por atraso: R$ 104,55</code></pre>
 </div>
 </div>
-<p>R$ 104,55 não é o custo de nenhum atraso individual — nenhuma causa isolada custa exatamente isso. É o custo médio <strong>por atraso</strong>, se essa mistura de causas se repetisse indefinidamente. Uma causa rara contribui quase nada mesmo quando não é a mais barata (<code>Security</code>, R$ 25 em 0,12% dos casos, entra com R$ 0,03 no total); uma causa de custo intermediário mas frequente (<code>ATC</code>, R$ 40 em 30% dos casos) entra com R$ 12,16 — 400 vezes mais. O valor esperado não é dispersão nem localização de novo — é a base de toda decisão sob incerteza que a estatística tratará daqui em diante.</p>
+<p>R$ 104,55 não é o custo de nenhum atraso individual — nenhuma causa isolada custa exatamente isso. É o custo médio <strong>por atraso</strong>, se essa mistura de causas se repetisse indefinidamente. Uma causa rara contribui quase nada mesmo quando não é a mais barata (<code>Seguranca</code>, R$ 25 em 0,12% dos casos, entra com R$ 0,03 no total); uma causa de custo intermediário mas frequente (<code>ControleAereo</code>, R$ 40 em 30% dos casos) entra com R$ 12,16 — 400 vezes mais. O valor esperado não é dispersão nem localização de novo — é a base de toda decisão sob incerteza que a estatística tratará daqui em diante.</p>
 </section>
 <section id="resumo" class="level2">
 <h2 class="anchored" data-anchor-id="resumo">Resumo</h2>
@@ -857,27 +863,27 @@ Figura&nbsp;7.1: Causas de atraso no aeroporto de Dallas/Fort Worth. As barras s
 </thead>
 <tbody>
 <tr class="odd">
-<td>Carrier</td>
+<td>Companhia</td>
 <td>64.263</td>
 <td>23,02%</td>
 </tr>
 <tr class="even">
-<td>ATC</td>
+<td>ControleAereo</td>
 <td>84.856</td>
 <td>30,40%</td>
 </tr>
 <tr class="odd">
-<td>Weather</td>
+<td>Clima</td>
 <td>11.235</td>
 <td>4,03%</td>
 </tr>
 <tr class="even">
-<td>Security</td>
+<td>Seguranca</td>
 <td>343</td>
 <td>0,12%</td>
 </tr>
 <tr class="odd">
-<td>Inbound</td>
+<td>VooAnterior</td>
 <td>118.428</td>
 <td>42,43%</td>
 </tr>
@@ -889,7 +895,7 @@ Figura&nbsp;7.1: Causas de atraso no aeroporto de Dallas/Fort Worth. As barras s
 </section>
 <section id="exercícios" class="level2">
 <h2 class="anchored" data-anchor-id="exercícios">Exercícios</h2>
-<p><strong>1.</strong> A causa <code>Security</code> responde por 0,12% dos atrasos. Uma companhia deveria investir em reduzir atrasos de segurança?</p>
+<p><strong>1.</strong> A causa <code>Seguranca</code> responde por 0,12% dos atrasos. Uma companhia deveria investir em reduzir atrasos de segurança?</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -902,7 +908,7 @@ Figura&nbsp;7.1: Causas de atraso no aeroporto de Dallas/Fort Worth. As barras s
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Pela frequência, não — <code>Security</code> é, de longe, a menor causa. Mas frequência não é tudo: o valor esperado depende também do <strong>custo</strong> de cada evento. Uma categoria rara e catastrófica pode ter valor esperado maior que uma categoria frequente e barata (um incidente de segurança grave pode custar muito mais que os R$ 25 por passageiro usados no exemplo). A pergunta certa combina probabilidade e consequência — nunca uma sozinha.</p>
+<p>Pela frequência, não — <code>Seguranca</code> é, de longe, a menor causa. Mas frequência não é tudo: o valor esperado depende também do <strong>custo</strong> de cada evento. Uma categoria rara e catastrófica pode ter valor esperado maior que uma categoria frequente e barata (um incidente de segurança grave pode custar muito mais que os R$ 25 por passageiro usados no exemplo). A pergunta certa combina probabilidade e consequência — nunca uma sozinha.</p>
 </div>
 </div>
 </div>
@@ -919,11 +925,11 @@ Figura&nbsp;7.1: Causas de atraso no aeroporto de Dallas/Fort Worth. As barras s
 </div>
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Porque as categorias de <code>dfw</code> são nominais — não há ordem nem distância entre “Weather” e “Security”. Média e mediana exigem que os valores possam ser somados ou ordenados; nenhuma das duas operações significa algo quando o “valor” é o nome de uma causa de atraso. A moda só precisa contar qual categoria é a mais frequente, e essa pergunta continua fazendo sentido mesmo sem ordem nenhuma entre as categorias.</p>
+<p>Porque as categorias de <code>dfw</code> são nominais — não há ordem nem distância entre “Clima” e “Seguranca”. Média e mediana exigem que os valores possam ser somados ou ordenados; nenhuma das duas operações significa algo quando o “valor” é o nome de uma causa de atraso. A moda só precisa contar qual categoria é a mais frequente, e essa pergunta continua fazendo sentido mesmo sem ordem nenhuma entre as categorias.</p>
 </div>
 </div>
 </div>
-<p><strong>3.</strong> Recalcule o valor esperado supondo que o custo de <code>Weather</code> sobe de R$ 0 para R$ 200. O que muda, e por que o efeito é pequeno?</p>
+<p><strong>3.</strong> Recalcule o valor esperado supondo que o custo de <code>Clima</code> sobe de R$ 0 para R$ 200. O que muda, e por que o efeito é pequeno?</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -936,9 +942,9 @@ Figura&nbsp;7.1: Causas de atraso no aeroporto de Dallas/Fort Worth. As barras s
 </div>
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>custo[<span class="st">"Weather"</span>] <span class="op">=</span> <span class="dv">200</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>custo[<span class="st">"Clima"</span>] <span class="op">=</span> <span class="dv">200</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="bu">sum</span>(p[causa] <span class="op">*</span> valor <span class="cf">for</span> causa, valor <span class="kw">in</span> custo.items())</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<p>O valor esperado sobe cerca de R$ 8 (0,0403 × 200 ≈ 8,05), passando de R$ 104,55 para cerca de R$ 112,60. O efeito é pequeno porque <code>Weather</code> tem probabilidade baixa (4%) — no valor esperado, cada custo entra <strong>ponderado</strong> pela sua probabilidade, não pelo valor bruto. É exatamente por isso que o valor esperado é a ferramenta certa para decisão: ele impede que um número grande, mas raro, domine a conclusão sozinho.</p>
+<p>O valor esperado sobe cerca de R$ 8 (0,0403 × 200 ≈ 8,05), passando de R$ 104,55 para cerca de R$ 112,60. O efeito é pequeno porque <code>Clima</code> tem probabilidade baixa (4%) — no valor esperado, cada custo entra <strong>ponderado</strong> pela sua probabilidade, não pelo valor bruto. É exatamente por isso que o valor esperado é a ferramenta certa para decisão: ele impede que um número grande, mas raro, domine a conclusão sozinho.</p>
 </div>
 </div>
 </div>

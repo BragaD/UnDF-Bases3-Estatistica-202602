@@ -101,9 +101,9 @@ div.csl-indent {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-408a4e7dab8ba2f39144676ed6f22a2b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-0fe1f9a4b76cef9b8d591c7931aac72a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-408a4e7dab8ba2f39144676ed6f22a2b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-919afcecfa5e73491d13bd02fdf8a845.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-207a82166aa4203b00c124a7d7659b56.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-919afcecfa5e73491d13bd02fdf8a845.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -747,14 +747,30 @@ Nota
 <h2 class="anchored" data-anchor-id="os-dados">Os dados</h2>
 <p>Vamos usar retornos diários de ações e ETFs (fundos negociados em bolsa) do S&amp;P 500, entre 1993 e 2015.</p>
 <div id="cell-carrega" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>setores <span class="op">=</span> pd.read_csv(<span class="st">"dados/sp500_sectors.csv"</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>precos  <span class="op">=</span> pd.read_csv(<span class="st">"dados/sp500_data.csv.gz"</span>, index_col<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>simbolos_telecom <span class="op">=</span> setores[setores[<span class="st">"sector"</span>] <span class="op">==</span> <span class="st">"telecommunications_services"</span>][<span class="st">"symbol"</span>]</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>telecom <span class="op">=</span> precos.loc[precos.index <span class="op">&gt;=</span> <span class="st">"2012-07-01"</span>, simbolos_telecom]</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"dias x empresas:"</span>, telecom.shape)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>telecom.head()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>SETORES <span class="op">=</span> {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"consumer_discretionary"</span>: <span class="st">"consumo_discricionario"</span>,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"consumer_staples"</span>: <span class="st">"consumo_essencial"</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"energy"</span>: <span class="st">"energia"</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"etf"</span>: <span class="st">"etf"</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"financials"</span>: <span class="st">"financeiro"</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"health_care"</span>: <span class="st">"saude"</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"industrials"</span>: <span class="st">"industrial"</span>,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"information_technology"</span>: <span class="st">"tecnologia_da_informacao"</span>,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"materials"</span>: <span class="st">"materiais"</span>,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"telecommunications_services"</span>: <span class="st">"telecomunicacoes"</span>,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"utilities"</span>: <span class="st">"utilidade_publica"</span>,</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>setores <span class="op">=</span> pd.read_csv(<span class="st">"dados/sp500_sectors.csv"</span>).rename(</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    columns<span class="op">=</span>{<span class="st">"sector"</span>: <span class="st">"Setor"</span>, <span class="st">"symbol"</span>: <span class="st">"Simbolo"</span>}</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>setores[<span class="st">"Setor"</span>] <span class="op">=</span> setores[<span class="st">"Setor"</span>].replace(SETORES)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>precos  <span class="op">=</span> pd.read_csv(<span class="st">"dados/sp500_data.csv.gz"</span>, index_col<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>simbolos_telecom <span class="op">=</span> setores[setores[<span class="st">"Setor"</span>] <span class="op">==</span> <span class="st">"telecomunicacoes"</span>][<span class="st">"Simbolo"</span>]</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>telecom <span class="op">=</span> precos.loc[precos.index <span class="op">&gt;=</span> <span class="st">"2012-07-01"</span>, simbolos_telecom]</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"dias x empresas:"</span>, telecom.shape)</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>telecom.head()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>dias x empresas: (754, 5)</code></pre>
 </div>
@@ -924,7 +940,7 @@ Figura&nbsp;8.1: Retornos diários de AT&amp;T (T) contra Verizon (VZ). A nuvem 
 <p>Uma matriz de 5 × 5 ainda se lê em números. Uma de 17 × 17 não. Nesses casos, transformar a matriz em uma imagem colorida — um <strong>heatmap</strong> — é o único jeito prático de enxergar o padrão.</p>
 <div id="cell-fig-heatmap" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>etfs <span class="op">=</span> precos.loc[precos.index <span class="op">&gt;</span> <span class="st">"2012-07-01"</span>,</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>                  setores[setores[<span class="st">"sector"</span>] <span class="op">==</span> <span class="st">"etf"</span>][<span class="st">"symbol"</span>]]</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>                  setores[setores[<span class="st">"Setor"</span>] <span class="op">==</span> <span class="st">"etf"</span>][<span class="st">"Simbolo"</span>]]</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="dv">6</span>))</span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>sns.heatmap(etfs.corr(), vmin<span class="op">=-</span><span class="dv">1</span>, vmax<span class="op">=</span><span class="dv">1</span>,</span>

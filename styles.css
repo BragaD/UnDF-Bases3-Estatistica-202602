@@ -225,7 +225,10 @@
   }
   html.modo-leitura #quarto-document-content .content,
   html.modo-leitura main.content {
-    max-width: 900px;
+    /* Cresce com a tela, mas com piso e teto: nunca mais estreito que 900px,
+       nunca mais largo que 1400px (acima disso a linha fica longa demais para
+       ler com conforto). Entre os dois, acompanha 80% da largura da janela. */
+    max-width: clamp(900px, 80vw, 1400px);
     margin-inline: auto;
   }
 }

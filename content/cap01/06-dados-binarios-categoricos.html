@@ -821,53 +821,68 @@ Figura&nbsp;7.1: Causas de atraso no aeroporto de Dallas/Fort Worth. As barras s
 <section id="o-eixo-que-mente" class="level2">
 <h2 class="anchored" data-anchor-id="o-eixo-que-mente">O eixo que mente</h2>
 <p>Um gráfico de barras honesto sobre a mecânica — barras separadas, eixo categórico — ainda pode enganar de outra forma, e essa é uma das mais comuns em jornais e apresentações. O truque não está nos dados; está no eixo.</p>
-<p>Abaixo, a taxa de homicídios dos nove estados do Nordeste (Atlas da Violência, 2024), desenhada de dois jeitos. Os números são <strong>exatamente os mesmos</strong> nos dois painéis. Só muda onde o eixo Y começa.</p>
+<p>O gráfico abaixo mostra a taxa de homicídios dos nove estados do Nordeste (Atlas da Violência, 2024), com os estados em ordem alfabética da sigla.</p>
 <div id="cell-fig-eixo-truncado" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>estado <span class="op">=</span> pd.read_csv(<span class="st">"dados/estados.csv"</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>nordeste <span class="op">=</span> [<span class="st">"MA"</span>, <span class="st">"PI"</span>, <span class="st">"CE"</span>, <span class="st">"RN"</span>, <span class="st">"PB"</span>, <span class="st">"PE"</span>, <span class="st">"AL"</span>, <span class="st">"SE"</span>, <span class="st">"BA"</span>]</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>ne <span class="op">=</span> estado[estado[<span class="st">"Sigla"</span>].isin(nordeste)].sort_values(<span class="st">"Taxa.Homicidios"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>nordeste <span class="op">=</span> [<span class="st">"AL"</span>, <span class="st">"BA"</span>, <span class="st">"CE"</span>, <span class="st">"MA"</span>, <span class="st">"PB"</span>, <span class="st">"PE"</span>, <span class="st">"PI"</span>, <span class="st">"RN"</span>, <span class="st">"SE"</span>]</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>ne <span class="op">=</span> estado[estado[<span class="st">"Sigla"</span>].isin(nordeste)].sort_values(<span class="st">"Sigla"</span>)</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>fig, (ax_trunc, ax_zero) <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">4</span>))</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ax, base, titulo <span class="kw">in</span> [</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    (ax_trunc, <span class="dv">20</span>, <span class="st">"Eixo começando em 20 — enganoso"</span>),</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    (ax_zero, <span class="dv">0</span>, <span class="st">"Eixo começando em 0 — honesto"</span>),</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>]:</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    ax.bar(ne[<span class="st">"Sigla"</span>], ne[<span class="st">"Taxa.Homicidios"</span>], color<span class="op">=</span><span class="st">"#b0c4d8"</span>, edgecolor<span class="op">=</span><span class="st">"white"</span>)</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    ax.set_ylim(base, <span class="dv">38</span>)</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    ax.set_title(titulo, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    ax.set_xlabel(<span class="st">"Estado"</span>)</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>ax_trunc.set_ylabel(<span class="st">"Taxa de homicídios (por 100 mil)"</span>)</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="dv">4</span>))</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>ax.bar(ne[<span class="st">"Sigla"</span>], ne[<span class="st">"Taxa.Homicidios"</span>], color<span class="op">=</span><span class="st">"#b0c4d8"</span>, edgecolor<span class="op">=</span><span class="st">"white"</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>ax.set_ylim(<span class="dv">20</span>, <span class="dv">38</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Estado"</span>)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Taxa de homicídios (por 100 mil)"</span>)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div id="fig-eixo-truncado" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-eixo-truncado-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="06-dados-binarios-categoricos_files/figure-html/fig-eixo-truncado-output-1.png" width="951" height="373" class="figure-img">
+<img src="06-dados-binarios-categoricos_files/figure-html/fig-eixo-truncado-output-1.png" width="663" height="374" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-eixo-truncado-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;7.2: A MESMA taxa de homicídios dos nove estados do Nordeste, desenhada de dois jeitos. À esquerda, o eixo começa em 20; à direita, no zero.
+Figura&nbsp;7.2: Taxa de homicídios dos nove estados do Nordeste, com o eixo Y começando em 20.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>No painel da esquerda, o Piauí (a menor taxa, 20,47) vira um fiapo e Pernambuco (36,78) parece esmagador. O olho lê Pernambuco como <strong>cerca de 36 vezes</strong> o Piauí.</p>
-<p>Mas essa razão é a das <strong>alturas desenhadas</strong>, não das taxas: <code>(36,78 − 20) / (20,47 − 20)</code>, que dá ≈36. A razão <strong>real</strong> entre as taxas é <code>36,78 / 20,47</code> = <strong>1,8×</strong>. Pernambuco tem uma taxa 80% maior que a do Piauí — não 36 vezes maior. É uma diferença real, que merece ser levada a sério; só não é a diferença que o painel da esquerda mostra.</p>
-<p>Por que a barra engana especificamente: num gráfico de barras, o olho lê a quantidade pelo <strong>comprimento</strong> da barra, e comprimento só significa algo medido <strong>a partir do zero</strong>. Cortar o eixo em 20 quebra essa codificação — a barra do Piauí ainda existe, mas o pedaço que sobrou para representá-la é quase nada, mesmo a taxa real sendo bem acima de zero.</p>
-<p>O que torna esse truque particularmente insidioso é que <strong>todos os nove números são verdadeiros.</strong> Não há dado inventado, não há erro de conta — só um eixo que começa em 20 em vez de em 0. É assim que se engana com uma base de dados honesta: não mentindo sobre os valores, mas escolhendo onde a régua começa a medir.</p>
-<p>O painel da direita mostra a imagem real: todas as nove barras são altas — todos os estados do Nordeste têm taxa acima de 20 por 100 mil, o que por si só já é uma informação (a região inteira convive com violência letal alta) — e as diferenças entre elas aparecem na proporção verdadeira, bem mais modesta do que o primeiro painel sugeria.</p>
+<p>À primeira vista, a leitura é dramática. O Piauí parece quase não ter homicídios — a barra é um traço rente ao chão. Pernambuco se ergue várias vezes mais alto; Ceará, Alagoas e Bahia formam um bloco imponente que faz o Piauí, o Rio Grande do Norte e Sergipe parecerem casos à parte, quase pacíficos. Se você tivesse apenas este gráfico, concluiria que o estado mais violento do Nordeste tem uma taxa muitas vezes maior que a do menos violento — o olho lê Pernambuco como umas <strong>36 vezes</strong> o Piauí.</p>
+<p>Mas essa impressão inteira vem de uma escolha que não está nos dados: o eixo Y começa em <strong>20</strong>, não em zero. Repare no canto inferior esquerdo — a régua começa lá. A barra do Piauí não mede a taxa do Piauí; mede o quanto ela <strong>passa de 20</strong>. E como a taxa do Piauí é 20,47, o que sobra para desenhar é <code>20,47 − 20 = 0,47</code> — quase nada. A do Piauí não é uma taxa baixa; é uma barra baixa, que é coisa diferente.</p>
+<p>Veja o que acontece quando a régua começa onde deveria, no zero:</p>
+<div id="cell-fig-eixo-zero" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="dv">4</span>))</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>ax.bar(ne[<span class="st">"Sigla"</span>], ne[<span class="st">"Taxa.Homicidios"</span>], color<span class="op">=</span><span class="st">"#b0c4d8"</span>, edgecolor<span class="op">=</span><span class="st">"white"</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>ax.set_ylim(<span class="dv">0</span>, <span class="dv">38</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Estado"</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Taxa de homicídios (por 100 mil)"</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="fig-eixo-zero" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-eixo-zero-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="06-dados-binarios-categoricos_files/figure-html/fig-eixo-zero-output-1.png" width="663" height="374" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-eixo-zero-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;7.3: O mesmo dado, com o eixo Y começando no zero — a imagem honesta.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Agora o Piauí aparece pelo que é: uma barra alta, como todas as outras. Os nove estados do Nordeste têm taxa acima de 20 por 100 mil — a região inteira convive com violência letal alta, e essa é a primeira coisa que salta aos olhos. Pernambuco ainda é o mais alto, mas a diferença para o Piauí é de <code>36,78 / 20,47</code> = <strong>1,8×</strong>, não 36×: uma taxa 80% maior, real e digna de atenção, mas longe do abismo que o primeiro gráfico encenava.</p>
+<p>O que torna o truque insidioso é que <strong>todos os nove números são verdadeiros nos dois gráficos.</strong> Não há dado inventado, não há erro de conta — só um eixo que começa em 20 em vez de em zero. É assim que se engana com uma base de dados honesta: não mentindo sobre os valores, mas escolhendo onde a régua começa a medir.</p>
+<p>Por que a barra é especialmente vulnerável a isso: o olho lê a quantidade pelo <strong>comprimento</strong> da barra, e comprimento só significa algo medido <strong>a partir do zero</strong>. Cortar o eixo quebra a correspondência entre comprimento e valor.</p>
 <div class="conceito">
 <p><strong>Regra prática:</strong> um gráfico de barras começa no eixo zero, sempre. A barra codifica a magnitude pelo seu comprimento, e comprimento medido a partir de um ponto qualquer não é magnitude nenhuma. (A regra é específica de barras: um gráfico de <strong>linha</strong>, mostrando evolução no tempo, às vezes pode truncar o eixo sem enganar — ali a informação está na <strong>inclinação</strong> da linha, não no comprimento de uma barra medida contra o zero.)</p>
 </div>
 </section>
 <section id="a-moda-a-única-localização-possível" class="level2">
 <h2 class="anchored" data-anchor-id="a-moda-a-única-localização-possível">A moda: a única “localização” possível</h2>
-<div id="moda" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>moda <span class="op">=</span> proporcoes.transpose().iloc[:, <span class="dv">0</span>].idxmax()</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Moda (causa mais frequente): </span><span class="sc">{</span>moda<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="moda" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>moda <span class="op">=</span> proporcoes.transpose().iloc[:, <span class="dv">0</span>].idxmax()</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Moda (causa mais frequente): </span><span class="sc">{</span>moda<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Moda (causa mais frequente): VooAnterior</code></pre>
 </div>
@@ -882,15 +897,15 @@ Figura&nbsp;7.2: A MESMA taxa de homicídios dos nove estados do Nordeste, desen
 <p>Quando as categorias, além de uma proporção, carregam um valor numérico associado — um custo, um ganho, um tempo —, é possível ir além da moda. O <strong>valor esperado</strong> pondera cada valor pela probabilidade da categoria a que ele pertence:</p>
 <p><span class="math display">\[\text{VE} = \sum_{i=1}^{n} p_i \cdot v_i\]</span></p>
 <p>Suponha que uma companhia aérea estime o custo médio de compensação por passageiro, e que esse custo dependa da causa do atraso:</p>
-<div id="valor-esperado" class="cell" data-execution_count="6">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Uma companhia estima o custo médio de compensação por passageiro,</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># conforme a causa do atraso.</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>custo <span class="op">=</span> {<span class="st">"Companhia"</span>: <span class="dv">180</span>, <span class="st">"ControleAereo"</span>: <span class="dv">40</span>, <span class="st">"Clima"</span>: <span class="dv">0</span>, <span class="st">"Seguranca"</span>: <span class="dv">25</span>, <span class="st">"VooAnterior"</span>: <span class="dv">120</span>}</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> (dfw <span class="op">/</span> dfw.values.<span class="bu">sum</span>()).transpose().iloc[:, <span class="dv">0</span>]   <span class="co"># probabilidade de cada causa</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>ve <span class="op">=</span> <span class="bu">sum</span>(p[causa] <span class="op">*</span> valor <span class="cf">for</span> causa, valor <span class="kw">in</span> custo.items())</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Valor esperado do custo por atraso: R$ </span><span class="sc">{</span>num(ve, <span class="dv">2</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="valor-esperado" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Uma companhia estima o custo médio de compensação por passageiro,</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># conforme a causa do atraso.</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>custo <span class="op">=</span> {<span class="st">"Companhia"</span>: <span class="dv">180</span>, <span class="st">"ControleAereo"</span>: <span class="dv">40</span>, <span class="st">"Clima"</span>: <span class="dv">0</span>, <span class="st">"Seguranca"</span>: <span class="dv">25</span>, <span class="st">"VooAnterior"</span>: <span class="dv">120</span>}</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> (dfw <span class="op">/</span> dfw.values.<span class="bu">sum</span>()).transpose().iloc[:, <span class="dv">0</span>]   <span class="co"># probabilidade de cada causa</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>ve <span class="op">=</span> <span class="bu">sum</span>(p[causa] <span class="op">*</span> valor <span class="cf">for</span> causa, valor <span class="kw">in</span> custo.items())</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Valor esperado do custo por atraso: R$ </span><span class="sc">{</span>num(ve, <span class="dv">2</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Valor esperado do custo por atraso: R$ 104,55</code></pre>
 </div>
@@ -988,8 +1003,8 @@ Figura&nbsp;7.2: A MESMA taxa de homicídios dos nove estados do Nordeste, desen
 </div>
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>custo[<span class="st">"Clima"</span>] <span class="op">=</span> <span class="dv">200</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="bu">sum</span>(p[causa] <span class="op">*</span> valor <span class="cf">for</span> causa, valor <span class="kw">in</span> custo.items())</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>custo[<span class="st">"Clima"</span>] <span class="op">=</span> <span class="dv">200</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="bu">sum</span>(p[causa] <span class="op">*</span> valor <span class="cf">for</span> causa, valor <span class="kw">in</span> custo.items())</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <p>O valor esperado sobe cerca de R$ 8 (0,0403 × 200 ≈ 8,05), passando de R$ 104,55 para cerca de R$ 112,60. O efeito é pequeno porque <code>Clima</code> tem probabilidade baixa (4%) — no valor esperado, cada custo entra <strong>ponderado</strong> pela sua probabilidade, não pelo valor bruto. É exatamente por isso que o valor esperado é a ferramenta certa para decisão: ele impede que um número grande, mas raro, domine a conclusão sozinho.</p>
 </div>
 </div>

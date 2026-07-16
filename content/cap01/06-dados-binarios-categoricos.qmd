@@ -65,6 +65,49 @@ plt.show()
 No histograma, o eixo X é numérico e contínuo, e as barras se encostam **porque** não há espaço entre uma faixa e a seguinte — são pedaços contíguos da mesma reta de números. No gráfico de barras, o eixo X é categórico, e as barras vêm separadas de propósito: não existe "entre `ControleAereo` e `Clima`", e a ordem em que as categorias aparecem no eixo é arbitrária, não informativa. Desenhar `Companhia`, `ControleAereo`, `Clima`, `Seguranca` e `VooAnterior` com barras encostadas sugeriria visualmente uma continuidade e uma ordem que os dados não têm — como se uma causa viesse "depois" da outra por algum motivo numérico. Não é preciosismo de estilo: é o mesmo cuidado que a seção 1.1 teve ao impedir que uma coluna nominal respondesse a perguntas de ordem.
 :::
 
+## O eixo que mente
+
+Um gráfico de barras honesto sobre a mecânica — barras separadas, eixo categórico — ainda pode enganar de outra forma, e essa é uma das mais comuns em jornais e apresentações. O truque não está nos dados; está no eixo.
+
+Abaixo, a taxa de homicídios dos nove estados do Nordeste (Atlas da Violência, 2024), desenhada de dois jeitos. Os números são **exatamente os mesmos** nos dois painéis. Só muda onde o eixo Y começa.
+
+```{python}
+#| label: fig-eixo-truncado
+#| fig-cap: "A MESMA taxa de homicídios dos nove estados do Nordeste, desenhada de dois jeitos. À esquerda, o eixo começa em 20; à direita, no zero."
+estado = pd.read_csv("dados/estados.csv")
+nordeste = ["MA", "PI", "CE", "RN", "PB", "PE", "AL", "SE", "BA"]
+ne = estado[estado["Sigla"].isin(nordeste)].sort_values("Taxa.Homicidios")
+
+fig, (ax_trunc, ax_zero) = plt.subplots(1, 2, figsize=(10, 4))
+
+for ax, base, titulo in [
+    (ax_trunc, 20, "Eixo começando em 20 — enganoso"),
+    (ax_zero, 0, "Eixo começando em 0 — honesto"),
+]:
+    ax.bar(ne["Sigla"], ne["Taxa.Homicidios"], color="#b0c4d8", edgecolor="white")
+    ax.set_ylim(base, 38)
+    ax.set_title(titulo, fontsize=10)
+    ax.set_xlabel("Estado")
+
+ax_trunc.set_ylabel("Taxa de homicídios (por 100 mil)")
+plt.tight_layout()
+plt.show()
+```
+
+No painel da esquerda, o Piauí (a menor taxa, 20,47) vira um fiapo e Pernambuco (36,78) parece esmagador. O olho lê Pernambuco como **cerca de 36 vezes** o Piauí.
+
+Mas essa razão é a das **alturas desenhadas**, não das taxas: `(36,78 − 20) / (20,47 − 20)`, que dá ≈36. A razão **real** entre as taxas é `36,78 / 20,47` = **1,8×**. Pernambuco tem uma taxa 80% maior que a do Piauí — não 36 vezes maior. É uma diferença real, que merece ser levada a sério; só não é a diferença que o painel da esquerda mostra.
+
+Por que a barra engana especificamente: num gráfico de barras, o olho lê a quantidade pelo **comprimento** da barra, e comprimento só significa algo medido **a partir do zero**. Cortar o eixo em 20 quebra essa codificação — a barra do Piauí ainda existe, mas o pedaço que sobrou para representá-la é quase nada, mesmo a taxa real sendo bem acima de zero.
+
+O que torna esse truque particularmente insidioso é que **todos os nove números são verdadeiros.** Não há dado inventado, não há erro de conta — só um eixo que começa em 20 em vez de em 0. É assim que se engana com uma base de dados honesta: não mentindo sobre os valores, mas escolhendo onde a régua começa a medir.
+
+O painel da direita mostra a imagem real: todas as nove barras são altas — todos os estados do Nordeste têm taxa acima de 20 por 100 mil, o que por si só já é uma informação (a região inteira convive com violência letal alta) — e as diferenças entre elas aparecem na proporção verdadeira, bem mais modesta do que o primeiro painel sugeria.
+
+::: {.conceito}
+**Regra prática:** um gráfico de barras começa no eixo zero, sempre. A barra codifica a magnitude pelo seu comprimento, e comprimento medido a partir de um ponto qualquer não é magnitude nenhuma. (A regra é específica de barras: um gráfico de **linha**, mostrando evolução no tempo, às vezes pode truncar o eixo sem enganar — ali a informação está na **inclinação** da linha, não no comprimento de uma barra medida contra o zero.)
+:::
+
 ## A moda: a única "localização" possível
 
 ```{python}
@@ -144,4 +187,14 @@ sum(p[causa] * valor for causa, valor in custo.items())
 ```
 
 O valor esperado sobe cerca de R$ 8 (0,0403 × 200 ≈ 8,05), passando de R$ 104,55 para cerca de R$ 112,60. O efeito é pequeno porque `Clima` tem probabilidade baixa (4%) — no valor esperado, cada custo entra **ponderado** pela sua probabilidade, não pelo valor bruto. É exatamente por isso que o valor esperado é a ferramenta certa para decisão: ele impede que um número grande, mas raro, domine a conclusão sozinho.
+:::
+
+**4.** Um jornal publica as taxas de homicídio de Pernambuco (36,78) e Piauí (20,47) num gráfico de barras com o eixo Y começando em 20. Quantas vezes maior a barra de Pernambuco *parece*? E qual é a razão *real* entre as duas taxas?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+A barra de Pernambuco *parece* cerca de **36 vezes** a do Piauí: a altura desenhada de cada uma é o valor menos o piso do eixo, então a razão visual é `(36,78 − 20) / (20,47 − 20) = 16,78 / 0,47 ≈ 36`.
+
+A razão **real** é `36,78 / 20,47 ≈ 1,8` — Pernambuco tem uma taxa 80% maior, não 36 vezes maior. O eixo truncado transformou uma diferença de 80% num abismo aparente de 36 para 1. É por isso que um gráfico de barras deve começar no zero: só assim o comprimento da barra corresponde ao valor.
 :::

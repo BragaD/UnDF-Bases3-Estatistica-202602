@@ -4,7 +4,101 @@
 Esta seção corresponde à seção 2.4 de @bruce2020.
 :::
 
-::: {.callout-warning}
-## Em construção
-O conteúdo desta seção ainda será escrito.
+```{python}
+#| label: setup
+#| include: false
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from formato import num
+
+plt.rcParams["figure.figsize"] = (7, 4)
+renda = pd.read_csv("dados/loans_income.csv").rename(columns={"x": "Renda"})["Renda"]
+```
+
+A seção anterior mediu o erro padrão da média com uma fórmula fechada, $\sigma/\sqrt{n}$, e depois confirmou a fórmula simulando milhares de amostras *novas* da população. Essa confirmação é boa ciência, mas esconde um problema prático: ela só foi possível porque a população inteira — as 50.000 rendas — estava disponível para sortear de novo. Na vida real, uma amostra é frequentemente tudo o que existe. Não há população para voltar e sortear de novo; a coleta já aconteceu, custou o que custou, e repeti-la pode ser caro, lento ou simplesmente impossível.
+
+O bootstrap resolve isso com uma ideia que, na primeira vez, soa quase ilegítima: **trate a própria amostra como se fosse a população**, e reamostre *dela*, com reposição, milhares de vezes.
+
+## A ideia
+
+Reamostrar com reposição quer dizer: sorteie um valor da amostra, anote-o, devolva-o à amostra, sorteie de novo — o mesmo valor pode sair mais de uma vez, e alguns valores da amostra original podem não sair nenhuma. Repita até ter uma reamostra do mesmo tamanho $n$ que a amostra original. Calcule a estatística de interesse nessa reamostra. Repita todo o processo mil vezes. A distribuição das mil estatísticas resultantes é a **distribuição bootstrap**, e o desvio-padrão dela é o **erro padrão bootstrap**.
+
+Por que isso funciona? Porque a amostra, se foi coletada de forma razoável, já carrega em si a forma da população — suas proporções, sua assimetria, sua dispersão. Reamostrar dela com reposição é uma forma de simular "e se a coleta tivesse caído um pouco diferente?" sem precisar coletar de novo. Cada reamostra é um universo paralelo em que alguns valores tiveram mais sorte e outros menos, exatamente como aconteceria se o processo de amostragem original fosse repetido.
+
+::: {.exemplo}
+Pense no bootstrap como "repetir o experimento sem repetir o experimento". Você não tem 1.000 amostras novas de 50.000 rendas cada — você tem uma amostra só, e o bootstrap finge, de forma disciplinada, que a repetiu 1.000 vezes.
+:::
+
+## Por que a mediana
+
+A seção 2.3 usou a **média** porque a média tem fórmula fechada: o erro padrão é $\sigma/\sqrt{n}$, ponto final. Mas a maioria das estatísticas interessantes não tem uma fórmula assim. A **mediana** é o primeiro exemplo que qualquer curso encontra: não existe uma fórmula simples de "erro padrão da mediana" que dependa só de $\sigma$ e $n$, porque a mediana ignora quase todos os valores da amostra e depende só da observação (ou das duas observações) do meio — sua variabilidade depende da densidade dos dados *perto* do centro, uma informação que $\sigma$ sozinho não carrega.
+
+É exatamente aí que o bootstrap se torna indispensável, não apenas conveniente: ele não precisa de uma fórmula específica para cada estatística. Funciona para a mediana, para percentis, para a razão entre duas medidas, para o coeficiente de um modelo — para qualquer coisa que se calcule a partir de uma amostra.
+
+::: {.conceito}
+A média tem fórmula de erro padrão porque é uma soma dividida por $n$, e a teoria de somas de variáveis aleatórias está bem resolvida há séculos. A mediana — e a maior parte das estatísticas do mundo real — não tem esse atalho. O bootstrap troca a elegância de uma fórmula fechada por força bruta computacional: em vez de derivar a variabilidade analiticamente, ele a *mede*, reamostrando.
+:::
+
+## O bootstrap da mediana
+
+```{python}
+#| label: bootstrap
+n_boot = 1000
+medianas = [renda.sample(len(renda), replace=True, random_state=i).median()
+            for i in range(n_boot)]
+
+print(f"Mediana da população:   {num(renda.median(), 0)}")
+print(f"Erro padrão (bootstrap): {num(np.std(medianas, ddof=1), 2)}")
+```
+
+Cada uma das mil reamostras tem exatamente 50.000 valores — o mesmo tamanho da amostra original —, mas sorteados **com reposição** dela mesma, com uma semente própria (`random_state=i`) para que o resultado seja reprodutível a cada renderização deste livro. A mediana de cada reamostra vai para a lista `medianas`; o desvio-padrão dessa lista é o erro padrão bootstrap da mediana.
+
+```{python}
+#| label: fig-bootstrap
+#| fig-cap: "Distribuição bootstrap da mediana: 1.000 reamostragens com reposição."
+fig, ax = plt.subplots()
+ax.hist(medianas, bins=30, color="#b0c4d8", edgecolor="white")
+ax.axvline(renda.median(), color="#c0392b", linewidth=2, label=f"Mediana: {num(renda.median(), 0)}")
+ax.set_xlabel("Mediana reamostrada (US$)")
+ax.set_ylabel("Frequência")
+ax.legend()
+plt.tight_layout()
+plt.show()
+```
+
+O histograma acima **é** a distribuição amostral da mediana — a mesma ideia da seção 2.3, só que obtida sem repetir a coleta e sem fórmula fechada. Ele mostra o quanto a mediana varia de reamostra para reamostra, e o desvio-padrão dessa variação é o número que a fórmula $\sigma/\sqrt{n}$ não sabe calcular para esta estatística.
+
+## O que o bootstrap não faz
+
+É tentador ler o erro padrão pequeno acima e concluir que o bootstrap "melhora" a estimativa. Ele não melhora nada. O bootstrap reamostra a amostra que você tem — se essa amostra foi coletada de forma enviesada (por exemplo, por uma pesquisa que sub-representa um grupo), toda reamostra bootstrap herda o mesmo viés, porque nenhuma delas contém informação que a amostra original não continha.
+
+::: {.conceito}
+**O bootstrap mede variabilidade, não viés.** Ele responde "o quanto a estatística oscilaria se eu repetisse a coleta nas mesmas condições?" — não "a estatística está certa?". Uma amostra enviesada pode produzir um erro padrão bootstrap pequeno e uma estimativa consistentemente errada ao mesmo tempo: precisão sem acurácia. O bootstrap não tem como saber disso, porque ele nunca vê nada além da própria amostra viesada.
+:::
+
+## Exercícios
+
+**1.** Por que o bootstrap reamostra **com** reposição, e não sem?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+Sem reposição, reamostrar todos os $n$ elementos de uma amostra de tamanho $n$ sempre devolve a amostra original inteira, só em outra ordem — variabilidade zero, porque nenhum valor pode aparecer mais de uma vez nem faltar. A reposição é o que permite que cada reamostra seja diferente das outras (alguns valores saem repetidos, outros não saem), imitando a variação que existiria se a coleta fosse de fato repetida.
+:::
+
+**2.** O bootstrap de uma amostra enviesada dá um erro padrão pequeno e bonito. Isso significa que a estimativa é boa?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+Não. O erro padrão bootstrap mede a **variabilidade** da estimativa — o quanto ela oscilaria em reamostras — e não o **viés** dela. Uma amostra enviesada produz estimativas consistentemente erradas, e o bootstrap, fiel à amostra que recebeu, reproduz esse erro com pouca variabilidade entre as reamostras. É precisão sem acurácia: um erro padrão pequeno não é evidência de que a estimativa está correta, só de que ela é estável em torno de um valor — certo ou errado.
+:::
+
+**3.** Para que serve o bootstrap que a fórmula $\sigma/\sqrt{n}$ já não resolveria?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+Para estatísticas sem fórmula fechada de erro padrão: mediana, percentis, razão entre duas medidas, coeficiente de um modelo mais complexo, e assim por diante. A fórmula $\sigma/\sqrt{n}$ é um caso particular em que a teoria matemática fecha de forma simples, porque a média é uma soma dividida por $n$. Para praticamente tudo o mais que se queira calcular a partir de uma amostra, não existe esse atalho analítico — e é aí que o bootstrap vale, porque o mesmo procedimento (reamostrar com reposição e recalcular) funciona igual, qualquer que seja a estatística.
 :::

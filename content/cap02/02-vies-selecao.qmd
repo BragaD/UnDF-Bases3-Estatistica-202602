@@ -4,7 +4,95 @@
 Esta seção corresponde à seção 2.2 de @bruce2020.
 :::
 
-::: {.callout-warning}
-## Em construção
-O conteúdo desta seção ainda será escrito.
+```{python}
+#| label: setup
+#| include: false
+import numpy as np
+from formato import num
+```
+
+A seção anterior separou dois jeitos de uma amostra errar: **erro amostral**, que não tem direção e encolhe com o tamanho da amostra, e **viés de amostra**, que tem direção fixa porque a *coleta* dos dados favorece sistematicamente um tipo de resposta. O viés de amostra mora antes da análise — está em quem entrou na pesquisa da *Literary Digest*, não em nenhuma conta feita depois.
+
+O **viés de seleção** mora depois. Os dados já foram coletados, sem nenhum defeito na coleta — o problema entra na hora de decidir *o que analisar* e *o que reportar*. É escolher os dados, as hipóteses ou os resultados de um jeito que empurra a conclusão para onde já se queria chegar, e depois apresentar essa conclusão como se tivesse surgido de uma pergunta feita uma única vez, honestamente, do início ao fim.
+
+## Data snooping
+
+A forma mais direta de viés de seleção é o **data snooping**: garimpar o mesmo conjunto de dados repetidas vezes, testando combinação atrás de combinação, até que alguma pareça "significativa" — e então reportar só essa, como se fosse a pergunta original.
+
+O problema não é olhar os dados. É que, testado o bastante, **qualquer** conjunto de dados suficientemente grande contém padrões que parecem reais e são só ruído. Se você cruzar renda com signo do zodíaco, ou taxa de câncer com a letra inicial do bairro, e repetir isso para dezenas de variáveis, alguma combinação vai cruzar a linha do "estatisticamente significativo" — não porque exista uma relação, mas porque testar muitas combinações é, estatisticamente, o mesmo que comprar muitos bilhetes de loteria. Um deles vai ser sorteado.
+
+## O efeito da busca vasta
+
+Data snooping é o hábito; o **efeito da busca vasta** (*vast search effect*) é o mecanismo por trás dele, e vale a pena isolar em uma simulação. A ideia central: **procurar em hipóteses suficientes garante achar uma que parece impressionante por puro acaso** — nenhuma fraude, nenhum erro de cálculo, só o número de tentativas fazendo o trabalho.
+
+```{python}
+#| label: busca-vasta
+rng = np.random.default_rng(42)
+
+# 100 pessoas jogam uma moeda JUSTA 20 vezes cada. Quantas caras a "melhor" tira?
+tentativas = [int(rng.integers(0, 2, 20).sum()) for _ in range(100)]
+melhor = max(tentativas)
+print(f"Em 100 tentativas de 20 lançamentos de uma moeda justa,")
+print(f"a melhor sequência deu {melhor} caras de 20.")
+```
+
+A moeda é **justa** — por construção, cada lançamento tem exatamente 50% de chance de cara. Ainda assim, entre 100 pessoas jogando-a 20 vezes cada, a melhor tirou `{python} melhor` caras de 20, ou seja, `{python} num(melhor / 20 * 100, 0)`% de caras.
+
+Pare e imagine que você só soubesse dessa pessoa — sem saber que ela era uma entre 100. Você concluiria, com razão aparente, que a moeda dela é viciada: 15 caras em 20 lançamentos de uma moeda justa é um evento raro, do tipo que só se veria por acaso uma vez a cada muitas tentativas. A conclusão estaria errada, e o erro não estaria em nenhuma conta — estaria em esconder que essa pessoa foi *escolhida* por ser a melhor entre 100. Procurar bastante e reportar só o extremo é exatamente o mecanismo do data snooping, isolado numa moeda que sabemos, de antemão, ser justa.
+
+::: {.conceito}
+Procurar em muitas hipóteses e reportar apenas a que "deu certo" infla a significância aparente do resultado. Um teste isolado com p < 0,05 tem 5% de chance de ser falso positivo; testar 100 hipóteses independentes e reportar só a vencedora não reduz esse risco — ele o **concentra**: entre 100 tentativas, esperar por acaso cerca de 5 "significativas" é a regra, não a exceção. Essa é a raiz estatística de boa parte das descobertas científicas manchete que depois não se replicam: o estudo original testou várias variáveis, reportou a que deu resultado, e a réplica — testando só essa mesma variável, sem as outras que falharam — não encontra nada.
+:::
+
+::: {.exemplo}
+Um fundo de investimento anuncia "10 anos consecutivos batendo o mercado". Isso soa impressionante até lembrar que existem milhares de fundos de investimento operando ao mesmo tempo. Por puro acaso, alguns deles vão bater o mercado dez anos seguidos — do mesmo jeito que, entre 100 lançadores de moeda, algum vai tirar 15 caras de 20. O anúncio reporta o fundo vencedor; os fundos que fecharam no meio do caminho, por desempenho ruim, simplesmente não aparecem para comparação. Essa ausência tem nome: **viés de sobrevivência** — um caso particular de viés de seleção em que a amostra visível é, por construção, feita só de quem "sobreviveu" o suficiente para ser mostrado.
+:::
+
+## Regressão à média
+
+Um último padrão pertence a esta família, embora costume ser confundido com uma correção real: a **regressão à média**. Quando uma observação extrema aparece, a próxima observação da mesma fonte tende a estar mais perto da média — não porque algo interveio para "corrigir" o extremo, mas porque o valor extremo já continha, embutida, uma dose de sorte (ou azar) que não se repete.
+
+Pense no aluno que tira a nota mais alta da turma numa prova: parte da nota é habilidade de verdade, e parte é sorte — as perguntas que por acaso caíram sobre o que ele tinha revisado na véspera. Na prova seguinte, a habilidade continua, mas a sorte é sorteada de novo, e raramente sai favorável duas vezes seguidas. O resultado esperado é uma nota mais próxima da média da turma — não porque o aluno "regrediu" ou piorou, mas porque a parte de sorte do resultado anterior nunca esteve garantida.
+
+::: {.conceito}
+Regressão à média é frequentemente lida ao contrário: como se o extremo fosse "castigado" ou "compensado" no período seguinte. Não há castigo nem compensação — há apenas o fato de que um resultado extremo tem chance maior de ter tido ajuda da sorte do que um resultado mediano, e a sorte não é uma dívida que se paga de volta. É o mesmo tipo de raciocínio por trás da busca vasta: um extremo encontrado entre muitas tentativas (ou muitas provas, muitos jogos, muitos trimestres) provavelmente carrega mais sorte do que um resultado típico, e a próxima observação tende a refletir isso.
+:::
+
+## Resumo
+
+| Termo | O que é |
+|---|---|
+| Viés de seleção | Escolher os dados, as hipóteses ou os resultados de um jeito que empurra a análise para a conclusão desejada. |
+| Data snooping | Garimpar o mesmo conjunto de dados repetidamente até achar algo que pareça "significativo". |
+| Efeito da busca vasta | Procurar em hipóteses suficientes garante achar uma que parece impressionante por puro acaso. |
+| Regressão à média | Um valor extremo tende a ser seguido por um mais próximo da média, porque parte do extremo era sorte, e a sorte não se repete. |
+
+::: {.conceito}
+**Regra prática:** antes de aceitar um resultado "impressionante", pergunte quantas outras hipóteses, variáveis ou tentativas ficaram de fora do relato. Se a resposta for "não sei" ou "muitas", o resultado provavelmente diz mais sobre o tamanho da busca do que sobre o fenômeno em si.
+:::
+
+## Exercícios
+
+**1.** Um pesquisador testa 40 dietas diferentes e anuncia a única que deu resultado "estatisticamente significativo" (p < 0,05). Por que essa afirmação é suspeita?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+Com 40 testes independentes ao nível de 5%, espera-se que cerca de 2 deles deem "significativos" só por acaso, mesmo que nenhuma das 40 dietas tenha efeito real. Reportar apenas a dieta vencedora, sem mencionar as outras 39 tentativas, é exatamente o efeito da busca vasta: o achado tem grande chance de ser ruído estatístico apresentado como descoberta.
+:::
+
+**2.** O melhor aluno de uma turma tirou 15 de 20 numa prova. Mantido o mesmo esforço, o que se espera da nota dele na prova seguinte?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+Espera-se uma nota mais próxima da média da turma — provavelmente menor que 15. Parte do 15 veio de habilidade real, mas parte veio de sorte (as perguntas que calharam de cair sobre o que ele havia estudado). A sorte não se repete de uma prova para outra, então o resultado seguinte tende a regredir em direção à média: é regressão à média, não uma queda de desempenho.
+:::
+
+**3.** Como o resultado da simulação da moeda mudaria se, em vez de 100 pessoas, fossem 1.000 tentativas?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+A "melhor" tenderia a tirar ainda mais caras — 16, 17, talvez mais — porque quanto mais tentativas são procuradas, mais extremo é o melhor acaso que se encontra entre elas. É exatamente por isso que o número de hipóteses testadas precisa ser declarado junto com o resultado: sem saber que a busca foi entre 1.000 tentativas (e não 100, ou 1), o resultado mais extremo pode ser lido como sinal de moeda viciada quando é só o produto esperado de uma busca maior.
 :::

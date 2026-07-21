@@ -4,7 +4,107 @@
 Esta seção corresponde à seção 2.5 de @bruce2020.
 :::
 
-::: {.callout-warning}
-## Em construção
-O conteúdo desta seção ainda será escrito.
+```{python}
+#| label: setup
+#| include: false
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from formato import num
+
+plt.rcParams["figure.figsize"] = (7, 4)
+renda = pd.read_csv("dados/loans_income.csv").rename(columns={"x": "Renda"})["Renda"]
+```
+
+A seção anterior usou o bootstrap para medir o erro padrão da mediana — um único número que resume o quanto a estatística varia de amostra para amostra. Só que na prática raramente basta saber "o quanto varia": o que se quer é um intervalo de valores plausíveis para o parâmetro da população, construído a partir da amostra que se tem. Esse intervalo tem nome — **intervalo de confiança** — e o bootstrap constrói um sem exigir fórmula fechada nem suposição de normalidade, do mesmo jeito que já construiu o erro padrão da mediana.
+
+## Um intervalo por bootstrap
+
+Suponha que a única informação disponível seja uma amostra pequena: 20 rendas, não as 50.000 da população inteira. É a situação real de quem faz uma pesquisa — coletar mais é caro, e a coleta já aconteceu.
+
+```{python}
+#| label: intervalo
+amostra20 = renda.sample(20, random_state=3)
+print(f"Média da amostra (n=20): {num(amostra20.mean(), 0)}")
+
+boot = [amostra20.sample(20, replace=True, random_state=i).mean() for i in range(1000)]
+lo, hi = np.percentile(boot, [5, 95])
+print(f"IC de 90%: [{num(lo, 0)}, {num(hi, 0)}]")
+print(f"Largura: {num(hi - lo, 0)}")
+```
+
+O procedimento é o mesmo bootstrap da seção anterior: reamostrar `amostra20` com reposição, mil vezes, e calcular a média de cada reamostra. A diferença está no que se faz com a lista de 1.000 médias resultante. Em vez de resumi-la a um único número (o desvio-padrão, que dá o erro padrão), pegam-se os **percentis 5 e 95** dessa distribuição: os dois valores que deixam 5% das médias reamostradas abaixo e 5% acima, sobrando exatamente os 90% centrais entre eles. Esse par de valores — aqui, aproximadamente [42.334, 69.241] — é o **intervalo de confiança de 90%** para a renda média da população.
+
+```{python}
+#| label: fig-intervalo
+#| fig-cap: "Distribuição bootstrap da média (n=20), com o intervalo de confiança de 90% marcado."
+fig, ax = plt.subplots()
+ax.hist(boot, bins=30, color="#b0c4d8", edgecolor="white")
+ax.axvline(lo, color="#c0392b", linewidth=2, linestyle="--", label=f"IC 90%: [{num(lo, 0)}, {num(hi, 0)}]")
+ax.axvline(hi, color="#c0392b", linewidth=2, linestyle="--")
+ax.axvline(amostra20.mean(), color="#27ae60", linewidth=2, label=f"Média da amostra: {num(amostra20.mean(), 0)}")
+ax.set_xlabel("Média reamostrada (US$)")
+ax.set_ylabel("Frequência")
+ax.legend()
+plt.tight_layout()
+plt.show()
+```
+
+As linhas vermelhas tracejadas cercam os 90% centrais do histograma; tudo que sobra nas duas pontas — 5% de cada lado — fica fora do intervalo.
+
+## A interpretação correta
+
+Aqui mora o erro mais comum da estatística aplicada, cometido tanto por quem aprende quanto por quem já usa o método há anos: ler "intervalo de confiança de 90%" como "há 90% de chance de a renda média da população estar entre 42.334 e 69.241". Essa frase soa natural e está **errada**.
+
+A renda média da população é um número fixo. Ela não é uma variável aleatória — ela existe, tem um valor exato, e esse valor não muda porque uma amostra foi sorteada. O intervalo [42.334, 69.241], portanto, ou já contém esse número fixo, ou não contém: não há "90% de chance" nenhuma sobrando depois que o intervalo foi calculado, porque não há mais nada de aleatório na jogada. O que é aleatório é o **intervalo em si** — ele muda de amostra para amostra, porque depende de quais 20 rendas caíram na amostra e de como o bootstrap reamostrou a partir delas.
+
+::: {.conceito}
+**Um IC de 90% não é "90% de chance de o parâmetro estar aqui".** O parâmetro é fixo; quem é aleatório é o intervalo. A garantia dos 90% é sobre o **procedimento**, não sobre este intervalo específico: se a coleta e o cálculo fossem repetidos muitas vezes, cada repetição produzindo um novo intervalo, aproximadamente 90% desses intervalos conteriam o parâmetro verdadeiro — e 10% não conteriam, por puro azar de amostragem. Este intervalo aqui é apenas **um** resultado desse procedimento repetível. Ele pode ser um dos 90% que acertam ou um dos 10% que erram, e não há como saber qual dos dois é, só olhando para ele.
+:::
+
+::: {.exemplo}
+Pense num jogo de argolas. O poste está fixo no chão — ele não se move, seja qual for a jogada. Cada lançamento da argola é que varia: às vezes cai em volta do poste, às vezes cai ao lado. Um jogador com "90% de acerto" acerta em 9 de cada 10 lançamentos, em média, ao longo de muitas tentativas — mas essa taxa descreve o **jogador** (o procedimento), não uma argola específica já lançada e caída no chão. Olhando para uma única argola no chão, ela ou cerca o poste ou não cerca; não faz sentido dizer que "há 90% de chance de aquela argola específica cercar o poste" depois que ela já caiu. O parâmetro da população é o poste. Cada intervalo de confiança é uma argola. "90% de confiança" é a taxa de acerto do lançador — do bootstrap, repetido em amostras hipotéticas —, não uma propriedade do intervalo que está na sua tela agora.
+:::
+
+## Nível de confiança e largura
+
+Existe uma segunda escolha embutida em "IC de 90%": por que 90%, e não 95% ou 99%? A resposta é que mais confiança não vem de graça.
+
+```{python}
+#| label: largura
+lo95, hi95 = np.percentile(boot, [2.5, 97.5])
+print(f"IC de 90%: largura {num(hi - lo, 0)}")
+print(f"IC de 95%: largura {num(hi95 - lo95, 0)}")
+```
+
+Para ter 95% de confiança em vez de 90%, é preciso descartar menos das pontas — 2,5% de cada lado, não 5% — e isso só é possível abrindo o intervalo. O IC de 95% (largura `{python} num(hi95 - lo95, 0)`) é mais largo que o de 90% (largura `{python} num(hi - lo, 0)`), porque cercar o parâmetro com mais frequência exige uma rede mais larga.
+
+::: {.conceito}
+**Confiança e precisão trocam entre si.** Um intervalo mais estreito é mais informativo — diz que o parâmetro está numa faixa apertada de valores —, mas um intervalo mais estreito também erra com mais frequência, porque tem menos margem para acomodar o sorteio da amostra. Um intervalo mais largo acerta mais vezes, mas diz menos sobre onde exatamente o parâmetro está. Não existe almoço grátis aqui: dado o tamanho da amostra, mais confiança só se compra com menos precisão. A única forma de ganhar as duas coisas ao mesmo tempo é aumentar a amostra — o que estreita a distribuição bootstrap inteira, e não apenas troca confiança por largura dentro dela.
+:::
+
+## Exercícios
+
+**1.** Um IC de 90% para a renda média deu [42.334, 69.241]. Verdadeiro ou falso: "há 90% de probabilidade de a renda média da população estar entre esses dois valores."
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+Falso — tecnicamente falso, mesmo soando natural. A renda média da população é um número fixo: ou está entre 42.334 e 69.241, ou não está, e não existe mais nenhuma aleatoriedade sobrando depois que o intervalo já foi calculado. Os 90% descrevem o **procedimento**: se a coleta e o cálculo do intervalo fossem repetidos muitas vezes, cerca de 90% dos intervalos resultantes conteriam a renda média verdadeira. Este intervalo específico é um sorteio desse procedimento — a garantia é sobre o método, não sobre ele.
+:::
+
+**2.** Por que o IC de 95% é mais largo que o de 90%?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+Porque cercar o parâmetro com mais frequência exige uma rede mais larga. Para chegar a 95% de confiança é preciso descartar apenas 2,5% de cada ponta da distribuição bootstrap, em vez de 5% — e isso empurra os limites do intervalo para mais longe do centro. Confiança e precisão (largura) trocam entre si: dado o tamanho da amostra, a única forma de ganhar as duas ao mesmo tempo é coletar mais dados.
+:::
+
+**3.** A amostra tinha só 20 rendas. O que aconteceria com a largura do IC se fosse 200?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+A largura encolheria, aproximadamente por um fator de $\sqrt{200/20} = \sqrt{10} \approx 3{,}2$ vezes. Amostra maior significa erro padrão menor (a mesma relação $\sigma/\sqrt{n}$ vista na seção 2.3), e um erro padrão menor estreita a distribuição bootstrap inteira — o que, para o mesmo nível de confiança (os mesmos percentis 5 e 95), produz um intervalo mais estreito. É a mesma troca da seção anterior, só que agora resolvida aumentando $n$ em vez de abrindo mão de confiança.
 :::

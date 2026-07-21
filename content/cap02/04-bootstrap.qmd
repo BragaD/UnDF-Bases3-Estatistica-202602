@@ -27,7 +27,7 @@ Reamostrar com reposição quer dizer: sorteie um valor da amostra, anote-o, dev
 Por que isso funciona? Porque a amostra, se foi coletada de forma razoável, já carrega em si a forma da população — suas proporções, sua assimetria, sua dispersão. Reamostrar dela com reposição é uma forma de simular "e se a coleta tivesse caído um pouco diferente?" sem precisar coletar de novo. Cada reamostra é um universo paralelo em que alguns valores tiveram mais sorte e outros menos, exatamente como aconteceria se o processo de amostragem original fosse repetido.
 
 ::: {.exemplo}
-Pense no bootstrap como "repetir o experimento sem repetir o experimento". Você não tem 1.000 amostras novas de 50.000 rendas cada — você tem uma amostra só, e o bootstrap finge, de forma disciplinada, que a repetiu 1.000 vezes.
+Pense no bootstrap como "repetir o experimento sem repetir o experimento". Você não tem 1.000 coletas novas — você tem uma amostra só, e o bootstrap finge, de forma disciplinada, que a repetiu 1.000 vezes.
 :::
 
 ## Por que a mediana
@@ -42,24 +42,30 @@ A média tem fórmula de erro padrão porque é uma soma dividida por $n$, e a t
 
 ## O bootstrap da mediana
 
+Para encenar a situação real — uma amostra, e só ela —, vamos primeiro coletar uma: 1.000 rendas sorteadas da população. Daqui em diante, fingimos que as 50.000 não existem; tudo o que temos é a amostra de 1.000.
+
 ```{python}
 #| label: bootstrap
+amostra = renda.sample(1000, random_state=1)
+
 n_boot = 1000
-medianas = [renda.sample(len(renda), replace=True, random_state=i).median()
+medianas = [amostra.sample(len(amostra), replace=True, random_state=i).median()
             for i in range(n_boot)]
 
-print(f"Mediana da população:   {num(renda.median(), 0)}")
+print(f"Mediana da amostra:      {num(amostra.median(), 0)}")
 print(f"Erro padrão (bootstrap): {num(np.std(medianas, ddof=1), 2)}")
 ```
 
-Cada uma das mil reamostras tem exatamente 50.000 valores — o mesmo tamanho da amostra original —, mas sorteados **com reposição** dela mesma, com uma semente própria (`random_state=i`) para que o resultado seja reprodutível a cada renderização deste livro. A mediana de cada reamostra vai para a lista `medianas`; o desvio-padrão dessa lista é o erro padrão bootstrap da mediana.
+Cada uma das mil reamostras tem exatamente 1.000 valores — o mesmo tamanho da amostra —, mas sorteados **com reposição** dela mesma, com uma semente própria (`random_state=i`) para que o resultado seja reprodutível a cada renderização deste livro. A mediana de cada reamostra vai para a lista `medianas`; o desvio-padrão dessa lista é o erro padrão bootstrap da mediana.
+
+A mediana da nossa amostra é 63.000 — a mediana verdadeira da população é 62.000, mas quem só tem a amostra não sabe disso. O bootstrap não corrige essa distância: ele mede o quanto a mediana *da amostra* oscila, não o quanto ela erra o alvo real. É a diferença entre precisão e acurácia, e voltaremos a ela ao final da seção.
 
 ```{python}
 #| label: fig-bootstrap
 #| fig-cap: "Distribuição bootstrap da mediana: 1.000 reamostragens com reposição."
 fig, ax = plt.subplots()
 ax.hist(medianas, bins=30, color="#b0c4d8", edgecolor="white")
-ax.axvline(renda.median(), color="#c0392b", linewidth=2, label=f"Mediana: {num(renda.median(), 0)}")
+ax.axvline(amostra.median(), color="#c0392b", linewidth=2, label=f"Mediana da amostra: {num(amostra.median(), 0)}")
 ax.set_xlabel("Mediana reamostrada (US$)")
 ax.set_ylabel("Frequência")
 ax.legend()

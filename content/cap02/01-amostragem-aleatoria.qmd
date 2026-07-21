@@ -70,7 +70,7 @@ Este é o motivo pelo qual a seção seguinte, 2.2, trata separadamente do **vi�
 | Termo | O que é |
 |---|---|
 | População | O conjunto completo que se quer descrever — aqui, as 50.000 rendas. |
-| Amostra | Um subconjunto da população, usado para estimar o que a população inteira faria custar medir. |
+| Amostra | Um subconjunto da população, usado para estimar o que seria caro ou inviável medir na população inteira. |
 | Viés de amostra | Diferença sistemática entre amostra e população, causada pelo método de coleta — não diminui com o tamanho da amostra. |
 
 ::: {.conceito}

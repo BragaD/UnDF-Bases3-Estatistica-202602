@@ -4,7 +4,101 @@
 Esta seção corresponde à seção 2.1 de @bruce2020.
 :::
 
-::: {.callout-warning}
-## Em construção
-O conteúdo desta seção ainda será escrito.
+```{python}
+#| label: setup
+#| include: false
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from formato import num
+
+plt.rcParams["figure.figsize"] = (7, 4)
+renda = pd.read_csv("dados/loans_income.csv").rename(columns={"x": "Renda"})["Renda"]
+```
+
+Medir a **população** inteira quase nunca é uma opção. Não dá para perguntar a cada eleitor em quem vai votar, testar cada peça que sai da fábrica ou registrar a renda de todo mundo que pede um empréstimo — o tempo e o custo de fazer isso inviabilizam a pergunta antes mesmo de ela ser respondida. O que se faz, na prática, é medir uma **amostra**: um subconjunto da população, escolhido com a esperança de que ele fale pelo todo.
+
+Isso levanta duas perguntas bem diferentes, e confundi-las é o erro mais caro desta seção:
+
+1. A amostra foi sorteada de um jeito que dá a cada membro da população a mesma chance de entrar? Se sim, a amostra erra — mas erra **sem direção**, e o erro encolhe conforme a amostra cresce.
+2. A amostra foi coletada de um jeito que favorece sistematicamente um tipo de resposta? Se sim, a amostra erra **com direção**, e nenhum tamanho de amostra conserta isso.
+
+A primeira é **erro amostral**. A segunda é **viés de amostra**. Esta seção existe para que essa distinção fique automática antes de o capítulo chegar à distribuição amostral propriamente dita.
+
+## Os dados
+
+Para ilustrar amostragem aleatória simples, vamos usar `loans_income.csv`: a renda anual de 50.000 pessoas que solicitaram empréstimo, em **dólares americanos**. É um dado americano do livro-texto — diferente do `estados.csv` do Capítulo 1, que é brasileiro —, e vai reaparecer nas próximas seções deste capítulo (distribuição amostral, bootstrap, intervalos de confiança). A coluna chega do CSV como `x`; nós a renomeamos para `Renda` na leitura, sem tocar no arquivo original.
+
+```{python}
+#| label: populacao
+print(f"População: {num(len(renda), 0)} rendas")
+print(f"Média:   {num(renda.mean(), 0)}")
+print(f"Mediana: {num(renda.median(), 0)}")
+```
+
+As 50.000 rendas **são** a população para os propósitos desta seção — é o conjunto inteiro que temos, e é dele que vamos sortear amostras menores. A média (US\$ 68.761) fica acima da mediana (US\$ 62.000), a mesma assinatura assimétrica do Capítulo 1: uma cauda de rendas altas puxa a média para cima sem mover o valor central. Isso não é coincidência — renda é o exemplo clássico de distribuição de cauda longa à direita, e vai voltar quando o capítulo chegar lá.
+
+## Amostragem aleatória simples
+
+A forma mais básica de amostragem é a **amostragem aleatória simples**: cada elemento da população tem exatamente a mesma probabilidade de entrar na amostra, e a seleção de um não influencia a dos demais. É o sorteio de loteria — não o formulário que só quem se importa preenche.
+
+Uma escolha de projeto entra aqui: sortear **com** ou **sem reposição**. Com reposição, cada indivíduo sorteado volta para o conjunto e pode sair de novo; sem reposição, ele sai da lista depois de escolhido. Na prática, a diferença quase nunca importa: com 50.000 rendas na população e 100 na amostra, a chance de o mesmo indivíduo ser sorteado duas vezes é próxima de zero, com ou sem reposição. A diferença só passa a valer quando a amostra é **grande em relação à população** — sortear 40 de uma turma de 50, por exemplo, onde cada retirada muda visivelmente quem resta para a próxima.
+
+```{python}
+#| label: amostra
+amostra = renda.sample(100, random_state=42)
+print(f"Média da amostra (n=100): {num(amostra.mean(), 0)}")
+print(f"Média da população:       {num(renda.mean(), 0)}")
+```
+
+A média da amostra (US\$ 66.748) fica perto da média da população (US\$ 68.761), mas não bate exatamente — e não deveria. Cem rendas sorteadas ao acaso não reproduzem a média das 50.000 dígito a dígito. Essa diferença é **erro aleatório de amostragem**: não tem direção fixa (a próxima amostra de 100 poderia sair um pouco acima em vez de abaixo), e diminui conforme a amostra cresce. É exatamente o que a seção 2.3 vai quantificar.
+
+## Viés de amostra
+
+**Viés de amostra** é outra coisa, e é mais grave. Não é a amostra errar por acaso — é a amostra errar **sempre na mesma direção**, porque o próprio método de coleta favorece um tipo de resposta. Uma pesquisa de opinião feita só com quem atende ligação de número desconhecido, uma enquete de site respondida só por quem tem uma opinião forte o bastante para clicar, um teste de produto feito só com clientes que já compraram de novo — em todos esses casos, quem entra na amostra não é um sorteio da população, é um subconjunto que a coleta escolheu sem querer.
+
+O caso histórico mais citado é a enquete da revista *Literary Digest* antes da eleição americana de 1936: 2,4 milhões de respostas, coletadas por telefone e por assinantes da revista, apontavam vitória fácil de Alf Landon sobre Franklin Roosevelt. Roosevelt venceu por larga margem. O problema não foi o tamanho da amostra — foi que, em 1936, ter telefone ou assinar aquela revista já selecionava um eleitorado mais rico e mais republicano do que o país inteiro. Pesquisas muito menores, mas sorteadas de verdade, acertaram o resultado.
+
+::: {.conceito}
+**Uma amostra grande e enviesada é pior que uma pequena e aleatória.** O tamanho dá *confiança* — "são 2 milhões de respostas, não pode estar errado" —, mas não corrige o viés; ele só multiplica o mesmo erro sistemático por mais gente. É por isso que pesquisas eleitorais com milhões de respostas autosselecionadas (enquetes de site, de rede social) erram feio com uma regularidade que pesquisas menores e aleatoriamente sorteadas não erram. Tamanho resolve erro aleatório. Tamanho não resolve viés.
+:::
+
+Este é o motivo pelo qual a seção seguinte, 2.2, trata separadamente do **viés de seleção**: um jeito específico de o viés entrar não pela coleta dos dados, mas pela forma como eles são analisados depois de coletados.
+
+## Resumo
+
+| Termo | O que é |
+|---|---|
+| População | O conjunto completo que se quer descrever — aqui, as 50.000 rendas. |
+| Amostra | Um subconjunto da população, usado para estimar o que a população inteira faria custar medir. |
+| Viés de amostra | Diferença sistemática entre amostra e população, causada pelo método de coleta — não diminui com o tamanho da amostra. |
+
+::: {.conceito}
+**Regra prática:** antes de confiar em qualquer estatística de amostra, pergunte como ela foi coletada, não só quantas observações ela tem. Uma amostra pequena e aleatória responde a pergunta certa; uma amostra enorme e autosselecionada responde a uma pergunta diferente da que foi feita.
+:::
+
+## Exercícios
+
+**1.** Um site de comércio eletrônico coleta 2 milhões de respostas sobre a satisfação com um produto, todas de visitantes que escolheram responder a uma pesquisa opcional na página. Uma empresa de pesquisa telefônica sorteia aleatoriamente 800 pessoas entre os compradores do mesmo produto. Qual das duas estimativas é mais confiável, e por quê?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+A de 800 pessoas. A pesquisa de 2 milhões é **autosselecionada**: só respondeu quem quis, e quem tem uma opinião forte (muito satisfeito ou muito insatisfeito) tende a responder mais do que quem é indiferente ao produto — nenhum tamanho de amostra corrige esse viés, porque ele está no método de coleta, não no acaso. As 800 pessoas sorteadas aleatoriamente representam a população de compradores; os 2 milhões representam apenas "quem quis responder", que é uma população diferente e sistematicamente distorcida.
+:::
+
+**2.** Ao amostrar com reposição de uma população de 50.000 rendas, tirando uma amostra de 100, a chance de o mesmo indivíduo ser sorteado duas vezes é praticamente desprezível. Em que situação a escolha entre amostrar com ou sem reposição passa a fazer diferença de verdade?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+Quando a amostra é **grande em relação à população** — por exemplo, sortear 40 pessoas de uma turma de 50. Nesse caso, sem reposição, cada retirada muda visivelmente a composição do que resta (depois de tirar 39, só sobra 1 possibilidade para a última); com reposição, cada sorteio continua sendo feito sobre a turma inteira, sem esse efeito. Com 100 amostrados de 50.000, essa diferença é irrelevante — a população é grande demais, relativamente à amostra, para que tirar um indivíduo mude a composição do que resta de forma perceptível.
+:::
+
+**3.** Por que a média da amostra de 100 rendas (US\$ 66.748) não bate exatamente com a média da população inteira (US\$ 68.761), mesmo que a amostra tenha sido sorteada sem nenhum viés?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+Por **erro aleatório de amostragem**: cem rendas sorteadas ao acaso não reproduzem a média das 50.000 dígito a dígito, mesmo sendo um sorteio perfeitamente aleatório. Diferente do viés, esse erro não tem direção fixa — a próxima amostra de 100 poderia sair acima da média da população em vez de abaixo — e ele **diminui** à medida que a amostra cresce, algo que a seção 2.3 (Distribuição Amostral) vai quantificar.
 :::

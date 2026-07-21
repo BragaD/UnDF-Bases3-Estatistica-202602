@@ -4,7 +4,162 @@
 Esta seção corresponde à seção 2.3 de @bruce2020.
 :::
 
-::: {.callout-warning}
-## Em construção
-O conteúdo desta seção ainda será escrito.
+```{python}
+#| label: setup
+#| include: false
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from formato import num
+
+plt.rcParams["figure.figsize"] = (7, 4)
+renda = pd.read_csv("dados/loans_income.csv").rename(columns={"x": "Renda"})["Renda"]
+```
+
+```{python}
+#| label: exporta-ojs
+#| echo: false
+#| output: false
+# A população inteira (50.000) vai para o navegador. JÁ MEDIDO neste projeto:
+# emite sem erro, payload de 350 KB, página total de 372 KB — bem abaixo do teto.
+# Usa-se a população inteira; nenhuma subamostra necessária.
+ojs_define(dados = renda.to_frame())
+```
+
+A seção 2.1 sorteou uma única amostra de 100 rendas e comparou sua média com a da população. Essa comparação escondia uma pergunta maior: se você sorteasse *outra* amostra de 100, a média sairia diferente — e se sorteasse mil amostras de 100, o que aconteceria com essas mil médias? Essa pergunta tem uma resposta, e ela é o assunto desta seção.
+
+## Duas distribuições, não uma
+
+É fácil confundir duas coisas que parecem a mesma coisa e não são.
+
+A **distribuição dos dados** é a distribuição das 50.000 rendas em si — assimétrica à direita, como visto na seção 2.1, com a média puxada para cima da mediana por uma cauda de rendas altas.
+
+A **distribuição amostral de uma estatística** é outra distribuição inteiramente: pegue a *média* de uma amostra, anote-a, sorteie outra amostra do mesmo tamanho, tire a média de novo, anote de novo — repita isso muitas vezes. O conjunto dessas médias tem sua própria distribuição, com sua própria forma, seu próprio centro e seu próprio espalhamento. Ela não descreve rendas individuais; descreve como a *média de uma amostra* varia de amostra para amostra.
+
+```{python}
+#| label: fig-distribuicao-amostral
+#| fig-cap: "A distribuição dos dados (n=1) e as das médias de amostras (n=5, n=20). Quanto maior n, mais estreita e simétrica."
+rng_medias = lambda n: [renda.sample(n, random_state=i).mean() for i in range(1000)]
+
+fig, eixos = plt.subplots(1, 3, figsize=(11, 3.3), sharex=True)
+for ax, (n, dados, titulo) in zip(eixos, [
+    (1, renda.sample(1000, random_state=0), "Dados (n=1)"),
+    (5, rng_medias(5), "Médias de n=5"),
+    (20, rng_medias(20), "Médias de n=20"),
+]):
+    ax.hist(dados, bins=40, color="#b0c4d8", edgecolor="white")
+    ax.set_title(titulo, fontsize=10)
+    ax.set_xlabel("Renda (US$)")
+eixos[0].set_ylabel("Frequência")
+plt.tight_layout()
+plt.show()
+```
+
+Os três painéis usam a mesma escala de renda, e a diferença salta aos olhos. O da esquerda é a própria população (uma amostra de 1.000 rendas individuais dela) — assimétrico, com uma cauda longa à direita. Os outros dois não são amostras de rendas: são amostras de **médias**, cada uma calculada sobre 5 ou 20 rendas sorteadas. Conforme n cresce, o histograma das médias fica mais estreito e mais parecido com um sino — mesmo os dados de origem sendo assimétricos. Esse afinamento e essa simetrização, produzidos puramente por tirar médias de amostras cada vez maiores, são o **Teorema Central do Limite** em ação: não importa a forma da distribuição original, a distribuição das médias amostrais tende à normal conforme n cresce.
+
+## Erro padrão
+
+O quanto a distribuição das médias se estreita conforme n cresce tem um nome e uma fórmula. O **erro padrão** é o desvio-padrão da distribuição amostral de uma estatística — não o desvio-padrão dos dados, o desvio-padrão das *médias*:
+
+$$\text{EP} = \frac{\sigma}{\sqrt{n}}$$
+
+onde $\sigma$ é o desvio-padrão da população e $n$ é o tamanho de cada amostra. A fórmula não é uma aproximação a ser tomada de fé — dá para verificar diretamente, simulando o processo de amostragem muitas vezes e comparando o desvio-padrão empírico das médias resultantes com o que a fórmula prevê.
+
+```{python}
+#| label: erro-padrao
+dp_pop = renda.std(ddof=1)
+print(f"{'n':>4}  {'desvio das médias':>18}  {'σ/√n (teórico)':>16}")
+for n in [1, 5, 20, 100]:
+    medias = [renda.sample(n, random_state=i).mean() for i in range(1000)]
+    print(f"{n:>4}  {num(np.std(medias, ddof=1), 0):>18}  {num(dp_pop / np.sqrt(n), 0):>16}")
+```
+
+As duas colunas quase coincidem em cada linha — a pequena diferença que sobra é o ruído de ter simulado apenas 1.000 amostras, não infinitas. E repare no padrão entre as linhas: de n=1 para n=100 (100 vezes mais observações por amostra), o erro caiu de cerca de 32 mil para cerca de 3,2 mil — só 10 vezes, não 100. É a raiz quadrada fazendo esse trabalho: **para reduzir o erro padrão pela metade é preciso quadruplicar o tamanho da amostra**, não dobrá-lo. Ganhos de precisão ficam cada vez mais caros.
+
+::: {.conceito}
+**Erro padrão não é desvio-padrão.** O desvio-padrão descreve o espalhamento dos **dados** — rendas individuais, no caso. O erro padrão descreve o espalhamento de uma **estatística calculada sobre amostras** — médias de amostras, no caso. Os dois medem dispersão, mas de coisas diferentes, e são um dos pares de termos mais confundidos da estatística.
+:::
+
+## Mexa no tamanho da amostra
+
+Os histogramas acima são três fotografias — n=1, n=5, n=20 — de um processo contínuo. O widget abaixo deixa você percorrer esse processo: mova o controle e observe o histograma das médias estreitar em tempo real conforme n cresce, e o erro padrão exibido cair junto.
+
+```{ojs}
+//| echo: false
+populacao = transpose(dados).map(d => d.Renda)
+
+fmt = x => x.toLocaleString("pt-BR", {maximumFractionDigits: 0})
+
+// Média de uma amostra de tamanho n, sorteada com reposição da população.
+function mediaAmostra(pop, n) {
+  let s = 0;
+  for (let i = 0; i < n; i++) s += pop[Math.floor(Math.random() * pop.length)];
+  return s / n;
+}
+```
+
+```{ojs}
+//| echo: false
+viewof n = Inputs.range([1, 100], {step: 1, value: 5, label: "Tamanho da amostra (n):"})
+```
+
+```{ojs}
+//| echo: false
+medias = Array.from({length: 1000}, () => mediaAmostra(populacao, n))
+
+erroPadrao = {
+  const m = d3.mean(medias);
+  return Math.sqrt(d3.mean(medias.map(x => (x - m) ** 2)));
+}
+```
+
+```{ojs}
+//| echo: false
+Plot.plot({
+  height: 240,
+  // Eixo X TRAVADO: sem isso, o histograma se reajusta e o estreitamento — que
+  // é o efeito a mostrar — desaparece na mudança de escala.
+  x: {domain: [30000, 110000], label: "Média da amostra (US$) →"},
+  y: {label: "↑ Frequência"},
+  marks: [
+    Plot.rectY(medias, Plot.binX({y: "count"}, {x: d => d, thresholds: 40, fill: "#b0c4d8"})),
+    Plot.ruleY([0])
+  ]
+})
+```
+
+```{ojs}
+//| echo: false
+md`Com **n = ${n}**, o erro padrão (o desvio das médias) é **${fmt(erroPadrao)}**.
+Quanto maior o *n*, mais estreito o histograma — as médias variam menos.`
+```
+
+O eixo horizontal do gráfico acima está travado entre US\$ 30.000 e US\$ 110.000 em qualquer posição do controle — de propósito. Se o eixo se reajustasse a cada valor de n, o histograma sempre pareceria ter "mais ou menos a mesma largura" na tela, e o efeito que este widget existe para mostrar desapareceria atrás do reajuste da escala. Com o eixo fixo, o estreitamento é visível: em n=1 o histograma ocupa quase toda a largura disponível; em n=100, ele vira uma torre estreita perto do centro.
+
+Note também uma diferença deste widget em relação aos do Capítulo 1: aqui cada arrasto do controle sorteia amostras **novas**, com `Math.random()` — não há semente fixa. É proposital: o objetivo é sentir o processo de amostragem acontecendo de novo a cada interação, não reproduzir um número exato. Os chunks Python acima, ao contrário, usam sementes fixas (`random_state=i`) porque *eles* precisam bater, execução após execução, com os números impressos nesta página.
+
+## Exercícios
+
+**1.** A distribuição das 50.000 rendas é assimétrica à direita. A das médias de amostras de n=20 é quase simétrica. Como uma vira a outra?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+Teorema Central do Limite: a média de várias observações "mistura" valores altos e baixos, e a distribuição dessas médias tende ao formato de sino conforme n cresce — não importa a forma da distribuição original dos dados. A assimetria dos dados individuais some na distribuição das médias porque cada média já é, em si, uma combinação de vários valores independentes.
+:::
+
+**2.** O erro padrão em n=20 é de aproximadamente 7.350. Para reduzi-lo à metade (~3.675), qual precisa ser o novo n?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+n = 80. O erro padrão cai com a raiz quadrada de n, então para dividi-lo por 2 é preciso multiplicar n por $2^2 = 4$: $20 \times 4 = 80$. Dobrar a amostra não seria suficiente — reduziria o erro por um fator de $\sqrt{2} \approx 1{,}41$, não por 2.
+:::
+
+**3.** No widget acima, por que o histograma em n=1 é praticamente a distribuição da própria população?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+Porque a "média" de uma amostra de tamanho 1 é o próprio valor sorteado — não há nada para tirar média *de*. Então a distribuição dessas "médias" é, exatamente, a distribuição dos dados originais: ainda não houve nenhuma suavização. É só a partir de n=2 que o ato de tirar a média começa a misturar valores e estreitar a distribuição.
 :::

@@ -28,6 +28,8 @@ URL_DISPERSAO = "http://localhost:8000/content/cap01/04-estimativas-variabilidad
 # A média da taxa, que o widget da 1.4 NÃO pode mover — é o ponto da seção.
 MEDIA_TAXA = "22,7"
 
+URL_AMOSTRAL = "http://localhost:8000/content/cap02/03-distribuicao-amostral.html"
+
 
 def verifica_dispersao(nav, falhas):
     """O widget da 1.4: mexer no desvio não move a média, e os eixos não se mexem."""
@@ -72,6 +74,65 @@ def verifica_dispersao(nav, falhas):
     print("widget 1.4: eixos travados e média imóvel de ponta a ponta do slider")
     if erros:
         falhas.append(f"erros de JS na página 1.4: {erros[:2]}")
+    page.close()
+
+
+def verifica_distribuicao_amostral(nav, falhas):
+    """O widget da 2.3: aumentar n estreita a distribuição (erro padrão cai) e
+    o eixo X fica travado."""
+    page = nav.new_page()
+    erros = []
+    page.on("pageerror", lambda e: erros.append(str(e)))
+    page.goto(URL_AMOSTRAL, wait_until="networkidle")
+    page.wait_for_selector('input[type="range"]', timeout=20000)
+
+    slider = page.locator('input[type="range"]').first
+    caixa = page.locator('input[type="number"]').first
+    if not caixa.input_value():
+        falhas.append("a caixa do slider da 2.3 está VAZIA — um `format` customizado?")
+
+    def rotulos_x():
+        # Escopo só no grupo do eixo X (aria-label do Observable Plot) — o eixo Y
+        # não é travado (a frequência muda muito de forma com n) e um seletor
+        # genérico por "svg text" pegaria os dois, dando falso positivo.
+        # `all_text_contents()`, não `all_inner_texts()`: SVG <text> não implementa
+        # `innerText` no Chromium (é uma API de HTMLElement), então `all_inner_texts()`
+        # devolve só `None` para cada rótulo — comparar `None == None` sempre "bate",
+        # mas por acidente, não porque os rótulos de fato coincidiram.
+        return page.locator("svg").last.locator(
+            'g[aria-label="x-axis tick label"] text'
+        ).all_text_contents()
+
+    rot0 = rotulos_x()
+
+    slider.fill("5"); slider.dispatch_event("input"); page.wait_for_timeout(600)
+    ep_baixo_n = page.inner_text("body")
+
+    slider.fill("100"); slider.dispatch_event("input"); page.wait_for_timeout(600)
+    ep_alto_n = page.inner_text("body")
+    rot1 = rotulos_x()
+
+    if not rot0 or rot1 != rot0:
+        falhas.append("os rótulos do eixo X mudaram ao mexer no slider da 2.3 — o eixo deveria estar travado")
+
+    # O erro padrão em n=100 deve ser MENOR que em n=5. A frase-âncora
+    # "(o desvio das médias) é" é exclusiva do texto reativo do widget — a prosa
+    # da seção usa "erro padrão" várias vezes antes dele (é o conceito da seção),
+    # e um regex sem âncora captura a primeira ocorrência qualquer, inclusive
+    # dígitos do CÓDIGO-FONTE exibido no chunk `erro-padrao` (ex.: o "1" de
+    # `ddof=1`), sem relação nenhuma com o valor do widget.
+    def ep(txt):
+        m = re.search(r"erro padrão \(o desvio das médias\) é\s*([\d.]+)", txt)
+        return int(m.group(1).replace(".", "")) if m else None
+    e5, e100 = ep(ep_baixo_n), ep(ep_alto_n)
+    print(f"widget 2.3: erro padrão n=5 → {e5}, n=100 → {e100}")
+    if e5 is None or e100 is None:
+        falhas.append("não consegui ler o erro padrão exibido no widget da 2.3")
+    elif not (e100 < e5):
+        falhas.append(f"o erro padrão NÃO caiu: n=5 deu {e5}, n=100 deu {e100} — o TCL não está sendo mostrado")
+
+    if erros:
+        falhas.append(f"erros de JS na página 2.3: {erros[:2]}")
     page.close()
 
 
@@ -205,6 +266,7 @@ def main():
                 falhas.append(f"erros de JS na página: {erros[:3]}")
 
             verifica_dispersao(nav, falhas)
+            verifica_distribuicao_amostral(nav, falhas)
 
             nav.close()
     finally:

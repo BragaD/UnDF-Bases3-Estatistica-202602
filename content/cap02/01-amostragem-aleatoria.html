@@ -24,6 +24,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 /* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
@@ -611,8 +646,18 @@ div.csl-indent {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Nesta página</h2>
+   
+  <ul>
+  <li><a href="#os-dados" id="toc-os-dados" class="nav-link active" data-scroll-target="#os-dados">Os dados</a></li>
+  <li><a href="#amostragem-aleatória-simples" id="toc-amostragem-aleatória-simples" class="nav-link" data-scroll-target="#amostragem-aleatória-simples">Amostragem aleatória simples</a></li>
+  <li><a href="#viés-de-amostra" id="toc-viés-de-amostra" class="nav-link" data-scroll-target="#viés-de-amostra">Viés de amostra</a></li>
+  <li><a href="#resumo" id="toc-resumo" class="nav-link" data-scroll-target="#resumo">Resumo</a></li>
+  <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios">Exercícios</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/BragaD/UnDF-Bases3-Estatistica-202602/issues/new" class="toc-action"><i class="bi bi-github"></i>Criar uma issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -656,17 +701,135 @@ Nota
 <p>Esta seção corresponde à seção 2.1 de <span class="citation" data-cites="bruce2020">Bruce et al. (<a href="#ref-bruce2020" role="doc-biblioref">2020</a>)</span>.</p>
 </div>
 </div>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
+<p>Medir a <strong>população</strong> inteira quase nunca é uma opção. Não dá para perguntar a cada eleitor em quem vai votar, testar cada peça que sai da fábrica ou registrar a renda de todo mundo que pede um empréstimo — o tempo e o custo de fazer isso inviabilizam a pergunta antes mesmo de ela ser respondida. O que se faz, na prática, é medir uma <strong>amostra</strong>: um subconjunto da população, escolhido com a esperança de que ele fale pelo todo.</p>
+<p>Isso levanta duas perguntas bem diferentes, e confundi-las é o erro mais caro desta seção:</p>
+<ol type="1">
+<li>A amostra foi sorteada de um jeito que dá a cada membro da população a mesma chance de entrar? Se sim, a amostra erra — mas erra <strong>sem direção</strong>, e o erro encolhe conforme a amostra cresce.</li>
+<li>A amostra foi coletada de um jeito que favorece sistematicamente um tipo de resposta? Se sim, a amostra erra <strong>com direção</strong>, e nenhum tamanho de amostra conserta isso.</li>
+</ol>
+<p>A primeira é <strong>erro amostral</strong>. A segunda é <strong>viés de amostra</strong>. Esta seção existe para que essa distinção fique automática antes de o capítulo chegar à distribuição amostral propriamente dita.</p>
+<section id="os-dados" class="level2">
+<h2 class="anchored" data-anchor-id="os-dados">Os dados</h2>
+<p>Para ilustrar amostragem aleatória simples, vamos usar <code>loans_income.csv</code>: a renda anual de 50.000 pessoas que solicitaram empréstimo, em <strong>dólares americanos</strong>. É um dado americano do livro-texto — diferente do <code>estados.csv</code> do Capítulo 1, que é brasileiro —, e vai reaparecer nas próximas seções deste capítulo (distribuição amostral, bootstrap, intervalos de confiança). A coluna chega do CSV como <code>x</code>; nós a renomeamos para <code>Renda</code> na leitura, sem tocar no arquivo original.</p>
+<div id="populacao" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"População: </span><span class="sc">{</span>num(<span class="bu">len</span>(renda), <span class="dv">0</span>)<span class="sc">}</span><span class="ss"> rendas"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Média:   </span><span class="sc">{</span>num(renda.mean(), <span class="dv">0</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mediana: </span><span class="sc">{</span>num(renda.median(), <span class="dv">0</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>População: 50.000 rendas
+Média:   68.761
+Mediana: 62.000</code></pre>
+</div>
+</div>
+<p>As 50.000 rendas <strong>são</strong> a população para os propósitos desta seção — é o conjunto inteiro que temos, e é dele que vamos sortear amostras menores. A média (US$ 68.761) fica acima da mediana (US$ 62.000), a mesma assinatura assimétrica do Capítulo 1: uma cauda de rendas altas puxa a média para cima sem mover o valor central. Isso não é coincidência — renda é o exemplo clássico de distribuição de cauda longa à direita, e vai voltar quando o capítulo chegar lá.</p>
+</section>
+<section id="amostragem-aleatória-simples" class="level2">
+<h2 class="anchored" data-anchor-id="amostragem-aleatória-simples">Amostragem aleatória simples</h2>
+<p>A forma mais básica de amostragem é a <strong>amostragem aleatória simples</strong>: cada elemento da população tem exatamente a mesma probabilidade de entrar na amostra, e a seleção de um não influencia a dos demais. É o sorteio de loteria — não o formulário que só quem se importa preenche.</p>
+<p>Uma escolha de projeto entra aqui: sortear <strong>com</strong> ou <strong>sem reposição</strong>. Com reposição, cada indivíduo sorteado volta para o conjunto e pode sair de novo; sem reposição, ele sai da lista depois de escolhido. Na prática, a diferença quase nunca importa: com 50.000 rendas na população e 100 na amostra, a chance de o mesmo indivíduo ser sorteado duas vezes é próxima de zero, com ou sem reposição. A diferença só passa a valer quando a amostra é <strong>grande em relação à população</strong> — sortear 40 de uma turma de 50, por exemplo, onde cada retirada muda visivelmente quem resta para a próxima.</p>
+<div id="amostra" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>amostra <span class="op">=</span> renda.sample(<span class="dv">100</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Média da amostra (n=100): </span><span class="sc">{</span>num(amostra.mean(), <span class="dv">0</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Média da população:       </span><span class="sc">{</span>num(renda.mean(), <span class="dv">0</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Média da amostra (n=100): 66.748
+Média da população:       68.761</code></pre>
+</div>
+</div>
+<p>A média da amostra (US$ 66.748) fica perto da média da população (US$ 68.761), mas não bate exatamente — e não deveria. Cem rendas sorteadas ao acaso não reproduzem a média das 50.000 dígito a dígito. Essa diferença é <strong>erro aleatório de amostragem</strong>: não tem direção fixa (a próxima amostra de 100 poderia sair um pouco acima em vez de abaixo), e diminui conforme a amostra cresce. É exatamente o que a seção 2.3 vai quantificar.</p>
+</section>
+<section id="viés-de-amostra" class="level2">
+<h2 class="anchored" data-anchor-id="viés-de-amostra">Viés de amostra</h2>
+<p><strong>Viés de amostra</strong> é outra coisa, e é mais grave. Não é a amostra errar por acaso — é a amostra errar <strong>sempre na mesma direção</strong>, porque o próprio método de coleta favorece um tipo de resposta. Uma pesquisa de opinião feita só com quem atende ligação de número desconhecido, uma enquete de site respondida só por quem tem uma opinião forte o bastante para clicar, um teste de produto feito só com clientes que já compraram de novo — em todos esses casos, quem entra na amostra não é um sorteio da população, é um subconjunto que a coleta escolheu sem querer.</p>
+<p>O caso histórico mais citado é a enquete da revista <em>Literary Digest</em> antes da eleição americana de 1936: 2,4 milhões de respostas, coletadas por telefone e por assinantes da revista, apontavam vitória fácil de Alf Landon sobre Franklin Roosevelt. Roosevelt venceu por larga margem. O problema não foi o tamanho da amostra — foi que, em 1936, ter telefone ou assinar aquela revista já selecionava um eleitorado mais rico e mais republicano do que o país inteiro. Pesquisas muito menores, mas sorteadas de verdade, acertaram o resultado.</p>
+<div class="conceito">
+<p><strong>Uma amostra grande e enviesada é pior que uma pequena e aleatória.</strong> O tamanho dá <em>confiança</em> — “são 2 milhões de respostas, não pode estar errado” —, mas não corrige o viés; ele só multiplica o mesmo erro sistemático por mais gente. É por isso que pesquisas eleitorais com milhões de respostas autosselecionadas (enquetes de site, de rede social) erram feio com uma regularidade que pesquisas menores e aleatoriamente sorteadas não erram. Tamanho resolve erro aleatório. Tamanho não resolve viés.</p>
+</div>
+<p>Este é o motivo pelo qual a seção seguinte, 2.2, trata separadamente do <strong>viés de seleção</strong>: um jeito específico de o viés entrar não pela coleta dos dados, mas pela forma como eles são analisados depois de coletados.</p>
+</section>
+<section id="resumo" class="level2">
+<h2 class="anchored" data-anchor-id="resumo">Resumo</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Termo</th>
+<th>O que é</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>População</td>
+<td>O conjunto completo que se quer descrever — aqui, as 50.000 rendas.</td>
+</tr>
+<tr class="even">
+<td>Amostra</td>
+<td>Um subconjunto da população, usado para estimar o que seria caro ou inviável medir na população inteira.</td>
+</tr>
+<tr class="odd">
+<td>Viés de amostra</td>
+<td>Diferença sistemática entre amostra e população, causada pelo método de coleta — não diminui com o tamanho da amostra.</td>
+</tr>
+</tbody>
+</table>
+<div class="conceito">
+<p><strong>Regra prática:</strong> antes de confiar em qualquer estatística de amostra, pergunte como ela foi coletada, não só quantas observações ela tem. Uma amostra pequena e aleatória responde a pergunta certa; uma amostra enorme e autosselecionada responde a uma pergunta diferente da que foi feita.</p>
+</div>
+</section>
+<section id="exercícios" class="level2">
+<h2 class="anchored" data-anchor-id="exercícios">Exercícios</h2>
+<p><strong>1.</strong> Um site de comércio eletrônico coleta 2 milhões de respostas sobre a satisfação com um produto, todas de visitantes que escolheram responder a uma pesquisa opcional na página. Uma empresa de pesquisa telefônica sorteia aleatoriamente 800 pessoas entre os compradores do mesmo produto. Qual das duas estimativas é mais confiável, e por quê?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Aviso</span>Em construção
+<span class="screen-reader-only">Dica</span>Resposta
 </div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>O conteúdo desta seção ainda será escrito.</p>
+<p>A de 800 pessoas. A pesquisa de 2 milhões é <strong>autosselecionada</strong>: só respondeu quem quis, e quem tem uma opinião forte (muito satisfeito ou muito insatisfeito) tende a responder mais do que quem é indiferente ao produto — nenhum tamanho de amostra corrige esse viés, porque ele está no método de coleta, não no acaso. As 800 pessoas sorteadas aleatoriamente representam a população de compradores; os 2 milhões representam apenas “quem quis responder”, que é uma população diferente e sistematicamente distorcida.</p>
+</div>
+</div>
+</div>
+<p><strong>2.</strong> Ao amostrar com reposição de uma população de 50.000 rendas, tirando uma amostra de 100, a chance de o mesmo indivíduo ser sorteado duas vezes é praticamente desprezível. Em que situação a escolha entre amostrar com ou sem reposição passa a fazer diferença de verdade?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Quando a amostra é <strong>grande em relação à população</strong> — por exemplo, sortear 40 pessoas de uma turma de 50. Nesse caso, sem reposição, cada retirada muda visivelmente a composição do que resta (depois de tirar 39, só sobra 1 possibilidade para a última); com reposição, cada sorteio continua sendo feito sobre a turma inteira, sem esse efeito. Com 100 amostrados de 50.000, essa diferença é irrelevante — a população é grande demais, relativamente à amostra, para que tirar um indivíduo mude a composição do que resta de forma perceptível.</p>
+</div>
+</div>
+</div>
+<p><strong>3.</strong> Por que a média da amostra de 100 rendas (US$ 66.748) não bate exatamente com a média da população inteira (US$ 68.761), mesmo que a amostra tenha sido sorteada sem nenhum viés?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Por <strong>erro aleatório de amostragem</strong>: cem rendas sorteadas ao acaso não reproduzem a média das 50.000 dígito a dígito, mesmo sendo um sorteio perfeitamente aleatório. Diferente do viés, esse erro não tem direção fixa — a próxima amostra de 100 poderia sair acima da média da população em vez de abaixo — e ele <strong>diminui</strong> à medida que a amostra cresce, algo que a seção 2.3 (Distribuição Amostral) vai quantificar.</p>
+</div>
 </div>
 </div>
 
@@ -676,6 +839,7 @@ Nota
 Bruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. <em>Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python</em>. 2nd ed. O’Reilly Media.
 </div>
 </div>
+</section>
 
 </main> <!-- /main -->
 <script>
@@ -1206,7 +1370,7 @@ document.addEventListener('DOMContentLoaded', function () {
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><ul><li><a href="https://github.com/BragaD/UnDF-Bases3-Estatistica-202602/issues/new" class="toc-action"><i class="bi bi-github"></i>Criar uma issue</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/BragaD/UnDF-Bases3-Estatistica-202602/issues/new" class="toc-action"><i class="bi bi-github"></i>Criar uma issue</a></li></ul></div></div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item compact">

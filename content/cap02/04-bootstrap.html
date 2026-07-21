@@ -24,6 +24,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 /* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
@@ -141,6 +176,35 @@ div.csl-indent {
 })();
 </script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../../styles.css">
 </head>
@@ -611,8 +675,18 @@ div.csl-indent {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Nesta página</h2>
+   
+  <ul>
+  <li><a href="#a-ideia" id="toc-a-ideia" class="nav-link active" data-scroll-target="#a-ideia">A ideia</a></li>
+  <li><a href="#por-que-a-mediana" id="toc-por-que-a-mediana" class="nav-link" data-scroll-target="#por-que-a-mediana">Por que a mediana</a></li>
+  <li><a href="#o-bootstrap-da-mediana" id="toc-o-bootstrap-da-mediana" class="nav-link" data-scroll-target="#o-bootstrap-da-mediana">O bootstrap da mediana</a></li>
+  <li><a href="#o-que-o-bootstrap-não-faz" id="toc-o-que-o-bootstrap-não-faz" class="nav-link" data-scroll-target="#o-que-o-bootstrap-não-faz">O que o bootstrap não faz</a></li>
+  <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios">Exercícios</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/BragaD/UnDF-Bases3-Estatistica-202602/issues/new" class="toc-action"><i class="bi bi-github"></i>Criar uma issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -656,17 +730,125 @@ Nota
 <p>Esta seção corresponde à seção 2.4 de <span class="citation" data-cites="bruce2020">Bruce et al. (<a href="#ref-bruce2020" role="doc-biblioref">2020</a>)</span>.</p>
 </div>
 </div>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
+<p>A seção anterior mediu o erro padrão da média com uma fórmula fechada, <span class="math inline">\(\sigma/\sqrt{n}\)</span>, e depois confirmou a fórmula simulando milhares de amostras <em>novas</em> da população. Essa confirmação é boa ciência, mas esconde um problema prático: ela só foi possível porque a população inteira — as 50.000 rendas — estava disponível para sortear de novo. Na vida real, uma amostra é frequentemente tudo o que existe. Não há população para voltar e sortear de novo; a coleta já aconteceu, custou o que custou, e repeti-la pode ser caro, lento ou simplesmente impossível.</p>
+<p>O bootstrap resolve isso com uma ideia que, na primeira vez, soa quase ilegítima: <strong>trate a própria amostra como se fosse a população</strong>, e reamostre <em>dela</em>, com reposição, milhares de vezes.</p>
+<section id="a-ideia" class="level2">
+<h2 class="anchored" data-anchor-id="a-ideia">A ideia</h2>
+<p>Reamostrar com reposição quer dizer: sorteie um valor da amostra, anote-o, devolva-o à amostra, sorteie de novo — o mesmo valor pode sair mais de uma vez, e alguns valores da amostra original podem não sair nenhuma. Repita até ter uma reamostra do mesmo tamanho <span class="math inline">\(n\)</span> que a amostra original. Calcule a estatística de interesse nessa reamostra. Repita todo o processo mil vezes. A distribuição das mil estatísticas resultantes é a <strong>distribuição bootstrap</strong>, e o desvio-padrão dela é o <strong>erro padrão bootstrap</strong>.</p>
+<p>Por que isso funciona? Porque a amostra, se foi coletada de forma razoável, já carrega em si a forma da população — suas proporções, sua assimetria, sua dispersão. Reamostrar dela com reposição é uma forma de simular “e se a coleta tivesse caído um pouco diferente?” sem precisar coletar de novo. Cada reamostra é um universo paralelo em que alguns valores tiveram mais sorte e outros menos, exatamente como aconteceria se o processo de amostragem original fosse repetido.</p>
+<div class="exemplo">
+<p>Pense no bootstrap como “repetir o experimento sem repetir o experimento”. Você não tem 1.000 coletas novas — você tem uma amostra só, e o bootstrap finge, de forma disciplinada, que a repetiu 1.000 vezes.</p>
+</div>
+</section>
+<section id="por-que-a-mediana" class="level2">
+<h2 class="anchored" data-anchor-id="por-que-a-mediana">Por que a mediana</h2>
+<p>A seção 2.3 usou a <strong>média</strong> porque a média tem fórmula fechada: o erro padrão é <span class="math inline">\(\sigma/\sqrt{n}\)</span>, ponto final. Mas a maioria das estatísticas interessantes não tem uma fórmula assim. A <strong>mediana</strong> é o primeiro exemplo que qualquer curso encontra: não existe uma fórmula simples de “erro padrão da mediana” que dependa só de <span class="math inline">\(\sigma\)</span> e <span class="math inline">\(n\)</span>, porque a mediana ignora quase todos os valores da amostra e depende só da observação (ou das duas observações) do meio — sua variabilidade depende da densidade dos dados <em>perto</em> do centro, uma informação que <span class="math inline">\(\sigma\)</span> sozinho não carrega.</p>
+<p>É exatamente aí que o bootstrap se torna indispensável, não apenas conveniente: ele não precisa de uma fórmula específica para cada estatística. Funciona para a mediana, para percentis, para a razão entre duas medidas, para o coeficiente de um modelo — para qualquer coisa que se calcule a partir de uma amostra.</p>
+<div class="conceito">
+<p>A média tem fórmula de erro padrão porque é uma soma dividida por <span class="math inline">\(n\)</span>, e a teoria de somas de variáveis aleatórias está bem resolvida há séculos. A mediana — e a maior parte das estatísticas do mundo real — não tem esse atalho. O bootstrap troca a elegância de uma fórmula fechada por força bruta computacional: em vez de derivar a variabilidade analiticamente, ele a <em>mede</em>, reamostrando.</p>
+</div>
+</section>
+<section id="o-bootstrap-da-mediana" class="level2">
+<h2 class="anchored" data-anchor-id="o-bootstrap-da-mediana">O bootstrap da mediana</h2>
+<p>Para encenar a situação real — uma amostra, e só ela —, vamos primeiro coletar uma: 1.000 rendas sorteadas da população. Daqui em diante, fingimos que as 50.000 não existem; tudo o que temos é a amostra de 1.000.</p>
+<div id="bootstrap" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>amostra <span class="op">=</span> renda.sample(<span class="dv">1000</span>, random_state<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>n_boot <span class="op">=</span> <span class="dv">1000</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>medianas <span class="op">=</span> [amostra.sample(<span class="bu">len</span>(amostra), replace<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span>i).median()</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n_boot)]</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mediana da amostra:      </span><span class="sc">{</span>num(amostra.median(), <span class="dv">0</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Erro padrão (bootstrap): </span><span class="sc">{</span>num(np.std(medianas, ddof<span class="op">=</span><span class="dv">1</span>), <span class="dv">2</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Mediana da amostra:      63.000
+Erro padrão (bootstrap): 1.373,81</code></pre>
+</div>
+</div>
+<p>Cada uma das mil reamostras tem exatamente 1.000 valores — o mesmo tamanho da amostra —, mas sorteados <strong>com reposição</strong> dela mesma, com uma semente própria (<code>random_state=i</code>) para que o resultado seja reprodutível a cada renderização deste livro. A mediana de cada reamostra vai para a lista <code>medianas</code>; o desvio-padrão dessa lista é o erro padrão bootstrap da mediana.</p>
+<p>A mediana da nossa amostra é 63.000 — a mediana verdadeira da população é 62.000, mas quem só tem a amostra não sabe disso. O bootstrap não corrige essa distância: ele mede o quanto a mediana <em>da amostra</em> oscila, não o quanto ela erra o alvo real. É a diferença entre precisão e acurácia, e voltaremos a ela ao final da seção.</p>
+<div id="cell-fig-bootstrap" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>ax.hist(medianas, bins<span class="op">=</span><span class="dv">30</span>, color<span class="op">=</span><span class="st">"#b0c4d8"</span>, edgecolor<span class="op">=</span><span class="st">"white"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>ax.axvline(amostra.median(), color<span class="op">=</span><span class="st">"#c0392b"</span>, linewidth<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="ss">f"Mediana da amostra: </span><span class="sc">{</span>num(amostra.median(), <span class="dv">0</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Mediana reamostrada (US$)"</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Frequência"</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>ax.legend()</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="fig-bootstrap" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-bootstrap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04-bootstrap_files/figure-html/fig-bootstrap-output-1.png" width="665" height="374" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-bootstrap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;14.1: Distribuição bootstrap da mediana: 1.000 reamostragens com reposição.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>O histograma acima <strong>é</strong> a distribuição amostral da mediana — a mesma ideia da seção 2.3, só que obtida sem repetir a coleta e sem fórmula fechada. Ele mostra o quanto a mediana varia de reamostra para reamostra, e o desvio-padrão dessa variação é o número que a fórmula <span class="math inline">\(\sigma/\sqrt{n}\)</span> não sabe calcular para esta estatística.</p>
+</section>
+<section id="o-que-o-bootstrap-não-faz" class="level2">
+<h2 class="anchored" data-anchor-id="o-que-o-bootstrap-não-faz">O que o bootstrap não faz</h2>
+<p>É tentador ler o erro padrão pequeno acima e concluir que o bootstrap “melhora” a estimativa. Ele não melhora nada. O bootstrap reamostra a amostra que você tem — se essa amostra foi coletada de forma enviesada (por exemplo, por uma pesquisa que sub-representa um grupo), toda reamostra bootstrap herda o mesmo viés, porque nenhuma delas contém informação que a amostra original não continha.</p>
+<div class="conceito">
+<p><strong>O bootstrap mede variabilidade, não viés.</strong> Ele responde “o quanto a estatística oscilaria se eu repetisse a coleta nas mesmas condições?” — não “a estatística está certa?”. Uma amostra enviesada pode produzir um erro padrão bootstrap pequeno e uma estimativa consistentemente errada ao mesmo tempo: precisão sem acurácia. O bootstrap não tem como saber disso, porque ele nunca vê nada além da própria amostra viesada.</p>
+</div>
+</section>
+<section id="exercícios" class="level2">
+<h2 class="anchored" data-anchor-id="exercícios">Exercícios</h2>
+<p><strong>1.</strong> Por que o bootstrap reamostra <strong>com</strong> reposição, e não sem?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Aviso</span>Em construção
+<span class="screen-reader-only">Dica</span>Resposta
 </div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>O conteúdo desta seção ainda será escrito.</p>
+<p>Sem reposição, reamostrar todos os <span class="math inline">\(n\)</span> elementos de uma amostra de tamanho <span class="math inline">\(n\)</span> sempre devolve a amostra original inteira, só em outra ordem — variabilidade zero, porque nenhum valor pode aparecer mais de uma vez nem faltar. A reposição é o que permite que cada reamostra seja diferente das outras (alguns valores saem repetidos, outros não saem), imitando a variação que existiria se a coleta fosse de fato repetida.</p>
+</div>
+</div>
+</div>
+<p><strong>2.</strong> O bootstrap de uma amostra enviesada dá um erro padrão pequeno e bonito. Isso significa que a estimativa é boa?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Não. O erro padrão bootstrap mede a <strong>variabilidade</strong> da estimativa — o quanto ela oscilaria em reamostras — e não o <strong>viés</strong> dela. Uma amostra enviesada produz estimativas consistentemente erradas, e o bootstrap, fiel à amostra que recebeu, reproduz esse erro com pouca variabilidade entre as reamostras. É precisão sem acurácia: um erro padrão pequeno não é evidência de que a estimativa está correta, só de que ela é estável em torno de um valor — certo ou errado.</p>
+</div>
+</div>
+</div>
+<p><strong>3.</strong> Para que serve o bootstrap que a fórmula <span class="math inline">\(\sigma/\sqrt{n}\)</span> já não resolveria?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Para estatísticas sem fórmula fechada de erro padrão: mediana, percentis, razão entre duas medidas, coeficiente de um modelo mais complexo, e assim por diante. A fórmula <span class="math inline">\(\sigma/\sqrt{n}\)</span> é um caso particular em que a teoria matemática fecha de forma simples, porque a média é uma soma dividida por <span class="math inline">\(n\)</span>. Para praticamente tudo o mais que se queira calcular a partir de uma amostra, não existe esse atalho analítico — e é aí que o bootstrap vale, porque o mesmo procedimento (reamostrar com reposição e recalcular) funciona igual, qualquer que seja a estatística.</p>
+</div>
 </div>
 </div>
 
@@ -676,6 +858,7 @@ Nota
 Bruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. <em>Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python</em>. 2nd ed. O’Reilly Media.
 </div>
 </div>
+</section>
 
 </main> <!-- /main -->
 <script>
@@ -1206,7 +1389,7 @@ document.addEventListener('DOMContentLoaded', function () {
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><ul><li><a href="https://github.com/BragaD/UnDF-Bases3-Estatistica-202602/issues/new" class="toc-action"><i class="bi bi-github"></i>Criar uma issue</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/BragaD/UnDF-Bases3-Estatistica-202602/issues/new" class="toc-action"><i class="bi bi-github"></i>Criar uma issue</a></li></ul></div></div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item compact">

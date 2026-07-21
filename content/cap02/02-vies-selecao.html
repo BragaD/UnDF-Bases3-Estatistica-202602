@@ -24,6 +24,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 /* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
@@ -611,8 +646,18 @@ div.csl-indent {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Nesta página</h2>
+   
+  <ul>
+  <li><a href="#data-snooping" id="toc-data-snooping" class="nav-link active" data-scroll-target="#data-snooping">Data snooping</a></li>
+  <li><a href="#o-efeito-da-busca-vasta" id="toc-o-efeito-da-busca-vasta" class="nav-link" data-scroll-target="#o-efeito-da-busca-vasta">O efeito da busca vasta</a></li>
+  <li><a href="#regressão-à-média" id="toc-regressão-à-média" class="nav-link" data-scroll-target="#regressão-à-média">Regressão à média</a></li>
+  <li><a href="#resumo" id="toc-resumo" class="nav-link" data-scroll-target="#resumo">Resumo</a></li>
+  <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios">Exercícios</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/BragaD/UnDF-Bases3-Estatistica-202602/issues/new" class="toc-action"><i class="bi bi-github"></i>Criar uma issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -656,17 +701,133 @@ Nota
 <p>Esta seção corresponde à seção 2.2 de <span class="citation" data-cites="bruce2020">Bruce et al. (<a href="#ref-bruce2020" role="doc-biblioref">2020</a>)</span>.</p>
 </div>
 </div>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
+<p>A seção anterior separou dois jeitos de uma amostra errar: <strong>erro amostral</strong>, que não tem direção e encolhe com o tamanho da amostra, e <strong>viés de amostra</strong>, que tem direção fixa porque a <em>coleta</em> dos dados favorece sistematicamente um tipo de resposta. O viés de amostra mora antes da análise — está em quem entrou na pesquisa da <em>Literary Digest</em>, não em nenhuma conta feita depois.</p>
+<p>O <strong>viés de seleção</strong> mora depois. Os dados já foram coletados, sem nenhum defeito na coleta — o problema entra na hora de decidir <em>o que analisar</em> e <em>o que reportar</em>. É escolher os dados, as hipóteses ou os resultados de um jeito que empurra a conclusão para onde já se queria chegar, e depois apresentar essa conclusão como se tivesse surgido de uma pergunta feita uma única vez, honestamente, do início ao fim.</p>
+<section id="data-snooping" class="level2">
+<h2 class="anchored" data-anchor-id="data-snooping">Data snooping</h2>
+<p>A forma mais direta de viés de seleção é o <strong>data snooping</strong>: garimpar o mesmo conjunto de dados repetidas vezes, testando combinação atrás de combinação, até que alguma pareça “significativa” — e então reportar só essa, como se fosse a pergunta original.</p>
+<p>O problema não é olhar os dados. É que, testado o bastante, <strong>qualquer</strong> conjunto de dados suficientemente grande contém padrões que parecem reais e são só ruído. Se você cruzar renda com signo do zodíaco, ou taxa de câncer com a letra inicial do bairro, e repetir isso para dezenas de variáveis, alguma combinação vai cruzar a linha do “estatisticamente significativo” — não porque exista uma relação, mas porque testar muitas combinações é, estatisticamente, o mesmo que comprar muitos bilhetes de loteria. Um deles vai ser sorteado.</p>
+</section>
+<section id="o-efeito-da-busca-vasta" class="level2">
+<h2 class="anchored" data-anchor-id="o-efeito-da-busca-vasta">O efeito da busca vasta</h2>
+<p>Data snooping é o hábito; o <strong>efeito da busca vasta</strong> (<em>vast search effect</em>) é o mecanismo por trás dele, e vale a pena isolar em uma simulação. A ideia central: <strong>procurar em hipóteses suficientes garante achar uma que parece impressionante por puro acaso</strong> — nenhuma fraude, nenhum erro de cálculo, só o número de tentativas fazendo o trabalho.</p>
+<div id="busca-vasta" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">42</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 100 pessoas jogam uma moeda JUSTA 20 vezes cada. Quantas caras a "melhor" tira?</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>tentativas <span class="op">=</span> [<span class="bu">int</span>(rng.integers(<span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">20</span>).<span class="bu">sum</span>()) <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">100</span>)]</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>melhor <span class="op">=</span> <span class="bu">max</span>(tentativas)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Em 100 tentativas de 20 lançamentos de uma moeda justa,"</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"a melhor sequência deu </span><span class="sc">{</span>melhor<span class="sc">}</span><span class="ss"> caras de 20."</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Em 100 tentativas de 20 lançamentos de uma moeda justa,
+a melhor sequência deu 15 caras de 20.</code></pre>
+</div>
+</div>
+<p>A moeda é <strong>justa</strong> — por construção, cada lançamento tem exatamente 50% de chance de cara. Ainda assim, entre 100 pessoas jogando-a 20 vezes cada, a melhor tirou 15 caras de 20, ou seja, 75% de caras.</p>
+<p>Pare e imagine que você só soubesse dessa pessoa — sem saber que ela era uma entre 100. Você concluiria, com razão aparente, que a moeda dela é viciada: 15 caras em 20 lançamentos de uma moeda justa é um evento raro, do tipo que só se veria por acaso uma vez a cada muitas tentativas. A conclusão estaria errada, e o erro não estaria em nenhuma conta — estaria em esconder que essa pessoa foi <em>escolhida</em> por ser a melhor entre 100. Procurar bastante e reportar só o extremo é exatamente o mecanismo do data snooping, isolado numa moeda que sabemos, de antemão, ser justa.</p>
+<div class="conceito">
+<p>Procurar em muitas hipóteses e reportar apenas a que “deu certo” infla a significância aparente do resultado. Um teste isolado com p &lt; 0,05 tem, quando a hipótese nula é verdadeira, 5% de chance de dar um falso positivo; testar 100 hipóteses independentes e reportar só a vencedora não reduz esse risco — ele o <strong>concentra</strong>: entre 100 tentativas, esperar por acaso cerca de 5 “significativas” é a regra, não a exceção. Essa é a raiz estatística de boa parte das descobertas científicas manchete que depois não se replicam: o estudo original testou várias variáveis, reportou a que deu resultado, e a réplica — testando só essa mesma variável, sem as outras que falharam — não encontra nada.</p>
+</div>
+<div class="exemplo">
+<p>Um fundo de investimento anuncia “10 anos consecutivos batendo o mercado”. Isso soa impressionante até lembrar que existem milhares de fundos de investimento operando ao mesmo tempo. Por puro acaso, alguns deles vão bater o mercado dez anos seguidos — do mesmo jeito que, entre 100 lançadores de moeda, algum vai tirar 15 caras de 20. O anúncio reporta o fundo vencedor; os fundos que fecharam no meio do caminho, por desempenho ruim, simplesmente não aparecem para comparação. Essa ausência tem nome: <strong>viés de sobrevivência</strong> — um caso particular de viés de seleção em que a amostra visível é, por construção, feita só de quem “sobreviveu” o suficiente para ser mostrado.</p>
+</div>
+</section>
+<section id="regressão-à-média" class="level2">
+<h2 class="anchored" data-anchor-id="regressão-à-média">Regressão à média</h2>
+<p>Um último padrão pertence a esta família, embora costume ser confundido com uma correção real: a <strong>regressão à média</strong>. Quando uma observação extrema aparece, a próxima observação da mesma fonte tende a estar mais perto da média — não porque algo interveio para “corrigir” o extremo, mas porque o valor extremo já continha, embutida, uma dose de sorte (ou azar) que não se repete.</p>
+<p>Pense no aluno que tira a nota mais alta da turma numa prova: parte da nota é habilidade de verdade, e parte é sorte — as perguntas que por acaso caíram sobre o que ele tinha revisado na véspera. Na prova seguinte, a habilidade continua, mas a sorte é sorteada de novo, e raramente sai favorável duas vezes seguidas. O resultado esperado é uma nota mais próxima da média da turma — não porque o aluno “regrediu” ou piorou, mas porque a parte de sorte do resultado anterior nunca esteve garantida.</p>
+<div class="conceito">
+<p>Regressão à média é frequentemente lida ao contrário: como se o extremo fosse “castigado” ou “compensado” no período seguinte. Não há castigo nem compensação — há apenas o fato de que um resultado extremo tem chance maior de ter tido ajuda da sorte do que um resultado mediano, e a sorte não é uma dívida que se paga de volta. É o mesmo tipo de raciocínio por trás da busca vasta: um extremo encontrado entre muitas tentativas (ou muitas provas, muitos jogos, muitos trimestres) provavelmente carrega mais sorte do que um resultado típico, e a próxima observação tende a refletir isso.</p>
+</div>
+</section>
+<section id="resumo" class="level2">
+<h2 class="anchored" data-anchor-id="resumo">Resumo</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Termo</th>
+<th>O que é</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Viés de seleção</td>
+<td>Escolher os dados, as hipóteses ou os resultados de um jeito que empurra a análise para a conclusão desejada.</td>
+</tr>
+<tr class="even">
+<td>Data snooping</td>
+<td>Garimpar o mesmo conjunto de dados repetidamente até achar algo que pareça “significativo”.</td>
+</tr>
+<tr class="odd">
+<td>Efeito da busca vasta</td>
+<td>Procurar em hipóteses suficientes garante achar uma que parece impressionante por puro acaso.</td>
+</tr>
+<tr class="even">
+<td>Regressão à média</td>
+<td>Um valor extremo tende a ser seguido por um mais próximo da média, porque parte do extremo era sorte, e a sorte não se repete.</td>
+</tr>
+</tbody>
+</table>
+<div class="conceito">
+<p><strong>Regra prática:</strong> antes de aceitar um resultado “impressionante”, pergunte quantas outras hipóteses, variáveis ou tentativas ficaram de fora do relato. Se a resposta for “não sei” ou “muitas”, o resultado provavelmente diz mais sobre o tamanho da busca do que sobre o fenômeno em si.</p>
+</div>
+</section>
+<section id="exercícios" class="level2">
+<h2 class="anchored" data-anchor-id="exercícios">Exercícios</h2>
+<p><strong>1.</strong> Um pesquisador testa 40 dietas diferentes e anuncia a única que deu resultado “estatisticamente significativo” (p &lt; 0,05). Por que essa afirmação é suspeita?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Aviso</span>Em construção
+<span class="screen-reader-only">Dica</span>Resposta
 </div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>O conteúdo desta seção ainda será escrito.</p>
+<p>Com 40 testes independentes ao nível de 5%, espera-se que cerca de 2 deles deem “significativos” só por acaso, mesmo que nenhuma das 40 dietas tenha efeito real. Reportar apenas a dieta vencedora, sem mencionar as outras 39 tentativas, é exatamente o efeito da busca vasta: o achado tem grande chance de ser ruído estatístico apresentado como descoberta.</p>
+</div>
+</div>
+</div>
+<p><strong>2.</strong> O melhor aluno de uma turma tirou 15 de 20 numa prova. Mantido o mesmo esforço, o que se espera da nota dele na prova seguinte?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Espera-se uma nota mais próxima da média da turma — provavelmente menor que 15. Parte do 15 veio de habilidade real, mas parte veio de sorte (as perguntas que calharam de cair sobre o que ele havia estudado). A sorte não se repete de uma prova para outra, então o resultado seguinte tende a regredir em direção à média: é regressão à média, não uma queda de desempenho.</p>
+</div>
+</div>
+</div>
+<p><strong>3.</strong> Como o resultado da simulação da moeda mudaria se, em vez de 100 pessoas, fossem 1.000 tentativas?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>A “melhor” tenderia a tirar ainda mais caras — 16, 17, talvez mais — porque quanto mais tentativas são procuradas, mais extremo é o melhor acaso que se encontra entre elas. É exatamente por isso que o número de hipóteses testadas precisa ser declarado junto com o resultado: sem saber que a busca foi entre 1.000 tentativas (e não 100, ou 1), o resultado mais extremo pode ser lido como sinal de moeda viciada quando é só o produto esperado de uma busca maior.</p>
+</div>
 </div>
 </div>
 
@@ -676,6 +837,7 @@ Nota
 Bruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. <em>Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python</em>. 2nd ed. O’Reilly Media.
 </div>
 </div>
+</section>
 
 </main> <!-- /main -->
 <script>
@@ -1206,7 +1368,7 @@ document.addEventListener('DOMContentLoaded', function () {
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><ul><li><a href="https://github.com/BragaD/UnDF-Bases3-Estatistica-202602/issues/new" class="toc-action"><i class="bi bi-github"></i>Criar uma issue</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/BragaD/UnDF-Bases3-Estatistica-202602/issues/new" class="toc-action"><i class="bi bi-github"></i>Criar uma issue</a></li></ul></div></div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item compact">

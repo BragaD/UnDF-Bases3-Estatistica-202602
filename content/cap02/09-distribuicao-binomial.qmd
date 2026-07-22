@@ -4,7 +4,65 @@
 Esta seção corresponde à seção 2.9 de @bruce2020.
 :::
 
-::: {.callout-warning}
-## Em construção
-O conteúdo desta seção ainda será escrito.
+```{python}
+#| label: setup
+#| include: false
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy import stats
+from formato import num
+
+plt.rcParams["figure.figsize"] = (7, 4)
+```
+
+As distribuições anteriores do catálogo eram **contínuas** — descreviam grandezas que variam suavemente, como renda ou retorno. A **binomial** é a primeira **discreta**: ela conta. Especificamente, conta o número de **sucessos** em *n* tentativas independentes, cada uma com a mesma probabilidade *p* de dar certo.
+
+É o modelo do lançamento de moeda repetido, do controle de qualidade ("quantas peças defeituosas em 100?") e, sobretudo, do **teste A/B**: quantas conversões entre *n* visitantes de uma página. Sempre que a pergunta for "de *n* tentativas de tudo-ou-nada, quantas deram sucesso?", a resposta segue uma binomial. Seu centro fica em $np$ (a média) e seu espalhamento é $\sqrt{np(1-p)}$ (o desvio-padrão).
+
+```{python}
+#| label: fig-binomial
+#| fig-cap: "Distribuição binomial: a probabilidade de cada número de sucessos em 20 tentativas, com p=0,1. O pico fica perto de np = 2."
+k = np.arange(0, 11)
+fig, ax = plt.subplots()
+ax.bar(k, stats.binom.pmf(k, 20, 0.1), color="#b0c4d8", edgecolor="white")
+ax.set_xlabel("Número de sucessos")
+ax.set_ylabel("Probabilidade")
+plt.tight_layout()
+plt.show()
+```
+
+O gráfico é de **barras**, não uma curva contínua, porque o número de sucessos só assume valores inteiros — não existe "2,5 conversões". Com 20 tentativas e $p = 0{,}1$, o pico fica em torno de $np = 2$, exatamente onde a média manda.
+
+## Exato contra acumulado
+
+Duas perguntas diferentes cabem à binomial, e a scipy tem uma função para cada. A probabilidade de **exatamente** *k* sucessos é a `pmf` (função de massa de probabilidade); a de **até** *k* sucessos (isto é, *k* ou menos) é a `cdf` (função de distribuição acumulada).
+
+```{python}
+#| label: binomial
+print(f"P(exatamente 2 sucessos em 5, p=0,1): {num(stats.binom.pmf(2, 5, 0.1), 4)}")
+print(f"P(até 2 sucessos em 5, p=0,1):        {num(stats.binom.cdf(2, 5, 0.1), 4)}")
+```
+
+A distância entre os dois números conta a história: em 5 tentativas com $p = 0{,}1$, ver **exatamente** 2 sucessos é raro (`{python} num(stats.binom.pmf(2, 5, 0.1), 4)`, ou cerca de 7%), mas ver **2 ou menos** é quase certo (`{python} num(stats.binom.cdf(2, 5, 0.1), 4)`, mais de 99%). É a assinatura de eventos raros: os poucos sucessos se concentram lá embaixo, e passar de 2 quase nunca acontece.
+
+::: {.exemplo}
+Num teste A/B, se a taxa de conversão real de uma página é 10% e chegam apenas 5 visitantes, a chance de ver exatamente 2 conversões é de cerca de 7% — e a de ver 3 ou mais é ainda menor. É por isso que testes A/B com poucas visitas enganam: o número de conversões varia enormemente por puro acaso, e um resultado observado pode estar bem longe da taxa verdadeira. Só com muitas tentativas a proporção observada se aproxima de forma confiável do *p* real.
+:::
+
+## Exercícios
+
+**1.** Uma moeda justa é lançada 10 vezes. Qual a probabilidade de sair exatamente 5 caras — e por que ela não é uma maioria esmagadora, já que 5 é "o esperado"?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+É `binom.pmf(5, 10, 0.5)` ≈ 0,246 — apenas cerca de 25%. O valor esperado ($np = 5$) é de fato o resultado **mais provável**, mas ele divide a massa de probabilidade com 4, com 6 e com todos os outros vizinhos. "O esperado" não é "o quase certo": é apenas o centro da distribuição, e num sorteio com 11 resultados possíveis (de 0 a 10 caras) até o mais provável fica com uma fatia modesta.
+:::
+
+**2.** Por que a binomial exige que as tentativas sejam **independentes** e todas com a **mesma** probabilidade *p*?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+Se as tentativas se influenciam (o resultado de uma muda a chance da seguinte) ou se *p* varia de uma tentativa para outra, a contagem de sucessos deixa de seguir a binomial. Independência e *p* constante são o que justifica a matemática por trás dela. É também o que quebra em situações reais: se os visitantes de um site não são independentes — um compartilhou o link com o outro, e os dois convertem juntos —, o número de conversões não segue mais uma binomial, e as contas baseadas nela passam a errar.
 :::

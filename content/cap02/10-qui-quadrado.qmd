@@ -4,7 +4,63 @@
 Esta seção corresponde à seção 2.10 de @bruce2020.
 :::
 
-::: {.callout-warning}
-## Em construção
-O conteúdo desta seção ainda será escrito.
+```{python}
+#| label: setup
+#| include: false
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy import stats
+from formato import num
+
+plt.rcParams["figure.figsize"] = (7, 4)
+```
+
+As três últimas distribuições contínuas do catálogo — qui-quadrado, F e as da próxima seção — são de um tipo diferente das anteriores. Você raramente vai *modelar dados* com elas; vai usá-las como **réguas de teste**. Elas dizem o quão longe um resultado observado pode estar do esperado antes de deixar de ser explicável por acaso. Por isso as três apontam para a frente, para o Capítulo 3, sobre testes de significância.
+
+A **qui-quadrado** é a soma de várias normais-padrão elevadas ao quadrado. Como é uma soma de quadrados, ela só assume valores **positivos** e é **assimétrica à direita**. Sua forma depende de um único parâmetro, os **graus de liberdade** — e uma propriedade elegante cai daí: a **média da qui-quadrado é igual aos seus graus de liberdade**.
+
+```{python}
+#| label: fig-chi2
+#| fig-cap: "A distribuição qui-quadrado para diferentes graus de liberdade. Assimétrica à direita; o pico se afasta do zero conforme os graus de liberdade crescem."
+x = np.linspace(0, 20, 200)
+fig, ax = plt.subplots()
+for gl, cor in [(2, "#27ae60"), (5, "#e67e22"), (10, "#c0392b")]:
+    ax.plot(x, stats.chi2.pdf(x, gl), color=cor, linewidth=2, label=f"k = {gl}")
+ax.set_xlabel("Valor")
+ax.set_ylabel("Densidade")
+ax.legend()
+plt.tight_layout()
+plt.show()
+```
+
+Conforme os graus de liberdade crescem, o pico se afasta do zero e a distribuição se alarga — coerente com a média subir junto com $k$.
+
+## O valor crítico
+
+O uso prático da qui-quadrado é fornecer um **valor crítico**: o ponto acima do qual fica apenas uma pequena fração da distribuição. É contra esse ponto que um teste compara sua estatística.
+
+```{python}
+#| label: chi2
+print(f"Média de χ²(5):            {num(stats.chi2.mean(5), 0)}  (= graus de liberdade)")
+print(f"Valor crítico 5% de χ²(5): {num(stats.chi2.ppf(0.95, 5), 2)}")
+```
+
+Com 5 graus de liberdade, apenas 5% da distribuição fica acima de `{python} num(stats.chi2.ppf(0.95, 5), 2)`. Um teste que produza um valor qui-quadrado maior que esse está numa região que teria menos de 5% de chance de ocorrer se tudo fosse acaso — o gancho da significância. É exatamente essa lógica que o **Capítulo 3** desenvolve no teste qui-quadrado (seção 3.9), usado para verificar se um dado observado bate com o esperado (aderência) ou se duas categorias estão relacionadas (independência).
+
+## Exercícios
+
+**1.** Por que a distribuição qui-quadrado só assume valores positivos?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+Porque ela é uma **soma de quadrados** — cada normal-padrão elevada ao quadrado é sempre maior ou igual a zero, e a soma de valores não-negativos também é não-negativa. Não há como uma soma de quadrados resultar em número negativo, então a distribuição inteira vive à direita do zero, o que também explica sua assimetria à direita.
+:::
+
+**2.** A média de χ²(k) é igual a k. O que isso diz sobre o valor esperado de um teste qui-quadrado quando a hipótese nula é verdadeira?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+Se não há efeito real — se as diferenças entre observado e esperado são só ruído —, o valor qui-quadrado calculado tende a ficar próximo dos graus de liberdade do teste. Um valor muito **acima** disso é o sinal de alerta: indica que o desvio entre o que se observou e o que se esperava é grande demais para ser atribuído ao acaso, e é isso que leva a rejeitar a hipótese nula.
 :::

@@ -4,7 +4,81 @@
 Esta seção corresponde à seção 2.6 de @bruce2020.
 :::
 
-::: {.callout-warning}
-## Em construção
-O conteúdo desta seção ainda será escrito.
+```{python}
+#| label: setup
+#| include: false
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from scipy import stats
+from formato import num
+
+plt.rcParams["figure.figsize"] = (7, 4)
+renda = pd.read_csv("dados/loans_income.csv").rename(columns={"x": "Renda"})["Renda"]
+```
+
+Chega o ponto do capítulo em que as distribuições deixam de ser um pano de fundo e viram o próprio assunto. As próximas sete seções são um **catálogo**: cada uma apresenta uma distribuição, mostra sua forma, diz quando ela aparece na prática e dá o código mínimo para usá-la. A primeira do catálogo é também a mais importante — a **normal**, a distribuição em forma de sino que serve de referência para quase todas as outras.
+
+A normal é definida por dois números: a **média**, que diz onde está o centro, e o **desvio-padrão**, que diz o quão espalhada ela é. É **simétrica** — a metade à esquerda da média espelha a metade à direita — e tem uma propriedade que vale memorizar, a **regra 68–95–99,7**: cerca de 68% da massa fica a menos de um desvio da média, 95% a menos de dois, e 99,7% a menos de três.
+
+```{python}
+#| label: fig-normal
+#| fig-cap: "A distribuição normal: simétrica, com 68% da massa a menos de 1 desvio da média, 95% a menos de 2, e 99,7% a menos de 3."
+x = np.linspace(-4, 4, 200)
+fig, ax = plt.subplots()
+ax.plot(x, stats.norm.pdf(x), color="#2c3e50", linewidth=2)
+for k, cor in [(1, "#27ae60"), (2, "#e67e22"), (3, "#c0392b")]:
+    ax.axvline(k, color=cor, linestyle="--", alpha=0.6)
+    ax.axvline(-k, color=cor, linestyle="--", alpha=0.6)
+ax.set_xlabel("Desvios em relação à média")
+ax.set_ylabel("Densidade")
+plt.tight_layout()
+plt.show()
+```
+
+Essa regra é o que torna a normal tão útil como referência: se um dado é aproximadamente normal, um valor a três desvios ou mais da média é raro — acontece menos de 0,3% das vezes —, e é por isso que "três sigma" virou sinônimo de alerta no controle de qualidade e na detecção de anomalias.
+
+## O QQ-plot: o dado é normal?
+
+A pergunta prática quase nunca é "como é a normal?", e sim "**este** dado que tenho é normal?". A ferramenta visual para responder isso é o **QQ-plot** (gráfico quantil-quantil): ele ordena os dados, calcula onde cada observação cairia se a distribuição fosse perfeitamente normal, e desenha um contra o outro. Se o dado for normal, os pontos caem sobre uma reta. Onde eles se afastam da reta, o dado se afasta da normal.
+
+Vamos aplicá-lo à renda do `loans_income` — as 50.000 rendas que este capítulo vem usando.
+
+```{python}
+#| label: fig-qq-renda
+#| fig-cap: "QQ-plot da renda contra a normal. Se a renda fosse normal, os pontos seguiriam a reta. A curva para cima na ponta direita revela a cauda longa da renda."
+fig, ax = plt.subplots()
+stats.probplot(renda, dist="norm", plot=ax)
+ax.set_title("")
+ax.set_xlabel("Quantis teóricos (normal)")
+ax.set_ylabel("Quantis da renda")
+plt.tight_layout()
+plt.show()
+```
+
+O corpo dos pontos segue a reta, mas a ponta direita **sobe** para longe dela: as rendas mais altas são bem mais altas do que uma distribuição normal preveria. É a assinatura da cauda longa à direita que já vimos na seção 2.1 — e o número confirma.
+
+```{python}
+#| label: assimetria
+print(f"Assimetria da renda: {num(stats.skew(renda), 2)}")
+```
+
+Uma distribuição normal tem assimetria zero. A renda tem `{python} num(stats.skew(renda), 2)` — positiva, cauda à direita. A lição é honesta e vale para o resto do catálogo: a normal é uma referência utilíssima, mas **muitos dados reais não a seguem**. Boa parte da estatística prática consiste justamente em reconhecer quando o dado foge da normal e escolher a ferramenta certa para esse caso — a começar pela próxima seção, sobre distribuições de cauda longa.
+
+## Exercícios
+
+**1.** Um QQ-plot tem os pontos quase todos sobre a reta, exceto os dois ou três de cada ponta, que se afastam dela. O que isso indica sobre o dado?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+O corpo dos dados é aproximadamente normal, mas as **caudas são mais pesadas** do que a normal preveria — valores extremos, altos e baixos, aparecem com mais frequência do que o esperado (ou há outliers). É o padrão característico de dados com cauda longa, tema da seção 2.7. O afastamento nas pontas, e não no meio, é o sinal de que o problema está nos extremos, não no centro.
+:::
+
+**2.** Por que a regra 68–95–99,7 é útil na prática, mesmo sendo apenas uma aproximação?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+Ela dá uma referência rápida sem exigir nenhuma conta: se um dado é aproximadamente normal, cerca de 95% das observações caem a menos de dois desvios da média, então um valor a três desvios ou mais é raro (menos de 0,3%) e merece atenção. É a base da detecção de outliers e do controle de qualidade — o operador não precisa calcular uma probabilidade exata para saber que "três sigma" é um sinal de que algo saiu do comum.
 :::

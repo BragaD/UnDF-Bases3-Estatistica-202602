@@ -4,7 +4,66 @@
 Esta seção corresponde à seção 2.12 de @bruce2020.
 :::
 
-::: {.callout-warning}
-## Em construção
-O conteúdo desta seção ainda será escrito.
+```{python}
+#| label: setup
+#| include: false
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy import stats
+from formato import num
+
+plt.rcParams["figure.figsize"] = (7, 4)
+```
+
+A última distribuição do catálogo modela **eventos raros no tempo ou no espaço**. A **Poisson** conta quantas vezes algo acontece num intervalo fixo, dada uma taxa média $\lambda$ (a letra grega *lambda*): chegadas de requisições a um servidor por segundo, ligações a um call center por minuto, defeitos por lote, acidentes por trecho de estrada. A binomial contava sucessos num número fixo de tentativas; a Poisson conta ocorrências num intervalo contínuo, sem um número fixo de "tentativas".
+
+```{python}
+#| label: fig-poisson
+#| fig-cap: "Distribuição de Poisson com λ=2: a probabilidade de observar cada número de eventos num intervalo. O pico fica em torno de λ."
+k = np.arange(0, 11)
+fig, ax = plt.subplots()
+ax.bar(k, stats.poisson.pmf(k, 2), color="#b0c4d8", edgecolor="white")
+ax.set_xlabel("Número de eventos no intervalo")
+ax.set_ylabel("Probabilidade")
+plt.tight_layout()
+plt.show()
+```
+
+Como a binomial, a Poisson é **discreta** — conta eventos inteiros —, então o gráfico é de barras. O pico fica em torno de $\lambda = 2$, a taxa média, que é ao mesmo tempo a média **e** a variância da distribuição.
+
+```{python}
+#| label: poisson
+print(f"Poisson(λ=2): P(nenhum evento) = {num(stats.poisson.pmf(0, 2), 3)}")
+print(f"Poisson(λ=2): P(5 ou mais)     = {num(stats.poisson.sf(4, 2), 3)}")
+```
+
+Com taxa média 2 por intervalo, ainda há `{python} num(stats.poisson.pmf(0, 2), 3)` de chance de **nenhum** evento acontecer — mais de 13% —, e ver **5 ou mais** é raro (`{python} num(stats.poisson.sf(4, 2), 3)`, cerca de 5%). É o modelo de "quantas vezes algo raro ocorre por unidade de tempo", e ele leva a sério que às vezes o intervalo passa em branco.
+
+## A irmã exponencial
+
+A Poisson conta **quantos** eventos ocorrem num intervalo. Uma pergunta espelhada é: **quanto tempo** se espera até o próximo evento? Essa é descrita pela distribuição **exponencial**, a irmã contínua da Poisson. As duas descrevem o mesmo processo por ângulos diferentes.
+
+```{python}
+#| label: exponencial
+print(f"Se ocorrem 2 eventos por hora, o tempo médio entre eventos é {num(1 / 2 * 60, 0)} minutos.")
+```
+
+Se os eventos chegam a uma taxa de 2 por hora, o tempo médio de espera entre eles é `{python} num(1 / 2 * 60, 0)` minutos — o inverso da taxa. Mas "médio" é a palavra-chave: os intervalos individuais variam muito, com muitas esperas curtas e uma cauda de esperas longas, exatamente a forma da exponencial. Há ainda uma generalização, a **Weibull**, para quando a taxa não é constante — a chance de falha de uma peça que envelhece cresce com o tempo de uso, algo que a exponencial, de taxa fixa, não captura.
+
+## Exercícios
+
+**1.** Um call center recebe em média 3 ligações por minuto. A Poisson é um bom modelo para o número de ligações no próximo minuto? Que pressuposto ela exige?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+Sim, desde que as ligações sejam **independentes** e a taxa média seja **estável** no período considerado. A Poisson quebra se as chegadas se agrupam — uma promoção dispara uma onda de ligações correlacionadas — ou se a taxa varia muito ao longo do dia (mais ligações na hora do almoço). Nesse último caso, a solução é usar intervalos curtos o bastante para que a taxa seja aproximadamente constante dentro de cada um.
+:::
+
+**2.** Se os eventos seguem uma Poisson, o tempo de espera entre eles segue uma exponencial. Por que esse tempo não é simplesmente constante e igual a $1/\lambda$?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+Porque os eventos chegam **ao acaso**, não em intervalos regulares. O valor $1/\lambda$ é o tempo **médio** de espera, mas os intervalos individuais variam muito: alguns são curtíssimos (dois eventos quase juntos), outros bem longos. A exponencial descreve exatamente essa variação — muitos intervalos curtos e uma cauda de intervalos longos —, e é por isso que se fala em distribuição do tempo de espera, e não em um único tempo fixo.
 :::

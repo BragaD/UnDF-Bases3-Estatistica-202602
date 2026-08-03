@@ -19,7 +19,11 @@ O livro-texto da disciplina é:
 
 > @bruce2020
 
-O código e os conjuntos de dados originais estão em [github.com/gedeck/practical-statistics-for-data-scientists](https://github.com/gedeck/practical-statistics-for-data-scientists). Esta disciplina cobre os **capítulos 1 a 4**; os capítulos 5 a 7, sobre aprendizado de máquina, são tratados em *Bases 5 — Ciência de Dados*.
+O código e os conjuntos de dados originais estão em [github.com/gedeck/practical-statistics-for-data-scientists](https://github.com/gedeck/practical-statistics-for-data-scientists).
+
+Uma segunda fonte, o *pythonbook* de Ethan Weed [@weed], contribui com a introdução motivacional, o capítulo de probabilidade, a ordenação da Parte IV e enriquecimentos do Capítulo 1.
+
+Esta disciplina cobre os **capítulos 1 a 4 de @bruce2020**, aqui reorganizados em uma introdução e cinco capítulos; os capítulos 5 a 7 do Bruce, sobre aprendizado de máquina, são tratados em *Bases 5 — Ciência de Dados*.
 
 ## Como Usar Este Material
 

@@ -6,9 +6,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **Quarto book** (`type: book`) da disciplina *Bases 3 — Estatística*, oferecida aos cursos de Engenharia de Software e Sistemas de Informação da UnDF. Conteúdo em português brasileiro, **exemplos em Python**. Publicado no GitHub Pages a cada push na `main`.
 
-Livro-texto: Bruce, Bruce & Gedeck — *Practical Statistics for Data Scientists*, 2ª ed. Código e dados originais: <https://github.com/gedeck/practical-statistics-for-data-scientists>
+Livro-texto (espinha): Bruce, Bruce & Gedeck — *Practical Statistics for Data Scientists*, 2ª ed. Código e dados originais: <https://github.com/gedeck/practical-statistics-for-data-scientists>
 
-**Escopo: capítulos 1–4** (EDA, Distribuições Amostrais, Testes de Significância, Regressão). Os capítulos 5–7 do livro (Classificação, ML Estatístico, Aprendizado Não-Supervisionado) pertencem a *Bases 5 — Ciência de Dados* e **não** entram aqui.
+Segunda fonte: o *pythonbook* de Ethan Weed contribui com a Introdução (motivacional), o capítulo de Probabilidade, a ordenação da Parte IV e enriquecimentos do Capítulo 1. Regra de atribuição: callouts `de @bruce2020` marcam conteúdo do livro-texto; callouts `de @weed` marcam conteúdo do pythonbook.
+
+**Estrutura: uma Introdução (motivacional, sem número) + 5 capítulos** — 1 Análise Exploratória de Dados, 2 Probabilidade e Distribuições, 3 Amostragem e Estimação, 4 Experimentos Estatísticos e Testes de Significância, 5 Regressão e Predição. Os capítulos 5–7 do Bruce (Classificação, ML Estatístico, Aprendizado Não-Supervisionado) pertencem a *Bases 5 — Ciência de Dados* e **não** entram aqui.
+
+**Mapa Bruce ↔ este livro** (a numeração dos dois **não bate**): Bruce cap. 1 → meu Cap. 1; **Bruce cap. 2 é dividido entre meu Cap. 2 e meu Cap. 3**; Bruce cap. 3 → meu Cap. 4; Bruce cap. 4 → meu Cap. 5. É por isso que os callouts `de @bruce2020` citam números de capítulo "fora de fase" com os capítulos deste livro — o número no callout é sempre do Bruce, nunca o nosso.
 
 ## Comandos
 
@@ -38,15 +42,22 @@ Se um limite bloquear um upgrade que você quer, suba-o **deliberadamente** e re
 
 ### Estrutura de conteúdo
 
-Um diretório por capítulo, um `.qmd` por seção do livro:
+Um diretório por capítulo (mais `intro/` para a Introdução, sem número), um `.qmd` por seção do livro:
 
 ```
 content/
-└── cap01/
-    ├── index.qmd                      # Visão geral + objetivos + tabela de seções
-    ├── 01-dados-estruturados.qmd      # Uma seção do livro por arquivo
-    ├── 02-dados-retangulares.qmd
-    └── ...
+├── intro/
+│   ├── 01-por-que-estatistica.qmd
+│   └── 02-paradoxo-simpson.qmd
+├── cap01/
+│   ├── index.qmd                      # Visão geral + objetivos + tabela de seções
+│   ├── 01-dados-estruturados.qmd      # Uma seção do livro por arquivo
+│   ├── 02-dados-retangulares.qmd
+│   └── ...
+├── cap02/
+├── cap03/
+├── cap04/
+└── cap05/
 ```
 
 **Todo `.qmd` novo precisa ser registrado em `_quarto.yml` sob `book.chapters`.** O YAML define o sidebar e a ordem de navegação — arquivo não listado simplesmente não aparece no livro. A ordem vem do `_quarto.yml`, não do nome do arquivo; para reordenar, renomeie com `git mv` e atualize o YAML na mesma operação.

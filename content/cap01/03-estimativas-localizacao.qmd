@@ -87,6 +87,35 @@ A mediana calculada acima não é um número que a conta inventou: é a populaç
 A mediana é `{python} num(mediana, 0)` e a média é `{python} num(media, 0)` — a média é cerca de 90% maior. Essa diferença é a assinatura de uma distribuição assimétrica à direita, e é a razão pela qual reportar renda mediana e não renda média é a prática padrão.
 :::
 
+## Moda
+
+A **moda** é o valor mais frequente de uma variável. Ao contrário da média e da mediana, ela não exige soma nem ordem entre os valores — só contagem —, e é por isso a única medida de localização que também se aplica a dados **categóricos**.
+
+::: {.callout-note}
+A ideia da moda como a medida "universal" — a que sobrevive mesmo quando não há soma nem ordem entre os valores — vem de @weed.
+:::
+
+Na população dos estados, porém, a moda não tem o que dizer:
+
+```{python}
+#| label: moda-continua
+print(f"Valores únicos de população: {estado['Populacao'].nunique()} de {len(estado)}")
+```
+
+Vinte e sete valores únicos em vinte e sete estados: nenhuma população se repete, então nenhum valor é "mais frequente" que outro — todos empatam em frequência 1. Isso não é uma falha da moda; é o sintoma de que ela é a ferramenta errada para esta variável. Dado contínuo com muitas casas decimais raramente repete um valor exato, e é justamente aí que média e mediana fazem falta.
+
+É com dado **categórico** que a moda vira a medida certa — porque, para ele, média e mediana nem chegam a existir. As causas de atraso de voo do aeroporto de Dallas/Fort Worth, o mesmo dataset da seção 1.6, não têm ordem nem soma entre si: não há "média" entre `Clima` e `Seguranca`. Mas há uma categoria que ocorre mais que as outras:
+
+```{python}
+#| label: moda-categorica
+dfw = pd.read_csv("dados/dfw_airline.csv").rename(columns={
+    "Carrier": "Companhia", "ATC": "ControleAereo", "Weather": "Clima",
+    "Security": "Seguranca", "Inbound": "VooAnterior"})
+print(f"Causa modal de atraso: {dfw.iloc[0].idxmax()}")
+```
+
+A moda é `VooAnterior`: a maior fonte de atraso em Dallas/Fort Worth não é o clima nem a companhia aérea, é um voo anterior da mesma aeronave chegando atrasado e empurrando o atraso adiante. A seção 1.6 retoma este mesmo dataset e mostra por que, para dado categórico nominal, a moda é a única medida de localização que sobra.
+
 ## Estimativas ponderadas
 
 Nem toda observação merece o mesmo peso. Para a taxa de homicídios, tratar cada estado igualmente daria a Roraima a mesma influência que a São Paulo — mas eles representam números muito diferentes de pessoas.
@@ -351,4 +380,12 @@ Ponderar pela população **reduz** a estimativa, então os estados mais populos
 ## Resposta
 
 A média é sensível a extremos e a mediana não. Um ganho concentrado no topo da distribuição — os mais ricos ficando mais ricos — eleva a soma total (e portanto a média) sem mover o valor central. É exatamente o padrão de uma distribuição assimétrica à direita cuja cauda se alonga.
+:::
+
+**4.** A moda não ajudou em nada com a população dos estados (27 valores únicos em 27). Em que tipo de dado a moda é a medida de localização certa a se usar, e por quê média e mediana não servem nesse caso?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+A moda é a medida certa para dado **categórico** — nominal ou ordinal —, porque média e mediana exigem somar ou ordenar valores, e "somar" ou "ordenar" categorias como `Clima` e `Seguranca` não significa nada. A moda só precisa contar qual categoria aparece mais vezes, uma operação que continua fazendo sentido mesmo sem nenhuma noção de distância entre as categorias. É o caso das causas de atraso de voo da seção 1.6: `VooAnterior` é a moda, e não há como calcular uma "média" ou "mediana" de causa de atraso para comparar com ela.
 :::

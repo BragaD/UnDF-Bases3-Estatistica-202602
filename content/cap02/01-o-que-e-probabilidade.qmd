@@ -4,7 +4,95 @@
 Esta seção se inspira no Capítulo 10 de @weed.
 :::
 
-::: {.callout-warning}
-## Em construção
-O conteúdo desta seção ainda será escrito.
+Este capítulo é um catálogo de distribuições — normal, binomial, Poisson, t de Student, e as demais que reaparecem no resto do livro. Todas elas são formas de descrever probabilidade. Antes de catalogá-las, vale parar num ponto que costuma passar batido: o que a palavra "probabilidade" está dizendo, exatamente, quando se atribui 0,5 a "cara" numa moeda ou 0,03 a um valor-p.
+
+## Probabilidade vs estatística
+
+Probabilidade e estatística lidam com o mesmo par — um modelo e um conjunto de dados — mas percorrem o caminho entre eles em sentidos opostos.
+
+- A **probabilidade** parte de um modelo conhecido e prevê os dados: *se a moeda é justa, qual a chance de sair 3 caras em 5 lançamentos?* É um raciocínio **dedutivo** — a conclusão já está contida nas premissas.
+- A **estatística** parte dos dados observados e infere o modelo: *lancei a moeda 5 vezes e saíram 3 caras — a moeda é justa?* É um raciocínio **indutivo** — a conclusão generaliza além do que foi observado, e pode estar errada mesmo quando o raciocínio é correto.
+
+| | Parte de | Direção | Pergunta típica |
+|---|---|---|---|
+| Probabilidade | Modelo conhecido | Dedutiva | Se a moeda é justa, qual a chance de 3 caras em 5 lançamentos? |
+| Estatística | Dados observados | Indutiva | Lancei a moeda 5 vezes e vi 3 caras — ela é justa? |
+
+::: {.conceito}
+Uma é literalmente o inverso da outra. A probabilidade caminha de modelo → dados; a estatística caminha de dados → modelo. Os testes de significância do Capítulo 4 são estatística: partem de uma amostra e perguntam o que ela diz sobre a população que a gerou. Mas para fazer essa pergunta com rigor, primeiro é preciso saber calcular o caminho de ida — e é isso que este capítulo constrói.
+:::
+
+## Duas interpretações de probabilidade
+
+Concordar que a probabilidade caminha de modelo para dados não responde a uma pergunta anterior: o que é, afinal, o número que se atribui a um evento? Dizer "a probabilidade de cara é 0,5" pode significar coisas diferentes, e a diferença não é filosófica — ela decide que ferramentas fazem sentido usar depois.
+
+**Visão frequentista.** A probabilidade de um evento é a **frequência relativa dele no longo prazo**, sobre repetições do mesmo procedimento. "P(cara) = 0,5" quer dizer: lance a moeda um número muito grande de vezes, e a proporção de caras se aproxima de 0,5. Nessa visão, probabilidade só faz sentido para eventos que podem, em princípio, ser repetidos nas mesmas condições.
+
+**Visão bayesiana.** A probabilidade é um **grau de crença** — um número entre 0 e 1 que mede o quanto se acredita que um evento é verdadeiro, dada a evidência disponível. Essa crença é atualizada conforme chega evidência nova (o Teorema de Bayes é a regra de atualização). Como não depende de repetição, a visão bayesiana atribui probabilidade a eventos que só acontecem uma vez — "a probabilidade de chover amanhã", "a probabilidade de esta hipótese ser verdadeira" — onde a visão frequentista não tem o que contar.
+
+Por que essa diferença importa aqui: os valores-p e os intervalos de confiança do Capítulo 4 são **frequentistas** por construção — um valor-p é definido como a frequência, sob repetição hipotética do experimento, de resultados tão ou mais extremos que o observado. Este livro segue essa tradição. A estatística bayesiana é um campo inteiro à parte, com sua própria maneira de responder às mesmas perguntas, mas não é o caminho que os Capítulos 3 e 4 percorrem.
+
+## A convergência da frequência relativa
+
+A definição frequentista promete algo verificável: repita um procedimento muitas vezes, e a proporção de sucessos deve se aproximar da probabilidade "verdadeira". Vamos simular exatamente isso — lançar uma moeda justa (P(cara) = 0,5) milhares de vezes e acompanhar a proporção acumulada de caras.
+
+```{python}
+#| label: convergencia-frequentista
+import numpy as np
+import matplotlib.pyplot as plt
+from formato import num
+
+plt.rcParams["figure.figsize"] = (7, 4)
+rng = np.random.default_rng(42)
+lancamentos = rng.integers(0, 2, 10000)          # 0 ou 1, moeda justa
+proporcao = np.cumsum(lancamentos) / np.arange(1, 10001)
+
+for n in [10, 100, 1000, 10000]:
+    print(f"Após {n:>5} lançamentos: proporção de caras = {num(proporcao[n-1], 3)}")
+```
+
+Com 10 lançamentos a proporção pula longe de 0,5 (0,400) — a amostra é pequena demais para o "longo prazo" fazer efeito. Com 100 ela oscila para o outro lado (0,520). É só a partir de 1.000 (0,509), e sobretudo de 10.000 (0,494), que ela gruda perto de 0,5.
+
+```{python}
+#| label: fig-convergencia
+#| fig-cap: "A proporção de caras oscila muito no começo e se estabiliza em torno de 0,5 conforme os lançamentos crescem. É a visão frequentista: probabilidade como frequência no longo prazo."
+fig, ax = plt.subplots()
+ax.plot(np.arange(1, 10001), proporcao, color="#2c3e50", linewidth=1)
+ax.axhline(0.5, color="#c0392b", linestyle="--", linewidth=2)
+ax.set_xscale("log")
+ax.set_xlabel("Número de lançamentos (escala log)")
+ax.set_ylabel("Proporção de caras")
+plt.tight_layout()
+plt.show()
+```
+
+O eixo horizontal está em escala logarítmica de propósito: em escala linear, os primeiros 100 lançamentos ocupariam uma fatia ínfima do gráfico, e é justamente aí que a oscilação é mais visível. Na escala log, as dezenas iniciais (onde a linha salta) e os milhares finais (onde ela se estabiliza) ficam igualmente legíveis lado a lado.
+
+::: {.exemplo}
+Não existe um momento em que a moeda "decide" compensar os lançamentos passados — não há lei da compensação. O que acontece é que, à medida que $n$ cresce, cada lançamento novo pesa cada vez menos sobre a proporção acumulada, e é essa diluição — não uma correção — que empurra a curva para 0,5. É esse comportamento de longo prazo, e nada além dele, que a definição frequentista de probabilidade está descrevendo.
+:::
+
+A próxima seção formaliza esse vocabulário com as operações que aparecem no resto do capítulo: complemento, adição, multiplicação, independência e probabilidade condicional.
+
+## Exercícios
+
+**1.** Classifique cada pergunta abaixo como um raciocínio da **probabilidade** (dedutivo) ou da **estatística** (indutivo):
+
+(a) Se 30% de uma população é canhota, qual a chance de, numa amostra de 20 pessoas, pelo menos 8 serem canhotas?
+(b) Numa amostra de 20 pessoas, 8 eram canhotas. Isso é evidência de que mais de 30% da população é canhota?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+(a) É **probabilidade** — raciocínio dedutivo. O modelo já é conhecido (p = 0,30 na população), e a pergunta prevê o que os dados devem parecer a partir dele.
+
+(b) É **estatística** — raciocínio indutivo. Os dados já foram observados (8 de 20 na amostra), e a pergunta usa esse resultado para inferir algo sobre um parâmetro da população que não se conhece diretamente. É exatamente esse tipo de pergunta que os testes de significância do Capítulo 4 respondem com rigor.
+:::
+
+**2.** Um meteorologista diz: "há 70% de chance de chuva amanhã." Essa afirmação é mais naturalmente frequentista ou bayesiana? Por que a interpretação frequentista tem dificuldade em dar sentido literal a ela?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+É mais naturalmente **bayesiana** — um grau de crença sobre um evento específico e não repetível: só existe um "amanhã", e ele vai chover ou não vai. A definição frequentista precisa de repetições do mesmo procedimento para calcular uma frequência relativa, e "amanhã" não se repete. Na prática, meteorologistas contornam isso reinterpretando o evento de forma frequentista — agrupando todos os dias históricos com padrões atmosféricos parecidos com os de hoje e reportando em quantos deles choveu —, mas isso troca "a chance de chover amanhã" por "a chance de chover em dias como hoje", que já é um evento repetível. A visão bayesiana não precisa desse artifício: ela atribui grau de crença diretamente ao evento único.
 :::

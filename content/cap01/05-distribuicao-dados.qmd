@@ -51,6 +51,27 @@ plt.show()
 Lendo o gráfico: metade dos estados tem entre 2,9 e 9,4 milhões de habitantes — é o que a caixa mostra. A mediana está em 4,1 milhões. E os dois pontos isolados acima do bigode superior são Minas Gerais (21,3 milhões) e São Paulo (46,0 milhões): os únicos estados populosos o bastante para escapar de 1,5×IQR além do terceiro quartil.
 :::
 
+## Gráfico de violino
+
+O boxplot resume a distribuição em cinco números, mas cinco números continuam sendo um resumo — a caixa não distingue uma distribuição uniforme de uma concentrada em dois grupos distantes, contanto que os quartis batam. O **gráfico de violino** ataca exatamente essa lacuna: em volta da mesma caixa central, ele desenha, espelhada dos dois lados, a curva de densidade estimada (a mesma ideia da próxima seção) — a largura em cada altura é proporcional à quantidade de observações ali.
+
+```{python}
+#| label: fig-violino
+#| fig-cap: "Violino da população dos estados: a largura em cada altura reflete a densidade estimada de observações naquele valor."
+fig, ax = plt.subplots(figsize=(4, 5))
+ax.violinplot(estado["Populacao"] / 1e6, showmedians=True)
+ax.set_ylabel("População (milhões)")
+ax.set_xticks([])
+plt.tight_layout()
+plt.show()
+```
+
+Onde o boxplot mostra quartis, o violino mostra a forma inteira: é a ferramenta que revelaria, por exemplo, dois "ventres" separados por um estrangulamento no meio — uma bimodalidade que a caixa do boxplot esconderia por completo, já que ela só enxerga Q1, mediana e Q3.
+
+::: {.callout-note}
+**Ressalva do pythonbook (@weed):** a densidade do violino é uma **estimativa suavizada**, não os dados crus. Essa suavização pode sugerir massa onde não há observação nenhuma — a cauda do violino se estende além do maior e do menor valor reais, insinuando extremos que não existem. Com poucos dados, como os 27 estados desta seção, esse efeito engana mais do que informa; o violino compensa melhor quando há muitas observações para a densidade estimar com confiança.
+:::
+
 ## Tabela de frequência e histograma
 
 A **tabela de frequência** divide o intervalo de valores em faixas de largura igual e conta quantas observações caem em cada uma. `pd.cut` faz exatamente isso.
@@ -226,6 +247,22 @@ A população tem assimetria de **2,96** — fortemente à direita. É a mesma r
 
 Essa cauda à direita também não é acaso. A seção 1.4 mostrou, ao tentar aumentar o desvio-padrão da taxa de homicídios sem mexer na média, que o piso em zero trava quanto uma variável positiva pode se espalhar para **baixo** — mas não trava nada para **cima**. É essa assimetria estrutural entre o chão e a ausência de teto que empurra população, renda e tantas outras variáveis que só existem como números positivos sempre para o mesmo lado: a direita.
 
+## Curtose
+
+A assimetria mede para qual **lado** a distribuição pende. Ela não mede outra coisa, igualmente relevante: o quão pesadas são as caudas, não importa o lado — ou seja, quão comuns são os valores extremos, contra o que se esperaria de uma normal. Essa é a pergunta que a **curtose** responde.
+
+```{python}
+#| label: curtose-real
+print(f"Curtose da população das UFs : {num(stats.kurtosis(estado['Populacao']), 2)}")
+print(f"Curtose da taxa de homicídios: {num(stats.kurtosis(estado['Taxa.Homicidios']), 2)}")
+```
+
+O `stats.kurtosis` do scipy calcula o **excesso** de curtose: o valor já sai descontado de 3, de modo que uma distribuição normal dá exatamente 0 — não 3, como na definição "crua" do quarto momento. Positivo significa caudas mais pesadas que a normal; negativo, caudas mais leves.
+
+A população das UFs tem curtose **8,78** — um valor enorme, e a razão é a mesma de sempre: São Paulo. Um único estado tão distante do resto não só arrasta a média (seção 1.3) e desequilibra a assimetria (acima) — ele também infla a curtose, porque o quarto momento eleva os desvios à quarta potência, e um desvio grande, elevado a 4, domina a soma inteira. A taxa de homicídios tem curtose **-0,88**: negativa, ou seja, caudas mais leves que a normal, uma distribuição mais "achatada", sem o extremo isolado que a curtose positiva denuncia.
+
+Fica a antecipação: o Capítulo 2 (seção 2.6) volta à curtose para caracterizar caudas longas de forma mais completa — lá ela deixa de ser só um número solto e vira parte do diagnóstico de quando a normal deixa de ser um modelo razoável para os dados.
+
 ## Resumo
 
 | Ferramenta | O que mostra |
@@ -271,4 +308,12 @@ Não — é um retrato fiel dos dados. `pd.cut` cria faixas de **largura** igual
 ## Resposta
 
 A média é o dobro da mediana, então a assimetria é **positiva** (à direita): há uma cauda de rendas altas puxando a média para cima, enquanto a mediana permanece onde está a maior parte das pessoas. É o padrão universal da renda, e a razão pela qual se reporta a mediana. Se média e mediana fossem iguais, a distribuição seria simétrica — o que, para renda, praticamente não acontece.
+:::
+
+**5.** Um boxplot e um gráfico de violino da mesma variável mostram a mesma mediana e o mesmo IQR — mas o violino tem dois "ventres" largos separados por um estrangulamento estreito no meio. O que o violino está mostrando que o boxplot esconde? E por que essa mesma leitura seria arriscada se a variável tivesse só 8 observações em vez de centenas?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+O violino está mostrando **bimodalidade**: dois agrupamentos de valores separados por uma faixa com poucas ou nenhuma observação. O boxplot não tem como revelar isso — ele só registra Q1, mediana e Q3, e esses três números podem ser idênticos para uma distribuição unimodal e para uma bimodal. Com poucas observações, porém, a curva do violino é uma estimativa suavizada, não os dados crus: com 8 pontos, o suavizador pode desenhar dois ventres (ou esticar as caudas além do mínimo e do máximo reais) só por acaso da amostra, sem que a bimodalidade exista de fato na população. O violino informa mais que o boxplot quando há dados suficientes para a densidade estimada ser confiável — e engana mais do que informa quando não há.
 :::

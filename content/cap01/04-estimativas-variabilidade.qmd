@@ -104,6 +104,34 @@ plt.show()
 O desvio-padrão (9,26M) é quase o dobro do MAD (4,75M) — a razão entre os dois é 1,95, ainda mais próxima do dobro do que costuma aparecer. Essa distância entre uma medida sensível a extremos e uma medida robusta é o mesmo sinal que a diferença entre média e mediana já tinha dado na seção 1.3: a distribuição de população dos estados tem **cauda longa à direita**. Quanto mais as duas famílias de estimativas — a sensível e a robusta — discordam, mais forte é o sinal de cauda longa, não um capricho do cálculo.
 :::
 
+## Escores-padrão
+
+O desvio-padrão mede o espalhamento de uma distribuição inteira, mas às vezes a pergunta é sobre um único valor: SP é um estado populoso — só isso já se sabia desde a seção 1.3 —, mas *quão* populoso, em unidades de dispersão? O **escore-padrão**, ou z-score, responde exatamente isso: quantos desvios-padrão um valor está acima ou abaixo da média.
+
+$$z = \frac{x - \bar{x}}{s}$$
+
+Por ser uma razão entre duas grandezas na mesma unidade (o desvio $x - \bar{x}$ e o desvio-padrão $s$, ambos em habitantes, ou ambos em homicídios por 100 mil), o z-score é **adimensional** — um número puro, sem unidade. É essa ausência de unidade que permite comparar posições em escalas completamente diferentes: população se mede em dezenas de milhões, taxa de homicídios em dezenas por 100 mil habitantes, e olhar os dois números brutos lado a lado não diz nada sobre qual deles é mais extremo. Convertidos a z-score, os dois passam a viver na mesma escala.
+
+```{python}
+#| label: z-score
+mu, sd = estado["Populacao"].mean(), estado["Populacao"].std(ddof=1)
+sp = estado.loc[estado["Sigla"] == "SP", "Populacao"].iloc[0]
+z_sp = (sp - mu) / sd
+print(f"z-score da população de SP: {num(z_sp, 2)}")
+
+mu_t, sd_t = estado["Taxa.Homicidios"].mean(), estado["Taxa.Homicidios"].std(ddof=1)
+sp_t = estado.loc[estado["Sigla"] == "SP", "Taxa.Homicidios"].iloc[0]
+print(f"z-score da taxa de homicídios de SP: {num((sp_t - mu_t) / sd_t, 2)}")
+```
+
+Os dois z-scores de São Paulo apontam em direções opostas. Em população, SP está a **quase 4 desvios-padrão acima da média** — um extremo raro, coerente com ser o outlier populacional que a seção 1.3 já havia identificado. Em taxa de homicídios, porém, SP está a **quase 2 desvios-padrão abaixo da média** — o mesmo estado, agora do lado oposto da distribuição. Um único estado, dois z-scores de sinais opostos, cada um resumindo a posição de SP na sua própria escala.
+
+Essa padronização — subtrair a média, dividir pelo desvio-padrão — não é exclusiva deste exemplo: é a mesma conta que a distribuição Normal usa como referência (Cap. 2, seção 2.5), e é a mesma conta que o widget logo abaixo já emprega para mudar a dispersão da taxa de homicídios sem tocar na média.
+
+::: {.callout-note}
+A leitura do z-score como "quantos desvios-padrão da média" e sua utilidade para comparar grandezas em escalas diferentes seguem @weed.
+:::
+
 ## Mexa no desvio-padrão
 
 Os números acima são uma fotografia de uma única distribuição. Para separar de vez o que é a **média** do que é o **desvio-padrão**, o widget abaixo faz algo que nenhum gráfico estático consegue: muda a dispersão da taxa de homicídios sem tocar na média. Arraste o controle e observe a linha vermelha — ela não se move um pixel. Média e desvio-padrão são parâmetros independentes: um descreve *onde* os dados estão centrados, o outro descreve *quão longe* eles se espalham desse centro, e mudar um não obriga o outro a mudar.
@@ -228,4 +256,12 @@ Que há observações extremas puxando o desvio-padrão para cima. Sob uma distr
 ## Resposta
 
 Ambos são multiplicados por 1.000. As medidas de dispersão têm a mesma unidade dos dados e escalam linearmente com eles. A variância, ao contrário, seria multiplicada por 1.000.000 — ela está em unidade ao quadrado, o que é justamente o inconveniente que motiva o uso do desvio-padrão no lugar dela.
+:::
+
+**4.** O z-score da população de SP é 4,12 e o z-score da sua taxa de homicídios é −1,93. Por que faz sentido comparar esses dois números, se população e taxa de homicídios são medidas em unidades completamente diferentes?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+Porque o z-score é adimensional: ele é uma razão entre um desvio e um desvio-padrão medidos na mesma unidade, então a unidade original se cancela. Isso permite comparar a posição relativa de SP nas duas distribuições mesmo que uma esteja em habitantes e a outra em homicídios por 100 mil — os dois números, 4,12 e −1,93, dizem quantos desvios-padrão cada valor está da sua própria média, e podem ser colocados lado a lado nessa escala comum.
 :::

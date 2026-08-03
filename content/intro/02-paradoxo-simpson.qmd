@@ -4,7 +4,74 @@
 Esta seção se inspira no Capítulo 1 de @weed.
 :::
 
-::: {.callout-warning}
-## Em construção
-O conteúdo desta seção ainda será escrito.
+A seção anterior mostrou que a intuição erra sobre números isolados. Esta mostra algo pior: ela também erra sobre como **agregar** números — e o erro não avisa que está acontecendo. Uma comparação pode apontar numa direção quando os dados são olhados em conjunto, e na direção **oposta** quando os mesmos dados são separados em subgrupos. Nenhuma das duas contas está errada; o que muda é a pergunta que cada uma responde.
+
+## Dois algoritmos, dois segmentos
+
+Imagine que um time testou dois algoritmos de recomendação, A e B, contra dois segmentos de usuário: **novos** (que acabaram de se cadastrar) e **recorrentes** (que já usam o produto há meses). A métrica é a taxa de conversão — cliques que viram ação.
+
+```{python}
+#| label: simpson
+import pandas as pd
+from formato import num
+
+# Sucessos / total por algoritmo e segmento (dados sintéticos)
+dados = pd.DataFrame({
+    "Segmento":   ["Novos", "Recorrentes"],
+    "A_sucesso":  [81, 192],
+    "A_total":    [87, 263],
+    "B_sucesso":  [234, 55],
+    "B_total":    [270, 80],
+})
+
+def taxa(s, t):
+    return 100 * s / t
+
+for _, r in dados.iterrows():
+    print(f'{r.Segmento:>12}: A = {num(taxa(r.A_sucesso, r.A_total), 1)}%   '
+          f'B = {num(taxa(r.B_sucesso, r.B_total), 1)}%')
+
+a_tot = taxa(dados.A_sucesso.sum(), dados.A_total.sum())
+b_tot = taxa(dados.B_sucesso.sum(), dados.B_total.sum())
+print(f'{"TOTAL":>12}: A = {num(a_tot, 1)}%   B = {num(b_tot, 1)}%')
+```
+
+Olhe segmento por segmento primeiro. Entre os usuários novos, A converte 93,1% contra 86,7% de B. Entre os recorrentes, A vence de novo: 73,0% contra 68,8%. Em **cada** segmento que existe, A é melhor que B — sem exceção.
+
+Agora olhe a última linha, o total. B converte 82,6%; A, apenas 78,0%. O algoritmo que perdeu nos dois segmentos vence no agregado.
+
+## De onde vem a inversão
+
+Isso não é erro de conta, e não é coincidência de os números terem sido escolhidos a dedo — é o comportamento típico de uma média quando os grupos que a compõem têm tamanhos diferentes. Repare em quantas execuções cada algoritmo recebeu em cada segmento: A foi testado majoritariamente com recorrentes (263 de 350 execuções, 75%), enquanto B foi testado majoritariamente com novos (270 de 350, 77%). E o segmento de novos converte melhor que o de recorrentes para **os dois** algoritmos — 93,1%/86,7% contra 73,0%/68,8%.
+
+Ou seja: B não venceu por ser o algoritmo melhor. B venceu porque foi testado, por acaso ou por desenho do experimento, mais vezes no segmento mais fácil. O total mistura duas populações de tamanhos desiguais, e a mistura carrega peso próprio — um peso que nada tem a ver com o mérito de A ou de B.
+
+::: {.conceito}
+Isso é o **paradoxo de Simpson**: uma tendência que aparece em cada subgrupo de um conjunto de dados pode desaparecer, ou se inverter, quando os subgrupos são agregados. Não há nada de paradoxal na aritmética — uma média ponderada por grupos de tamanhos diferentes pode legitimamente discordar da tendência de cada grupo. O paradoxal é confiar no total sem perguntar o que ele está misturando.
+:::
+
+## Por que isso importa além deste exemplo
+
+A lição não é "sempre desagregue tudo". É mais estreita e mais útil: **antes de aceitar uma comparação agregada, pergunte se existe uma variável escondida que divide os dados de um jeito que os grupos comparados não são, na prática, comparáveis.** Aqui a variável escondida é o segmento de usuário; ela reaparece, com outros nomes, no resto deste livro. No Capítulo 3, ela é a raiz de boa parte do **viés amostral** — uma amostra que reflete mais um subgrupo do que outro produz uma estimativa que parece sólida e não é. No Capítulo 4, ela é o motivo pelo qual um **teste de significância** rodado sobre dados agregados pode apontar um efeito que não existe em nenhum subgrupo real, ou esconder um que existe em todos.
+
+Reconhecer um paradoxo de Simpson em potencial custa uma pergunta: **este total está misturando grupos de tamanhos ou taxas-base diferentes?** É uma pergunta barata comparada ao custo de lançar o algoritmo errado porque o número agregado parecia decisivo.
+
+## Exercícios
+
+**1.** A inversão do exemplo acima aconteceu porque A e B foram testados em misturas diferentes de segmentos: A concentrou 75% de suas execuções em recorrentes; B concentrou 77% das suas em novos. E se o time tivesse testado os dois algoritmos com a **mesma** mistura — metade novos, metade recorrentes, 175 execuções de cada segmento para cada algoritmo (350 no total, como no exemplo) —, mantendo as taxas de conversão de cada célula (93,1%, 73,0%, 86,7% e 68,8%)? Recalcule os totais de A e B. A inversão sobrevive?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+```python
+novos_A = 0.931 * 175   # ≈ 163 sucessos em 175
+rec_A   = 0.730 * 175   # ≈ 128 sucessos em 175
+total_A = (novos_A + rec_A) / 350   # ≈ 0,830
+
+novos_B = 0.867 * 175
+rec_B   = 0.688 * 175
+total_B = (novos_B + rec_B) / 350   # ≈ 0,778
+```
+
+Com a mistura igualada, A volta a vencer no total — cerca de 83,0% contra 77,8% de B —, coerente com o fato de A vencer em **cada** segmento. A inversão do exemplo original não vinha das taxas de conversão em si: vinha de A e B terem sido testados em proporções diferentes de novos e recorrentes. Igualar a mistura elimina o paradoxo, porque elimina a variável escondida que o causava.
 :::

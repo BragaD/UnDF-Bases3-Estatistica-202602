@@ -4,7 +4,143 @@
 Esta seção se inspira no Capítulo 10 de @weed.
 :::
 
-::: {.callout-warning}
-## Em construção
-O conteúdo desta seção ainda será escrito.
+A seção anterior tratou do que o número "probabilidade" significa. Esta trata do que se pode **fazer** com ele: um pequeno conjunto de regras algébricas — complemento, adição, multiplicação, independência — que combina probabilidades de eventos simples para obter a probabilidade de eventos compostos. São essas regras, e não mais nada, que sustentam o catálogo de distribuições que começa na próxima seção, com a binomial.
+
+## Espaço amostral e evento
+
+O **espaço amostral** $S$ é o conjunto de todos os resultados possíveis de um experimento aleatório. Um **evento** é qualquer subconjunto de $S$ — uma pergunta de sim-ou-não sobre o resultado.
+
+No lançamento de um dado, $S = \{1, 2, 3, 4, 5, 6\}$, e "sair um número par" é o evento $A = \{2, 4, 6\}$. Numa requisição HTTP, $S$ é o conjunto das classes de código de status ($2xx$, $3xx$, $4xx$, $5xx$), e "a requisição falhou" é o evento $A = \{4xx, 5xx\}$.
+
+Toda probabilidade obedece a dois axiomas, e é neles que as regras desta seção se apoiam:
+
+$$0 \le P(A) \le 1 \qquad \text{e} \qquad P(S) = 1$$
+
+Um evento impossível tem probabilidade 0; um evento certo — o próprio espaço amostral — tem probabilidade 1. Nada no meio do caminho é permitido: uma probabilidade de 1,2 ou de $-0,3$ é sempre sinal de erro de conta, não uma resposta válida.
+
+## Complementar
+
+O **complementar** de um evento $A$, escrito $\bar{A}$ (ou "não $A$"), é tudo em $S$ que não está em $A$. Como $A$ e $\bar{A}$ juntos esgotam o espaço amostral e não se sobrepõem, suas probabilidades somam 1:
+
+$$P(\bar{A}) = 1 - P(A)$$
+
+```{python}
+#| label: complemento
+from formato import num
+
+p_falha = 0.02
+p_sucesso = 1 - p_falha
+print(f"P(requisição falhar)     : {num(p_falha, 2)}")
+print(f"P(requisição não falhar) : {num(p_sucesso, 2)}")
+```
+
+Se 2% das requisições a um serviço falham, 98% não falham — os dois números são a mesma informação, vista de dois lados. O complementar parece trivial nesse exemplo, mas vale a pena guardá-lo: adiante, ele vai resolver em uma linha uma pergunta ("pelo menos um evento acontece?") que, calculada de frente, exigiria somar várias possibilidades.
+
+## Regra da adição
+
+**Eventos mutuamente exclusivos** são eventos que não podem ocorrer juntos — $A \cap B = \emptyset$. Para eles, a probabilidade de "$A$ ou $B$" é simplesmente a soma:
+
+$$P(A \cup B) = P(A) + P(B) \qquad \text{(mutuamente exclusivos)}$$
+
+Nas classes de status HTTP, "erro do cliente" ($4xx$) e "erro do servidor" ($5xx$) não podem ocorrer na mesma requisição — uma requisição tem exatamente um código de status. Se $P(4xx) = 0{,}05$ e $P(5xx) = 0{,}01$, então $P(\text{erro}) = 0{,}05 + 0{,}06 = 0{,}06$.
+
+Quando os eventos **podem** se sobrepor, somar direto conta a interseção duas vezes — uma dentro de cada evento. A correção é subtraí-la:
+
+$$P(A \cup B) = P(A) + P(B) - P(A \cap B) \qquad \text{(regra geral)}$$
+
+No dado, seja $A$ = "número par" $= \{2,4,6\}$, com $P(A) = 0{,}5$, e $B$ = "número maior ou igual a 4" $= \{4,5,6\}$, com $P(B) = 0{,}5$. Os dois eventos compartilham $\{4, 6\}$, então $P(A \cap B) = 2/6 \approx 0{,}333$. Somar $P(A) + P(B)$ direto daria $1{,}0$ — como se todo lançamento caísse em $A$ ou em $B$, o que é falso: o número 1 não está em nenhum dos dois. A conta correta é:
+
+$$P(A \cup B) = 0{,}5 + 0{,}5 - 0{,}333 = 0{,}667$$
+
+que é exatamente $P(\{2,4,5,6\}) = 4/6$.
+
+::: {.conceito}
+A regra dos eventos mutuamente exclusivos não é uma regra à parte — é a regra geral no caso particular em que $P(A \cap B) = 0$. Vale a pena checar sempre se os eventos podem coexistir antes de somar as probabilidades direto; é um erro fácil de cometer e fácil de não perceber, porque a soma sem a subtração ainda parece um número plausível.
+:::
+
+## Multiplicação e independência
+
+Dois eventos são **independentes** quando saber que um ocorreu não muda nada sobre a probabilidade do outro. Nesse caso, a probabilidade de ambos ocorrerem é o produto das probabilidades individuais:
+
+$$P(A \cap B) = P(A) \cdot P(B) \qquad \text{(independentes)}$$
+
+Um exemplo comum em infraestrutura de software: dois serviços independentes, cada um no ar 99% do tempo. "Independentes" aqui quer dizer que a queda de um não afeta a chance de queda do outro — não compartilham servidor, banco de dados ou dependência de rede. A probabilidade de **ambos** estarem no ar ao mesmo tempo é o produto:
+
+```{python}
+#| label: regras
+from formato import num
+p = 0.99
+print(f"Ambos os serviços no ar:      {num(p**2, 4)}")
+print(f"Pelo menos um fora do ar:     {num(1 - p**2, 4)}")
+```
+
+O segundo número usa o complementar: "pelo menos um fora do ar" é o evento oposto de "ambos no ar", então basta 1 menos o primeiro resultado. Calcular "pelo menos um fora" de frente exigiria somar três casos (só o primeiro cai, só o segundo cai, os dois caem) — o complementar resolve em uma conta só.
+
+::: {.exemplo}
+Note a diferença entre os dois números: cada serviço isolado tem 1% de chance de estar fora do ar, mas a chance de **pelo menos um** dos dois falhar é quase o dobro disso (1,99%, não 2%) — a pequena diferença vem de já não contar duas vezes o caso, raro, em que ambos caem ao mesmo tempo. Com mais serviços independentes na composição, esse efeito cresce: é por isso que sistemas com muitas dependências externas independentes tendem a ter disponibilidade agregada mais baixa do que qualquer peça isolada sugere.
+:::
+
+::: {.conceito}
+**Independência não é o mesmo que exclusividade mútua — são praticamente opostas.** Se $A$ e $B$ são mutuamente exclusivos e ambos têm probabilidade positiva, eles **não podem** ser independentes: como $A \cap B = \emptyset$, temos $P(A \cap B) = 0$, mas $P(A) \cdot P(B) > 0$ (produto de dois números positivos). Os dois lados da definição de independência não batem, então os eventos são dependentes — e fortemente: saber que $A$ ocorreu garante que $B$ não ocorreu ($P(B \mid A) = 0$), o oposto de "não muda nada". Mutuamente exclusivos descreve eventos que **competem** pelo mesmo espaço; independentes descreve eventos que **não interagem**. É fácil confundir os dois porque ambos soam como "não relacionados", mas a álgebra diz o contrário.
+:::
+
+## Distribuição de probabilidade
+
+As regras desta seção não servem só para responder perguntas isoladas — elas constroem, evento por evento, a **distribuição de probabilidade** de uma variável aleatória: a lista de todos os valores que ela pode assumir, cada um com sua probabilidade associada, somando 1 no total.
+
+Dois lançamentos independentes de uma moeda justa bastam para ver isso acontecer. Seja $X$ o número de caras. Cada um dos quatro resultados (cara-cara, cara-coroa, coroa-cara, coroa-coroa) tem probabilidade $0{,}5 \times 0{,}5 = 0{,}25$ pela regra da multiplicação, porque os dois lançamentos são independentes. "Cara-coroa" e "coroa-cara" são mutuamente exclusivos e ambos dão $X = 1$, então a regra da adição soma as duas:
+
+```{python}
+#| label: distribuicao-caras
+from formato import num
+
+p_caras = {
+    0: 0.5**2,           # coroa-coroa
+    1: 2 * 0.5**2,       # cara-coroa OU coroa-cara
+    2: 0.5**2,           # cara-cara
+}
+for k, prob in p_caras.items():
+    print(f"P(X = {k}) = {num(prob, 2)}")
+```
+
+O resultado — 0,25, 0,50 e 0,25 para $X = 0, 1, 2$ — é a distribuição de probabilidade completa de $X$. Ela satisfaz os mesmos axiomas do início da seção: cada probabilidade está entre 0 e 1, e a soma sobre todos os valores possíveis é exatamente 1 (a certeza de que *algum* desses três valores vai ocorrer).
+
+Generalizar essa construção — não para 2 lançamentos, mas para $n$ tentativas independentes de sucesso-ou-fracasso com probabilidade $p$ — é exatamente o que a próxima seção faz. O resultado tem nome: **distribuição binomial**.
+
+## Exercícios
+
+**1.** Uma aplicação depende de três serviços independentes, cada um com 98% de disponibilidade. Qual a probabilidade de os três estarem no ar ao mesmo tempo? E de pelo menos um estar fora do ar?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+```python
+p = 0.98
+p**3        # todos os três no ar
+1 - p**3    # pelo menos um fora
+```
+
+A regra da multiplicação se estende a qualquer número de eventos independentes: basta multiplicar todas as probabilidades. Com três serviços, $P(\text{todos no ar}) = 0{,}98^3 = 0{,}9412$. Pelo complementar, $P(\text{pelo menos um fora}) = 1 - 0{,}9412 = 0{,}0588$ — quase 6%, o triplo do que um único serviço isolado sugeriria (2%). Quanto mais dependências independentes um sistema tem, mais essa probabilidade composta se afasta da probabilidade de cada peça.
+:::
+
+**2.** Entre os visitantes de um site, 60% acessam pelo celular ($P(M) = 0{,}6$) e 10% completam uma compra ($P(C) = 0{,}1$). Desses visitantes, 5% acessam pelo celular **e** compram ($P(M \cap C) = 0{,}05$). Qual a probabilidade de um visitante acessar pelo celular **ou** comprar?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+Os eventos não são mutuamente exclusivos — um visitante pode fazer as duas coisas —, então a regra geral da adição precisa da subtração da interseção:
+
+$$P(M \cup C) = P(M) + P(C) - P(M \cap C) = 0{,}6 + 0{,}1 - 0{,}05 = 0{,}65$$
+
+Somar $0{,}6 + 0{,}1 = 0{,}7$ direto contaria os 5% que fazem as duas coisas em dobro — uma vez dentro de "acessa pelo celular", outra dentro de "compra".
+
+Também dá para notar, à parte, que $M$ e $C$ não são independentes aqui: se fossem, teríamos $P(M \cap C) = P(M) \cdot P(C) = 0{,}06$, e não os $0{,}05$ observados — comprar pelo celular é um pouco menos comum do que a independência preveria.
+:::
+
+**3.** Dois eventos $A$ e $B$ são mutuamente exclusivos e ambos têm probabilidade positiva. Eles podem ser independentes? Justifique algebricamente, sem recorrer à intuição.
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+Não podem. Independência exige $P(A \cap B) = P(A) \cdot P(B)$. Mutuamente exclusivos significa $A \cap B = \emptyset$, logo $P(A \cap B) = 0$. Para a igualdade de independência valer, seria preciso $P(A) \cdot P(B) = 0$ — mas o enunciado já diz que $P(A) > 0$ e $P(B) > 0$, e o produto de dois números positivos nunca é zero. A igualdade falha, então $A$ e $B$ são dependentes — e da forma mais extrema possível: ocorrer $A$ torna $B$ impossível ($P(B \mid A) = 0$), quando independência exigiria $P(B \mid A) = P(B)$.
 :::

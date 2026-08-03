@@ -4,7 +4,36 @@
 Esta seção se inspira no Capítulo 1 de @weed.
 :::
 
-::: {.callout-warning}
-## Em construção
-O conteúdo desta seção ainda será escrito.
+Antes de qualquer fórmula, vale perguntar: por que alguém que constrói software ou analisa dados precisa de estatística? A resposta curta é que a intuição humana — tão confiável para tantas outras coisas — é sistematicamente ruim para raciocinar sobre chance, variação e evidência. E é exatamente nesse território que vive quem trabalha com dados: decidindo o que uma amostra realmente diz, e o que ela só parece dizer.
+
+## Quando a intuição erra
+
+Um exemplo clássico de combinatória mostra o tamanho do problema. Quantas pessoas precisam estar em uma sala para que a chance de duas fazerem aniversário no mesmo dia ultrapasse 50%? A resposta é 23 — um número que soa baixo demais para praticamente todo mundo que tenta adivinhar de cabeça. A intuição erra porque conta mal: com 23 pessoas já existem 253 pares possíveis, e basta um deles coincidir.
+
+::: {.exemplo}
+O mesmo raciocínio aparece no dia a dia de quem escreve software. Um identificador aleatório de 32 bits parece ter espaço de sobra para milhões de registros — até alguém lembrar que, pelo mesmo motivo do aniversário, colisões de hash surgem muito antes do que a intuição sugere. É por isso que sistemas em produção preferem identificadores de 128 bits ou mais: confiar na intuição sobre "a chance é desprezível" já causou incidentes reais.
 :::
+
+Se a intuição erra em um problema tão concreto quanto contar pares, não há razão para confiar nela quando a pergunta é mais vaga — "essa métrica realmente mudou?", "essa correlação é coincidência?". É para essas perguntas que a estatística existe.
+
+## Viés de confirmação
+
+Existe um segundo problema, mais traiçoeiro que o primeiro porque não parece um erro de cálculo. Quando um número confirma o que já esperávamos, tendemos a aceitá-lo de primeira — o dashboard subiu, a mudança funcionou, publica. Quando um número contraria o que esperávamos, fazemos o oposto: desconfiamos da query, reabrimos o pipeline, procuramos um bug até achar um motivo para não acreditar. O padrão de evidência que exigimos varia conforme a conclusão nos agrada ou não. Isso tem nome: **viés de confirmação**.
+
+::: {.conceito}
+O viés de confirmação não é preguiça nem má-fé: é o modo padrão como a cognição humana lida com evidência. A estatística existe, em boa medida, como um antídoto formal para ele — um conjunto de critérios decidido *antes* de olhar o resultado, que não se dobra dependendo de qual resultado apareceu.
+:::
+
+É essa a diferença entre "os números confirmaram o que eu já achava" e "os números foram obrigados a responder, independentemente do que eu queria ouvir". A segunda frase é o objetivo deste livro.
+
+## Estatística no dia a dia de quem trabalha com dados
+
+Fora de qualquer contexto acadêmico, estatística é o vocabulário de três tarefas que voltam toda semana para quem lida com dados:
+
+- **Estimar sem medir tudo.** Nenhum time testa uma mudança em 100% dos usuários antes de decidir se ela funciona, e nenhuma pesquisa entrevista a população inteira. Estima-se a partir de uma amostra — e a pergunta que importa não é só "qual é o valor típico", mas "quão longe essa estimativa pode estar da verdade".
+- **Decidir sob incerteza.** Lançar uma versão, aprovar um modelo, trocar de fornecedor: quase nenhuma decisão espera por certeza total, porque certeza total quase nunca chega. A estatística diz com que confiança se pode agir mesmo sem ela.
+- **Distinguir sinal de ruído.** Toda métrica varia de um dia para o outro mesmo quando nada mudou de verdade. Uma queda de 3% pode ser o início de um problema real ou só a flutuação normal da semana — confundir as duas coisas custa caro nos dois sentidos: agir sobre ruído desperdiça esforço, ignorar sinal deixa o problema crescer.
+
+Esses três fios — estimar, decidir, distinguir — atravessam os próximos capítulos: a análise exploratória ensina a olhar os dados sem se enganar antes de qualquer conta; as distribuições amostrais quantificam quanto uma estimativa varia de amostra para amostra; os testes de significância formalizam a fronteira entre sinal e ruído; a regressão modela como as variáveis se relacionam. Nenhum desses capítulos seria necessário se a intuição bastasse.
+
+Antes de seguir, vale carregar uma pergunta consigo: da última vez que um número te surpreendeu — para melhor ou para pior —, você investigou com o mesmo cuidado que teria investigado se ele tivesse confirmado o que você já esperava?

@@ -42,7 +42,7 @@ Se 2% das requisições a um serviço falham, 98% não falham — os dois númer
 
 $$P(A \cup B) = P(A) + P(B) \qquad \text{(mutuamente exclusivos)}$$
 
-Nas classes de status HTTP, "erro do cliente" ($4xx$) e "erro do servidor" ($5xx$) não podem ocorrer na mesma requisição — uma requisição tem exatamente um código de status. Se $P(4xx) = 0{,}05$ e $P(5xx) = 0{,}01$, então $P(\text{erro}) = 0{,}05 + 0{,}06 = 0{,}06$.
+Nas classes de status HTTP, "erro do cliente" ($4xx$) e "erro do servidor" ($5xx$) não podem ocorrer na mesma requisição — uma requisição tem exatamente um código de status. Se $P(4xx) = 0{,}05$ e $P(5xx) = 0{,}01$, então $P(\text{erro}) = 0{,}05 + 0{,}01 = 0{,}06$.
 
 Quando os eventos **podem** se sobrepor, somar direto conta a interseção duas vezes — uma dentro de cada evento. A correção é subtraí-la:
 

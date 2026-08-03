@@ -20,14 +20,14 @@ Ao final deste capítulo, você será capaz de:
 
 | Seção | Tópico |
 |---|---|
-| [3.1](01-teste-ab.qmd) | Teste A/B |
-| [3.2](02-testes-hipotese.qmd) | Testes de Hipótese |
-| [3.3](03-reamostragem.qmd) | Reamostragem |
-| [3.4](04-significancia-valor-p.qmd) | Significância Estatística e Valores-p |
-| [3.5](05-testes-t.qmd) | Testes t |
-| [3.6](06-testes-multiplos.qmd) | Testes Múltiplos |
-| [3.7](07-graus-liberdade.qmd) | Graus de Liberdade |
-| [3.8](08-anova.qmd) | ANOVA |
-| [3.9](09-teste-qui-quadrado.qmd) | Teste Qui-Quadrado |
-| [3.10](10-multi-armed-bandit.qmd) | Algoritmo Multi-Armed Bandit |
-| [3.11](11-poder-tamanho-amostra.qmd) | Poder e Tamanho da Amostra |
+| [4.1](01-teste-ab.qmd) | Teste A/B |
+| [4.2](02-testes-hipotese.qmd) | Testes de Hipótese |
+| [4.3](03-reamostragem.qmd) | Reamostragem |
+| [4.4](04-significancia-valor-p.qmd) | Significância Estatística e Valores-p |
+| [4.5](05-testes-t.qmd) | Testes t |
+| [4.6](06-testes-multiplos.qmd) | Testes Múltiplos |
+| [4.7](07-graus-liberdade.qmd) | Graus de Liberdade |
+| [4.8](08-anova.qmd) | ANOVA |
+| [4.9](09-teste-qui-quadrado.qmd) | Teste Qui-Quadrado |
+| [4.10](10-multi-armed-bandit.qmd) | Algoritmo Multi-Armed Bandit |
+| [4.11](11-poder-tamanho-amostra.qmd) | Poder e Tamanho da Amostra |

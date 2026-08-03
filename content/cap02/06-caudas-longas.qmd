@@ -44,7 +44,7 @@ plt.tight_layout()
 plt.show()
 ```
 
-Compare com o QQ-plot da renda, na seção 2.6: lá a curva se afastava da reta **de um lado só**, porque a assimetria puxa uma cauda apenas. Aqui a curva é em **S** — a ponta direita sobe, a esquerda desce. É a marca da cauda gorda: por ser simétrica, ela infla os dois extremos ao mesmo tempo. Valores muito altos e muito baixos, ambos mais comuns do que a normal admitiria.
+Compare com o QQ-plot da renda, na seção 2.5: lá a curva se afastava da reta **de um lado só**, porque a assimetria puxa uma cauda apenas. Aqui a curva é em **S** — a ponta direita sobe, a esquerda desce. É a marca da cauda gorda: por ser simétrica, ela infla os dois extremos ao mesmo tempo. Valores muito altos e muito baixos, ambos mais comuns do que a normal admitiria.
 
 E há uma remissão embutida: essa amostra não veio de lugar nenhum exótico. Ela foi sorteada de uma **distribuição t de Student** com 3 graus de liberdade — o assunto da próxima seção, que formaliza exatamente essa distribuição de cauda mais gorda que a normal.
 

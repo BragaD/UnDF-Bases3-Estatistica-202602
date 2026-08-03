@@ -106,5 +106,5 @@ Porque cercar o parâmetro com mais frequência exige uma rede mais larga. Para 
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
-A largura encolheria, aproximadamente por um fator de $\sqrt{200/20} = \sqrt{10} \approx 3{,}2$ vezes. Amostra maior significa erro padrão menor (a mesma relação $\sigma/\sqrt{n}$ vista na seção 2.3), e um erro padrão menor estreita a distribuição bootstrap inteira — o que, para o mesmo nível de confiança (os mesmos percentis 5 e 95), produz um intervalo mais estreito. É a mesma troca da seção anterior, só que agora resolvida aumentando $n$ em vez de abrindo mão de confiança.
+A largura encolheria, aproximadamente por um fator de $\sqrt{200/20} = \sqrt{10} \approx 3{,}2$ vezes. Amostra maior significa erro padrão menor (a mesma relação $\sigma/\sqrt{n}$ vista na seção 3.3), e um erro padrão menor estreita a distribuição bootstrap inteira — o que, para o mesmo nível de confiança (os mesmos percentis 5 e 95), produz um intervalo mais estreito. É a mesma troca da seção anterior, só que agora resolvida aumentando $n$ em vez de abrindo mão de confiança.
 :::

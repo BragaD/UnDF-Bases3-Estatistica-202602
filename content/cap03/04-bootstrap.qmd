@@ -32,7 +32,7 @@ Pense no bootstrap como "repetir o experimento sem repetir o experimento". Você
 
 ## Por que a mediana
 
-A seção 2.3 usou a **média** porque a média tem fórmula fechada: o erro padrão é $\sigma/\sqrt{n}$, ponto final. Mas a maioria das estatísticas interessantes não tem uma fórmula assim. A **mediana** é o primeiro exemplo que qualquer curso encontra: não existe uma fórmula simples de "erro padrão da mediana" que dependa só de $\sigma$ e $n$, porque a mediana ignora quase todos os valores da amostra e depende só da observação (ou das duas observações) do meio — sua variabilidade depende da densidade dos dados *perto* do centro, uma informação que $\sigma$ sozinho não carrega.
+A seção 3.3 usou a **média** porque a média tem fórmula fechada: o erro padrão é $\sigma/\sqrt{n}$, ponto final. Mas a maioria das estatísticas interessantes não tem uma fórmula assim. A **mediana** é o primeiro exemplo que qualquer curso encontra: não existe uma fórmula simples de "erro padrão da mediana" que dependa só de $\sigma$ e $n$, porque a mediana ignora quase todos os valores da amostra e depende só da observação (ou das duas observações) do meio — sua variabilidade depende da densidade dos dados *perto* do centro, uma informação que $\sigma$ sozinho não carrega.
 
 É exatamente aí que o bootstrap se torna indispensável, não apenas conveniente: ele não precisa de uma fórmula específica para cada estatística. Funciona para a mediana, para percentis, para a razão entre duas medidas, para o coeficiente de um modelo — para qualquer coisa que se calcule a partir de uma amostra.
 
@@ -73,7 +73,7 @@ plt.tight_layout()
 plt.show()
 ```
 
-O histograma acima **é** a distribuição amostral da mediana — a mesma ideia da seção 2.3, só que obtida sem repetir a coleta e sem fórmula fechada. Ele mostra o quanto a mediana varia de reamostra para reamostra, e o desvio-padrão dessa variação é o número que a fórmula $\sigma/\sqrt{n}$ não sabe calcular para esta estatística.
+O histograma acima **é** a distribuição amostral da mediana — a mesma ideia da seção 3.3, só que obtida sem repetir a coleta e sem fórmula fechada. Ele mostra o quanto a mediana varia de reamostra para reamostra, e o desvio-padrão dessa variação é o número que a fórmula $\sigma/\sqrt{n}$ não sabe calcular para esta estatística.
 
 ## O que o bootstrap não faz
 

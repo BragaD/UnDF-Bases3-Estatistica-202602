@@ -17,7 +17,7 @@ plt.rcParams["figure.figsize"] = (7, 4)
 
 A seção anterior gerou uma amostra de cauda gorda a partir de uma **distribuição t de Student**. Agora ela ganha nome próprio. A t se parece com a normal — simétrica, centrada, em forma de sino —, mas com **caudas mais gordas**. E tem uma peça de controle que a normal não tem: os **graus de liberdade**. Conforme os graus de liberdade crescem, as caudas afinam, e a t se aproxima da normal até se tornar indistinguível dela.
 
-A t não é uma curiosidade: é a distribuição que aparece toda vez que se estima a média de uma população a partir de uma amostra **pequena**, sem conhecer o desvio-padrão verdadeiro da população. Foi a distribuição por trás dos intervalos de confiança da seção 2.5, mesmo sem ter sido nomeada lá.
+A t não é uma curiosidade: é a distribuição que aparece toda vez que se estima a média de uma população a partir de uma amostra **pequena**, sem conhecer o desvio-padrão verdadeiro da população. É a distribuição por trás dos intervalos de confiança que o Capítulo 3 constrói (seção 3.5) — a que aparece quando se estima a média com amostra pequena.
 
 ```{python}
 #| label: fig-t

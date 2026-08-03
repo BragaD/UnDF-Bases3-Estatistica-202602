@@ -42,7 +42,7 @@ Essa regra é o que torna a normal tão útil como referência: se um dado é ap
 
 A pergunta prática quase nunca é "como é a normal?", e sim "**este** dado que tenho é normal?". A ferramenta visual para responder isso é o **QQ-plot** (gráfico quantil-quantil): ele ordena os dados, calcula onde cada observação cairia se a distribuição fosse perfeitamente normal, e desenha um contra o outro. Se o dado for normal, os pontos caem sobre uma reta. Onde eles se afastam da reta, o dado se afasta da normal.
 
-Vamos aplicá-lo à renda do `loans_income` — as 50.000 rendas que este capítulo vem usando.
+Vamos aplicá-lo às 50.000 rendas de solicitantes de empréstimo do `loans_income` (em dólares), que o Capítulo 3 usará a fundo.
 
 ```{python}
 #| label: fig-qq-renda
@@ -56,7 +56,7 @@ plt.tight_layout()
 plt.show()
 ```
 
-O corpo dos pontos segue a reta, mas a ponta direita **sobe** para longe dela: as rendas mais altas são bem mais altas do que uma distribuição normal preveria. É a assinatura da cauda longa à direita que já vimos na seção 2.1 — e o número confirma.
+O corpo dos pontos segue a reta, mas a ponta direita **sobe** para longe dela: as rendas mais altas são bem mais altas do que uma distribuição normal preveria. É a assinatura da cauda longa à direita da renda — um padrão que o Capítulo 3 retoma ao estudar amostragem — e o número confirma.
 
 ```{python}
 #| label: assimetria
@@ -72,7 +72,7 @@ Uma distribuição normal tem assimetria zero. A renda tem `{python} num(stats.s
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
-O corpo dos dados é aproximadamente normal, mas as **caudas são mais pesadas** do que a normal preveria — valores extremos, altos e baixos, aparecem com mais frequência do que o esperado (ou há outliers). É o padrão característico de dados com cauda longa, tema da seção 2.7. O afastamento nas pontas, e não no meio, é o sinal de que o problema está nos extremos, não no centro.
+O corpo dos dados é aproximadamente normal, mas as **caudas são mais pesadas** do que a normal preveria — valores extremos, altos e baixos, aparecem com mais frequência do que o esperado (ou há outliers). É o padrão característico de dados com cauda longa, tema da seção 2.6. O afastamento nas pontas, e não no meio, é o sinal de que o problema está nos extremos, não no centro.
 :::
 
 **2.** Por que a regra 68–95–99,7 é útil na prática, mesmo sendo apenas uma aproximação?

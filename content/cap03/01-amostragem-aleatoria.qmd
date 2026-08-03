@@ -36,7 +36,7 @@ print(f"Média:   {num(renda.mean(), 0)}")
 print(f"Mediana: {num(renda.median(), 0)}")
 ```
 
-As 50.000 rendas **são** a população para os propósitos desta seção — é o conjunto inteiro que temos, e é dele que vamos sortear amostras menores. A média (US\$ 68.761) fica acima da mediana (US\$ 62.000), a mesma assinatura assimétrica do Capítulo 1: uma cauda de rendas altas puxa a média para cima sem mover o valor central. Isso não é coincidência — renda é o exemplo clássico de distribuição de cauda longa à direita, e vai voltar quando o capítulo chegar lá.
+As 50.000 rendas **são** a população para os propósitos desta seção — é o conjunto inteiro que temos, e é dele que vamos sortear amostras menores. A média (US\$ 68.761) fica acima da mediana (US\$ 62.000), a mesma assinatura assimétrica do Capítulo 1: uma cauda de rendas altas puxa a média para cima sem mover o valor central. Isso não é coincidência — renda é o exemplo clássico de distribuição de cauda longa à direita, que o Capítulo 2 já tratou (seção 2.6).
 
 ## Amostragem aleatória simples
 
@@ -51,7 +51,7 @@ print(f"Média da amostra (n=100): {num(amostra.mean(), 0)}")
 print(f"Média da população:       {num(renda.mean(), 0)}")
 ```
 
-A média da amostra (US\$ 66.748) fica perto da média da população (US\$ 68.761), mas não bate exatamente — e não deveria. Cem rendas sorteadas ao acaso não reproduzem a média das 50.000 dígito a dígito. Essa diferença é **erro aleatório de amostragem**: não tem direção fixa (a próxima amostra de 100 poderia sair um pouco acima em vez de abaixo), e diminui conforme a amostra cresce. É exatamente o que a seção 2.3 vai quantificar.
+A média da amostra (US\$ 66.748) fica perto da média da população (US\$ 68.761), mas não bate exatamente — e não deveria. Cem rendas sorteadas ao acaso não reproduzem a média das 50.000 dígito a dígito. Essa diferença é **erro aleatório de amostragem**: não tem direção fixa (a próxima amostra de 100 poderia sair um pouco acima em vez de abaixo), e diminui conforme a amostra cresce. É exatamente o que a seção 3.3 vai quantificar.
 
 ## Viés de amostra
 
@@ -100,5 +100,5 @@ Quando a amostra é **grande em relação à população** — por exemplo, sort
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
-Por **erro aleatório de amostragem**: cem rendas sorteadas ao acaso não reproduzem a média das 50.000 dígito a dígito, mesmo sendo um sorteio perfeitamente aleatório. Diferente do viés, esse erro não tem direção fixa — a próxima amostra de 100 poderia sair acima da média da população em vez de abaixo — e ele **diminui** à medida que a amostra cresce, algo que a seção 2.3 (Distribuição Amostral) vai quantificar.
+Por **erro aleatório de amostragem**: cem rendas sorteadas ao acaso não reproduzem a média das 50.000 dígito a dígito, mesmo sendo um sorteio perfeitamente aleatório. Diferente do viés, esse erro não tem direção fixa — a próxima amostra de 100 poderia sair acima da média da população em vez de abaixo — e ele **diminui** à medida que a amostra cresce, algo que a seção 3.3 (Distribuição Amostral) vai quantificar.
 :::

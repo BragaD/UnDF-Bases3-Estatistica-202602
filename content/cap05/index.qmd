@@ -20,10 +20,10 @@ Ao final deste capítulo, você será capaz de:
 
 | Seção | Tópico |
 |---|---|
-| [4.1](01-regressao-linear-simples.qmd) | Regressão Linear Simples |
-| [4.2](02-regressao-linear-multipla.qmd) | Regressão Linear Múltipla |
-| [4.3](03-predicao.qmd) | Predição com Regressão |
-| [4.4](04-variaveis-fatoriais.qmd) | Variáveis Fatoriais na Regressão |
-| [4.5](05-interpretando-equacao.qmd) | Interpretando a Equação de Regressão |
-| [4.6](06-diagnostico-regressao.qmd) | Diagnóstico de Regressão |
-| [4.7](07-polinomial-splines.qmd) | Regressão Polinomial e Splines |
+| [5.1](01-regressao-linear-simples.qmd) | Regressão Linear Simples |
+| [5.2](02-regressao-linear-multipla.qmd) | Regressão Linear Múltipla |
+| [5.3](03-predicao.qmd) | Predição com Regressão |
+| [5.4](04-variaveis-fatoriais.qmd) | Variáveis Fatoriais na Regressão |
+| [5.5](05-interpretando-equacao.qmd) | Interpretando a Equação de Regressão |
+| [5.6](06-diagnostico-regressao.qmd) | Diagnóstico de Regressão |
+| [5.7](07-polinomial-splines.qmd) | Regressão Polinomial e Splines |

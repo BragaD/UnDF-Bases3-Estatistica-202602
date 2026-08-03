@@ -26,13 +26,13 @@ renda = pd.read_csv("dados/loans_income.csv").rename(columns={"x": "Renda"})["Re
 ojs_define(dados = renda.to_frame())
 ```
 
-A seção 2.1 sorteou uma única amostra de 100 rendas e comparou sua média com a da população. Essa comparação escondia uma pergunta maior: se você sorteasse *outra* amostra de 100, a média sairia diferente — e se sorteasse mil amostras de 100, o que aconteceria com essas mil médias? Essa pergunta tem uma resposta, e ela é o assunto desta seção.
+A seção 3.1 sorteou uma única amostra de 100 rendas e comparou sua média com a da população. Essa comparação escondia uma pergunta maior: se você sorteasse *outra* amostra de 100, a média sairia diferente — e se sorteasse mil amostras de 100, o que aconteceria com essas mil médias? Essa pergunta tem uma resposta, e ela é o assunto desta seção.
 
 ## Duas distribuições, não uma
 
 É fácil confundir duas coisas que parecem a mesma coisa e não são.
 
-A **distribuição dos dados** é a distribuição das 50.000 rendas em si — assimétrica à direita, como visto na seção 2.1, com a média puxada para cima da mediana por uma cauda de rendas altas.
+A **distribuição dos dados** é a distribuição das 50.000 rendas em si — assimétrica à direita, como visto na seção 3.1, com a média puxada para cima da mediana por uma cauda de rendas altas.
 
 A **distribuição amostral de uma estatística** é outra distribuição inteiramente: pegue a *média* de uma amostra, anote-a, sorteie outra amostra do mesmo tamanho, tire a média de novo, anote de novo — repita isso muitas vezes. O conjunto dessas médias tem sua própria distribuição, com sua própria forma, seu próprio centro e seu próprio espalhamento. Ela não descreve rendas individuais; descreve como a *média de uma amostra* varia de amostra para amostra.
 

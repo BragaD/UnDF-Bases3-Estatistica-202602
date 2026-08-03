@@ -1,33 +1,32 @@
-# Dados e Distribuições Amostrais
+# Probabilidade e Distribuições
 
 ::: {.callout-note}
-Este capítulo é baseado no Capítulo 2 de @bruce2020.
+Este capítulo mistura duas fontes: as regras de probabilidade se inspiram no Capítulo 10 de @weed; o catálogo de distribuições é baseado no Capítulo 2 de @bruce2020.
 :::
 
-Uma amostra nunca é a população. A pergunta central deste capítulo é: quanto do que vemos na amostra é sinal, e quanto é acidente do sorteio?
+Antes de testar hipóteses ou ajustar modelos, é preciso entender a linguagem em que a incerteza é descrita. Este capítulo parte do conceito de probabilidade e de suas regras básicas, e usa esse vocabulário para apresentar as distribuições que reaparecem no resto do livro — a normal, a de cauda longa, a t de Student, a binomial, a de Poisson, a qui-quadrado e a F.
 
 Ao final deste capítulo, você será capaz de:
 
-- Reconhecer viés de amostra e viés de seleção, e por que amostras grandes não os corrigem
-- Distinguir a distribuição dos **dados** da distribuição de uma **estatística**
-- Explicar o Teorema Central do Limite e o erro padrão
-- Usar o **bootstrap** para estimar a variabilidade de qualquer estatística, sem fórmula fechada
-- Construir e interpretar intervalos de confiança
-- Identificar as distribuições de referência — normal, t, binomial, qui-quadrado, F e Poisson — e quando cada uma aparece
+- Definir probabilidade e distinguir suas interpretações
+- Aplicar as regras de probabilidade (complemento, adição, multiplicação, independência e probabilidade condicional)
+- Reconhecer a distribuição normal e explicar por que ela é uma referência, não uma lei universal
+- Identificar distribuições de cauda longa e por que a intuição da normal falha nelas
+- Usar a distribuição t de Student para amostras pequenas
+- Aplicar a distribuição binomial a eventos de sucesso/fracasso
+- Aplicar a distribuição de Poisson e a exponencial a eventos raros ao longo do tempo ou espaço
+- Usar a distribuição qui-quadrado e a distribuição F em seus papéis como distribuições de referência para testes
 
 ## Seções
 
 | Seção | Tópico |
 |---|---|
-| [2.1](01-amostragem-aleatoria.qmd) | Amostragem Aleatória e Viés de Amostra |
-| [2.2](02-vies-selecao.qmd) | Viés de Seleção |
-| [2.3](03-distribuicao-amostral.qmd) | Distribuição Amostral de uma Estatística |
-| [2.4](04-bootstrap.qmd) | Bootstrap |
-| [2.5](05-intervalos-confianca.qmd) | Intervalos de Confiança |
-| [2.6](06-distribuicao-normal.qmd) | Distribuição Normal |
-| [2.7](07-caudas-longas.qmd) | Distribuições de Cauda Longa |
-| [2.8](08-distribuicao-t.qmd) | Distribuição t de Student |
-| [2.9](09-distribuicao-binomial.qmd) | Distribuição Binomial |
-| [2.10](10-qui-quadrado.qmd) | Distribuição Qui-Quadrado |
-| [2.11](11-distribuicao-f.qmd) | Distribuição F |
-| [2.12](12-poisson.qmd) | Distribuição de Poisson e Relacionadas |
+| [2.1](01-o-que-e-probabilidade.qmd) | O que é Probabilidade |
+| [2.2](02-regras-probabilidade.qmd) | Regras de Probabilidade |
+| [2.3](03-distribuicao-binomial.qmd) | Distribuição Binomial |
+| [2.4](04-poisson.qmd) | Distribuição de Poisson |
+| [2.5](05-distribuicao-normal.qmd) | Distribuição Normal |
+| [2.6](06-caudas-longas.qmd) | Distribuições de Cauda Longa |
+| [2.7](07-distribuicao-t.qmd) | Distribuição t de Student |
+| [2.8](08-qui-quadrado.qmd) | Distribuição Qui-Quadrado |
+| [2.9](09-distribuicao-f.qmd) | Distribuição F |

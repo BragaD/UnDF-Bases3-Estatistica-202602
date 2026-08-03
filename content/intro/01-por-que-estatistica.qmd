@@ -1,0 +1,10 @@
+# Por que Estatística?
+
+::: {.callout-note}
+Esta seção se inspira no Capítulo 1 de @weed.
+:::
+
+::: {.callout-warning}
+## Em construção
+O conteúdo desta seção ainda será escrito.
+:::

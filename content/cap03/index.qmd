@@ -1,33 +1,25 @@
-# Experimentos Estatísticos e Testes de Significância
+# Amostragem e Estimação
 
 ::: {.callout-note}
-Este capítulo é baseado no Capítulo 3 de @bruce2020.
+Este capítulo é baseado no Capítulo 2 de @bruce2020.
 :::
 
-O teste A/B é o experimento estatístico mais executado do mundo — e um dos mais mal interpretados. Este capítulo trata do desenho de experimentos e da pergunta que eles tentam responder: o efeito que eu vi é real, ou é ruído?
+Uma amostra nunca é a população. A pergunta central deste capítulo é: quanto do que vemos na amostra é sinal, e quanto é acidente do sorteio?
 
 Ao final deste capítulo, você será capaz de:
 
-- Desenhar um teste A/B e escolher a métrica antes de olhar o resultado
-- Formular hipótese nula e alternativa, e decidir entre teste uni e bicaudal
-- Usar **testes de permutação** para avaliar significância sem supor normalidade
-- Interpretar corretamente um valor-p — e reconhecer as interpretações erradas mais comuns
-- Aplicar testes t, ANOVA e qui-quadrado, sabendo qual cabe em qual situação
-- Entender o problema dos **testes múltiplos** e por que ele produz descobertas falsas
-- Calcular poder estatístico e tamanho de amostra necessário
+- Distinguir amostra de população, e reconhecer viés de amostra e viés de seleção
+- Distinguir a distribuição dos **dados** da distribuição amostral de uma **estatística**
+- Explicar o Teorema Central do Limite e o erro padrão
+- Usar o **bootstrap** para estimar a variabilidade de qualquer estatística, sem fórmula fechada
+- Construir e interpretar intervalos de confiança
 
 ## Seções
 
 | Seção | Tópico |
 |---|---|
-| [3.1](01-teste-ab.qmd) | Teste A/B |
-| [3.2](02-testes-hipotese.qmd) | Testes de Hipótese |
-| [3.3](03-reamostragem.qmd) | Reamostragem |
-| [3.4](04-significancia-valor-p.qmd) | Significância Estatística e Valores-p |
-| [3.5](05-testes-t.qmd) | Testes t |
-| [3.6](06-testes-multiplos.qmd) | Testes Múltiplos |
-| [3.7](07-graus-liberdade.qmd) | Graus de Liberdade |
-| [3.8](08-anova.qmd) | ANOVA |
-| [3.9](09-teste-qui-quadrado.qmd) | Teste Qui-Quadrado |
-| [3.10](10-multi-armed-bandit.qmd) | Algoritmo Multi-Armed Bandit |
-| [3.11](11-poder-tamanho-amostra.qmd) | Poder e Tamanho da Amostra |
+| [3.1](01-amostragem-aleatoria.qmd) | Amostragem Aleatória e Viés |
+| [3.2](02-vies-selecao.qmd) | Viés de Seleção |
+| [3.3](03-distribuicao-amostral.qmd) | Distribuição Amostral |
+| [3.4](04-bootstrap.qmd) | Bootstrap |
+| [3.5](05-intervalos-confianca.qmd) | Intervalos de Confiança |

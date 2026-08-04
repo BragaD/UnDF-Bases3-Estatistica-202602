@@ -30,7 +30,7 @@ Concordar que a probabilidade caminha de modelo para dados não responde a uma p
 
 **Visão bayesiana.** A probabilidade é um **grau de crença** — um número entre 0 e 1 que mede o quanto se acredita que um evento é verdadeiro, dada a evidência disponível. Essa crença é atualizada conforme chega evidência nova (o Teorema de Bayes é a regra de atualização). Como não depende de repetição, a visão bayesiana atribui probabilidade a eventos que só acontecem uma vez — "a probabilidade de chover amanhã", "a probabilidade de esta hipótese ser verdadeira" — onde a visão frequentista não tem o que contar.
 
-Por que essa diferença importa aqui: os valores-p e os intervalos de confiança do Capítulo 4 são **frequentistas** por construção — um valor-p é definido como a frequência, sob repetição hipotética do experimento, de resultados tão ou mais extremos que o observado. Este livro segue essa tradição. A estatística bayesiana é um campo inteiro à parte, com sua própria maneira de responder às mesmas perguntas, mas não é o caminho que os Capítulos 3 e 4 percorrem.
+Por que essa diferença importa aqui: os valores-p e os intervalos de confiança do Capítulo 4 são **frequentistas** por construção — um valor-p é definido como a frequência, **supondo a hipótese nula verdadeira** e sob repetição hipotética do experimento, de resultados tão ou mais extremos que o observado. Este livro segue essa tradição. A estatística bayesiana é um campo inteiro à parte, com sua própria maneira de responder às mesmas perguntas, mas não é o caminho que os Capítulos 3 e 4 percorrem.
 
 ## A convergência da frequência relativa
 

@@ -4,7 +4,7 @@
 Este capítulo é baseado no Capítulo 2 de @bruce2020.
 :::
 
-Uma amostra nunca é a população. A pergunta central deste capítulo é: quanto do que vemos na amostra é sinal, e quanto é acidente do sorteio?
+Uma amostra nunca é a população. A pergunta central deste capítulo é: quanto do que vemos na amostra é sinal, e quanto é acidente do sorteio? As últimas distribuições do Capítulo 2 — qui-quadrado e F — apontaram para os testes de significância; mas, antes de testar, é preciso entender como uma amostra se relaciona com a população que a gerou e como estimar a partir dela. É o que este capítulo cobre.
 
 Ao final deste capítulo, você será capaz de:
 

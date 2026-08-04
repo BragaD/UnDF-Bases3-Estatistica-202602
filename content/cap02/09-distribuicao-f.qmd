@@ -33,7 +33,7 @@ plt.tight_layout()
 plt.show()
 ```
 
-O centro da distribuição fica perto de 1 — o valor que se esperaria se as duas variâncias fossem iguais, já que uma razão de números parecidos dá aproximadamente 1.
+Sob $H_0$, quando as duas variâncias são iguais, a razão fica **da ordem de** 1 — o valor que se esperaria de uma razão de números parecidos (a rigor, a média é $d_2/(d_2-2)$, um pouco acima de 1, aproximando-se de 1 conforme os graus de liberdade do denominador crescem).
 
 ## O valor crítico
 

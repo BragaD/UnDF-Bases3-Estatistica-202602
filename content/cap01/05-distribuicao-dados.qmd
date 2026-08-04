@@ -245,6 +245,10 @@ print(f"Taxa de homicídios : {num(stats.skew(estado['Taxa.Homicidios'], bias=Fa
 
 A população tem assimetria de **2,96** — fortemente à direita. É a mesma razão, vista por outro ângulo, pela qual a seção 1.3 encontrou uma média 90% maior que a mediana: um único estado, São Paulo, está tão distante do resto que arrasta a média para cima sem deslocar a mediana um centímetro. A taxa de homicídios, com **-0,19**, está quase simétrica — média e mediana quase coincidem, e a distância entre elas quase desaparece.
 
+::: {.conceito}
+O número que o `stats.skew(..., bias=False)` imprime não é exatamente o coeficiente de momentos $g_1$ da fórmula acima, e sim o estimador **corrigido de viés** $G_1$, que multiplica $g_1$ pelo fator $\frac{\sqrt{n(n-1)}}{n-2}$. Com $n = 27$ esse fator é um pouco maior que 1, então o **2,96** impresso fica ligeiramente acima do que a fórmula "crua" $g_1$ daria — a correção compensa a tendência de $g_1$ a subestimar a assimetria em amostras pequenas. Já a **curtose** logo abaixo segue outra convenção — o *excesso* padrão, sem essa correção de viés. São estimadores diferentes para coisas diferentes, e é normal que cada medida siga a sua convenção; só vale não estranhar que uma venha corrigida e a outra não.
+:::
+
 Essa cauda à direita também não é acaso. A seção 1.4 mostrou, ao tentar aumentar o desvio-padrão da taxa de homicídios sem mexer na média, que o piso em zero trava quanto uma variável positiva pode se espalhar para **baixo** — mas não trava nada para **cima**. É essa assimetria estrutural entre o chão e a ausência de teto que empurra população, renda e tantas outras variáveis que só existem como números positivos sempre para o mesmo lado: a direita.
 
 ## Curtose

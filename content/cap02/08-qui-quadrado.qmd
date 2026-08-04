@@ -15,7 +15,7 @@ from formato import num
 plt.rcParams["figure.figsize"] = (7, 4)
 ```
 
-As três últimas distribuições contínuas do catálogo — qui-quadrado, F e as da próxima seção — são de um tipo diferente das anteriores. Você raramente vai *modelar dados* com elas; vai usá-las como **réguas de teste**. Elas dizem o quão longe um resultado observado pode estar do esperado antes de deixar de ser explicável por acaso. Por isso as três apontam para a frente, para o Capítulo 4, sobre testes de significância.
+As **duas últimas** distribuições do catálogo — qui-quadrado e F — são de um tipo diferente das anteriores. Você raramente vai *modelar dados* com elas; vai usá-las como **réguas de teste**. Elas dizem o quão longe um resultado observado pode estar do esperado antes de deixar de ser explicável por acaso. Por isso as duas apontam para a frente, para o Capítulo 4, sobre testes de significância.
 
 A **qui-quadrado** é a soma de várias normais-padrão elevadas ao quadrado. Como é uma soma de quadrados, ela só assume valores **positivos** e é **assimétrica à direita**. Sua forma depende de um único parâmetro, os **graus de liberdade** — e uma propriedade elegante cai daí: a **média da qui-quadrado é igual aos seus graus de liberdade**.
 

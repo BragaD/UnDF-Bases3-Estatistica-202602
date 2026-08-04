@@ -15,7 +15,7 @@ from formato import num
 plt.rcParams["figure.figsize"] = (7, 4)
 ```
 
-As distribuições anteriores do catálogo eram **contínuas** — descreviam grandezas que variam suavemente, como renda ou retorno. A **binomial** é a primeira **discreta**: ela conta. Especificamente, conta o número de **sucessos** em *n* tentativas independentes, cada uma com a mesma probabilidade *p* de dar certo.
+A **binomial** abre o catálogo de distribuições — e é a primeira de tipo **discreto**: ela conta. Especificamente, conta o número de **sucessos** em *n* tentativas independentes, cada uma com a mesma probabilidade *p* de dar certo.
 
 É o modelo do lançamento de moeda repetido, do controle de qualidade ("quantas peças defeituosas em 100?") e, sobretudo, do **teste A/B**: quantas conversões entre *n* visitantes de uma página. Sempre que a pergunta for "de *n* tentativas de tudo-ou-nada, quantas deram sucesso?", a resposta segue uma binomial. Seu centro fica em $np$ (a média) e seu espalhamento é $\sqrt{np(1-p)}$ (o desvio-padrão).
 

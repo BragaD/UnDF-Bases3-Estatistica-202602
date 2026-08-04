@@ -15,7 +15,7 @@ from formato import num
 plt.rcParams["figure.figsize"] = (7, 4)
 ```
 
-A última distribuição do catálogo modela **eventos raros no tempo ou no espaço**. A **Poisson** conta quantas vezes algo acontece num intervalo fixo, dada uma taxa média $\lambda$ (a letra grega *lambda*): chegadas de requisições a um servidor por segundo, ligações a um call center por minuto, defeitos por lote, acidentes por trecho de estrada. A binomial contava sucessos num número fixo de tentativas; a Poisson conta ocorrências num intervalo contínuo, sem um número fixo de "tentativas".
+A **Poisson** modela **eventos raros no tempo ou no espaço** — conta quantas vezes algo acontece num intervalo fixo, dada uma taxa média $\lambda$ (a letra grega *lambda*): chegadas de requisições a um servidor por segundo, ligações a um call center por minuto, defeitos por lote, acidentes por trecho de estrada. A binomial contava sucessos num número fixo de tentativas; a Poisson conta ocorrências num intervalo contínuo, sem um número fixo de "tentativas".
 
 ```{python}
 #| label: fig-poisson

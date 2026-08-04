@@ -4,17 +4,17 @@
 Este capítulo mistura duas fontes: as regras de probabilidade se inspiram no Capítulo 10 de @weed; o catálogo de distribuições é baseado no Capítulo 2 de @bruce2020.
 :::
 
-Antes de testar hipóteses ou ajustar modelos, é preciso entender a linguagem em que a incerteza é descrita. Este capítulo parte do conceito de probabilidade e de suas regras básicas, e usa esse vocabulário para apresentar as distribuições que reaparecem no resto do livro — a normal, a de cauda longa, a t de Student, a binomial, a de Poisson, a qui-quadrado e a F.
+Antes de testar hipóteses ou ajustar modelos, é preciso entender a linguagem em que a incerteza é descrita. Este capítulo parte do conceito de probabilidade e de suas regras básicas, e usa esse vocabulário para apresentar as distribuições que reaparecem no resto do livro — a binomial, a de Poisson, a normal, a de cauda longa, a t de Student, a qui-quadrado e a F.
 
 Ao final deste capítulo, você será capaz de:
 
 - Definir probabilidade e distinguir suas interpretações
 - Aplicar as regras de probabilidade (complemento, adição, multiplicação, independência e probabilidade condicional)
+- Aplicar a distribuição binomial a eventos de sucesso/fracasso
+- Aplicar a distribuição de Poisson e a exponencial a eventos raros ao longo do tempo ou espaço
 - Reconhecer a distribuição normal e explicar por que ela é uma referência, não uma lei universal
 - Identificar distribuições de cauda longa e por que a intuição da normal falha nelas
 - Usar a distribuição t de Student para amostras pequenas
-- Aplicar a distribuição binomial a eventos de sucesso/fracasso
-- Aplicar a distribuição de Poisson e a exponencial a eventos raros ao longo do tempo ou espaço
 - Usar a distribuição qui-quadrado e a distribuição F em seus papéis como distribuições de referência para testes
 
 ## Seções

@@ -8,7 +8,7 @@
 
 <meta name="author" content="Douglas Braga">
 
-<title>Análise Exploratória de Dados – Bases 3</title>
+<title>Regressão Polinomial e Splines – Bases 3</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -53,8 +53,7 @@ div.csl-indent {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../content/cap01/01-dados-estruturados.html" rel="next">
-<link href="../../content/intro/02-paradoxo-simpson.html" rel="prev">
+<link href="../../content/cap05/06-diagnostico-regressao.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -334,7 +333,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/cap01/index.html">Capítulo 1: Análise Exploratória de Dados</a></li><li class="breadcrumb-item"><a href="../../content/cap01/index.html"><span class="chapter-title">Visão Geral</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/cap05/index.html">Capítulo 5: Regressão e Predição</a></li><li class="breadcrumb-item"><a href="../../content/cap05/07-polinomial-splines.html"><span class="chapter-title">Polinomial e Splines</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -384,7 +383,7 @@ div.csl-indent {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap01/index.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Visão Geral</span></a>
+  <a href="../../content/cap01/index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Visão Geral</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -648,7 +647,7 @@ div.csl-indent {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap05/07-polinomial-splines.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Polinomial e Splines</span></a>
+  <a href="../../content/cap05/07-polinomial-splines.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Polinomial e Splines</span></a>
   </div>
 </li>
       </ul>
@@ -658,22 +657,16 @@ div.csl-indent {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Nesta página</h2>
-   
-  <ul>
-  <li><a href="#seções" id="toc-seções" class="nav-link active" data-scroll-target="#seções">Seções</a></li>
-  </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/BragaD/UnDF-Bases3-Estatistica-202602/issues/new" class="toc-action"><i class="bi bi-github"></i>Criar uma issue</a></li></ul></div></nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/cap01/index.html">Capítulo 1: Análise Exploratória de Dados</a></li><li class="breadcrumb-item"><a href="../../content/cap01/index.html"><span class="chapter-title">Visão Geral</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/cap05/index.html">Capítulo 5: Regressão e Predição</a></li><li class="breadcrumb-item"><a href="../../content/cap05/07-polinomial-splines.html"><span class="chapter-title">Polinomial e Splines</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-title">Análise Exploratória de Dados</span></h1>
+<h1 class="title"><span class="chapter-title">Regressão Polinomial e Splines</span></h1>
 </div>
 
 
@@ -706,64 +699,22 @@ Nota
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Este capítulo é baseado no Capítulo 1 de <span class="citation" data-cites="bruce2020">Bruce et al. (<a href="#ref-bruce2020" role="doc-biblioref">2020</a>)</span>.</p>
+<p>Esta seção corresponde à seção 4.7 de <span class="citation" data-cites="bruce2020">Bruce et al. (<a href="#ref-bruce2020" role="doc-biblioref">2020</a>)</span>.</p>
 </div>
 </div>
-<p>A estatística clássica nasceu preocupada com inferência: tirar conclusões sobre uma população grande a partir de uma amostra pequena. A análise exploratória de dados, proposta por John Tukey em 1962, inverte a ênfase — antes de testar qualquer hipótese, <strong>olhe para os dados</strong>.</p>
-<p>Ao final deste capítulo, você será capaz de:</p>
-<ul>
-<li>Distinguir os tipos de dados estruturados e por que essa distinção importa para o software</li>
-<li>Resumir uma variável por estimativas de localização, sabendo quando a média engana e a mediana não</li>
-<li>Medir a dispersão dos dados e reconhecer a diferença entre desvio-padrão e desvio absoluto mediano</li>
-<li>Explorar a distribuição de uma variável com percentis, boxplots, histogramas e densidade</li>
-<li>Tratar dados binários e categóricos</li>
-<li>Medir e visualizar a correlação entre variáveis, e reconhecer suas armadilhas</li>
-<li>Explorar relações entre duas ou mais variáveis, numéricas e categóricas</li>
-</ul>
-<section id="seções" class="level2">
-<h2 class="anchored" data-anchor-id="seções">Seções</h2>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Seção</th>
-<th>Tópico</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><a href="../../content/cap01/01-dados-estruturados.html">1.1</a></td>
-<td>Elementos de Dados Estruturados</td>
-</tr>
-<tr class="even">
-<td><a href="../../content/cap01/02-dados-retangulares.html">1.2</a></td>
-<td>Dados Retangulares</td>
-</tr>
-<tr class="odd">
-<td><a href="../../content/cap01/03-estimativas-localizacao.html">1.3</a></td>
-<td>Estimativas de Localização</td>
-</tr>
-<tr class="even">
-<td><a href="../../content/cap01/04-estimativas-variabilidade.html">1.4</a></td>
-<td>Estimativas de Variabilidade</td>
-</tr>
-<tr class="odd">
-<td><a href="../../content/cap01/05-distribuicao-dados.html">1.5</a></td>
-<td>Explorando a Distribuição dos Dados</td>
-</tr>
-<tr class="even">
-<td><a href="../../content/cap01/06-dados-binarios-categoricos.html">1.6</a></td>
-<td>Explorando Dados Binários e Categóricos</td>
-</tr>
-<tr class="odd">
-<td><a href="../../content/cap01/07-correlacao.html">1.7</a></td>
-<td>Correlação</td>
-</tr>
-<tr class="even">
-<td><a href="../../content/cap01/08-duas-ou-mais-variaveis.html">1.8</a></td>
-<td>Explorando Duas ou Mais Variáveis</td>
-</tr>
-</tbody>
-</table>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Aviso</span>Em construção
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>O conteúdo desta seção ainda será escrito.</p>
+</div>
+</div>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="list">
@@ -771,7 +722,6 @@ Nota
 Bruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. <em>Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python</em>. 2nd ed. O’Reilly Media.
 </div>
 </div>
-</section>
 
 </main> <!-- /main -->
 <script>
@@ -1284,14 +1234,11 @@ document.addEventListener('DOMContentLoaded', function () {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../content/intro/02-paradoxo-simpson.html" class="pagination-link" aria-label="O Paradoxo de Simpson">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">O Paradoxo de Simpson</span></span>
+      <a href="../../content/cap05/06-diagnostico-regressao.html" class="pagination-link" aria-label="Diagnóstico de Regressão">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Diagnóstico de Regressão</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../content/cap01/01-dados-estruturados.html" class="pagination-link" aria-label="Elementos de Dados Estruturados">
-        <span class="nav-page-text"><span class="chapter-title">Elementos de Dados Estruturados</span></span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->
@@ -1302,7 +1249,7 @@ document.addEventListener('DOMContentLoaded', function () {
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/BragaD/UnDF-Bases3-Estatistica-202602/issues/new" class="toc-action"><i class="bi bi-github"></i>Criar uma issue</a></li></ul></div></div>
+    <div class="toc-actions"><ul><li><a href="https://github.com/BragaD/UnDF-Bases3-Estatistica-202602/issues/new" class="toc-action"><i class="bi bi-github"></i>Criar uma issue</a></li></ul></div></div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item compact">

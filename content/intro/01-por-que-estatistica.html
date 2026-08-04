@@ -8,7 +8,7 @@
 
 <meta name="author" content="Douglas Braga">
 
-<title>Análise Exploratória de Dados – Bases 3</title>
+<title>Por que Estatística? – Bases 3</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -53,8 +53,8 @@ div.csl-indent {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../content/cap01/01-dados-estruturados.html" rel="next">
-<link href="../../content/intro/02-paradoxo-simpson.html" rel="prev">
+<link href="../../content/intro/02-paradoxo-simpson.html" rel="next">
+<link href="../../index.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -334,7 +334,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/cap01/index.html">Capítulo 1: Análise Exploratória de Dados</a></li><li class="breadcrumb-item"><a href="../../content/cap01/index.html"><span class="chapter-title">Visão Geral</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/intro/01-por-que-estatistica.html">Introdução</a></li><li class="breadcrumb-item"><a href="../../content/intro/01-por-que-estatistica.html"><span class="chapter-title">Por que Estatística?</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -363,7 +363,7 @@ div.csl-indent {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/intro/01-por-que-estatistica.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Por que Estatística?</span></a>
+  <a href="../../content/intro/01-por-que-estatistica.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Por que Estatística?</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -384,7 +384,7 @@ div.csl-indent {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap01/index.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Visão Geral</span></a>
+  <a href="../../content/cap01/index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Visão Geral</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -663,7 +663,9 @@ div.csl-indent {
     <h2 id="toc-title">Nesta página</h2>
    
   <ul>
-  <li><a href="#seções" id="toc-seções" class="nav-link active" data-scroll-target="#seções">Seções</a></li>
+  <li><a href="#quando-a-intuição-erra" id="toc-quando-a-intuição-erra" class="nav-link active" data-scroll-target="#quando-a-intuição-erra">Quando a intuição erra</a></li>
+  <li><a href="#viés-de-confirmação" id="toc-viés-de-confirmação" class="nav-link" data-scroll-target="#viés-de-confirmação">Viés de confirmação</a></li>
+  <li><a href="#estatística-no-dia-a-dia-de-quem-trabalha-com-dados" id="toc-estatística-no-dia-a-dia-de-quem-trabalha-com-dados" class="nav-link" data-scroll-target="#estatística-no-dia-a-dia-de-quem-trabalha-com-dados">Estatística no dia a dia de quem trabalha com dados</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/BragaD/UnDF-Bases3-Estatistica-202602/issues/new" class="toc-action"><i class="bi bi-github"></i>Criar uma issue</a></li></ul></div></nav>
     </div>
@@ -671,9 +673,9 @@ div.csl-indent {
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/cap01/index.html">Capítulo 1: Análise Exploratória de Dados</a></li><li class="breadcrumb-item"><a href="../../content/cap01/index.html"><span class="chapter-title">Visão Geral</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/intro/01-por-que-estatistica.html">Introdução</a></li><li class="breadcrumb-item"><a href="../../content/intro/01-por-que-estatistica.html"><span class="chapter-title">Por que Estatística?</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-title">Análise Exploratória de Dados</span></h1>
+<h1 class="title"><span class="chapter-title">Por que Estatística?</span></h1>
 </div>
 
 
@@ -706,69 +708,41 @@ Nota
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Este capítulo é baseado no Capítulo 1 de <span class="citation" data-cites="bruce2020">Bruce et al. (<a href="#ref-bruce2020" role="doc-biblioref">2020</a>)</span>.</p>
+<p>Esta seção se inspira no Capítulo 1 de <span class="citation" data-cites="weed">Weed e Navarro (<a href="#ref-weed" role="doc-biblioref">2022</a>)</span>.</p>
 </div>
 </div>
-<p>A estatística clássica nasceu preocupada com inferência: tirar conclusões sobre uma população grande a partir de uma amostra pequena. A análise exploratória de dados, proposta por John Tukey em 1962, inverte a ênfase — antes de testar qualquer hipótese, <strong>olhe para os dados</strong>.</p>
-<p>Ao final deste capítulo, você será capaz de:</p>
+<p>Antes de qualquer fórmula, vale perguntar: por que alguém que constrói software ou analisa dados precisa de estatística? A resposta curta é que a intuição humana — tão confiável para tantas outras coisas — é sistematicamente ruim para raciocinar sobre chance, variação e evidência. E é exatamente nesse território que vive quem trabalha com dados: decidindo o que uma amostra realmente diz, e o que ela só parece dizer.</p>
+<section id="quando-a-intuição-erra" class="level2">
+<h2 class="anchored" data-anchor-id="quando-a-intuição-erra">Quando a intuição erra</h2>
+<p>Um exemplo clássico de combinatória mostra o tamanho do problema. Quantas pessoas precisam estar em uma sala para que a chance de duas fazerem aniversário no mesmo dia ultrapasse 50%? A resposta é 23 — um número que soa baixo demais para praticamente todo mundo que tenta adivinhar de cabeça. A intuição erra porque conta mal: com 23 pessoas já existem 253 pares possíveis, e basta um deles coincidir.</p>
+<div class="exemplo">
+<p>O mesmo raciocínio aparece no dia a dia de quem escreve software. Um identificador aleatório de 32 bits parece ter espaço de sobra para milhões de registros — até alguém lembrar que, pelo mesmo motivo do aniversário, colisões de hash surgem muito antes do que a intuição sugere. É por isso que sistemas em produção preferem identificadores de 128 bits ou mais: confiar na intuição sobre “a chance é desprezível” já causou incidentes reais.</p>
+</div>
+<p>Se a intuição erra em um problema tão concreto quanto contar pares, não há razão para confiar nela quando a pergunta é mais vaga — “essa métrica realmente mudou?”, “essa correlação é coincidência?”. É para essas perguntas que a estatística existe.</p>
+</section>
+<section id="viés-de-confirmação" class="level2">
+<h2 class="anchored" data-anchor-id="viés-de-confirmação">Viés de confirmação</h2>
+<p>Existe um segundo problema, mais traiçoeiro que o primeiro porque não parece um erro de cálculo. Quando um número confirma o que já esperávamos, tendemos a aceitá-lo de primeira — o dashboard subiu, a mudança funcionou, publica. Quando um número contraria o que esperávamos, fazemos o oposto: desconfiamos da query, reabrimos o pipeline, procuramos um bug até achar um motivo para não acreditar. O padrão de evidência que exigimos varia conforme a conclusão nos agrada ou não. Isso tem nome: <strong>viés de confirmação</strong>.</p>
+<div class="conceito">
+<p>O viés de confirmação não é preguiça nem má-fé: é o modo padrão como a cognição humana lida com evidência. A estatística existe, em boa medida, como um antídoto formal para ele — um conjunto de critérios decidido <em>antes</em> de olhar o resultado, que não se dobra dependendo de qual resultado apareceu.</p>
+</div>
+<p>É essa a diferença entre “os números confirmaram o que eu já achava” e “os números foram obrigados a responder, independentemente do que eu queria ouvir”. A segunda frase é o objetivo deste livro.</p>
+</section>
+<section id="estatística-no-dia-a-dia-de-quem-trabalha-com-dados" class="level2">
+<h2 class="anchored" data-anchor-id="estatística-no-dia-a-dia-de-quem-trabalha-com-dados">Estatística no dia a dia de quem trabalha com dados</h2>
+<p>Fora de qualquer contexto acadêmico, estatística é o vocabulário de três tarefas que voltam toda semana para quem lida com dados:</p>
 <ul>
-<li>Distinguir os tipos de dados estruturados e por que essa distinção importa para o software</li>
-<li>Resumir uma variável por estimativas de localização, sabendo quando a média engana e a mediana não</li>
-<li>Medir a dispersão dos dados e reconhecer a diferença entre desvio-padrão e desvio absoluto mediano</li>
-<li>Explorar a distribuição de uma variável com percentis, boxplots, histogramas e densidade</li>
-<li>Tratar dados binários e categóricos</li>
-<li>Medir e visualizar a correlação entre variáveis, e reconhecer suas armadilhas</li>
-<li>Explorar relações entre duas ou mais variáveis, numéricas e categóricas</li>
+<li><strong>Estimar sem medir tudo.</strong> Nenhum time testa uma mudança em 100% dos usuários antes de decidir se ela funciona, e nenhuma pesquisa entrevista a população inteira. Estima-se a partir de uma amostra — e a pergunta que importa não é só “qual é o valor típico”, mas “quão longe essa estimativa pode estar da verdade”.</li>
+<li><strong>Decidir sob incerteza.</strong> Lançar uma versão, aprovar um modelo, trocar de fornecedor: quase nenhuma decisão espera por certeza total, porque certeza total quase nunca chega. A estatística diz com que confiança se pode agir mesmo sem ela.</li>
+<li><strong>Distinguir sinal de ruído.</strong> Toda métrica varia de um dia para o outro mesmo quando nada mudou de verdade. Uma queda de 3% pode ser o início de um problema real ou só a flutuação normal da semana — confundir as duas coisas custa caro nos dois sentidos: agir sobre ruído desperdiça esforço, ignorar sinal deixa o problema crescer.</li>
 </ul>
-<section id="seções" class="level2">
-<h2 class="anchored" data-anchor-id="seções">Seções</h2>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Seção</th>
-<th>Tópico</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><a href="../../content/cap01/01-dados-estruturados.html">1.1</a></td>
-<td>Elementos de Dados Estruturados</td>
-</tr>
-<tr class="even">
-<td><a href="../../content/cap01/02-dados-retangulares.html">1.2</a></td>
-<td>Dados Retangulares</td>
-</tr>
-<tr class="odd">
-<td><a href="../../content/cap01/03-estimativas-localizacao.html">1.3</a></td>
-<td>Estimativas de Localização</td>
-</tr>
-<tr class="even">
-<td><a href="../../content/cap01/04-estimativas-variabilidade.html">1.4</a></td>
-<td>Estimativas de Variabilidade</td>
-</tr>
-<tr class="odd">
-<td><a href="../../content/cap01/05-distribuicao-dados.html">1.5</a></td>
-<td>Explorando a Distribuição dos Dados</td>
-</tr>
-<tr class="even">
-<td><a href="../../content/cap01/06-dados-binarios-categoricos.html">1.6</a></td>
-<td>Explorando Dados Binários e Categóricos</td>
-</tr>
-<tr class="odd">
-<td><a href="../../content/cap01/07-correlacao.html">1.7</a></td>
-<td>Correlação</td>
-</tr>
-<tr class="even">
-<td><a href="../../content/cap01/08-duas-ou-mais-variaveis.html">1.8</a></td>
-<td>Explorando Duas ou Mais Variáveis</td>
-</tr>
-</tbody>
-</table>
+<p>Esses três fios — estimar, decidir, distinguir — atravessam os próximos capítulos: a análise exploratória ensina a olhar os dados sem se enganar antes de qualquer conta; a probabilidade e as distribuições dão a linguagem em que a incerteza é escrita; as distribuições amostrais quantificam quanto uma estimativa varia de amostra para amostra; os testes de significância formalizam a fronteira entre sinal e ruído; a regressão modela como as variáveis se relacionam. Nenhum desses capítulos seria necessário se a intuição bastasse.</p>
+<p>Antes de seguir, vale carregar uma pergunta consigo: da última vez que um número te surpreendeu — para melhor ou para pior —, você investigou com o mesmo cuidado que teria investigado se ele tivesse confirmado o que você já esperava?</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="list">
-<div id="ref-bruce2020" class="csl-entry" role="listitem">
-Bruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. <em>Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python</em>. 2nd ed. O’Reilly Media.
+<div id="ref-weed" class="csl-entry" role="listitem">
+Weed, Ethan, e Danielle Navarro. 2022. <em>Learning Statistics with <span>Python</span></em>. <a href="https://ethanweed.github.io/pythonbook/">https://ethanweed.github.io/pythonbook/</a>.
 </div>
 </div>
 </section>
@@ -1284,13 +1258,13 @@ document.addEventListener('DOMContentLoaded', function () {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../content/intro/02-paradoxo-simpson.html" class="pagination-link" aria-label="O Paradoxo de Simpson">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">O Paradoxo de Simpson</span></span>
+      <a href="../../index.html" class="pagination-link" aria-label="Início">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Início</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../content/cap01/01-dados-estruturados.html" class="pagination-link" aria-label="Elementos de Dados Estruturados">
-        <span class="nav-page-text"><span class="chapter-title">Elementos de Dados Estruturados</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../content/intro/02-paradoxo-simpson.html" class="pagination-link" aria-label="O Paradoxo de Simpson">
+        <span class="nav-page-text"><span class="chapter-title">O Paradoxo de Simpson</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

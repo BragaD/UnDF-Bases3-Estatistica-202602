@@ -8,7 +8,7 @@
 
 <meta name="author" content="Douglas Braga">
 
-<title>Experimentos Estatísticos e Testes de Significância – Bases 3</title>
+<title>Amostragem e Estimação – Bases 3</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -53,8 +53,8 @@ div.csl-indent {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../content/cap03/01-teste-ab.html" rel="next">
-<link href="../../content/cap02/12-poisson.html" rel="prev">
+<link href="../../content/cap03/01-amostragem-aleatoria.html" rel="next">
+<link href="../../content/cap02/09-distribuicao-f.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -66,9 +66,9 @@ div.csl-indent {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-919afcecfa5e73491d13bd02fdf8a845.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-207a82166aa4203b00c124a7d7659b56.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-919afcecfa5e73491d13bd02fdf8a845.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-d63dcb06e439ffc621787babd66e7d58.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-028cb636a7266da180ae7b34c7a2de19.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-d63dcb06e439ffc621787babd66e7d58.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -334,7 +334,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/cap03/index.html">Capítulo 3: Experimentos Estatísticos e Testes de Significância</a></li><li class="breadcrumb-item"><a href="../../content/cap03/index.html"><span class="chapter-title">Visão Geral</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/cap03/index.html">Capítulo 3: Amostragem e Estimação</a></li><li class="breadcrumb-item"><a href="../../content/cap03/index.html"><span class="chapter-title">Visão Geral</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -355,12 +355,33 @@ div.csl-indent {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
- <span class="menu-text">Capítulo 1: Análise Exploratória de Dados</span></a>
+ <span class="menu-text">Introdução</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar seção">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/intro/01-por-que-estatistica.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Por que Estatística?</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/intro/02-paradoxo-simpson.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">O Paradoxo de Simpson</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Capítulo 1: Análise Exploratória de Dados</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Alternar seção">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../content/cap01/index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Visão Geral</span></a>
@@ -410,84 +431,8 @@ div.csl-indent {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
- <span class="menu-text">Capítulo 2: Dados e Distribuições Amostrais</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Alternar seção">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Visão Geral</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/01-amostragem-aleatoria.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Amostragem Aleatória e Viés</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/02-vies-selecao.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Viés de Seleção</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/03-distribuicao-amostral.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Amostral</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/04-bootstrap.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Bootstrap</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/05-intervalos-confianca.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Intervalos de Confiança</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/06-distribuicao-normal.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Normal</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/07-caudas-longas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuições de Cauda Longa</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/08-distribuicao-t.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição t de Student</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/09-distribuicao-binomial.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Binomial</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/10-qui-quadrado.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Qui-Quadrado</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/11-distribuicao-f.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição F</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/12-poisson.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição de Poisson</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
- <span class="menu-text">Capítulo 3: Experimentos Estatísticos e Testes de Significância</span></a>
+ <span class="menu-text">Capítulo 2: Probabilidade e Distribuições</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Alternar seção">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -495,62 +440,52 @@ div.csl-indent {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap03/index.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Visão Geral</span></a>
+  <a href="../../content/cap02/index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Visão Geral</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap03/01-teste-ab.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Teste A/B</span></a>
+  <a href="../../content/cap02/01-o-que-e-probabilidade.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">O que é Probabilidade</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap03/02-testes-hipotese.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Testes de Hipótese</span></a>
+  <a href="../../content/cap02/02-regras-probabilidade.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Regras de Probabilidade</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap03/03-reamostragem.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Reamostragem</span></a>
+  <a href="../../content/cap02/03-distribuicao-binomial.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Binomial</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap03/04-significancia-valor-p.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Significância e Valores-p</span></a>
+  <a href="../../content/cap02/04-poisson.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição de Poisson</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap03/05-testes-t.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Testes t</span></a>
+  <a href="../../content/cap02/05-distribuicao-normal.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Normal</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap03/06-testes-multiplos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Testes Múltiplos</span></a>
+  <a href="../../content/cap02/06-caudas-longas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuições de Cauda Longa</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap03/07-graus-liberdade.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Graus de Liberdade</span></a>
+  <a href="../../content/cap02/07-distribuicao-t.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição t de Student</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap03/08-anova.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">ANOVA</span></a>
+  <a href="../../content/cap02/08-qui-quadrado.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Qui-Quadrado</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap03/09-teste-qui-quadrado.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Teste Qui-Quadrado</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../content/cap03/10-multi-armed-bandit.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Multi-Armed Bandit</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../content/cap03/11-poder-tamanho-amostra.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Poder e Tamanho da Amostra</span></a>
+  <a href="../../content/cap02/09-distribuicao-f.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição F</span></a>
   </div>
 </li>
       </ul>
@@ -558,7 +493,7 @@ div.csl-indent {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
- <span class="menu-text">Capítulo 4: Regressão e Predição</span></a>
+ <span class="menu-text">Capítulo 3: Amostragem e Estimação</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Alternar seção">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -566,42 +501,154 @@ div.csl-indent {
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../content/cap03/index.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Visão Geral</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap03/01-amostragem-aleatoria.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Amostragem Aleatória e Viés</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap03/02-vies-selecao.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Viés de Seleção</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap03/03-distribuicao-amostral.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Amostral</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap03/04-bootstrap.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Bootstrap</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap03/05-intervalos-confianca.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Intervalos de Confiança</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Capítulo 4: Experimentos Estatísticos e Testes de Significância</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Alternar seção">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../content/cap04/index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Visão Geral</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap04/01-regressao-linear-simples.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Regressão Linear Simples</span></a>
+  <a href="../../content/cap04/01-teste-ab.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Teste A/B</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap04/02-regressao-linear-multipla.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Regressão Linear Múltipla</span></a>
+  <a href="../../content/cap04/02-testes-hipotese.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Testes de Hipótese</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap04/03-predicao.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Predição com Regressão</span></a>
+  <a href="../../content/cap04/03-reamostragem.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Reamostragem</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap04/04-variaveis-fatoriais.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Variáveis Fatoriais</span></a>
+  <a href="../../content/cap04/04-significancia-valor-p.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Significância e Valores-p</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap04/05-interpretando-equacao.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Interpretando a Equação</span></a>
+  <a href="../../content/cap04/05-testes-t.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Testes t</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap04/06-diagnostico-regressao.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Diagnóstico de Regressão</span></a>
+  <a href="../../content/cap04/06-testes-multiplos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Testes Múltiplos</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap04/07-polinomial-splines.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Polinomial e Splines</span></a>
+  <a href="../../content/cap04/07-graus-liberdade.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Graus de Liberdade</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap04/08-anova.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">ANOVA</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap04/09-teste-qui-quadrado.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Teste Qui-Quadrado</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap04/10-multi-armed-bandit.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Multi-Armed Bandit</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap04/11-poder-tamanho-amostra.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Poder e Tamanho da Amostra</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Capítulo 5: Regressão e Predição</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Alternar seção">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap05/index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Visão Geral</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap05/01-regressao-linear-simples.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Regressão Linear Simples</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap05/02-regressao-linear-multipla.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Regressão Linear Múltipla</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap05/03-predicao.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Predição com Regressão</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap05/04-variaveis-fatoriais.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Variáveis Fatoriais</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap05/05-interpretando-equacao.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Interpretando a Equação</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap05/06-diagnostico-regressao.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Diagnóstico de Regressão</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap05/07-polinomial-splines.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Polinomial e Splines</span></a>
   </div>
 </li>
       </ul>
@@ -624,9 +671,9 @@ div.csl-indent {
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/cap03/index.html">Capítulo 3: Experimentos Estatísticos e Testes de Significância</a></li><li class="breadcrumb-item"><a href="../../content/cap03/index.html"><span class="chapter-title">Visão Geral</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/cap03/index.html">Capítulo 3: Amostragem e Estimação</a></li><li class="breadcrumb-item"><a href="../../content/cap03/index.html"><span class="chapter-title">Visão Geral</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-title">Experimentos Estatísticos e Testes de Significância</span></h1>
+<h1 class="title"><span class="chapter-title">Amostragem e Estimação</span></h1>
 </div>
 
 
@@ -659,19 +706,17 @@ Nota
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Este capítulo é baseado no Capítulo 3 de <span class="citation" data-cites="bruce2020">Bruce et al. (<a href="#ref-bruce2020" role="doc-biblioref">2020</a>)</span>.</p>
+<p>Este capítulo é baseado no Capítulo 2 de <span class="citation" data-cites="bruce2020">Bruce et al. (<a href="#ref-bruce2020" role="doc-biblioref">2020</a>)</span>.</p>
 </div>
 </div>
-<p>O teste A/B é o experimento estatístico mais executado do mundo — e um dos mais mal interpretados. Este capítulo trata do desenho de experimentos e da pergunta que eles tentam responder: o efeito que eu vi é real, ou é ruído?</p>
+<p>Uma amostra nunca é a população. A pergunta central deste capítulo é: quanto do que vemos na amostra é sinal, e quanto é acidente do sorteio? As últimas distribuições do Capítulo 2 — qui-quadrado e F — apontaram para os testes de significância; mas, antes de testar, é preciso entender como uma amostra se relaciona com a população que a gerou e como estimar a partir dela. É o que este capítulo cobre.</p>
 <p>Ao final deste capítulo, você será capaz de:</p>
 <ul>
-<li>Desenhar um teste A/B e escolher a métrica antes de olhar o resultado</li>
-<li>Formular hipótese nula e alternativa, e decidir entre teste uni e bicaudal</li>
-<li>Usar <strong>testes de permutação</strong> para avaliar significância sem supor normalidade</li>
-<li>Interpretar corretamente um valor-p — e reconhecer as interpretações erradas mais comuns</li>
-<li>Aplicar testes t, ANOVA e qui-quadrado, sabendo qual cabe em qual situação</li>
-<li>Entender o problema dos <strong>testes múltiplos</strong> e por que ele produz descobertas falsas</li>
-<li>Calcular poder estatístico e tamanho de amostra necessário</li>
+<li>Distinguir amostra de população, e reconhecer viés de amostra e viés de seleção</li>
+<li>Distinguir a distribuição dos <strong>dados</strong> da distribuição amostral de uma <strong>estatística</strong></li>
+<li>Explicar o Teorema Central do Limite e o erro padrão</li>
+<li>Usar o <strong>bootstrap</strong> para estimar a variabilidade de qualquer estatística, sem fórmula fechada</li>
+<li>Construir e interpretar intervalos de confiança</li>
 </ul>
 <section id="seções" class="level2">
 <h2 class="anchored" data-anchor-id="seções">Seções</h2>
@@ -684,48 +729,24 @@ Nota
 </thead>
 <tbody>
 <tr class="odd">
-<td><a href="../../content/cap03/01-teste-ab.html">3.1</a></td>
-<td>Teste A/B</td>
+<td><a href="../../content/cap03/01-amostragem-aleatoria.html">3.1</a></td>
+<td>Amostragem Aleatória e Viés</td>
 </tr>
 <tr class="even">
-<td><a href="../../content/cap03/02-testes-hipotese.html">3.2</a></td>
-<td>Testes de Hipótese</td>
+<td><a href="../../content/cap03/02-vies-selecao.html">3.2</a></td>
+<td>Viés de Seleção</td>
 </tr>
 <tr class="odd">
-<td><a href="../../content/cap03/03-reamostragem.html">3.3</a></td>
-<td>Reamostragem</td>
+<td><a href="../../content/cap03/03-distribuicao-amostral.html">3.3</a></td>
+<td>Distribuição Amostral</td>
 </tr>
 <tr class="even">
-<td><a href="../../content/cap03/04-significancia-valor-p.html">3.4</a></td>
-<td>Significância Estatística e Valores-p</td>
+<td><a href="../../content/cap03/04-bootstrap.html">3.4</a></td>
+<td>Bootstrap</td>
 </tr>
 <tr class="odd">
-<td><a href="../../content/cap03/05-testes-t.html">3.5</a></td>
-<td>Testes t</td>
-</tr>
-<tr class="even">
-<td><a href="../../content/cap03/06-testes-multiplos.html">3.6</a></td>
-<td>Testes Múltiplos</td>
-</tr>
-<tr class="odd">
-<td><a href="../../content/cap03/07-graus-liberdade.html">3.7</a></td>
-<td>Graus de Liberdade</td>
-</tr>
-<tr class="even">
-<td><a href="../../content/cap03/08-anova.html">3.8</a></td>
-<td>ANOVA</td>
-</tr>
-<tr class="odd">
-<td><a href="../../content/cap03/09-teste-qui-quadrado.html">3.9</a></td>
-<td>Teste Qui-Quadrado</td>
-</tr>
-<tr class="even">
-<td><a href="../../content/cap03/10-multi-armed-bandit.html">3.10</a></td>
-<td>Algoritmo Multi-Armed Bandit</td>
-</tr>
-<tr class="odd">
-<td><a href="../../content/cap03/11-poder-tamanho-amostra.html">3.11</a></td>
-<td>Poder e Tamanho da Amostra</td>
+<td><a href="../../content/cap03/05-intervalos-confianca.html">3.5</a></td>
+<td>Intervalos de Confiança</td>
 </tr>
 </tbody>
 </table>
@@ -1249,13 +1270,13 @@ document.addEventListener('DOMContentLoaded', function () {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../content/cap02/12-poisson.html" class="pagination-link" aria-label="Distribuição de Poisson">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Distribuição de Poisson</span></span>
+      <a href="../../content/cap02/09-distribuicao-f.html" class="pagination-link" aria-label="Distribuição F">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Distribuição F</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../content/cap03/01-teste-ab.html" class="pagination-link" aria-label="Teste A/B">
-        <span class="nav-page-text"><span class="chapter-title">Teste A/B</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../content/cap03/01-amostragem-aleatoria.html" class="pagination-link" aria-label="Amostragem Aleatória e Viés">
+        <span class="nav-page-text"><span class="chapter-title">Amostragem Aleatória e Viés</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

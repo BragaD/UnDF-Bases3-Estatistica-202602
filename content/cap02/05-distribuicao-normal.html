@@ -8,7 +8,7 @@
 
 <meta name="author" content="Douglas Braga">
 
-<title>Explorando a Distribuição dos Dados – Bases 3</title>
+<title>Distribuição Normal – Bases 3</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -81,15 +81,15 @@ div.csl-indent {
 }</style>
 
 
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../content/cap01/06-dados-binarios-categoricos.html" rel="next">
-<link href="../../content/cap01/04-estimativas-variabilidade.html" rel="prev">
+<link href="../../content/cap02/06-caudas-longas.html" rel="next">
+<link href="../../content/cap02/04-poisson.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -175,39 +175,7 @@ div.csl-indent {
   });
 })();
 </script>
-<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
 
-<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
-
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="../../styles.css">
 </head>
@@ -401,7 +369,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/cap01/index.html">Capítulo 1: Análise Exploratória de Dados</a></li><li class="breadcrumb-item"><a href="../../content/cap01/05-distribuicao-dados.html"><span class="chapter-title">Explorando a Distribuição dos Dados</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/cap02/index.html">Capítulo 2: Probabilidade e Distribuições</a></li><li class="breadcrumb-item"><a href="../../content/cap02/05-distribuicao-normal.html"><span class="chapter-title">Distribuição Normal</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -476,7 +444,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap01/05-distribuicao-dados.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Explorando a Distribuição dos Dados</span></a>
+  <a href="../../content/cap01/05-distribuicao-dados.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Explorando a Distribuição dos Dados</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -532,7 +500,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/05-distribuicao-normal.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Normal</span></a>
+  <a href="../../content/cap02/05-distribuicao-normal.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Distribuição Normal</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -730,14 +698,7 @@ window.Quarto = {
     <h2 id="toc-title">Nesta página</h2>
    
   <ul>
-  <li><a href="#percentis-e-quantis" id="toc-percentis-e-quantis" class="nav-link active" data-scroll-target="#percentis-e-quantis">Percentis e quantis</a></li>
-  <li><a href="#boxplot" id="toc-boxplot" class="nav-link" data-scroll-target="#boxplot">Boxplot</a></li>
-  <li><a href="#gráfico-de-violino" id="toc-gráfico-de-violino" class="nav-link" data-scroll-target="#gráfico-de-violino">Gráfico de violino</a></li>
-  <li><a href="#tabela-de-frequência-e-histograma" id="toc-tabela-de-frequência-e-histograma" class="nav-link" data-scroll-target="#tabela-de-frequência-e-histograma">Tabela de frequência e histograma</a></li>
-  <li><a href="#densidade" id="toc-densidade" class="nav-link" data-scroll-target="#densidade">Densidade</a></li>
-  <li><a href="#assimetria" id="toc-assimetria" class="nav-link" data-scroll-target="#assimetria">Assimetria</a></li>
-  <li><a href="#curtose" id="toc-curtose" class="nav-link" data-scroll-target="#curtose">Curtose</a></li>
-  <li><a href="#resumo" id="toc-resumo" class="nav-link" data-scroll-target="#resumo">Resumo</a></li>
+  <li><a href="#o-qq-plot-o-dado-é-normal" id="toc-o-qq-plot-o-dado-é-normal" class="nav-link active" data-scroll-target="#o-qq-plot-o-dado-é-normal">O QQ-plot: o dado é normal?</a></li>
   <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios">Exercícios</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/BragaD/UnDF-Bases3-Estatistica-202602/issues/new" class="toc-action"><i class="bi bi-github"></i>Criar uma issue</a></li></ul></div></nav>
@@ -746,9 +707,9 @@ window.Quarto = {
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/cap01/index.html">Capítulo 1: Análise Exploratória de Dados</a></li><li class="breadcrumb-item"><a href="../../content/cap01/05-distribuicao-dados.html"><span class="chapter-title">Explorando a Distribuição dos Dados</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/cap02/index.html">Capítulo 2: Probabilidade e Distribuições</a></li><li class="breadcrumb-item"><a href="../../content/cap02/05-distribuicao-normal.html"><span class="chapter-title">Distribuição Normal</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-title">Explorando a Distribuição dos Dados</span></h1>
+<h1 class="title"><span class="chapter-title">Distribuição Normal</span></h1>
 </div>
 
 
@@ -781,384 +742,90 @@ Nota
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Esta seção corresponde à seção 1.5 de <span class="citation" data-cites="bruce2020">Bruce et al. (<a href="#ref-bruce2020" role="doc-biblioref">2020</a>)</span>.</p>
+<p>Esta seção corresponde à seção 2.6 de <span class="citation" data-cites="bruce2020">Bruce et al. (<a href="#ref-bruce2020" role="doc-biblioref">2020</a>)</span>.</p>
 </div>
 </div>
-<p>A seção 1.3 resumiu a população dos estados em um número — a localização. A seção 1.4 acrescentou um segundo número — a dispersão em torno dele. Os dois juntos já dizem bastante: onde os dados tendem a estar, e o quanto eles se afastam dali. Mas dois números continuam sendo um resumo, e todo resumo descarta informação. Esta seção para de resumir. Em vez de reduzir a distribuição a um ou dois pontos, ela olha a distribuição <strong>inteira</strong> — a forma completa que os dados assumem entre o menor e o maior valor.</p>
-<section id="percentis-e-quantis" class="level2">
-<h2 class="anchored" data-anchor-id="percentis-e-quantis">Percentis e quantis</h2>
-<p>O <strong>percentil</strong> P é o valor abaixo do qual está P% das observações. A mediana, que a seção 1.3 já usou, nada mais é do que o percentil 50 — o caso particular em que exatamente metade dos dados fica de cada lado. Falar em percentis é generalizar essa ideia para qualquer fração, não só a metade. O termo <strong>quantil</strong> é o mesmo conceito, expresso em proporção (0,05) em vez de porcentagem (5%); <code>quantile()</code> no pandas usa essa segunda convenção.</p>
-<div id="cell-percentis" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>percentis <span class="op">=</span> [<span class="fl">0.05</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>, <span class="fl">0.95</span>]</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>tabela <span class="op">=</span> pd.DataFrame(estado[<span class="st">"Taxa.Homicidios"</span>].quantile(percentis))</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>tabela.index <span class="op">=</span> [<span class="ss">f"</span><span class="sc">{</span>p<span class="sc">:.0%}</span><span class="ss">"</span> <span class="cf">for</span> p <span class="kw">in</span> percentis]</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>tabela.transpose().<span class="bu">map</span>(<span class="kw">lambda</span> v: num(v, <span class="dv">3</span>))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="percentis" class="cell-output cell-output-display" data-execution_count="2">
-<div>
-
-
-<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">5%</th>
-<th data-quarto-table-cell-role="th">25%</th>
-<th data-quarto-table-cell-role="th">50%</th>
-<th data-quarto-table-cell-role="th">75%</th>
-<th data-quarto-table-cell-role="th">95%</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">Taxa.Homicidios</th>
-<td>8,238</td>
-<td>16,165</td>
-<td>23,130</td>
-<td>30,295</td>
-<td>35,197</td>
-</tr>
-</tbody>
-</table>
-
-</div>
-</div>
-</div>
-<p>Os cinco números da tabela dizem: 5% dos estados têm taxa de homicídios de até 8,238 por 100.000 habitantes — os dois estados menos violentos do país; na outra ponta, 95% ficam até 35,197, ou seja, só 5% (2 estados, em 27) superam essa marca. O intervalo entre o percentil 5 e o percentil 95 cobre os 90% centrais da distribuição e é uma forma comum de descrever o “grosso” dos dados sem deixar os extremos dominarem a leitura, do mesmo jeito que a mediana evita que eles dominem a localização.</p>
-</section>
-<section id="boxplot" class="level2">
-<h2 class="anchored" data-anchor-id="boxplot">Boxplot</h2>
-<p>O <strong>boxplot</strong> é uma leitura visual direta dos percentis. A caixa vai do primeiro ao terceiro quartil — e a largura dessa caixa é exatamente o IQR que a seção 1.4 calculou como medida de dispersão. Não é uma coincidência nem uma analogia: é a mesma conta, olhada de dois ângulos diferentes. A linha dentro da caixa marca a mediana. Os bigodes se estendem até 1,5 vez o IQR além de cada quartil, e qualquer observação além disso é desenhada como um ponto individual, não absorvida pela escala do gráfico.</p>
-<div id="cell-fig-boxplot" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">4</span>, <span class="dv">5</span>))</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>(estado[<span class="st">"Populacao"</span>] <span class="op">/</span> <span class="fl">1e6</span>).plot.box(ax<span class="op">=</span>ax)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"População (milhões)"</span>)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Depois das duas distribuições discretas do catálogo — a binomial e a Poisson —, chega a mais importante das <strong>contínuas</strong>: a <strong>normal</strong>, a distribuição em forma de sino que serve de referência para quase todas as outras. Cada seção do catálogo segue o mesmo roteiro: apresenta uma distribuição, mostra sua forma, diz quando ela aparece na prática e dá o código mínimo para usá-la.</p>
+<p>A normal é definida por dois números: a <strong>média</strong>, que diz onde está o centro, e o <strong>desvio-padrão</strong>, que diz o quão espalhada ela é. É <strong>simétrica</strong> — a metade à esquerda da média espelha a metade à direita — e tem uma propriedade que vale memorizar, a <strong>regra 68–95–99,7</strong>: cerca de 68% da massa fica a menos de um desvio da média, 95% a menos de dois, e 99,7% a menos de três.</p>
+<div id="cell-fig-normal" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">200</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>ax.plot(x, stats.norm.pdf(x), color<span class="op">=</span><span class="st">"#2c3e50"</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k, cor <span class="kw">in</span> [(<span class="dv">1</span>, <span class="st">"#27ae60"</span>), (<span class="dv">2</span>, <span class="st">"#e67e22"</span>), (<span class="dv">3</span>, <span class="st">"#c0392b"</span>)]:</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    ax.axvline(k, color<span class="op">=</span>cor, linestyle<span class="op">=</span><span class="st">"--"</span>, alpha<span class="op">=</span><span class="fl">0.6</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    ax.axvline(<span class="op">-</span>k, color<span class="op">=</span>cor, linestyle<span class="op">=</span><span class="st">"--"</span>, alpha<span class="op">=</span><span class="fl">0.6</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Desvios em relação à média"</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Densidade"</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
-<div id="fig-boxplot" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-normal" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-boxplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="05-distribuicao-dados_files/figure-html/fig-boxplot-output-1.png" width="375" height="470" class="figure-img">
+<div aria-describedby="fig-normal-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="05-distribuicao-normal_files/figure-html/fig-normal-output-1.png" width="664" height="374" class="figure-img">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-boxplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;8.1: Boxplot da população dos estados. Os pontos acima do bigode são os estados atipicamente populosos.
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-normal-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;17.1: A distribuição normal: simétrica, com 68% da massa a menos de 1 desvio da média, 95% a menos de 2, e 99,7% a menos de 3.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<div class="exemplo">
-<p>Lendo o gráfico: metade dos estados tem entre 2,9 e 9,4 milhões de habitantes — é o que a caixa mostra. A mediana está em 4,1 milhões. E os dois pontos isolados acima do bigode superior são Minas Gerais (21,3 milhões) e São Paulo (46,0 milhões): os únicos estados populosos o bastante para escapar de 1,5×IQR além do terceiro quartil.</p>
-</div>
-</section>
-<section id="gráfico-de-violino" class="level2">
-<h2 class="anchored" data-anchor-id="gráfico-de-violino">Gráfico de violino</h2>
-<p>O boxplot resume a distribuição em cinco números, mas cinco números continuam sendo um resumo — a caixa não distingue uma distribuição uniforme de uma concentrada em dois grupos distantes, contanto que os quartis batam. O <strong>gráfico de violino</strong> ataca exatamente essa lacuna: em volta da mesma caixa central, ele desenha, espelhada dos dois lados, a curva de densidade estimada (a mesma ideia da próxima seção) — a largura em cada altura é proporcional à quantidade de observações ali.</p>
-<div id="cell-fig-violino" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">4</span>, <span class="dv">5</span>))</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>ax.violinplot(estado[<span class="st">"Populacao"</span>] <span class="op">/</span> <span class="fl">1e6</span>, showmedians<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"População (milhões)"</span>)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>ax.set_xticks([])</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Essa regra é o que torna a normal tão útil como referência: se um dado é aproximadamente normal, um valor a três desvios ou mais da média é raro — acontece menos de 0,3% das vezes —, e é por isso que “três sigma” virou sinônimo de alerta no controle de qualidade e na detecção de anomalias.</p>
+<section id="o-qq-plot-o-dado-é-normal" class="level2">
+<h2 class="anchored" data-anchor-id="o-qq-plot-o-dado-é-normal">O QQ-plot: o dado é normal?</h2>
+<p>A pergunta prática quase nunca é “como é a normal?”, e sim “<strong>este</strong> dado que tenho é normal?”. A ferramenta visual para responder isso é o <strong>QQ-plot</strong> (gráfico quantil-quantil): ele ordena os dados, calcula onde cada observação cairia se a distribuição fosse perfeitamente normal, e desenha um contra o outro. Se o dado for normal, os pontos caem sobre uma reta. Onde eles se afastam da reta, o dado se afasta da normal.</p>
+<p>Vamos aplicá-lo às 50.000 rendas de solicitantes de empréstimo do <code>loans_income</code> (em dólares), que o Capítulo 3 usará a fundo.</p>
+<div id="cell-fig-qq-renda" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>stats.probplot(renda, dist<span class="op">=</span><span class="st">"norm"</span>, plot<span class="op">=</span>ax)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">""</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Quantis teóricos (normal)"</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Quantis da renda"</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
-<div id="fig-violino" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-qq-renda" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-violino-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="05-distribuicao-dados_files/figure-html/fig-violino-output-1.png" width="375" height="470" class="figure-img">
+<div aria-describedby="fig-qq-renda-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="05-distribuicao-normal_files/figure-html/fig-qq-renda-output-1.png" width="665" height="374" class="figure-img">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-violino-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;8.2: Violino da população dos estados: a largura em cada altura reflete a densidade estimada de observações naquele valor.
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-qq-renda-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;17.2: QQ-plot da renda contra a normal. Se a renda fosse normal, os pontos seguiriam a reta. A curva para cima na ponta direita revela a cauda longa da renda.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>Onde o boxplot mostra quartis, o violino mostra a forma inteira: é a ferramenta que revelaria, por exemplo, dois “ventres” separados por um estrangulamento no meio — uma bimodalidade que a caixa do boxplot esconderia por completo, já que ela só enxerga Q1, mediana e Q3.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
+<p>O corpo dos pontos segue a reta, mas a ponta direita <strong>sobe</strong> para longe dela: as rendas mais altas são bem mais altas do que uma distribuição normal preveria. É a assinatura da cauda longa à direita da renda — um padrão que o Capítulo 3 retoma ao estudar amostragem — e o número confirma.</p>
+<div id="assimetria" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Assimetria da renda: </span><span class="sc">{</span>num(stats.skew(renda), <span class="dv">2</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Assimetria da renda: 1,05</code></pre>
+</div>
+</div>
+<p>Uma distribuição normal tem assimetria zero. A renda tem 1,05 — positiva, cauda à direita. A lição é honesta e vale para o resto do catálogo: a normal é uma referência utilíssima, mas <strong>muitos dados reais não a seguem</strong>. Boa parte da estatística prática consiste justamente em reconhecer quando o dado foge da normal e escolher a ferramenta certa para esse caso — a começar pela próxima seção, sobre distribuições de cauda longa.</p>
+</section>
+<section id="exercícios" class="level2">
+<h2 class="anchored" data-anchor-id="exercícios">Exercícios</h2>
+<p><strong>1.</strong> Um QQ-plot tem os pontos quase todos sobre a reta, exceto os dois ou três de cada ponta, que se afastam dela. O que isso indica sobre o dado?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Nota
+<span class="screen-reader-only">Dica</span>Resposta
 </div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><strong>Ressalva do pythonbook (<span class="citation" data-cites="weed">Weed e Navarro (<a href="#ref-weed" role="doc-biblioref">2022</a>)</span>):</strong> a densidade do violino é uma <strong>estimativa suavizada</strong>, não os dados crus. Essa suavização pode sugerir massa onde não há observação nenhuma — a cauda do violino se estende além do maior e do menor valor reais, insinuando extremos que não existem. Com poucos dados, como os 27 estados desta seção, esse efeito engana mais do que informa; o violino compensa melhor quando há muitas observações para a densidade estimar com confiança.</p>
-</div>
-</div>
-</section>
-<section id="tabela-de-frequência-e-histograma" class="level2">
-<h2 class="anchored" data-anchor-id="tabela-de-frequência-e-histograma">Tabela de frequência e histograma</h2>
-<p>A <strong>tabela de frequência</strong> divide o intervalo de valores em faixas de largura igual e conta quantas observações caem em cada uma. <code>pd.cut</code> faz exatamente isso.</p>
-<div id="cell-freq" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>faixas <span class="op">=</span> pd.cut(estado[<span class="st">"Populacao"</span>], <span class="dv">10</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>faixas.value_counts().sort_index()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="freq" class="cell-output cell-output-display" data-execution_count="5">
-<pre><code>Populacao
-(671536.599, 5242433.1]     15
-(5242433.1, 9768073.2]       6
-(9768073.2, 14293713.3]      2
-(14293713.3, 18819353.4]     2
-(18819353.4, 23344993.5]     1
-(23344993.5, 27870633.6]     0
-(27870633.6, 32396273.7]     0
-(32396273.7, 36921913.8]     0
-(36921913.8, 41447553.9]     0
-(41447553.9, 45973194.0]     1
-Name: count, dtype: int64</code></pre>
-</div>
-</div>
-<p>As faixas são de <strong>largura</strong> igual, não de <strong>contagem</strong> igual — e o resultado mostra isso sem meio-termo. A primeira faixa, sozinha, concentra 15 dos 27 estados — mais da metade; as faixas do topo têm um estado cada, ou nenhum. Isso não é um defeito do corte: é o retrato de uma distribuição com cauda longa à direita, a mesma assinatura que a média puxada para cima (seção 1.3) e o desvio-padrão inflado (seção 1.4) já haviam denunciado — agora visível na contagem, faixa por faixa.</p>
-<p>O <strong>histograma</strong> é essa mesma tabela desenhada: uma barra por faixa, com altura proporcional à contagem. As barras se encostam porque o eixo é contínuo — não há espaço entre “faixa 1” e “faixa 2” do jeito que há entre categorias distintas.</p>
-<div id="cell-fig-histograma" class="cell" data-execution_count="6">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>(estado[<span class="st">"Populacao"</span>] <span class="op">/</span> <span class="fl">1e6</span>).plot.hist(ax<span class="op">=</span>ax, bins<span class="op">=</span><span class="dv">10</span>, edgecolor<span class="op">=</span><span class="st">"white"</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"População (milhões)"</span>)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Número de estados"</span>)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display">
-<div id="fig-histograma" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-histograma-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="05-distribuicao-dados_files/figure-html/fig-histograma-output-1.png" width="663" height="374" class="figure-img">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-histograma-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;8.3: Histograma da população. As barras se encostam porque o eixo é contínuo.
-</figcaption>
-</figure>
+<p>O corpo dos dados é aproximadamente normal, mas as <strong>caudas são mais pesadas</strong> do que a normal preveria — valores extremos, altos e baixos, aparecem com mais frequência do que o esperado (ou há outliers). É o padrão característico de dados com cauda longa, tema da seção 2.6. O afastamento nas pontas, e não no meio, é o sinal de que o problema está nos extremos, não no centro.</p>
 </div>
 </div>
 </div>
-</section>
-<section id="densidade" class="level2">
-<h2 class="anchored" data-anchor-id="densidade">Densidade</h2>
-<p>A <strong>curva de densidade</strong> é uma versão suavizada do histograma: em vez de barras discretas, uma curva contínua que estima a forma subjacente da distribuição. A diferença crucial é a escala do eixo Y. Enquanto o histograma tradicional mostra contagem, a densidade é normalizada para que a área sob a curva valha exatamente 1 — é o preço de tratá-la como uma distribuição de probabilidade, não como uma lista de frequências.</p>
-<div id="cell-fig-densidade" class="cell" data-execution_count="7">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>estado[<span class="st">"Taxa.Homicidios"</span>].plot.hist(ax<span class="op">=</span>ax, density<span class="op">=</span><span class="va">True</span>, xlim<span class="op">=</span>[<span class="dv">0</span>, <span class="dv">40</span>],</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>                                bins<span class="op">=</span><span class="bu">range</span>(<span class="dv">0</span>, <span class="dv">40</span>, <span class="dv">2</span>), edgecolor<span class="op">=</span><span class="st">"white"</span>)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>estado[<span class="st">"Taxa.Homicidios"</span>].plot.density(ax<span class="op">=</span>ax, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Taxa de homicídios (por 100.000)"</span>)</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display">
-<div id="fig-densidade" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-densidade-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="05-distribuicao-dados_files/figure-html/fig-densidade-output-1.png" width="665" height="374" class="figure-img">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-densidade-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;8.4: Histograma da taxa de homicídios com a curva de densidade sobreposta.
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<div class="conceito">
-<p>O <code>density=True</code> no histograma é o que torna as duas curvas comparáveis nesse gráfico. Sem ele, o eixo Y do histograma seria <strong>contagem</strong> (quantos estados em cada faixa) e o da densidade seria <strong>densidade de probabilidade</strong> (área total igual a 1) — duas escalas diferentes convivendo no mesmo eixo. Nesse caso, a curva de densidade apareceria colada em zero, achatada pela contagem muito maior das barras.</p>
-</div>
-</section>
-<section id="assimetria" class="level2">
-<h2 class="anchored" data-anchor-id="assimetria">Assimetria</h2>
-<p>As seções 1.3 e 1.4 reduziram a população dos estados a dois números: um valor típico e uma medida de quanto os dados se espalham em torno dele. Considere agora três turmas fictícias de 25 alunos, com boletins <strong>idênticos</strong>: média 65, desvio-padrão 12. Se essas duas estatísticas fossem tudo que existisse para descrever uma turma, seria razoável supor que as três se parecem. Elas não se parecem: uma tem a maioria das notas abaixo da média com um rastro de notas altas puxando para cima; outra é o espelho exato dessa primeira; a terceira não tem rastro para nenhum lado. Média e variância dizem <strong>onde</strong> os dados estão centrados e <strong>quão espalhados</strong> eles estão — nenhuma das duas diz uma palavra sobre a <strong>forma</strong>.</p>
-<p>As quatro estatísticas a seguir tornam a diferença impossível de ignorar:</p>
-<div id="cell-tabela-assimetria" class="cell" data-execution_count="9">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>resumo <span class="op">=</span> pd.DataFrame(</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    {</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Média"</span>: [num(t.mean(), <span class="dv">1</span>) <span class="cf">for</span> t <span class="kw">in</span> turmas.values()],</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Mediana"</span>: [num(np.median(t), <span class="dv">1</span>) <span class="cf">for</span> t <span class="kw">in</span> turmas.values()],</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Variância"</span>: [num(t.var(ddof<span class="op">=</span><span class="dv">1</span>), <span class="dv">1</span>) <span class="cf">for</span> t <span class="kw">in</span> turmas.values()],</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Assimetria"</span>: [num(stats.skew(t, bias<span class="op">=</span><span class="va">False</span>), <span class="dv">2</span>) <span class="cf">for</span> t <span class="kw">in</span> turmas.values()],</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    },</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    index<span class="op">=</span><span class="bu">list</span>(turmas),</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>resumo</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="tabela-assimetria" class="cell-output cell-output-display" data-execution_count="9">
-<div>
-
-
-<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">Média</th>
-<th data-quarto-table-cell-role="th">Mediana</th>
-<th data-quarto-table-cell-role="th">Variância</th>
-<th data-quarto-table-cell-role="th">Assimetria</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">A — à direita</th>
-<td>65,0</td>
-<td>61,1</td>
-<td>144,0</td>
-<td>0,81</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">B — à esquerda</th>
-<td>65,0</td>
-<td>68,9</td>
-<td>144,0</td>
-<td>-0,81</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">C — simétrica</th>
-<td>65,0</td>
-<td>65,0</td>
-<td>144,0</td>
-<td>0,00</td>
-</tr>
-</tbody>
-</table>
-
-</div>
-</div>
-</div>
-<p>A regra emerge sozinha da tabela, sem precisar ser decorada. Assimetria <strong>positiva</strong> → cauda à direita → <strong>média maior que a mediana</strong> (65,0 &gt; 61,1, turma A). Assimetria <strong>negativa</strong> → cauda à esquerda → <strong>média menor que a mediana</strong> (65,0 &lt; 68,9, turma B). Assimetria <strong>zero</strong> → <strong>média igual à mediana</strong> (65,0 = 65,0, turma C).</p>
-<p>O motivo é o mesmo que a seção 1.3 já expôs para a média sozinha, agora com um número que o mede: a cauda longa arrasta a média, porque ela soma todos os valores — inclusive os poucos que estão longe do resto —, e não move a mediana, que só enxerga o valor do meio da fila.</p>
-<div class="conceito">
-<p><strong>Regra prática:</strong> assimetria positiva significa cauda à direita e média acima da mediana; assimetria negativa significa cauda à esquerda e média abaixo da mediana; assimetria zero significa média e mediana coincidindo. O sinal da assimetria é o sinal da diferença entre média e mediana.</p>
-</div>
-<p>O histograma deixa a mesma história visível:</p>
-<div id="cell-fig-assimetria" class="cell" data-execution_count="10">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>fig, eixos <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">11</span>, <span class="fl">3.3</span>), sharey<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ax, (nome, notas) <span class="kw">in</span> <span class="bu">zip</span>(eixos, turmas.items()):</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    ax.hist(notas, bins<span class="op">=</span>np.arange(<span class="dv">30</span>, <span class="dv">101</span>, <span class="dv">7</span>), color<span class="op">=</span><span class="st">"#b0c4d8"</span>, edgecolor<span class="op">=</span><span class="st">"white"</span>)</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    ax.axvline(notas.mean(), color<span class="op">=</span><span class="st">"#c0392b"</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    ax.axvline(np.median(notas), color<span class="op">=</span><span class="st">"#27ae60"</span>, linestyle<span class="op">=</span><span class="st">"--"</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    ax.set_title(nome, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    ax.set_xlabel(<span class="st">"Nota"</span>)</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>eixos[<span class="dv">0</span>].set_ylabel(<span class="st">"Alunos"</span>)</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display">
-<div id="fig-assimetria" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-assimetria-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="05-distribuicao-dados_files/figure-html/fig-assimetria-output-1.png" width="1045" height="307" class="figure-img">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-assimetria-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;8.5: Três turmas com a mesma média e a mesma variância — e formas completamente diferentes. A linha vermelha é a média; a verde tracejada, a mediana.
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<p>No painel A, a maioria das notas se aglomera abaixo de 65, com um rastro de notas altas se estendendo para a direita — é esse rastro que empurra a linha vermelha (média) para além da linha verde tracejada (mediana). No painel B a imagem é o espelho: a maioria das notas fica acima de 65, com o rastro agora à esquerda, e a média fica abaixo da mediana. No painel C não há rastro para nenhum dos dois lados, e as duas linhas praticamente se sobrepõem. O <code>sharey=True</code> importa: sem ele, cada painel escolheria sua própria escala vertical, e a comparação entre as três formas ficaria distorcida.</p>
-<p>O histograma mostra a forma inteira, mas a assimetria aparece igualmente bem no <strong>boxplot</strong> — que resume cada turma em cinco números. Empilhando os três lado a lado, a diferença salta aos olhos mesmo sem contar nenhuma nota:</p>
-<div id="cell-fig-boxplot-assimetria" class="cell" data-execution_count="11">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">3</span>))</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>caixas <span class="op">=</span> ax.boxplot(</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    [turma_c, turma_b, turma_a],          <span class="co"># de baixo para cima: simétrica, esquerda, direita</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    tick_labels<span class="op">=</span>[<span class="st">"C — simétrica"</span>, <span class="st">"B — à esquerda"</span>, <span class="st">"A — à direita"</span>],</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    vert<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    patch_artist<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    medianprops<span class="op">=</span>{<span class="st">"color"</span>: <span class="st">"#27ae60"</span>, <span class="st">"linewidth"</span>: <span class="dv">2</span>},</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    widths<span class="op">=</span><span class="fl">0.6</span>,</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> caixa <span class="kw">in</span> caixas[<span class="st">"boxes"</span>]:</span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    caixa.<span class="bu">set</span>(facecolor<span class="op">=</span><span class="st">"#b0c4d8"</span>, edgecolor<span class="op">=</span><span class="st">"#2c3e50"</span>)</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Nota"</span>)</span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>/tmp/ipykernel_382/294545130.py:3: MatplotlibDeprecationWarning: vert: bool was deprecated in Matplotlib 3.11 and will be removed in 3.13. Use orientation: {'vertical', 'horizontal'} instead.
-  caixas = ax.boxplot(</code></pre>
-</div>
-<div class="cell-output cell-output-display">
-<div id="fig-boxplot-assimetria" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-boxplot-assimetria-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="05-distribuicao-dados_files/figure-html/fig-boxplot-assimetria-output-2.png" width="765" height="278" class="figure-img">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-boxplot-assimetria-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;8.6: As mesmas três turmas em boxplot. A linha central é a mediana; a caixa vai do primeiro ao terceiro quartil; os bigodes alcançam o restante das notas.
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<p>Repare em <strong>onde a linha da mediana cai dentro da caixa</strong>. Na turma A (à direita), ela encosta no lado esquerdo da caixa — abaixo do centro — e o bigode direito é longo, alcançando as poucas notas altas; é a mesma cauda à direita do histograma, agora comprimida em uma barra. Na turma B a caixa é o espelho perfeito: mediana encostada à direita, bigode longo à esquerda. Na turma C a mediana fica no centro exato e os dois bigodes têm o mesmo comprimento. Uma caixa cuja mediana não está no meio, ou cujos bigodes têm comprimentos diferentes, é um boxplot lhe dizendo, sem nenhum número, que a distribuição é assimétrica.</p>
-<p>A <strong>assimetria</strong> (skewness) mede esse desequilíbrio entre as caudas em um único número:</p>
-<p><span class="math display">\[g_1 = \frac{\frac{1}{n}\sum_{i=1}^{n}(x_i - \bar{x})^3}{s^3}\]</span></p>
-<p>O expoente 3 é o que faz a fórmula funcionar: ele <strong>preserva o sinal</strong> do desvio. Um desvio acima da média entra positivo; um desvio abaixo, negativo — e eles se cancelariam, como cancelam na média dos desvios simples (seção 1.4), a menos que uma das caudas seja mais comprida ou mais extrema que a outra. É exatamente esse desequilíbrio residual que sobra depois do cancelamento. Compare com o desvio-padrão: ali o desvio é <strong>elevado ao quadrado</strong>, o quadrado de um número negativo é positivo, o sinal desaparece — e é por isso que o desvio-padrão, por mais que meça dispersão, não diz absolutamente nada sobre para qual lado os dados pendem.</p>
-<p>Voltando aos dados reais das 27 unidades federativas:</p>
-<div id="assimetria-real" class="cell" data-execution_count="12">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"População das UFs  : </span><span class="sc">{</span>num(stats.skew(estado[<span class="st">'Populacao'</span>], bias<span class="op">=</span><span class="va">False</span>), <span class="dv">2</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Taxa de homicídios : </span><span class="sc">{</span>num(stats.skew(estado[<span class="st">'Taxa.Homicidios'</span>], bias<span class="op">=</span><span class="va">False</span>), <span class="dv">2</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>População das UFs  : 2,96
-Taxa de homicídios : -0,19</code></pre>
-</div>
-</div>
-<p>A população tem assimetria de <strong>2,96</strong> — fortemente à direita. É a mesma razão, vista por outro ângulo, pela qual a seção 1.3 encontrou uma média 90% maior que a mediana: um único estado, São Paulo, está tão distante do resto que arrasta a média para cima sem deslocar a mediana um centímetro. A taxa de homicídios, com <strong>-0,19</strong>, está quase simétrica — média e mediana quase coincidem, e a distância entre elas quase desaparece.</p>
-<div class="conceito">
-<p>O número que o <code>stats.skew(..., bias=False)</code> imprime não é exatamente o coeficiente de momentos <span class="math inline">\(g_1\)</span> da fórmula acima, e sim o estimador <strong>corrigido de viés</strong> <span class="math inline">\(G_1\)</span>, que multiplica <span class="math inline">\(g_1\)</span> pelo fator <span class="math inline">\(\frac{\sqrt{n(n-1)}}{n-2}\)</span>. Com <span class="math inline">\(n = 27\)</span> esse fator é um pouco maior que 1, então o <strong>2,96</strong> impresso fica ligeiramente acima do que a fórmula “crua” <span class="math inline">\(g_1\)</span> daria — a correção compensa a tendência de <span class="math inline">\(g_1\)</span> a subestimar a assimetria em amostras pequenas. Já a <strong>curtose</strong> logo abaixo segue outra convenção — o <em>excesso</em> padrão, sem essa correção de viés. São estimadores diferentes para coisas diferentes, e é normal que cada medida siga a sua convenção; só vale não estranhar que uma venha corrigida e a outra não.</p>
-</div>
-<p>Essa cauda à direita também não é acaso. A seção 1.4 mostrou, ao tentar aumentar o desvio-padrão da taxa de homicídios sem mexer na média, que o piso em zero trava quanto uma variável positiva pode se espalhar para <strong>baixo</strong> — mas não trava nada para <strong>cima</strong>. É essa assimetria estrutural entre o chão e a ausência de teto que empurra população, renda e tantas outras variáveis que só existem como números positivos sempre para o mesmo lado: a direita.</p>
-</section>
-<section id="curtose" class="level2">
-<h2 class="anchored" data-anchor-id="curtose">Curtose</h2>
-<p>A assimetria mede para qual <strong>lado</strong> a distribuição pende. Ela não mede outra coisa, igualmente relevante: o quão pesadas são as caudas, não importa o lado — ou seja, quão comuns são os valores extremos, contra o que se esperaria de uma normal. Essa é a pergunta que a <strong>curtose</strong> responde.</p>
-<div id="curtose-real" class="cell" data-execution_count="13">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Curtose da população das UFs : </span><span class="sc">{</span>num(stats.kurtosis(estado[<span class="st">'Populacao'</span>]), <span class="dv">2</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Curtose da taxa de homicídios: </span><span class="sc">{</span>num(stats.kurtosis(estado[<span class="st">'Taxa.Homicidios'</span>]), <span class="dv">2</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Curtose da população das UFs : 8,78
-Curtose da taxa de homicídios: -0,88</code></pre>
-</div>
-</div>
-<p>O <code>stats.kurtosis</code> do scipy calcula o <strong>excesso</strong> de curtose: o valor já sai descontado de 3, de modo que uma distribuição normal dá exatamente 0 — não 3, como na definição “crua” do quarto momento. Positivo significa caudas mais pesadas que a normal; negativo, caudas mais leves.</p>
-<p>A população das UFs tem curtose <strong>8,78</strong> — um valor enorme, e a razão é a mesma de sempre: São Paulo. Um único estado tão distante do resto não só arrasta a média (seção 1.3) e desequilibra a assimetria (acima) — ele também infla a curtose, porque o quarto momento eleva os desvios à quarta potência, e um desvio grande, elevado a 4, domina a soma inteira. A taxa de homicídios tem curtose <strong>-0,88</strong>: negativa, ou seja, caudas mais leves que a normal, uma distribuição mais “achatada”, sem o extremo isolado que a curtose positiva denuncia.</p>
-<p>Fica a antecipação: o Capítulo 2 (seção 2.6) volta à curtose para caracterizar caudas longas de forma mais completa — lá ela deixa de ser só um número solto e vira parte do diagnóstico de quando a normal deixa de ser um modelo razoável para os dados.</p>
-</section>
-<section id="resumo" class="level2">
-<h2 class="anchored" data-anchor-id="resumo">Resumo</h2>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Ferramenta</th>
-<th>O que mostra</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Percentis / quantis</td>
-<td>A posição exata de qualquer fração dos dados</td>
-</tr>
-<tr class="even">
-<td>Boxplot</td>
-<td>Q1, mediana, Q3 e outliers num único desenho compacto</td>
-</tr>
-<tr class="odd">
-<td>Tabela de frequência / histograma</td>
-<td>Como a massa dos dados se distribui em faixas de largura igual</td>
-</tr>
-<tr class="even">
-<td>Densidade</td>
-<td>A forma contínua por trás das barras do histograma</td>
-</tr>
-</tbody>
-</table>
-<div class="conceito">
-<p><strong>Regra prática:</strong> localização (1.3) e dispersão (1.4) respondem “qual é o valor típico” e “o quanto os dados variam”. Elas não respondem “qual é a forma da distribuição” — se ela é simétrica, se tem cauda longa, se há grupos isolados de valores extremos. Para isso, é preciso abrir mão do resumo e olhar a distribuição inteira, com as quatro ferramentas desta seção.</p>
-</div>
-</section>
-<section id="exercícios" class="level2">
-<h2 class="anchored" data-anchor-id="exercícios">Exercícios</h2>
-<p><strong>1.</strong> A mediana da taxa de homicídios é 23,130 e o percentil 95 é 35,197. Interprete o segundo número em uma frase.</p>
+<p><strong>2.</strong> Por que a regra 68–95–99,7 é útil na prática, mesmo sendo apenas uma aproximação?</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1171,75 +838,7 @@ Curtose da taxa de homicídios: -0,88</code></pre>
 </div>
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>95% dos estados têm taxa de homicídios igual ou inferior a 35,197 por 100.000 habitantes; apenas 5% (2 estados, em 27) ficam acima disso.</p>
-</div>
-</div>
-</div>
-<p><strong>2.</strong> No boxplot, por que os pontos acima do bigode são desenhados individualmente em vez de o bigode simplesmente se estender até eles?</p>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Dica</span>Resposta
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-4" class="callout-4-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Por convenção, o bigode vai até 1,5×IQR além do quartil. Pontos além disso são candidatos a outlier e são marcados individualmente justamente para chamar atenção — o objetivo é que você os <strong>veja</strong>, e não que eles sejam absorvidos pela escala do gráfico.</p>
-</div>
-</div>
-</div>
-<p><strong>3.</strong> A tabela de frequência com <code>pd.cut</code> em 10 faixas colocou mais da metade dos estados (15 de 27) na primeira faixa. Isso é um defeito do método?</p>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Dica</span>Resposta
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Não — é um retrato fiel dos dados. <code>pd.cut</code> cria faixas de <strong>largura</strong> igual, e a distribuição de população dos estados é assimétrica. Se o objetivo fosse faixas de <strong>contagem</strong> igual, a ferramenta certa seria <code>pd.qcut</code> (que corta por quantis, não por largura). São perguntas diferentes: uma mostra a forma da distribuição, a outra a divide em grupos do mesmo tamanho.</p>
-</div>
-</div>
-</div>
-<p><strong>4.</strong> Um relatório informa que a renda média de um município é R$ 4.200 e a mediana é R$ 2.100. Sem ver os dados, o que você pode afirmar sobre a assimetria da distribuição de renda? E se média e mediana fossem iguais?</p>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Dica</span>Resposta
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-6" class="callout-6-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>A média é o dobro da mediana, então a assimetria é <strong>positiva</strong> (à direita): há uma cauda de rendas altas puxando a média para cima, enquanto a mediana permanece onde está a maior parte das pessoas. É o padrão universal da renda, e a razão pela qual se reporta a mediana. Se média e mediana fossem iguais, a distribuição seria simétrica — o que, para renda, praticamente não acontece.</p>
-</div>
-</div>
-</div>
-<p><strong>5.</strong> Um boxplot e um gráfico de violino da mesma variável mostram a mesma mediana e o mesmo IQR — mas o violino tem dois “ventres” largos separados por um estrangulamento estreito no meio. O que o violino está mostrando que o boxplot esconde? E por que essa mesma leitura seria arriscada se a variável tivesse só 8 observações em vez de centenas?</p>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Dica</span>Resposta
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-7" class="callout-7-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>O violino está mostrando <strong>bimodalidade</strong>: dois agrupamentos de valores separados por uma faixa com poucas ou nenhuma observação. O boxplot não tem como revelar isso — ele só registra Q1, mediana e Q3, e esses três números podem ser idênticos para uma distribuição unimodal e para uma bimodal. Com poucas observações, porém, a curva do violino é uma estimativa suavizada, não os dados crus: com 8 pontos, o suavizador pode desenhar dois ventres (ou esticar as caudas além do mínimo e do máximo reais) só por acaso da amostra, sem que a bimodalidade exista de fato na população. O violino informa mais que o boxplot quando há dados suficientes para a densidade estimada ser confiável — e engana mais do que informa quando não há.</p>
+<p>Ela dá uma referência rápida sem exigir nenhuma conta: se um dado é aproximadamente normal, cerca de 95% das observações caem a menos de dois desvios da média, então um valor a três desvios ou mais é raro (menos de 0,3%) e merece atenção. É a base da detecção de outliers e do controle de qualidade — o operador não precisa calcular uma probabilidade exata para saber que “três sigma” é um sinal de que algo saiu do comum.</p>
 </div>
 </div>
 </div>
@@ -1248,9 +847,6 @@ Curtose da taxa de homicídios: -0,88</code></pre>
 <div id="refs" class="references csl-bib-body hanging-indent" role="list">
 <div id="ref-bruce2020" class="csl-entry" role="listitem">
 Bruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. <em>Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python</em>. 2nd ed. O’Reilly Media.
-</div>
-<div id="ref-weed" class="csl-entry" role="listitem">
-Weed, Ethan, e Danielle Navarro. 2022. <em>Learning Statistics with <span>Python</span></em>. <a href="https://ethanweed.github.io/pythonbook/">https://ethanweed.github.io/pythonbook/</a>.
 </div>
 </div>
 </section>
@@ -1766,13 +1362,13 @@ document.addEventListener('DOMContentLoaded', function () {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../content/cap01/04-estimativas-variabilidade.html" class="pagination-link" aria-label="Estimativas de Variabilidade">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Estimativas de Variabilidade</span></span>
+      <a href="../../content/cap02/04-poisson.html" class="pagination-link" aria-label="Distribuição de Poisson">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Distribuição de Poisson</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../content/cap01/06-dados-binarios-categoricos.html" class="pagination-link" aria-label="Dados Binários e Categóricos">
-        <span class="nav-page-text"><span class="chapter-title">Dados Binários e Categóricos</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../content/cap02/06-caudas-longas.html" class="pagination-link" aria-label="Distribuições de Cauda Longa">
+        <span class="nav-page-text"><span class="chapter-title">Distribuições de Cauda Longa</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

@@ -101,18 +101,6 @@ book:
           text: "Significância e Valores-p"
         - href: content/cap04/05-testes-t.qmd
           text: "Testes t"
-        - href: content/cap04/06-testes-multiplos.qmd
-          text: "Testes Múltiplos"
-        - href: content/cap04/07-graus-liberdade.qmd
-          text: "Graus de Liberdade"
-        - href: content/cap04/08-anova.qmd
-          text: "ANOVA"
-        - href: content/cap04/09-teste-qui-quadrado.qmd
-          text: "Teste Qui-Quadrado"
-        - href: content/cap04/10-multi-armed-bandit.qmd
-          text: "Multi-Armed Bandit"
-        - href: content/cap04/11-poder-tamanho-amostra.qmd
-          text: "Poder e Tamanho da Amostra"
     - part: "Capítulo 5: Regressão e Predição"
       chapters:
         - href: content/cap05/index.qmd
@@ -123,14 +111,6 @@ book:
           text: "Regressão Linear Múltipla"
         - href: content/cap05/03-predicao.qmd
           text: "Predição com Regressão"
-        - href: content/cap05/04-variaveis-fatoriais.qmd
-          text: "Variáveis Fatoriais"
-        - href: content/cap05/05-interpretando-equacao.qmd
-          text: "Interpretando a Equação"
-        - href: content/cap05/06-diagnostico-regressao.qmd
-          text: "Diagnóstico de Regressão"
-        - href: content/cap05/07-polinomial-splines.qmd
-          text: "Polinomial e Splines"
   page-navigation: true
   page-footer:
     border: true

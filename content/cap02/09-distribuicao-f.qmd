@@ -44,7 +44,7 @@ Como a qui-quadrado, a F entrega um **valor crítico**: o ponto acima do qual fi
 print(f"Valor crítico 5% de F(5, 10): {num(stats.f.ppf(0.95, 5, 10), 2)}")
 ```
 
-Com 5 e 10 graus de liberdade, uma razão de variâncias maior que `{python} num(stats.f.ppf(0.95, 5, 10), 2)` é improvável (menos de 5% de chance) se as variâncias forem de fato iguais. Numa ANOVA, essa razão compara a variação **entre** os grupos com a variação **dentro** deles: uma F grande significa que as médias dos grupos diferem mais do que a variação interna justificaria. O **Capítulo 4** desenvolve isso na seção 4.8 (ANOVA).
+Com 5 e 10 graus de liberdade, uma razão de variâncias maior que `{python} num(stats.f.ppf(0.95, 5, 10), 2)` é improvável (menos de 5% de chance) se as variâncias forem de fato iguais. Numa ANOVA, essa razão compara a variação **entre** os grupos com a variação **dentro** deles: uma F grande significa que as médias dos grupos diferem mais do que a variação interna justificaria — é o princípio da **ANOVA** (análise de variância).
 
 ## Exercícios
 

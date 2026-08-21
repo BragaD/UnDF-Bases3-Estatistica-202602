@@ -9,9 +9,51 @@ A disciplina apresenta a estatística do ponto de vista de quem constrói softwa
 Os temas são:
 
 - Análise exploratória de dados: estimativas de localização, variabilidade, distribuição e correlação
+- Probabilidade e distribuições: normal, binomial, Poisson, t, qui-quadrado e F
 - Amostragem, distribuições amostrais, bootstrap e intervalos de confiança
-- Experimentos estatísticos: testes A/B, testes de hipótese, valores-p, ANOVA e qui-quadrado
-- Regressão e predição: regressão linear simples e múltipla, diagnóstico e splines
+- Experimentos estatísticos: testes A/B, testes de hipótese, reamostragem, valores-p e testes t
+- Regressão e predição: regressão linear simples e múltipla, e predição
+
+## Cronograma
+
+São **17 encontros**, todos às **sextas-feiras**, das **10h45 às 12h45**, de 21 de agosto a 18 de dezembro de 2026. Não há aula em 20/11 (feriado). A **Prova 1** fecha a primeira metade (Introdução, Capítulos 1 e 2) e a **Prova 2** fecha a segunda (Capítulos 3, 4 e 5).
+
+| Aula | Data | Conteúdo |
+|:----:|:----:|:---------|
+| 1 | 21/08 | Apresentação da disciplina · [Introdução](content/intro/01-por-que-estatistica.qmd) — Por que Estatística? · O Paradoxo de Simpson |
+| 2 | 28/08 | [1 — Análise Exploratória](content/cap01/index.qmd): dados estruturados e retangulares · estimativas de localização |
+| 3 | 04/09 | 1 — Estimativas de variabilidade |
+| 4 | 11/09 | 1 — Explorando a distribuição dos dados |
+| 5 | 18/09 | 1 — Dados binários e categóricos · correlação · duas ou mais variáveis |
+| 6 | 25/09 | [2 — Probabilidade e Distribuições](content/cap02/index.qmd): probabilidade · binomial · Poisson |
+| 7 | 02/10 | 2 — Normal · caudas longas · t de Student |
+| 8 | 09/10 | 2 — Qui-quadrado · F · **revisão para a Prova 1** |
+| 9 | 16/10 | **Prova 1** — Introdução, Capítulos 1 e 2 · **entrega da Lista 1** |
+| 10 | 23/10 | [3 — Amostragem e Estimação](content/cap03/index.qmd): amostragem aleatória e viés · viés de seleção |
+| 11 | 30/10 | 3 — Distribuição amostral · bootstrap |
+| 12 | 06/11 | 3 — Intervalos de confiança · [4 — Testes de Significância](content/cap04/index.qmd): teste A/B |
+| 13 | 13/11 | 4 — Testes de hipótese · reamostragem |
+| 14 | 27/11 | 4 — Significância e valores-p · testes t |
+| 15 | 04/12 | [5 — Regressão e Predição](content/cap05/index.qmd): regressão simples, múltipla e predição · **revisão para a Prova 2** |
+| 16 | 11/12 | **Prova 2** — Capítulos 3, 4 e 5 · **entrega da Lista 2** |
+| 17 | 18/12 | Devolutiva da Prova 2 (HPE — horário protegido para estudo) |
+
+: Cronograma do semestre 2.2026 {.striped tbl-colwidths="[8,12,80]"}
+
+## Avaliação
+
+Quatro instrumentos, somando 100%:
+
+| Instrumento | Peso | Quando |
+|---|:--:|---|
+| Lista 1 | 15% | entrega até 16/10/2026 (aula 9) |
+| Prova 1 | 35% | 16/10/2026 (aula 9) |
+| Lista 2 | 15% | entrega até 11/12/2026 (aula 16) |
+| Prova 2 | 35% | 11/12/2026 (aula 16) |
+
+São **duas provas individuais**, de peso igual (35% cada), e **duas listas** de exercícios (15% cada). Cada lista fecha na data da prova correspondente — a Lista 1 até a Prova 1, a Lista 2 até a Prova 2 —, funcionando como estudo dirigido para a prova, e não como tarefa empilhada sobre ela.
+
+A **Prova 1** cai na primeira aula após a metade da disciplina (aula 9, 16/10) e cobre a Introdução e os Capítulos 1 e 2 — análise exploratória, probabilidade e distribuições. A **Prova 2** (aula 16, 11/12) cobre os Capítulos 3, 4 e 5 — amostragem e estimação, testes de significância e regressão.
 
 ## Material Bibliográfico
 

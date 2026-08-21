@@ -15,7 +15,7 @@ from formato import num
 plt.rcParams["figure.figsize"] = (7, 4)
 ```
 
-As **duas últimas** distribuições do catálogo — qui-quadrado e F — são de um tipo diferente das anteriores. Você raramente vai *modelar dados* com elas; vai usá-las como **réguas de teste**. Elas dizem o quão longe um resultado observado pode estar do esperado antes de deixar de ser explicável por acaso. Por isso as duas apontam para a frente, para o Capítulo 4, sobre testes de significância.
+As **duas últimas** distribuições do catálogo — qui-quadrado e F — são de um tipo diferente das anteriores. Você raramente vai *modelar dados* com elas; vai usá-las como **réguas de teste**. Elas dizem o quão longe um resultado observado pode estar do esperado antes de deixar de ser explicável por acaso. Por isso as duas encarnam a lógica dos testes de significância, a família de ferramentas que o Capítulo 4 desenvolve.
 
 A **qui-quadrado** é a soma de várias normais-padrão elevadas ao quadrado. Como é uma soma de quadrados, ela só assume valores **positivos** e é **assimétrica à direita**. Sua forma depende de um único parâmetro, os **graus de liberdade** — e uma propriedade elegante cai daí: a **média da qui-quadrado é igual aos seus graus de liberdade**.
 
@@ -45,7 +45,7 @@ print(f"Média de χ²(5):            {num(stats.chi2.mean(5), 0)}  (= graus de 
 print(f"Valor crítico 5% de χ²(5): {num(stats.chi2.ppf(0.95, 5), 2)}")
 ```
 
-Com 5 graus de liberdade, apenas 5% da distribuição fica acima de `{python} num(stats.chi2.ppf(0.95, 5), 2)`. Um teste que produza um valor qui-quadrado maior que esse está numa região que teria menos de 5% de chance de ocorrer se tudo fosse acaso — o gancho da significância. É exatamente essa lógica que o **Capítulo 4** desenvolve no teste qui-quadrado (seção 4.9), usado para verificar se um dado observado bate com o esperado (aderência) ou se duas categorias estão relacionadas (independência).
+Com 5 graus de liberdade, apenas 5% da distribuição fica acima de `{python} num(stats.chi2.ppf(0.95, 5), 2)`. Um teste que produza um valor qui-quadrado maior que esse está numa região que teria menos de 5% de chance de ocorrer se tudo fosse acaso — o gancho da significância. É exatamente essa lógica que sustenta o **teste qui-quadrado**, usado para verificar se um dado observado bate com o esperado (aderência) ou se duas categorias estão relacionadas (independência).
 
 ## Exercícios
 

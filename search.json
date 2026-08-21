@@ -44,7 +44,7 @@
     "href": "index.html#material-bibliográfico",
     "title": "Bases 3",
     "section": "Material Bibliográfico",
-    "text": "Material Bibliográfico\nO livro-texto da disciplina é:\n\nBruce et al. (2020)\n\nO código e os conjuntos de dados originais estão em github.com/gedeck/practical-statistics-for-data-scientists.\nUma segunda fonte, o pythonbook de Ethan Weed (Weed e Navarro 2022), contribui com a introdução motivacional, o capítulo de probabilidade, a ordenação da Parte IV e enriquecimentos do Capítulo 1.\nEsta disciplina cobre os capítulos 1 a 4 de Bruce et al. (2020), aqui reorganizados em uma introdução e cinco capítulos; os capítulos 5 a 7 do Bruce, sobre aprendizado de máquina, são tratados em Bases 5 — Ciência de Dados.",
+    "text": "Material Bibliográfico\nO livro-texto da disciplina é:\n\nBruce et al. (2020)\n\nO código e os conjuntos de dados originais estão em github.com/gedeck/practical-statistics-for-data-scientists.\nUma segunda fonte, o pythonbook de Ethan Weed (Weed e Navarro 2022), contribui com a introdução motivacional, o capítulo de probabilidade, a ordenação da Parte IV e enriquecimentos do Capítulo 1.\nEsta disciplina cobre os capítulos 1 a 4 de Bruce et al. (2020), aqui reorganizados em uma introdução e cinco capítulos. Os capítulos 5 a 7 do Bruce, sobre aprendizado de máquina, ficam fora do escopo desta disciplina.",
     "crumbs": [
       "Início"
     ]

@@ -16,14 +16,14 @@ Os temas são:
 
 ## Cronograma
 
-São **17 encontros**, todos às **sextas-feiras**, das **10h45 às 12h45**, de 21 de agosto a 18 de dezembro de 2026. Não há aula em 20/11 (feriado). A **Prova 1** fecha a primeira metade (Introdução, Capítulos 1 e 2) e a **Prova 2** fecha a segunda (Capítulos 3, 4 e 5).
+São **17 encontros**, todos às **sextas-feiras** — Engenharia de Software das **8h30 às 10h10**, Sistemas de Informação das **10h20 às 12h00** —, de 21 de agosto a 18 de dezembro de 2026. Não há aula em 20/11 (feriado). A **Prova 1** fecha a primeira metade (Introdução, Capítulos 1 e 2) e a **Prova 2** fecha a segunda (Capítulos 3, 4 e 5).
 
 | Aula | Data | Conteúdo |
 |:----:|:----:|:---------|
 | 1 | 21/08 | Apresentação da disciplina · [Introdução](content/intro/01-por-que-estatistica.qmd) — Por que Estatística? · O Paradoxo de Simpson |
-| 2 | 28/08 | [1 — Análise Exploratória](content/cap01/index.qmd): dados estruturados e retangulares · estimativas de localização |
-| 3 | 04/09 | 1 — Estimativas de variabilidade |
-| 4 | 11/09 | 1 — Explorando a distribuição dos dados |
+| 2 | 28/08 | Introdução ao Python e ao Google Colab |
+| 3 | 04/09 | [1 — Análise Exploratória](content/cap01/index.qmd): dados estruturados e retangulares · estimativas de localização |
+| 4 | 11/09 | 1 — Estimativas de variabilidade · explorando a distribuição dos dados |
 | 5 | 18/09 | 1 — Dados binários e categóricos · correlação · duas ou mais variáveis |
 | 6 | 25/09 | [2 — Probabilidade e Distribuições](content/cap02/index.qmd): probabilidade · binomial · Poisson |
 | 7 | 02/10 | 2 — Normal · caudas longas · t de Student |

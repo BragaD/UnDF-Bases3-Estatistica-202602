@@ -1,5 +1,5 @@
 # scripts/verifica-widgets.py
-"""Verifica no navegador que os widgets OJS da seção 1.3 funcionam de fato.
+"""Verifica no navegador que os widgets OJS (seções 1.3, 1.4 e 3.3) funcionam de fato.
 
 Roda dentro do container playwright (ver o comando no Step 2). Serve o _book/
 por HTTP porque o Observable JS não carrega a partir de file://.
@@ -28,7 +28,7 @@ URL_DISPERSAO = "http://localhost:8000/content/cap01/04-estimativas-variabilidad
 # A média da taxa, que o widget da 1.4 NÃO pode mover — é o ponto da seção.
 MEDIA_TAXA = "22,7"
 
-URL_AMOSTRAL = "http://localhost:8000/content/cap02/03-distribuicao-amostral.html"
+URL_AMOSTRAL = "http://localhost:8000/content/cap03/03-distribuicao-amostral.html"
 
 
 def verifica_dispersao(nav, falhas):
@@ -78,7 +78,7 @@ def verifica_dispersao(nav, falhas):
 
 
 def verifica_distribuicao_amostral(nav, falhas):
-    """O widget da 2.3: aumentar n estreita a distribuição (erro padrão cai) e
+    """O widget da 3.3: aumentar n estreita a distribuição (erro padrão cai) e
     o eixo X fica travado."""
     page = nav.new_page()
     erros = []
@@ -89,7 +89,7 @@ def verifica_distribuicao_amostral(nav, falhas):
     slider = page.locator('input[type="range"]').first
     caixa = page.locator('input[type="number"]').first
     if not caixa.input_value():
-        falhas.append("a caixa do slider da 2.3 está VAZIA — um `format` customizado?")
+        falhas.append("a caixa do slider da 3.3 está VAZIA — um `format` customizado?")
 
     def rotulos_x():
         # Escopo só no grupo do eixo X (aria-label do Observable Plot) — o eixo Y
@@ -113,7 +113,7 @@ def verifica_distribuicao_amostral(nav, falhas):
     rot1 = rotulos_x()
 
     if not rot0 or rot1 != rot0:
-        falhas.append("os rótulos do eixo X mudaram ao mexer no slider da 2.3 — o eixo deveria estar travado")
+        falhas.append("os rótulos do eixo X mudaram ao mexer no slider da 3.3 — o eixo deveria estar travado")
 
     # O erro padrão em n=100 deve ser MENOR que em n=5. A frase-âncora
     # "(o desvio das médias) é" é exclusiva do texto reativo do widget — a prosa
@@ -125,14 +125,14 @@ def verifica_distribuicao_amostral(nav, falhas):
         m = re.search(r"erro padrão \(o desvio das médias\) é\s*([\d.]+)", txt)
         return int(m.group(1).replace(".", "")) if m else None
     e5, e100 = ep(ep_baixo_n), ep(ep_alto_n)
-    print(f"widget 2.3: erro padrão n=5 → {e5}, n=100 → {e100}")
+    print(f"widget 3.3: erro padrão n=5 → {e5}, n=100 → {e100}")
     if e5 is None or e100 is None:
-        falhas.append("não consegui ler o erro padrão exibido no widget da 2.3")
+        falhas.append("não consegui ler o erro padrão exibido no widget da 3.3")
     elif not (e100 < e5):
         falhas.append(f"o erro padrão NÃO caiu: n=5 deu {e5}, n=100 deu {e100} — o TCL não está sendo mostrado")
 
     if erros:
-        falhas.append(f"erros de JS na página 2.3: {erros[:2]}")
+        falhas.append(f"erros de JS na página 3.3: {erros[:2]}")
     page.close()
 
 
@@ -278,7 +278,7 @@ def main():
         for f in falhas:
             print("  -", f)
         sys.exit(1)
-    print("OK — os dois widgets carregam, são reativos e batem com os números do livro")
+    print("OK — os widgets carregam, são reativos e batem com os números do livro")
 
 
 if __name__ == "__main__":

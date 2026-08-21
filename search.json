@@ -162,7 +162,7 @@
     "href": "content/cap01/index.html",
     "title": "Análise Exploratória de Dados",
     "section": "",
-    "text": "Seções\nA estatística clássica nasceu preocupada com inferência: tirar conclusões sobre uma população grande a partir de uma amostra pequena. A análise exploratória de dados, proposta por John Tukey em 1962, inverte a ênfase — antes de testar qualquer hipótese, olhe para os dados.\nAo final deste capítulo, você será capaz de:",
+    "text": "Seções\n📓 Abrir o notebook deste capítulo no Colab ↗ — só o código, pronto para rodar.\nA estatística clássica nasceu preocupada com inferência: tirar conclusões sobre uma população grande a partir de uma amostra pequena. A análise exploratória de dados, proposta por John Tukey em 1962, inverte a ênfase — antes de testar qualquer hipótese, olhe para os dados.\nAo final deste capítulo, você será capaz de:",
     "crumbs": [
       "Capítulo 1: Análise Exploratória de Dados",
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Visão Geral</span>"
@@ -888,7 +888,7 @@
     "href": "content/cap02/index.html",
     "title": "Probabilidade e Distribuições",
     "section": "",
-    "text": "Seções\nAntes de testar hipóteses ou ajustar modelos, é preciso entender a linguagem em que a incerteza é descrita. Este capítulo parte do conceito de probabilidade e de suas regras básicas, e usa esse vocabulário para apresentar as distribuições que reaparecem no resto do livro — a binomial, a de Poisson, a normal, a de cauda longa, a t de Student, a qui-quadrado e a F.\nAo final deste capítulo, você será capaz de:",
+    "text": "Seções\n📓 Abrir o notebook deste capítulo no Colab ↗ — só o código, pronto para rodar.\nAntes de testar hipóteses ou ajustar modelos, é preciso entender a linguagem em que a incerteza é descrita. Este capítulo parte do conceito de probabilidade e de suas regras básicas, e usa esse vocabulário para apresentar as distribuições que reaparecem no resto do livro — a binomial, a de Poisson, a normal, a de cauda longa, a t de Student, a qui-quadrado e a F.\nAo final deste capítulo, você será capaz de:",
     "crumbs": [
       "Capítulo 2: Probabilidade e Distribuições",
       "<span class='chapter-number'>12</span>  <span class='chapter-title'>Visão Geral</span>"
@@ -1207,7 +1207,7 @@
     "href": "content/cap03/index.html",
     "title": "Amostragem e Estimação",
     "section": "",
-    "text": "Seções\nUma amostra nunca é a população. A pergunta central deste capítulo é: quanto do que vemos na amostra é sinal, e quanto é acidente do sorteio? As últimas distribuições do Capítulo 2 — qui-quadrado e F — apontaram para os testes de significância; mas, antes de testar, é preciso entender como uma amostra se relaciona com a população que a gerou e como estimar a partir dela. É o que este capítulo cobre.\nAo final deste capítulo, você será capaz de:",
+    "text": "Seções\n📓 Abrir o notebook deste capítulo no Colab ↗ — só o código, pronto para rodar.\nUma amostra nunca é a população. A pergunta central deste capítulo é: quanto do que vemos na amostra é sinal, e quanto é acidente do sorteio? As últimas distribuições do Capítulo 2 — qui-quadrado e F — apontaram para os testes de significância; mas, antes de testar, é preciso entender como uma amostra se relaciona com a população que a gerou e como estimar a partir dela. É o que este capítulo cobre.\nAo final deste capítulo, você será capaz de:",
     "crumbs": [
       "Capítulo 3: Amostragem e Estimação",
       "<span class='chapter-number'>22</span>  <span class='chapter-title'>Visão Geral</span>"

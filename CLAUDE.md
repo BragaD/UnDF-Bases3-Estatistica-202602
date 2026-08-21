@@ -10,9 +10,11 @@ Livro-texto (espinha): Bruce, Bruce & Gedeck — *Practical Statistics for Data 
 
 Segunda fonte: o *pythonbook* de Ethan Weed contribui com a Introdução (motivacional), o capítulo de Probabilidade, a ordenação da Parte IV e enriquecimentos do Capítulo 1. Regra de atribuição: callouts `de @bruce2020` marcam conteúdo do livro-texto; callouts `de @weed` marcam conteúdo do pythonbook.
 
-**Estrutura: uma Introdução (motivacional, sem número) + 5 capítulos** — 1 Análise Exploratória de Dados, 2 Probabilidade e Distribuições, 3 Amostragem e Estimação, 4 Experimentos Estatísticos e Testes de Significância, 5 Regressão e Predição. Os capítulos 5–7 do Bruce (Classificação, ML Estatístico, Aprendizado Não-Supervisionado) pertencem a *Bases 5 — Ciência de Dados* e **não** entram aqui.
+**Estrutura: uma Introdução (motivacional, sem número) + 5 capítulos** — 1 Análise Exploratória de Dados, 2 Probabilidade e Distribuições, 3 Amostragem e Estimação, 4 Experimentos Estatísticos e Testes de Significância, 5 Regressão e Predição. Os capítulos 5–7 do Bruce (Classificação, ML Estatístico, Aprendizado Não-Supervisionado) ficam fora do escopo desta disciplina.
 
 **Mapa Bruce ↔ este livro** (a numeração dos dois **não bate**): Bruce cap. 1 → meu Cap. 1; **Bruce cap. 2 é dividido entre meu Cap. 2 e meu Cap. 3**; Bruce cap. 3 → meu Cap. 4; Bruce cap. 4 → meu Cap. 5. É por isso que os callouts `de @bruce2020` citam números de capítulo "fora de fase" com os capítulos deste livro — o número no callout é sempre do Bruce, nunca o nosso.
+
+**Escopo reduzido dos Caps. 4 e 5:** o Cap. 4 vai até os testes t (não cobre ANOVA, teste qui-quadrado, testes múltiplos nem poder do Bruce cap. 3); o Cap. 5 vai até predição (não cobre variáveis fatoriais, diagnóstico nem splines do Bruce cap. 4). As distribuições qui-quadrado e F seguem no Cap. 2, mas suas remissões a esses testes foram suavizadas (não apontam para seção).
 
 ## Comandos
 
@@ -62,7 +64,7 @@ content/
 
 **Todo `.qmd` novo precisa ser registrado em `_quarto.yml` sob `book.chapters`.** O YAML define o sidebar e a ordem de navegação — arquivo não listado simplesmente não aparece no livro. A ordem vem do `_quarto.yml`, não do nome do arquivo; para reordenar, renomeie com `git mv` e atualize o YAML na mesma operação.
 
-A maioria das seções ainda é **stub** (título + `callout-note` + aviso de construção). A seção completa que serve de modelo de estilo é `content/cap01/03-estimativas-localizacao.qmd`.
+A Introdução e os Capítulos 1 a 3 estão completos; **os Capítulos 4 e 5 ainda são stubs** (título + `callout-note` + aviso de construção). A seção completa que serve de modelo de estilo é `content/cap01/03-estimativas-localizacao.qmd`.
 
 ### Caminhos de dados
 
@@ -132,11 +134,11 @@ Segundo detalhe não óbvio: o Dockerfile grava `/etc/profile.d/venv.sh` reexpor
 
 O nome da imagem é minúsculo e literal: o GHCR rejeita maiúsculas, então não dá para usar `${{ github.repository_owner }}` (que resolveria para `BragaD`).
 
-`_book/` e `_freeze/` são artefatos locais gitignorados. `docs/` **não** é gitignorado — guarda specs e planos.
+`_book/` e `_freeze/` são artefatos locais gitignorados. `docs/` **não** é gitignorado — guarda specs, planos e o PID da disciplina. A rotina (`Rotinas - Sistemas de Informação.xlsx`, grade de terceiros) fica local, **não** versionada.
 
 ### Widgets interativos (Observable JS)
 
-A seção 1.3 tem dois widgets em células `{ojs}`, nativas do Quarto: rodam no navegador do leitor, **não somam bytes ao site** e não afetam o `freeze` nem o CI.
+As seções 1.3 (dois widgets), 1.4 e 3.3 têm células `{ojs}`, nativas do Quarto: rodam no navegador do leitor, **não somam bytes ao site** e não afetam o `freeze` nem o CI.
 
 Os dados vêm do próprio chunk Python da seção, via `ojs_define(dados = estado)` — uma fonte, dois consumidores. Nunca recarregue o CSV no OJS nem embuta os valores como literal.
 

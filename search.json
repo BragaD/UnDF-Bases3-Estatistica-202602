@@ -14,7 +14,27 @@
     "href": "index.html#sobre-a-disciplina",
     "title": "Bases 3",
     "section": "Sobre a Disciplina",
-    "text": "Sobre a Disciplina\nA disciplina apresenta a estatística do ponto de vista de quem constrói software e trabalha com dados: menos fórmulas decoradas, mais raciocínio sobre o que os dados dizem e o que eles não dizem. Todos os exemplos são em Python.\nOs temas são:\n\nAnálise exploratória de dados: estimativas de localização, variabilidade, distribuição e correlação\nAmostragem, distribuições amostrais, bootstrap e intervalos de confiança\nExperimentos estatísticos: testes A/B, testes de hipótese, valores-p, ANOVA e qui-quadrado\nRegressão e predição: regressão linear simples e múltipla, diagnóstico e splines",
+    "text": "Sobre a Disciplina\nA disciplina apresenta a estatística do ponto de vista de quem constrói software e trabalha com dados: menos fórmulas decoradas, mais raciocínio sobre o que os dados dizem e o que eles não dizem. Todos os exemplos são em Python.\nOs temas são:\n\nAnálise exploratória de dados: estimativas de localização, variabilidade, distribuição e correlação\nProbabilidade e distribuições: normal, binomial, Poisson, t, qui-quadrado e F\nAmostragem, distribuições amostrais, bootstrap e intervalos de confiança\nExperimentos estatísticos: testes A/B, testes de hipótese, reamostragem, valores-p e testes t\nRegressão e predição: regressão linear simples e múltipla, e predição",
+    "crumbs": [
+      "Início"
+    ]
+  },
+  {
+    "objectID": "index.html#cronograma",
+    "href": "index.html#cronograma",
+    "title": "Bases 3",
+    "section": "Cronograma",
+    "text": "Cronograma\nSão 17 encontros, todos às sextas-feiras, das 10h45 às 12h45, de 21 de agosto a 18 de dezembro de 2026. Não há aula em 20/11 (feriado). A Prova 1 fecha a primeira metade (Introdução, Capítulos 1 e 2) e a Prova 2 fecha a segunda (Capítulos 3, 4 e 5).\n\nCronograma do semestre 2.2026\n\n\n\n\n\n\n\nAula\nData\nConteúdo\n\n\n\n\n1\n21/08\nApresentação da disciplina · Introdução — Por que Estatística? · O Paradoxo de Simpson\n\n\n2\n28/08\n1 — Análise Exploratória: dados estruturados e retangulares · estimativas de localização\n\n\n3\n04/09\n1 — Estimativas de variabilidade\n\n\n4\n11/09\n1 — Explorando a distribuição dos dados\n\n\n5\n18/09\n1 — Dados binários e categóricos · correlação · duas ou mais variáveis\n\n\n6\n25/09\n2 — Probabilidade e Distribuições: probabilidade · binomial · Poisson\n\n\n7\n02/10\n2 — Normal · caudas longas · t de Student\n\n\n8\n09/10\n2 — Qui-quadrado · F · revisão para a Prova 1\n\n\n9\n16/10\nProva 1 — Introdução, Capítulos 1 e 2 · entrega da Lista 1\n\n\n10\n23/10\n3 — Amostragem e Estimação: amostragem aleatória e viés · viés de seleção\n\n\n11\n30/10\n3 — Distribuição amostral · bootstrap\n\n\n12\n06/11\n3 — Intervalos de confiança · 4 — Testes de Significância: teste A/B\n\n\n13\n13/11\n4 — Testes de hipótese · reamostragem\n\n\n14\n27/11\n4 — Significância e valores-p · testes t\n\n\n15\n04/12\n5 — Regressão e Predição: regressão simples, múltipla e predição · revisão para a Prova 2\n\n\n16\n11/12\nProva 2 — Capítulos 3, 4 e 5 · entrega da Lista 2\n\n\n17\n18/12\nDevolutiva da Prova 2 (HPE — horário protegido para estudo)",
+    "crumbs": [
+      "Início"
+    ]
+  },
+  {
+    "objectID": "index.html#avaliação",
+    "href": "index.html#avaliação",
+    "title": "Bases 3",
+    "section": "Avaliação",
+    "text": "Avaliação\nQuatro instrumentos, somando 100%:\n\n\n\nInstrumento\nPeso\nQuando\n\n\n\n\nLista 1\n15%\nentrega até 16/10/2026 (aula 9)\n\n\nProva 1\n35%\n16/10/2026 (aula 9)\n\n\nLista 2\n15%\nentrega até 11/12/2026 (aula 16)\n\n\nProva 2\n35%\n11/12/2026 (aula 16)\n\n\n\nSão duas provas individuais, de peso igual (35% cada), e duas listas de exercícios (15% cada). Cada lista fecha na data da prova correspondente — a Lista 1 até a Prova 1, a Lista 2 até a Prova 2 —, funcionando como estudo dirigido para a prova, e não como tarefa empilhada sobre ela.\nA Prova 1 cai na primeira aula após a metade da disciplina (aula 9, 16/10) e cobre a Introdução e os Capítulos 1 e 2 — análise exploratória, probabilidade e distribuições. A Prova 2 (aula 16, 11/12) cobre os Capítulos 3, 4 e 5 — amostragem e estimação, testes de significância e regressão.",
     "crumbs": [
       "Início"
     ]
@@ -1143,7 +1163,7 @@
     "href": "content/cap02/08-qui-quadrado.html",
     "title": "Distribuição Qui-Quadrado",
     "section": "",
-    "text": "O valor crítico\nAs duas últimas distribuições do catálogo — qui-quadrado e F — são de um tipo diferente das anteriores. Você raramente vai modelar dados com elas; vai usá-las como réguas de teste. Elas dizem o quão longe um resultado observado pode estar do esperado antes de deixar de ser explicável por acaso. Por isso as duas apontam para a frente, para o Capítulo 4, sobre testes de significância.\nA qui-quadrado é a soma de várias normais-padrão elevadas ao quadrado. Como é uma soma de quadrados, ela só assume valores positivos e é assimétrica à direita. Sua forma depende de um único parâmetro, os graus de liberdade — e uma propriedade elegante cai daí: a média da qui-quadrado é igual aos seus graus de liberdade.\nConforme os graus de liberdade crescem, o pico se afasta do zero e a distribuição se alarga — coerente com a média subir junto com \\(k\\).\nO uso prático da qui-quadrado é fornecer um valor crítico: o ponto acima do qual fica apenas uma pequena fração da distribuição. É contra esse ponto que um teste compara sua estatística.\nprint(f\"Média de χ²(5):            {num(stats.chi2.mean(5), 0)}  (= graus de liberdade)\")\nprint(f\"Valor crítico 5% de χ²(5): {num(stats.chi2.ppf(0.95, 5), 2)}\")\n\nMédia de χ²(5):            5  (= graus de liberdade)\nValor crítico 5% de χ²(5): 11,07\nCom 5 graus de liberdade, apenas 5% da distribuição fica acima de 11,07. Um teste que produza um valor qui-quadrado maior que esse está numa região que teria menos de 5% de chance de ocorrer se tudo fosse acaso — o gancho da significância. É exatamente essa lógica que o Capítulo 4 desenvolve no teste qui-quadrado (seção 4.9), usado para verificar se um dado observado bate com o esperado (aderência) ou se duas categorias estão relacionadas (independência).",
+    "text": "O valor crítico\nAs duas últimas distribuições do catálogo — qui-quadrado e F — são de um tipo diferente das anteriores. Você raramente vai modelar dados com elas; vai usá-las como réguas de teste. Elas dizem o quão longe um resultado observado pode estar do esperado antes de deixar de ser explicável por acaso. Por isso as duas encarnam a lógica dos testes de significância, a família de ferramentas que o Capítulo 4 desenvolve.\nA qui-quadrado é a soma de várias normais-padrão elevadas ao quadrado. Como é uma soma de quadrados, ela só assume valores positivos e é assimétrica à direita. Sua forma depende de um único parâmetro, os graus de liberdade — e uma propriedade elegante cai daí: a média da qui-quadrado é igual aos seus graus de liberdade.\nConforme os graus de liberdade crescem, o pico se afasta do zero e a distribuição se alarga — coerente com a média subir junto com \\(k\\).\nO uso prático da qui-quadrado é fornecer um valor crítico: o ponto acima do qual fica apenas uma pequena fração da distribuição. É contra esse ponto que um teste compara sua estatística.\nprint(f\"Média de χ²(5):            {num(stats.chi2.mean(5), 0)}  (= graus de liberdade)\")\nprint(f\"Valor crítico 5% de χ²(5): {num(stats.chi2.ppf(0.95, 5), 2)}\")\n\nMédia de χ²(5):            5  (= graus de liberdade)\nValor crítico 5% de χ²(5): 11,07\nCom 5 graus de liberdade, apenas 5% da distribuição fica acima de 11,07. Um teste que produza um valor qui-quadrado maior que esse está numa região que teria menos de 5% de chance de ocorrer se tudo fosse acaso — o gancho da significância. É exatamente essa lógica que sustenta o teste qui-quadrado, usado para verificar se um dado observado bate com o esperado (aderência) ou se duas categorias estão relacionadas (independência).",
     "crumbs": [
       "Capítulo 2: Probabilidade e Distribuições",
       "<span class='chapter-number'>20</span>  <span class='chapter-title'>Distribuição Qui-Quadrado</span>"
@@ -1165,7 +1185,7 @@
     "href": "content/cap02/09-distribuicao-f.html",
     "title": "Distribuição F",
     "section": "",
-    "text": "O valor crítico\nSe a qui-quadrado mede o tamanho de um desvio, a F mede uma razão — mais precisamente, a razão entre duas variâncias. Ela nasce da pergunta “estes dois conjuntos têm o mesmo espalhamento?”, mas seu uso mais importante é indireto: a F é o motor da ANOVA (análise de variância), o teste que compara as médias de vários grupos de uma vez só.\nComo é uma razão de variâncias — e variância é uma média de quadrados, sempre positiva —, a F também só assume valores positivos e é assimétrica à direita. Sua forma depende de dois parâmetros de graus de liberdade: um do numerador e um do denominador.\nSob \\(H_0\\), quando as duas variâncias são iguais, a razão fica da ordem de 1 — o valor que se esperaria de uma razão de números parecidos (a rigor, a média é \\(d_2/(d_2-2)\\), um pouco acima de 1, aproximando-se de 1 conforme os graus de liberdade do denominador crescem).\nComo a qui-quadrado, a F entrega um valor crítico: o ponto acima do qual fica só 5% da distribuição.\nprint(f\"Valor crítico 5% de F(5, 10): {num(stats.f.ppf(0.95, 5, 10), 2)}\")\n\nValor crítico 5% de F(5, 10): 3,33\nCom 5 e 10 graus de liberdade, uma razão de variâncias maior que 3,33 é improvável (menos de 5% de chance) se as variâncias forem de fato iguais. Numa ANOVA, essa razão compara a variação entre os grupos com a variação dentro deles: uma F grande significa que as médias dos grupos diferem mais do que a variação interna justificaria. O Capítulo 4 desenvolve isso na seção 4.8 (ANOVA).",
+    "text": "O valor crítico\nSe a qui-quadrado mede o tamanho de um desvio, a F mede uma razão — mais precisamente, a razão entre duas variâncias. Ela nasce da pergunta “estes dois conjuntos têm o mesmo espalhamento?”, mas seu uso mais importante é indireto: a F é o motor da ANOVA (análise de variância), o teste que compara as médias de vários grupos de uma vez só.\nComo é uma razão de variâncias — e variância é uma média de quadrados, sempre positiva —, a F também só assume valores positivos e é assimétrica à direita. Sua forma depende de dois parâmetros de graus de liberdade: um do numerador e um do denominador.\nSob \\(H_0\\), quando as duas variâncias são iguais, a razão fica da ordem de 1 — o valor que se esperaria de uma razão de números parecidos (a rigor, a média é \\(d_2/(d_2-2)\\), um pouco acima de 1, aproximando-se de 1 conforme os graus de liberdade do denominador crescem).\nComo a qui-quadrado, a F entrega um valor crítico: o ponto acima do qual fica só 5% da distribuição.\nprint(f\"Valor crítico 5% de F(5, 10): {num(stats.f.ppf(0.95, 5, 10), 2)}\")\n\nValor crítico 5% de F(5, 10): 3,33\nCom 5 e 10 graus de liberdade, uma razão de variâncias maior que 3,33 é improvável (menos de 5% de chance) se as variâncias forem de fato iguais. Numa ANOVA, essa razão compara a variação entre os grupos com a variação dentro deles: uma F grande significa que as médias dos grupos diferem mais do que a variação interna justificaria — é o princípio da ANOVA (análise de variância).",
     "crumbs": [
       "Capítulo 2: Probabilidade e Distribuições",
       "<span class='chapter-number'>21</span>  <span class='chapter-title'>Distribuição F</span>"
@@ -1484,7 +1504,7 @@
     "href": "content/cap04/index.html#seções",
     "title": "Experimentos Estatísticos e Testes de Significância",
     "section": "",
-    "text": "Seção\nTópico\n\n\n\n\n4.1\nTeste A/B\n\n\n4.2\nTestes de Hipótese\n\n\n4.3\nReamostragem\n\n\n4.4\nSignificância Estatística e Valores-p\n\n\n4.5\nTestes t\n\n\n4.6\nTestes Múltiplos\n\n\n4.7\nGraus de Liberdade\n\n\n4.8\nANOVA\n\n\n4.9\nTeste Qui-Quadrado\n\n\n4.10\nAlgoritmo Multi-Armed Bandit\n\n\n4.11\nPoder e Tamanho da Amostra\n\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
+    "text": "Seção\nTópico\n\n\n\n\n4.1\nTeste A/B\n\n\n4.2\nTestes de Hipótese\n\n\n4.3\nReamostragem\n\n\n4.4\nSignificância Estatística e Valores-p\n\n\n4.5\nTestes t\n\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
     "crumbs": [
       "Capítulo 4: Experimentos Estatísticos e Testes de Significância",
       "<span class='chapter-number'>28</span>  <span class='chapter-title'>Visão Geral</span>"
@@ -1546,72 +1566,6 @@
     ]
   },
   {
-    "objectID": "content/cap04/06-testes-multiplos.html",
-    "href": "content/cap04/06-testes-multiplos.html",
-    "title": "Testes Múltiplos",
-    "section": "",
-    "text": "Nota\n\n\n\nEsta seção corresponde à seção 3.6 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
-    "crumbs": [
-      "Capítulo 4: Experimentos Estatísticos e Testes de Significância",
-      "<span class='chapter-number'>34</span>  <span class='chapter-title'>Testes Múltiplos</span>"
-    ]
-  },
-  {
-    "objectID": "content/cap04/07-graus-liberdade.html",
-    "href": "content/cap04/07-graus-liberdade.html",
-    "title": "Graus de Liberdade",
-    "section": "",
-    "text": "Nota\n\n\n\nEsta seção corresponde à seção 3.7 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
-    "crumbs": [
-      "Capítulo 4: Experimentos Estatísticos e Testes de Significância",
-      "<span class='chapter-number'>35</span>  <span class='chapter-title'>Graus de Liberdade</span>"
-    ]
-  },
-  {
-    "objectID": "content/cap04/08-anova.html",
-    "href": "content/cap04/08-anova.html",
-    "title": "ANOVA",
-    "section": "",
-    "text": "Nota\n\n\n\nEsta seção corresponde à seção 3.8 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
-    "crumbs": [
-      "Capítulo 4: Experimentos Estatísticos e Testes de Significância",
-      "<span class='chapter-number'>36</span>  <span class='chapter-title'>ANOVA</span>"
-    ]
-  },
-  {
-    "objectID": "content/cap04/09-teste-qui-quadrado.html",
-    "href": "content/cap04/09-teste-qui-quadrado.html",
-    "title": "Teste Qui-Quadrado",
-    "section": "",
-    "text": "Nota\n\n\n\nEsta seção corresponde à seção 3.9 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
-    "crumbs": [
-      "Capítulo 4: Experimentos Estatísticos e Testes de Significância",
-      "<span class='chapter-number'>37</span>  <span class='chapter-title'>Teste Qui-Quadrado</span>"
-    ]
-  },
-  {
-    "objectID": "content/cap04/10-multi-armed-bandit.html",
-    "href": "content/cap04/10-multi-armed-bandit.html",
-    "title": "Algoritmo Multi-Armed Bandit",
-    "section": "",
-    "text": "Nota\n\n\n\nEsta seção corresponde à seção 3.10 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
-    "crumbs": [
-      "Capítulo 4: Experimentos Estatísticos e Testes de Significância",
-      "<span class='chapter-number'>38</span>  <span class='chapter-title'>Multi-Armed Bandit</span>"
-    ]
-  },
-  {
-    "objectID": "content/cap04/11-poder-tamanho-amostra.html",
-    "href": "content/cap04/11-poder-tamanho-amostra.html",
-    "title": "Poder e Tamanho da Amostra",
-    "section": "",
-    "text": "Nota\n\n\n\nEsta seção corresponde à seção 3.11 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
-    "crumbs": [
-      "Capítulo 4: Experimentos Estatísticos e Testes de Significância",
-      "<span class='chapter-number'>39</span>  <span class='chapter-title'>Poder e Tamanho da Amostra</span>"
-    ]
-  },
-  {
     "objectID": "content/cap05/index.html",
     "href": "content/cap05/index.html",
     "title": "Regressão e Predição",
@@ -1619,7 +1573,7 @@
     "text": "Seções\nA regressão é onde a estatística encontra a engenharia de software: é o primeiro modelo preditivo, e o alicerce de quase tudo que veio depois. Ela serve a dois propósitos que costumam ser confundidos — explicar uma relação e prever um valor.\nAo final deste capítulo, você será capaz de:",
     "crumbs": [
       "Capítulo 5: Regressão e Predição",
-      "<span class='chapter-number'>40</span>  <span class='chapter-title'>Visão Geral</span>"
+      "<span class='chapter-number'>34</span>  <span class='chapter-title'>Visão Geral</span>"
     ]
   },
   {
@@ -1627,10 +1581,10 @@
     "href": "content/cap05/index.html#seções",
     "title": "Regressão e Predição",
     "section": "",
-    "text": "Seção\nTópico\n\n\n\n\n5.1\nRegressão Linear Simples\n\n\n5.2\nRegressão Linear Múltipla\n\n\n5.3\nPredição com Regressão\n\n\n5.4\nVariáveis Fatoriais na Regressão\n\n\n5.5\nInterpretando a Equação de Regressão\n\n\n5.6\nDiagnóstico de Regressão\n\n\n5.7\nRegressão Polinomial e Splines\n\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
+    "text": "Seção\nTópico\n\n\n\n\n5.1\nRegressão Linear Simples\n\n\n5.2\nRegressão Linear Múltipla\n\n\n5.3\nPredição com Regressão\n\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
     "crumbs": [
       "Capítulo 5: Regressão e Predição",
-      "<span class='chapter-number'>40</span>  <span class='chapter-title'>Visão Geral</span>"
+      "<span class='chapter-number'>34</span>  <span class='chapter-title'>Visão Geral</span>"
     ]
   },
   {
@@ -1641,7 +1595,7 @@
     "text": "Nota\n\n\n\nEsta seção corresponde à seção 4.1 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
     "crumbs": [
       "Capítulo 5: Regressão e Predição",
-      "<span class='chapter-number'>41</span>  <span class='chapter-title'>Regressão Linear Simples</span>"
+      "<span class='chapter-number'>35</span>  <span class='chapter-title'>Regressão Linear Simples</span>"
     ]
   },
   {
@@ -1652,7 +1606,7 @@
     "text": "Nota\n\n\n\nEsta seção corresponde à seção 4.2 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
     "crumbs": [
       "Capítulo 5: Regressão e Predição",
-      "<span class='chapter-number'>42</span>  <span class='chapter-title'>Regressão Linear Múltipla</span>"
+      "<span class='chapter-number'>36</span>  <span class='chapter-title'>Regressão Linear Múltipla</span>"
     ]
   },
   {
@@ -1663,51 +1617,7 @@
     "text": "Nota\n\n\n\nEsta seção corresponde à seção 4.3 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
     "crumbs": [
       "Capítulo 5: Regressão e Predição",
-      "<span class='chapter-number'>43</span>  <span class='chapter-title'>Predição com Regressão</span>"
-    ]
-  },
-  {
-    "objectID": "content/cap05/04-variaveis-fatoriais.html",
-    "href": "content/cap05/04-variaveis-fatoriais.html",
-    "title": "Variáveis Fatoriais na Regressão",
-    "section": "",
-    "text": "Nota\n\n\n\nEsta seção corresponde à seção 4.4 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
-    "crumbs": [
-      "Capítulo 5: Regressão e Predição",
-      "<span class='chapter-number'>44</span>  <span class='chapter-title'>Variáveis Fatoriais</span>"
-    ]
-  },
-  {
-    "objectID": "content/cap05/05-interpretando-equacao.html",
-    "href": "content/cap05/05-interpretando-equacao.html",
-    "title": "Interpretando a Equação de Regressão",
-    "section": "",
-    "text": "Nota\n\n\n\nEsta seção corresponde à seção 4.5 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
-    "crumbs": [
-      "Capítulo 5: Regressão e Predição",
-      "<span class='chapter-number'>45</span>  <span class='chapter-title'>Interpretando a Equação</span>"
-    ]
-  },
-  {
-    "objectID": "content/cap05/06-diagnostico-regressao.html",
-    "href": "content/cap05/06-diagnostico-regressao.html",
-    "title": "Diagnóstico de Regressão",
-    "section": "",
-    "text": "Nota\n\n\n\nEsta seção corresponde à seção 4.6 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
-    "crumbs": [
-      "Capítulo 5: Regressão e Predição",
-      "<span class='chapter-number'>46</span>  <span class='chapter-title'>Diagnóstico de Regressão</span>"
-    ]
-  },
-  {
-    "objectID": "content/cap05/07-polinomial-splines.html",
-    "href": "content/cap05/07-polinomial-splines.html",
-    "title": "Regressão Polinomial e Splines",
-    "section": "",
-    "text": "Nota\n\n\n\nEsta seção corresponde à seção 4.7 de Bruce et al. (2020).\n\n\n\n\n\n\n\n\nAvisoEm construção\n\n\n\nO conteúdo desta seção ainda será escrito.\n\n\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.",
-    "crumbs": [
-      "Capítulo 5: Regressão e Predição",
-      "<span class='chapter-number'>47</span>  <span class='chapter-title'>Polinomial e Splines</span>"
+      "<span class='chapter-number'>37</span>  <span class='chapter-title'>Predição com Regressão</span>"
     ]
   }
 ]

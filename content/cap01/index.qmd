@@ -4,6 +4,8 @@
 Este capítulo é baseado no Capítulo 1 de @bruce2020.
 :::
 
+📓 [**Abrir o notebook deste capítulo no Colab ↗**](https://colab.research.google.com/github/BragaD/UnDF-Bases3-Estatistica-202602/blob/main/notebooks/capitulo-01.ipynb) — só o código, pronto para rodar.
+
 A estatística clássica nasceu preocupada com inferência: tirar conclusões sobre uma população grande a partir de uma amostra pequena. A análise exploratória de dados, proposta por John Tukey em 1962, inverte a ênfase — antes de testar qualquer hipótese, **olhe para os dados**.
 
 Ao final deste capítulo, você será capaz de:

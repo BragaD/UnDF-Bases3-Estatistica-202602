@@ -4,6 +4,8 @@
 Este capítulo mistura duas fontes: as regras de probabilidade se inspiram no Capítulo 10 de @weed; o catálogo de distribuições é baseado no Capítulo 2 de @bruce2020.
 :::
 
+📓 [**Abrir o notebook deste capítulo no Colab ↗**](https://colab.research.google.com/github/BragaD/UnDF-Bases3-Estatistica-202602/blob/main/notebooks/capitulo-02.ipynb) — só o código, pronto para rodar.
+
 Antes de testar hipóteses ou ajustar modelos, é preciso entender a linguagem em que a incerteza é descrita. Este capítulo parte do conceito de probabilidade e de suas regras básicas, e usa esse vocabulário para apresentar as distribuições que reaparecem no resto do livro — a binomial, a de Poisson, a normal, a de cauda longa, a t de Student, a qui-quadrado e a F.
 
 Ao final deste capítulo, você será capaz de:

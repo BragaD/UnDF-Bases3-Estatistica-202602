@@ -44,7 +44,7 @@
     "href": "index.html#material-bibliográfico",
     "title": "Bases 3",
     "section": "Material Bibliográfico",
-    "text": "Material Bibliográfico\nO livro-texto da disciplina é:\n\nBruce et al. (2020)\n\nO código e os conjuntos de dados originais estão em github.com/gedeck/practical-statistics-for-data-scientists.\nUma segunda fonte, o pythonbook de Ethan Weed (Weed e Navarro 2022), contribui com a introdução motivacional, o capítulo de probabilidade, a ordenação da Parte IV e enriquecimentos do Capítulo 1.\nComo bibliografia básica em português, a disciplina adota também Estatística Básica, de Bussab e Morettin (Bussab e Morettin 2017), referência clássica dos fundamentos de estatística e probabilidade.\nEsta disciplina cobre os capítulos 1 a 4 de Bruce et al. (2020), aqui reorganizados em uma introdução e cinco capítulos. Os capítulos 5 a 7 do Bruce, sobre aprendizado de máquina, ficam fora do escopo desta disciplina.",
+    "text": "Material Bibliográfico\nO livro-texto da disciplina é:\n\nBruce et al. (2020)\n\nO código e os conjuntos de dados originais estão em github.com/gedeck/practical-statistics-for-data-scientists.\nUma segunda fonte, o pythonbook de Ethan Weed (Weed e Navarro 2022), contribui com a introdução motivacional, o capítulo de probabilidade, a ordenação da Parte IV e enriquecimentos do Capítulo 1.\nComo bibliografia básica em português, a disciplina adota também Estatística Básica, de Bussab e Morettin (Bussab e Morettin 2023), referência clássica dos fundamentos de estatística e probabilidade.\nEsta disciplina cobre os capítulos 1 a 4 de Bruce et al. (2020), aqui reorganizados em uma introdução e cinco capítulos. Os capítulos 5 a 7 do Bruce, sobre aprendizado de máquina, ficam fora do escopo desta disciplina.",
     "crumbs": [
       "Início"
     ]
@@ -64,7 +64,7 @@
     "href": "index.html#licença",
     "title": "Bases 3",
     "section": "Licença",
-    "text": "Licença\nMaterial disponibilizado para fins educacionais. Os dados e exemplos originais são de autoria de Bruce, Bruce e Gedeck (Bruce et al. 2020).\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.\n\n\nBussab, Wilton de Oliveira, e Pedro Alberto Morettin. 2017. Estatística Básica. 9ª ed. Saraiva.\n\n\nWeed, Ethan, e Danielle Navarro. 2022. Learning Statistics with Python. https://ethanweed.github.io/pythonbook/.",
+    "text": "Licença\nMaterial disponibilizado para fins educacionais. Os dados e exemplos originais são de autoria de Bruce, Bruce e Gedeck (Bruce et al. 2020).\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.\n\n\nBussab, Wilton de Oliveira, e Pedro Alberto Morettin. 2023. Estatística Básica. 10ª ed. Saraiva.\n\n\nWeed, Ethan, e Danielle Navarro. 2022. Learning Statistics with Python. https://ethanweed.github.io/pythonbook/.",
     "crumbs": [
       "Início"
     ]

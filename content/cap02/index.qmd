@@ -1,23 +1,23 @@
 # Probabilidade e Distribuições
 
 ::: {.callout-note}
-Este capítulo mistura duas fontes: as regras de probabilidade se inspiram no Capítulo 10 de @weed; o catálogo de distribuições é baseado no Capítulo 2 de @bruce2020.
+Este capítulo mistura três fontes: as regras de probabilidade se inspiram no Capítulo 10 de @weed; probabilidade condicional, Bayes e contagem se baseiam nos capítulos 5.2 a 5.4 de @bussab2023; o catálogo de distribuições combina o Capítulo 2 de @bruce2020 com a seção 6.6.4 de @bussab2023 para a hipergeométrica.
 :::
 
 📓 [**Abrir o notebook deste capítulo no Colab ↗**](https://colab.research.google.com/github/BragaD/UnDF-Bases3-Estatistica-202602/blob/main/notebooks/capitulo-02.ipynb) — só o código, pronto para rodar.
 
-Antes de testar hipóteses ou ajustar modelos, é preciso entender a linguagem em que a incerteza é descrita. Este capítulo parte do conceito de probabilidade e de suas regras básicas, e usa esse vocabulário para apresentar as distribuições que reaparecem no resto do livro — a binomial, a de Poisson, a normal, a de cauda longa, a t de Student, a qui-quadrado e a F.
+Antes de testar hipóteses ou ajustar modelos, é preciso entender a linguagem em que a incerteza é descrita. Este capítulo parte do conceito de probabilidade e de suas regras básicas, avança para probabilidade condicional, o teorema de Bayes e as técnicas de contagem, e usa esse vocabulário para apresentar as distribuições que reaparecem no resto do livro — a binomial, a hipergeométrica, a normal e as de cauda longa.
 
 Ao final deste capítulo, você será capaz de:
 
 - Definir probabilidade e distinguir suas interpretações
-- Aplicar as regras de probabilidade (complemento, adição, multiplicação, independência e probabilidade condicional)
+- Aplicar as regras de probabilidade (complemento, adição, multiplicação, independência)
+- Calcular probabilidade condicional e aplicar o teorema de Bayes
+- Usar permutações e combinações para contar os resultados de um experimento
 - Aplicar a distribuição binomial a eventos de sucesso/fracasso
-- Aplicar a distribuição de Poisson e a exponencial a eventos raros ao longo do tempo ou espaço
+- Aplicar a distribuição hipergeométrica a amostragem sem reposição
 - Reconhecer a distribuição normal e explicar por que ela é uma referência, não uma lei universal
 - Identificar distribuições de cauda longa e por que a intuição da normal falha nelas
-- Usar a distribuição t de Student para amostras pequenas
-- Usar a distribuição qui-quadrado e a distribuição F em seus papéis como distribuições de referência para testes
 
 ## Seções
 
@@ -25,10 +25,9 @@ Ao final deste capítulo, você será capaz de:
 |---|---|
 | [2.1](01-o-que-e-probabilidade.qmd) | O que é Probabilidade |
 | [2.2](02-regras-probabilidade.qmd) | Regras de Probabilidade |
-| [2.3](03-distribuicao-binomial.qmd) | Distribuição Binomial |
-| [2.4](04-poisson.qmd) | Distribuição de Poisson |
-| [2.5](05-distribuicao-normal.qmd) | Distribuição Normal |
-| [2.6](06-caudas-longas.qmd) | Distribuições de Cauda Longa |
-| [2.7](07-distribuicao-t.qmd) | Distribuição t de Student |
-| [2.8](08-qui-quadrado.qmd) | Distribuição Qui-Quadrado |
-| [2.9](09-distribuicao-f.qmd) | Distribuição F |
+| [2.3](03-probabilidade-condicional-bayes.qmd) | Probabilidade Condicional e Bayes |
+| [2.4](04-contagem-permutacao-combinacao.qmd) | Contagem: Permutação e Combinação |
+| [2.5](05-distribuicao-binomial.qmd) | Distribuição Binomial |
+| [2.6](06-distribuicao-hipergeometrica.qmd) | Distribuição Hipergeométrica |
+| [2.7](07-distribuicao-normal.qmd) | Distribuição Normal |
+| [2.8](08-caudas-longas.qmd) | Distribuições de Cauda Longa |

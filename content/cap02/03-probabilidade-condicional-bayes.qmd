@@ -1,0 +1,10 @@
+# Probabilidade Condicional e Teorema de Bayes
+
+::: {.callout-note}
+Esta seção se baseia nos capítulos 5.3 e 5.4 de @bussab2023.
+:::
+
+::: {.callout-warning}
+## Em construção
+O conteúdo desta seção ainda será escrito.
+:::

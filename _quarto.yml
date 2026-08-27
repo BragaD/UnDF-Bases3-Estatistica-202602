@@ -59,20 +59,18 @@ book:
           text: "O que é Probabilidade"
         - href: content/cap02/02-regras-probabilidade.qmd
           text: "Regras de Probabilidade"
-        - href: content/cap02/03-distribuicao-binomial.qmd
+        - href: content/cap02/03-probabilidade-condicional-bayes.qmd
+          text: "Probabilidade Condicional e Bayes"
+        - href: content/cap02/04-contagem-permutacao-combinacao.qmd
+          text: "Contagem: Permutação e Combinação"
+        - href: content/cap02/05-distribuicao-binomial.qmd
           text: "Distribuição Binomial"
-        - href: content/cap02/04-poisson.qmd
-          text: "Distribuição de Poisson"
-        - href: content/cap02/05-distribuicao-normal.qmd
+        - href: content/cap02/06-distribuicao-hipergeometrica.qmd
+          text: "Distribuição Hipergeométrica"
+        - href: content/cap02/07-distribuicao-normal.qmd
           text: "Distribuição Normal"
-        - href: content/cap02/06-caudas-longas.qmd
+        - href: content/cap02/08-caudas-longas.qmd
           text: "Distribuições de Cauda Longa"
-        - href: content/cap02/07-distribuicao-t.qmd
-          text: "Distribuição t de Student"
-        - href: content/cap02/08-qui-quadrado.qmd
-          text: "Distribuição Qui-Quadrado"
-        - href: content/cap02/09-distribuicao-f.qmd
-          text: "Distribuição F"
     - part: "Capítulo 3: Amostragem e Estimação"
       chapters:
         - href: content/cap03/index.qmd

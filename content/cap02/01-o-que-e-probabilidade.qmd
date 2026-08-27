@@ -4,7 +4,7 @@
 Esta seção se inspira no Capítulo 10 de @weed.
 :::
 
-Este capítulo é um catálogo de distribuições — normal, binomial, Poisson, t de Student, e as demais que reaparecem no resto do livro. Todas elas são formas de descrever probabilidade. Antes de catalogá-las, vale parar num ponto que costuma passar batido: o que a palavra "probabilidade" está dizendo, exatamente, quando se atribui 0,5 a "cara" numa moeda ou 0,03 a um valor-p.
+Este capítulo é um catálogo de distribuições — a binomial, a hipergeométrica, a normal e as de cauda longa. Todas elas são formas de descrever probabilidade. Antes de catalogá-las, vale parar num ponto que costuma passar batido: o que a palavra "probabilidade" está dizendo, exatamente, quando se atribui 0,5 a "cara" numa moeda ou 0,03 a um valor-p.
 
 ## Probabilidade vs estatística
 

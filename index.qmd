@@ -9,7 +9,7 @@ A disciplina apresenta a estatística do ponto de vista de quem constrói softwa
 Os temas são:
 
 - Análise exploratória de dados: estimativas de localização, variabilidade, distribuição e correlação
-- Probabilidade e distribuições: normal, binomial, Poisson, t, qui-quadrado e F
+- Probabilidade e distribuições: regras de probabilidade, probabilidade condicional e Bayes, contagem, binomial, hipergeométrica, normal e cauda longa
 - Amostragem, distribuições amostrais, bootstrap e intervalos de confiança
 - Experimentos estatísticos: testes A/B, testes de hipótese, reamostragem, valores-p e testes t
 - Regressão e predição: regressão linear simples e múltipla, e predição
@@ -25,9 +25,9 @@ São **17 encontros**, todos às **sextas-feiras** — Engenharia de Software da
 | 3 | 04/09 | [1 — Análise Exploratória](content/cap01/index.qmd): dados estruturados e retangulares · estimativas de localização |
 | 4 | 11/09 | 1 — Estimativas de variabilidade · explorando a distribuição dos dados |
 | 5 | 18/09 | 1 — Dados binários e categóricos · correlação · duas ou mais variáveis |
-| 6 | 25/09 | [2 — Probabilidade e Distribuições](content/cap02/index.qmd): probabilidade · binomial · Poisson |
-| 7 | 02/10 | 2 — Normal · caudas longas · t de Student |
-| 8 | 09/10 | 2 — Qui-quadrado · F · **revisão para a Prova 1** |
+| 6 | 25/09 | [2 — Probabilidade e Distribuições](content/cap02/index.qmd): probabilidade · regras · condicional e Bayes |
+| 7 | 02/10 | 2 — Contagem · binomial · hipergeométrica |
+| 8 | 09/10 | 2 — Normal · caudas longas · **revisão para a Prova 1** |
 | 9 | 16/10 | **Prova 1** — Introdução, Capítulos 1 e 2 · **entrega da Lista 1** |
 | 10 | 23/10 | [3 — Amostragem e Estimação](content/cap03/index.qmd): amostragem aleatória e viés · viés de seleção |
 | 11 | 30/10 | 3 — Distribuição amostral · bootstrap |

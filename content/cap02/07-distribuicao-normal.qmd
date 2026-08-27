@@ -17,7 +17,7 @@ plt.rcParams["figure.figsize"] = (7, 4)
 renda = pd.read_csv("dados/loans_income.csv").rename(columns={"x": "Renda"})["Renda"]
 ```
 
-Depois das duas distribuições discretas do catálogo — a binomial e a Poisson —, chega a mais importante das **contínuas**: a **normal**, a distribuição em forma de sino que serve de referência para quase todas as outras. Cada seção do catálogo segue o mesmo roteiro: apresenta uma distribuição, mostra sua forma, diz quando ela aparece na prática e dá o código mínimo para usá-la.
+Depois das duas distribuições discretas do catálogo — a binomial e a hipergeométrica —, chega a mais importante das **contínuas**: a **normal**, a distribuição em forma de sino que serve de referência para quase todas as outras. Cada seção do catálogo segue o mesmo roteiro: apresenta uma distribuição, mostra sua forma, diz quando ela aparece na prática e dá o código mínimo para usá-la.
 
 A normal é definida por dois números: a **média**, que diz onde está o centro, e o **desvio-padrão**, que diz o quão espalhada ela é. É **simétrica** — a metade à esquerda da média espelha a metade à direita — e tem uma propriedade que vale memorizar, a **regra 68–95–99,7**: cerca de 68% da massa fica a menos de um desvio da média, 95% a menos de dois, e 99,7% a menos de três.
 

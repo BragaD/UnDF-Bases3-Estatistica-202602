@@ -14,7 +14,9 @@ Segunda fonte: o *pythonbook* de Ethan Weed contribui com a Introdução (motiva
 
 **Mapa Bruce ↔ este livro** (a numeração dos dois **não bate**): Bruce cap. 1 → meu Cap. 1; **Bruce cap. 2 é dividido entre meu Cap. 2 e meu Cap. 3**; Bruce cap. 3 → meu Cap. 4; Bruce cap. 4 → meu Cap. 5. É por isso que os callouts `de @bruce2020` citam números de capítulo "fora de fase" com os capítulos deste livro — o número no callout é sempre do Bruce, nunca o nosso.
 
-**Escopo reduzido dos Caps. 4 e 5:** o Cap. 4 vai até os testes t (não cobre ANOVA, teste qui-quadrado, testes múltiplos nem poder do Bruce cap. 3); o Cap. 5 vai até predição (não cobre variáveis fatoriais, diagnóstico nem splines do Bruce cap. 4). As distribuições qui-quadrado e F seguem no Cap. 2, mas suas remissões a esses testes foram suavizadas (não apontam para seção).
+**Escopo reduzido dos Caps. 4 e 5:** o Cap. 4 vai até os testes t (não cobre ANOVA, teste qui-quadrado, testes múltiplos nem poder do Bruce cap. 3); o Cap. 5 vai até predição (não cobre variáveis fatoriais, diagnóstico nem splines do Bruce cap. 4).
+
+**Escopo do Cap. 2:** cobre probabilidade condicional e Bayes, contagem (permutação/combinação) e as distribuições binomial, hipergeométrica, normal e de cauda longa; as distribuições t, qui-quadrado, F e Poisson **foram removidas**. As seções de condicional/Bayes, contagem e hipergeométrica baseiam-se em **@bussab2023**.
 
 ## Comandos
 

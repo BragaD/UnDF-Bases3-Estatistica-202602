@@ -27,7 +27,7 @@ A primeira é **erro amostral**. A segunda é **viés de amostra**. Esta seção
 
 ## Os dados
 
-Para ilustrar amostragem aleatória simples, vamos usar `loans_income.csv`: a renda anual de 50.000 pessoas que solicitaram empréstimo, em **dólares americanos** — o mesmo `loans_income` que a seção 2.5 já usou para o QQ-plot da normal. É um dado americano do livro-texto — diferente do `estados.csv` do Capítulo 1, que é brasileiro —, e vai reaparecer nas próximas seções deste capítulo (distribuição amostral, bootstrap, intervalos de confiança). A coluna chega do CSV como `x`; nós a renomeamos para `Renda` na leitura, sem tocar no arquivo original.
+Para ilustrar amostragem aleatória simples, vamos usar `loans_income.csv`: a renda anual de 50.000 pessoas que solicitaram empréstimo, em **dólares americanos** — o mesmo `loans_income` que a seção 2.7 já usou para o QQ-plot da normal. É um dado americano do livro-texto — diferente do `estados.csv` do Capítulo 1, que é brasileiro —, e vai reaparecer nas próximas seções deste capítulo (distribuição amostral, bootstrap, intervalos de confiança). A coluna chega do CSV como `x`; nós a renomeamos para `Renda` na leitura, sem tocar no arquivo original.
 
 ```{python}
 #| label: populacao
@@ -36,7 +36,7 @@ print(f"Média:   {num(renda.mean(), 0)}")
 print(f"Mediana: {num(renda.median(), 0)}")
 ```
 
-As 50.000 rendas **são** a população para os propósitos desta seção — é o conjunto inteiro que temos, e é dele que vamos sortear amostras menores. A média (US\$ 68.761) fica acima da mediana (US\$ 62.000), a mesma assinatura assimétrica do Capítulo 1: uma cauda de rendas altas puxa a média para cima sem mover o valor central. Isso não é coincidência — renda é o exemplo clássico de distribuição de cauda longa à direita, que o Capítulo 2 já tratou (seções 2.5–2.6).
+As 50.000 rendas **são** a população para os propósitos desta seção — é o conjunto inteiro que temos, e é dele que vamos sortear amostras menores. A média (US\$ 68.761) fica acima da mediana (US\$ 62.000), a mesma assinatura assimétrica do Capítulo 1: uma cauda de rendas altas puxa a média para cima sem mover o valor central. Isso não é coincidência — renda é o exemplo clássico de distribuição de cauda longa à direita, que o Capítulo 2 já tratou (seções 2.7–2.8).
 
 ## Amostragem aleatória simples
 

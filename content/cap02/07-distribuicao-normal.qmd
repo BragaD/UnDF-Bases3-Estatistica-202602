@@ -72,7 +72,7 @@ Uma distribuição normal tem assimetria zero. A renda tem `{python} num(stats.s
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
-O corpo dos dados é aproximadamente normal, mas as **caudas são mais pesadas** do que a normal preveria — valores extremos, altos e baixos, aparecem com mais frequência do que o esperado (ou há outliers). É o padrão característico de dados com cauda longa, tema da seção 2.6. O afastamento nas pontas, e não no meio, é o sinal de que o problema está nos extremos, não no centro.
+O corpo dos dados é aproximadamente normal, mas as **caudas são mais pesadas** do que a normal preveria — valores extremos, altos e baixos, aparecem com mais frequência do que o esperado (ou há outliers). É o padrão característico de dados com cauda longa, tema da seção 2.8. O afastamento nas pontas, e não no meio, é o sinal de que o problema está nos extremos, não no centro.
 :::
 
 **2.** Por que a regra 68–95–99,7 é útil na prática, mesmo sendo apenas uma aproximação?

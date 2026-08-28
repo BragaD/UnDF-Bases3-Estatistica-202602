@@ -4,7 +4,225 @@
 Esta seção se baseia nos capítulos 5.3 e 5.4 de @bussab2023.
 :::
 
-::: {.callout-warning}
-## Em construção
-O conteúdo desta seção ainda será escrito.
+```{python}
+#| label: setup
+#| include: false
+import numpy as np
+from formato import num
+```
+
+A seção anterior fechou com a regra da multiplicação para eventos independentes: $P(A \cap B) = P(A) \cdot P(B)$. Mas a maioria dos pares de eventos do mundo real não é independente — saber que um ocorreu quase sempre muda a chance do outro. Esta seção generaliza a regra da multiplicação para dar conta disso, define o que significa "a probabilidade de $A$, dado que $B$ ocorreu", e chega ao Teorema de Bayes: a ferramenta que inverte uma condicional fácil de calcular na condicional difícil que realmente importa.
+
+## Probabilidade condicional
+
+A **probabilidade condicional** de $A$ dado $B$, escrita $P(A \mid B)$, é a probabilidade de $A$ depois que se sabe que $B$ ocorreu. Saber que $B$ ocorreu encolhe o espaço amostral: só interessam mais os resultados dentro de $B$, e a pergunta passa a ser que fração *desses* resultados também está em $A$.
+
+$$P(A \mid B) = \frac{P(A \cap B)}{P(B)} \qquad (P(B) > 0)$$
+
+Rearranjando essa definição chega-se à **regra da multiplicação geral**:
+
+$$P(A \cap B) = P(A \mid B) \cdot P(B)$$
+
+Essa é a forma geral da regra que a seção 2.2 já usou, só que num caso particular: quando $A$ e $B$ são independentes, saber que $B$ ocorreu não muda nada sobre $A$, ou seja, $P(A \mid B) = P(A)$. Substituindo na fórmula acima, $P(A \cap B) = P(A) \cdot P(B)$ — exatamente a regra da multiplicação de 2.2. Ela não fica errada; passa a ser um caso especial de algo mais geral.
+
+Volte ao lançamento de dois dados. Seja $B$ = "o primeiro dado mostra 5" e $A$ = "a soma dos dois dados é 8". Sem nenhuma informação sobre $B$, $A$ ocorre em 5 dos 36 resultados possíveis — $(2,6), (3,5), (4,4), (5,3), (6,2)$ —, então $P(A) = 5/36 \approx 0{,}139$. Isso é o **prior**: a probabilidade de $A$ antes de qualquer informação sobre $B$.
+
+Agora suponha que alguém revele que o primeiro dado deu 5. Dos 6 resultados com primeiro dado igual a 5, só um também soma 8 — o par $(5,3)$. Logo:
+
+$$P(A \mid B) = \frac{P(A \cap B)}{P(B)} = \frac{1/36}{6/36} = \frac{1}{6} \approx 0{,}167$$
+
+Esse é o **posterior**: a probabilidade de $A$ depois de incorporar a informação de que $B$ ocorreu. Ela subiu de 0,139 para 0,167 — saber o primeiro dado tornou a soma 8 um pouco mais provável, não menos, porque agora só falta o segundo dado dar exatamente 3.
+
+::: {.conceito}
+$P(A \mid B)$ e $P(B \mid A)$ quase nunca são o mesmo número, e confundir os dois é um dos erros mais comuns em probabilidade. No exemplo acima, $P(B \mid A)$ — a chance de o primeiro dado ter sido 5, dado que a soma é 8 — é
+
+$$P(B \mid A) = \frac{P(A \cap B)}{P(A)} = \frac{1/36}{5/36} = \frac{1}{5} = 0{,}2$$
+
+um número diferente de $P(A \mid B) = 0{,}167$. Cada condicional restringe o espaço amostral a um evento diferente ($B$ num caso, $A$ no outro), e não há motivo geométrico para as duas frações darem igual. Guarde essa assimetria: ela é o motivo de existir o Teorema de Bayes, adiante nesta seção.
+:::
+
+## Independência revisitada
+
+Com a definição de probabilidade condicional em mãos, a independência ganha uma segunda forma de ser escrita, equivalente à da seção 2.2: $A$ e $B$ são **independentes** quando saber que $B$ ocorreu não muda a probabilidade de $A$,
+
+$$P(A \mid B) = P(A) \qquad \text{(independentes)}$$
+
+As duas formas são a mesma ideia. Partindo de $P(A \cap B) = P(A) \cdot P(B)$ e dividindo os dois lados por $P(B)$: $P(A \mid B) = P(A \cap B)/P(B) = P(A) \cdot P(B)/P(B) = P(A)$.
+
+Os dois lançamentos de moeda do fim da seção 2.2 servem para ver as duas situações lado a lado. Seja $B$ = "a primeira moeda dá cara" e $A$ = "a segunda moeda dá cara". Lançamentos de moedas diferentes não interferem um no outro, então $P(A \cap B) = P(\text{cara-cara}) = 0{,}25$ e $P(B) = 0{,}5$, o que dá
+
+$$P(A \mid B) = \frac{0{,}25}{0{,}5} = 0{,}5 = P(A)$$
+
+A condição bate: saber o resultado da primeira moeda não altera nada sobre a segunda, confirmando que os dois lançamentos são independentes. Já no exemplo dos dois dados da seção anterior, $P(A \mid B) = 0{,}167$ é diferente de $P(A) = 0{,}139$ — a informação sobre o primeiro dado *mudou* a crença sobre a soma, então os dois eventos **não** são independentes. Faz sentido: a soma dos dois dados depende do valor de cada um.
+
+## Regra da probabilidade total
+
+Até aqui, toda conta partiu de probabilidades já conhecidas para pares de eventos. Mas com frequência a informação disponível vem picada em cenários: a probabilidade de cada cenário ocorrer, e a probabilidade de $A$ *dentro* de cada cenário. A regra da probabilidade total costura essas peças de volta numa única $P(A)$.
+
+Os cenários precisam formar uma **partição** do espaço amostral $S$: um conjunto de eventos $B_1, B_2, \ldots, B_n$ que são
+
+- **mutuamente exclusivos** — $B_i \cap B_j = \emptyset$ para todo $i \neq j$ (nenhum resultado pertence a dois cenários ao mesmo tempo), e
+- **exaustivos** — $B_1 \cup B_2 \cup \cdots \cup B_n = S$ (todo resultado pertence a algum cenário).
+
+Pense numa árvore: o primeiro nível se ramifica em $B_1, \ldots, B_n$, cada ramo com probabilidade $P(B_i)$; de cada $B_i$ nasce um segundo ramo para "$A$ ocorre", com probabilidade $P(A \mid B_i)$. Multiplicar ao longo de um caminho dá $P(A \mid B_i) \cdot P(B_i)$ — a probabilidade de terminar naquele cenário **e** em $A$. Como os cenários são mutuamente exclusivos, esses caminhos não se sobrepõem, e a regra da adição (seção 2.2) permite simplesmente somá-los:
+
+$$P(A) = \sum_{i=1}^{n} P(A \mid B_i) \cdot P(B_i)$$
+
+Suponha que um sistema distribui tráfego entre três data centers: 50% das requisições vão para o DC1, 30% para o DC2 e 20% para o DC3 — uma partição válida, porque toda requisição cai em exatamente um data center. A taxa de erro de cada um é 1%, 2% e 5%, respectivamente. A probabilidade de uma requisição qualquer dar erro soma as três contribuições:
+
+$$P(\text{erro}) = (0{,}5)(0{,}01) + (0{,}3)(0{,}02) + (0{,}2)(0{,}05) = 0{,}005 + 0{,}006 + 0{,}010 = 0{,}021$$
+
+Note que $2{,}1\%$ não é a média simples das três taxas ($2{,}67\%$): é a média **ponderada** pelo volume de cada data center, o mesmo princípio das médias ponderadas da seção 1.3.
+
+Se a partição não for exaustiva — se sobrar algum resultado fora de todo $B_i$ — a soma perde uma fatia de $P(A)$ e sai baixa. Se não for mutuamente exclusiva — se dois cenários se sobrepõem — parte da probabilidade é contada duas vezes e a soma sai alta. A regra só funciona porque a árvore cobre todo o espaço amostral sem repetir nenhum ramo.
+
+## Teorema de Bayes
+
+O exemplo dos dois dados já mostrou que $P(A \mid B)$ e $P(B \mid A)$ são, em geral, números diferentes. O problema prático é que, com frequência, **só uma das duas direções é fácil de medir**. Um teste diagnóstico é desenhado e calibrado conhecendo $P(\text{teste positivo} \mid \text{doença})$ — foi assim que ele foi construído. O que se quer saber, ao ver um resultado positivo na mão de um paciente, é o oposto: $P(\text{doença} \mid \text{teste positivo})$. O Teorema de Bayes é a regra que **inverte a condicional fácil na condicional difícil**.
+
+A dedução parte de duas maneiras de escrever a mesma interseção, usando a regra da multiplicação em cada sentido:
+
+$$P(A \cap B) = P(A \mid B) \cdot P(B) = P(B \mid A) \cdot P(A)$$
+
+Igualando os dois lados direitos e isolando $P(A \mid B)$:
+
+$$P(A \mid B) = \frac{P(B \mid A) \cdot P(A)}{P(B)}$$
+
+Essa já é a forma de Bayes para dois eventos. Ela generaliza para uma partição $A_1, \ldots, A_n$ do espaço amostral trocando o denominador $P(B)$ pela regra da probabilidade total da seção anterior — a soma sobre todos os cenários possíveis:
+
+::: {.conceito}
+**Teorema de Bayes (forma geral).** Se $A_1, \ldots, A_n$ formam uma partição do espaço amostral (mutuamente exclusivos e exaustivos), então, para qualquer evento $B$ com $P(B) > 0$:
+
+$$P(A_i \mid B) = \frac{P(B \mid A_i) \cdot P(A_i)}{\displaystyle\sum_{j=1}^{n} P(B \mid A_j) \cdot P(A_j)}$$
+
+Cada peça tem nome: $P(A_i)$ é o **prior** (a crença antes de $B$), $P(B \mid A_i)$ é a **verossimilhança** (quão provável seria observar $B$ em cada cenário), o denominador é a **evidência** — $P(B)$ pela regra da probabilidade total — e $P(A_i \mid B)$ é o **posterior** (a crença atualizada depois de $B$).
+
+A fórmula só vale se $A_1, \ldots, A_n$ formarem de fato uma partição. Se algum cenário ficar de fora (não exaustiva) ou dois cenários se sobrepuserem (não exclusiva), a soma do denominador não é mais $P(B)$, e o resultado sai errado sem avisar — o mesmo risco já visto na regra da probabilidade total.
+:::
+
+::: {.callout-note}
+## Para ver de outro ângulo
+
+Duas explicações visuais e interativas, complementares a esta seção (sem precisar ler código):
+
+- [**Bayes' theorem** — 3Blue1Brown](https://www.3blue1brown.com/lessons/bayes-theorem): usa áreas para mostrar por que a taxa-base pode dominar um teste aparentemente confiável — o mesmo fenômeno da próxima seção.
+- [**Bayesian Inference** — Seeing Theory](https://seeing-theory.brown.edu/bayesian-inference/index.html): reconstrói o Teorema de Bayes a partir de um teste médico, com sliders para os mesmos três ingredientes usados aqui: prior, verossimilhança e posterior.
+:::
+
+O exercício 5.15 de @bussab2023 é um bom primeiro uso da forma geral, porque a partição tem três cenários, não dois. Um processo seletivo classifica os candidatos, a partir do currículo, em bons (25% do total), médios (50%) e fracos (25%) — o prior de cada categoria. Historicamente, 80% dos candidatos bons passam na entrevista, contra 50% dos médios e 20% dos fracos — a verossimilhança de "ser aprovado" em cada cenário. Um candidato foi aprovado. Qual a probabilidade de que fosse fraco?
+
+```{python}
+#| label: bayes-particao
+prior = {"bom": 0.25, "médio": 0.50, "fraco": 0.25}
+aprovado_dado = {"bom": 0.80, "médio": 0.50, "fraco": 0.20}
+evidencia = sum(prior[c] * aprovado_dado[c] for c in prior)
+posterior_fraco = prior["fraco"] * aprovado_dado["fraco"] / evidencia
+print(f"P(candidato fraco | foi aprovado) = {num(posterior_fraco, 2)}")
+```
+
+Dos aprovados, só `{python} num(posterior_fraco, 2)` (10%) são fracos — bem menos que os 25% do prior. Faz sentido: candidatos fracos raramente passam (20% de chance), então, entre quem passou, eles ficam sub-representados. O mesmo cálculo dá o posterior das outras duas categorias, usando as variáveis já definidas no chunk acima: `{python} num(prior["bom"] * aprovado_dado["bom"] / evidencia, 2)` para bons e `{python} num(prior["médio"] * aprovado_dado["médio"] / evidencia, 2)` para médios. As três somam exatamente 1,00 — o posterior, atualizado pela evidência "foi aprovado", ainda é uma partição, porque continua cobrindo todo o espaço amostral (todo aprovado é bom, médio ou fraco) sem sobreposição.
+
+## A armadilha da taxa-base
+
+Um sistema de detecção de anomalias — fraude, intrusão, uma falha rara de hardware — dispara um alarme com **sensibilidade** de 80%: sempre que o evento real acontece, o alarme dispara 80% das vezes. Ele também tem uma taxa de **falso-positivo** de 9,6%: mesmo sem o evento, o alarme dispara por engano em 9,6% dos casos. O evento em si é raro — a **prevalência** é de apenas 1% dos casos.
+
+O alarme acaba de disparar. Qual a chance de o evento ser real? A resposta intuitiva é "perto de 80%" — afinal, é isso que a sensibilidade parece prometer. A resposta certa é bem menor:
+
+```{python}
+#| label: bayes-falso-positivo
+prevalencia, sensibilidade, falso_positivo = 0.01, 0.80, 0.096
+posterior = (prevalencia * sensibilidade) / (
+    prevalencia * sensibilidade + (1 - prevalencia) * falso_positivo)
+print(f"P(evento real | alarme disparou) = {num(posterior * 100, 1)}%")
+```
+
+Só `{python} num(posterior * 100, 1)`% dos alarmes correspondem a um evento real — dez vezes menos do que os 80% da intuição. O denominador da fórmula explica por quê: ele soma a contribuição de quem tem o evento, $(0{,}01)(0{,}80) = 0{,}008$, com a contribuição de quem não tem, $(0{,}99)(0{,}096) \approx 0{,}095$. Mesmo com uma taxa de falso-positivo bem menor que a sensibilidade (9,6% contra 80%), o segundo grupo é **99 vezes maior** que o primeiro — e esse desequilíbrio no tamanho das populações domina o resultado. A maioria esmagadora dos alarmes vem de gente sem o evento, simplesmente porque é uma maioria esmagadora da população.
+
+Isso é a **armadilha da taxa-base**: quando o evento é raro, mesmo um teste bastante sensível gera mais alarmes falsos do que verdadeiros em números absolutos. A pergunta certa nunca é só "quão sensível é o teste", mas "quão sensível é o teste, *dado o quão raro é o evento*". E é, no fundo, o mesmo erro do início da seção — tratar $P(\text{alarme} \mid \text{evento real})$, a sensibilidade, como se fosse $P(\text{evento real} \mid \text{alarme})$, o posterior — só que agora com uma diferença de dez vezes, não de fração de ponto.
+
+Uma segunda maneira de chegar ao mesmo número, sem fórmula nenhuma: simular uma população inteira e contar.
+
+```{python}
+#| label: bayes-monte-carlo
+rng = np.random.default_rng(42)
+n = 1_000_000
+tem_evento = rng.random(n) < prevalencia
+alarme = np.where(tem_evento, rng.random(n) < sensibilidade, rng.random(n) < falso_positivo)
+positivos = int(alarme.sum())
+reais = int((alarme & tem_evento).sum())
+print(f"De {num(positivos, 0)} alarmes, {num(reais, 0)} eram evento real: {num(100 * reais / positivos, 1)}%")
+```
+
+Um milhão de casos simulados, cada um com sua chance de ter o evento e de disparar o alarme, dão a mesma fração de antes: contar alarmes de verdade entre um milhão de casos simulados chega ao mesmo lugar que a álgebra do Teorema de Bayes.
+
+::: {.exemplo}
+Este exemplo é do tipo de sistema onde a armadilha da taxa-base mais custa caro: quanto mais raro o evento que se quer detectar — fraude entre milhões de transações, uma doença rara numa triagem em massa, uma falha catastrófica entre bilhões de operações —, mais um teste "confiável" precisa ser, em sensibilidade e em falso-positivo, para que a maioria dos alarmes ainda signifique alguma coisa.
+:::
+
+Bayes e a probabilidade total resolvem perguntas quando as probabilidades das peças já são conhecidas. Mas, em muitos problemas, o primeiro obstáculo é outro: contar quantos resultados existem, para sequer começar a atribuir probabilidade a cada um. É esse problema — contar sem enumerar um por um — que a próxima seção ataca, com permutações e combinações.
+
+## Exercícios
+
+**1.** Numa fila de atendimento, 30% dos tickets chegam marcados como prioridade alta ($P(\text{alta}) = 0{,}3$) e os demais como prioridade normal. Entre os de prioridade alta, 90% são resolvidos no mesmo dia; entre os de prioridade normal, apenas 40% são. Um ticket escolhido ao acaso foi resolvido no mesmo dia. Qual a probabilidade de que fosse de prioridade alta?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+Primeiro, a probabilidade total de um ticket qualquer ser resolvido no mesmo dia, somando as duas categorias (uma partição: todo ticket é alta ou normal, nunca os dois):
+
+$$P(\text{resolvido}) = (0{,}3)(0{,}9) + (0{,}7)(0{,}4) = 0{,}27 + 0{,}28 = 0{,}55$$
+
+Agora Bayes inverte a condicional: em vez de "resolvido dado alta" (que já era conhecida), quer-se "alta dado resolvido":
+
+$$P(\text{alta} \mid \text{resolvido}) = \frac{P(\text{resolvido} \mid \text{alta}) \cdot P(\text{alta})}{P(\text{resolvido})} = \frac{0{,}27}{0{,}55} \approx 0{,}491$$
+
+Note que o prior era 0,30 e o posterior sobe para aproximadamente 0,491: saber que o ticket foi resolvido no mesmo dia torna mais provável que fosse de prioridade alta, porque tickets de prioridade alta são resolvidos rápido com muito mais frequência.
+:::
+
+**2.** Duas moedas justas são lançadas. Seja $A$ = "a primeira moeda dá cara" e $B$ = "as duas moedas dão o mesmo resultado". $A$ e $B$ são independentes?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+O espaço amostral tem 4 resultados igualmente prováveis: cara-cara, cara-coroa, coroa-cara, coroa-coroa. $P(A) = 0{,}5$ (cara-cara e cara-coroa). $P(B) = 0{,}5$ (cara-cara e coroa-coroa). A interseção $A \cap B$ é só cara-cara, então $P(A \cap B) = 0{,}25$.
+
+Testando a definição: $P(A) \cdot P(B) = 0{,}5 \times 0{,}5 = 0{,}25 = P(A \cap B)$. A igualdade bate — $A$ e $B$ **são** independentes, apesar de $B$ parecer, à primeira vista, uma pergunta sobre as duas moedas juntas e não só sobre a primeira. A intuição engana aqui; só a álgebra decide.
+:::
+
+**3.** O problema de Monty Hall: um programa de auditório tem três portas. Atrás de uma está um carro; atrás das outras duas, uma cabra. Você escolhe uma porta. O apresentador, que sabe onde está o carro, abre **outra** porta — sempre uma com cabra, nunca a que você escolheu. Ele então oferece a chance de trocar de porta. Você deve trocar?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+Sim — trocar dobra a chance de ganhar, de 1/3 para 2/3. A saída algébrica usa exatamente o aparato desta seção: prior, verossimilhança e Bayes, com a partição $\{\text{carro na porta 1}, \text{carro na porta 2}, \text{carro na porta 3}\}$.
+
+Suponha, sem perda de generalidade, que você escolheu a porta 1 e o apresentador abriu a porta 3 (mostrando uma cabra). O prior de cada porta é $1/3$. A verossimilhança de "o apresentador abre a porta 3" depende de onde está o carro:
+
+- Carro na porta 1 (a sua): o apresentador pode abrir 2 ou 3, escolhe ao acaso — $P(\text{abre 3} \mid \text{carro em 1}) = 1/2$.
+- Carro na porta 2: a única porta com cabra que sobra é a 3 — $P(\text{abre 3} \mid \text{carro em 2}) = 1$.
+- Carro na porta 3: o apresentador nunca abre a porta com o carro — $P(\text{abre 3} \mid \text{carro em 3}) = 0$.
+
+A evidência (regra da probabilidade total): $P(\text{abre 3}) = (1/3)(1/2) + (1/3)(1) + (1/3)(0) = 1/6 + 1/3 = 1/2$. Por Bayes,
+
+$$P(\text{carro em 1} \mid \text{abre 3}) = \frac{(1/3)(1/2)}{1/2} = \frac{1}{3} \qquad P(\text{carro em 2} \mid \text{abre 3}) = \frac{(1/3)(1)}{1/2} = \frac{2}{3}$$
+
+Ficar na porta 1 mantém a chance original de 1/3 — abrir a porta 3 não trouxe nenhuma informação nova sobre a porta que você já tinha escolhido. Trocar para a porta 2 herda os 2/3 que sobraram.
+
+Uma simulação confirma sem precisar de álgebra nenhuma. Como o apresentador nunca abre a porta do jogador nem a do carro, a porta que sobra depois que ele revela uma cabra é o carro exatamente quando a escolha inicial errou — por isso "trocar acerta" pode ser calculado direto, sem simular qual porta o apresentador abriu:
+
+```python
+rng = np.random.default_rng(42)
+n = 100_000
+
+carro = rng.integers(0, 3, n)          # porta com o carro, sorteada por caso
+escolha = rng.integers(0, 3, n)        # escolha inicial do jogador
+
+troca_acerta = escolha != carro        # trocar acerta sse a escolha inicial errou
+fica_acerta = escolha == carro         # ficar acerta sse a escolha inicial acertou
+
+print(f"Trocando: {num(100 * troca_acerta.mean(), 1)}%")
+print(f"Ficando : {num(100 * fica_acerta.mean(), 1)}%")
+```
+
+Com 100 mil repetições, a fração de "trocando" fica perto de 66,7% e a de "ficando" perto de 33,3% — o 2/3 e o 1/3 que a álgebra já previa.
 :::

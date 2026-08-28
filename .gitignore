@@ -28,3 +28,8 @@ __pycache__/
 
 # Claude Code — preferências locais da máquina
 .claude/settings.local.json
+
+# Avaliações — material de prova/lista. O repositório é PÚBLICO; enunciados e
+# gabarito NUNCA vão ao GitHub. O que se distribui é o PDF gerado localmente.
+# (Mesmo princípio do arquivo de Rotinas, mantido local.)
+/avaliacoes/

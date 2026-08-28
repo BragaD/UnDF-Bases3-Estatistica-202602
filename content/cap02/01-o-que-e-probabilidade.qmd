@@ -72,7 +72,7 @@ O eixo horizontal está em escala logarítmica de propósito: em escala linear, 
 Não existe um momento em que a moeda "decide" compensar os lançamentos passados — não há lei da compensação. O que acontece é que, à medida que $n$ cresce, cada lançamento novo pesa cada vez menos sobre a proporção acumulada, e é essa diluição — não uma correção — que empurra a curva para 0,5. É esse comportamento de longo prazo, e nada além dele, que a definição frequentista de probabilidade está descrevendo.
 :::
 
-A próxima seção formaliza esse vocabulário com as operações que aparecem no resto do capítulo: complemento, adição, multiplicação, independência e probabilidade condicional.
+A próxima seção formaliza esse vocabulário com as operações que aparecem no resto do capítulo: complemento, adição, multiplicação e independência — e, na seção seguinte, a probabilidade condicional.
 
 ## Exercícios
 

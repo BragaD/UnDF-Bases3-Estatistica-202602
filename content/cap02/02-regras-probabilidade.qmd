@@ -4,7 +4,7 @@
 Esta seção se inspira no Capítulo 10 de @weed.
 :::
 
-A seção anterior tratou do que o número "probabilidade" significa. Esta trata do que se pode **fazer** com ele: um pequeno conjunto de regras algébricas — complemento, adição, multiplicação, independência — que combina probabilidades de eventos simples para obter a probabilidade de eventos compostos. São essas regras, e não mais nada, que sustentam o catálogo de distribuições que começa na próxima seção, com a binomial.
+A seção anterior tratou do que o número "probabilidade" significa. Esta trata do que se pode **fazer** com ele: um pequeno conjunto de regras algébricas — complemento, adição, multiplicação, independência — que combina probabilidades de eventos simples para obter a probabilidade de eventos compostos. São essas regras, e não mais nada, que sustentam o catálogo de distribuições que vem mais adiante no capítulo, a começar pela binomial.
 
 ## Espaço amostral e evento
 
@@ -105,7 +105,7 @@ for k, prob in p_caras.items():
 
 O resultado — 0,25, 0,50 e 0,25 para $X = 0, 1, 2$ — é a distribuição de probabilidade completa de $X$. Ela satisfaz os mesmos axiomas do início da seção: cada probabilidade está entre 0 e 1, e a soma sobre todos os valores possíveis é exatamente 1 (a certeza de que *algum* desses três valores vai ocorrer).
 
-Generalizar essa construção — não para 2 lançamentos, mas para $n$ tentativas independentes de sucesso-ou-fracasso com probabilidade $p$ — é exatamente o que a próxima seção faz. O resultado tem nome: **distribuição binomial**.
+Generalizar essa construção — não para 2 lançamentos, mas para $n$ tentativas independentes de sucesso-ou-fracasso com probabilidade $p$ — leva à **distribuição binomial**, que este capítulo vê mais adiante (seção 2.5). Antes dela, porém, a próxima seção volta à regra da multiplicação para quando os eventos **não** são independentes: a probabilidade condicional e o Teorema de Bayes.
 
 ## Exercícios
 

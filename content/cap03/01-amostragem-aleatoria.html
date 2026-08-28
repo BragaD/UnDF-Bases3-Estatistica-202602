@@ -490,37 +490,32 @@ div.csl-indent {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/03-distribuicao-binomial.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Binomial</span></a>
+  <a href="../../content/cap02/03-probabilidade-condicional-bayes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Probabilidade Condicional e Bayes</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/04-poisson.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição de Poisson</span></a>
+  <a href="../../content/cap02/04-contagem-permutacao-combinacao.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Contagem: Permutação e Combinação</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/05-distribuicao-normal.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Normal</span></a>
+  <a href="../../content/cap02/05-distribuicao-binomial.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Binomial</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/06-caudas-longas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuições de Cauda Longa</span></a>
+  <a href="../../content/cap02/06-distribuicao-hipergeometrica.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Hipergeométrica</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/07-distribuicao-t.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição t de Student</span></a>
+  <a href="../../content/cap02/07-distribuicao-normal.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Normal</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/08-qui-quadrado.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Qui-Quadrado</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/09-distribuicao-f.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição F</span></a>
+  <a href="../../content/cap02/08-caudas-longas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuições de Cauda Longa</span></a>
   </div>
 </li>
       </ul>
@@ -707,7 +702,7 @@ Nota
 <p>A primeira é <strong>erro amostral</strong>. A segunda é <strong>viés de amostra</strong>. Esta seção existe para que essa distinção fique automática antes de o capítulo chegar à distribuição amostral propriamente dita.</p>
 <section id="os-dados" class="level2">
 <h2 class="anchored" data-anchor-id="os-dados">Os dados</h2>
-<p>Para ilustrar amostragem aleatória simples, vamos usar <code>loans_income.csv</code>: a renda anual de 50.000 pessoas que solicitaram empréstimo, em <strong>dólares americanos</strong> — o mesmo <code>loans_income</code> que a seção 2.5 já usou para o QQ-plot da normal. É um dado americano do livro-texto — diferente do <code>estados.csv</code> do Capítulo 1, que é brasileiro —, e vai reaparecer nas próximas seções deste capítulo (distribuição amostral, bootstrap, intervalos de confiança). A coluna chega do CSV como <code>x</code>; nós a renomeamos para <code>Renda</code> na leitura, sem tocar no arquivo original.</p>
+<p>Para ilustrar amostragem aleatória simples, vamos usar <code>loans_income.csv</code>: a renda anual de 50.000 pessoas que solicitaram empréstimo, em <strong>dólares americanos</strong> — o mesmo <code>loans_income</code> que a seção 2.7 já usou para o QQ-plot da normal. É um dado americano do livro-texto — diferente do <code>estados.csv</code> do Capítulo 1, que é brasileiro —, e vai reaparecer nas próximas seções deste capítulo (distribuição amostral, bootstrap, intervalos de confiança). A coluna chega do CSV como <code>x</code>; nós a renomeamos para <code>Renda</code> na leitura, sem tocar no arquivo original.</p>
 <div id="populacao" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"População: </span><span class="sc">{</span>num(<span class="bu">len</span>(renda), <span class="dv">0</span>)<span class="sc">}</span><span class="ss"> rendas"</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Média:   </span><span class="sc">{</span>num(renda.mean(), <span class="dv">0</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
@@ -718,7 +713,7 @@ Média:   68.761
 Mediana: 62.000</code></pre>
 </div>
 </div>
-<p>As 50.000 rendas <strong>são</strong> a população para os propósitos desta seção — é o conjunto inteiro que temos, e é dele que vamos sortear amostras menores. A média (US$ 68.761) fica acima da mediana (US$ 62.000), a mesma assinatura assimétrica do Capítulo 1: uma cauda de rendas altas puxa a média para cima sem mover o valor central. Isso não é coincidência — renda é o exemplo clássico de distribuição de cauda longa à direita, que o Capítulo 2 já tratou (seções 2.5–2.6).</p>
+<p>As 50.000 rendas <strong>são</strong> a população para os propósitos desta seção — é o conjunto inteiro que temos, e é dele que vamos sortear amostras menores. A média (US$ 68.761) fica acima da mediana (US$ 62.000), a mesma assinatura assimétrica do Capítulo 1: uma cauda de rendas altas puxa a média para cima sem mover o valor central. Isso não é coincidência — renda é o exemplo clássico de distribuição de cauda longa à direita, que o Capítulo 2 já tratou (seções 2.7–2.8).</p>
 </section>
 <section id="amostragem-aleatória-simples" class="level2">
 <h2 class="anchored" data-anchor-id="amostragem-aleatória-simples">Amostragem aleatória simples</h2>

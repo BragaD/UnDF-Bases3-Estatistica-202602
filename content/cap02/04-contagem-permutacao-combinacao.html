@@ -8,7 +8,7 @@
 
 <meta name="author" content="Douglas Braga">
 
-<title>Distribuição F – Bases 3</title>
+<title>Contagem: Permutação e Combinação – Bases 3</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -88,8 +88,8 @@ div.csl-indent {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../content/cap03/index.html" rel="next">
-<link href="../../content/cap02/08-qui-quadrado.html" rel="prev">
+<link href="../../content/cap02/05-distribuicao-binomial.html" rel="next">
+<link href="../../content/cap02/03-probabilidade-condicional-bayes.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -398,7 +398,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/cap02/index.html">Capítulo 2: Probabilidade e Distribuições</a></li><li class="breadcrumb-item"><a href="../../content/cap02/09-distribuicao-f.html"><span class="chapter-title">Distribuição F</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/cap02/index.html">Capítulo 2: Probabilidade e Distribuições</a></li><li class="breadcrumb-item"><a href="../../content/cap02/04-contagem-permutacao-combinacao.html"><span class="chapter-title">Contagem: Permutação e Combinação</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -519,37 +519,32 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/03-distribuicao-binomial.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Binomial</span></a>
+  <a href="../../content/cap02/03-probabilidade-condicional-bayes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Probabilidade Condicional e Bayes</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/04-poisson.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição de Poisson</span></a>
+  <a href="../../content/cap02/04-contagem-permutacao-combinacao.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Contagem: Permutação e Combinação</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/05-distribuicao-normal.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Normal</span></a>
+  <a href="../../content/cap02/05-distribuicao-binomial.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Binomial</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/06-caudas-longas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuições de Cauda Longa</span></a>
+  <a href="../../content/cap02/06-distribuicao-hipergeometrica.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Hipergeométrica</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/07-distribuicao-t.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição t de Student</span></a>
+  <a href="../../content/cap02/07-distribuicao-normal.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Normal</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/08-qui-quadrado.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Qui-Quadrado</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/09-distribuicao-f.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Distribuição F</span></a>
+  <a href="../../content/cap02/08-caudas-longas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuições de Cauda Longa</span></a>
   </div>
 </li>
       </ul>
@@ -677,7 +672,10 @@ window.Quarto = {
     <h2 id="toc-title">Nesta página</h2>
    
   <ul>
-  <li><a href="#o-valor-crítico" id="toc-o-valor-crítico" class="nav-link active" data-scroll-target="#o-valor-crítico">O valor crítico</a></li>
+  <li><a href="#princípio-multiplicativo" id="toc-princípio-multiplicativo" class="nav-link active" data-scroll-target="#princípio-multiplicativo">Princípio multiplicativo</a></li>
+  <li><a href="#permutação-quando-a-ordem-importa" id="toc-permutação-quando-a-ordem-importa" class="nav-link" data-scroll-target="#permutação-quando-a-ordem-importa">Permutação: quando a ordem importa</a></li>
+  <li><a href="#combinação-quando-a-ordem-não-importa" id="toc-combinação-quando-a-ordem-não-importa" class="nav-link" data-scroll-target="#combinação-quando-a-ordem-não-importa">Combinação: quando a ordem não importa</a></li>
+  <li><a href="#contando-sem-probabilidade-nenhuma-ainda" id="toc-contando-sem-probabilidade-nenhuma-ainda" class="nav-link" data-scroll-target="#contando-sem-probabilidade-nenhuma-ainda">Contando sem probabilidade nenhuma — ainda</a></li>
   <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios">Exercícios</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/BragaD/UnDF-Bases3-Estatistica-202602/issues/new" class="toc-action"><i class="bi bi-github"></i>Criar uma issue</a></li></ul></div></nav>
@@ -686,9 +684,9 @@ window.Quarto = {
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/cap02/index.html">Capítulo 2: Probabilidade e Distribuições</a></li><li class="breadcrumb-item"><a href="../../content/cap02/09-distribuicao-f.html"><span class="chapter-title">Distribuição F</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/cap02/index.html">Capítulo 2: Probabilidade e Distribuições</a></li><li class="breadcrumb-item"><a href="../../content/cap02/04-contagem-permutacao-combinacao.html"><span class="chapter-title">Contagem: Permutação e Combinação</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-title">Distribuição F</span></h1>
+<h1 class="title"><span class="chapter-title">Contagem: Permutação e Combinação</span></h1>
 </div>
 
 
@@ -721,49 +719,56 @@ Nota
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Esta seção corresponde à seção 2.11 de <span class="citation" data-cites="bruce2020">Bruce et al. (<a href="#ref-bruce2020" role="doc-biblioref">2020</a>)</span>.</p>
+<p>Esta seção se baseia na seção 5.2 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>.</p>
 </div>
 </div>
-<p>Se a qui-quadrado mede o tamanho de um desvio, a <strong>F</strong> mede uma <strong>razão</strong> — mais precisamente, a razão entre duas variâncias. Ela nasce da pergunta “estes dois conjuntos têm o mesmo espalhamento?”, mas seu uso mais importante é indireto: a F é o motor da <strong>ANOVA</strong> (análise de variância), o teste que compara as médias de vários grupos de uma vez só.</p>
-<p>Como é uma razão de variâncias — e variância é uma média de quadrados, sempre positiva —, a F também só assume valores <strong>positivos</strong> e é <strong>assimétrica à direita</strong>. Sua forma depende de <strong>dois</strong> parâmetros de graus de liberdade: um do numerador e um do denominador.</p>
-<div id="cell-fig-f" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">5</span>, <span class="dv">200</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (g1, g2), cor <span class="kw">in</span> [((<span class="dv">5</span>, <span class="dv">10</span>), <span class="st">"#27ae60"</span>), ((<span class="dv">10</span>, <span class="dv">30</span>), <span class="st">"#e67e22"</span>)]:</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    ax.plot(x, stats.f.pdf(x, g1, g2), color<span class="op">=</span>cor, linewidth<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="ss">f"F(</span><span class="sc">{</span>g1<span class="sc">}</span><span class="ss">, </span><span class="sc">{</span>g2<span class="sc">}</span><span class="ss">)"</span>)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Valor"</span>)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Densidade"</span>)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>ax.legend()</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display">
-<div id="fig-f" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-f-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="09-distribuicao-f_files/figure-html/fig-f-output-1.png" width="663" height="374" class="figure-img">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-f-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;21.1: A distribuição F para diferentes pares de graus de liberdade. Assimétrica à direita, sempre positiva — é uma razão de variâncias.
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<p>Sob <span class="math inline">\(H_0\)</span>, quando as duas variâncias são iguais, a razão fica <strong>da ordem de</strong> 1 — o valor que se esperaria de uma razão de números parecidos (a rigor, a média é <span class="math inline">\(d_2/(d_2-2)\)</span>, um pouco acima de 1, aproximando-se de 1 conforme os graus de liberdade do denominador crescem).</p>
-<section id="o-valor-crítico" class="level2">
-<h2 class="anchored" data-anchor-id="o-valor-crítico">O valor crítico</h2>
-<p>Como a qui-quadrado, a F entrega um <strong>valor crítico</strong>: o ponto acima do qual fica só 5% da distribuição.</p>
-<div id="f-critico" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Valor crítico 5% de F(5, 10): </span><span class="sc">{</span>num(stats.f.ppf(<span class="fl">0.95</span>, <span class="dv">5</span>, <span class="dv">10</span>), <span class="dv">2</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Bayes e a probabilidade total, na seção anterior, resolvem perguntas quando as probabilidades das peças já são conhecidas. Mas em muitos problemas o primeiro obstáculo é outro: contar quantos resultados existem, para sequer começar a atribuir probabilidade a cada um. É esse problema — contar sem enumerar um por um — que esta seção ataca.</p>
+<section id="princípio-multiplicativo" class="level2">
+<h2 class="anchored" data-anchor-id="princípio-multiplicativo">Princípio multiplicativo</h2>
+<p>Se uma escolha tem <span class="math inline">\(m\)</span> opções e uma segunda escolha, independente da primeira, tem <span class="math inline">\(n\)</span> opções, o total de combinações das duas é <span class="math inline">\(m \times n\)</span>. Uma senha numérica de 2 dígitos, cada um de 0 a 9, tem <span class="math inline">\(10 \times 10 = 100\)</span> possibilidades — não porque alguém as listou uma a uma, mas porque cada dígito multiplica as opções do outro. O princípio se estende a quantas escolhas houver: o total é o produto do número de opções de cada uma.</p>
+</section>
+<section id="permutação-quando-a-ordem-importa" class="level2">
+<h2 class="anchored" data-anchor-id="permutação-quando-a-ordem-importa">Permutação: quando a ordem importa</h2>
+<p>Uma <strong>permutação</strong> conta arranjos <strong>ordenados</strong> de <span class="math inline">\(k\)</span> elementos escolhidos entre <span class="math inline">\(n\)</span>, sem repetir nenhum. O primeiro elemento tem <span class="math inline">\(n\)</span> opções, o segundo tem <span class="math inline">\(n - 1\)</span> (uma já foi usada), o terceiro tem <span class="math inline">\(n - 2\)</span>, e assim por diante — o princípio multiplicativo aplicado <span class="math inline">\(k\)</span> vezes:</p>
+<p><span class="math display">\[P(n, k) = n \times (n-1) \times \cdots \times (n - k + 1) = \frac{n!}{(n-k)!}\]</span></p>
+<p>Quando <span class="math inline">\(k = n\)</span>, permutar todos os elementos dá <span class="math inline">\(n!\)</span> (lê-se “<span class="math inline">\(n\)</span> fatorial”): <span class="math inline">\(n! = n \times (n-1) \times \cdots \times 2 \times 1\)</span>.</p>
+<div id="contagem" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"5! = </span><span class="sc">{</span>factorial(<span class="dv">5</span>)<span class="sc">}</span><span class="ss">"</span>)                    <span class="co"># permutações de 5 elementos</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"P(5,3) = </span><span class="sc">{</span>perm(<span class="dv">5</span>, <span class="dv">3</span>)<span class="sc">}</span><span class="ss">"</span>)                  <span class="co"># pódios ordenados de 3 entre 5</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"C(20,4) = </span><span class="sc">{</span>num(comb(<span class="dv">20</span>, <span class="dv">4</span>), <span class="dv">0</span>)<span class="sc">}</span><span class="ss">"</span>)        <span class="co"># amostras (sem ordem) de 4 entre 20</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Valor crítico 5% de F(5, 10): 3,33</code></pre>
+<pre><code>5! = 120
+P(5,3) = 60
+C(20,4) = 4.845</code></pre>
 </div>
 </div>
-<p>Com 5 e 10 graus de liberdade, uma razão de variâncias maior que 3,33 é improvável (menos de 5% de chance) se as variâncias forem de fato iguais. Numa ANOVA, essa razão compara a variação <strong>entre</strong> os grupos com a variação <strong>dentro</strong> deles: uma F grande significa que as médias dos grupos diferem mais do que a variação interna justificaria — é o princípio da <strong>ANOVA</strong> (análise de variância).</p>
+<p>Cinco corredores podem cruzar a linha de chegada em 120 ordens diferentes (<span class="math inline">\(5!\)</span>). Escolher só o pódio — ouro, prata e bronze, entre os mesmos 5 corredores — dá 60 resultados possíveis (<span class="math inline">\(P(5,3)\)</span>): a ordem importa, porque ouro e prata não são a mesma coisa.</p>
+</section>
+<section id="combinação-quando-a-ordem-não-importa" class="level2">
+<h2 class="anchored" data-anchor-id="combinação-quando-a-ordem-não-importa">Combinação: quando a ordem não importa</h2>
+<p>Uma <strong>combinação</strong> conta <strong>subconjuntos</strong> de <span class="math inline">\(k\)</span> elementos escolhidos entre <span class="math inline">\(n\)</span>, sem se importar com a ordem em que foram escolhidos. Ela parte da permutação e divide pelas <span class="math inline">\(k!\)</span> formas de ordenar cada subconjunto — todas essas ordens diferentes contam como um único resultado:</p>
+<p><span class="math display">\[\binom{n}{k} = \frac{P(n,k)}{k!} = \frac{n!}{k!(n-k)!}\]</span></p>
+<p>O terceiro resultado do chunk acima é uma combinação: escolher 4 itens entre 20, sem ordem, dá 4.845 subconjuntos possíveis (<span class="math inline">\(\binom{20}{4}\)</span>) — bem menos que os <span class="math inline">\(P(20,4)\)</span> arranjos <em>ordenados</em> dos mesmos 4 itens, porque cada subconjunto de 4 corresponde a <span class="math inline">\(4! = 24\)</span> arranjos que a combinação trata como um só.</p>
+<div class="conceito">
+<p><strong>A pergunta que decide qual fórmula usar: a ordem importa?</strong> Escalar um pódio (ouro, prata, bronze) é permutação — trocar quem ganha o quê muda o resultado. Sortear 4 pessoas para um comitê é combinação — trocar a ordem do sorteio não muda quem está no comitê. A mesma situação nunca é as duas coisas ao mesmo tempo; a pergunta sempre separa qual fórmula se aplica.</p>
+</div>
+</section>
+<section id="contando-sem-probabilidade-nenhuma-ainda" class="level2">
+<h2 class="anchored" data-anchor-id="contando-sem-probabilidade-nenhuma-ainda">Contando sem probabilidade nenhuma — ainda</h2>
+<p>O exercício 5.8 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span> mostra por que essas fórmulas importam mesmo antes de qualquer probabilidade entrar em cena. Um lote tem 20 peças, das quais 5 são defeituosas. Sorteiam-se 4 peças, sem reposição e sem ordem. Qual a chance de sair <strong>exatamente 2</strong> defeituosas?</p>
+<p>A conta é toda de combinações: escolher 2 defeituosas entre as 5 (<span class="math inline">\(\binom{5}{2}\)</span>), escolher as outras 2 boas entre as 15 restantes (<span class="math inline">\(\binom{15}{2}\)</span>), e dividir pelo total de formas de escolher 4 peças quaisquer entre as 20 (<span class="math inline">\(\binom{20}{4}\)</span>):</p>
+<div id="contagem-lote" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> comb(<span class="dv">5</span>, <span class="dv">2</span>) <span class="op">*</span> comb(<span class="dv">15</span>, <span class="dv">2</span>) <span class="op">/</span> comb(<span class="dv">20</span>, <span class="dv">4</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"P(2 defeituosas entre as 4 sorteadas) = </span><span class="sc">{</span>num(p, <span class="dv">3</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>P(2 defeituosas entre as 4 sorteadas) = 0,217</code></pre>
+</div>
+</div>
+<p>A chance de sair exatamente 2 defeituosas nas 4 sorteadas é 0,217. Note a forma da conta: (combinações dentro do grupo de interesse) × (combinações dentro do resto) / (combinações do total) — essa é exatamente a estrutura da distribuição <strong>hipergeométrica</strong>, que a seção 2.6 generaliza para qualquer tamanho de lote, qualquer número de defeituosas e qualquer tamanho de amostra. O que muda de lá para cá não é a ideia, é só deixar de fixar os números.</p>
 </section>
 <section id="exercícios" class="level2">
 <h2 class="anchored" data-anchor-id="exercícios">Exercícios</h2>
-<p><strong>1.</strong> A distribuição F é a razão de duas variâncias. Por que ela é sempre positiva?</p>
+<p><strong>1.</strong> Uma equipe de 8 pessoas precisa eleger um representante e um vice-representante (dois cargos diferentes, uma pessoa não pode ocupar os dois). De quantas formas isso pode ser feito?</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -776,11 +781,13 @@ Figura&nbsp;21.1: A distribuição F para diferentes pares de graus de liberdade
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Variância é uma média de quadrados, sempre maior ou igual a zero, e a razão de dois números não-negativos também é não-negativa. Como a qui-quadrado, a F vive inteira à direita do zero — nunca assume valores negativos, o que também explica sua assimetria à direita.</p>
+<p>A ordem importa — representante e vice são cargos diferentes, então escolher A depois B não é o mesmo que escolher B depois A. É uma permutação de 2 elementos entre 8:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>perm(<span class="dv">8</span>, <span class="dv">2</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<p><span class="math inline">\(P(8,2) = 8 \times 7 = 56\)</span> formas.</p>
 </div>
 </div>
 </div>
-<p><strong>2.</strong> Numa ANOVA, um valor F próximo de 1 sugere o quê a respeito das médias dos grupos?</p>
+<p><strong>2.</strong> Dessa mesma equipe de 8 pessoas, quantas comissões de 3 membros podem ser formadas (sem distinção de cargo entre os três)?</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -793,15 +800,17 @@ Figura&nbsp;21.1: A distribuição F para diferentes pares de graus de liberdade
 </div>
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Que a variação <strong>entre</strong> os grupos é parecida com a variação <strong>dentro</strong> deles — ou seja, os grupos não diferem mais do que o acaso já produziria dentro de cada um. F perto de 1 significa ausência de evidência de que as médias diferem; uma F grande, ao contrário, indica que as médias dos grupos se separam mais do que a variação interna explica, e é isso que leva a concluir que existe diferença real entre eles.</p>
+<p>Aqui a ordem não importa — uma comissão com A, B e C é a mesma comissão não importa em que ordem essas 3 pessoas foram escolhidas. É uma combinação de 3 elementos entre 8:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>comb(<span class="dv">8</span>, <span class="dv">3</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<p><span class="math inline">\(\binom{8}{3} = \dfrac{8!}{3! \, 5!} = 56\)</span> comissões possíveis. É uma coincidência numérica que este resultado coincida com o do exercício anterior — as duas contagens respondem perguntas diferentes (<span class="math inline">\(P(8,2) = 56\)</span> conta pares ordenados; <span class="math inline">\(\binom{8}{3} = 56\)</span> conta subconjuntos de tamanho 3) e não haveria motivo para os números baterem em geral.</p>
 </div>
 </div>
 </div>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="list">
-<div id="ref-bruce2020" class="csl-entry" role="listitem">
-Bruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. <em>Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python</em>. 2nd ed. O’Reilly Media.
+<div id="ref-bussab2023" class="csl-entry" role="listitem">
+Bussab, Wilton de Oliveira, e Pedro Alberto Morettin. 2023. <em>Estatística Básica</em>. 10ª ed. Saraiva.
 </div>
 </div>
 </section>
@@ -1317,13 +1326,13 @@ document.addEventListener('DOMContentLoaded', function () {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../content/cap02/08-qui-quadrado.html" class="pagination-link" aria-label="Distribuição Qui-Quadrado">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Distribuição Qui-Quadrado</span></span>
+      <a href="../../content/cap02/03-probabilidade-condicional-bayes.html" class="pagination-link" aria-label="Probabilidade Condicional e Bayes">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Probabilidade Condicional e Bayes</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../content/cap03/index.html" class="pagination-link" aria-label="Visão Geral">
-        <span class="nav-page-text"><span class="chapter-title">Visão Geral</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../content/cap02/05-distribuicao-binomial.html" class="pagination-link" aria-label="Distribuição Binomial">
+        <span class="nav-page-text"><span class="chapter-title">Distribuição Binomial</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

@@ -88,7 +88,7 @@ div.csl-indent {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../content/cap02/03-distribuicao-binomial.html" rel="next">
+<link href="../../content/cap02/03-probabilidade-condicional-bayes.html" rel="next">
 <link href="../../content/cap02/01-o-que-e-probabilidade.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -519,37 +519,32 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/03-distribuicao-binomial.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Binomial</span></a>
+  <a href="../../content/cap02/03-probabilidade-condicional-bayes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Probabilidade Condicional e Bayes</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/04-poisson.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição de Poisson</span></a>
+  <a href="../../content/cap02/04-contagem-permutacao-combinacao.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Contagem: Permutação e Combinação</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/05-distribuicao-normal.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Normal</span></a>
+  <a href="../../content/cap02/05-distribuicao-binomial.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Binomial</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/06-caudas-longas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuições de Cauda Longa</span></a>
+  <a href="../../content/cap02/06-distribuicao-hipergeometrica.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Hipergeométrica</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/07-distribuicao-t.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição t de Student</span></a>
+  <a href="../../content/cap02/07-distribuicao-normal.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Normal</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/08-qui-quadrado.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Qui-Quadrado</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/09-distribuicao-f.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição F</span></a>
+  <a href="../../content/cap02/08-caudas-longas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuições de Cauda Longa</span></a>
   </div>
 </li>
       </ul>
@@ -728,7 +723,7 @@ Nota
 <p>Esta seção se inspira no Capítulo 10 de <span class="citation" data-cites="weed">Weed e Navarro (<a href="#ref-weed" role="doc-biblioref">2022</a>)</span>.</p>
 </div>
 </div>
-<p>A seção anterior tratou do que o número “probabilidade” significa. Esta trata do que se pode <strong>fazer</strong> com ele: um pequeno conjunto de regras algébricas — complemento, adição, multiplicação, independência — que combina probabilidades de eventos simples para obter a probabilidade de eventos compostos. São essas regras, e não mais nada, que sustentam o catálogo de distribuições que começa na próxima seção, com a binomial.</p>
+<p>A seção anterior tratou do que o número “probabilidade” significa. Esta trata do que se pode <strong>fazer</strong> com ele: um pequeno conjunto de regras algébricas — complemento, adição, multiplicação, independência — que combina probabilidades de eventos simples para obter a probabilidade de eventos compostos. São essas regras, e não mais nada, que sustentam o catálogo de distribuições que vem mais adiante no capítulo, a começar pela binomial.</p>
 <section id="espaço-amostral-e-evento" class="level2">
 <h2 class="anchored" data-anchor-id="espaço-amostral-e-evento">Espaço amostral e evento</h2>
 <p>O <strong>espaço amostral</strong> <span class="math inline">\(S\)</span> é o conjunto de todos os resultados possíveis de um experimento aleatório. Um <strong>evento</strong> é qualquer subconjunto de <span class="math inline">\(S\)</span> — uma pergunta de sim-ou-não sobre o resultado.</p>
@@ -813,7 +808,7 @@ P(X = 2) = 0,25</code></pre>
 </div>
 </div>
 <p>O resultado — 0,25, 0,50 e 0,25 para <span class="math inline">\(X = 0, 1, 2\)</span> — é a distribuição de probabilidade completa de <span class="math inline">\(X\)</span>. Ela satisfaz os mesmos axiomas do início da seção: cada probabilidade está entre 0 e 1, e a soma sobre todos os valores possíveis é exatamente 1 (a certeza de que <em>algum</em> desses três valores vai ocorrer).</p>
-<p>Generalizar essa construção — não para 2 lançamentos, mas para <span class="math inline">\(n\)</span> tentativas independentes de sucesso-ou-fracasso com probabilidade <span class="math inline">\(p\)</span> — é exatamente o que a próxima seção faz. O resultado tem nome: <strong>distribuição binomial</strong>.</p>
+<p>Generalizar essa construção — não para 2 lançamentos, mas para <span class="math inline">\(n\)</span> tentativas independentes de sucesso-ou-fracasso com probabilidade <span class="math inline">\(p\)</span> — leva à <strong>distribuição binomial</strong>, que este capítulo vê mais adiante (seção 2.5). Antes dela, porém, a próxima seção volta à regra da multiplicação para quando os eventos <strong>não</strong> são independentes: a probabilidade condicional e o Teorema de Bayes.</p>
 </section>
 <section id="exercícios" class="level2">
 <h2 class="anchored" data-anchor-id="exercícios">Exercícios</h2>
@@ -1399,8 +1394,8 @@ document.addEventListener('DOMContentLoaded', function () {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../content/cap02/03-distribuicao-binomial.html" class="pagination-link" aria-label="Distribuição Binomial">
-        <span class="nav-page-text"><span class="chapter-title">Distribuição Binomial</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../content/cap02/03-probabilidade-condicional-bayes.html" class="pagination-link" aria-label="Probabilidade Condicional e Bayes">
+        <span class="nav-page-text"><span class="chapter-title">Probabilidade Condicional e Bayes</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

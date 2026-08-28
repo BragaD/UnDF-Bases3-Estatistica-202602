@@ -8,7 +8,7 @@
 
 <meta name="author" content="Douglas Braga">
 
-<title>Distribuição de Poisson e Relacionadas – Bases 3</title>
+<title>Distribuição Binomial – Bases 3</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -88,8 +88,8 @@ div.csl-indent {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../content/cap02/05-distribuicao-normal.html" rel="next">
-<link href="../../content/cap02/03-distribuicao-binomial.html" rel="prev">
+<link href="../../content/cap02/06-distribuicao-hipergeometrica.html" rel="next">
+<link href="../../content/cap02/04-contagem-permutacao-combinacao.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -398,7 +398,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/cap02/index.html">Capítulo 2: Probabilidade e Distribuições</a></li><li class="breadcrumb-item"><a href="../../content/cap02/04-poisson.html"><span class="chapter-title">Distribuição de Poisson</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/cap02/index.html">Capítulo 2: Probabilidade e Distribuições</a></li><li class="breadcrumb-item"><a href="../../content/cap02/05-distribuicao-binomial.html"><span class="chapter-title">Distribuição Binomial</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -519,37 +519,32 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/03-distribuicao-binomial.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Binomial</span></a>
+  <a href="../../content/cap02/03-probabilidade-condicional-bayes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Probabilidade Condicional e Bayes</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/04-poisson.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Distribuição de Poisson</span></a>
+  <a href="../../content/cap02/04-contagem-permutacao-combinacao.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Contagem: Permutação e Combinação</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/05-distribuicao-normal.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Normal</span></a>
+  <a href="../../content/cap02/05-distribuicao-binomial.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Distribuição Binomial</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/06-caudas-longas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuições de Cauda Longa</span></a>
+  <a href="../../content/cap02/06-distribuicao-hipergeometrica.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Hipergeométrica</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/07-distribuicao-t.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição t de Student</span></a>
+  <a href="../../content/cap02/07-distribuicao-normal.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Normal</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/08-qui-quadrado.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Qui-Quadrado</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/09-distribuicao-f.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição F</span></a>
+  <a href="../../content/cap02/08-caudas-longas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuições de Cauda Longa</span></a>
   </div>
 </li>
       </ul>
@@ -677,7 +672,7 @@ window.Quarto = {
     <h2 id="toc-title">Nesta página</h2>
    
   <ul>
-  <li><a href="#a-irmã-exponencial" id="toc-a-irmã-exponencial" class="nav-link active" data-scroll-target="#a-irmã-exponencial">A irmã exponencial</a></li>
+  <li><a href="#exato-contra-acumulado" id="toc-exato-contra-acumulado" class="nav-link active" data-scroll-target="#exato-contra-acumulado">Exato contra acumulado</a></li>
   <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios">Exercícios</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/BragaD/UnDF-Bases3-Estatistica-202602/issues/new" class="toc-action"><i class="bi bi-github"></i>Criar uma issue</a></li></ul></div></nav>
@@ -686,9 +681,9 @@ window.Quarto = {
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/cap02/index.html">Capítulo 2: Probabilidade e Distribuições</a></li><li class="breadcrumb-item"><a href="../../content/cap02/04-poisson.html"><span class="chapter-title">Distribuição de Poisson</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/cap02/index.html">Capítulo 2: Probabilidade e Distribuições</a></li><li class="breadcrumb-item"><a href="../../content/cap02/05-distribuicao-binomial.html"><span class="chapter-title">Distribuição Binomial</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-title">Distribuição de Poisson e Relacionadas</span></h1>
+<h1 class="title"><span class="chapter-title">Distribuição Binomial</span></h1>
 </div>
 
 
@@ -721,55 +716,52 @@ Nota
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Esta seção corresponde à seção 2.12 de <span class="citation" data-cites="bruce2020">Bruce et al. (<a href="#ref-bruce2020" role="doc-biblioref">2020</a>)</span>.</p>
+<p>Esta seção corresponde à seção 2.9 de <span class="citation" data-cites="bruce2020">Bruce et al. (<a href="#ref-bruce2020" role="doc-biblioref">2020</a>)</span>.</p>
 </div>
 </div>
-<p>A <strong>Poisson</strong> modela <strong>eventos raros no tempo ou no espaço</strong> — conta quantas vezes algo acontece num intervalo fixo, dada uma taxa média <span class="math inline">\(\lambda\)</span> (a letra grega <em>lambda</em>): chegadas de requisições a um servidor por segundo, ligações a um call center por minuto, defeitos por lote, acidentes por trecho de estrada. A binomial contava sucessos num número fixo de tentativas; a Poisson conta ocorrências num intervalo contínuo, sem um número fixo de “tentativas”.</p>
-<div id="cell-fig-poisson" class="cell" data-execution_count="2">
+<p>A <strong>binomial</strong> abre o catálogo de distribuições — e é a primeira de tipo <strong>discreto</strong>: ela conta. Especificamente, conta o número de <strong>sucessos</strong> em <em>n</em> tentativas independentes, cada uma com a mesma probabilidade <em>p</em> de dar certo.</p>
+<p>É o modelo do lançamento de moeda repetido, do controle de qualidade (“quantas peças defeituosas em 100?”) e, sobretudo, do <strong>teste A/B</strong>: quantas conversões entre <em>n</em> visitantes de uma página. Sempre que a pergunta for “de <em>n</em> tentativas de tudo-ou-nada, quantas deram sucesso?”, a resposta segue uma binomial. Seu centro fica em <span class="math inline">\(np\)</span> (a média) e seu espalhamento é <span class="math inline">\(\sqrt{np(1-p)}\)</span> (o desvio-padrão).</p>
+<div id="cell-fig-binomial" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>k <span class="op">=</span> np.arange(<span class="dv">0</span>, <span class="dv">11</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>ax.bar(k, stats.poisson.pmf(k, <span class="dv">2</span>), color<span class="op">=</span><span class="st">"#b0c4d8"</span>, edgecolor<span class="op">=</span><span class="st">"white"</span>)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Número de eventos no intervalo"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>ax.bar(k, stats.binom.pmf(k, <span class="dv">20</span>, <span class="fl">0.1</span>), color<span class="op">=</span><span class="st">"#b0c4d8"</span>, edgecolor<span class="op">=</span><span class="st">"white"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Número de sucessos"</span>)</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Probabilidade"</span>)</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
-<div id="fig-poisson" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-binomial" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-poisson-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="04-poisson_files/figure-html/fig-poisson-output-1.png" width="664" height="374" class="figure-img">
+<div aria-describedby="fig-binomial-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="05-distribuicao-binomial_files/figure-html/fig-binomial-output-1.png" width="664" height="374" class="figure-img">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-poisson-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;16.1: Distribuição de Poisson com λ=2: a probabilidade de observar cada número de eventos num intervalo. O pico fica em torno de λ.
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-binomial-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;17.1: Distribuição binomial: a probabilidade de cada número de sucessos em 20 tentativas, com p=0,1. O pico fica perto de np = 2.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>Como a binomial, a Poisson é <strong>discreta</strong> — conta eventos inteiros —, então o gráfico é de barras. O pico fica em torno de <span class="math inline">\(\lambda = 2\)</span>, a taxa média, que é ao mesmo tempo a média <strong>e</strong> a variância da distribuição.</p>
-<div id="poisson" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Poisson(λ=2): P(nenhum evento) = </span><span class="sc">{</span>num(stats.poisson.pmf(<span class="dv">0</span>, <span class="dv">2</span>), <span class="dv">3</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Poisson(λ=2): P(5 ou mais)     = </span><span class="sc">{</span>num(stats.poisson.sf(<span class="dv">4</span>, <span class="dv">2</span>), <span class="dv">3</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<p>O gráfico é de <strong>barras</strong>, não uma curva contínua, porque o número de sucessos só assume valores inteiros — não existe “2,5 conversões”. Com 20 tentativas e <span class="math inline">\(p = 0{,}1\)</span>, o pico fica em torno de <span class="math inline">\(np = 2\)</span>, exatamente onde a média manda.</p>
+<section id="exato-contra-acumulado" class="level2">
+<h2 class="anchored" data-anchor-id="exato-contra-acumulado">Exato contra acumulado</h2>
+<p>Duas perguntas diferentes cabem à binomial, e a scipy tem uma função para cada. A probabilidade de <strong>exatamente</strong> <em>k</em> sucessos é a <code>pmf</code> (função de massa de probabilidade); a de <strong>até</strong> <em>k</em> sucessos (isto é, <em>k</em> ou menos) é a <code>cdf</code> (função de distribuição acumulada).</p>
+<div id="binomial" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"P(exatamente 2 sucessos em 5, p=0,1): </span><span class="sc">{</span>num(stats.binom.pmf(<span class="dv">2</span>, <span class="dv">5</span>, <span class="fl">0.1</span>), <span class="dv">4</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"P(até 2 sucessos em 5, p=0,1):        </span><span class="sc">{</span>num(stats.binom.cdf(<span class="dv">2</span>, <span class="dv">5</span>, <span class="fl">0.1</span>), <span class="dv">4</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Poisson(λ=2): P(nenhum evento) = 0,135
-Poisson(λ=2): P(5 ou mais)     = 0,053</code></pre>
+<pre><code>P(exatamente 2 sucessos em 5, p=0,1): 0,0729
+P(até 2 sucessos em 5, p=0,1):        0,9914</code></pre>
 </div>
 </div>
-<p>Com taxa média 2 por intervalo, ainda há 0,135 de chance de <strong>nenhum</strong> evento acontecer — mais de 13% —, e ver <strong>5 ou mais</strong> é raro (0,053, cerca de 5%). É o modelo de “quantas vezes algo raro ocorre por unidade de tempo”, e ele leva a sério que às vezes o intervalo passa em branco.</p>
-<section id="a-irmã-exponencial" class="level2">
-<h2 class="anchored" data-anchor-id="a-irmã-exponencial">A irmã exponencial</h2>
-<p>A Poisson conta <strong>quantos</strong> eventos ocorrem num intervalo. Uma pergunta espelhada é: <strong>quanto tempo</strong> se espera até o próximo evento? Essa é descrita pela distribuição <strong>exponencial</strong>, a irmã contínua da Poisson. As duas descrevem o mesmo processo por ângulos diferentes.</p>
-<div id="exponencial" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Se ocorrem 2 eventos por hora, o tempo médio entre eventos é </span><span class="sc">{</span>num(<span class="dv">1</span> <span class="op">/</span> <span class="dv">2</span> <span class="op">*</span> <span class="dv">60</span>, <span class="dv">0</span>)<span class="sc">}</span><span class="ss"> minutos."</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Se ocorrem 2 eventos por hora, o tempo médio entre eventos é 30 minutos.</code></pre>
+<p>A distância entre os dois números conta a história: em 5 tentativas com <span class="math inline">\(p = 0{,}1\)</span>, ver <strong>exatamente</strong> 2 sucessos é raro (0,0729, ou cerca de 7%), mas ver <strong>2 ou menos</strong> é quase certo (0,9914, mais de 99%). É a assinatura de eventos raros: os poucos sucessos se concentram lá embaixo, e passar de 2 quase nunca acontece.</p>
+<div class="exemplo">
+<p>Num teste A/B, se a taxa de conversão real de uma página é 10% e chegam apenas 5 visitantes, a chance de ver exatamente 2 conversões é de cerca de 7% — e a de ver 3 ou mais é ainda menor. É por isso que testes A/B com poucas visitas enganam: o número de conversões varia enormemente por puro acaso, e um resultado observado pode estar bem longe da taxa verdadeira. Só com muitas tentativas a proporção observada se aproxima de forma confiável do <em>p</em> real.</p>
 </div>
-</div>
-<p>Se os eventos chegam a uma taxa de 2 por hora, o tempo médio de espera entre eles é 30 minutos — o inverso da taxa. Mas “médio” é a palavra-chave: os intervalos individuais variam muito, com muitas esperas curtas e uma cauda de esperas longas, exatamente a forma da exponencial. Há ainda uma generalização, a <strong>Weibull</strong>, para quando a taxa não é constante — a chance de falha de uma peça que envelhece cresce com o tempo de uso, algo que a exponencial, de taxa fixa, não captura.</p>
 </section>
 <section id="exercícios" class="level2">
 <h2 class="anchored" data-anchor-id="exercícios">Exercícios</h2>
-<p><strong>1.</strong> Um call center recebe em média 3 ligações por minuto. A Poisson é um bom modelo para o número de ligações no próximo minuto? Que pressuposto ela exige?</p>
+<p><strong>1.</strong> Uma moeda justa é lançada 10 vezes. Qual a probabilidade de sair exatamente 5 caras — e por que ela não é uma maioria esmagadora, já que 5 é “o esperado”?</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -782,11 +774,11 @@ Poisson(λ=2): P(5 ou mais)     = 0,053</code></pre>
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Sim, desde que as ligações sejam <strong>independentes</strong> e a taxa média seja <strong>estável</strong> no período considerado. A Poisson quebra se as chegadas se agrupam — uma promoção dispara uma onda de ligações correlacionadas — ou se a taxa varia muito ao longo do dia (mais ligações na hora do almoço). Nesse último caso, a solução é usar intervalos curtos o bastante para que a taxa seja aproximadamente constante dentro de cada um.</p>
+<p>É <code>binom.pmf(5, 10, 0.5)</code> ≈ 0,246 — apenas cerca de 25%. O valor esperado (<span class="math inline">\(np = 5\)</span>) é de fato o resultado <strong>mais provável</strong>, mas ele divide a massa de probabilidade com 4, com 6 e com todos os outros vizinhos. “O esperado” não é “o quase certo”: é apenas o centro da distribuição, e num sorteio com 11 resultados possíveis (de 0 a 10 caras) até o mais provável fica com uma fatia modesta.</p>
 </div>
 </div>
 </div>
-<p><strong>2.</strong> Se os eventos seguem uma Poisson, o tempo de espera entre eles segue uma exponencial. Por que esse tempo não é simplesmente constante e igual a <span class="math inline">\(1/\lambda\)</span>?</p>
+<p><strong>2.</strong> Por que a binomial exige que as tentativas sejam <strong>independentes</strong> e todas com a <strong>mesma</strong> probabilidade <em>p</em>?</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -799,7 +791,7 @@ Poisson(λ=2): P(5 ou mais)     = 0,053</code></pre>
 </div>
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Porque os eventos chegam <strong>ao acaso</strong>, não em intervalos regulares. O valor <span class="math inline">\(1/\lambda\)</span> é o tempo <strong>médio</strong> de espera, mas os intervalos individuais variam muito: alguns são curtíssimos (dois eventos quase juntos), outros bem longos. A exponencial descreve exatamente essa variação — muitos intervalos curtos e uma cauda de intervalos longos —, e é por isso que se fala em distribuição do tempo de espera, e não em um único tempo fixo.</p>
+<p>Se as tentativas se influenciam (o resultado de uma muda a chance da seguinte) ou se <em>p</em> varia de uma tentativa para outra, a contagem de sucessos deixa de seguir a binomial. Independência e <em>p</em> constante são o que justifica a matemática por trás dela. É também o que quebra em situações reais: se os visitantes de um site não são independentes — um compartilhou o link com o outro, e os dois convertem juntos —, o número de conversões não segue mais uma binomial, e as contas baseadas nela passam a errar.</p>
 </div>
 </div>
 </div>
@@ -1323,13 +1315,13 @@ document.addEventListener('DOMContentLoaded', function () {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../content/cap02/03-distribuicao-binomial.html" class="pagination-link" aria-label="Distribuição Binomial">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Distribuição Binomial</span></span>
+      <a href="../../content/cap02/04-contagem-permutacao-combinacao.html" class="pagination-link" aria-label="Contagem: Permutação e Combinação">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Contagem: Permutação e Combinação</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../content/cap02/05-distribuicao-normal.html" class="pagination-link" aria-label="Distribuição Normal">
-        <span class="nav-page-text"><span class="chapter-title">Distribuição Normal</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../content/cap02/06-distribuicao-hipergeometrica.html" class="pagination-link" aria-label="Distribuição Hipergeométrica">
+        <span class="nav-page-text"><span class="chapter-title">Distribuição Hipergeométrica</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

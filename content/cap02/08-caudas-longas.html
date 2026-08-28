@@ -8,7 +8,7 @@
 
 <meta name="author" content="Douglas Braga">
 
-<title>Distribuição t de Student – Bases 3</title>
+<title>Distribuições de Cauda Longa – Bases 3</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -88,8 +88,8 @@ div.csl-indent {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../content/cap02/08-qui-quadrado.html" rel="next">
-<link href="../../content/cap02/06-caudas-longas.html" rel="prev">
+<link href="../../content/cap03/index.html" rel="next">
+<link href="../../content/cap02/07-distribuicao-normal.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -369,7 +369,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/cap02/index.html">Capítulo 2: Probabilidade e Distribuições</a></li><li class="breadcrumb-item"><a href="../../content/cap02/07-distribuicao-t.html"><span class="chapter-title">Distribuição t de Student</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/cap02/index.html">Capítulo 2: Probabilidade e Distribuições</a></li><li class="breadcrumb-item"><a href="../../content/cap02/08-caudas-longas.html"><span class="chapter-title">Distribuições de Cauda Longa</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -490,37 +490,32 @@ div.csl-indent {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/03-distribuicao-binomial.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Binomial</span></a>
+  <a href="../../content/cap02/03-probabilidade-condicional-bayes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Probabilidade Condicional e Bayes</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/04-poisson.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição de Poisson</span></a>
+  <a href="../../content/cap02/04-contagem-permutacao-combinacao.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Contagem: Permutação e Combinação</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/05-distribuicao-normal.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Normal</span></a>
+  <a href="../../content/cap02/05-distribuicao-binomial.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Binomial</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/06-caudas-longas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuições de Cauda Longa</span></a>
+  <a href="../../content/cap02/06-distribuicao-hipergeometrica.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Hipergeométrica</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/07-distribuicao-t.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Distribuição t de Student</span></a>
+  <a href="../../content/cap02/07-distribuicao-normal.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Normal</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/08-qui-quadrado.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Qui-Quadrado</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/09-distribuicao-f.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição F</span></a>
+  <a href="../../content/cap02/08-caudas-longas.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Distribuições de Cauda Longa</span></a>
   </div>
 </li>
       </ul>
@@ -648,7 +643,7 @@ div.csl-indent {
     <h2 id="toc-title">Nesta página</h2>
    
   <ul>
-  <li><a href="#a-t-vira-a-normal" id="toc-a-t-vira-a-normal" class="nav-link active" data-scroll-target="#a-t-vira-a-normal">A t vira a normal</a></li>
+  <li><a href="#medindo-a-cauda" id="toc-medindo-a-cauda" class="nav-link active" data-scroll-target="#medindo-a-cauda">Medindo a cauda</a></li>
   <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios">Exercícios</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/BragaD/UnDF-Bases3-Estatistica-202602/issues/new" class="toc-action"><i class="bi bi-github"></i>Criar uma issue</a></li></ul></div></nav>
@@ -657,9 +652,9 @@ div.csl-indent {
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/cap02/index.html">Capítulo 2: Probabilidade e Distribuições</a></li><li class="breadcrumb-item"><a href="../../content/cap02/07-distribuicao-t.html"><span class="chapter-title">Distribuição t de Student</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/cap02/index.html">Capítulo 2: Probabilidade e Distribuições</a></li><li class="breadcrumb-item"><a href="../../content/cap02/08-caudas-longas.html"><span class="chapter-title">Distribuições de Cauda Longa</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-title">Distribuição t de Student</span></h1>
+<h1 class="title"><span class="chapter-title">Distribuições de Cauda Longa</span></h1>
 </div>
 
 
@@ -692,60 +687,51 @@ Nota
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Esta seção corresponde à seção 2.8 de <span class="citation" data-cites="bruce2020">Bruce et al. (<a href="#ref-bruce2020" role="doc-biblioref">2020</a>)</span>.</p>
+<p>Esta seção corresponde à seção 2.7 de <span class="citation" data-cites="bruce2020">Bruce et al. (<a href="#ref-bruce2020" role="doc-biblioref">2020</a>)</span>.</p>
 </div>
 </div>
-<p>A seção anterior gerou uma amostra de cauda gorda a partir de uma <strong>distribuição t de Student</strong>. Agora ela ganha nome próprio. A t se parece com a normal — simétrica, centrada, em forma de sino —, mas com <strong>caudas mais gordas</strong>. E tem uma peça de controle que a normal não tem: os <strong>graus de liberdade</strong>. Conforme os graus de liberdade crescem, as caudas afinam, e a t se aproxima da normal até se tornar indistinguível dela.</p>
-<p>A t não é uma curiosidade: é a distribuição que aparece toda vez que se estima a média de uma população a partir de uma amostra <strong>pequena</strong>, sem conhecer o desvio-padrão verdadeiro da população. É a distribuição por trás dos intervalos de confiança e testes <strong>clássicos</strong> de média com amostra pequena — a rota tradicional, que o Capítulo 4 usa nos testes t. O Capítulo 3 chega ao intervalo de confiança por um caminho alternativo, o <strong>bootstrap</strong> (seção 3.5), que dispensa a t.</p>
-<div id="cell-fig-t" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">200</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>ax.plot(x, stats.norm.pdf(x), color<span class="op">=</span><span class="st">"#2c3e50"</span>, linewidth<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="st">"Normal"</span>)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> gl, cor <span class="kw">in</span> [(<span class="dv">1</span>, <span class="st">"#c0392b"</span>), (<span class="dv">5</span>, <span class="st">"#e67e22"</span>)]:</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    ax.plot(x, stats.t.pdf(x, gl), color<span class="op">=</span>cor, linewidth<span class="op">=</span><span class="dv">2</span>, linestyle<span class="op">=</span><span class="st">"--"</span>, label<span class="op">=</span><span class="ss">f"t(</span><span class="sc">{</span>gl<span class="sc">}</span><span class="ss">)"</span>)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Valor"</span>)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Densidade"</span>)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>ax.legend()</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<p>A seção anterior terminou com um dado que não era normal: a renda, com sua cauda longa à direita. Aquela cauda era <strong>assimétrica</strong> — puxava só para um lado. Esta seção trata de um desvio diferente e, para o risco, mais perigoso: a <strong>cauda gorda</strong> (ou cauda longa), em que os extremos — para cima <em>e</em> para baixo — são mais frequentes do que a normal prevê.</p>
+<p>A diferença importa porque a normal descarta os extremos como quase impossíveis. Sob a normal, um evento a seis desvios da média aconteceria uma vez a cada milhões de anos. Nos retornos financeiros reais, quedas dessa magnitude acontecem a cada década ou duas. A distribuição dos retornos não é normal: é de <strong>cauda gorda</strong>, e quem a modela como normal subestima drasticamente a chance de uma catástrofe.</p>
+<section id="medindo-a-cauda" class="level2">
+<h2 class="anchored" data-anchor-id="medindo-a-cauda">Medindo a cauda</h2>
+<p>O número que mede o peso das caudas é a <strong>curtose</strong>. Uma normal tem curtose zero (na convenção que a scipy usa); uma distribuição de cauda gorda tem curtose alta e positiva. Vamos gerar uma amostra genuinamente de cauda gorda e medi-la.</p>
+<div id="cauda-gorda" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>amostra <span class="op">=</span> stats.t.rvs(df<span class="op">=</span><span class="dv">3</span>, size<span class="op">=</span><span class="dv">1000</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Curtose da amostra:      </span><span class="sc">{</span>num(stats.kurtosis(amostra), <span class="dv">1</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Curtose de uma normal:   0"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Curtose da amostra:      6,8
+Curtose de uma normal:   0</code></pre>
+</div>
+</div>
+<p>Curtose 6,8 contra zero: essa amostra tem caudas muito mais pesadas que a normal. O QQ-plot mostra isso de forma inconfundível.</p>
+<div id="cell-fig-qq-cauda" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>stats.probplot(amostra, dist<span class="op">=</span><span class="st">"norm"</span>, plot<span class="op">=</span>ax)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">""</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Quantis teóricos (normal)"</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Quantis da amostra"</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
-<div id="fig-t" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-qq-cauda" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-t-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="07-distribuicao-t_files/figure-html/fig-t-output-1.png" width="664" height="374" class="figure-img">
+<div aria-describedby="fig-qq-cauda-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="08-caudas-longas_files/figure-html/fig-qq-cauda-output-1.png" width="664" height="374" class="figure-img">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-t-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;19.1: A distribuição t com poucos graus de liberdade tem caudas mais gordas que a normal. Conforme os graus de liberdade crescem, ela se aproxima da normal.
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-qq-cauda-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;20.1: QQ-plot de uma amostra de cauda gorda contra a normal. As duas pontas se afastam da reta — para cima à direita, para baixo à esquerda: a curva em S dos extremos mais extremos que o normal previa.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>No gráfico, a t(1) é a mais achatada no centro e a mais gorda nas caudas; a t(5) já está bem mais perto da normal. A diferença toda vive nas pontas — e é lá que ela importa, porque é nas pontas que se decide se um resultado é “raro o bastante”.</p>
-<section id="a-t-vira-a-normal" class="level2">
-<h2 class="anchored" data-anchor-id="a-t-vira-a-normal">A t vira a normal</h2>
-<p>Vale quantificar o quanto as caudas afinam. A tabela abaixo mostra a probabilidade de uma observação cair além de ±2 (dois desvios do centro), para vários graus de liberdade, com a normal na última linha para comparação.</p>
-<div id="convergencia" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="st">'distribuição'</span><span class="sc">:&gt;14}</span><span class="ss">  </span><span class="sc">{</span><span class="st">'P(|X| &gt; 2)'</span><span class="sc">:&gt;10}</span><span class="ss">"</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> gl <span class="kw">in</span> [<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">30</span>]:</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="st">'t('</span> <span class="op">+</span> <span class="bu">str</span>(gl) <span class="op">+</span> <span class="st">')'</span><span class="sc">:&gt;14}</span><span class="ss">  </span><span class="sc">{</span>num(<span class="dv">2</span> <span class="op">*</span> stats.t.sf(<span class="dv">2</span>, gl), <span class="dv">3</span>)<span class="sc">:&gt;10}</span><span class="ss">"</span>)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="st">'normal'</span><span class="sc">:&gt;14}</span><span class="ss">  </span><span class="sc">{</span>num(<span class="dv">2</span> <span class="op">*</span> stats.norm.sf(<span class="dv">2</span>), <span class="dv">3</span>)<span class="sc">:&gt;10}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  distribuição  P(|X| &gt; 2)
-          t(1)       0,295
-          t(5)       0,102
-         t(30)       0,055
-        normal       0,046</code></pre>
-</div>
-</div>
-<p>Com 1 grau de liberdade, a chance de ultrapassar ±2 é enorme (0,295) — quase um terço da massa está nas caudas. Com 5, cai para 0,102; com 30, para 0,055, praticamente colada nos 0,046 da normal. É por isso que, com amostras grandes, tanto faz usar a t ou a normal — mas com amostras pequenas a t, mais conservadora, é a escolha correta.</p>
-<div class="conceito">
-<p>Os <strong>graus de liberdade</strong> são, grosso modo, uma medida de quanta informação a amostra carrega. Poucos graus de liberdade significam muita incerteza sobre a população — a t responde a isso com caudas gordas, que produzem intervalos de confiança mais largos e mais honestos. Muitos graus de liberdade significam pouca incerteza, e a t colapsa na normal. É a distribuição que “sabe” quando desconfiar de uma amostra pequena.</p>
-</div>
+<p>Compare com o QQ-plot da renda, na seção 2.7: lá a curva se afastava da reta <strong>de um lado só</strong>, porque a assimetria puxa uma cauda apenas. Aqui a curva é em <strong>S</strong> — a ponta direita sobe, a esquerda desce. É a marca da cauda gorda: por ser simétrica, ela infla os dois extremos ao mesmo tempo. Valores muito altos e muito baixos, ambos mais comuns do que a normal admitiria.</p>
+<p>E essa amostra não veio de lugar nenhum exótico: é uma amostra de cauda gorda de verdade, gerada de uma distribuição de caudas pesadas (com poucos graus de liberdade), não um artifício visual para ilustrar o ponto. A curtose alta medida acima — a mesma estatística introduzida no Capítulo 1 — é exatamente o que sinaliza esse peso extra nas caudas antes mesmo de olhar para o QQ-plot.</p>
 </section>
 <section id="exercícios" class="level2">
 <h2 class="anchored" data-anchor-id="exercícios">Exercícios</h2>
-<p><strong>1.</strong> Por que usar a distribuição t, e não a normal, para construir um intervalo de confiança a partir de uma amostra de apenas 10 observações?</p>
+<p><strong>1.</strong> Por que modelar retornos financeiros com a distribuição normal subestima o risco de perdas grandes?</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -758,11 +744,11 @@ Figura&nbsp;19.1: A distribuição t com poucos graus de liberdade tem caudas ma
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Com 10 observações há pouca informação, e o desvio-padrão da população precisa ser <strong>estimado</strong> a partir da própria amostra — não é conhecido. A t, de caudas mais gordas, compensa essa incerteza extra produzindo um intervalo mais largo, que reflete melhor o que de fato se sabe. Usar a normal com amostra pequena gera intervalos estreitos demais, que erram o valor verdadeiro mais vezes do que a confiança declarada sugere.</p>
+<p>Retornos têm cauda gorda — quedas extremas acontecem com frequência muito maior do que a normal prevê. Um modelo normal chamaria uma crise de “evento de seis sigma, uma vez em milhões de anos”; na prática, crises ocorrem a cada década ou duas. Subestimar o peso da cauda é subestimar diretamente a probabilidade de perdas catastróficas — exatamente o erro que se quer evitar na gestão de risco.</p>
 </div>
 </div>
 </div>
-<p><strong>2.</strong> A tabela mostra que a t(30) e a normal são quase iguais. Que consequência prática isso tem?</p>
+<p><strong>2.</strong> No QQ-plot de uma distribuição de cauda gorda, a curva é em S; no da renda (cauda assimétrica), a curva se afasta da reta de um lado só. Por quê?</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -775,7 +761,7 @@ Figura&nbsp;19.1: A distribuição t com poucos graus de liberdade tem caudas ma
 </div>
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Com amostras de cerca de 30 observações ou mais, a diferença entre usar a t e a normal é desprezível — os intervalos e testes dão praticamente o mesmo resultado. É a origem da “regra do 30” que muitos cursos citam: acima desse tamanho, a aproximação normal já serve, e a distinção entre as duas distribuições deixa de ter efeito prático.</p>
+<p>Cauda gorda é <strong>simétrica</strong>: os dois extremos são mais pesados que o normal. A ponta direita sobe (valores altos ainda mais altos que o esperado) e a esquerda desce (valores baixos ainda mais baixos), formando o S. A renda, ao contrário, é <strong>assimétrica</strong>: só a cauda direita é longa, então só a ponta direita se afasta da reta. A forma da curva no QQ-plot distingue os dois problemas — assimetria curva um lado, cauda gorda curva os dois.</p>
 </div>
 </div>
 </div>
@@ -1299,13 +1285,13 @@ document.addEventListener('DOMContentLoaded', function () {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../content/cap02/06-caudas-longas.html" class="pagination-link" aria-label="Distribuições de Cauda Longa">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Distribuições de Cauda Longa</span></span>
+      <a href="../../content/cap02/07-distribuicao-normal.html" class="pagination-link" aria-label="Distribuição Normal">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Distribuição Normal</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../content/cap02/08-qui-quadrado.html" class="pagination-link" aria-label="Distribuição Qui-Quadrado">
-        <span class="nav-page-text"><span class="chapter-title">Distribuição Qui-Quadrado</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../content/cap03/index.html" class="pagination-link" aria-label="Visão Geral">
+        <span class="nav-page-text"><span class="chapter-title">Visão Geral</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

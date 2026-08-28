@@ -8,7 +8,7 @@
 
 <meta name="author" content="Douglas Braga">
 
-<title>Distribuição Normal – Bases 3</title>
+<title>Distribuição Hipergeométrica – Bases 3</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -88,8 +88,8 @@ div.csl-indent {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../content/cap02/06-caudas-longas.html" rel="next">
-<link href="../../content/cap02/04-poisson.html" rel="prev">
+<link href="../../content/cap02/07-distribuicao-normal.html" rel="next">
+<link href="../../content/cap02/05-distribuicao-binomial.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -176,6 +176,35 @@ div.csl-indent {
 })();
 </script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../../styles.css">
 </head>
@@ -369,7 +398,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/cap02/index.html">Capítulo 2: Probabilidade e Distribuições</a></li><li class="breadcrumb-item"><a href="../../content/cap02/05-distribuicao-normal.html"><span class="chapter-title">Distribuição Normal</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/cap02/index.html">Capítulo 2: Probabilidade e Distribuições</a></li><li class="breadcrumb-item"><a href="../../content/cap02/06-distribuicao-hipergeometrica.html"><span class="chapter-title">Distribuição Hipergeométrica</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -490,37 +519,32 @@ div.csl-indent {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/03-distribuicao-binomial.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Binomial</span></a>
+  <a href="../../content/cap02/03-probabilidade-condicional-bayes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Probabilidade Condicional e Bayes</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/04-poisson.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição de Poisson</span></a>
+  <a href="../../content/cap02/04-contagem-permutacao-combinacao.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Contagem: Permutação e Combinação</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/05-distribuicao-normal.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Distribuição Normal</span></a>
+  <a href="../../content/cap02/05-distribuicao-binomial.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Binomial</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/06-caudas-longas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuições de Cauda Longa</span></a>
+  <a href="../../content/cap02/06-distribuicao-hipergeometrica.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Distribuição Hipergeométrica</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/07-distribuicao-t.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição t de Student</span></a>
+  <a href="../../content/cap02/07-distribuicao-normal.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Normal</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/08-qui-quadrado.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Qui-Quadrado</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/09-distribuicao-f.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição F</span></a>
+  <a href="../../content/cap02/08-caudas-longas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuições de Cauda Longa</span></a>
   </div>
 </li>
       </ul>
@@ -648,7 +672,10 @@ div.csl-indent {
     <h2 id="toc-title">Nesta página</h2>
    
   <ul>
-  <li><a href="#o-qq-plot-o-dado-é-normal" id="toc-o-qq-plot-o-dado-é-normal" class="nav-link active" data-scroll-target="#o-qq-plot-o-dado-é-normal">O QQ-plot: o dado é normal?</a></li>
+  <li><a href="#a-fórmula" id="toc-a-fórmula" class="nav-link active" data-scroll-target="#a-fórmula">A fórmula</a></li>
+  <li><a href="#controle-de-qualidade-transposto-para-software" id="toc-controle-de-qualidade-transposto-para-software" class="nav-link" data-scroll-target="#controle-de-qualidade-transposto-para-software">Controle de qualidade, transposto para software</a></li>
+  <li><a href="#contraste-com-a-binomial-a-regra-dos-10" id="toc-contraste-com-a-binomial-a-regra-dos-10" class="nav-link" data-scroll-target="#contraste-com-a-binomial-a-regra-dos-10">Contraste com a binomial: a regra dos 10%</a></li>
+  <li><a href="#o-suporte-de-k-é-restrito" id="toc-o-suporte-de-k-é-restrito" class="nav-link" data-scroll-target="#o-suporte-de-k-é-restrito">O suporte de <span class="math inline">\(k\)</span> é restrito</a></li>
   <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios">Exercícios</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/BragaD/UnDF-Bases3-Estatistica-202602/issues/new" class="toc-action"><i class="bi bi-github"></i>Criar uma issue</a></li></ul></div></nav>
@@ -657,9 +684,9 @@ div.csl-indent {
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/cap02/index.html">Capítulo 2: Probabilidade e Distribuições</a></li><li class="breadcrumb-item"><a href="../../content/cap02/05-distribuicao-normal.html"><span class="chapter-title">Distribuição Normal</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/cap02/index.html">Capítulo 2: Probabilidade e Distribuições</a></li><li class="breadcrumb-item"><a href="../../content/cap02/06-distribuicao-hipergeometrica.html"><span class="chapter-title">Distribuição Hipergeométrica</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-title">Distribuição Normal</span></h1>
+<h1 class="title"><span class="chapter-title">Distribuição Hipergeométrica</span></h1>
 </div>
 
 
@@ -692,90 +719,93 @@ Nota
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Esta seção corresponde à seção 2.6 de <span class="citation" data-cites="bruce2020">Bruce et al. (<a href="#ref-bruce2020" role="doc-biblioref">2020</a>)</span>.</p>
+<p>Esta seção se baseia na seção 6.6.4 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>.</p>
 </div>
 </div>
-<p>Depois das duas distribuições discretas do catálogo — a binomial e a Poisson —, chega a mais importante das <strong>contínuas</strong>: a <strong>normal</strong>, a distribuição em forma de sino que serve de referência para quase todas as outras. Cada seção do catálogo segue o mesmo roteiro: apresenta uma distribuição, mostra sua forma, diz quando ela aparece na prática e dá o código mínimo para usá-la.</p>
-<p>A normal é definida por dois números: a <strong>média</strong>, que diz onde está o centro, e o <strong>desvio-padrão</strong>, que diz o quão espalhada ela é. É <strong>simétrica</strong> — a metade à esquerda da média espelha a metade à direita — e tem uma propriedade que vale memorizar, a <strong>regra 68–95–99,7</strong>: cerca de 68% da massa fica a menos de um desvio da média, 95% a menos de dois, e 99,7% a menos de três.</p>
-<div id="cell-fig-normal" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">200</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>ax.plot(x, stats.norm.pdf(x), color<span class="op">=</span><span class="st">"#2c3e50"</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k, cor <span class="kw">in</span> [(<span class="dv">1</span>, <span class="st">"#27ae60"</span>), (<span class="dv">2</span>, <span class="st">"#e67e22"</span>), (<span class="dv">3</span>, <span class="st">"#c0392b"</span>)]:</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    ax.axvline(k, color<span class="op">=</span>cor, linestyle<span class="op">=</span><span class="st">"--"</span>, alpha<span class="op">=</span><span class="fl">0.6</span>)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    ax.axvline(<span class="op">-</span>k, color<span class="op">=</span>cor, linestyle<span class="op">=</span><span class="st">"--"</span>, alpha<span class="op">=</span><span class="fl">0.6</span>)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Desvios em relação à média"</span>)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Densidade"</span>)</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display">
-<div id="fig-normal" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-normal-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="05-distribuicao-normal_files/figure-html/fig-normal-output-1.png" width="664" height="374" class="figure-img">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-normal-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;17.1: A distribuição normal: simétrica, com 68% da massa a menos de 1 desvio da média, 95% a menos de 2, e 99,7% a menos de 3.
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<p>Essa regra é o que torna a normal tão útil como referência: se um dado é aproximadamente normal, um valor a três desvios ou mais da média é raro — acontece menos de 0,3% das vezes —, e é por isso que “três sigma” virou sinônimo de alerta no controle de qualidade e na detecção de anomalias.</p>
-<section id="o-qq-plot-o-dado-é-normal" class="level2">
-<h2 class="anchored" data-anchor-id="o-qq-plot-o-dado-é-normal">O QQ-plot: o dado é normal?</h2>
-<p>A pergunta prática quase nunca é “como é a normal?”, e sim “<strong>este</strong> dado que tenho é normal?”. A ferramenta visual para responder isso é o <strong>QQ-plot</strong> (gráfico quantil-quantil): ele ordena os dados, calcula onde cada observação cairia se a distribuição fosse perfeitamente normal, e desenha um contra o outro. Se o dado for normal, os pontos caem sobre uma reta. Onde eles se afastam da reta, o dado se afasta da normal.</p>
-<p>Vamos aplicá-lo às 50.000 rendas de solicitantes de empréstimo do <code>loans_income</code> (em dólares), que o Capítulo 3 usará a fundo.</p>
-<div id="cell-fig-qq-renda" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>stats.probplot(renda, dist<span class="op">=</span><span class="st">"norm"</span>, plot<span class="op">=</span>ax)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">""</span>)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Quantis teóricos (normal)"</span>)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Quantis da renda"</span>)</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display">
-<div id="fig-qq-renda" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-qq-renda-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="05-distribuicao-normal_files/figure-html/fig-qq-renda-output-1.png" width="665" height="374" class="figure-img">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-qq-renda-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;17.2: QQ-plot da renda contra a normal. Se a renda fosse normal, os pontos seguiriam a reta. A curva para cima na ponta direita revela a cauda longa da renda.
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<p>O corpo dos pontos segue a reta, mas a ponta direita <strong>sobe</strong> para longe dela: as rendas mais altas são bem mais altas do que uma distribuição normal preveria. É a assinatura da cauda longa à direita da renda — um padrão que o Capítulo 3 retoma ao estudar amostragem — e o número confirma.</p>
-<div id="assimetria" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Assimetria da renda: </span><span class="sc">{</span>num(stats.skew(renda), <span class="dv">2</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Assimetria da renda: 1,05</code></pre>
-</div>
-</div>
-<p>Uma distribuição normal tem assimetria zero. A renda tem 1,05 — positiva, cauda à direita. A lição é honesta e vale para o resto do catálogo: a normal é uma referência utilíssima, mas <strong>muitos dados reais não a seguem</strong>. Boa parte da estatística prática consiste justamente em reconhecer quando o dado foge da normal e escolher a ferramenta certa para esse caso — a começar pela próxima seção, sobre distribuições de cauda longa.</p>
+<p>A binomial da seção anterior tem uma condição escondida: cada tentativa precisa ter a <strong>mesma</strong> probabilidade <span class="math inline">\(p\)</span> de sucesso, e isso só é verdade se a composição da população não muda entre uma tentativa e a seguinte. É automático quando há reposição — lançar a mesma moeda de novo, ou sortear com devolução — mas deixa de valer no caso mais comum na prática: <strong>amostrar sem reposição</strong> de um lote finito.</p>
+<p>Imagine um lote de <span class="math inline">\(N\)</span> casos de teste, dos quais <span class="math inline">\(r\)</span> escondem um bug. Ao sortear um caso e verificar que ele tem bug, o próximo sorteio já não parte da mesma proporção: sobra um bug a menos num lote um caso menor. A probabilidade de sucesso muda a cada retirada — a premissa da binomial quebra. É exatamente essa situação, amostragem sem reposição de uma população finita e dividida em dois grupos, que a <strong>distribuição hipergeométrica</strong> descreve.</p>
+<section id="a-fórmula" class="level2">
+<h2 class="anchored" data-anchor-id="a-fórmula">A fórmula</h2>
+<p>Seja um lote com <span class="math inline">\(N\)</span> itens, dos quais <span class="math inline">\(r\)</span> pertencem à categoria de interesse (as “defeituosas”, os “com bug”). Ao retirar uma amostra de tamanho <span class="math inline">\(n\)</span> sem reposição, a probabilidade de encontrar exatamente <span class="math inline">\(k\)</span> itens da categoria de interesse é:</p>
+<p><span class="math display">\[P(X=k) = \frac{\binom{r}{k}\binom{N-r}{n-k}}{\binom{N}{n}}\]</span></p>
+<p>A leitura combinatória é direta: o numerador conta os jeitos de escolher <span class="math inline">\(k\)</span> itens entre os <span class="math inline">\(r\)</span> “de interesse” <strong>e</strong>, ao mesmo tempo, <span class="math inline">\(n-k\)</span> itens entre os <span class="math inline">\(N-r\)</span> restantes; o denominador conta todas as amostras possíveis de tamanho <span class="math inline">\(n\)</span> dentro do lote de <span class="math inline">\(N\)</span>. É a mesma contagem “combinação sobre combinação” da seção 2.4 — só que aplicada duas vezes, uma para cada grupo, e dividida pelo total de amostras.</p>
 </section>
-<section id="exercícios" class="level2">
-<h2 class="anchored" data-anchor-id="exercícios">Exercícios</h2>
-<p><strong>1.</strong> Um QQ-plot tem os pontos quase todos sobre a reta, exceto os dois ou três de cada ponta, que se afastam dela. O que isso indica sobre o dado?</p>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<section id="controle-de-qualidade-transposto-para-software" class="level2">
+<h2 class="anchored" data-anchor-id="controle-de-qualidade-transposto-para-software">Controle de qualidade, transposto para software</h2>
+<p>O exemplo clássico de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span> é um lote de peças com algumas defeituosas. Em software, o equivalente natural é um lote de <strong>casos de teste</strong> ou de <strong>commits recentes</strong>, dos quais alguns escondem um bug: em vez de inspecionar todos (caro, demorado), sorteia-se uma amostra pequena para inspeção manual.</p>
+<p>Um lote com <span class="math inline">\(N=100\)</span> casos de teste tem <span class="math inline">\(r=10\)</span> com bug conhecido. Uma amostra de <span class="math inline">\(n=5\)</span> é sorteada para revisão, sem reposição — o mesmo caso não é revisado duas vezes.</p>
+<div id="hipergeometrica" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># scipy: hypergeom(M, n, N) = (população, sucessos na população, tamanho da amostra)</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># livro : N=100 (lote), r=10 (defeituosas), n=5 (amostra sem reposição)</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>lote <span class="op">=</span> hypergeom(<span class="dv">100</span>, <span class="dv">10</span>, <span class="dv">5</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"P(0 defeituosas na amostra) = </span><span class="sc">{</span>num(<span class="bu">float</span>(lote.pmf(<span class="dv">0</span>)), <span class="dv">3</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"P(ao menos 1 defeituosa)    = </span><span class="sc">{</span>num(<span class="bu">float</span>(<span class="dv">1</span> <span class="op">-</span> lote.cdf(<span class="dv">0</span>)), <span class="dv">3</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>P(0 defeituosas na amostra) = 0,584
+P(ao menos 1 defeituosa)    = 0,416</code></pre>
+</div>
+</div>
+<p>A chance de a amostra sair <strong>limpa</strong> — nenhum dos 5 casos revisados esconder bug, mesmo havendo 10 no lote de 100 — é de 0,584, quase 6 em 10. Dito de outro modo, revisar apenas 5 de 100 casos deixa uma chance de 0,416 de pegar ao menos um bug — e uma chance ainda maior de a amostra passar limpa sem que o lote esteja limpo. É o risco inerente de qualquer amostragem: uma amostra pequena pode simplesmente não tocar nos casos problemáticos, por puro acaso.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Dica</span>Resposta
+<span class="screen-reader-only">Aviso</span>Nomenclatura do scipy diverge do livro
 </div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>O corpo dos dados é aproximadamente normal, mas as <strong>caudas são mais pesadas</strong> do que a normal preveria — valores extremos, altos e baixos, aparecem com mais frequência do que o esperado (ou há outliers). É o padrão característico de dados com cauda longa, tema da seção 2.6. O afastamento nas pontas, e não no meio, é o sinal de que o problema está nos extremos, não no centro.</p>
+<p>A ordem de argumentos de <code>hypergeom</code> na scipy <strong>não</strong> segue a ordem <span class="math inline">\(N\)</span>, <span class="math inline">\(r\)</span>, <span class="math inline">\(n\)</span> deste livro. Na assinatura <code>hypergeom(M, n, N)</code> da scipy, <code>M</code> é o tamanho da população (o <span class="math inline">\(N\)</span> do livro), <code>n</code> é o número de sucessos <strong>na população</strong> (o <span class="math inline">\(r\)</span> do livro) e <code>N</code> é o tamanho da amostra (o <span class="math inline">\(n\)</span> do livro) — os dois últimos nomes colidem de propósito com os do livro, mas trocados de posição. O comentário no chunk acima documenta o mapeamento; releia-o antes de adaptar o código para outros números.</p>
+</div>
+</div>
+</section>
+<section id="contraste-com-a-binomial-a-regra-dos-10" class="level2">
+<h2 class="anchored" data-anchor-id="contraste-com-a-binomial-a-regra-dos-10">Contraste com a binomial: a regra dos 10%</h2>
+<p>E se, em vez de casos de teste, o lote fosse amostrado <strong>com</strong> reposição — cada caso revisado e devolvido ao lote antes do próximo sorteio? Aí sim a binomial se aplicaria, com <span class="math inline">\(p = r/N = 10/100 = 0{,}1\)</span>:</p>
+<div id="hiper-vs-binomial" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Hipergeométrica (sem reposição): </span><span class="sc">{</span>num(<span class="bu">float</span>(lote.pmf(<span class="dv">0</span>)), <span class="dv">3</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Binomial (com reposição, p=0,1): </span><span class="sc">{</span>num(<span class="bu">float</span>(binom.pmf(<span class="dv">0</span>, <span class="dv">5</span>, <span class="fl">0.1</span>)), <span class="dv">3</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Hipergeométrica (sem reposição): 0,584
+Binomial (com reposição, p=0,1): 0,590</code></pre>
+</div>
+</div>
+<p>Os dois números quase coincidem: 0,584 contra 0,590, uma diferença de cerca de 1%. A explicação está no tamanho relativo da amostra: 5 casos sorteados de um lote de 100 são apenas 5% dele, então retirar um caso sem devolvê-lo quase não perturba a proporção de bugs que sobra para o próximo sorteio — a hipergeométrica e a binomial praticamente concordam.</p>
+<p>Essa proximidade é a <strong>regra dos 10%</strong>: quando a amostra é uma fração pequena (convencionalmente, até 10%) da população, a binomial com reposição aproxima bem a hipergeométrica sem reposição, e pode substituí-la — é mais simples de calcular e de interpretar. A aproximação se degrada à medida que a amostra cresce em relação ao lote: com <span class="math inline">\(n=50\)</span> de um lote de <span class="math inline">\(N=100\)</span> (metade do lote, sem reposição), tirar um caso muda a composição de forma que a binomial já não capturaria, e as duas distribuições passam a divergir de verdade.</p>
+</section>
+<section id="o-suporte-de-k-é-restrito" class="level2">
+<h2 class="anchored" data-anchor-id="o-suporte-de-k-é-restrito">O suporte de <span class="math inline">\(k\)</span> é restrito</h2>
+<p>Diferente da binomial, em que <span class="math inline">\(k\)</span> varia livremente de 0 a <span class="math inline">\(n\)</span>, a hipergeométrica impõe um limite adicional: não é possível encontrar mais itens “de interesse” do que existem no lote, nem mais do que cabem na amostra. Formalmente, <span class="math inline">\(k\)</span> só assume valores em <span class="math inline">\(\max(0, n-(N-r)) \le k \le \min(n, r)\)</span>. No exemplo do lote de 100 com 10 defeituosas e amostra de 5, isso não chama atenção porque <span class="math inline">\(r=10\)</span> e <span class="math inline">\(n=5\)</span> são pequenos frente a <span class="math inline">\(N\)</span> — mas, se o lote tivesse apenas <span class="math inline">\(N=8\)</span> itens com <span class="math inline">\(r=6\)</span> defeituosos e a amostra fosse <span class="math inline">\(n=5\)</span>, seria <strong>impossível</strong> sortear 0 ou 1 defeituosas: sobram só 2 itens bons no lote, e uma amostra de 5 é obrigada a incluir ao menos 3 defeituosas. Ignorar essa restrição ao montar um gráfico ou uma tabela produz probabilidades zero disfarçadas de “não calculado”.</p>
+<div id="cell-fig-hipergeometrica" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>k <span class="op">=</span> np.arange(<span class="dv">0</span>, <span class="dv">6</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>ax.bar(k, lote.pmf(k), color<span class="op">=</span><span class="st">"#b0c4d8"</span>, edgecolor<span class="op">=</span><span class="st">"white"</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Número de defeituosas na amostra"</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Probabilidade"</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="fig-hipergeometrica" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-hipergeometrica-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="06-distribuicao-hipergeometrica_files/figure-html/fig-hipergeometrica-output-1.png" width="663" height="374" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-hipergeometrica-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;18.1: Distribuição hipergeométrica: probabilidade de cada número de defeituosas numa amostra de 5, de um lote de 100 com 10 defeituosas.
+</figcaption>
+</figure>
 </div>
 </div>
 </div>
-<p><strong>2.</strong> Por que a regra 68–95–99,7 é útil na prática, mesmo sendo apenas uma aproximação?</p>
+<p>No lote de 100 com 10 defeituosas, o suporte teórico de <span class="math inline">\(k\)</span> vai de 0 a 5 (o tamanho da amostra), e a barra em <span class="math inline">\(k=0\)</span> concentra a maior parte da massa — coerente com a amostra ser pequena frente ao lote.</p>
+<div class="conceito">
+<p>A amostragem sem reposição desta seção reaparece no Capítulo 3, quando a distribuição amostral de uma estatística for calculada em populações finitas: lá, o efeito de “a retirada de uma observação muda o que resta” recebe um nome — a <strong>correção de população finita</strong> — e um ajuste explícito na fórmula do erro padrão.</p>
+</div>
+</section>
+<section id="exercícios" class="level2">
+<h2 class="anchored" data-anchor-id="exercícios">Exercícios</h2>
+<p><strong>1.</strong> Um time de QA tem 8 casos de teste críticos guardados, dos quais 3 escondem regressões introduzidas no último release. Por falta de tempo, apenas 3 desses 8 casos serão executados antes do deploy, sorteados sem reposição. Qual a probabilidade de nenhuma regressão ser pega?</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -788,15 +818,33 @@ Figura&nbsp;17.2: QQ-plot da renda contra a normal. Se a renda fosse normal, os 
 </div>
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Ela dá uma referência rápida sem exigir nenhuma conta: se um dado é aproximadamente normal, cerca de 95% das observações caem a menos de dois desvios da média, então um valor a três desvios ou mais é raro (menos de 0,3%) e merece atenção. É a base da detecção de outliers e do controle de qualidade — o operador não precisa calcular uma probabilidade exata para saber que “três sigma” é um sinal de que algo saiu do comum.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>hypergeom(<span class="dv">8</span>, <span class="dv">3</span>, <span class="dv">3</span>).pmf(<span class="dv">0</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<p>O resultado é <code>hypergeom(8, 3, 3).pmf(0)</code> ≈ 0,179 — quase 18% de chance de o deploy seguir sem que nenhuma das 3 regressões seja detectada, mesmo revisando quase 40% do total de casos críticos (3 de 8). Note o mapeamento: <code>hypergeom(8, 3, 3)</code> tem população <span class="math inline">\(N=8\)</span>, <span class="math inline">\(r=3\)</span> regressões e amostra <span class="math inline">\(n=3\)</span> — os dois últimos argumentos coincidem numericamente aqui, mas por acaso do exemplo, não porque <code>r</code> e <code>n</code> sejam a mesma coisa.</p>
+</div>
+</div>
+</div>
+<p><strong>2.</strong> Uma cientista de dados precisa decidir entre modelar uma amostragem sem reposição como hipergeométrica (exata) ou como binomial (aproximada). Em qual das duas situações a seguir a diferença entre as duas distribuições <strong>importa</strong>, e em qual ela é irrelevante? (a) Lote de 10.000 pacotes de software, 50 com uma dependência vulnerável, amostra de 20 para auditoria. (b) Lote de 12 servidores em produção, 5 com uma configuração desatualizada, amostra de 6 para migração imediata.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Em (a), a amostra (20) é 0,2% do lote (10.000) — muito abaixo dos 10% da regra prática — então a binomial com <span class="math inline">\(p = 50/10000 = 0{,}005\)</span> aproxima bem a hipergeométrica, e usar a mais simples das duas não introduz erro relevante. Em (b), a amostra (6) é <strong>metade</strong> do lote (12): a regra dos 10% está longe de valer, cada servidor retirado muda bastante a proporção que resta, e só a hipergeométrica exata dá a probabilidade correta — a binomial erraria de forma perceptível. A diferença entre as duas nunca é sobre qual “é mais certa” (a hipergeométrica sempre é exata quando não há reposição); é sobre quando a aproximação da binomial é boa o bastante para valer a simplicidade.</p>
 </div>
 </div>
 </div>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="list">
-<div id="ref-bruce2020" class="csl-entry" role="listitem">
-Bruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. <em>Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python</em>. 2nd ed. O’Reilly Media.
+<div id="ref-bussab2023" class="csl-entry" role="listitem">
+Bussab, Wilton de Oliveira, e Pedro Alberto Morettin. 2023. <em>Estatística Básica</em>. 10ª ed. Saraiva.
 </div>
 </div>
 </section>
@@ -1312,13 +1360,13 @@ document.addEventListener('DOMContentLoaded', function () {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../content/cap02/04-poisson.html" class="pagination-link" aria-label="Distribuição de Poisson">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Distribuição de Poisson</span></span>
+      <a href="../../content/cap02/05-distribuicao-binomial.html" class="pagination-link" aria-label="Distribuição Binomial">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Distribuição Binomial</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../content/cap02/06-caudas-longas.html" class="pagination-link" aria-label="Distribuições de Cauda Longa">
-        <span class="nav-page-text"><span class="chapter-title">Distribuições de Cauda Longa</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../content/cap02/07-distribuicao-normal.html" class="pagination-link" aria-label="Distribuição Normal">
+        <span class="nav-page-text"><span class="chapter-title">Distribuição Normal</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

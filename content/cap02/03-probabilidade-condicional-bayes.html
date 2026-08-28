@@ -8,7 +8,7 @@
 
 <meta name="author" content="Douglas Braga">
 
-<title>Distribuição Binomial – Bases 3</title>
+<title>Probabilidade Condicional e Teorema de Bayes – Bases 3</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -88,7 +88,7 @@ div.csl-indent {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../content/cap02/04-poisson.html" rel="next">
+<link href="../../content/cap02/04-contagem-permutacao-combinacao.html" rel="next">
 <link href="../../content/cap02/02-regras-probabilidade.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -398,7 +398,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/cap02/index.html">Capítulo 2: Probabilidade e Distribuições</a></li><li class="breadcrumb-item"><a href="../../content/cap02/03-distribuicao-binomial.html"><span class="chapter-title">Distribuição Binomial</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/cap02/index.html">Capítulo 2: Probabilidade e Distribuições</a></li><li class="breadcrumb-item"><a href="../../content/cap02/03-probabilidade-condicional-bayes.html"><span class="chapter-title">Probabilidade Condicional e Bayes</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -519,37 +519,32 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/03-distribuicao-binomial.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Distribuição Binomial</span></a>
+  <a href="../../content/cap02/03-probabilidade-condicional-bayes.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Probabilidade Condicional e Bayes</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/04-poisson.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição de Poisson</span></a>
+  <a href="../../content/cap02/04-contagem-permutacao-combinacao.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Contagem: Permutação e Combinação</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/05-distribuicao-normal.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Normal</span></a>
+  <a href="../../content/cap02/05-distribuicao-binomial.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Binomial</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/06-caudas-longas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuições de Cauda Longa</span></a>
+  <a href="../../content/cap02/06-distribuicao-hipergeometrica.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Hipergeométrica</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/07-distribuicao-t.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição t de Student</span></a>
+  <a href="../../content/cap02/07-distribuicao-normal.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Normal</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/08-qui-quadrado.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Qui-Quadrado</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/09-distribuicao-f.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição F</span></a>
+  <a href="../../content/cap02/08-caudas-longas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuições de Cauda Longa</span></a>
   </div>
 </li>
       </ul>
@@ -677,7 +672,11 @@ window.Quarto = {
     <h2 id="toc-title">Nesta página</h2>
    
   <ul>
-  <li><a href="#exato-contra-acumulado" id="toc-exato-contra-acumulado" class="nav-link active" data-scroll-target="#exato-contra-acumulado">Exato contra acumulado</a></li>
+  <li><a href="#probabilidade-condicional" id="toc-probabilidade-condicional" class="nav-link active" data-scroll-target="#probabilidade-condicional">Probabilidade condicional</a></li>
+  <li><a href="#independência-revisitada" id="toc-independência-revisitada" class="nav-link" data-scroll-target="#independência-revisitada">Independência revisitada</a></li>
+  <li><a href="#regra-da-probabilidade-total" id="toc-regra-da-probabilidade-total" class="nav-link" data-scroll-target="#regra-da-probabilidade-total">Regra da probabilidade total</a></li>
+  <li><a href="#teorema-de-bayes" id="toc-teorema-de-bayes" class="nav-link" data-scroll-target="#teorema-de-bayes">Teorema de Bayes</a></li>
+  <li><a href="#a-armadilha-da-taxa-base" id="toc-a-armadilha-da-taxa-base" class="nav-link" data-scroll-target="#a-armadilha-da-taxa-base">A armadilha da taxa-base</a></li>
   <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios">Exercícios</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/BragaD/UnDF-Bases3-Estatistica-202602/issues/new" class="toc-action"><i class="bi bi-github"></i>Criar uma issue</a></li></ul></div></nav>
@@ -686,9 +685,9 @@ window.Quarto = {
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/cap02/index.html">Capítulo 2: Probabilidade e Distribuições</a></li><li class="breadcrumb-item"><a href="../../content/cap02/03-distribuicao-binomial.html"><span class="chapter-title">Distribuição Binomial</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/cap02/index.html">Capítulo 2: Probabilidade e Distribuições</a></li><li class="breadcrumb-item"><a href="../../content/cap02/03-probabilidade-condicional-bayes.html"><span class="chapter-title">Probabilidade Condicional e Bayes</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-title">Distribuição Binomial</span></h1>
+<h1 class="title"><span class="chapter-title">Probabilidade Condicional e Teorema de Bayes</span></h1>
 </div>
 
 
@@ -721,69 +720,132 @@ Nota
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Esta seção corresponde à seção 2.9 de <span class="citation" data-cites="bruce2020">Bruce et al. (<a href="#ref-bruce2020" role="doc-biblioref">2020</a>)</span>.</p>
+<p>Esta seção se baseia nos capítulos 5.3 e 5.4 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>.</p>
 </div>
 </div>
-<p>A <strong>binomial</strong> abre o catálogo de distribuições — e é a primeira de tipo <strong>discreto</strong>: ela conta. Especificamente, conta o número de <strong>sucessos</strong> em <em>n</em> tentativas independentes, cada uma com a mesma probabilidade <em>p</em> de dar certo.</p>
-<p>É o modelo do lançamento de moeda repetido, do controle de qualidade (“quantas peças defeituosas em 100?”) e, sobretudo, do <strong>teste A/B</strong>: quantas conversões entre <em>n</em> visitantes de uma página. Sempre que a pergunta for “de <em>n</em> tentativas de tudo-ou-nada, quantas deram sucesso?”, a resposta segue uma binomial. Seu centro fica em <span class="math inline">\(np\)</span> (a média) e seu espalhamento é <span class="math inline">\(\sqrt{np(1-p)}\)</span> (o desvio-padrão).</p>
-<div id="cell-fig-binomial" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>k <span class="op">=</span> np.arange(<span class="dv">0</span>, <span class="dv">11</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>ax.bar(k, stats.binom.pmf(k, <span class="dv">20</span>, <span class="fl">0.1</span>), color<span class="op">=</span><span class="st">"#b0c4d8"</span>, edgecolor<span class="op">=</span><span class="st">"white"</span>)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Número de sucessos"</span>)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Probabilidade"</span>)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display">
-<div id="fig-binomial" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-binomial-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="03-distribuicao-binomial_files/figure-html/fig-binomial-output-1.png" width="664" height="374" class="figure-img">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-binomial-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;15.1: Distribuição binomial: a probabilidade de cada número de sucessos em 20 tentativas, com p=0,1. O pico fica perto de np = 2.
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<p>O gráfico é de <strong>barras</strong>, não uma curva contínua, porque o número de sucessos só assume valores inteiros — não existe “2,5 conversões”. Com 20 tentativas e <span class="math inline">\(p = 0{,}1\)</span>, o pico fica em torno de <span class="math inline">\(np = 2\)</span>, exatamente onde a média manda.</p>
-<section id="exato-contra-acumulado" class="level2">
-<h2 class="anchored" data-anchor-id="exato-contra-acumulado">Exato contra acumulado</h2>
-<p>Duas perguntas diferentes cabem à binomial, e a scipy tem uma função para cada. A probabilidade de <strong>exatamente</strong> <em>k</em> sucessos é a <code>pmf</code> (função de massa de probabilidade); a de <strong>até</strong> <em>k</em> sucessos (isto é, <em>k</em> ou menos) é a <code>cdf</code> (função de distribuição acumulada).</p>
-<div id="binomial" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"P(exatamente 2 sucessos em 5, p=0,1): </span><span class="sc">{</span>num(stats.binom.pmf(<span class="dv">2</span>, <span class="dv">5</span>, <span class="fl">0.1</span>), <span class="dv">4</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"P(até 2 sucessos em 5, p=0,1):        </span><span class="sc">{</span>num(stats.binom.cdf(<span class="dv">2</span>, <span class="dv">5</span>, <span class="fl">0.1</span>), <span class="dv">4</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>P(exatamente 2 sucessos em 5, p=0,1): 0,0729
-P(até 2 sucessos em 5, p=0,1):        0,9914</code></pre>
-</div>
-</div>
-<p>A distância entre os dois números conta a história: em 5 tentativas com <span class="math inline">\(p = 0{,}1\)</span>, ver <strong>exatamente</strong> 2 sucessos é raro (0,0729, ou cerca de 7%), mas ver <strong>2 ou menos</strong> é quase certo (0,9914, mais de 99%). É a assinatura de eventos raros: os poucos sucessos se concentram lá embaixo, e passar de 2 quase nunca acontece.</p>
-<div class="exemplo">
-<p>Num teste A/B, se a taxa de conversão real de uma página é 10% e chegam apenas 5 visitantes, a chance de ver exatamente 2 conversões é de cerca de 7% — e a de ver 3 ou mais é ainda menor. É por isso que testes A/B com poucas visitas enganam: o número de conversões varia enormemente por puro acaso, e um resultado observado pode estar bem longe da taxa verdadeira. Só com muitas tentativas a proporção observada se aproxima de forma confiável do <em>p</em> real.</p>
+<p>A seção anterior fechou com a regra da multiplicação para eventos independentes: <span class="math inline">\(P(A \cap B) = P(A) \cdot P(B)\)</span>. Mas a maioria dos pares de eventos do mundo real não é independente — saber que um ocorreu quase sempre muda a chance do outro. Esta seção generaliza a regra da multiplicação para dar conta disso, define o que significa “a probabilidade de <span class="math inline">\(A\)</span>, dado que <span class="math inline">\(B\)</span> ocorreu”, e chega ao Teorema de Bayes: a ferramenta que inverte uma condicional fácil de calcular na condicional difícil que realmente importa.</p>
+<section id="probabilidade-condicional" class="level2">
+<h2 class="anchored" data-anchor-id="probabilidade-condicional">Probabilidade condicional</h2>
+<p>A <strong>probabilidade condicional</strong> de <span class="math inline">\(A\)</span> dado <span class="math inline">\(B\)</span>, escrita <span class="math inline">\(P(A \mid B)\)</span>, é a probabilidade de <span class="math inline">\(A\)</span> depois que se sabe que <span class="math inline">\(B\)</span> ocorreu. Saber que <span class="math inline">\(B\)</span> ocorreu encolhe o espaço amostral: só interessam mais os resultados dentro de <span class="math inline">\(B\)</span>, e a pergunta passa a ser que fração <em>desses</em> resultados também está em <span class="math inline">\(A\)</span>.</p>
+<p><span class="math display">\[P(A \mid B) = \frac{P(A \cap B)}{P(B)} \qquad (P(B) &gt; 0)\]</span></p>
+<p>Rearranjando essa definição chega-se à <strong>regra da multiplicação geral</strong>:</p>
+<p><span class="math display">\[P(A \cap B) = P(A \mid B) \cdot P(B)\]</span></p>
+<p>Essa é a forma geral da regra que a seção 2.2 já usou, só que num caso particular: quando <span class="math inline">\(A\)</span> e <span class="math inline">\(B\)</span> são independentes, saber que <span class="math inline">\(B\)</span> ocorreu não muda nada sobre <span class="math inline">\(A\)</span>, ou seja, <span class="math inline">\(P(A \mid B) = P(A)\)</span>. Substituindo na fórmula acima, <span class="math inline">\(P(A \cap B) = P(A) \cdot P(B)\)</span> — exatamente a regra da multiplicação de 2.2. Ela não fica errada; passa a ser um caso especial de algo mais geral.</p>
+<p>Volte ao lançamento de dois dados. Seja <span class="math inline">\(B\)</span> = “o primeiro dado mostra 5” e <span class="math inline">\(A\)</span> = “a soma dos dois dados é 8”. Sem nenhuma informação sobre <span class="math inline">\(B\)</span>, <span class="math inline">\(A\)</span> ocorre em 5 dos 36 resultados possíveis — <span class="math inline">\((2,6), (3,5), (4,4), (5,3), (6,2)\)</span> —, então <span class="math inline">\(P(A) = 5/36 \approx 0{,}139\)</span>. Isso é o <strong>prior</strong>: a probabilidade de <span class="math inline">\(A\)</span> antes de qualquer informação sobre <span class="math inline">\(B\)</span>.</p>
+<p>Agora suponha que alguém revele que o primeiro dado deu 5. Dos 6 resultados com primeiro dado igual a 5, só um também soma 8 — o par <span class="math inline">\((5,3)\)</span>. Logo:</p>
+<p><span class="math display">\[P(A \mid B) = \frac{P(A \cap B)}{P(B)} = \frac{1/36}{6/36} = \frac{1}{6} \approx 0{,}167\]</span></p>
+<p>Esse é o <strong>posterior</strong>: a probabilidade de <span class="math inline">\(A\)</span> depois de incorporar a informação de que <span class="math inline">\(B\)</span> ocorreu. Ela subiu de 0,139 para 0,167 — saber o primeiro dado tornou a soma 8 um pouco mais provável, não menos, porque agora só falta o segundo dado dar exatamente 3.</p>
+<div class="conceito">
+<p><span class="math inline">\(P(A \mid B)\)</span> e <span class="math inline">\(P(B \mid A)\)</span> quase nunca são o mesmo número, e confundir os dois é um dos erros mais comuns em probabilidade. No exemplo acima, <span class="math inline">\(P(B \mid A)\)</span> — a chance de o primeiro dado ter sido 5, dado que a soma é 8 — é</p>
+<p><span class="math display">\[P(B \mid A) = \frac{P(A \cap B)}{P(A)} = \frac{1/36}{5/36} = \frac{1}{5} = 0{,}2\]</span></p>
+<p>um número diferente de <span class="math inline">\(P(A \mid B) = 0{,}167\)</span>. Cada condicional restringe o espaço amostral a um evento diferente (<span class="math inline">\(B\)</span> num caso, <span class="math inline">\(A\)</span> no outro), e não há motivo geométrico para as duas frações darem igual. Guarde essa assimetria: ela é o motivo de existir o Teorema de Bayes, adiante nesta seção.</p>
 </div>
 </section>
-<section id="exercícios" class="level2">
-<h2 class="anchored" data-anchor-id="exercícios">Exercícios</h2>
-<p><strong>1.</strong> Uma moeda justa é lançada 10 vezes. Qual a probabilidade de sair exatamente 5 caras — e por que ela não é uma maioria esmagadora, já que 5 é “o esperado”?</p>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<section id="independência-revisitada" class="level2">
+<h2 class="anchored" data-anchor-id="independência-revisitada">Independência revisitada</h2>
+<p>Com a definição de probabilidade condicional em mãos, a independência ganha uma segunda forma de ser escrita, equivalente à da seção 2.2: <span class="math inline">\(A\)</span> e <span class="math inline">\(B\)</span> são <strong>independentes</strong> quando saber que <span class="math inline">\(B\)</span> ocorreu não muda a probabilidade de <span class="math inline">\(A\)</span>,</p>
+<p><span class="math display">\[P(A \mid B) = P(A) \qquad \text{(independentes)}\]</span></p>
+<p>As duas formas são a mesma ideia. Partindo de <span class="math inline">\(P(A \cap B) = P(A) \cdot P(B)\)</span> e dividindo os dois lados por <span class="math inline">\(P(B)\)</span>: <span class="math inline">\(P(A \mid B) = P(A \cap B)/P(B) = P(A) \cdot P(B)/P(B) = P(A)\)</span>.</p>
+<p>Os dois lançamentos de moeda do fim da seção 2.2 servem para ver as duas situações lado a lado. Seja <span class="math inline">\(B\)</span> = “a primeira moeda dá cara” e <span class="math inline">\(A\)</span> = “a segunda moeda dá cara”. Lançamentos de moedas diferentes não interferem um no outro, então <span class="math inline">\(P(A \cap B) = P(\text{cara-cara}) = 0{,}25\)</span> e <span class="math inline">\(P(B) = 0{,}5\)</span>, o que dá</p>
+<p><span class="math display">\[P(A \mid B) = \frac{0{,}25}{0{,}5} = 0{,}5 = P(A)\]</span></p>
+<p>A condição bate: saber o resultado da primeira moeda não altera nada sobre a segunda, confirmando que os dois lançamentos são independentes. Já no exemplo dos dois dados da seção anterior, <span class="math inline">\(P(A \mid B) = 0{,}167\)</span> é diferente de <span class="math inline">\(P(A) = 0{,}139\)</span> — a informação sobre o primeiro dado <em>mudou</em> a crença sobre a soma, então os dois eventos <strong>não</strong> são independentes. Faz sentido: a soma dos dois dados depende do valor de cada um.</p>
+</section>
+<section id="regra-da-probabilidade-total" class="level2">
+<h2 class="anchored" data-anchor-id="regra-da-probabilidade-total">Regra da probabilidade total</h2>
+<p>Até aqui, toda conta partiu de probabilidades já conhecidas para pares de eventos. Mas com frequência a informação disponível vem picada em cenários: a probabilidade de cada cenário ocorrer, e a probabilidade de <span class="math inline">\(A\)</span> <em>dentro</em> de cada cenário. A regra da probabilidade total costura essas peças de volta numa única <span class="math inline">\(P(A)\)</span>.</p>
+<p>Os cenários precisam formar uma <strong>partição</strong> do espaço amostral <span class="math inline">\(S\)</span>: um conjunto de eventos <span class="math inline">\(B_1, B_2, \ldots, B_n\)</span> que são</p>
+<ul>
+<li><strong>mutuamente exclusivos</strong> — <span class="math inline">\(B_i \cap B_j = \emptyset\)</span> para todo <span class="math inline">\(i \neq j\)</span> (nenhum resultado pertence a dois cenários ao mesmo tempo), e</li>
+<li><strong>exaustivos</strong> — <span class="math inline">\(B_1 \cup B_2 \cup \cdots \cup B_n = S\)</span> (todo resultado pertence a algum cenário).</li>
+</ul>
+<p>Pense numa árvore: o primeiro nível se ramifica em <span class="math inline">\(B_1, \ldots, B_n\)</span>, cada ramo com probabilidade <span class="math inline">\(P(B_i)\)</span>; de cada <span class="math inline">\(B_i\)</span> nasce um segundo ramo para “<span class="math inline">\(A\)</span> ocorre”, com probabilidade <span class="math inline">\(P(A \mid B_i)\)</span>. Multiplicar ao longo de um caminho dá <span class="math inline">\(P(A \mid B_i) \cdot P(B_i)\)</span> — a probabilidade de terminar naquele cenário <strong>e</strong> em <span class="math inline">\(A\)</span>. Como os cenários são mutuamente exclusivos, esses caminhos não se sobrepõem, e a regra da adição (seção 2.2) permite simplesmente somá-los:</p>
+<p><span class="math display">\[P(A) = \sum_{i=1}^{n} P(A \mid B_i) \cdot P(B_i)\]</span></p>
+<p>Suponha que um sistema distribui tráfego entre três data centers: 50% das requisições vão para o DC1, 30% para o DC2 e 20% para o DC3 — uma partição válida, porque toda requisição cai em exatamente um data center. A taxa de erro de cada um é 1%, 2% e 5%, respectivamente. A probabilidade de uma requisição qualquer dar erro soma as três contribuições:</p>
+<p><span class="math display">\[P(\text{erro}) = (0{,}5)(0{,}01) + (0{,}3)(0{,}02) + (0{,}2)(0{,}05) = 0{,}005 + 0{,}006 + 0{,}010 = 0{,}021\]</span></p>
+<p>Note que <span class="math inline">\(2{,}1\%\)</span> não é a média simples das três taxas (<span class="math inline">\(2{,}67\%\)</span>): é a média <strong>ponderada</strong> pelo volume de cada data center, o mesmo princípio das médias ponderadas da seção 1.3.</p>
+<p>Se a partição não for exaustiva — se sobrar algum resultado fora de todo <span class="math inline">\(B_i\)</span> — a soma perde uma fatia de <span class="math inline">\(P(A)\)</span> e sai baixa. Se não for mutuamente exclusiva — se dois cenários se sobrepõem — parte da probabilidade é contada duas vezes e a soma sai alta. A regra só funciona porque a árvore cobre todo o espaço amostral sem repetir nenhum ramo.</p>
+</section>
+<section id="teorema-de-bayes" class="level2">
+<h2 class="anchored" data-anchor-id="teorema-de-bayes">Teorema de Bayes</h2>
+<p>O exemplo dos dois dados já mostrou que <span class="math inline">\(P(A \mid B)\)</span> e <span class="math inline">\(P(B \mid A)\)</span> são, em geral, números diferentes. O problema prático é que, com frequência, <strong>só uma das duas direções é fácil de medir</strong>. Um teste diagnóstico é desenhado e calibrado conhecendo <span class="math inline">\(P(\text{teste positivo} \mid \text{doença})\)</span> — foi assim que ele foi construído. O que se quer saber, ao ver um resultado positivo na mão de um paciente, é o oposto: <span class="math inline">\(P(\text{doença} \mid \text{teste positivo})\)</span>. O Teorema de Bayes é a regra que <strong>inverte a condicional fácil na condicional difícil</strong>.</p>
+<p>A dedução parte de duas maneiras de escrever a mesma interseção, usando a regra da multiplicação em cada sentido:</p>
+<p><span class="math display">\[P(A \cap B) = P(A \mid B) \cdot P(B) = P(B \mid A) \cdot P(A)\]</span></p>
+<p>Igualando os dois lados direitos e isolando <span class="math inline">\(P(A \mid B)\)</span>:</p>
+<p><span class="math display">\[P(A \mid B) = \frac{P(B \mid A) \cdot P(A)}{P(B)}\]</span></p>
+<p>Essa já é a forma de Bayes para dois eventos. Ela generaliza para uma partição <span class="math inline">\(A_1, \ldots, A_n\)</span> do espaço amostral trocando o denominador <span class="math inline">\(P(B)\)</span> pela regra da probabilidade total da seção anterior — a soma sobre todos os cenários possíveis:</p>
+<div class="conceito">
+<p><strong>Teorema de Bayes (forma geral).</strong> Se <span class="math inline">\(A_1, \ldots, A_n\)</span> formam uma partição do espaço amostral (mutuamente exclusivos e exaustivos), então, para qualquer evento <span class="math inline">\(B\)</span> com <span class="math inline">\(P(B) &gt; 0\)</span>:</p>
+<p><span class="math display">\[P(A_i \mid B) = \frac{P(B \mid A_i) \cdot P(A_i)}{\displaystyle\sum_{j=1}^{n} P(B \mid A_j) \cdot P(A_j)}\]</span></p>
+<p>Cada peça tem nome: <span class="math inline">\(P(A_i)\)</span> é o <strong>prior</strong> (a crença antes de <span class="math inline">\(B\)</span>), <span class="math inline">\(P(B \mid A_i)\)</span> é a <strong>verossimilhança</strong> (quão provável seria observar <span class="math inline">\(B\)</span> em cada cenário), o denominador é a <strong>evidência</strong> — <span class="math inline">\(P(B)\)</span> pela regra da probabilidade total — e <span class="math inline">\(P(A_i \mid B)\)</span> é o <strong>posterior</strong> (a crença atualizada depois de <span class="math inline">\(B\)</span>).</p>
+<p>A fórmula só vale se <span class="math inline">\(A_1, \ldots, A_n\)</span> formarem de fato uma partição. Se algum cenário ficar de fora (não exaustiva) ou dois cenários se sobrepuserem (não exclusiva), a soma do denominador não é mais <span class="math inline">\(P(B)\)</span>, e o resultado sai errado sem avisar — o mesmo risco já visto na regra da probabilidade total.</p>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Dica</span>Resposta
+<span class="screen-reader-only">Nota</span>Para ver de outro ângulo
 </div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>É <code>binom.pmf(5, 10, 0.5)</code> ≈ 0,246 — apenas cerca de 25%. O valor esperado (<span class="math inline">\(np = 5\)</span>) é de fato o resultado <strong>mais provável</strong>, mas ele divide a massa de probabilidade com 4, com 6 e com todos os outros vizinhos. “O esperado” não é “o quase certo”: é apenas o centro da distribuição, e num sorteio com 11 resultados possíveis (de 0 a 10 caras) até o mais provável fica com uma fatia modesta.</p>
+<p>Duas explicações visuais e interativas, complementares a esta seção (sem precisar ler código):</p>
+<ul>
+<li><a href="https://www.3blue1brown.com/lessons/bayes-theorem"><strong>Bayes’ theorem</strong> — 3Blue1Brown</a>: usa áreas para mostrar por que a taxa-base pode dominar um teste aparentemente confiável — o mesmo fenômeno da próxima seção.</li>
+<li><a href="https://seeing-theory.brown.edu/bayesian-inference/index.html"><strong>Bayesian Inference</strong> — Seeing Theory</a>: reconstrói o Teorema de Bayes a partir de um teste médico, com sliders para os mesmos três ingredientes usados aqui: prior, verossimilhança e posterior.</li>
+</ul>
 </div>
 </div>
+<p>O exercício 5.15 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span> é um bom primeiro uso da forma geral, porque a partição tem três cenários, não dois. Um processo seletivo classifica os candidatos, a partir do currículo, em bons (25% do total), médios (50%) e fracos (25%) — o prior de cada categoria. Historicamente, 80% dos candidatos bons passam na entrevista, contra 50% dos médios e 20% dos fracos — a verossimilhança de “ser aprovado” em cada cenário. Um candidato foi aprovado. Qual a probabilidade de que fosse fraco?</p>
+<div id="bayes-particao" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>prior <span class="op">=</span> {<span class="st">"bom"</span>: <span class="fl">0.25</span>, <span class="st">"médio"</span>: <span class="fl">0.50</span>, <span class="st">"fraco"</span>: <span class="fl">0.25</span>}</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>aprovado_dado <span class="op">=</span> {<span class="st">"bom"</span>: <span class="fl">0.80</span>, <span class="st">"médio"</span>: <span class="fl">0.50</span>, <span class="st">"fraco"</span>: <span class="fl">0.20</span>}</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>evidencia <span class="op">=</span> <span class="bu">sum</span>(prior[c] <span class="op">*</span> aprovado_dado[c] <span class="cf">for</span> c <span class="kw">in</span> prior)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>posterior_fraco <span class="op">=</span> prior[<span class="st">"fraco"</span>] <span class="op">*</span> aprovado_dado[<span class="st">"fraco"</span>] <span class="op">/</span> evidencia</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"P(candidato fraco | foi aprovado) = </span><span class="sc">{</span>num(posterior_fraco, <span class="dv">2</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>P(candidato fraco | foi aprovado) = 0,10</code></pre>
 </div>
-<p><strong>2.</strong> Por que a binomial exige que as tentativas sejam <strong>independentes</strong> e todas com a <strong>mesma</strong> probabilidade <em>p</em>?</p>
+</div>
+<p>Dos aprovados, só 0,10 (10%) são fracos — bem menos que os 25% do prior. Faz sentido: candidatos fracos raramente passam (20% de chance), então, entre quem passou, eles ficam sub-representados. O mesmo cálculo dá o posterior das outras duas categorias, usando as variáveis já definidas no chunk acima: 0,40 para bons e 0,50 para médios. As três somam exatamente 1,00 — o posterior, atualizado pela evidência “foi aprovado”, ainda é uma partição, porque continua cobrindo todo o espaço amostral (todo aprovado é bom, médio ou fraco) sem sobreposição.</p>
+</section>
+<section id="a-armadilha-da-taxa-base" class="level2">
+<h2 class="anchored" data-anchor-id="a-armadilha-da-taxa-base">A armadilha da taxa-base</h2>
+<p>Um sistema de detecção de anomalias — fraude, intrusão, uma falha rara de hardware — dispara um alarme com <strong>sensibilidade</strong> de 80%: sempre que o evento real acontece, o alarme dispara 80% das vezes. Ele também tem uma taxa de <strong>falso-positivo</strong> de 9,6%: mesmo sem o evento, o alarme dispara por engano em 9,6% dos casos. O evento em si é raro — a <strong>prevalência</strong> é de apenas 1% dos casos.</p>
+<p>O alarme acaba de disparar. Qual a chance de o evento ser real? A resposta intuitiva é “perto de 80%” — afinal, é isso que a sensibilidade parece prometer. A resposta certa é bem menor:</p>
+<div id="bayes-falso-positivo" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>prevalencia, sensibilidade, falso_positivo <span class="op">=</span> <span class="fl">0.01</span>, <span class="fl">0.80</span>, <span class="fl">0.096</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>posterior <span class="op">=</span> (prevalencia <span class="op">*</span> sensibilidade) <span class="op">/</span> (</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    prevalencia <span class="op">*</span> sensibilidade <span class="op">+</span> (<span class="dv">1</span> <span class="op">-</span> prevalencia) <span class="op">*</span> falso_positivo)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"P(evento real | alarme disparou) = </span><span class="sc">{</span>num(posterior <span class="op">*</span> <span class="dv">100</span>, <span class="dv">1</span>)<span class="sc">}</span><span class="ss">%"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>P(evento real | alarme disparou) = 7,8%</code></pre>
+</div>
+</div>
+<p>Só 7,8% dos alarmes correspondem a um evento real — dez vezes menos do que os 80% da intuição. O denominador da fórmula explica por quê: ele soma a contribuição de quem tem o evento, <span class="math inline">\((0{,}01)(0{,}80) = 0{,}008\)</span>, com a contribuição de quem não tem, <span class="math inline">\((0{,}99)(0{,}096) \approx 0{,}095\)</span>. Mesmo com uma taxa de falso-positivo bem menor que a sensibilidade (9,6% contra 80%), o segundo grupo é <strong>99 vezes maior</strong> que o primeiro — e esse desequilíbrio no tamanho das populações domina o resultado. A maioria esmagadora dos alarmes vem de gente sem o evento, simplesmente porque é uma maioria esmagadora da população.</p>
+<p>Isso é a <strong>armadilha da taxa-base</strong>: quando o evento é raro, mesmo um teste bastante sensível gera mais alarmes falsos do que verdadeiros em números absolutos. A pergunta certa nunca é só “quão sensível é o teste”, mas “quão sensível é o teste, <em>dado o quão raro é o evento</em>”. E é, no fundo, o mesmo erro do início da seção — tratar <span class="math inline">\(P(\text{alarme} \mid \text{evento real})\)</span>, a sensibilidade, como se fosse <span class="math inline">\(P(\text{evento real} \mid \text{alarme})\)</span>, o posterior — só que agora com uma diferença de dez vezes, não de fração de ponto.</p>
+<p>Uma segunda maneira de chegar ao mesmo número, sem fórmula nenhuma: simular uma população inteira e contar.</p>
+<div id="bayes-monte-carlo" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">42</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">1_000_000</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>tem_evento <span class="op">=</span> rng.random(n) <span class="op">&lt;</span> prevalencia</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>alarme <span class="op">=</span> np.where(tem_evento, rng.random(n) <span class="op">&lt;</span> sensibilidade, rng.random(n) <span class="op">&lt;</span> falso_positivo)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>positivos <span class="op">=</span> <span class="bu">int</span>(alarme.<span class="bu">sum</span>())</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>reais <span class="op">=</span> <span class="bu">int</span>((alarme <span class="op">&amp;</span> tem_evento).<span class="bu">sum</span>())</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"De </span><span class="sc">{</span>num(positivos, <span class="dv">0</span>)<span class="sc">}</span><span class="ss"> alarmes, </span><span class="sc">{</span>num(reais, <span class="dv">0</span>)<span class="sc">}</span><span class="ss"> eram evento real: </span><span class="sc">{</span>num(<span class="dv">100</span> <span class="op">*</span> reais <span class="op">/</span> positivos, <span class="dv">1</span>)<span class="sc">}</span><span class="ss">%"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>De 103.092 alarmes, 7.931 eram evento real: 7,7%</code></pre>
+</div>
+</div>
+<p>Um milhão de casos simulados, cada um com sua chance de ter o evento e de disparar o alarme, dão a mesma fração de antes: contar alarmes de verdade entre um milhão de casos simulados chega ao mesmo lugar que a álgebra do Teorema de Bayes.</p>
+<div class="exemplo">
+<p>Este exemplo é do tipo de sistema onde a armadilha da taxa-base mais custa caro: quanto mais raro o evento que se quer detectar — fraude entre milhões de transações, uma doença rara numa triagem em massa, uma falha catastrófica entre bilhões de operações —, mais um teste “confiável” precisa ser, em sensibilidade e em falso-positivo, para que a maioria dos alarmes ainda signifique alguma coisa.</p>
+</div>
+<p>Bayes e a probabilidade total resolvem perguntas quando as probabilidades das peças já são conhecidas. Mas, em muitos problemas, o primeiro obstáculo é outro: contar quantos resultados existem, para sequer começar a atribuir probabilidade a cada um. É esse problema — contar sem enumerar um por um — que a próxima seção ataca, com permutações e combinações.</p>
+</section>
+<section id="exercícios" class="level2">
+<h2 class="anchored" data-anchor-id="exercícios">Exercícios</h2>
+<p><strong>1.</strong> Numa fila de atendimento, 30% dos tickets chegam marcados como prioridade alta (<span class="math inline">\(P(\text{alta}) = 0{,}3\)</span>) e os demais como prioridade normal. Entre os de prioridade alta, 90% são resolvidos no mesmo dia; entre os de prioridade normal, apenas 40% são. Um ticket escolhido ao acaso foi resolvido no mesmo dia. Qual a probabilidade de que fosse de prioridade alta?</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -796,15 +858,76 @@ P(até 2 sucessos em 5, p=0,1):        0,9914</code></pre>
 </div>
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Se as tentativas se influenciam (o resultado de uma muda a chance da seguinte) ou se <em>p</em> varia de uma tentativa para outra, a contagem de sucessos deixa de seguir a binomial. Independência e <em>p</em> constante são o que justifica a matemática por trás dela. É também o que quebra em situações reais: se os visitantes de um site não são independentes — um compartilhou o link com o outro, e os dois convertem juntos —, o número de conversões não segue mais uma binomial, e as contas baseadas nela passam a errar.</p>
+<p>Primeiro, a probabilidade total de um ticket qualquer ser resolvido no mesmo dia, somando as duas categorias (uma partição: todo ticket é alta ou normal, nunca os dois):</p>
+<p><span class="math display">\[P(\text{resolvido}) = (0{,}3)(0{,}9) + (0{,}7)(0{,}4) = 0{,}27 + 0{,}28 = 0{,}55\]</span></p>
+<p>Agora Bayes inverte a condicional: em vez de “resolvido dado alta” (que já era conhecida), quer-se “alta dado resolvido”:</p>
+<p><span class="math display">\[P(\text{alta} \mid \text{resolvido}) = \frac{P(\text{resolvido} \mid \text{alta}) \cdot P(\text{alta})}{P(\text{resolvido})} = \frac{0{,}27}{0{,}55} \approx 0{,}491\]</span></p>
+<p>Note que o prior era 0,30 e o posterior sobe para aproximadamente 0,491: saber que o ticket foi resolvido no mesmo dia torna mais provável que fosse de prioridade alta, porque tickets de prioridade alta são resolvidos rápido com muito mais frequência.</p>
+</div>
+</div>
+</div>
+<p><strong>2.</strong> Duas moedas justas são lançadas. Seja <span class="math inline">\(A\)</span> = “a primeira moeda dá cara” e <span class="math inline">\(B\)</span> = “as duas moedas dão o mesmo resultado”. <span class="math inline">\(A\)</span> e <span class="math inline">\(B\)</span> são independentes?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>O espaço amostral tem 4 resultados igualmente prováveis: cara-cara, cara-coroa, coroa-cara, coroa-coroa. <span class="math inline">\(P(A) = 0{,}5\)</span> (cara-cara e cara-coroa). <span class="math inline">\(P(B) = 0{,}5\)</span> (cara-cara e coroa-coroa). A interseção <span class="math inline">\(A \cap B\)</span> é só cara-cara, então <span class="math inline">\(P(A \cap B) = 0{,}25\)</span>.</p>
+<p>Testando a definição: <span class="math inline">\(P(A) \cdot P(B) = 0{,}5 \times 0{,}5 = 0{,}25 = P(A \cap B)\)</span>. A igualdade bate — <span class="math inline">\(A\)</span> e <span class="math inline">\(B\)</span> <strong>são</strong> independentes, apesar de <span class="math inline">\(B\)</span> parecer, à primeira vista, uma pergunta sobre as duas moedas juntas e não só sobre a primeira. A intuição engana aqui; só a álgebra decide.</p>
+</div>
+</div>
+</div>
+<p><strong>3.</strong> O problema de Monty Hall: um programa de auditório tem três portas. Atrás de uma está um carro; atrás das outras duas, uma cabra. Você escolhe uma porta. O apresentador, que sabe onde está o carro, abre <strong>outra</strong> porta — sempre uma com cabra, nunca a que você escolheu. Ele então oferece a chance de trocar de porta. Você deve trocar?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Sim — trocar dobra a chance de ganhar, de 1/3 para 2/3. A saída algébrica usa exatamente o aparato desta seção: prior, verossimilhança e Bayes, com a partição <span class="math inline">\(\{\text{carro na porta 1}, \text{carro na porta 2}, \text{carro na porta 3}\}\)</span>.</p>
+<p>Suponha, sem perda de generalidade, que você escolheu a porta 1 e o apresentador abriu a porta 3 (mostrando uma cabra). O prior de cada porta é <span class="math inline">\(1/3\)</span>. A verossimilhança de “o apresentador abre a porta 3” depende de onde está o carro:</p>
+<ul>
+<li>Carro na porta 1 (a sua): o apresentador pode abrir 2 ou 3, escolhe ao acaso — <span class="math inline">\(P(\text{abre 3} \mid \text{carro em 1}) = 1/2\)</span>.</li>
+<li>Carro na porta 2: a única porta com cabra que sobra é a 3 — <span class="math inline">\(P(\text{abre 3} \mid \text{carro em 2}) = 1\)</span>.</li>
+<li>Carro na porta 3: o apresentador nunca abre a porta com o carro — <span class="math inline">\(P(\text{abre 3} \mid \text{carro em 3}) = 0\)</span>.</li>
+</ul>
+<p>A evidência (regra da probabilidade total): <span class="math inline">\(P(\text{abre 3}) = (1/3)(1/2) + (1/3)(1) + (1/3)(0) = 1/6 + 1/3 = 1/2\)</span>. Por Bayes,</p>
+<p><span class="math display">\[P(\text{carro em 1} \mid \text{abre 3}) = \frac{(1/3)(1/2)}{1/2} = \frac{1}{3} \qquad P(\text{carro em 2} \mid \text{abre 3}) = \frac{(1/3)(1)}{1/2} = \frac{2}{3}\]</span></p>
+<p>Ficar na porta 1 mantém a chance original de 1/3 — abrir a porta 3 não trouxe nenhuma informação nova sobre a porta que você já tinha escolhido. Trocar para a porta 2 herda os 2/3 que sobraram.</p>
+<p>Uma simulação confirma sem precisar de álgebra nenhuma. Como o apresentador nunca abre a porta do jogador nem a do carro, a porta que sobra depois que ele revela uma cabra é o carro exatamente quando a escolha inicial errou — por isso “trocar acerta” pode ser calculado direto, sem simular qual porta o apresentador abriu:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">42</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">100_000</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>carro <span class="op">=</span> rng.integers(<span class="dv">0</span>, <span class="dv">3</span>, n)          <span class="co"># porta com o carro, sorteada por caso</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>escolha <span class="op">=</span> rng.integers(<span class="dv">0</span>, <span class="dv">3</span>, n)        <span class="co"># escolha inicial do jogador</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>troca_acerta <span class="op">=</span> escolha <span class="op">!=</span> carro        <span class="co"># trocar acerta sse a escolha inicial errou</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>fica_acerta <span class="op">=</span> escolha <span class="op">==</span> carro         <span class="co"># ficar acerta sse a escolha inicial acertou</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Trocando: </span><span class="sc">{</span>num(<span class="dv">100</span> <span class="op">*</span> troca_acerta.mean(), <span class="dv">1</span>)<span class="sc">}</span><span class="ss">%"</span>)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Ficando : </span><span class="sc">{</span>num(<span class="dv">100</span> <span class="op">*</span> fica_acerta.mean(), <span class="dv">1</span>)<span class="sc">}</span><span class="ss">%"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Com 100 mil repetições, a fração de “trocando” fica perto de 66,7% e a de “ficando” perto de 33,3% — o 2/3 e o 1/3 que a álgebra já previa.</p>
 </div>
 </div>
 </div>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="list">
-<div id="ref-bruce2020" class="csl-entry" role="listitem">
-Bruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. <em>Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python</em>. 2nd ed. O’Reilly Media.
+<div id="ref-bussab2023" class="csl-entry" role="listitem">
+Bussab, Wilton de Oliveira, e Pedro Alberto Morettin. 2023. <em>Estatística Básica</em>. 10ª ed. Saraiva.
 </div>
 </div>
 </section>
@@ -1325,8 +1448,8 @@ document.addEventListener('DOMContentLoaded', function () {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../content/cap02/04-poisson.html" class="pagination-link" aria-label="Distribuição de Poisson">
-        <span class="nav-page-text"><span class="chapter-title">Distribuição de Poisson</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../content/cap02/04-contagem-permutacao-combinacao.html" class="pagination-link" aria-label="Contagem: Permutação e Combinação">
+        <span class="nav-page-text"><span class="chapter-title">Contagem: Permutação e Combinação</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

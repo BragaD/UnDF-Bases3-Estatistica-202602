@@ -455,37 +455,32 @@ div.csl-indent {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/03-distribuicao-binomial.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Binomial</span></a>
+  <a href="../../content/cap02/03-probabilidade-condicional-bayes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Probabilidade Condicional e Bayes</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/04-poisson.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição de Poisson</span></a>
+  <a href="../../content/cap02/04-contagem-permutacao-combinacao.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Contagem: Permutação e Combinação</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/05-distribuicao-normal.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Normal</span></a>
+  <a href="../../content/cap02/05-distribuicao-binomial.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Binomial</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/06-caudas-longas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuições de Cauda Longa</span></a>
+  <a href="../../content/cap02/06-distribuicao-hipergeometrica.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Hipergeométrica</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/07-distribuicao-t.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição t de Student</span></a>
+  <a href="../../content/cap02/07-distribuicao-normal.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Normal</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/08-qui-quadrado.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Qui-Quadrado</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/09-distribuicao-f.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição F</span></a>
+  <a href="../../content/cap02/08-caudas-longas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuições de Cauda Longa</span></a>
   </div>
 </li>
       </ul>
@@ -656,21 +651,21 @@ Nota
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Este capítulo mistura duas fontes: as regras de probabilidade se inspiram no Capítulo 10 de <span class="citation" data-cites="weed">Weed e Navarro (<a href="#ref-weed" role="doc-biblioref">2022</a>)</span>; o catálogo de distribuições é baseado no Capítulo 2 de <span class="citation" data-cites="bruce2020">Bruce et al. (<a href="#ref-bruce2020" role="doc-biblioref">2020</a>)</span>.</p>
+<p>Este capítulo mistura três fontes: as regras de probabilidade se inspiram no Capítulo 10 de <span class="citation" data-cites="weed">Weed e Navarro (<a href="#ref-weed" role="doc-biblioref">2022</a>)</span>; probabilidade condicional, Bayes e contagem se baseiam nos capítulos 5.2 a 5.4 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>; o catálogo de distribuições combina o Capítulo 2 de <span class="citation" data-cites="bruce2020">Bruce et al. (<a href="#ref-bruce2020" role="doc-biblioref">2020</a>)</span> com a seção 6.6.4 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span> para a hipergeométrica.</p>
 </div>
 </div>
 <p>📓 <a href="https://colab.research.google.com/github/BragaD/UnDF-Bases3-Estatistica-202602/blob/main/notebooks/capitulo-02.ipynb"><strong>Abrir o notebook deste capítulo no Colab ↗</strong></a> — só o código, pronto para rodar.</p>
-<p>Antes de testar hipóteses ou ajustar modelos, é preciso entender a linguagem em que a incerteza é descrita. Este capítulo parte do conceito de probabilidade e de suas regras básicas, e usa esse vocabulário para apresentar as distribuições que reaparecem no resto do livro — a binomial, a de Poisson, a normal, a de cauda longa, a t de Student, a qui-quadrado e a F.</p>
+<p>Antes de testar hipóteses ou ajustar modelos, é preciso entender a linguagem em que a incerteza é descrita. Este capítulo parte do conceito de probabilidade e de suas regras básicas, avança para probabilidade condicional, o teorema de Bayes e as técnicas de contagem, e usa esse vocabulário para apresentar as distribuições que reaparecem no resto do livro — a binomial, a hipergeométrica, a normal e as de cauda longa.</p>
 <p>Ao final deste capítulo, você será capaz de:</p>
 <ul>
 <li>Definir probabilidade e distinguir suas interpretações</li>
-<li>Aplicar as regras de probabilidade (complemento, adição, multiplicação, independência e probabilidade condicional)</li>
+<li>Aplicar as regras de probabilidade (complemento, adição, multiplicação, independência)</li>
+<li>Calcular probabilidade condicional e aplicar o teorema de Bayes</li>
+<li>Usar permutações e combinações para contar os resultados de um experimento</li>
 <li>Aplicar a distribuição binomial a eventos de sucesso/fracasso</li>
-<li>Aplicar a distribuição de Poisson e a exponencial a eventos raros ao longo do tempo ou espaço</li>
+<li>Aplicar a distribuição hipergeométrica a amostragem sem reposição</li>
 <li>Reconhecer a distribuição normal e explicar por que ela é uma referência, não uma lei universal</li>
 <li>Identificar distribuições de cauda longa e por que a intuição da normal falha nelas</li>
-<li>Usar a distribuição t de Student para amostras pequenas</li>
-<li>Usar a distribuição qui-quadrado e a distribuição F em seus papéis como distribuições de referência para testes</li>
 </ul>
 <section id="seções" class="level2">
 <h2 class="anchored" data-anchor-id="seções">Seções</h2>
@@ -691,32 +686,28 @@ Nota
 <td>Regras de Probabilidade</td>
 </tr>
 <tr class="odd">
-<td><a href="../../content/cap02/03-distribuicao-binomial.html">2.3</a></td>
+<td><a href="../../content/cap02/03-probabilidade-condicional-bayes.html">2.3</a></td>
+<td>Probabilidade Condicional e Bayes</td>
+</tr>
+<tr class="even">
+<td><a href="../../content/cap02/04-contagem-permutacao-combinacao.html">2.4</a></td>
+<td>Contagem: Permutação e Combinação</td>
+</tr>
+<tr class="odd">
+<td><a href="../../content/cap02/05-distribuicao-binomial.html">2.5</a></td>
 <td>Distribuição Binomial</td>
 </tr>
 <tr class="even">
-<td><a href="../../content/cap02/04-poisson.html">2.4</a></td>
-<td>Distribuição de Poisson</td>
+<td><a href="../../content/cap02/06-distribuicao-hipergeometrica.html">2.6</a></td>
+<td>Distribuição Hipergeométrica</td>
 </tr>
 <tr class="odd">
-<td><a href="../../content/cap02/05-distribuicao-normal.html">2.5</a></td>
+<td><a href="../../content/cap02/07-distribuicao-normal.html">2.7</a></td>
 <td>Distribuição Normal</td>
 </tr>
 <tr class="even">
-<td><a href="../../content/cap02/06-caudas-longas.html">2.6</a></td>
+<td><a href="../../content/cap02/08-caudas-longas.html">2.8</a></td>
 <td>Distribuições de Cauda Longa</td>
-</tr>
-<tr class="odd">
-<td><a href="../../content/cap02/07-distribuicao-t.html">2.7</a></td>
-<td>Distribuição t de Student</td>
-</tr>
-<tr class="even">
-<td><a href="../../content/cap02/08-qui-quadrado.html">2.8</a></td>
-<td>Distribuição Qui-Quadrado</td>
-</tr>
-<tr class="odd">
-<td><a href="../../content/cap02/09-distribuicao-f.html">2.9</a></td>
-<td>Distribuição F</td>
 </tr>
 </tbody>
 </table>
@@ -725,6 +716,9 @@ Nota
 <div id="refs" class="references csl-bib-body hanging-indent" role="list">
 <div id="ref-bruce2020" class="csl-entry" role="listitem">
 Bruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. <em>Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python</em>. 2nd ed. O’Reilly Media.
+</div>
+<div id="ref-bussab2023" class="csl-entry" role="listitem">
+Bussab, Wilton de Oliveira, e Pedro Alberto Morettin. 2023. <em>Estatística Básica</em>. 10ª ed. Saraiva.
 </div>
 <div id="ref-weed" class="csl-entry" role="listitem">
 Weed, Ethan, e Danielle Navarro. 2022. <em>Learning Statistics with <span>Python</span></em>. <a href="https://ethanweed.github.io/pythonbook/">https://ethanweed.github.io/pythonbook/</a>.

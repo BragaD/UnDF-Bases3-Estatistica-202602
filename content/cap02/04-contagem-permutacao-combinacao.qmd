@@ -4,7 +4,88 @@
 Esta seção se baseia na seção 5.2 de @bussab2023.
 :::
 
-::: {.callout-warning}
-## Em construção
-O conteúdo desta seção ainda será escrito.
+```{python}
+#| label: setup
+#| include: false
+from math import factorial, perm, comb
+from formato import num
+```
+
+Bayes e a probabilidade total, na seção anterior, resolvem perguntas quando as probabilidades das peças já são conhecidas. Mas em muitos problemas o primeiro obstáculo é outro: contar quantos resultados existem, para sequer começar a atribuir probabilidade a cada um. É esse problema — contar sem enumerar um por um — que esta seção ataca.
+
+## Princípio multiplicativo
+
+Se uma escolha tem $m$ opções e uma segunda escolha, independente da primeira, tem $n$ opções, o total de combinações das duas é $m \times n$. Uma senha numérica de 2 dígitos, cada um de 0 a 9, tem $10 \times 10 = 100$ possibilidades — não porque alguém as listou uma a uma, mas porque cada dígito multiplica as opções do outro. O princípio se estende a quantas escolhas houver: o total é o produto do número de opções de cada uma.
+
+## Permutação: quando a ordem importa
+
+Uma **permutação** conta arranjos **ordenados** de $k$ elementos escolhidos entre $n$, sem repetir nenhum. O primeiro elemento tem $n$ opções, o segundo tem $n - 1$ (uma já foi usada), o terceiro tem $n - 2$, e assim por diante — o princípio multiplicativo aplicado $k$ vezes:
+
+$$P(n, k) = n \times (n-1) \times \cdots \times (n - k + 1) = \frac{n!}{(n-k)!}$$
+
+Quando $k = n$, permutar todos os elementos dá $n!$ (lê-se "$n$ fatorial"): $n! = n \times (n-1) \times \cdots \times 2 \times 1$.
+
+```{python}
+#| label: contagem
+print(f"5! = {factorial(5)}")                    # permutações de 5 elementos
+print(f"P(5,3) = {perm(5, 3)}")                  # pódios ordenados de 3 entre 5
+print(f"C(20,4) = {num(comb(20, 4), 0)}")        # amostras (sem ordem) de 4 entre 20
+```
+
+Cinco corredores podem cruzar a linha de chegada em `{python} factorial(5)` ordens diferentes ($5!$). Escolher só o pódio — ouro, prata e bronze, entre os mesmos 5 corredores — dá `{python} perm(5, 3)` resultados possíveis ($P(5,3)$): a ordem importa, porque ouro e prata não são a mesma coisa.
+
+## Combinação: quando a ordem não importa
+
+Uma **combinação** conta **subconjuntos** de $k$ elementos escolhidos entre $n$, sem se importar com a ordem em que foram escolhidos. Ela parte da permutação e divide pelas $k!$ formas de ordenar cada subconjunto — todas essas ordens diferentes contam como um único resultado:
+
+$$\binom{n}{k} = \frac{P(n,k)}{k!} = \frac{n!}{k!(n-k)!}$$
+
+O terceiro resultado do chunk acima é uma combinação: escolher 4 itens entre 20, sem ordem, dá `{python} num(comb(20, 4), 0)` subconjuntos possíveis ($\binom{20}{4}$) — bem menos que os $P(20,4)$ arranjos *ordenados* dos mesmos 4 itens, porque cada subconjunto de 4 corresponde a $4! = 24$ arranjos que a combinação trata como um só.
+
+::: {.conceito}
+**A pergunta que decide qual fórmula usar: a ordem importa?** Escalar um pódio (ouro, prata, bronze) é permutação — trocar quem ganha o quê muda o resultado. Sortear 4 pessoas para um comitê é combinação — trocar a ordem do sorteio não muda quem está no comitê. A mesma situação nunca é as duas coisas ao mesmo tempo; a pergunta sempre separa qual fórmula se aplica.
+:::
+
+## Contando sem probabilidade nenhuma — ainda
+
+O exercício 5.8 de @bussab2023 mostra por que essas fórmulas importam mesmo antes de qualquer probabilidade entrar em cena. Um lote tem 20 peças, das quais 5 são defeituosas. Sorteiam-se 4 peças, sem reposição e sem ordem. Qual a chance de sair **exatamente 2** defeituosas?
+
+A conta é toda de combinações: escolher 2 defeituosas entre as 5 ($\binom{5}{2}$), escolher as outras 2 boas entre as 15 restantes ($\binom{15}{2}$), e dividir pelo total de formas de escolher 4 peças quaisquer entre as 20 ($\binom{20}{4}$):
+
+```{python}
+#| label: contagem-lote
+p = comb(5, 2) * comb(15, 2) / comb(20, 4)
+print(f"P(2 defeituosas entre as 4 sorteadas) = {num(p, 3)}")
+```
+
+A chance de sair exatamente 2 defeituosas nas 4 sorteadas é `{python} num(p, 3)`. Note a forma da conta: (combinações dentro do grupo de interesse) × (combinações dentro do resto) / (combinações do total) — essa é exatamente a estrutura da distribuição **hipergeométrica**, que a seção 2.6 generaliza para qualquer tamanho de lote, qualquer número de defeituosas e qualquer tamanho de amostra. O que muda de lá para cá não é a ideia, é só deixar de fixar os números.
+
+## Exercícios
+
+**1.** Uma equipe de 8 pessoas precisa eleger um representante e um vice-representante (dois cargos diferentes, uma pessoa não pode ocupar os dois). De quantas formas isso pode ser feito?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+A ordem importa — representante e vice são cargos diferentes, então escolher A depois B não é o mesmo que escolher B depois A. É uma permutação de 2 elementos entre 8:
+
+```python
+perm(8, 2)
+```
+
+$P(8,2) = 8 \times 7 = 56$ formas.
+:::
+
+**2.** Dessa mesma equipe de 8 pessoas, quantas comissões de 3 membros podem ser formadas (sem distinção de cargo entre os três)?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+Aqui a ordem não importa — uma comissão com A, B e C é a mesma comissão não importa em que ordem essas 3 pessoas foram escolhidas. É uma combinação de 3 elementos entre 8:
+
+```python
+comb(8, 3)
+```
+
+$\binom{8}{3} = \dfrac{8!}{3! \, 5!} = 56$ comissões possíveis. É uma coincidência numérica que este resultado coincida com o do exercício anterior — as duas contagens respondem perguntas diferentes ($P(8,2) = 56$ conta pares ordenados; $\binom{8}{3} = 56$ conta subconjuntos de tamanho 3) e não haveria motivo para os números baterem em geral.
 :::

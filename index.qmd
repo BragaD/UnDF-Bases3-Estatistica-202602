@@ -28,7 +28,7 @@ São **17 encontros**, todos às **sextas-feiras** — Engenharia de Software da
 | 6 | 25/09 | [2 — Probabilidade e Distribuições](content/cap02/index.qmd): probabilidade · regras · condicional e Bayes |
 | 7 | 02/10 | 2 — Contagem · binomial · hipergeométrica |
 | 8 | 09/10 | 2 — Normal · caudas longas · **revisão para a Prova 1** |
-| 9 | 16/10 | **Prova 1** — Introdução, Capítulos 1 e 2 · **entrega da Lista 1** |
+| 9 | 16/10 | **Prova 1** — Introdução, Capítulos 1 e 2 · **entrega da [Lista 1](downloads/lista-1-prova-1.pdf)** |
 | 10 | 23/10 | [3 — Amostragem e Estimação](content/cap03/index.qmd): amostragem aleatória e viés · viés de seleção |
 | 11 | 30/10 | 3 — Distribuição amostral · bootstrap |
 | 12 | 06/11 | 3 — Intervalos de confiança · [4 — Testes de Significância](content/cap04/index.qmd): teste A/B |
@@ -46,7 +46,7 @@ Quatro instrumentos, somando 100%:
 
 | Instrumento | Peso | Quando |
 |---|:--:|---|
-| Lista 1 | 15% | entrega até 16/10/2026 (aula 9) |
+| [Lista 1](downloads/lista-1-prova-1.pdf) | 15% | entrega até 16/10/2026 (aula 9) |
 | Prova 1 | 35% | 16/10/2026 (aula 9) |
 | Lista 2 | 15% | entrega até 11/12/2026 (aula 16) |
 | Prova 2 | 35% | 11/12/2026 (aula 16) |

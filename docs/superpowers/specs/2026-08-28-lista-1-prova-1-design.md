@@ -19,7 +19,7 @@ São **30 questões, 0,5 ponto cada** — total **15 pontos**, correspondendo ao
 
 | Eixo | Decisão |
 |---|---|
-| Formato de saída | **Documento autônomo PDF** (não é página do livro, não vai ao site) |
+| Formato de saída | **PDF** — folha do aluno **publicada no site e linkada no livro**; gabarito à parte |
 | Motor | Quarto → **typst** (PDF sem LaTeX); gabarito é `.qmd` executável |
 | Gabarito | **Privado**, doc separado, **não publicado e não versionado** |
 | Cobertura | **Capítulos 1 e 2** (Introdução fica fora) |
@@ -89,10 +89,13 @@ Alternativa registrada: **docx** via pandoc, caso se queira editar no Word. Reco
 
 **O repositório é PÚBLICO** (`BragaD/UnDF-Bases3-Estatistica-202602`). Qualquer coisa commitada é legível no GitHub. Portanto:
 
-- Toda a pasta `avaliacoes/` entra no **`.gitignore`** e **fica local** — enunciados, gabarito, PDFs e freeze. O tratamento espelha o do arquivo de Rotinas (grade de terceiros, mantido local).
-- O que se distribui aos alunos é o **PDF gerado localmente** (impresso ou por e-mail), **nunca** o GitHub.
-- **Consequência para a execução:** como nada de `avaliacoes/` é commitado, a autoria **não** usa o fluxo SDD de "commit por tarefa". Usa-se dispatch de subagentes por bloco, com o conteúdo vivendo na árvore de trabalho e verificado por render. O único commit ao repo é a linha do `.gitignore` (e, se aprovado, este spec + o plano, que ficam em nível de design, sem respostas).
-- **Custo aceito:** perde-se histórico git dos enunciados. Se um dia a disciplina migrar para repo privado, versiona-se então.
+O invariante inegociável: **nenhuma linha de solução pode tocar o GitHub**. O `.qmd` fonte contém as soluções em texto puro (só escondidas por profile na renderização), então **o fonte nunca é commitado**. Só o **PDF renderizado da folha do aluno** — que já passou pelo filtro de profile e comprovadamente não tem soluções — vai a público. Concretamente:
+
+- **Fonte + gabarito ficam locais:** toda a pasta `avaliacoes/` (o `lista-1.qmd` com soluções, o PDF do gabarito, o freeze) entra no **`.gitignore`**. Espelha o tratamento do arquivo de Rotinas (mantido local).
+- **Folha do aluno é publicada:** o PDF sem respostas é copiado para **`downloads/lista-1-prova-1.pdf`** (fora de `avaliacoes/`, versionado), declarado em `project.resources` do `_quarto.yml` e servido pelo livro no GitHub Pages. O `index.qmd` linka esse PDF no **cronograma** (aula 9) e na tabela de **avaliação**.
+- **Portão de não-vazamento antes de publicar:** o PDF só é copiado para `downloads/` depois de o render no perfil padrão (aluno) acusar **0** ocorrências de `Resolução`, da matriz de cobertura e das frases de gabarito (`Resposta:`/`Distratores:`) — mesmo teste da Fase 0, agora aplicado ao artefato público.
+- **Consequência para a execução:** como o fonte não é commitado, a autoria **não** usa o fluxo SDD de "commit por tarefa"; usa dispatch de subagentes por bloco, conteúdo vivo na árvore de trabalho, verificado por render. O que é commitado: `.gitignore`, este spec + o plano (nível de design, sem respostas), o `_quarto.yml`, o `index.qmd` e o PDF do aluno em `downloads/`.
+- **Custo aceito:** o PDF público é um artefato gerado que precisa ser **re-renderizado e re-commitado** quando a lista muda (o fonte, privado, é a fonte da verdade). Perde-se histórico git dos enunciados; se a disciplina migrar para repo privado, versiona-se o fonte então.
 
 ## 6. Estrutura da lista
 
@@ -189,8 +192,8 @@ Garantia: **cada uma das 16 seções é tocada por ≥ 1 exercício**, mesmo que
 
 - **Introdução (motivacional).** Fica de fora da lista; entra na Prova 1 apenas como leitura.
 - **Lista 2 / Prova 2.** Cap. 3–5 são outra lista, outro ciclo.
-- **Publicação no site.** Decidido: não.
-- **Versionamento dos enunciados/gabarito.** Decidido: local apenas (repo público).
+- **Publicação.** A **folha do aluno** (PDF sem respostas) é publicada e linkada no livro (cronograma + avaliação). O **gabarito** e o **fonte** (que contém as respostas em texto puro) **nunca** vão ao site nem ao repositório — ver §5.
+- **Versionamento.** Público: o PDF do aluno em `downloads/`. Local apenas: o fonte `avaliacoes/lista-1.qmd` e o gabarito.
 
 ## 13. Plano de execução (visão)
 

@@ -2,6 +2,8 @@ project:
   type: book
   output-dir: _book
   execute-dir: project
+  resources:
+    - downloads/lista-1-prova-1.pdf
 
 execute:
   freeze: auto

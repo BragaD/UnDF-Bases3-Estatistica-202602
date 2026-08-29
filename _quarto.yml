@@ -4,6 +4,7 @@ project:
   execute-dir: project
   resources:
     - downloads/lista-1-prova-1.pdf
+    - downloads/lista-1-prova-1-gabarito.pdf
 
 execute:
   freeze: auto

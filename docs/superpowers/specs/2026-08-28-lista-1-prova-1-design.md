@@ -21,7 +21,7 @@ São **30 questões, 0,5 ponto cada** — total **15 pontos**, correspondendo ao
 |---|---|
 | Formato de saída | **PDF** — folha do aluno **publicada no site e linkada no livro**; gabarito à parte |
 | Motor | Quarto → **typst** (PDF sem LaTeX); gabarito é `.qmd` executável |
-| Gabarito | **Publicado** como resolução comentada (estudo guiado), ao lado da folha do aluno |
+| Gabarito | Fica **no repositório** (público), mas **não linkado no livro** nem servido pelo site |
 | Cobertura | **Capítulos 1 e 2** (Introdução fica fora) |
 | Densidade | **30 questões**, ponderadas por peso do tema (15 do Cap. 1 + 15 do Cap. 2) |
 | Pontuação | **0,5 ponto por questão** (uniforme) → 30 × 0,5 = **15 pontos = 15%** |
@@ -87,16 +87,16 @@ Alternativa registrada: **docx** via pandoc, caso se queira editar no Word. Reco
 
 ## 5. Privacidade e versionamento
 
-O repositório é PÚBLICO (`BragaD/UnDF-Bases3-Estatistica-202602`). A lista é **estudo guiado**: as respostas **podem ser públicas** — a nota da lista premia a entrega manuscrita e o percurso, não o sigilo do gabarito. Não há, portanto, invariante de não-vazamento a defender. Publicam-se **dois** PDFs:
+O repositório é PÚBLICO (`BragaD/UnDF-Bases3-Estatistica-202602`). A lista é **estudo guiado**: as respostas **podem ser públicas** — a nota premia a entrega manuscrita e o percurso, não o sigilo do gabarito. O que muda entre os dois artefatos é a **superfície de publicação**, não o segredo:
 
-- **Folha do aluno** (`downloads/lista-1-prova-1.pdf`) — só os enunciados, para imprimir, resolver à mão e entregar; sem respostas atravancando.
-- **Gabarito** (`downloads/lista-1-prova-1-gabarito.pdf`) — as resoluções comentadas + matriz de cobertura, como companheiro de estudo.
+- **Folha do aluno** (`downloads/lista-1-prova-1.pdf`) — só os enunciados, para imprimir, resolver à mão e entregar. É declarada em `project.resources` do `_quarto.yml`, **servida pelo livro** no GitHub Pages e **linkada** no `index.qmd` (cronograma na aula 9; tabela de avaliação).
+- **Gabarito** (`downloads/lista-1-prova-1-gabarito.pdf`) — resoluções + matriz de cobertura. Fica **commitado no repositório** (acessível via GitHub), mas **não** entra em `project.resources` e **não** é linkado no livro: não vira parte do site publicado nem é apresentado ao aluno pela navegação do livro. Serve de referência do professor e para quem for atrás dele no repo.
 
-Ambos são declarados em `project.resources` do `_quarto.yml`, servidos pelo livro no GitHub Pages, e linkados no `index.qmd` (cronograma na aula 9; seção de avaliação). A distinção folha/gabarito é gerada pelo mesmo mecanismo de profile do Quarto (§4): render sem perfil → folha; `--profile gabarito` → gabarito.
+A distinção folha/gabarito é gerada pelo mesmo mecanismo de profile do Quarto (§4): render sem perfil → folha; `--profile gabarito` → gabarito.
 
-- **Fonte fica local por conveniência, não por sigilo:** `avaliacoes/lista-1.qmd` (e o freeze) permanece no **`.gitignore`** — não porque as respostas precisem ser escondidas, mas porque o fonte único com blocos gated não é uma página do livro; o que o livro publica são os dois PDFs renderizados. Manter o fonte fora do `_quarto.yml` evita que ele vire capítulo no sidebar.
-- **Consequência para a execução:** a autoria **não** usa o fluxo SDD de "commit por tarefa"; usa dispatch de subagentes por bloco, conteúdo vivo na árvore de trabalho, verificado por render. O que é commitado: `.gitignore`, este spec + o plano, o `_quarto.yml`, o `index.qmd` e os **dois** PDFs em `downloads/`.
-- **Custo aceito:** os PDFs públicos são artefatos gerados que precisam ser **re-renderizados e re-commitados** quando a lista muda (o fonte local é a fonte da verdade).
+- **Fonte fica local por conveniência:** `avaliacoes/lista-1.qmd` (e o freeze) permanece no **`.gitignore`** — o fonte único com blocos gated não é uma página do livro; o que se versiona são os dois PDFs renderizados. Manter o fonte fora do `_quarto.yml` evita que ele vire capítulo no sidebar.
+- **Consequência para a execução:** a autoria **não** usa o fluxo SDD de "commit por tarefa"; usa dispatch de subagentes por bloco, conteúdo vivo na árvore de trabalho, verificado por render. O que é commitado: `.gitignore`, este spec + o plano, o `_quarto.yml`, o `index.qmd` e os **dois** PDFs em `downloads/` (só a folha do aluno é recurso do site; o gabarito só mora no repo).
+- **Custo aceito:** os PDFs são artefatos gerados que precisam ser **re-renderizados e re-commitados** quando a lista muda (o fonte local é a fonte da verdade).
 
 ## 6. Estrutura da lista
 
@@ -193,8 +193,8 @@ Garantia: **cada uma das 16 seções é tocada por ≥ 1 exercício**, mesmo que
 
 - **Introdução (motivacional).** Fica de fora da lista; entra na Prova 1 apenas como leitura.
 - **Lista 2 / Prova 2.** Cap. 3–5 são outra lista, outro ciclo.
-- **Publicação.** Estudo guiado: **os dois PDFs** — folha do aluno e gabarito comentado — são publicados e linkados no livro (cronograma + avaliação). Ver §5.
-- **Versionamento.** Público: os dois PDFs em `downloads/`. Local por conveniência: o fonte `avaliacoes/lista-1.qmd` (não é página do livro).
+- **Publicação.** Só a **folha do aluno** é servida e linkada no livro (cronograma + avaliação). O **gabarito** fica no repositório, mas **não** é recurso do site nem é linkado. Ver §5.
+- **Versionamento.** No repo: os dois PDFs em `downloads/` (só a folha do aluno é recurso do site). Local por conveniência: o fonte `avaliacoes/lista-1.qmd`.
 
 ## 13. Plano de execução (visão)
 

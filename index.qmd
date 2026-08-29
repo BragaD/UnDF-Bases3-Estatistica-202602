@@ -51,7 +51,7 @@ Quatro instrumentos, somando 100%:
 | Lista 2 | 15% | entrega até 11/12/2026 (aula 16) |
 | Prova 2 | 35% | 11/12/2026 (aula 16) |
 
-São **duas provas individuais**, de peso igual (35% cada), e **duas listas** de exercícios (15% cada). Cada lista fecha na data da prova correspondente — a Lista 1 até a Prova 1, a Lista 2 até a Prova 2 —, funcionando como estudo dirigido para a prova, e não como tarefa empilhada sobre ela. As listas são de entrega **manuscrita** (o Python pode ser usado como calculadora); como são estudo guiado, cada uma vem acompanhada das **resoluções comentadas** — [Lista 1](downloads/lista-1-prova-1.pdf) e seu [gabarito](downloads/lista-1-prova-1-gabarito.pdf).
+São **duas provas individuais**, de peso igual (35% cada), e **duas listas** de exercícios (15% cada). Cada lista fecha na data da prova correspondente — a Lista 1 até a Prova 1, a Lista 2 até a Prova 2 —, funcionando como estudo dirigido para a prova, e não como tarefa empilhada sobre ela. As listas são de entrega **manuscrita**: o Python pode ser usado como calculadora para chegar aos resultados, mas as respostas devem ser escritas à mão.
 
 A **Prova 1** cai na primeira aula após a metade da disciplina (aula 9, 16/10) e cobre a Introdução e os Capítulos 1 e 2 — análise exploratória, probabilidade e distribuições. A **Prova 2** (aula 16, 11/12) cobre os Capítulos 3, 4 e 5 — amostragem e estimação, testes de significância e regressão.
 

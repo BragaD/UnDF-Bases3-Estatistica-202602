@@ -321,3 +321,116 @@ A média é o dobro da mediana, então a assimetria é **positiva** (à direita)
 
 O violino está mostrando **bimodalidade**: dois agrupamentos de valores separados por uma faixa com poucas ou nenhuma observação. O boxplot não tem como revelar isso — ele só registra Q1, mediana e Q3, e esses três números podem ser idênticos para uma distribuição unimodal e para uma bimodal. Com poucas observações, porém, a curva do violino é uma estimativa suavizada, não os dados crus: com 8 pontos, o suavizador pode desenhar dois ventres (ou esticar as caudas além do mínimo e do máximo reais) só por acaso da amostra, sem que a bimodalidade exista de fato na população. O violino informa mais que o boxplot quando há dados suficientes para a densidade estimada ser confiável — e engana mais do que informa quando não há.
 :::
+
+## Agora é com você
+
+De volta aos 10.692 aluguéis das seções [1.3](03-estimativas-localizacao.qmd) e [1.4](04-estimativas-variabilidade.qmd). Você já sabe onde está o centro e quanto os valores se espalham; falta a **forma** — e é nela que este conjunto mais surpreende.
+
+```{python}
+#| label: alugueis-dist-carrega
+alugueis = pd.read_csv("dados/alugueis.csv")
+alugueis[["aluguel", "condominio", "area_m2"]].head()
+```
+
+Quatro tarefas, na ordem. Tente antes de abrir cada resposta.
+
+**1.** Calcule os percentis 5, 25, 50, 75 e 95 de `aluguel` e de `condominio`, e ponha o máximo de cada uma na última linha da tabela. Compare o percentil 95 com o máximo: o que a distância entre eles diz?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+```{python}
+#| label: alugueis-dist-percentis
+colunas = ["aluguel", "condominio"]
+percentis = [0.05, 0.25, 0.5, 0.75, 0.95]
+tabela = alugueis[colunas].quantile(percentis)
+tabela.index = [f"{p:.0%}" for p in percentis]
+tabela.loc["máximo"] = alugueis[colunas].max()
+tabela.astype(int)
+```
+
+Em `aluguel`, 95% dos imóveis custam até R$ `{python} num(tabela.loc["95%", "aluguel"], 0)`, e o máximo é R$ `{python} num(tabela.loc["máximo", "aluguel"], 0)` — cerca de `{python} num(tabela.loc["máximo", "aluguel"] / tabela.loc["95%", "aluguel"], 1)` vezes o P95. Em `condominio` a distância é de outra ordem: P95 de R$ `{python} num(tabela.loc["95%", "condominio"], 0)` contra um máximo de R$ `{python} num(tabela.loc["máximo", "condominio"], 0)`, `{python} num(tabela.loc["máximo", "condominio"] / tabela.loc["95%", "condominio"], 0)` vezes maior. Os 5% finais de uma distribuição de cauda longa não são "um pouco maiores" — são outro mundo, e o percentil 95 é justamente a ferramenta para resumir "o típico entre os altos" sem deixar o máximo falar sozinho.
+:::
+
+**2.** Desenhe o boxplot de `aluguel`. Pela regra de 1,5×IQR, calcule o limite superior do bigode e conte quantos imóveis são outliers. Que fração do conjunto isso representa? Há outliers pelo lado de baixo?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+```{python}
+#| label: alugueis-dist-boxplot
+#| fig-cap: "Boxplot do aluguel. A caixa é o IQR; os pontos acima do bigode são os outliers pela regra de 1,5×IQR."
+q1, q3 = alugueis["aluguel"].quantile([0.25, 0.75])
+limite_sup = q3 + 1.5 * (q3 - q1)
+limite_inf = q1 - 1.5 * (q3 - q1)
+acima = alugueis["aluguel"] > limite_sup
+abaixo = alugueis["aluguel"] < limite_inf
+print(f"Q1 = {num(q1, 0)}   Q3 = {num(q3, 0)}   IQR = {num(q3 - q1, 0)}")
+print(f"limite superior = {num(limite_sup, 0)} → {int(acima.sum())} outliers ({num(100 * acima.mean(), 1)}%)")
+print(f"limite inferior = {num(limite_inf, 0)} → {int(abaixo.sum())} outliers")
+
+fig, ax = plt.subplots(figsize=(4, 5))
+alugueis["aluguel"].plot.box(ax=ax)
+ax.set_ylabel("Aluguel (R$)")
+plt.tight_layout()
+plt.show()
+```
+
+`{python} int(acima.sum())` imóveis — `{python} num(100 * acima.mean(), 1)`% do conjunto — passam do bigode superior (R$ `{python} num(limite_sup, 0)`). Pelo lado de baixo, `{python} int(abaixo.sum())`: o limite inferior dá R$ `{python} num(limite_inf, 0)`, e não existe aluguel tão barato. Essa assimetria do próprio boxplot — bigode curto embaixo, chuva de pontos em cima — já é a assinatura visual da cauda longa à direita. E note a proporção: num dado normal, a regra de 1,5×IQR marca menos de 1% dos valores como outlier; aqui marca `{python} num(100 * acima.mean(), 1)`%. Quando "outlier" vira uma fatia visível do conjunto, o problema não está nos pontos — está em esperar simetria de um dado que não a tem.
+:::
+
+**3.** Monte a tabela de frequência de `area_m2` em 10 faixas de largura igual (`pd.cut`) e desenhe o histograma. Por que ficaram inúteis? Refaça as duas coisas só com os imóveis até o percentil 99 da área e compare.
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+```{python}
+#| label: alugueis-dist-faixas-bruto
+faixas_bruto = pd.cut(alugueis["area_m2"], 10).value_counts().sort_index()
+faixas_bruto
+```
+
+Dez faixas de largura igual entre o mínimo e `{python} num(alugueis["area_m2"].max(), 0)` m² dão faixas de cerca de `{python} num(alugueis["area_m2"].max() / 10, 0)` m² cada — e `{python} num(faixas_bruto.iloc[0], 0)` dos `{python} num(len(alugueis), 0)` imóveis caem na primeira. Não é um histograma; é uma barra e nove faixas quase vazias. Um único valor absurdo dita a escala inteira, e a forma real dos outros dez mil desaparece.
+
+```{python}
+#| label: alugueis-dist-faixas-filtrado
+corte = alugueis["area_m2"].quantile(0.99)
+ate_corte = alugueis.loc[alugueis["area_m2"] <= corte, "area_m2"]
+print(f"percentil 99 = {num(corte, 0)} m² → {num(len(ate_corte), 0)} imóveis dentro do corte")
+pd.cut(ate_corte, 10).value_counts().sort_index()
+```
+
+```{python}
+#| label: alugueis-dist-hist
+#| fig-cap: "Histograma da área só até o percentil 99: a forma aparece — concentração nas áreas pequenas e cauda longa à direita, agora legível."
+fig, ax = plt.subplots()
+ate_corte.plot.hist(ax=ax, bins=20, edgecolor="white")
+ax.set_xlabel("Área (m²)")
+ax.set_ylabel("Número de imóveis")
+plt.tight_layout()
+plt.show()
+```
+
+Deixando de fora 1% dos imóveis (os `{python} num(len(alugueis) - len(ate_corte), 0)` acima de `{python} num(corte, 0)` m²), as faixas encolhem para cerca de `{python} num(corte / 10, 0)` m² e o histograma passa a mostrar uma distribuição: muitos imóveis pequenos, cada vez menos à medida que a área cresce. Cuidado com o que isso é e o que não é: um **corte para visualizar**, declarado e reversível — não uma limpeza dos dados. O 1% continua existindo; só não pode escolher a escala do gráfico sozinho.
+:::
+
+**4.** Calcule a assimetria de `aluguel`, `condominio` e `area_m2`, e ponha média e mediana ao lado. O sinal bate com a regra "média > mediana ⇒ assimetria positiva"? Qual coluna é a mais assimétrica, e por quê?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+```{python}
+#| label: alugueis-dist-assimetria
+colunas = ["aluguel", "condominio", "area_m2"]
+forma = pd.DataFrame({
+    "média": alugueis[colunas].mean().round(0).astype(int),
+    "mediana": alugueis[colunas].median().round(0).astype(int),
+    "assimetria": pd.Series([round(stats.skew(alugueis[c], bias=False), 1) for c in colunas], index=colunas),
+})
+forma
+```
+
+As três assimetrias são positivas, e nas três a média fica acima da mediana — a regra da seção, confirmada em dado real. O que muda é o patamar: `aluguel` tem assimetria `{python} num(forma.loc["aluguel", "assimetria"], 1)` (cauda à direita, mas de um dado que ainda "parece" aluguel), enquanto `area_m2` chega a `{python} num(forma.loc["area_m2", "assimetria"], 1)`. O motivo é o mesmo imóvel de `{python} num(alugueis["area_m2"].max(), 0)` m² das tarefas anteriores: a assimetria eleva os desvios ao **cubo**, então um único valor a centenas de desvios-padrão da média domina a estatística inteira. Assimetria alta pode significar "distribuição genuinamente inclinada" ou "um erro de digitação" — e a estatística sozinha não distingue os dois. O boxplot da tarefa 2 e o histograma da tarefa 3 distinguem.
+:::
+
+Fechando com o mesmo dado das três últimas seções: a **forma** de uma distribuição é o que explica por que média e mediana discordam (1.3) e por que desvio-padrão e MAD discordam (1.4). Percentis, boxplot e histograma não são enfeite — são como se descobre, antes de qualquer conta, que o dado tem cauda e onde ela começa.

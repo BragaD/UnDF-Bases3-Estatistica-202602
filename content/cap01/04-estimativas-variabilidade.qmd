@@ -265,3 +265,93 @@ Ambos são multiplicados por 1.000. As medidas de dispersão têm a mesma unidad
 
 Porque o z-score é adimensional: ele é uma razão entre um desvio e um desvio-padrão medidos na mesma unidade, então a unidade original se cancela. Isso permite comparar a posição relativa de SP nas duas distribuições mesmo que uma esteja em habitantes e a outra em homicídios por 100 mil — os dois números, 4,12 e −1,93, dizem quantos desvios-padrão cada valor está da sua própria média, e podem ser colocados lado a lado nessa escala comum.
 :::
+
+## Agora é com você
+
+Os mesmos 10.692 imóveis da [seção 1.3](03-estimativas-localizacao.qmd) — só que agora a pergunta não é "onde está o centro", e sim **quanto os valores se espalham** em torno dele. Carregue o conjunto (no Colab, pela mesma URL) e concentre-se nas seis colunas contínuas, em reais e metros quadrados:
+
+```{python}
+#| label: alugueis-var-carrega
+alugueis = pd.read_csv("dados/alugueis.csv")
+continuas = ["area_m2", "condominio", "aluguel", "iptu", "seguro_incendio", "total"]
+alugueis[continuas].head()
+```
+
+Quatro tarefas, na ordem. Tente antes de abrir cada resposta.
+
+**1.** Para cada uma das seis colunas, calcule o desvio-padrão, o IQR e o MAD, e monte uma tabela com as três medidas lado a lado. (Lembre: `robust.scale.mad` já vem calibrado pelo fator 0,6745.)
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+```{python}
+#| label: alugueis-var-tabela
+def iqr(s):
+    return s.quantile(0.75) - s.quantile(0.25)
+
+dispersao = pd.DataFrame({
+    "desvio-padrão": alugueis[continuas].std(),
+    "IQR": alugueis[continuas].apply(iqr),
+    "MAD": alugueis[continuas].apply(robust.scale.mad),
+}).round(0).astype(int)
+dispersao
+```
+
+Três números, três perguntas diferentes: o desvio-padrão usa todos os valores (e os eleva ao quadrado); o IQR só olha a largura da metade central; o MAD só olha a distância típica até a mediana. Quando os três concordam, a coluna é bem-comportada. Quando discordam, a diferença é informação — e é o assunto da tarefa 2.
+:::
+
+**2.** Divida o desvio-padrão pelo MAD em cada coluna. Numa distribuição normal, os dois são parecidos (é para isso que serve o fator 0,6745). Em quais colunas a razão explode — e o que isso indica?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+```{python}
+#| label: alugueis-var-razao
+razao = (alugueis[continuas].std() / alugueis[continuas].apply(robust.scale.mad)).round(1)
+razao.sort_values(ascending=False)
+```
+
+Na coluna mais bem-comportada, `{python} razao.idxmin()`, o desvio-padrão é `{python} num(razao.min(), 1)` vezes o MAD. Em **`condominio`** ele é `{python} num(razao["condominio"], 1)` vezes; em **`iptu`**, `{python} num(razao["iptu"], 1)`; em **`area_m2`**, `{python} num(razao["area_m2"], 1)` — e `total`, que soma condomínio e IPTU, herda o problema (`{python} num(razao["total"], 1)` vezes). É o mesmo sinal que a população dos estados deu nesta seção (desvio-padrão quase o dobro do MAD), só que gritado: uma cauda direita muito longa, com valores extremos que o desvio-padrão — por elevar ao quadrado — amplifica, e o MAD — por só olhar a mediana das distâncias — ignora. A razão dp/MAD funciona, na prática, como um **detector de outliers** que dispensa olhar o dado.
+:::
+
+**3.** Remova do conjunto o(s) imóvel(is) com o maior valor de `condominio` e recalcule as três medidas dessa coluna. Qual delas mudou mais? Qual quase não se mexeu?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+```{python}
+#| label: alugueis-var-sem-outlier
+maior = alugueis["condominio"].max()
+quantos = int((alugueis["condominio"] == maior).sum())
+sem_maior = alugueis.loc[alugueis["condominio"] < maior, "condominio"]
+
+comparacao = pd.DataFrame({
+    "com o outlier": [alugueis["condominio"].std(), iqr(alugueis["condominio"]),
+                      robust.scale.mad(alugueis["condominio"])],
+    "sem o outlier": [sem_maior.std(), iqr(sem_maior), robust.scale.mad(sem_maior)],
+}, index=["desvio-padrão", "IQR", "MAD"]).round(0).astype(int)
+print(f"removidos: {quantos} imóvel(is) com condomínio de R$ {num(maior, 0)}")
+comparacao
+```
+
+Tirar `{python} quantos` linha(s) de `{python} num(len(alugueis), 0)` derruba o desvio-padrão de R$ `{python} num(comparacao.loc["desvio-padrão", "com o outlier"], 0)` para R$ `{python} num(comparacao.loc["desvio-padrão", "sem o outlier"], 0)`. O IQR e o MAD praticamente não se mexem: `{python} num(comparacao.loc["IQR", "com o outlier"], 0)` → `{python} num(comparacao.loc["IQR", "sem o outlier"], 0)` e `{python} num(comparacao.loc["MAD", "com o outlier"], 0)` → `{python} num(comparacao.loc["MAD", "sem o outlier"], 0)`. É a definição operacional de **robustez**: uma medida robusta é aquela que um punhado de valores absurdos não consegue sequestrar. E note que o desvio-padrão "sem o outlier" continua bem acima do MAD — o próximo condomínio da fila (R$ `{python} num(sem_maior.max(), 0)`) já assume o papel. Outlier raramente é um só.
+:::
+
+**4.** Calcule o escore-padrão (z) do imóvel de maior aluguel. Depois conte quantos imóveis têm |z| > 3 em `aluguel`. Se a distribuição fosse normal, que fração você esperaria? O que a diferença diz?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+```{python}
+#| label: alugueis-var-z
+aluguel = alugueis["aluguel"]
+z = (aluguel - aluguel.mean()) / aluguel.std()
+extremos = z.abs() > 3
+print(f"maior aluguel: R$ {num(aluguel.max(), 0)}  →  z = {num(z.max(), 2)}")
+print(f"imóveis com |z| > 3: {int(extremos.sum())} de {num(len(z), 0)} ({num(100 * extremos.mean(), 2)}%)")
+```
+
+O maior aluguel está a `{python} num(z.max(), 1)` desvios-padrão da média. Numa normal, só cerca de 0,3% dos valores passam de 3 desvios; aqui são `{python} num(100 * extremos.mean(), 2)`% — mais do que a normal prevê. E esse número ainda é **subestimado**: o z divide pelo desvio-padrão, que os próprios extremos inflam, então cada extremo "encolhe" o z de todos os outros. É por isso que, em dado de cauda longa, a versão robusta do z (mediana no lugar da média, MAD no lugar do desvio-padrão) encontra mais outliers do que a clássica — e por que, antes de declarar um valor "atípico", vale saber como a régua foi calibrada.
+:::
+
+A lição desta seção, agora em dado real: **as medidas de dispersão discordam entre si exatamente quando o dado é sujo** — e a discordância é a informação. Desvio-padrão para conjuntos bem-comportados; IQR e MAD quando há qualquer chance de cauda longa. E, com aluguéis, há.

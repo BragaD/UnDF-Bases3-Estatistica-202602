@@ -101,9 +101,9 @@ div.csl-indent {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-c6031a0ab6623b6ed9d0570c51a5f694.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-dd3f2f72ae2ce53155e296d29d2a0399.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-c6031a0ab6623b6ed9d0570c51a5f694.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-b15e405f270457097577c78528feeb38.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-4c6c0d00e29b3f69541def337cc0d8c7.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-b15e405f270457097577c78528feeb38.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -688,6 +688,7 @@ window.Quarto = {
   <li><a href="#arraste-o-outlier" id="toc-arraste-o-outlier" class="nav-link" data-scroll-target="#arraste-o-outlier">Arraste o outlier</a></li>
   <li><a href="#arraste-o-aparo" id="toc-arraste-o-aparo" class="nav-link" data-scroll-target="#arraste-o-aparo">Arraste o aparo</a></li>
   <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios">Exercícios</a></li>
+  <li><a href="#agora-é-com-você" id="toc-agora-é-com-você" class="nav-link" data-scroll-target="#agora-é-com-você">Agora é com você</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/BragaD/UnDF-Bases3-Estatistica-202602/issues/new" class="toc-action"><i class="bi bi-github"></i>Criar uma issue</a></li></ul></div></nav>
     </div>
@@ -1292,6 +1293,463 @@ Figura&nbsp;6.1: As três estimativas de localização sobre a distribuição de
 </div>
 </div>
 </div>
+</section>
+<section id="agora-é-com-você" class="level2">
+<h2 class="anchored" data-anchor-id="agora-é-com-você">Agora é com você</h2>
+<p>Até aqui, os dados vieram prontos: um CSV limpo, com 27 linhas, e a gente já sabia o que cada coluna era. Na prática, o primeiro contato com um conjunto de dados é diferente — você recebe um arquivo, abre, e precisa <strong>descobrir</strong> o que tem dentro antes de calcular qualquer coisa. Esta atividade é isso.</p>
+<p>O conjunto: <strong>10.692 imóveis para alugar</strong> em cinco cidades brasileiras (São Paulo, Rio de Janeiro, Belo Horizonte, Porto Alegre e Campinas), com área, número de cômodos, andar, se aceita animal, se é mobiliado, e os valores de condomínio, aluguel, IPTU e seguro contra incêndio. Vem do dataset <em>Brazilian houses to rent</em>, publicado em domínio público (CC0); traduzimos os nomes das colunas — e <strong>só</strong> isso. O que estava estranho no original continua estranho, de propósito.</p>
+<p>Abra o <a href="https://colab.research.google.com/github/BragaD/UnDF-Bases3-Estatistica-202602/blob/main/notebooks/capitulo-01.ipynb">notebook do capítulo no Colab</a> — ou qualquer ambiente com pandas — e carregue o arquivo pela URL:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>alugueis <span class="op">=</span> pd.read_csv(<span class="st">"https://raw.githubusercontent.com/BragaD/UnDF-Bases3-Estatistica-202602/main/dados/alugueis.csv"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Uma espiada nas primeiras linhas:</p>
+<div id="cell-alugueis-head" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>alugueis <span class="op">=</span> pd.read_csv(<span class="st">"dados/alugueis.csv"</span>)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>alugueis.head()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="alugueis-head" class="cell-output cell-output-display" data-execution_count="10">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">cidade</th>
+<th data-quarto-table-cell-role="th">area_m2</th>
+<th data-quarto-table-cell-role="th">quartos</th>
+<th data-quarto-table-cell-role="th">banheiros</th>
+<th data-quarto-table-cell-role="th">vagas</th>
+<th data-quarto-table-cell-role="th">andar</th>
+<th data-quarto-table-cell-role="th">aceita_animal</th>
+<th data-quarto-table-cell-role="th">mobiliado</th>
+<th data-quarto-table-cell-role="th">condominio</th>
+<th data-quarto-table-cell-role="th">aluguel</th>
+<th data-quarto-table-cell-role="th">iptu</th>
+<th data-quarto-table-cell-role="th">seguro_incendio</th>
+<th data-quarto-table-cell-role="th">total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>São Paulo</td>
+<td>70</td>
+<td>2</td>
+<td>1</td>
+<td>1</td>
+<td>7</td>
+<td>sim</td>
+<td>sim</td>
+<td>2065</td>
+<td>3300</td>
+<td>211</td>
+<td>42</td>
+<td>5618</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>São Paulo</td>
+<td>320</td>
+<td>4</td>
+<td>4</td>
+<td>0</td>
+<td>20</td>
+<td>sim</td>
+<td>não</td>
+<td>1200</td>
+<td>4960</td>
+<td>1750</td>
+<td>63</td>
+<td>7973</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>Porto Alegre</td>
+<td>80</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>6</td>
+<td>sim</td>
+<td>não</td>
+<td>1000</td>
+<td>2800</td>
+<td>0</td>
+<td>41</td>
+<td>3841</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>Porto Alegre</td>
+<td>51</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+<td>2</td>
+<td>sim</td>
+<td>não</td>
+<td>270</td>
+<td>1112</td>
+<td>22</td>
+<td>17</td>
+<td>1421</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>São Paulo</td>
+<td>25</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>não</td>
+<td>não</td>
+<td>0</td>
+<td>800</td>
+<td>25</td>
+<td>11</td>
+<td>836</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>É só o que você recebe. Agora, quatro tarefas — faça na ordem, porque cada uma depende da anterior. As respostas estão escondidas logo abaixo de cada tarefa; <strong>tente antes de abrir</strong>.</p>
+<p><strong>1.</strong> Carregue o CSV e responda: quantas linhas e quantas colunas ele tem? Quais são os nomes das colunas?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div id="alugueis-shape" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>alugueis<span class="sc">.</span>shape[<span class="dv">0</span>]<span class="sc">}</span><span class="ss"> linhas × </span><span class="sc">{</span>alugueis<span class="sc">.</span>shape[<span class="dv">1</span>]<span class="sc">}</span><span class="ss"> colunas"</span>)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">list</span>(alugueis.columns))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>10692 linhas × 13 colunas
+['cidade', 'area_m2', 'quartos', 'banheiros', 'vagas', 'andar', 'aceita_animal', 'mobiliado', 'condominio', 'aluguel', 'iptu', 'seguro_incendio', 'total']</code></pre>
+</div>
+</div>
+<p><code>.shape</code> dá (linhas, colunas); <code>.columns</code> dá os nomes. Antes de qualquer estatística, saber o tamanho do dado é o que diz se você pode olhá-lo linha a linha (não pode — são mais de dez mil) ou se precisa resumi-lo (precisa: é o assunto deste capítulo).</p>
+</div>
+</div>
+</div>
+<p><strong>2.</strong> Classifique <strong>cada</strong> uma das 13 colunas na taxonomia da <a href="../../content/cap01/01-dados-estruturados.html">seção 1.1</a>: numérico contínuo, numérico discreto, categórico nominal, categórico ordinal ou categórico binário. Justifique em uma frase por coluna. Há alguma coluna que não se encaixa bem em nenhuma categoria? Há alguma ordinal?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Coluna</th>
+<th>Tipo</th>
+<th>Por quê</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>cidade</code></td>
+<td>categórico <strong>nominal</strong></td>
+<td>cinco cidades, sem ordem natural entre elas</td>
+</tr>
+<tr class="even">
+<td><code>area_m2</code></td>
+<td>numérico <strong>contínuo</strong></td>
+<td>uma medida; pode ser qualquer valor num intervalo</td>
+</tr>
+<tr class="odd">
+<td><code>quartos</code>, <code>banheiros</code>, <code>vagas</code></td>
+<td>numérico <strong>discreto</strong></td>
+<td>contagens — só inteiros, e “2,5 quartos” não existe</td>
+</tr>
+<tr class="even">
+<td><code>andar</code></td>
+<td>numérico <strong>discreto</strong> (na intenção)</td>
+<td>é uma contagem de andares… mas veja a tarefa 3</td>
+</tr>
+<tr class="odd">
+<td><code>aceita_animal</code>, <code>mobiliado</code></td>
+<td>categórico <strong>binário</strong></td>
+<td>exatamente dois valores, sim/não</td>
+</tr>
+<tr class="even">
+<td><code>condominio</code>, <code>aluguel</code>, <code>iptu</code>, <code>seguro_incendio</code>, <code>total</code></td>
+<td>numérico <strong>contínuo</strong></td>
+<td>valores em reais; o arquivo traz inteiros, mas dinheiro é quantidade contínua — a ausência de centavos é arredondamento, não natureza</td>
+</tr>
+</tbody>
+</table>
+<p>Não há coluna <strong>ordinal</strong> neste conjunto. A candidata mais próxima é <code>andar</code>: os andares têm ordem (o 10º fica acima do 5º), mas a distância entre eles é numérica e significa algo — cinco andares de diferença são cinco andares —, o que faz dele um discreto, não um ordinal. Um ordinal de verdade seria algo como “padrão do imóvel: simples / médio / alto”, em que a ordem existe mas “a distância entre simples e médio” não é um número. Nem todo conjunto tem todos os tipos — e perceber a ausência também é classificar.</p>
+</div>
+</div>
+</div>
+<p><strong>3.</strong> Peça ao pandas o tipo que ele inferiu para cada coluna (<code>.dtypes</code>). Compare com a sua classificação da tarefa 2. Alguma coluna foi lida com um tipo que <strong>não</strong> é o mais apropriado? Descubra <strong>por quê</strong> olhando os valores dela, e corrija.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div id="cell-alugueis-dtypes" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>alugueis.dtypes</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="alugueis-dtypes" class="cell-output cell-output-display" data-execution_count="12">
+<pre><code>cidade               str
+area_m2            int64
+quartos            int64
+banheiros          int64
+vagas              int64
+andar                str
+aceita_animal        str
+mobiliado            str
+condominio         int64
+aluguel            int64
+iptu               int64
+seguro_incendio    int64
+total              int64
+dtype: object</code></pre>
+</div>
+</div>
+<p>Todas as numéricas viraram <code>int64</code> — exceto <strong><code>andar</code></strong>, que o pandas leu como <strong>texto</strong> (<code>str</code>), igual às categóricas. Uma coluna que deveria ser número e virou texto é o sinal clássico de que <strong>algum valor no meio dela não é número</strong>. Para achá-lo:</p>
+<div id="cell-alugueis-andar-valores" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>alugueis[<span class="st">"andar"</span>].value_counts().head()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="alugueis-andar-valores" class="cell-output cell-output-display" data-execution_count="13">
+<pre><code>andar
+-    2461
+1    1081
+2     985
+3     931
+4     748
+Name: count, dtype: int64</code></pre>
+</div>
+</div>
+<p>O culpado é o <code>"-"</code>: 2.461 linhas — 23% do total — trazem um traço em vez de um número, marcando imóvel térreo ou casa sem andar. Basta <strong>um</strong> valor assim para o pandas desistir de tratar a coluna como número: ele não adivinha o que o traço significa, então rebaixa a coluna inteira para texto — e aí <code>mean()</code> e <code>median()</code> deixam de funcionar nela.</p>
+<p>A correção tem duas partes, e a primeira é uma <strong>decisão</strong>, não código: o que o <code>"-"</code> significa? Se for “andar zero” (térreo), substitua por 0; se for “não se aplica” (casa), o honesto é marcar como ausente (<code>NaN</code>). Como o arquivo não diz qual dos dois, a escolha segura é <code>NaN</code> — inventar um zero criaria milhares de imóveis “no térreo” que talvez não existam:</p>
+<div id="cell-alugueis-andar-corrige" class="cell" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>alugueis[<span class="st">"andar"</span>] <span class="op">=</span> pd.to_numeric(alugueis[<span class="st">"andar"</span>], errors<span class="op">=</span><span class="st">"coerce"</span>)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>alugueis[<span class="st">"andar"</span>].dtype</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="alugueis-andar-corrige" class="cell-output cell-output-display" data-execution_count="14">
+<pre><code>dtype('float64')</code></pre>
+</div>
+</div>
+<p><code>errors="coerce"</code> converte o que dá e transforma o resto em <code>NaN</code>. Agora <code>andar</code> é numérico (<code>float64</code>, porque <code>NaN</code> só existe em float).</p>
+<p>E a segunda parte, que a seção 1.1 já defendeu: o pandas leu <code>cidade</code>, <code>aceita_animal</code> e <code>mobiliado</code> como texto genérico, mas elas são <strong>categóricas</strong> — declarar isso deixa a intenção explícita e evita que alguém, no futuro, tente uma “média de cidade”:</p>
+<div id="cell-alugueis-categoricas" class="cell" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> coluna <span class="kw">in</span> [<span class="st">"cidade"</span>, <span class="st">"aceita_animal"</span>, <span class="st">"mobiliado"</span>]:</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>    alugueis[coluna] <span class="op">=</span> alugueis[coluna].astype(<span class="st">"category"</span>)</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>alugueis.dtypes</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="alugueis-categoricas" class="cell-output cell-output-display" data-execution_count="15">
+<pre><code>cidade             category
+area_m2               int64
+quartos               int64
+banheiros             int64
+vagas                 int64
+andar               float64
+aceita_animal      category
+mobiliado          category
+condominio            int64
+aluguel               int64
+iptu                  int64
+seguro_incendio       int64
+total                 int64
+dtype: object</code></pre>
+</div>
+</div>
+<p>O pandas infere bem para números limpos e mal para todo o resto. <strong>Inferência não é classificação</strong> — a classificação é sua.</p>
+</div>
+</div>
+</div>
+<p><strong>4.</strong> Para <strong>cada</strong> coluna, calcule as medidas de localização que fazem sentido para o tipo dela — e só elas. Em quais colunas a média e a mediana ficaram muito diferentes? O que isso indica sobre os dados?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>A regra é a da seção: média, média aparada e mediana para o <strong>numérico</strong>; moda para o <strong>categórico</strong>; e, no <strong>binário</strong>, a moda vira uma <strong>proporção</strong>.</p>
+<p><strong>Contínuas</strong> — as três juntas, para ver onde divergem:</p>
+<div id="cell-alugueis-continuas" class="cell" data-execution_count="16">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>continuas <span class="op">=</span> [<span class="st">"area_m2"</span>, <span class="st">"condominio"</span>, <span class="st">"aluguel"</span>, <span class="st">"iptu"</span>, <span class="st">"seguro_incendio"</span>, <span class="st">"total"</span>]</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>resumo <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"média"</span>: alugueis[continuas].mean(),</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"média aparada 10%"</span>: [trim_mean(alugueis[c], <span class="fl">0.1</span>) <span class="cf">for</span> c <span class="kw">in</span> continuas],</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"mediana"</span>: alugueis[continuas].median(),</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>}).<span class="bu">round</span>(<span class="dv">0</span>).astype(<span class="bu">int</span>)</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>resumo</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="alugueis-continuas" class="cell-output cell-output-display" data-execution_count="16">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">média</th>
+<th data-quarto-table-cell-role="th">média aparada 10%</th>
+<th data-quarto-table-cell-role="th">mediana</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">area_m2</th>
+<td>149</td>
+<td>117</td>
+<td>90</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">condominio</th>
+<td>1174</td>
+<td>703</td>
+<td>560</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">aluguel</th>
+<td>3896</td>
+<td>3255</td>
+<td>2661</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">iptu</th>
+<td>367</td>
+<td>205</td>
+<td>125</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">seguro_incendio</th>
+<td>53</td>
+<td>44</td>
+<td>36</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">total</th>
+<td>5490</td>
+<td>4391</td>
+<td>3582</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Em <code>aluguel</code> e <code>seguro_incendio</code> as três andam juntas: distribuição bem-comportada. Em <strong><code>condominio</code></strong> e <strong><code>area_m2</code></strong>, a média dispara para longe da mediana — o condomínio médio é R$ 1.174, mas o mediano é R$ 560. O motivo aparece no máximo:</p>
+<div id="cell-alugueis-outliers" class="cell" data-execution_count="17">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>alugueis[[<span class="st">"area_m2"</span>, <span class="st">"condominio"</span>]].<span class="bu">max</span>()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="alugueis-outliers" class="cell-output cell-output-display" data-execution_count="17">
+<pre><code>area_m2         46335
+condominio    1117000
+dtype: int64</code></pre>
+</div>
+</div>
+<p>Um condomínio de R$ 1.117.000 e um imóvel de 46.335 m² (o tamanho de seis campos de futebol) são quase certamente <strong>erros de digitação</strong> — e um único deles basta para arrastar a média de dez mil imóveis. A mediana nem percebe; a média aparada também não. É a robustez da seção “Comparando as estimativas”, agora num dado real, sem que ninguém tenha plantado o outlier de propósito.</p>
+<p><strong>Discretas</strong> — mediana e moda; a média até se calcula, mas “2,51 quartos” não descreve nenhum imóvel real:</p>
+<div id="cell-alugueis-discretas" class="cell" data-execution_count="18">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>discretas <span class="op">=</span> [<span class="st">"quartos"</span>, <span class="st">"banheiros"</span>, <span class="st">"vagas"</span>, <span class="st">"andar"</span>]</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"mediana"</span>: alugueis[discretas].median(),</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"moda"</span>: [alugueis[c].mode().iloc[<span class="dv">0</span>] <span class="cf">for</span> c <span class="kw">in</span> discretas],</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="alugueis-discretas" class="cell-output cell-output-display" data-execution_count="18">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">mediana</th>
+<th data-quarto-table-cell-role="th">moda</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">quartos</th>
+<td>2.0</td>
+<td>3.0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">banheiros</th>
+<td>2.0</td>
+<td>1.0</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">vagas</th>
+<td>1.0</td>
+<td>1.0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">andar</th>
+<td>5.0</td>
+<td>1.0</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>(<code>andar</code> só entra aqui porque foi corrigida na tarefa 3 — a mediana ignora os <code>NaN</code>.)</p>
+<p><strong>Nominal</strong> — só a moda faz sentido, e ela vem de contar:</p>
+<div id="cell-alugueis-nominal" class="cell" data-execution_count="19">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>alugueis[<span class="st">"cidade"</span>].value_counts()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="alugueis-nominal" class="cell-output cell-output-display" data-execution_count="19">
+<pre><code>cidade
+São Paulo         5887
+Rio de Janeiro    1501
+Belo Horizonte    1258
+Porto Alegre      1193
+Campinas           853
+Name: count, dtype: int64</code></pre>
+</div>
+</div>
+<p>A moda é São Paulo, com 55% dos anúncios. Não existe “cidade média” nem “cidade mediana”.</p>
+<p><strong>Binárias</strong> — a moda é a categoria mais frequente, e a <strong>proporção</strong> de “sim” diz o mesmo com mais informação:</p>
+<div id="alugueis-binarias" class="cell" data-execution_count="20">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> coluna <span class="kw">in</span> [<span class="st">"aceita_animal"</span>, <span class="st">"mobiliado"</span>]:</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>    proporcao <span class="op">=</span> (alugueis[coluna] <span class="op">==</span> <span class="st">"sim"</span>).mean()</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>coluna<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>num(<span class="dv">100</span> <span class="op">*</span> proporcao, <span class="dv">0</span>)<span class="sc">}</span><span class="ss">% sim"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>aceita_animal: 78% sim
+mobiliado: 24% sim</code></pre>
+</div>
+</div>
+<p>78% dos imóveis aceitam animal e só 24% vêm mobiliados. Uma proporção <em>é</em> uma média — de uma coluna de 0 e 1 —, e é por isso que ela reaparece na seção 1.6.</p>
+</div>
+</div>
+</div>
+<p>Duas lições ficam. A primeira é que <strong>classificar vem antes de calcular</strong>: a medida certa depende do tipo, e o tipo é uma decisão sua, não do pandas. A segunda é que dado real vem sujo — um traço no lugar de um número, um zero a mais numa área — e as medidas robustas (mediana, média aparada) foram inventadas exatamente para sobreviver a isso.</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="list">

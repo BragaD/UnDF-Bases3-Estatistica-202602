@@ -684,6 +684,7 @@ window.Quarto = {
   <li><a href="#curtose" id="toc-curtose" class="nav-link" data-scroll-target="#curtose">Curtose</a></li>
   <li><a href="#resumo" id="toc-resumo" class="nav-link" data-scroll-target="#resumo">Resumo</a></li>
   <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios">Exercícios</a></li>
+  <li><a href="#agora-é-com-você" id="toc-agora-é-com-você" class="nav-link" data-scroll-target="#agora-é-com-você">Agora é com você</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/BragaD/UnDF-Bases3-Estatistica-202602/issues/new" class="toc-action"><i class="bi bi-github"></i>Criar uma issue</a></li></ul></div></nav>
     </div>
@@ -1015,7 +1016,7 @@ Figura&nbsp;8.5: Três turmas com a mesma média e a mesma variância — e form
 <span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
 <span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>/tmp/ipykernel_382/294545130.py:3: MatplotlibDeprecationWarning: vert: bool was deprecated in Matplotlib 3.11 and will be removed in 3.13. Use orientation: {'vertical', 'horizontal'} instead.
+<pre><code>/tmp/ipykernel_381/294545130.py:3: MatplotlibDeprecationWarning: vert: bool was deprecated in Matplotlib 3.11 and will be removed in 3.13. Use orientation: {'vertical', 'horizontal'} instead.
   caixas = ax.boxplot(</code></pre>
 </div>
 <div class="cell-output cell-output-display">
@@ -1188,6 +1189,322 @@ Curtose da taxa de homicídios: -0,88</code></pre>
 </div>
 </div>
 </div>
+</section>
+<section id="agora-é-com-você" class="level2">
+<h2 class="anchored" data-anchor-id="agora-é-com-você">Agora é com você</h2>
+<p>De volta aos 10.692 aluguéis das seções <a href="../../content/cap01/03-estimativas-localizacao.html">1.3</a> e <a href="../../content/cap01/04-estimativas-variabilidade.html">1.4</a>. Você já sabe onde está o centro e quanto os valores se espalham; falta a <strong>forma</strong> — e é nela que este conjunto mais surpreende.</p>
+<div id="cell-alugueis-dist-carrega" class="cell" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>alugueis <span class="op">=</span> pd.read_csv(<span class="st">"dados/alugueis.csv"</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>alugueis[[<span class="st">"aluguel"</span>, <span class="st">"condominio"</span>, <span class="st">"area_m2"</span>]].head()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="alugueis-dist-carrega" class="cell-output cell-output-display" data-execution_count="14">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">aluguel</th>
+<th data-quarto-table-cell-role="th">condominio</th>
+<th data-quarto-table-cell-role="th">area_m2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>3300</td>
+<td>2065</td>
+<td>70</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>4960</td>
+<td>1200</td>
+<td>320</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>2800</td>
+<td>1000</td>
+<td>80</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>1112</td>
+<td>270</td>
+<td>51</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>800</td>
+<td>0</td>
+<td>25</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Quatro tarefas, na ordem. Tente antes de abrir cada resposta.</p>
+<p><strong>1.</strong> Calcule os percentis 5, 25, 50, 75 e 95 de <code>aluguel</code> e de <code>condominio</code>, e ponha o máximo de cada uma na última linha da tabela. Compare o percentil 95 com o máximo: o que a distância entre eles diz?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div id="cell-alugueis-dist-percentis" class="cell" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>colunas <span class="op">=</span> [<span class="st">"aluguel"</span>, <span class="st">"condominio"</span>]</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>percentis <span class="op">=</span> [<span class="fl">0.05</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>, <span class="fl">0.95</span>]</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>tabela <span class="op">=</span> alugueis[colunas].quantile(percentis)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>tabela.index <span class="op">=</span> [<span class="ss">f"</span><span class="sc">{</span>p<span class="sc">:.0%}</span><span class="ss">"</span> <span class="cf">for</span> p <span class="kw">in</span> percentis]</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>tabela.loc[<span class="st">"máximo"</span>] <span class="op">=</span> alugueis[colunas].<span class="bu">max</span>()</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>tabela.astype(<span class="bu">int</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="alugueis-dist-percentis" class="cell-output cell-output-display" data-execution_count="15">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">aluguel</th>
+<th data-quarto-table-cell-role="th">condominio</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">5%</th>
+<td>859</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">25%</th>
+<td>1530</td>
+<td>170</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">50%</th>
+<td>2661</td>
+<td>560</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">75%</th>
+<td>5000</td>
+<td>1237</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">95%</th>
+<td>12000</td>
+<td>3167</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">máximo</th>
+<td>45000</td>
+<td>1117000</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Em <code>aluguel</code>, 95% dos imóveis custam até R$ 12.000, e o máximo é R$ 45.000 — cerca de 3,8 vezes o P95. Em <code>condominio</code> a distância é de outra ordem: P95 de R$ 3.167 contra um máximo de R$ 1.117.000, 353 vezes maior. Os 5% finais de uma distribuição de cauda longa não são “um pouco maiores” — são outro mundo, e o percentil 95 é justamente a ferramenta para resumir “o típico entre os altos” sem deixar o máximo falar sozinho.</p>
+</div>
+</div>
+</div>
+<p><strong>2.</strong> Desenhe o boxplot de <code>aluguel</code>. Pela regra de 1,5×IQR, calcule o limite superior do bigode e conte quantos imóveis são outliers. Que fração do conjunto isso representa? Há outliers pelo lado de baixo?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div id="cell-alugueis-dist-boxplot" class="cell" data-execution_count="16">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>q1, q3 <span class="op">=</span> alugueis[<span class="st">"aluguel"</span>].quantile([<span class="fl">0.25</span>, <span class="fl">0.75</span>])</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>limite_sup <span class="op">=</span> q3 <span class="op">+</span> <span class="fl">1.5</span> <span class="op">*</span> (q3 <span class="op">-</span> q1)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>limite_inf <span class="op">=</span> q1 <span class="op">-</span> <span class="fl">1.5</span> <span class="op">*</span> (q3 <span class="op">-</span> q1)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>acima <span class="op">=</span> alugueis[<span class="st">"aluguel"</span>] <span class="op">&gt;</span> limite_sup</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>abaixo <span class="op">=</span> alugueis[<span class="st">"aluguel"</span>] <span class="op">&lt;</span> limite_inf</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Q1 = </span><span class="sc">{</span>num(q1, <span class="dv">0</span>)<span class="sc">}</span><span class="ss">   Q3 = </span><span class="sc">{</span>num(q3, <span class="dv">0</span>)<span class="sc">}</span><span class="ss">   IQR = </span><span class="sc">{</span>num(q3 <span class="op">-</span> q1, <span class="dv">0</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"limite superior = </span><span class="sc">{</span>num(limite_sup, <span class="dv">0</span>)<span class="sc">}</span><span class="ss"> → </span><span class="sc">{</span><span class="bu">int</span>(acima.<span class="bu">sum</span>())<span class="sc">}</span><span class="ss"> outliers (</span><span class="sc">{</span>num(<span class="dv">100</span> <span class="op">*</span> acima.mean(), <span class="dv">1</span>)<span class="sc">}</span><span class="ss">%)"</span>)</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"limite inferior = </span><span class="sc">{</span>num(limite_inf, <span class="dv">0</span>)<span class="sc">}</span><span class="ss"> → </span><span class="sc">{</span><span class="bu">int</span>(abaixo.<span class="bu">sum</span>())<span class="sc">}</span><span class="ss"> outliers"</span>)</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">4</span>, <span class="dv">5</span>))</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>alugueis[<span class="st">"aluguel"</span>].plot.box(ax<span class="op">=</span>ax)</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Aluguel (R$)"</span>)</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Q1 = 1.530   Q3 = 5.000   IQR = 3.470
+limite superior = 10.205 → 715 outliers (6,7%)
+limite inferior = -3.675 → 0 outliers</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div id="alugueis-dist-boxplot" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="05-distribuicao-dados_files/figure-html/alugueis-dist-boxplot-output-2.png" width="376" height="470" class="figure-img"></p>
+<figcaption>Boxplot do aluguel. A caixa é o IQR; os pontos acima do bigode são os outliers pela regra de 1,5×IQR.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>715 imóveis — 6,7% do conjunto — passam do bigode superior (R$ 10.205). Pelo lado de baixo, 0: o limite inferior dá R$ -3.675, e não existe aluguel tão barato. Essa assimetria do próprio boxplot — bigode curto embaixo, chuva de pontos em cima — já é a assinatura visual da cauda longa à direita. E note a proporção: num dado normal, a regra de 1,5×IQR marca menos de 1% dos valores como outlier; aqui marca 6,7%. Quando “outlier” vira uma fatia visível do conjunto, o problema não está nos pontos — está em esperar simetria de um dado que não a tem.</p>
+</div>
+</div>
+</div>
+<p><strong>3.</strong> Monte a tabela de frequência de <code>area_m2</code> em 10 faixas de largura igual (<code>pd.cut</code>) e desenhe o histograma. Por que ficaram inúteis? Refaça as duas coisas só com os imóveis até o percentil 99 da área e compare.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div id="cell-alugueis-dist-faixas-bruto" class="cell" data-execution_count="17">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>faixas_bruto <span class="op">=</span> pd.cut(alugueis[<span class="st">"area_m2"</span>], <span class="dv">10</span>).value_counts().sort_index()</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>faixas_bruto</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="alugueis-dist-faixas-bruto" class="cell-output cell-output-display" data-execution_count="17">
+<pre><code>area_m2
+(-35.324, 4643.4]     10689
+(4643.4, 9275.8]          0
+(9275.8, 13908.2]         1
+(13908.2, 18540.6]        0
+(18540.6, 23173.0]        0
+(23173.0, 27805.4]        1
+(27805.4, 32437.8]        0
+(32437.8, 37070.2]        0
+(37070.2, 41702.6]        0
+(41702.6, 46335.0]        1
+Name: count, dtype: int64</code></pre>
+</div>
+</div>
+<p>Dez faixas de largura igual entre o mínimo e 46.335 m² dão faixas de cerca de 4.634 m² cada — e 10.689 dos 10.692 imóveis caem na primeira. Não é um histograma; é uma barra e nove faixas quase vazias. Um único valor absurdo dita a escala inteira, e a forma real dos outros dez mil desaparece.</p>
+<div id="cell-alugueis-dist-faixas-filtrado" class="cell" data-execution_count="18">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>corte <span class="op">=</span> alugueis[<span class="st">"area_m2"</span>].quantile(<span class="fl">0.99</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>ate_corte <span class="op">=</span> alugueis.loc[alugueis[<span class="st">"area_m2"</span>] <span class="op">&lt;=</span> corte, <span class="st">"area_m2"</span>]</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"percentil 99 = </span><span class="sc">{</span>num(corte, <span class="dv">0</span>)<span class="sc">}</span><span class="ss"> m² → </span><span class="sc">{</span>num(<span class="bu">len</span>(ate_corte), <span class="dv">0</span>)<span class="sc">}</span><span class="ss"> imóveis dentro do corte"</span>)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>pd.cut(ate_corte, <span class="dv">10</span>).value_counts().sort_index()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>percentil 99 = 650 m² → 10.585 imóveis dentro do corte</code></pre>
+</div>
+<div id="alugueis-dist-faixas-filtrado" class="cell-output cell-output-display" data-execution_count="18">
+<pre><code>area_m2
+(10.361, 74.9]    4271
+(74.9, 138.8]     2733
+(138.8, 202.7]    1406
+(202.7, 266.6]     802
+(266.6, 330.5]     586
+(330.5, 394.4]     319
+(394.4, 458.3]     226
+(458.3, 522.2]     129
+(522.2, 586.1]      55
+(586.1, 650.0]      58
+Name: count, dtype: int64</code></pre>
+</div>
+</div>
+<div id="cell-alugueis-dist-hist" class="cell" data-execution_count="19">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>ate_corte.plot.hist(ax<span class="op">=</span>ax, bins<span class="op">=</span><span class="dv">20</span>, edgecolor<span class="op">=</span><span class="st">"white"</span>)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Área (m²)"</span>)</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Número de imóveis"</span>)</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="alugueis-dist-hist" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="05-distribuicao-dados_files/figure-html/alugueis-dist-hist-output-1.png" width="664" height="375" class="figure-img"></p>
+<figcaption>Histograma da área só até o percentil 99: a forma aparece — concentração nas áreas pequenas e cauda longa à direita, agora legível.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Deixando de fora 1% dos imóveis (os 107 acima de 650 m²), as faixas encolhem para cerca de 65 m² e o histograma passa a mostrar uma distribuição: muitos imóveis pequenos, cada vez menos à medida que a área cresce. Cuidado com o que isso é e o que não é: um <strong>corte para visualizar</strong>, declarado e reversível — não uma limpeza dos dados. O 1% continua existindo; só não pode escolher a escala do gráfico sozinho.</p>
+</div>
+</div>
+</div>
+<p><strong>4.</strong> Calcule a assimetria de <code>aluguel</code>, <code>condominio</code> e <code>area_m2</code>, e ponha média e mediana ao lado. O sinal bate com a regra “média &gt; mediana ⇒ assimetria positiva”? Qual coluna é a mais assimétrica, e por quê?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div id="cell-alugueis-dist-assimetria" class="cell" data-execution_count="20">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>colunas <span class="op">=</span> [<span class="st">"aluguel"</span>, <span class="st">"condominio"</span>, <span class="st">"area_m2"</span>]</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>forma <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"média"</span>: alugueis[colunas].mean().<span class="bu">round</span>(<span class="dv">0</span>).astype(<span class="bu">int</span>),</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"mediana"</span>: alugueis[colunas].median().<span class="bu">round</span>(<span class="dv">0</span>).astype(<span class="bu">int</span>),</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"assimetria"</span>: pd.Series([<span class="bu">round</span>(stats.skew(alugueis[c], bias<span class="op">=</span><span class="va">False</span>), <span class="dv">1</span>) <span class="cf">for</span> c <span class="kw">in</span> colunas], index<span class="op">=</span>colunas),</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>forma</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="alugueis-dist-assimetria" class="cell-output cell-output-display" data-execution_count="20">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">média</th>
+<th data-quarto-table-cell-role="th">mediana</th>
+<th data-quarto-table-cell-role="th">assimetria</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">aluguel</th>
+<td>3896</td>
+<td>2661</td>
+<td>1.8</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">condominio</th>
+<td>1174</td>
+<td>560</td>
+<td>69.0</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">area_m2</th>
+<td>149</td>
+<td>90</td>
+<td>69.6</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>As três assimetrias são positivas, e nas três a média fica acima da mediana — a regra da seção, confirmada em dado real. O que muda é o patamar: <code>aluguel</code> tem assimetria 1,8 (cauda à direita, mas de um dado que ainda “parece” aluguel), enquanto <code>area_m2</code> chega a 69,6. O motivo é o mesmo imóvel de 46.335 m² das tarefas anteriores: a assimetria eleva os desvios ao <strong>cubo</strong>, então um único valor a centenas de desvios-padrão da média domina a estatística inteira. Assimetria alta pode significar “distribuição genuinamente inclinada” ou “um erro de digitação” — e a estatística sozinha não distingue os dois. O boxplot da tarefa 2 e o histograma da tarefa 3 distinguem.</p>
+</div>
+</div>
+</div>
+<p>Fechando com o mesmo dado das três últimas seções: a <strong>forma</strong> de uma distribuição é o que explica por que média e mediana discordam (1.3) e por que desvio-padrão e MAD discordam (1.4). Percentis, boxplot e histograma não são enfeite — são como se descobre, antes de qualquer conta, que o dado tem cauda e onde ela começa.</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="list">

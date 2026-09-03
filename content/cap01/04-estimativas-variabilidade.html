@@ -684,6 +684,7 @@ window.Quarto = {
   <li><a href="#mexa-no-desvio-padrão" id="toc-mexa-no-desvio-padrão" class="nav-link" data-scroll-target="#mexa-no-desvio-padrão">Mexa no desvio-padrão</a></li>
   <li><a href="#resumo" id="toc-resumo" class="nav-link" data-scroll-target="#resumo">Resumo</a></li>
   <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios">Exercícios</a></li>
+  <li><a href="#agora-é-com-você" id="toc-agora-é-com-você" class="nav-link" data-scroll-target="#agora-é-com-você">Agora é com você</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/BragaD/UnDF-Bases3-Estatistica-202602/issues/new" class="toc-action"><i class="bi bi-github"></i>Criar uma issue</a></li></ul></div></nav>
     </div>
@@ -1074,6 +1075,291 @@ Nota
 </div>
 </div>
 </div>
+</section>
+<section id="agora-é-com-você" class="level2">
+<h2 class="anchored" data-anchor-id="agora-é-com-você">Agora é com você</h2>
+<p>Os mesmos 10.692 imóveis da <a href="../../content/cap01/03-estimativas-localizacao.html">seção 1.3</a> — só que agora a pergunta não é “onde está o centro”, e sim <strong>quanto os valores se espalham</strong> em torno dele. Carregue o conjunto (no Colab, pela mesma URL) e concentre-se nas seis colunas contínuas, em reais e metros quadrados:</p>
+<div id="cell-alugueis-var-carrega" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>alugueis <span class="op">=</span> pd.read_csv(<span class="st">"dados/alugueis.csv"</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>continuas <span class="op">=</span> [<span class="st">"area_m2"</span>, <span class="st">"condominio"</span>, <span class="st">"aluguel"</span>, <span class="st">"iptu"</span>, <span class="st">"seguro_incendio"</span>, <span class="st">"total"</span>]</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>alugueis[continuas].head()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="alugueis-var-carrega" class="cell-output cell-output-display" data-execution_count="8">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">area_m2</th>
+<th data-quarto-table-cell-role="th">condominio</th>
+<th data-quarto-table-cell-role="th">aluguel</th>
+<th data-quarto-table-cell-role="th">iptu</th>
+<th data-quarto-table-cell-role="th">seguro_incendio</th>
+<th data-quarto-table-cell-role="th">total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>70</td>
+<td>2065</td>
+<td>3300</td>
+<td>211</td>
+<td>42</td>
+<td>5618</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>320</td>
+<td>1200</td>
+<td>4960</td>
+<td>1750</td>
+<td>63</td>
+<td>7973</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>80</td>
+<td>1000</td>
+<td>2800</td>
+<td>0</td>
+<td>41</td>
+<td>3841</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>51</td>
+<td>270</td>
+<td>1112</td>
+<td>22</td>
+<td>17</td>
+<td>1421</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>25</td>
+<td>0</td>
+<td>800</td>
+<td>25</td>
+<td>11</td>
+<td>836</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Quatro tarefas, na ordem. Tente antes de abrir cada resposta.</p>
+<p><strong>1.</strong> Para cada uma das seis colunas, calcule o desvio-padrão, o IQR e o MAD, e monte uma tabela com as três medidas lado a lado. (Lembre: <code>robust.scale.mad</code> já vem calibrado pelo fator 0,6745.)</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div id="cell-alugueis-var-tabela" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> iqr(s):</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> s.quantile(<span class="fl">0.75</span>) <span class="op">-</span> s.quantile(<span class="fl">0.25</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>dispersao <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"desvio-padrão"</span>: alugueis[continuas].std(),</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"IQR"</span>: alugueis[continuas].<span class="bu">apply</span>(iqr),</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"MAD"</span>: alugueis[continuas].<span class="bu">apply</span>(robust.scale.mad),</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>}).<span class="bu">round</span>(<span class="dv">0</span>).astype(<span class="bu">int</span>)</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>dispersao</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="alugueis-var-tabela" class="cell-output cell-output-display" data-execution_count="9">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">desvio-padrão</th>
+<th data-quarto-table-cell-role="th">IQR</th>
+<th data-quarto-table-cell-role="th">MAD</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">area_m2</th>
+<td>537</td>
+<td>126</td>
+<td>67</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">condominio</th>
+<td>15592</td>
+<td>1068</td>
+<td>815</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">aluguel</th>
+<td>3409</td>
+<td>3470</td>
+<td>2018</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">iptu</th>
+<td>3108</td>
+<td>337</td>
+<td>179</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">seguro_incendio</th>
+<td>48</td>
+<td>47</td>
+<td>27</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">total</th>
+<td>16485</td>
+<td>4706</td>
+<td>2732</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Três números, três perguntas diferentes: o desvio-padrão usa todos os valores (e os eleva ao quadrado); o IQR só olha a largura da metade central; o MAD só olha a distância típica até a mediana. Quando os três concordam, a coluna é bem-comportada. Quando discordam, a diferença é informação — e é o assunto da tarefa 2.</p>
+</div>
+</div>
+</div>
+<p><strong>2.</strong> Divida o desvio-padrão pelo MAD em cada coluna. Numa distribuição normal, os dois são parecidos (é para isso que serve o fator 0,6745). Em quais colunas a razão explode — e o que isso indica?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div id="cell-alugueis-var-razao" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>razao <span class="op">=</span> (alugueis[continuas].std() <span class="op">/</span> alugueis[continuas].<span class="bu">apply</span>(robust.scale.mad)).<span class="bu">round</span>(<span class="dv">1</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>razao.sort_values(ascending<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="alugueis-var-razao" class="cell-output cell-output-display" data-execution_count="10">
+<pre><code>condominio         19.1
+iptu               17.3
+area_m2             8.0
+total               6.0
+seguro_incendio     1.8
+aluguel             1.7
+dtype: float64</code></pre>
+</div>
+</div>
+<p>Na coluna mais bem-comportada, aluguel, o desvio-padrão é 1,7 vezes o MAD. Em <strong><code>condominio</code></strong> ele é 19,1 vezes; em <strong><code>iptu</code></strong>, 17,3; em <strong><code>area_m2</code></strong>, 8,0 — e <code>total</code>, que soma condomínio e IPTU, herda o problema (6,0 vezes). É o mesmo sinal que a população dos estados deu nesta seção (desvio-padrão quase o dobro do MAD), só que gritado: uma cauda direita muito longa, com valores extremos que o desvio-padrão — por elevar ao quadrado — amplifica, e o MAD — por só olhar a mediana das distâncias — ignora. A razão dp/MAD funciona, na prática, como um <strong>detector de outliers</strong> que dispensa olhar o dado.</p>
+</div>
+</div>
+</div>
+<p><strong>3.</strong> Remova do conjunto o(s) imóvel(is) com o maior valor de <code>condominio</code> e recalcule as três medidas dessa coluna. Qual delas mudou mais? Qual quase não se mexeu?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div id="cell-alugueis-var-sem-outlier" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>maior <span class="op">=</span> alugueis[<span class="st">"condominio"</span>].<span class="bu">max</span>()</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>quantos <span class="op">=</span> <span class="bu">int</span>((alugueis[<span class="st">"condominio"</span>] <span class="op">==</span> maior).<span class="bu">sum</span>())</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>sem_maior <span class="op">=</span> alugueis.loc[alugueis[<span class="st">"condominio"</span>] <span class="op">&lt;</span> maior, <span class="st">"condominio"</span>]</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>comparacao <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"com o outlier"</span>: [alugueis[<span class="st">"condominio"</span>].std(), iqr(alugueis[<span class="st">"condominio"</span>]),</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>                      robust.scale.mad(alugueis[<span class="st">"condominio"</span>])],</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"sem o outlier"</span>: [sem_maior.std(), iqr(sem_maior), robust.scale.mad(sem_maior)],</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>}, index<span class="op">=</span>[<span class="st">"desvio-padrão"</span>, <span class="st">"IQR"</span>, <span class="st">"MAD"</span>]).<span class="bu">round</span>(<span class="dv">0</span>).astype(<span class="bu">int</span>)</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"removidos: </span><span class="sc">{</span>quantos<span class="sc">}</span><span class="ss"> imóvel(is) com condomínio de R$ </span><span class="sc">{</span>num(maior, <span class="dv">0</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>comparacao</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>removidos: 2 imóvel(is) com condomínio de R$ 1.117.000</code></pre>
+</div>
+<div id="alugueis-var-sem-outlier" class="cell-output cell-output-display" data-execution_count="11">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">com o outlier</th>
+<th data-quarto-table-cell-role="th">sem o outlier</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">desvio-padrão</th>
+<td>15592</td>
+<td>3187</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">IQR</th>
+<td>1068</td>
+<td>1066</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">MAD</th>
+<td>815</td>
+<td>815</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Tirar 2 linha(s) de 10.692 derruba o desvio-padrão de R$ 15.592 para R$ 3.187. O IQR e o MAD praticamente não se mexem: 1.068 → 1.066 e 815 → 815. É a definição operacional de <strong>robustez</strong>: uma medida robusta é aquela que um punhado de valores absurdos não consegue sequestrar. E note que o desvio-padrão “sem o outlier” continua bem acima do MAD — o próximo condomínio da fila (R$ 220.000) já assume o papel. Outlier raramente é um só.</p>
+</div>
+</div>
+</div>
+<p><strong>4.</strong> Calcule o escore-padrão (z) do imóvel de maior aluguel. Depois conte quantos imóveis têm |z| &gt; 3 em <code>aluguel</code>. Se a distribuição fosse normal, que fração você esperaria? O que a diferença diz?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div id="alugueis-var-z" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>aluguel <span class="op">=</span> alugueis[<span class="st">"aluguel"</span>]</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> (aluguel <span class="op">-</span> aluguel.mean()) <span class="op">/</span> aluguel.std()</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>extremos <span class="op">=</span> z.<span class="bu">abs</span>() <span class="op">&gt;</span> <span class="dv">3</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"maior aluguel: R$ </span><span class="sc">{</span>num(aluguel.<span class="bu">max</span>(), <span class="dv">0</span>)<span class="sc">}</span><span class="ss">  →  z = </span><span class="sc">{</span>num(z.<span class="bu">max</span>(), <span class="dv">2</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"imóveis com |z| &gt; 3: </span><span class="sc">{</span><span class="bu">int</span>(extremos.<span class="bu">sum</span>())<span class="sc">}</span><span class="ss"> de </span><span class="sc">{</span>num(<span class="bu">len</span>(z), <span class="dv">0</span>)<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span>num(<span class="dv">100</span> <span class="op">*</span> extremos.mean(), <span class="dv">2</span>)<span class="sc">}</span><span class="ss">%)"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>maior aluguel: R$ 45.000  →  z = 12,06
+imóveis com |z| &gt; 3: 256 de 10.692 (2,39%)</code></pre>
+</div>
+</div>
+<p>O maior aluguel está a 12,1 desvios-padrão da média. Numa normal, só cerca de 0,3% dos valores passam de 3 desvios; aqui são 2,39% — mais do que a normal prevê. E esse número ainda é <strong>subestimado</strong>: o z divide pelo desvio-padrão, que os próprios extremos inflam, então cada extremo “encolhe” o z de todos os outros. É por isso que, em dado de cauda longa, a versão robusta do z (mediana no lugar da média, MAD no lugar do desvio-padrão) encontra mais outliers do que a clássica — e por que, antes de declarar um valor “atípico”, vale saber como a régua foi calibrada.</p>
+</div>
+</div>
+</div>
+<p>A lição desta seção, agora em dado real: <strong>as medidas de dispersão discordam entre si exatamente quando o dado é sujo</strong> — e a discordância é a informação. Desvio-padrão para conjuntos bem-comportados; IQR e MAD quando há qualquer chance de cauda longa. E, com aluguéis, há.</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="list">

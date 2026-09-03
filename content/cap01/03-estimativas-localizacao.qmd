@@ -389,3 +389,163 @@ A média é sensível a extremos e a mediana não. Um ganho concentrado no topo 
 
 A moda é a medida certa para dado **categórico** — nominal ou ordinal —, porque média e mediana exigem somar ou ordenar valores, e "somar" ou "ordenar" categorias como `Clima` e `Seguranca` não significa nada. A moda só precisa contar qual categoria aparece mais vezes, uma operação que continua fazendo sentido mesmo sem nenhuma noção de distância entre as categorias. É o caso das causas de atraso de voo da seção 1.6: `VooAnterior` é a moda, e não há como calcular uma "média" ou "mediana" de causa de atraso para comparar com ela.
 :::
+
+## Agora é com você
+
+Até aqui, os dados vieram prontos: um CSV limpo, com 27 linhas, e a gente já sabia o que cada coluna era. Na prática, o primeiro contato com um conjunto de dados é diferente — você recebe um arquivo, abre, e precisa **descobrir** o que tem dentro antes de calcular qualquer coisa. Esta atividade é isso.
+
+O conjunto: **10.692 imóveis para alugar** em cinco cidades brasileiras (São Paulo, Rio de Janeiro, Belo Horizonte, Porto Alegre e Campinas), com área, número de cômodos, andar, se aceita animal, se é mobiliado, e os valores de condomínio, aluguel, IPTU e seguro contra incêndio. Vem do dataset *Brazilian houses to rent*, publicado em domínio público (CC0); traduzimos os nomes das colunas — e **só** isso. O que estava estranho no original continua estranho, de propósito.
+
+Abra o [notebook do capítulo no Colab](https://colab.research.google.com/github/BragaD/UnDF-Bases3-Estatistica-202602/blob/main/notebooks/capitulo-01.ipynb) — ou qualquer ambiente com pandas — e carregue o arquivo pela URL:
+
+```python
+import pandas as pd
+alugueis = pd.read_csv("https://raw.githubusercontent.com/BragaD/UnDF-Bases3-Estatistica-202602/main/dados/alugueis.csv")
+```
+
+Uma espiada nas primeiras linhas:
+
+```{python}
+#| label: alugueis-head
+alugueis = pd.read_csv("dados/alugueis.csv")
+alugueis.head()
+```
+
+É só o que você recebe. Agora, quatro tarefas — faça na ordem, porque cada uma depende da anterior. As respostas estão escondidas logo abaixo de cada tarefa; **tente antes de abrir**.
+
+**1.** Carregue o CSV e responda: quantas linhas e quantas colunas ele tem? Quais são os nomes das colunas?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+```{python}
+#| label: alugueis-shape
+print(f"{alugueis.shape[0]} linhas × {alugueis.shape[1]} colunas")
+print(list(alugueis.columns))
+```
+
+`.shape` dá (linhas, colunas); `.columns` dá os nomes. Antes de qualquer estatística, saber o tamanho do dado é o que diz se você pode olhá-lo linha a linha (não pode — são mais de dez mil) ou se precisa resumi-lo (precisa: é o assunto deste capítulo).
+:::
+
+**2.** Classifique **cada** uma das 13 colunas na taxonomia da [seção 1.1](01-dados-estruturados.qmd): numérico contínuo, numérico discreto, categórico nominal, categórico ordinal ou categórico binário. Justifique em uma frase por coluna. Há alguma coluna que não se encaixa bem em nenhuma categoria? Há alguma ordinal?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+| Coluna | Tipo | Por quê |
+|---|---|---|
+| `cidade` | categórico **nominal** | cinco cidades, sem ordem natural entre elas |
+| `area_m2` | numérico **contínuo** | uma medida; pode ser qualquer valor num intervalo |
+| `quartos`, `banheiros`, `vagas` | numérico **discreto** | contagens — só inteiros, e "2,5 quartos" não existe |
+| `andar` | numérico **discreto** (na intenção) | é uma contagem de andares… mas veja a tarefa 3 |
+| `aceita_animal`, `mobiliado` | categórico **binário** | exatamente dois valores, sim/não |
+| `condominio`, `aluguel`, `iptu`, `seguro_incendio`, `total` | numérico **contínuo** | valores em reais; o arquivo traz inteiros, mas dinheiro é quantidade contínua — a ausência de centavos é arredondamento, não natureza |
+
+Não há coluna **ordinal** neste conjunto. A candidata mais próxima é `andar`: os andares têm ordem (o 10º fica acima do 5º), mas a distância entre eles é numérica e significa algo — cinco andares de diferença são cinco andares —, o que faz dele um discreto, não um ordinal. Um ordinal de verdade seria algo como "padrão do imóvel: simples / médio / alto", em que a ordem existe mas "a distância entre simples e médio" não é um número. Nem todo conjunto tem todos os tipos — e perceber a ausência também é classificar.
+:::
+
+**3.** Peça ao pandas o tipo que ele inferiu para cada coluna (`.dtypes`). Compare com a sua classificação da tarefa 2. Alguma coluna foi lida com um tipo que **não** é o mais apropriado? Descubra **por quê** olhando os valores dela, e corrija.
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+```{python}
+#| label: alugueis-dtypes
+alugueis.dtypes
+```
+
+Todas as numéricas viraram `int64` — exceto **`andar`**, que o pandas leu como **texto** (`str`), igual às categóricas. Uma coluna que deveria ser número e virou texto é o sinal clássico de que **algum valor no meio dela não é número**. Para achá-lo:
+
+```{python}
+#| label: alugueis-andar-valores
+alugueis["andar"].value_counts().head()
+```
+
+O culpado é o `"-"`: `{python} num((alugueis["andar"] == "-").sum(), 0)` linhas — `{python} num(100 * (alugueis["andar"] == "-").mean(), 0)`% do total — trazem um traço em vez de um número, marcando imóvel térreo ou casa sem andar. Basta **um** valor assim para o pandas desistir de tratar a coluna como número: ele não adivinha o que o traço significa, então rebaixa a coluna inteira para texto — e aí `mean()` e `median()` deixam de funcionar nela.
+
+A correção tem duas partes, e a primeira é uma **decisão**, não código: o que o `"-"` significa? Se for "andar zero" (térreo), substitua por 0; se for "não se aplica" (casa), o honesto é marcar como ausente (`NaN`). Como o arquivo não diz qual dos dois, a escolha segura é `NaN` — inventar um zero criaria milhares de imóveis "no térreo" que talvez não existam:
+
+```{python}
+#| label: alugueis-andar-corrige
+alugueis["andar"] = pd.to_numeric(alugueis["andar"], errors="coerce")
+alugueis["andar"].dtype
+```
+
+`errors="coerce"` converte o que dá e transforma o resto em `NaN`. Agora `andar` é numérico (`float64`, porque `NaN` só existe em float).
+
+E a segunda parte, que a seção 1.1 já defendeu: o pandas leu `cidade`, `aceita_animal` e `mobiliado` como texto genérico, mas elas são **categóricas** — declarar isso deixa a intenção explícita e evita que alguém, no futuro, tente uma "média de cidade":
+
+```{python}
+#| label: alugueis-categoricas
+for coluna in ["cidade", "aceita_animal", "mobiliado"]:
+    alugueis[coluna] = alugueis[coluna].astype("category")
+alugueis.dtypes
+```
+
+O pandas infere bem para números limpos e mal para todo o resto. **Inferência não é classificação** — a classificação é sua.
+:::
+
+**4.** Para **cada** coluna, calcule as medidas de localização que fazem sentido para o tipo dela — e só elas. Em quais colunas a média e a mediana ficaram muito diferentes? O que isso indica sobre os dados?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+A regra é a da seção: média, média aparada e mediana para o **numérico**; moda para o **categórico**; e, no **binário**, a moda vira uma **proporção**.
+
+**Contínuas** — as três juntas, para ver onde divergem:
+
+```{python}
+#| label: alugueis-continuas
+continuas = ["area_m2", "condominio", "aluguel", "iptu", "seguro_incendio", "total"]
+resumo = pd.DataFrame({
+    "média": alugueis[continuas].mean(),
+    "média aparada 10%": [trim_mean(alugueis[c], 0.1) for c in continuas],
+    "mediana": alugueis[continuas].median(),
+}).round(0).astype(int)
+resumo
+```
+
+Em `aluguel` e `seguro_incendio` as três andam juntas: distribuição bem-comportada. Em **`condominio`** e **`area_m2`**, a média dispara para longe da mediana — o condomínio médio é R$ `{python} num(alugueis["condominio"].mean(), 0)`, mas o mediano é R$ `{python} num(alugueis["condominio"].median(), 0)`. O motivo aparece no máximo:
+
+```{python}
+#| label: alugueis-outliers
+alugueis[["area_m2", "condominio"]].max()
+```
+
+Um condomínio de R$ `{python} num(alugueis["condominio"].max(), 0)` e um imóvel de `{python} num(alugueis["area_m2"].max(), 0)` m² (o tamanho de seis campos de futebol) são quase certamente **erros de digitação** — e um único deles basta para arrastar a média de dez mil imóveis. A mediana nem percebe; a média aparada também não. É a robustez da seção "Comparando as estimativas", agora num dado real, sem que ninguém tenha plantado o outlier de propósito.
+
+**Discretas** — mediana e moda; a média até se calcula, mas "`{python} num(alugueis["quartos"].mean(), 2)` quartos" não descreve nenhum imóvel real:
+
+```{python}
+#| label: alugueis-discretas
+discretas = ["quartos", "banheiros", "vagas", "andar"]
+pd.DataFrame({
+    "mediana": alugueis[discretas].median(),
+    "moda": [alugueis[c].mode().iloc[0] for c in discretas],
+})
+```
+
+(`andar` só entra aqui porque foi corrigida na tarefa 3 — a mediana ignora os `NaN`.)
+
+**Nominal** — só a moda faz sentido, e ela vem de contar:
+
+```{python}
+#| label: alugueis-nominal
+alugueis["cidade"].value_counts()
+```
+
+A moda é `{python} alugueis["cidade"].mode().iloc[0]`, com `{python} num(100 * alugueis["cidade"].value_counts(normalize=True).iloc[0], 0)`% dos anúncios. Não existe "cidade média" nem "cidade mediana".
+
+**Binárias** — a moda é a categoria mais frequente, e a **proporção** de "sim" diz o mesmo com mais informação:
+
+```{python}
+#| label: alugueis-binarias
+for coluna in ["aceita_animal", "mobiliado"]:
+    proporcao = (alugueis[coluna] == "sim").mean()
+    print(f"{coluna}: {num(100 * proporcao, 0)}% sim")
+```
+
+`{python} num(100 * (alugueis["aceita_animal"] == "sim").mean(), 0)`% dos imóveis aceitam animal e só `{python} num(100 * (alugueis["mobiliado"] == "sim").mean(), 0)`% vêm mobiliados. Uma proporção *é* uma média — de uma coluna de 0 e 1 —, e é por isso que ela reaparece na seção 1.6.
+:::
+
+Duas lições ficam. A primeira é que **classificar vem antes de calcular**: a medida certa depende do tipo, e o tipo é uma decisão sua, não do pandas. A segunda é que dado real vem sujo — um traço no lugar de um número, um zero a mais numa área — e as medidas robustas (mediana, média aparada) foram inventadas exatamente para sobreviver a isso.

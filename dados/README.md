@@ -20,6 +20,37 @@ O CSV bruto do Atlas está versionado em `dados/brutos/`. A API do Atlas
 (`/atlasviolencia/api/v1/...`) saiu do ar na reformulação do site (v3) e hoje
 devolve HTML — sem o arquivo bruto, o pipeline não seria reproduzível.
 
+## `alugueis.csv` — aluguéis em 5 cidades brasileiras (traduzido por nós)
+
+10.692 imóveis para alugar em São Paulo, Rio de Janeiro, Belo Horizonte, Porto
+Alegre e Campinas. Usado na atividade **"Agora é com você"** da seção 1.3.
+
+Fonte: *Brazilian houses to rent* (v2), publicado no Kaggle por rubenssjr sob
+**CC0** (domínio público). O CSV bruto está versionado em
+`dados/brutos/houses_to_rent_v2.csv` (o Kaggle exige login para baixar).
+
+Gerado por `scripts/gerar-dados-alugueis.py`, que roda **uma única vez**:
+
+```bash
+docker compose run --rm --no-deps livro python scripts/gerar-dados-alugueis.py
+```
+
+| Original | Aqui | Original | Aqui |
+|---|---|---|---|
+| `city` | `cidade` | `animal` (acept / not acept) | `aceita_animal` (sim / não) |
+| `area` | `area_m2` | `furniture` (furnished / not furnished) | `mobiliado` (sim / não) |
+| `rooms` | `quartos` | `hoa (R$)` | `condominio` |
+| `bathroom` | `banheiros` | `rent amount (R$)` | `aluguel` |
+| `parking spaces` | `vagas` | `property tax (R$)` | `iptu` |
+| `floor` | `andar` | `fire insurance (R$)` | `seguro_incendio` |
+| | | `total (R$)` | `total` |
+
+**Só os nomes (e os dois binários) foram traduzidos — nada foi limpo, de
+propósito.** A coluna `andar` traz `"-"` em 2.461 linhas (23%), o que faz o
+pandas lê-la como texto: essa é a armadilha que a atividade pede ao aluno para
+descobrir. Os outliers (área de 46.335 m², condomínio de R$ 1.117.000) também
+ficaram — são o material de média × mediana × média aparada.
+
 Os arquivos deste diretório vêm do repositório oficial do livro-texto:
 
 **Bruce, Bruce & Gedeck — *Practical Statistics for Data Scientists*, 2ª ed. (O'Reilly, 2020)**

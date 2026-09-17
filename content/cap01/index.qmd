@@ -1,7 +1,7 @@
 # Análise Exploratória de Dados
 
 ::: {.callout-note}
-Este capítulo é baseado no Capítulo 1 de @bruce2020.
+Este capítulo é baseado no Capítulo 1 de @bruce2020, com os quantis empíricos das seções 1.4 e 1.5 vindos da seção 3.3 de @bussab2023.
 :::
 
 📓 [**Abrir o notebook deste capítulo no Colab ↗**](https://colab.research.google.com/github/BragaD/UnDF-Bases3-Estatistica-202602/blob/main/notebooks/capitulo-01.ipynb) — só o código, pronto para rodar.

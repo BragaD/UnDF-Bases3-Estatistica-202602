@@ -48,15 +48,79 @@ print(f"Desvio-padrão: {num(desvio)}")
 
 Tirar a raiz quadrada devolve o desvio-padrão à unidade original dos dados (habitantes, no caso), enquanto a variância fica em habitantes ao quadrado — uma unidade sem interpretação direta. Isso, somado à conveniência matemática de trabalhar com quadrados, é o motivo do desvio-padrão ser a medida de dispersão mais citada. Não é porque seja a mais robusta: é o contrário. Elevar ao quadrado amplifica desvios grandes muito mais do que pequenos, então o desvio-padrão é **ainda mais sensível a extremos que a própria média** — e a média já não era robusta.
 
+## Quartis
+
+A seção 1.3 definiu a mediana como o valor que parte a sequência ordenada em duas metades iguais. Nada obriga a parar em duas. Repetindo a mesma ideia — cortar os dados ordenados em quatro partes de igual tamanho — chega-se aos **quartis**: três valores, $q_1$, $q_2$ e $q_3$, que marcam onde ficam os cortes.
+
+- $q_1$, o **primeiro quartil**, deixa 25% das observações abaixo de si;
+- $q_2$, o **segundo quartil**, deixa 50% — ou seja, $q_2$ **é** a mediana, o mesmo número com outro nome;
+- $q_3$, o **terceiro quartil**, deixa 75% abaixo.
+
+Tudo isso pressupõe os dados ordenados, e vale fixar a notação que a literatura usa para isso. As **estatísticas de ordem** de um conjunto de $n$ valores são os mesmos valores dispostos do menor ao maior,
+
+$$x_{(1)} \le x_{(2)} \le \cdots \le x_{(n)},$$
+
+com os parênteses no índice avisando que a posição é a da lista **ordenada**, não a da linha original do arquivo. Assim, $x_{(1)}$ é o mínimo e $x_{(n)}$ é o máximo, estivessem eles onde estivessem no CSV.
+
+```{python}
+#| label: quartis
+q1, q2, q3 = estado["Populacao"].quantile([0.25, 0.5, 0.75])
+print(f"q1 (primeiro quartil): {num(q1, 0)}")
+print(f"q2 (segundo quartil):  {num(q2, 0)}")
+print(f"q3 (terceiro quartil): {num(q3, 0)}")
+print(f"mediana:               {num(estado['Populacao'].median(), 0)}")
+```
+
+O $q_2$ e a mediana saem idênticos, como tinham de sair — são a mesma definição.
+
+## Quando o quartil não é uma observação
+
+A seção 1.3 mostrou que, com $n = 27$ ímpar, a mediana da população é uma observação de verdade: a 14ª da lista ordenada, a população da Paraíba. Os quartis não têm essa sorte, e a razão é aritmética.
+
+A posição que o quantil $p$ ocupa na sequência ordenada é $(n-1)\,p + 1$. Com $n = 27$:
+
+$$q_2:\ 26 \times 0{,}50 + 1 = 14 \qquad q_1:\ 26 \times 0{,}25 + 1 = 7{,}5 \qquad q_3:\ 26 \times 0{,}75 + 1 = 20{,}5$$
+
+A posição 14 existe. As posições 7,5 e 20,5 não existem — não há sétimo-e-meio estado. Quando a conta dá um número fracionário, o valor é obtido **interpolando** entre os dois vizinhos; aqui, como as duas posições caem exatamente no meio do caminho, a interpolação vira a média simples das duas observações vizinhas:
+
+```{python}
+#| label: quartis-vizinhos
+ordenado = estado.sort_values("Populacao").reset_index(drop=True)
+ordenado.index += 1                      # posição na sequência ordenada, de 1 a 27
+vizinhos = ordenado.loc[[7, 8, 14, 20, 21], ["Sigla", "Populacao"]]
+vizinhos["Populacao"] = vizinhos["Populacao"].map(lambda v: num(v, 0))
+vizinhos
+```
+
+O $q_1$ de `{python} num(q1, 0)` é a média entre Mato Grosso do Sul e Distrito Federal; o $q_3$ de `{python} num(q3, 0)` é a média entre Ceará e Pernambuco. É a mesma regra que a seção 1.3 aplicou à mediana quando $n$ é par — posição fracionária, média das duas vizinhas — reaparecendo agora dentro de cada metade.
+
+Note a inversão: é a mediana, aqui, que é o caso especial. Um quantil só cai sobre uma observação quando $(n-1)p$ dá um inteiro, e não há nada em $n = 27$ que garanta isso para $p = 0{,}25$ ou $p = 0{,}75$.
+
+Por que interpolar assim, e não de outro jeito? A escolha não é única — há convenções concorrentes, e softwares diferentes dão respostas diferentes para os mesmos dados. A seção 1.5 mostra as cinco que o próprio pandas oferece.
+
+::: {.exemplo}
+Lendo os três números em português: um quarto dos estados tem até `{python} num(q1/1e6, 1)` milhões de habitantes; metade tem até `{python} num(q2/1e6, 1)` milhões; três quartos têm até `{python} num(q3/1e6, 1)` milhões. E, no quarto restante, estão os estados que vão de `{python} num(q3/1e6, 1)` milhões até os `{python} num(estado['Populacao'].max()/1e6, 1)` milhões de São Paulo — um quarto da lista cobrindo sozinho `{python} num(100 * (estado['Populacao'].max() - q3) / (estado['Populacao'].max() - estado['Populacao'].min()), 0)`% da amplitude total.
+:::
+
+Os três quartis são, segundo @bussab2023, medidas de localização **resistentes**: pouco afetadas por mudanças numa pequena porção dos dados. É fácil ver por quê. Multiplique a população de São Paulo por dez e $q_1$, $q_2$ e $q_3$ não se mexem um habitante — São Paulo continua sendo a 27ª observação ordenada, e nenhum dos três cortes olha para lá. A média, que a seção 1.3 viu ser sequestrada por um único valor grande, não tem essa proteção. É essa resistência que a próxima subseção herda.
+
+::: {.callout-note}
+A definição de quartil, a notação de estatísticas de ordem e o conceito de resistência seguem a seção 3.3 de @bussab2023.
+:::
+
 ## Estimativas robustas: IQR e MAD
 
-Assim como a mediana substitui a média quando extremos distorcem a localização, existem substitutos robustos para o desvio-padrão.
+Assim como a mediana substitui a média quando extremos distorcem a localização, existem substitutos robustos para o desvio-padrão. O primeiro deles já está pronto: basta medir a **largura** da faixa que os quartis acabaram de delimitar.
 
-A **amplitude interquartil** (IQR) é a diferença entre o 75º e o 25º percentil — a largura da metade central dos dados, ignorando completamente o que acontece nas pontas:
+A **amplitude interquartil** (IQR, de *interquartile range*) — que @bussab2023 chamam de **distância interquartil** e denotam por $d_q$ — é simplesmente a distância entre o terceiro e o primeiro quartil:
+
+$$d_q = q_3 - q_1$$
+
+É a largura da metade central dos dados. Os 25% menores valores e os 25% maiores podem ser o que quiserem — podem dobrar, podem ir para o infinito — que $d_q$ não se mexe, porque ela não olha para lá:
 
 ```{python}
 #| label: iqr
-iqr = estado["Populacao"].quantile(0.75) - estado["Populacao"].quantile(0.25)
+iqr = q3 - q1
 print(f"IQR: {num(iqr)}")
 ```
 
@@ -242,7 +306,15 @@ Se a população de cada estado fosse multiplicada por 1.000, o desvio-padrão e
 Porque ela é sempre exatamente zero — é uma propriedade algébrica da média, não um fato sobre os dados. Os desvios positivos cancelam os negativos por construção. Daí a necessidade de eliminar o sinal, elevando ao quadrado (variância, desvio-padrão) ou tomando o módulo (desvio absoluto médio, MAD).
 :::
 
-**2.** O desvio-padrão da população dos estados é 9,26M e o MAD é 4,75M — quase o dobro. O que essa razão diz sobre os dados?
+**2.** Com $n = 27$, a mediana da população coincide com a população de um estado (a Paraíba), mas nem $q_1$ nem $q_3$ coincidem com a de estado algum. Por quê?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+Porque a posição do quantil $p$ na sequência ordenada é $(n-1)p + 1$, e ela só cai sobre uma observação quando o resultado é inteiro. Para $p = 0{,}5$ e $n = 27$ a conta dá $26 \times 0{,}5 + 1 = 14$ — inteiro, e a 14ª observação ordenada é a Paraíba. Para $p = 0{,}25$ e $p = 0{,}75$ ela dá 7,5 e 20,5, posições que não existem; o valor vem de uma interpolação entre os vizinhos (MS e DF de um lado, CE e PE do outro). Não é azar com esse $n$ — é o caso comum. O que é excepcional é a mediana coincidir.
+:::
+
+**3.** O desvio-padrão da população dos estados é 9,26M e o MAD é 4,75M — quase o dobro. O que essa razão diz sobre os dados?
 
 ::: {.callout-tip collapse="true"}
 ## Resposta
@@ -250,7 +322,7 @@ Porque ela é sempre exatamente zero — é uma propriedade algébrica da média
 Que há observações extremas puxando o desvio-padrão para cima. Sob uma distribuição normal, MAD e desvio-padrão seriam próximos — é para isso que serve o fator 0,6745 na fórmula do MAD. Uma razão desvio-padrão/MAD muito maior que 1 é um diagnóstico prático de cauda longa ou outliers, tal como a distância entre média e mediana foi na seção 1.3.
 :::
 
-**3.** Se você multiplicar todas as populações por 1.000, o que acontece com o desvio-padrão? E com o IQR?
+**4.** Se você multiplicar todas as populações por 1.000, o que acontece com o desvio-padrão? E com o IQR?
 
 ::: {.callout-tip collapse="true"}
 ## Resposta
@@ -258,7 +330,7 @@ Que há observações extremas puxando o desvio-padrão para cima. Sob uma distr
 Ambos são multiplicados por 1.000. As medidas de dispersão têm a mesma unidade dos dados e escalam linearmente com eles. A variância, ao contrário, seria multiplicada por 1.000.000 — ela está em unidade ao quadrado, o que é justamente o inconveniente que motiva o uso do desvio-padrão no lugar dela.
 :::
 
-**4.** O z-score da população de SP é 4,12 e o z-score da sua taxa de homicídios é −1,93. Por que faz sentido comparar esses dois números, se população e taxa de homicídios são medidas em unidades completamente diferentes?
+**5.** O z-score da população de SP é 4,12 e o z-score da sua taxa de homicídios é −1,93. Por que faz sentido comparar esses dois números, se população e taxa de homicídios são medidas em unidades completamente diferentes?
 
 ::: {.callout-tip collapse="true"}
 ## Resposta

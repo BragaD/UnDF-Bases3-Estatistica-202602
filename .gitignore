@@ -33,3 +33,10 @@ __pycache__/
 # gabarito NUNCA vão ao GitHub. O que se distribui é o PDF gerado localmente.
 # (Mesmo princípio do arquivo de Rotinas, mantido local.)
 /avaliacoes/
+
+# Relatórios de auditoria (/humanize e afins) — locais, não versionados
+quality_reports/
+
+# Livros-fonte (epub/pdf). O repositório é PÚBLICO: material com direitos
+# autorais fica local e NUNCA vai ao GitHub.
+livros/

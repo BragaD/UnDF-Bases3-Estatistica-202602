@@ -17,11 +17,26 @@ plt.rcParams["figure.figsize"] = (7, 4)
 estado = pd.read_csv("dados/estados.csv")
 ```
 
-A seção 1.3 resumiu a população dos estados em um número — a localização. A seção 1.4 acrescentou um segundo número — a dispersão em torno dele. Os dois juntos já dizem bastante: onde os dados tendem a estar, e o quanto eles se afastam dali. Mas dois números continuam sendo um resumo, e todo resumo descarta informação. Esta seção para de resumir. Em vez de reduzir a distribuição a um ou dois pontos, ela olha a distribuição **inteira** — a forma completa que os dados assumem entre o menor e o maior valor.
+A seção 1.3 resumiu a população dos estados em um número — a localização. A seção 1.4 acrescentou um segundo número — a dispersão em torno dele, e, de passagem, os três quartis. Os dois primeiros já dizem bastante: onde os dados tendem a estar, e o quanto eles se afastam dali. Mas dois números continuam sendo um resumo, e todo resumo descarta informação. Esta seção para de resumir. Em vez de reduzir a distribuição a um ou dois pontos, ela olha a distribuição **inteira** — a forma completa que os dados assumem entre o menor e o maior valor. E começa generalizando os quartis da 1.4 para qualquer fração.
 
-## Percentis e quantis
+## Quantis, percentis e decis
 
-O **percentil** P é o valor abaixo do qual está P% das observações. A mediana, que a seção 1.3 já usou, nada mais é do que o percentil 50 — o caso particular em que exatamente metade dos dados fica de cada lado. Falar em percentis é generalizar essa ideia para qualquer fração, não só a metade. O termo **quantil** é o mesmo conceito, expresso em proporção (0,05) em vez de porcentagem (5%); `quantile()` no pandas usa essa segunda convenção.
+A seção 1.4 cortou os dados ordenados em quatro partes iguais e chamou os cortes de quartis. Não há nada de especial no número quatro. Generalizando, define-se o **quantil de ordem $p$**, ou **$p$-quantil**, indicado por $q(p)$, em que $p$ é uma proporção qualquer com $0 < p < 1$, como o valor tal que $100p\%$ das observações são menores do que $q(p)$.
+
+Os casos mais usados ganham nome próprio:
+
+| Nome | Valores de $p$ | Quantos cortes |
+|---|---|---|
+| Mediana | $0{,}5$ | 1 |
+| Quartis | $0{,}25;\ 0{,}50;\ 0{,}75$ | 3 |
+| Decis | $0{,}1;\ 0{,}2;\ \ldots;\ 0{,}9$ | 9 |
+| Percentis | $0{,}01;\ 0{,}02;\ \ldots;\ 0{,}99$ | 99 |
+
+::: {.callout-note}
+A definição de quantil de ordem $p$ e os nomes particulares seguem a seção 3.3 de @bussab2023.
+:::
+
+O **percentil** $P$ é, portanto, o mesmo que $q(P/100)$: o percentil 95 é $q(0{,}95)$, e o percentil 50 é a mediana. Percentil e quantil não são conceitos diferentes — é a mesma ideia em duas escalas, porcentagem e proporção. O `quantile()` do pandas usa a segunda: pede-se `0.95`, não `95`.
 
 ```{python}
 #| label: percentis
@@ -32,6 +47,25 @@ tabela.transpose().map(lambda v: num(v, 3))
 ```
 
 Os cinco números da tabela dizem: 5% dos estados têm taxa de homicídios de até 8,238 por 100.000 habitantes — os dois estados menos violentos do país; na outra ponta, 95% ficam até 35,197, ou seja, só 5% (2 estados, em 27) superam essa marca. O intervalo entre o percentil 5 e o percentil 95 cobre os 90% centrais da distribuição e é uma forma comum de descrever o "grosso" dos dados sem deixar os extremos dominarem a leitura, do mesmo jeito que a mediana evita que eles dominem a localização.
+
+## Qual é o quantil, afinal?
+
+A definição acima — "o valor tal que $100p\%$ das observações são menores" — só é realizável ao pé da letra quando $np$ dá um número inteiro de observações. Quando não dá, **não existe** valor algum que satisfaça a definição, e é preciso escolher um.
+
+A seção 1.4 já esbarrou nisso: com $n = 27$, a posição do primeiro quartil é 7,5, e o valor saiu da média entre a sétima e a oitava observações. Aquela foi *uma* escolha entre várias. O pandas oferece cinco, pelo argumento `interpolation`:
+
+```{python}
+#| label: convencoes-estados
+convencoes = ["linear", "lower", "higher", "nearest", "midpoint"]
+comp = pd.DataFrame(
+    {c: estado["Populacao"].quantile([0.25, 0.75], interpolation=c) for c in convencoes}
+).T
+comp.columns = ["q1", "q3"]
+comp["dq"] = comp["q3"] - comp["q1"]
+comp.map(lambda v: num(v, 0))
+```
+
+Cinco respostas diferentes para "qual é a distância interquartil da população dos estados", da menor (`{python} num(comp["dq"].min(), 0)`) à maior (`{python} num(comp["dq"].max(), 0)`) — uma diferença de `{python} num(100 * (comp["dq"].max() / comp["dq"].min() - 1), 1)`%. Nenhuma está errada: `lower` toma sempre a observação de baixo, `higher` a de cima, `nearest` a mais próxima, `midpoint` o ponto médio entre as duas, e `linear` — o padrão — interpola proporcionalmente à distância. Como aqui as posições caem exatamente no meio do caminho, `linear` e `midpoint` coincidem.
 
 ## Boxplot
 

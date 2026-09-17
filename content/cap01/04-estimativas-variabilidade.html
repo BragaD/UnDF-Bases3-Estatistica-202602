@@ -679,6 +679,8 @@ window.Quarto = {
   <ul>
   <li><a href="#desvio-e-por-que-não-usar-a-média-dos-desvios" id="toc-desvio-e-por-que-não-usar-a-média-dos-desvios" class="nav-link active" data-scroll-target="#desvio-e-por-que-não-usar-a-média-dos-desvios">Desvio e por que não usar a média dos desvios</a></li>
   <li><a href="#desvio-padrão-e-variância" id="toc-desvio-padrão-e-variância" class="nav-link" data-scroll-target="#desvio-padrão-e-variância">Desvio-padrão e variância</a></li>
+  <li><a href="#quartis" id="toc-quartis" class="nav-link" data-scroll-target="#quartis">Quartis</a></li>
+  <li><a href="#quando-o-quartil-não-é-uma-observação" id="toc-quando-o-quartil-não-é-uma-observação" class="nav-link" data-scroll-target="#quando-o-quartil-não-é-uma-observação">Quando o quartil não é uma observação</a></li>
   <li><a href="#estimativas-robustas-iqr-e-mad" id="toc-estimativas-robustas-iqr-e-mad" class="nav-link" data-scroll-target="#estimativas-robustas-iqr-e-mad">Estimativas robustas: IQR e MAD</a></li>
   <li><a href="#escores-padrão" id="toc-escores-padrão" class="nav-link" data-scroll-target="#escores-padrão">Escores-padrão</a></li>
   <li><a href="#mexa-no-desvio-padrão" id="toc-mexa-no-desvio-padrão" class="nav-link" data-scroll-target="#mexa-no-desvio-padrão">Mexa no desvio-padrão</a></li>
@@ -753,52 +755,157 @@ Nota
 </div>
 <p>Tirar a raiz quadrada devolve o desvio-padrão à unidade original dos dados (habitantes, no caso), enquanto a variância fica em habitantes ao quadrado — uma unidade sem interpretação direta. Isso, somado à conveniência matemática de trabalhar com quadrados, é o motivo do desvio-padrão ser a medida de dispersão mais citada. Não é porque seja a mais robusta: é o contrário. Elevar ao quadrado amplifica desvios grandes muito mais do que pequenos, então o desvio-padrão é <strong>ainda mais sensível a extremos que a própria média</strong> — e a média já não era robusta.</p>
 </section>
+<section id="quartis" class="level2">
+<h2 class="anchored" data-anchor-id="quartis">Quartis</h2>
+<p>A seção 1.3 definiu a mediana como o valor que parte a sequência ordenada em duas metades iguais. Nada obriga a parar em duas. Repetindo a mesma ideia — cortar os dados ordenados em quatro partes de igual tamanho — chega-se aos <strong>quartis</strong>: três valores, <span class="math inline">\(q_1\)</span>, <span class="math inline">\(q_2\)</span> e <span class="math inline">\(q_3\)</span>, que marcam onde ficam os cortes.</p>
+<ul>
+<li><span class="math inline">\(q_1\)</span>, o <strong>primeiro quartil</strong>, deixa 25% das observações abaixo de si;</li>
+<li><span class="math inline">\(q_2\)</span>, o <strong>segundo quartil</strong>, deixa 50% — ou seja, <span class="math inline">\(q_2\)</span> <strong>é</strong> a mediana, o mesmo número com outro nome;</li>
+<li><span class="math inline">\(q_3\)</span>, o <strong>terceiro quartil</strong>, deixa 75% abaixo.</li>
+</ul>
+<p>Tudo isso pressupõe os dados ordenados, e vale fixar a notação que a literatura usa para isso. As <strong>estatísticas de ordem</strong> de um conjunto de <span class="math inline">\(n\)</span> valores são os mesmos valores dispostos do menor ao maior,</p>
+<p><span class="math display">\[x_{(1)} \le x_{(2)} \le \cdots \le x_{(n)},\]</span></p>
+<p>com os parênteses no índice avisando que a posição é a da lista <strong>ordenada</strong>, não a da linha original do arquivo. Assim, <span class="math inline">\(x_{(1)}\)</span> é o mínimo e <span class="math inline">\(x_{(n)}\)</span> é o máximo, estivessem eles onde estivessem no CSV.</p>
+<div id="quartis" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>q1, q2, q3 <span class="op">=</span> estado[<span class="st">"Populacao"</span>].quantile([<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>])</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"q1 (primeiro quartil): </span><span class="sc">{</span>num(q1, <span class="dv">0</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"q2 (segundo quartil):  </span><span class="sc">{</span>num(q2, <span class="dv">0</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"q3 (terceiro quartil): </span><span class="sc">{</span>num(q3, <span class="dv">0</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"mediana:               </span><span class="sc">{</span>num(estado[<span class="st">'Populacao'</span>].median(), <span class="dv">0</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>q1 (primeiro quartil): 2.942.356
+q2 (segundo quartil):  4.145.040
+q3 (terceiro quartil): 9.386.342
+mediana:               4.145.040</code></pre>
+</div>
+</div>
+<p>O <span class="math inline">\(q_2\)</span> e a mediana saem idênticos, como tinham de sair — são a mesma definição.</p>
+</section>
+<section id="quando-o-quartil-não-é-uma-observação" class="level2">
+<h2 class="anchored" data-anchor-id="quando-o-quartil-não-é-uma-observação">Quando o quartil não é uma observação</h2>
+<p>A seção 1.3 mostrou que, com <span class="math inline">\(n = 27\)</span> ímpar, a mediana da população é uma observação de verdade: a 14ª da lista ordenada, a população da Paraíba. Os quartis não têm essa sorte, e a razão é aritmética.</p>
+<p>A posição que o quantil <span class="math inline">\(p\)</span> ocupa na sequência ordenada é <span class="math inline">\((n-1)\,p + 1\)</span>. Com <span class="math inline">\(n = 27\)</span>:</p>
+<p><span class="math display">\[q_2:\ 26 \times 0{,}50 + 1 = 14 \qquad q_1:\ 26 \times 0{,}25 + 1 = 7{,}5 \qquad q_3:\ 26 \times 0{,}75 + 1 = 20{,}5\]</span></p>
+<p>A posição 14 existe. As posições 7,5 e 20,5 não existem — não há sétimo-e-meio estado. Quando a conta dá um número fracionário, o valor é obtido <strong>interpolando</strong> entre os dois vizinhos; aqui, como as duas posições caem exatamente no meio do caminho, a interpolação vira a média simples das duas observações vizinhas:</p>
+<div id="cell-quartis-vizinhos" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ordenado <span class="op">=</span> estado.sort_values(<span class="st">"Populacao"</span>).reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>ordenado.index <span class="op">+=</span> <span class="dv">1</span>                      <span class="co"># posição na sequência ordenada, de 1 a 27</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>vizinhos <span class="op">=</span> ordenado.loc[[<span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">14</span>, <span class="dv">20</span>, <span class="dv">21</span>], [<span class="st">"Sigla"</span>, <span class="st">"Populacao"</span>]]</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>vizinhos[<span class="st">"Populacao"</span>] <span class="op">=</span> vizinhos[<span class="st">"Populacao"</span>].<span class="bu">map</span>(<span class="kw">lambda</span> v: num(v, <span class="dv">0</span>))</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>vizinhos</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="quartis-vizinhos" class="cell-output cell-output-display" data-execution_count="5">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Sigla</th>
+<th data-quarto-table-cell-role="th">Populacao</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">7</th>
+<td>MS</td>
+<td>2.901.895</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">8</th>
+<td>DF</td>
+<td>2.982.818</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">14</th>
+<td>PB</td>
+<td>4.145.040</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">20</th>
+<td>CE</td>
+<td>9.233.656</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">21</th>
+<td>PE</td>
+<td>9.539.029</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>O <span class="math inline">\(q_1\)</span> de 2.942.356 é a média entre Mato Grosso do Sul e Distrito Federal; o <span class="math inline">\(q_3\)</span> de 9.386.342 é a média entre Ceará e Pernambuco. É a mesma regra que a seção 1.3 aplicou à mediana quando <span class="math inline">\(n\)</span> é par — posição fracionária, média das duas vizinhas — reaparecendo agora dentro de cada metade.</p>
+<p>Note a inversão: é a mediana, aqui, que é o caso especial. Um quantil só cai sobre uma observação quando <span class="math inline">\((n-1)p\)</span> dá um inteiro, e não há nada em <span class="math inline">\(n = 27\)</span> que garanta isso para <span class="math inline">\(p = 0{,}25\)</span> ou <span class="math inline">\(p = 0{,}75\)</span>.</p>
+<p>Por que interpolar assim, e não de outro jeito? A escolha não é única — há convenções concorrentes, e softwares diferentes dão respostas diferentes para os mesmos dados. A seção 1.5 mostra as cinco que o próprio pandas oferece.</p>
+<div class="exemplo">
+<p>Lendo os três números em português: um quarto dos estados tem até 2,9 milhões de habitantes; metade tem até 4,1 milhões; três quartos têm até 9,4 milhões. E, no quarto restante, estão os estados que vão de 9,4 milhões até os 46,0 milhões de São Paulo — um quarto da lista cobrindo sozinho 81% da amplitude total.</p>
+</div>
+<p>Os três quartis são, segundo <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>, medidas de localização <strong>resistentes</strong>: pouco afetadas por mudanças numa pequena porção dos dados. É fácil ver por quê. Multiplique a população de São Paulo por dez e <span class="math inline">\(q_1\)</span>, <span class="math inline">\(q_2\)</span> e <span class="math inline">\(q_3\)</span> não se mexem um habitante — São Paulo continua sendo a 27ª observação ordenada, e nenhum dos três cortes olha para lá. A média, que a seção 1.3 viu ser sequestrada por um único valor grande, não tem essa proteção. É essa resistência que a próxima subseção herda.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Nota
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A definição de quartil, a notação de estatísticas de ordem e o conceito de resistência seguem a seção 3.3 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>.</p>
+</div>
+</div>
+</section>
 <section id="estimativas-robustas-iqr-e-mad" class="level2">
 <h2 class="anchored" data-anchor-id="estimativas-robustas-iqr-e-mad">Estimativas robustas: IQR e MAD</h2>
-<p>Assim como a mediana substitui a média quando extremos distorcem a localização, existem substitutos robustos para o desvio-padrão.</p>
-<p>A <strong>amplitude interquartil</strong> (IQR) é a diferença entre o 75º e o 25º percentil — a largura da metade central dos dados, ignorando completamente o que acontece nas pontas:</p>
-<div id="iqr" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>iqr <span class="op">=</span> estado[<span class="st">"Populacao"</span>].quantile(<span class="fl">0.75</span>) <span class="op">-</span> estado[<span class="st">"Populacao"</span>].quantile(<span class="fl">0.25</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"IQR: </span><span class="sc">{</span>num(iqr)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Assim como a mediana substitui a média quando extremos distorcem a localização, existem substitutos robustos para o desvio-padrão. O primeiro deles já está pronto: basta medir a <strong>largura</strong> da faixa que os quartis acabaram de delimitar.</p>
+<p>A <strong>amplitude interquartil</strong> (IQR, de <em>interquartile range</em>) — que <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span> chamam de <strong>distância interquartil</strong> e denotam por <span class="math inline">\(d_q\)</span> — é simplesmente a distância entre o terceiro e o primeiro quartil:</p>
+<p><span class="math display">\[d_q = q_3 - q_1\]</span></p>
+<p>É a largura da metade central dos dados. Os 25% menores valores e os 25% maiores podem ser o que quiserem — podem dobrar, podem ir para o infinito — que <span class="math inline">\(d_q\)</span> não se mexe, porque ela não olha para lá:</p>
+<div id="iqr" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>iqr <span class="op">=</span> q3 <span class="op">-</span> q1</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"IQR: </span><span class="sc">{</span>num(iqr)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>IQR: 6.443.986,0</code></pre>
 </div>
 </div>
 <p>O <strong>desvio absoluto mediano</strong> (MAD) segue a mesma lógica dos desvios em torno da média, mas trocando média por mediana nos dois lugares — tanto no ponto de referência quanto na forma de resumir os desvios:</p>
 <p><span class="math display">\[\text{MAD} = \frac{\text{mediana}\big(|x_i - \text{mediana}(x)|\big)}{0{,}6745}\]</span></p>
-<div id="mad" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>mad <span class="op">=</span> robust.scale.mad(estado[<span class="st">"Populacao"</span>])</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"MAD: </span><span class="sc">{</span>num(mad)<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># O mesmo cálculo, explicitamente — para mostrar de onde vem o 0,6745</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>mad_manual <span class="op">=</span> <span class="bu">abs</span>(estado[<span class="st">"Populacao"</span>] <span class="op">-</span> estado[<span class="st">"Populacao"</span>].median()).median() <span class="op">/</span> <span class="fl">0.6744897501960817</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"MAD (manual): </span><span class="sc">{</span>num(mad_manual)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="mad" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>mad <span class="op">=</span> robust.scale.mad(estado[<span class="st">"Populacao"</span>])</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"MAD: </span><span class="sc">{</span>num(mad)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># O mesmo cálculo, explicitamente — para mostrar de onde vem o 0,6745</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>mad_manual <span class="op">=</span> <span class="bu">abs</span>(estado[<span class="st">"Populacao"</span>] <span class="op">-</span> estado[<span class="st">"Populacao"</span>].median()).median() <span class="op">/</span> <span class="fl">0.6744897501960817</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"MAD (manual): </span><span class="sc">{</span>num(mad_manual)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>MAD: 4.752.396,9
 MAD (manual): 4.752.396,9</code></pre>
 </div>
 </div>
 <p>Os dois cálculos batem exatamente: a função <code>robust.scale.mad</code> da <code>statsmodels</code> não faz nada além dessa conta. O fator 0,6745 no denominador não é arbitrário — ele calibra o MAD para que, sob uma distribuição normal, o valor resultante seja diretamente comparável ao desvio-padrão. Sem essa calibração, MAD e desvio-padrão viveriam em escalas diferentes e comparar os dois números não teria sentido.</p>
-<div id="cell-fig-variabilidade" class="cell" data-execution_count="6">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>mediana <span class="op">=</span> estado[<span class="st">"Populacao"</span>].median()</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>ax.hist(estado[<span class="st">"Populacao"</span>] <span class="op">/</span> <span class="fl">1e6</span>, bins<span class="op">=</span><span class="dv">20</span>, color<span class="op">=</span><span class="st">"#b0c4d8"</span>, edgecolor<span class="op">=</span><span class="st">"white"</span>)</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>ax.axvline(mediana <span class="op">/</span> <span class="fl">1e6</span>, color<span class="op">=</span><span class="st">"#2c3e50"</span>, linewidth<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="ss">f"Mediana: </span><span class="sc">{</span>num(mediana<span class="op">/</span><span class="fl">1e6</span>, <span class="dv">1</span>)<span class="sc">}</span><span class="ss">M"</span>)</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> medida, valor, cor, estilo <span class="kw">in</span> [</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Desvio-padrão"</span>, desvio, <span class="st">"#c0392b"</span>, <span class="st">"-"</span>),</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"IQR"</span>, iqr, <span class="st">"#e67e22"</span>, <span class="st">"--"</span>),</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"MAD"</span>, mad, <span class="st">"#27ae60"</span>, <span class="st">":"</span>),</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>]:</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    ax.axvline((mediana <span class="op">+</span> valor) <span class="op">/</span> <span class="fl">1e6</span>, color<span class="op">=</span>cor, linestyle<span class="op">=</span>estilo, linewidth<span class="op">=</span><span class="dv">2</span>,</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>               label<span class="op">=</span><span class="ss">f"</span><span class="sc">{</span>medida<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>num(valor<span class="op">/</span><span class="fl">1e6</span>, <span class="dv">1</span>)<span class="sc">}</span><span class="ss">M"</span>)</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"População (milhões)"</span>)</span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Número de estados"</span>)</span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>ax.legend()</span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-fig-variabilidade" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>mediana <span class="op">=</span> estado[<span class="st">"Populacao"</span>].median()</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>ax.hist(estado[<span class="st">"Populacao"</span>] <span class="op">/</span> <span class="fl">1e6</span>, bins<span class="op">=</span><span class="dv">20</span>, color<span class="op">=</span><span class="st">"#b0c4d8"</span>, edgecolor<span class="op">=</span><span class="st">"white"</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>ax.axvline(mediana <span class="op">/</span> <span class="fl">1e6</span>, color<span class="op">=</span><span class="st">"#2c3e50"</span>, linewidth<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="ss">f"Mediana: </span><span class="sc">{</span>num(mediana<span class="op">/</span><span class="fl">1e6</span>, <span class="dv">1</span>)<span class="sc">}</span><span class="ss">M"</span>)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> medida, valor, cor, estilo <span class="kw">in</span> [</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Desvio-padrão"</span>, desvio, <span class="st">"#c0392b"</span>, <span class="st">"-"</span>),</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"IQR"</span>, iqr, <span class="st">"#e67e22"</span>, <span class="st">"--"</span>),</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"MAD"</span>, mad, <span class="st">"#27ae60"</span>, <span class="st">":"</span>),</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>]:</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    ax.axvline((mediana <span class="op">+</span> valor) <span class="op">/</span> <span class="fl">1e6</span>, color<span class="op">=</span>cor, linestyle<span class="op">=</span>estilo, linewidth<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>               label<span class="op">=</span><span class="ss">f"</span><span class="sc">{</span>medida<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>num(valor<span class="op">/</span><span class="fl">1e6</span>, <span class="dv">1</span>)<span class="sc">}</span><span class="ss">M"</span>)</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"População (milhões)"</span>)</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Número de estados"</span>)</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>ax.legend()</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div id="fig-variabilidade" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -821,15 +928,15 @@ Figura&nbsp;7.1: As três medidas de dispersão sobre a distribuição de popula
 <p>O desvio-padrão mede o espalhamento de uma distribuição inteira, mas às vezes a pergunta é sobre um único valor: SP é um estado populoso — só isso já se sabia desde a seção 1.3 —, mas <em>quão</em> populoso, em unidades de dispersão? O <strong>escore-padrão</strong>, ou z-score, responde exatamente isso: quantos desvios-padrão um valor está acima ou abaixo da média.</p>
 <p><span class="math display">\[z = \frac{x - \bar{x}}{s}\]</span></p>
 <p>Por ser uma razão entre duas grandezas na mesma unidade (o desvio <span class="math inline">\(x - \bar{x}\)</span> e o desvio-padrão <span class="math inline">\(s\)</span>, ambos em habitantes, ou ambos em homicídios por 100 mil), o z-score é <strong>adimensional</strong> — um número puro, sem unidade. É essa ausência de unidade que permite comparar posições em escalas completamente diferentes: população se mede em dezenas de milhões, taxa de homicídios em dezenas por 100 mil habitantes, e olhar os dois números brutos lado a lado não diz nada sobre qual deles é mais extremo. Convertidos a z-score, os dois passam a viver na mesma escala.</p>
-<div id="z-score" class="cell" data-execution_count="7">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>mu, sd <span class="op">=</span> estado[<span class="st">"Populacao"</span>].mean(), estado[<span class="st">"Populacao"</span>].std(ddof<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>sp <span class="op">=</span> estado.loc[estado[<span class="st">"Sigla"</span>] <span class="op">==</span> <span class="st">"SP"</span>, <span class="st">"Populacao"</span>].iloc[<span class="dv">0</span>]</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>z_sp <span class="op">=</span> (sp <span class="op">-</span> mu) <span class="op">/</span> sd</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"z-score da população de SP: </span><span class="sc">{</span>num(z_sp, <span class="dv">2</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>mu_t, sd_t <span class="op">=</span> estado[<span class="st">"Taxa.Homicidios"</span>].mean(), estado[<span class="st">"Taxa.Homicidios"</span>].std(ddof<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>sp_t <span class="op">=</span> estado.loc[estado[<span class="st">"Sigla"</span>] <span class="op">==</span> <span class="st">"SP"</span>, <span class="st">"Taxa.Homicidios"</span>].iloc[<span class="dv">0</span>]</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"z-score da taxa de homicídios de SP: </span><span class="sc">{</span>num((sp_t <span class="op">-</span> mu_t) <span class="op">/</span> sd_t, <span class="dv">2</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="z-score" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>mu, sd <span class="op">=</span> estado[<span class="st">"Populacao"</span>].mean(), estado[<span class="st">"Populacao"</span>].std(ddof<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>sp <span class="op">=</span> estado.loc[estado[<span class="st">"Sigla"</span>] <span class="op">==</span> <span class="st">"SP"</span>, <span class="st">"Populacao"</span>].iloc[<span class="dv">0</span>]</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>z_sp <span class="op">=</span> (sp <span class="op">-</span> mu) <span class="op">/</span> sd</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"z-score da população de SP: </span><span class="sc">{</span>num(z_sp, <span class="dv">2</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>mu_t, sd_t <span class="op">=</span> estado[<span class="st">"Taxa.Homicidios"</span>].mean(), estado[<span class="st">"Taxa.Homicidios"</span>].std(ddof<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>sp_t <span class="op">=</span> estado.loc[estado[<span class="st">"Sigla"</span>] <span class="op">==</span> <span class="st">"SP"</span>, <span class="st">"Taxa.Homicidios"</span>].iloc[<span class="dv">0</span>]</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"z-score da taxa de homicídios de SP: </span><span class="sc">{</span>num((sp_t <span class="op">-</span> mu_t) <span class="op">/</span> sd_t, <span class="dv">2</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>z-score da população de SP: 4,12
 z-score da taxa de homicídios de SP: -1,93</code></pre>
@@ -856,24 +963,24 @@ Nota
 <p>Os números acima são uma fotografia de uma única distribuição. Para separar de vez o que é a <strong>média</strong> do que é o <strong>desvio-padrão</strong>, o widget abaixo faz algo que nenhum gráfico estático consegue: muda a dispersão da taxa de homicídios sem tocar na média. Arraste o controle e observe a linha vermelha — ela não se move um pixel. Média e desvio-padrão são parâmetros independentes: um descreve <em>onde</em> os dados estão centrados, o outro descreve <em>quão longe</em> eles se espalham desse centro, e mudar um não obriga o outro a mudar.</p>
 <p>O truque por trás disso é o z-score. Cada estado tem um z-score real, <span class="math inline">\(z_i = (x_i - \bar{x}) / s\)</span>, calculado uma única vez a partir dos dados verdadeiros. Para gerar uma taxa com um desvio-padrão diferente, basta inverter a fórmula: <span class="math inline">\(x_i' = \bar{x} + z_i \times s_{\text{novo}}\)</span>. Essa não é uma aproximação — é a mesma identidade algébrica em outra direção, e ela devolve exatamente a média <span class="math inline">\(\bar{x}\)</span> para qualquer <span class="math inline">\(s_{\text{novo}}\)</span> que você escolher.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb10" data-startfrom="143" data-source-offset="-0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 142;"><span id="cb10-143"><a href="#cb10-143" aria-hidden="true" tabindex="-1"></a>estados <span class="op">=</span> <span class="fu">transpose</span>(dados)</span>
-<span id="cb10-144"><a href="#cb10-144" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-145"><a href="#cb10-145" aria-hidden="true" tabindex="-1"></a>fmt <span class="op">=</span> x <span class="kw">=&gt;</span> x<span class="op">.</span><span class="fu">toLocaleString</span>(<span class="st">"pt-BR"</span><span class="op">,</span> {<span class="dt">minimumFractionDigits</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span> <span class="dt">maximumFractionDigits</span><span class="op">:</span> <span class="dv">1</span>})</span>
-<span id="cb10-146"><a href="#cb10-146" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-147"><a href="#cb10-147" aria-hidden="true" tabindex="-1"></a><span class="co">// O z-score da taxa real, calculado UMA vez. É ele que permite mudar o desvio</span></span>
-<span id="cb10-148"><a href="#cb10-148" aria-hidden="true" tabindex="-1"></a><span class="co">// sem mexer na média: taxa' = μ + z × σ_novo devolve exatamente a média μ e</span></span>
-<span id="cb10-149"><a href="#cb10-149" aria-hidden="true" tabindex="-1"></a><span class="co">// exatamente o desvio σ_novo. Não é aproximação — é identidade algébrica.</span></span>
-<span id="cb10-150"><a href="#cb10-150" aria-hidden="true" tabindex="-1"></a><span class="co">// d3.deviation usa n−1, igual ao .std(ddof=1) do pandas.</span></span>
-<span id="cb10-151"><a href="#cb10-151" aria-hidden="true" tabindex="-1"></a>base <span class="op">=</span> {</span>
-<span id="cb10-152"><a href="#cb10-152" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> taxas <span class="op">=</span> estados<span class="op">.</span><span class="fu">map</span>(d <span class="kw">=&gt;</span> d[<span class="st">"Taxa.Homicidios"</span>])<span class="op">;</span></span>
-<span id="cb10-153"><a href="#cb10-153" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> mu <span class="op">=</span> d3<span class="op">.</span><span class="fu">mean</span>(taxas)<span class="op">;</span></span>
-<span id="cb10-154"><a href="#cb10-154" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> sd <span class="op">=</span> d3<span class="op">.</span><span class="fu">deviation</span>(taxas)<span class="op">;</span></span>
-<span id="cb10-155"><a href="#cb10-155" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> {</span>
-<span id="cb10-156"><a href="#cb10-156" aria-hidden="true" tabindex="-1"></a>    mu<span class="op">,</span></span>
-<span id="cb10-157"><a href="#cb10-157" aria-hidden="true" tabindex="-1"></a>    sd<span class="op">,</span></span>
-<span id="cb10-158"><a href="#cb10-158" aria-hidden="true" tabindex="-1"></a>    <span class="dt">z</span><span class="op">:</span> estados<span class="op">.</span><span class="fu">map</span>(d <span class="kw">=&gt;</span> ({<span class="dt">sigla</span><span class="op">:</span> d<span class="op">.</span><span class="at">Sigla</span><span class="op">,</span> <span class="dt">z</span><span class="op">:</span> (d[<span class="st">"Taxa.Homicidios"</span>] <span class="op">-</span> mu) <span class="op">/</span> sd}))</span>
-<span id="cb10-159"><a href="#cb10-159" aria-hidden="true" tabindex="-1"></a>  }<span class="op">;</span></span>
-<span id="cb10-160"><a href="#cb10-160" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb13" data-startfrom="207" data-source-offset="-0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 206;"><span id="cb13-207"><a href="#cb13-207" aria-hidden="true" tabindex="-1"></a>estados <span class="op">=</span> <span class="fu">transpose</span>(dados)</span>
+<span id="cb13-208"><a href="#cb13-208" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-209"><a href="#cb13-209" aria-hidden="true" tabindex="-1"></a>fmt <span class="op">=</span> x <span class="kw">=&gt;</span> x<span class="op">.</span><span class="fu">toLocaleString</span>(<span class="st">"pt-BR"</span><span class="op">,</span> {<span class="dt">minimumFractionDigits</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span> <span class="dt">maximumFractionDigits</span><span class="op">:</span> <span class="dv">1</span>})</span>
+<span id="cb13-210"><a href="#cb13-210" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-211"><a href="#cb13-211" aria-hidden="true" tabindex="-1"></a><span class="co">// O z-score da taxa real, calculado UMA vez. É ele que permite mudar o desvio</span></span>
+<span id="cb13-212"><a href="#cb13-212" aria-hidden="true" tabindex="-1"></a><span class="co">// sem mexer na média: taxa' = μ + z × σ_novo devolve exatamente a média μ e</span></span>
+<span id="cb13-213"><a href="#cb13-213" aria-hidden="true" tabindex="-1"></a><span class="co">// exatamente o desvio σ_novo. Não é aproximação — é identidade algébrica.</span></span>
+<span id="cb13-214"><a href="#cb13-214" aria-hidden="true" tabindex="-1"></a><span class="co">// d3.deviation usa n−1, igual ao .std(ddof=1) do pandas.</span></span>
+<span id="cb13-215"><a href="#cb13-215" aria-hidden="true" tabindex="-1"></a>base <span class="op">=</span> {</span>
+<span id="cb13-216"><a href="#cb13-216" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> taxas <span class="op">=</span> estados<span class="op">.</span><span class="fu">map</span>(d <span class="kw">=&gt;</span> d[<span class="st">"Taxa.Homicidios"</span>])<span class="op">;</span></span>
+<span id="cb13-217"><a href="#cb13-217" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> mu <span class="op">=</span> d3<span class="op">.</span><span class="fu">mean</span>(taxas)<span class="op">;</span></span>
+<span id="cb13-218"><a href="#cb13-218" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> sd <span class="op">=</span> d3<span class="op">.</span><span class="fu">deviation</span>(taxas)<span class="op">;</span></span>
+<span id="cb13-219"><a href="#cb13-219" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> {</span>
+<span id="cb13-220"><a href="#cb13-220" aria-hidden="true" tabindex="-1"></a>    mu<span class="op">,</span></span>
+<span id="cb13-221"><a href="#cb13-221" aria-hidden="true" tabindex="-1"></a>    sd<span class="op">,</span></span>
+<span id="cb13-222"><a href="#cb13-222" aria-hidden="true" tabindex="-1"></a>    <span class="dt">z</span><span class="op">:</span> estados<span class="op">.</span><span class="fu">map</span>(d <span class="kw">=&gt;</span> ({<span class="dt">sigla</span><span class="op">:</span> d<span class="op">.</span><span class="at">Sigla</span><span class="op">,</span> <span class="dt">z</span><span class="op">:</span> (d[<span class="st">"Taxa.Homicidios"</span>] <span class="op">-</span> mu) <span class="op">/</span> sd}))</span>
+<span id="cb13-223"><a href="#cb13-223" aria-hidden="true" tabindex="-1"></a>  }<span class="op">;</span></span>
+<span id="cb13-224"><a href="#cb13-224" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <div id="ojs-cell-1-1" data-nodetype="declaration">
@@ -897,16 +1004,16 @@ Nota
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb11" data-startfrom="164" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 163;"><span id="cb11-164"><a href="#cb11-164" aria-hidden="true" tabindex="-1"></a><span class="co">// Sem `format` customizado: a caixa &lt;input type="number"&gt; ao lado do slider</span></span>
-<span id="cb11-165"><a href="#cb11-165" aria-hidden="true" tabindex="-1"></a><span class="co">// rejeita string não numérica e ficaria vazia. A unidade vai no rótulo.</span></span>
-<span id="cb11-166"><a href="#cb11-166" aria-hidden="true" tabindex="-1"></a><span class="co">//</span></span>
-<span id="cb11-167"><a href="#cb11-167" aria-hidden="true" tabindex="-1"></a><span class="co">// O máximo é 11,8 e não é capricho: acima disso, São Paulo (a menor taxa do</span></span>
-<span id="cb11-168"><a href="#cb11-168" aria-hidden="true" tabindex="-1"></a><span class="co">// país) passaria a ter taxa NEGATIVA. Ver a prosa.</span></span>
-<span id="cb11-169"><a href="#cb11-169" aria-hidden="true" tabindex="-1"></a>viewof desvio <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">4</span><span class="op">,</span> <span class="fl">11.8</span>]<span class="op">,</span> {</span>
-<span id="cb11-170"><a href="#cb11-170" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="fl">0.01</span><span class="op">,</span></span>
-<span id="cb11-171"><a href="#cb11-171" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="fl">8.61</span><span class="op">,</span></span>
-<span id="cb11-172"><a href="#cb11-172" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"Desvio-padrão da taxa:"</span></span>
-<span id="cb11-173"><a href="#cb11-173" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb14" data-startfrom="228" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 227;"><span id="cb14-228"><a href="#cb14-228" aria-hidden="true" tabindex="-1"></a><span class="co">// Sem `format` customizado: a caixa &lt;input type="number"&gt; ao lado do slider</span></span>
+<span id="cb14-229"><a href="#cb14-229" aria-hidden="true" tabindex="-1"></a><span class="co">// rejeita string não numérica e ficaria vazia. A unidade vai no rótulo.</span></span>
+<span id="cb14-230"><a href="#cb14-230" aria-hidden="true" tabindex="-1"></a><span class="co">//</span></span>
+<span id="cb14-231"><a href="#cb14-231" aria-hidden="true" tabindex="-1"></a><span class="co">// O máximo é 11,8 e não é capricho: acima disso, São Paulo (a menor taxa do</span></span>
+<span id="cb14-232"><a href="#cb14-232" aria-hidden="true" tabindex="-1"></a><span class="co">// país) passaria a ter taxa NEGATIVA. Ver a prosa.</span></span>
+<span id="cb14-233"><a href="#cb14-233" aria-hidden="true" tabindex="-1"></a>viewof desvio <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">4</span><span class="op">,</span> <span class="fl">11.8</span>]<span class="op">,</span> {</span>
+<span id="cb14-234"><a href="#cb14-234" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="fl">0.01</span><span class="op">,</span></span>
+<span id="cb14-235"><a href="#cb14-235" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="fl">8.61</span><span class="op">,</span></span>
+<span id="cb14-236"><a href="#cb14-236" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"Desvio-padrão da taxa:"</span></span>
+<span id="cb14-237"><a href="#cb14-237" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div id="ojs-cell-2" data-nodetype="declaration">
 
@@ -914,9 +1021,9 @@ Nota
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb12" data-startfrom="179" data-source-offset="-0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 178;"><span id="cb12-179"><a href="#cb12-179" aria-hidden="true" tabindex="-1"></a>taxasAjustadas <span class="op">=</span> base<span class="op">.</span><span class="at">z</span><span class="op">.</span><span class="fu">map</span>(d <span class="kw">=&gt;</span> ({<span class="dt">sigla</span><span class="op">:</span> d<span class="op">.</span><span class="at">sigla</span><span class="op">,</span> <span class="dt">taxa</span><span class="op">:</span> base<span class="op">.</span><span class="at">mu</span> <span class="op">+</span> d<span class="op">.</span><span class="at">z</span> <span class="op">*</span> desvio}))</span>
-<span id="cb12-180"><a href="#cb12-180" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-181"><a href="#cb12-181" aria-hidden="true" tabindex="-1"></a>menor <span class="op">=</span> taxasAjustadas<span class="op">.</span><span class="fu">reduce</span>((a<span class="op">,</span> b) <span class="kw">=&gt;</span> (a<span class="op">.</span><span class="at">taxa</span> <span class="op">&lt;</span> b<span class="op">.</span><span class="at">taxa</span> <span class="op">?</span> a <span class="op">:</span> b))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb15" data-startfrom="243" data-source-offset="-0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 242;"><span id="cb15-243"><a href="#cb15-243" aria-hidden="true" tabindex="-1"></a>taxasAjustadas <span class="op">=</span> base<span class="op">.</span><span class="at">z</span><span class="op">.</span><span class="fu">map</span>(d <span class="kw">=&gt;</span> ({<span class="dt">sigla</span><span class="op">:</span> d<span class="op">.</span><span class="at">sigla</span><span class="op">,</span> <span class="dt">taxa</span><span class="op">:</span> base<span class="op">.</span><span class="at">mu</span> <span class="op">+</span> d<span class="op">.</span><span class="at">z</span> <span class="op">*</span> desvio}))</span>
+<span id="cb15-244"><a href="#cb15-244" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-245"><a href="#cb15-245" aria-hidden="true" tabindex="-1"></a>menor <span class="op">=</span> taxasAjustadas<span class="op">.</span><span class="fu">reduce</span>((a<span class="op">,</span> b) <span class="kw">=&gt;</span> (a<span class="op">.</span><span class="at">taxa</span> <span class="op">&lt;</span> b<span class="op">.</span><span class="at">taxa</span> <span class="op">?</span> a <span class="op">:</span> b))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <div id="ojs-cell-3-1" data-nodetype="declaration">
@@ -934,23 +1041,23 @@ Nota
 </div>
 <p>Repare que os dois eixos do gráfico abaixo estão <strong>travados</strong> — o eixo x sempre vai de 0 a 45, o eixo y sempre vai de 0 a 8, não importa o que o slider faça. Isso é proposital: um eixo que se reajusta automaticamente absorveria o efeito da mudança, e as barras sempre pareceriam “do mesmo tamanho” — exatamente o que este widget existe para desmentir. Com o eixo fixo, dispersão maior significa, visivelmente, barras mais espalhadas e mais baixas; dispersão menor significa barras mais estreitas e mais altas, todas se apertando contra a linha vermelha da média.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb13" data-startfrom="187" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 186;"><span id="cb13-187"><a href="#cb13-187" aria-hidden="true" tabindex="-1"></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
-<span id="cb13-188"><a href="#cb13-188" aria-hidden="true" tabindex="-1"></a>  <span class="dt">height</span><span class="op">:</span> <span class="dv">300</span><span class="op">,</span></span>
-<span id="cb13-189"><a href="#cb13-189" aria-hidden="true" tabindex="-1"></a>  <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">45</span><span class="op">,</span></span>
-<span id="cb13-190"><a href="#cb13-190" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Os DOIS eixos travados, de propósito: um eixo que se reajusta mascara</span></span>
-<span id="cb13-191"><a href="#cb13-191" aria-hidden="true" tabindex="-1"></a>  <span class="co">// justamente o efeito que este widget existe para mostrar.</span></span>
-<span id="cb13-192"><a href="#cb13-192" aria-hidden="true" tabindex="-1"></a>  <span class="dt">x</span><span class="op">:</span> {<span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">45</span>]<span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Taxa de homicídios (por 100 mil) →"</span>}<span class="op">,</span></span>
-<span id="cb13-193"><a href="#cb13-193" aria-hidden="true" tabindex="-1"></a>  <span class="dt">y</span><span class="op">:</span> {<span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">8</span>]<span class="op">,</span> <span class="dt">grid</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"↑ Número de estados"</span>}<span class="op">,</span></span>
-<span id="cb13-194"><a href="#cb13-194" aria-hidden="true" tabindex="-1"></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
-<span id="cb13-195"><a href="#cb13-195" aria-hidden="true" tabindex="-1"></a>    Plot<span class="op">.</span><span class="fu">rectY</span>(taxasAjustadas<span class="op">,</span> Plot<span class="op">.</span><span class="fu">binX</span>({<span class="dt">y</span><span class="op">:</span> <span class="st">"count"</span>}<span class="op">,</span> {</span>
-<span id="cb13-196"><a href="#cb13-196" aria-hidden="true" tabindex="-1"></a>      <span class="dt">x</span><span class="op">:</span> <span class="st">"taxa"</span><span class="op">,</span></span>
-<span id="cb13-197"><a href="#cb13-197" aria-hidden="true" tabindex="-1"></a>      <span class="dt">thresholds</span><span class="op">:</span> d3<span class="op">.</span><span class="fu">range</span>(<span class="dv">0</span><span class="op">,</span> <span class="fl">45.1</span><span class="op">,</span> <span class="fl">2.5</span>)<span class="op">,</span></span>
-<span id="cb13-198"><a href="#cb13-198" aria-hidden="true" tabindex="-1"></a>      <span class="dt">fill</span><span class="op">:</span> <span class="st">"#b0c4d8"</span></span>
-<span id="cb13-199"><a href="#cb13-199" aria-hidden="true" tabindex="-1"></a>    }))<span class="op">,</span></span>
-<span id="cb13-200"><a href="#cb13-200" aria-hidden="true" tabindex="-1"></a>    Plot<span class="op">.</span><span class="fu">ruleX</span>([base<span class="op">.</span><span class="at">mu</span>]<span class="op">,</span> {<span class="dt">stroke</span><span class="op">:</span> <span class="st">"#c0392b"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">2</span>})<span class="op">,</span></span>
-<span id="cb13-201"><a href="#cb13-201" aria-hidden="true" tabindex="-1"></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="dv">0</span>])</span>
-<span id="cb13-202"><a href="#cb13-202" aria-hidden="true" tabindex="-1"></a>  ]</span>
-<span id="cb13-203"><a href="#cb13-203" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb16" data-startfrom="251" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 250;"><span id="cb16-251"><a href="#cb16-251" aria-hidden="true" tabindex="-1"></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
+<span id="cb16-252"><a href="#cb16-252" aria-hidden="true" tabindex="-1"></a>  <span class="dt">height</span><span class="op">:</span> <span class="dv">300</span><span class="op">,</span></span>
+<span id="cb16-253"><a href="#cb16-253" aria-hidden="true" tabindex="-1"></a>  <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">45</span><span class="op">,</span></span>
+<span id="cb16-254"><a href="#cb16-254" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Os DOIS eixos travados, de propósito: um eixo que se reajusta mascara</span></span>
+<span id="cb16-255"><a href="#cb16-255" aria-hidden="true" tabindex="-1"></a>  <span class="co">// justamente o efeito que este widget existe para mostrar.</span></span>
+<span id="cb16-256"><a href="#cb16-256" aria-hidden="true" tabindex="-1"></a>  <span class="dt">x</span><span class="op">:</span> {<span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">45</span>]<span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Taxa de homicídios (por 100 mil) →"</span>}<span class="op">,</span></span>
+<span id="cb16-257"><a href="#cb16-257" aria-hidden="true" tabindex="-1"></a>  <span class="dt">y</span><span class="op">:</span> {<span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">8</span>]<span class="op">,</span> <span class="dt">grid</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"↑ Número de estados"</span>}<span class="op">,</span></span>
+<span id="cb16-258"><a href="#cb16-258" aria-hidden="true" tabindex="-1"></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
+<span id="cb16-259"><a href="#cb16-259" aria-hidden="true" tabindex="-1"></a>    Plot<span class="op">.</span><span class="fu">rectY</span>(taxasAjustadas<span class="op">,</span> Plot<span class="op">.</span><span class="fu">binX</span>({<span class="dt">y</span><span class="op">:</span> <span class="st">"count"</span>}<span class="op">,</span> {</span>
+<span id="cb16-260"><a href="#cb16-260" aria-hidden="true" tabindex="-1"></a>      <span class="dt">x</span><span class="op">:</span> <span class="st">"taxa"</span><span class="op">,</span></span>
+<span id="cb16-261"><a href="#cb16-261" aria-hidden="true" tabindex="-1"></a>      <span class="dt">thresholds</span><span class="op">:</span> d3<span class="op">.</span><span class="fu">range</span>(<span class="dv">0</span><span class="op">,</span> <span class="fl">45.1</span><span class="op">,</span> <span class="fl">2.5</span>)<span class="op">,</span></span>
+<span id="cb16-262"><a href="#cb16-262" aria-hidden="true" tabindex="-1"></a>      <span class="dt">fill</span><span class="op">:</span> <span class="st">"#b0c4d8"</span></span>
+<span id="cb16-263"><a href="#cb16-263" aria-hidden="true" tabindex="-1"></a>    }))<span class="op">,</span></span>
+<span id="cb16-264"><a href="#cb16-264" aria-hidden="true" tabindex="-1"></a>    Plot<span class="op">.</span><span class="fu">ruleX</span>([base<span class="op">.</span><span class="at">mu</span>]<span class="op">,</span> {<span class="dt">stroke</span><span class="op">:</span> <span class="st">"#c0392b"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">2</span>})<span class="op">,</span></span>
+<span id="cb16-265"><a href="#cb16-265" aria-hidden="true" tabindex="-1"></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="dv">0</span>])</span>
+<span id="cb16-266"><a href="#cb16-266" aria-hidden="true" tabindex="-1"></a>  ]</span>
+<span id="cb16-267"><a href="#cb16-267" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div id="ojs-cell-4" data-nodetype="expression">
 
@@ -958,10 +1065,10 @@ Nota
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb14" data-startfrom="208" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 207;"><span id="cb14-208"><a href="#cb14-208" aria-hidden="true" tabindex="-1"></a><span class="fu">md</span><span class="vs">`Média: **</span><span class="sc">${</span><span class="fu">fmt</span>(base<span class="op">.</span><span class="at">mu</span>)<span class="sc">}</span><span class="vs">** — a linha vermelha, que **não se move**.</span></span>
-<span id="cb14-209"><a href="#cb14-209" aria-hidden="true" tabindex="-1"></a><span class="vs">Desvio-padrão: **</span><span class="sc">${</span><span class="fu">fmt</span>(desvio)<span class="sc">}</span><span class="vs">** (o real é </span><span class="sc">${</span><span class="fu">fmt</span>(base<span class="op">.</span><span class="at">sd</span>)<span class="sc">}</span><span class="vs">).</span></span>
-<span id="cb14-210"><a href="#cb14-210" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-211"><a href="#cb14-211" aria-hidden="true" tabindex="-1"></a><span class="vs">Menor taxa: **</span><span class="sc">${</span><span class="fu">fmt</span>(menor<span class="op">.</span><span class="at">taxa</span>)<span class="sc">}</span><span class="vs">** (</span><span class="sc">${</span>menor<span class="op">.</span><span class="at">sigla</span><span class="sc">}</span><span class="vs">) — Maior: **</span><span class="sc">${</span><span class="fu">fmt</span>(d3<span class="op">.</span><span class="fu">max</span>(taxasAjustadas<span class="op">,</span> d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">taxa</span>))<span class="sc">}</span><span class="vs">**`</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb17" data-startfrom="272" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 271;"><span id="cb17-272"><a href="#cb17-272" aria-hidden="true" tabindex="-1"></a><span class="fu">md</span><span class="vs">`Média: **</span><span class="sc">${</span><span class="fu">fmt</span>(base<span class="op">.</span><span class="at">mu</span>)<span class="sc">}</span><span class="vs">** — a linha vermelha, que **não se move**.</span></span>
+<span id="cb17-273"><a href="#cb17-273" aria-hidden="true" tabindex="-1"></a><span class="vs">Desvio-padrão: **</span><span class="sc">${</span><span class="fu">fmt</span>(desvio)<span class="sc">}</span><span class="vs">** (o real é </span><span class="sc">${</span><span class="fu">fmt</span>(base<span class="op">.</span><span class="at">sd</span>)<span class="sc">}</span><span class="vs">).</span></span>
+<span id="cb17-274"><a href="#cb17-274" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-275"><a href="#cb17-275" aria-hidden="true" tabindex="-1"></a><span class="vs">Menor taxa: **</span><span class="sc">${</span><span class="fu">fmt</span>(menor<span class="op">.</span><span class="at">taxa</span>)<span class="sc">}</span><span class="vs">** (</span><span class="sc">${</span>menor<span class="op">.</span><span class="at">sigla</span><span class="sc">}</span><span class="vs">) — Maior: **</span><span class="sc">${</span><span class="fu">fmt</span>(d3<span class="op">.</span><span class="fu">max</span>(taxasAjustadas<span class="op">,</span> d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">taxa</span>))<span class="sc">}</span><span class="vs">**`</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div id="ojs-cell-5" data-nodetype="expression">
 
@@ -1009,23 +1116,6 @@ Nota
 <h2 class="anchored" data-anchor-id="exercícios">Exercícios</h2>
 <p><strong>1.</strong> Por que não se usa simplesmente a média dos desvios em relação à média como medida de dispersão?</p>
 <div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Dica</span>Resposta
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-3" class="callout-3-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Porque ela é sempre exatamente zero — é uma propriedade algébrica da média, não um fato sobre os dados. Os desvios positivos cancelam os negativos por construção. Daí a necessidade de eliminar o sinal, elevando ao quadrado (variância, desvio-padrão) ou tomando o módulo (desvio absoluto médio, MAD).</p>
-</div>
-</div>
-</div>
-<p><strong>2.</strong> O desvio-padrão da população dos estados é 9,26M e o MAD é 4,75M — quase o dobro. O que essa razão diz sobre os dados?</p>
-<div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -1037,11 +1127,11 @@ Nota
 </div>
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Que há observações extremas puxando o desvio-padrão para cima. Sob uma distribuição normal, MAD e desvio-padrão seriam próximos — é para isso que serve o fator 0,6745 na fórmula do MAD. Uma razão desvio-padrão/MAD muito maior que 1 é um diagnóstico prático de cauda longa ou outliers, tal como a distância entre média e mediana foi na seção 1.3.</p>
+<p>Porque ela é sempre exatamente zero — é uma propriedade algébrica da média, não um fato sobre os dados. Os desvios positivos cancelam os negativos por construção. Daí a necessidade de eliminar o sinal, elevando ao quadrado (variância, desvio-padrão) ou tomando o módulo (desvio absoluto médio, MAD).</p>
 </div>
 </div>
 </div>
-<p><strong>3.</strong> Se você multiplicar todas as populações por 1.000, o que acontece com o desvio-padrão? E com o IQR?</p>
+<p><strong>2.</strong> Com <span class="math inline">\(n = 27\)</span>, a mediana da população coincide com a população de um estado (a Paraíba), mas nem <span class="math inline">\(q_1\)</span> nem <span class="math inline">\(q_3\)</span> coincidem com a de estado algum. Por quê?</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1054,11 +1144,11 @@ Nota
 </div>
 <div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Ambos são multiplicados por 1.000. As medidas de dispersão têm a mesma unidade dos dados e escalam linearmente com eles. A variância, ao contrário, seria multiplicada por 1.000.000 — ela está em unidade ao quadrado, o que é justamente o inconveniente que motiva o uso do desvio-padrão no lugar dela.</p>
+<p>Porque a posição do quantil <span class="math inline">\(p\)</span> na sequência ordenada é <span class="math inline">\((n-1)p + 1\)</span>, e ela só cai sobre uma observação quando o resultado é inteiro. Para <span class="math inline">\(p = 0{,}5\)</span> e <span class="math inline">\(n = 27\)</span> a conta dá <span class="math inline">\(26 \times 0{,}5 + 1 = 14\)</span> — inteiro, e a 14ª observação ordenada é a Paraíba. Para <span class="math inline">\(p = 0{,}25\)</span> e <span class="math inline">\(p = 0{,}75\)</span> ela dá 7,5 e 20,5, posições que não existem; o valor vem de uma interpolação entre os vizinhos (MS e DF de um lado, CE e PE do outro). Não é azar com esse <span class="math inline">\(n\)</span> — é o caso comum. O que é excepcional é a mediana coincidir.</p>
 </div>
 </div>
 </div>
-<p><strong>4.</strong> O z-score da população de SP é 4,12 e o z-score da sua taxa de homicídios é −1,93. Por que faz sentido comparar esses dois números, se população e taxa de homicídios são medidas em unidades completamente diferentes?</p>
+<p><strong>3.</strong> O desvio-padrão da população dos estados é 9,26M e o MAD é 4,75M — quase o dobro. O que essa razão diz sobre os dados?</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1071,6 +1161,40 @@ Nota
 </div>
 <div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
+<p>Que há observações extremas puxando o desvio-padrão para cima. Sob uma distribuição normal, MAD e desvio-padrão seriam próximos — é para isso que serve o fator 0,6745 na fórmula do MAD. Uma razão desvio-padrão/MAD muito maior que 1 é um diagnóstico prático de cauda longa ou outliers, tal como a distância entre média e mediana foi na seção 1.3.</p>
+</div>
+</div>
+</div>
+<p><strong>4.</strong> Se você multiplicar todas as populações por 1.000, o que acontece com o desvio-padrão? E com o IQR?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Ambos são multiplicados por 1.000. As medidas de dispersão têm a mesma unidade dos dados e escalam linearmente com eles. A variância, ao contrário, seria multiplicada por 1.000.000 — ela está em unidade ao quadrado, o que é justamente o inconveniente que motiva o uso do desvio-padrão no lugar dela.</p>
+</div>
+</div>
+</div>
+<p><strong>5.</strong> O z-score da população de SP é 4,12 e o z-score da sua taxa de homicídios é −1,93. Por que faz sentido comparar esses dois números, se população e taxa de homicídios são medidas em unidades completamente diferentes?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <p>Porque o z-score é adimensional: ele é uma razão entre um desvio e um desvio-padrão medidos na mesma unidade, então a unidade original se cancela. Isso permite comparar a posição relativa de SP nas duas distribuições mesmo que uma esteja em habitantes e a outra em homicídios por 100 mil — os dois números, 4,12 e −1,93, dizem quantos desvios-padrão cada valor está da sua própria média, e podem ser colocados lado a lado nessa escala comum.</p>
 </div>
 </div>
@@ -1079,11 +1203,11 @@ Nota
 <section id="agora-é-com-você" class="level2">
 <h2 class="anchored" data-anchor-id="agora-é-com-você">Agora é com você</h2>
 <p>Os mesmos 10.692 imóveis da <a href="../../content/cap01/03-estimativas-localizacao.html">seção 1.3</a> — só que agora a pergunta não é “onde está o centro”, e sim <strong>quanto os valores se espalham</strong> em torno dele. Carregue o conjunto (no Colab, pela mesma URL) e concentre-se nas seis colunas contínuas, em reais e metros quadrados:</p>
-<div id="cell-alugueis-var-carrega" class="cell" data-execution_count="8">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>alugueis <span class="op">=</span> pd.read_csv(<span class="st">"dados/alugueis.csv"</span>)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>continuas <span class="op">=</span> [<span class="st">"area_m2"</span>, <span class="st">"condominio"</span>, <span class="st">"aluguel"</span>, <span class="st">"iptu"</span>, <span class="st">"seguro_incendio"</span>, <span class="st">"total"</span>]</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>alugueis[continuas].head()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="alugueis-var-carrega" class="cell-output cell-output-display" data-execution_count="8">
+<div id="cell-alugueis-var-carrega" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>alugueis <span class="op">=</span> pd.read_csv(<span class="st">"dados/alugueis.csv"</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>continuas <span class="op">=</span> [<span class="st">"area_m2"</span>, <span class="st">"condominio"</span>, <span class="st">"aluguel"</span>, <span class="st">"iptu"</span>, <span class="st">"seguro_incendio"</span>, <span class="st">"total"</span>]</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>alugueis[continuas].head()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="alugueis-var-carrega" class="cell-output cell-output-display" data-execution_count="10">
 <div>
 
 
@@ -1154,7 +1278,7 @@ Nota
 <p>Quatro tarefas, na ordem. Tente antes de abrir cada resposta.</p>
 <p><strong>1.</strong> Para cada uma das seis colunas, calcule o desvio-padrão, o IQR e o MAD, e monte uma tabela com as três medidas lado a lado. (Lembre: <code>robust.scale.mad</code> já vem calibrado pelo fator 0,6745.)</p>
 <div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1163,19 +1287,19 @@ Nota
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="cell-alugueis-var-tabela" class="cell" data-execution_count="9">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> iqr(s):</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> s.quantile(<span class="fl">0.75</span>) <span class="op">-</span> s.quantile(<span class="fl">0.25</span>)</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>dispersao <span class="op">=</span> pd.DataFrame({</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"desvio-padrão"</span>: alugueis[continuas].std(),</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"IQR"</span>: alugueis[continuas].<span class="bu">apply</span>(iqr),</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"MAD"</span>: alugueis[continuas].<span class="bu">apply</span>(robust.scale.mad),</span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>}).<span class="bu">round</span>(<span class="dv">0</span>).astype(<span class="bu">int</span>)</span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>dispersao</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="alugueis-var-tabela" class="cell-output cell-output-display" data-execution_count="9">
+<div id="cell-alugueis-var-tabela" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> iqr(s):</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> s.quantile(<span class="fl">0.75</span>) <span class="op">-</span> s.quantile(<span class="fl">0.25</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>dispersao <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"desvio-padrão"</span>: alugueis[continuas].std(),</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"IQR"</span>: alugueis[continuas].<span class="bu">apply</span>(iqr),</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"MAD"</span>: alugueis[continuas].<span class="bu">apply</span>(robust.scale.mad),</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>}).<span class="bu">round</span>(<span class="dv">0</span>).astype(<span class="bu">int</span>)</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>dispersao</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="alugueis-var-tabela" class="cell-output cell-output-display" data-execution_count="11">
 <div>
 
 
@@ -1237,7 +1361,7 @@ Nota
 </div>
 <p><strong>2.</strong> Divida o desvio-padrão pelo MAD em cada coluna. Numa distribuição normal, os dois são parecidos (é para isso que serve o fator 0,6745). Em quais colunas a razão explode — e o que isso indica?</p>
 <div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1246,12 +1370,12 @@ Nota
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="cell-alugueis-var-razao" class="cell" data-execution_count="10">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>razao <span class="op">=</span> (alugueis[continuas].std() <span class="op">/</span> alugueis[continuas].<span class="bu">apply</span>(robust.scale.mad)).<span class="bu">round</span>(<span class="dv">1</span>)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>razao.sort_values(ascending<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="alugueis-var-razao" class="cell-output cell-output-display" data-execution_count="10">
+<div id="cell-alugueis-var-razao" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>razao <span class="op">=</span> (alugueis[continuas].std() <span class="op">/</span> alugueis[continuas].<span class="bu">apply</span>(robust.scale.mad)).<span class="bu">round</span>(<span class="dv">1</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>razao.sort_values(ascending<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="alugueis-var-razao" class="cell-output cell-output-display" data-execution_count="12">
 <pre><code>condominio         19.1
 iptu               17.3
 area_m2             8.0
@@ -1267,7 +1391,7 @@ dtype: float64</code></pre>
 </div>
 <p><strong>3.</strong> Remova do conjunto o(s) imóvel(is) com o maior valor de <code>condominio</code> e recalcule as três medidas dessa coluna. Qual delas mudou mais? Qual quase não se mexeu?</p>
 <div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1276,24 +1400,24 @@ dtype: float64</code></pre>
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="cell-alugueis-var-sem-outlier" class="cell" data-execution_count="11">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>maior <span class="op">=</span> alugueis[<span class="st">"condominio"</span>].<span class="bu">max</span>()</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>quantos <span class="op">=</span> <span class="bu">int</span>((alugueis[<span class="st">"condominio"</span>] <span class="op">==</span> maior).<span class="bu">sum</span>())</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>sem_maior <span class="op">=</span> alugueis.loc[alugueis[<span class="st">"condominio"</span>] <span class="op">&lt;</span> maior, <span class="st">"condominio"</span>]</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>comparacao <span class="op">=</span> pd.DataFrame({</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"com o outlier"</span>: [alugueis[<span class="st">"condominio"</span>].std(), iqr(alugueis[<span class="st">"condominio"</span>]),</span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>                      robust.scale.mad(alugueis[<span class="st">"condominio"</span>])],</span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"sem o outlier"</span>: [sem_maior.std(), iqr(sem_maior), robust.scale.mad(sem_maior)],</span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>}, index<span class="op">=</span>[<span class="st">"desvio-padrão"</span>, <span class="st">"IQR"</span>, <span class="st">"MAD"</span>]).<span class="bu">round</span>(<span class="dv">0</span>).astype(<span class="bu">int</span>)</span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"removidos: </span><span class="sc">{</span>quantos<span class="sc">}</span><span class="ss"> imóvel(is) com condomínio de R$ </span><span class="sc">{</span>num(maior, <span class="dv">0</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>comparacao</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-alugueis-var-sem-outlier" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>maior <span class="op">=</span> alugueis[<span class="st">"condominio"</span>].<span class="bu">max</span>()</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>quantos <span class="op">=</span> <span class="bu">int</span>((alugueis[<span class="st">"condominio"</span>] <span class="op">==</span> maior).<span class="bu">sum</span>())</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>sem_maior <span class="op">=</span> alugueis.loc[alugueis[<span class="st">"condominio"</span>] <span class="op">&lt;</span> maior, <span class="st">"condominio"</span>]</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>comparacao <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"com o outlier"</span>: [alugueis[<span class="st">"condominio"</span>].std(), iqr(alugueis[<span class="st">"condominio"</span>]),</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>                      robust.scale.mad(alugueis[<span class="st">"condominio"</span>])],</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"sem o outlier"</span>: [sem_maior.std(), iqr(sem_maior), robust.scale.mad(sem_maior)],</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>}, index<span class="op">=</span>[<span class="st">"desvio-padrão"</span>, <span class="st">"IQR"</span>, <span class="st">"MAD"</span>]).<span class="bu">round</span>(<span class="dv">0</span>).astype(<span class="bu">int</span>)</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"removidos: </span><span class="sc">{</span>quantos<span class="sc">}</span><span class="ss"> imóvel(is) com condomínio de R$ </span><span class="sc">{</span>num(maior, <span class="dv">0</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>comparacao</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>removidos: 2 imóvel(is) com condomínio de R$ 1.117.000</code></pre>
 </div>
-<div id="alugueis-var-sem-outlier" class="cell-output cell-output-display" data-execution_count="11">
+<div id="alugueis-var-sem-outlier" class="cell-output cell-output-display" data-execution_count="13">
 <div>
 
 
@@ -1333,7 +1457,7 @@ dtype: float64</code></pre>
 </div>
 <p><strong>4.</strong> Calcule o escore-padrão (z) do imóvel de maior aluguel. Depois conte quantos imóveis têm |z| &gt; 3 em <code>aluguel</code>. Se a distribuição fosse normal, que fração você esperaria? O que a diferença diz?</p>
 <div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1342,14 +1466,14 @@ dtype: float64</code></pre>
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="alugueis-var-z" class="cell" data-execution_count="12">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>aluguel <span class="op">=</span> alugueis[<span class="st">"aluguel"</span>]</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> (aluguel <span class="op">-</span> aluguel.mean()) <span class="op">/</span> aluguel.std()</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>extremos <span class="op">=</span> z.<span class="bu">abs</span>() <span class="op">&gt;</span> <span class="dv">3</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"maior aluguel: R$ </span><span class="sc">{</span>num(aluguel.<span class="bu">max</span>(), <span class="dv">0</span>)<span class="sc">}</span><span class="ss">  →  z = </span><span class="sc">{</span>num(z.<span class="bu">max</span>(), <span class="dv">2</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"imóveis com |z| &gt; 3: </span><span class="sc">{</span><span class="bu">int</span>(extremos.<span class="bu">sum</span>())<span class="sc">}</span><span class="ss"> de </span><span class="sc">{</span>num(<span class="bu">len</span>(z), <span class="dv">0</span>)<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span>num(<span class="dv">100</span> <span class="op">*</span> extremos.mean(), <span class="dv">2</span>)<span class="sc">}</span><span class="ss">%)"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="alugueis-var-z" class="cell" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>aluguel <span class="op">=</span> alugueis[<span class="st">"aluguel"</span>]</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> (aluguel <span class="op">-</span> aluguel.mean()) <span class="op">/</span> aluguel.std()</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>extremos <span class="op">=</span> z.<span class="bu">abs</span>() <span class="op">&gt;</span> <span class="dv">3</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"maior aluguel: R$ </span><span class="sc">{</span>num(aluguel.<span class="bu">max</span>(), <span class="dv">0</span>)<span class="sc">}</span><span class="ss">  →  z = </span><span class="sc">{</span>num(z.<span class="bu">max</span>(), <span class="dv">2</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"imóveis com |z| &gt; 3: </span><span class="sc">{</span><span class="bu">int</span>(extremos.<span class="bu">sum</span>())<span class="sc">}</span><span class="ss"> de </span><span class="sc">{</span>num(<span class="bu">len</span>(z), <span class="dv">0</span>)<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span>num(<span class="dv">100</span> <span class="op">*</span> extremos.mean(), <span class="dv">2</span>)<span class="sc">}</span><span class="ss">%)"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>maior aluguel: R$ 45.000  →  z = 12,06
 imóveis com |z| &gt; 3: 256 de 10.692 (2,39%)</code></pre>
@@ -1365,6 +1489,9 @@ imóveis com |z| &gt; 3: 256 de 10.692 (2,39%)</code></pre>
 <div id="refs" class="references csl-bib-body hanging-indent" role="list">
 <div id="ref-bruce2020" class="csl-entry" role="listitem">
 Bruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. <em>Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python</em>. 2nd ed. O’Reilly Media.
+</div>
+<div id="ref-bussab2023" class="csl-entry" role="listitem">
+Bussab, Wilton de Oliveira, e Pedro Alberto Morettin. 2023. <em>Estatística Básica</em>. 10ª ed. Saraiva.
 </div>
 <div id="ref-weed" class="csl-entry" role="listitem">
 Weed, Ethan, e Danielle Navarro. 2022. <em>Learning Statistics with <span>Python</span></em>. <a href="https://ethanweed.github.io/pythonbook/">https://ethanweed.github.io/pythonbook/</a>.

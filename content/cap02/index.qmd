@@ -6,7 +6,7 @@ Este capítulo mistura três fontes: as regras de probabilidade se inspiram no C
 
 📓 [**Abrir o notebook deste capítulo no Colab ↗**](https://colab.research.google.com/github/BragaD/UnDF-Bases3-Estatistica-202602/blob/main/notebooks/capitulo-02.ipynb) — só o código, pronto para rodar.
 
-Antes de testar hipóteses ou ajustar modelos, é preciso entender a linguagem em que a incerteza é descrita. Este capítulo parte do conceito de probabilidade e de suas regras básicas, avança para probabilidade condicional, o teorema de Bayes e as técnicas de contagem, e usa esse vocabulário para apresentar as distribuições que reaparecem no resto do livro — a binomial, a hipergeométrica, a normal e as de cauda longa.
+Antes de testar hipóteses ou ajustar modelos, é preciso entender a linguagem em que a incerteza é descrita. Este capítulo parte do conceito de probabilidade e de suas regras básicas, avança para probabilidade condicional, o teorema de Bayes e as técnicas de contagem, e usa esse vocabulário para apresentar as distribuições que reaparecem no resto do livro — a binomial, a hipergeométrica e a normal.
 
 Ao final deste capítulo, você será capaz de:
 
@@ -17,7 +17,6 @@ Ao final deste capítulo, você será capaz de:
 - Aplicar a distribuição binomial a eventos de sucesso/fracasso
 - Aplicar a distribuição hipergeométrica a amostragem sem reposição
 - Reconhecer a distribuição normal e explicar por que ela é uma referência, não uma lei universal
-- Identificar distribuições de cauda longa e por que a intuição da normal falha nelas
 
 ## Seções
 
@@ -30,4 +29,3 @@ Ao final deste capítulo, você será capaz de:
 | [2.5](05-distribuicao-binomial.qmd) | Distribuição Binomial |
 | [2.6](06-distribuicao-hipergeometrica.qmd) | Distribuição Hipergeométrica |
 | [2.7](07-distribuicao-normal.qmd) | Distribuição Normal |
-| [2.8](08-caudas-longas.qmd) | Distribuições de Cauda Longa |

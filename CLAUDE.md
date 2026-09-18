@@ -16,7 +16,9 @@ Segunda fonte: o *pythonbook* de Ethan Weed contribui com a Introdução (motiva
 
 **Escopo reduzido dos Caps. 4 e 5:** o Cap. 4 vai até os testes t (não cobre ANOVA, teste qui-quadrado, testes múltiplos nem poder do Bruce cap. 3); o Cap. 5 vai até predição (não cobre variáveis fatoriais, diagnóstico nem splines do Bruce cap. 4).
 
-**Escopo do Cap. 2:** cobre probabilidade condicional e Bayes, contagem (permutação/combinação) e as distribuições binomial, hipergeométrica, normal e de cauda longa; as distribuições t, qui-quadrado, F e Poisson **foram removidas**. As seções de condicional/Bayes, contagem e hipergeométrica baseiam-se em **@bussab2023**.
+**Escopo do Cap. 2:** cobre probabilidade condicional e Bayes, contagem (permutação/combinação) e as distribuições binomial, hipergeométrica e normal; as distribuições t, qui-quadrado, F e Poisson **foram removidas**, e a antiga seção 2.8 (Distribuições de Cauda Longa) **foi apagada** na redução de carga horária de 2.2026. As seções de condicional/Bayes, contagem e hipergeométrica baseiam-se em **@bussab2023**.
+
+**Cortes de 2.2026 no Cap. 1** (o semestre perdeu quatro sextas e o Cap. 5 saiu do cronograma): da 1.5 saíram as convenções `lower` e `higher` de quantil, o gráfico de violino, a curva de densidade e a curtose; da 1.6, o valor esperado; da 1.7, o heatmap. A **1.8 continua no site** como leitura complementar — tem um `callout-warning` no topo, está marcada na tabela do `content/cap01/index.qmd` e **não entra no `notebooks/capitulo-01.ipynb`**. Com a curtose fora da 1.5 e a 2.8 apagada, a curtose **não existe mais no livro**; não a cite como "introduzida no Capítulo 1".
 
 ## Comandos
 

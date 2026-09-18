@@ -4,6 +4,11 @@
 Esta seção corresponde à seção 1.8 de @bruce2020.
 :::
 
+::: {.callout-warning}
+## Leitura complementar
+Esta seção **está fora do cronograma** do semestre 2.2026: não é dada em aula, não entra no notebook do capítulo e não cai em prova nem em lista. Fica aqui para quem quiser ir além.
+:::
+
 ```{python}
 #| label: setup
 #| include: false

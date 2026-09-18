@@ -71,8 +71,6 @@ book:
           text: "Distribuição Hipergeométrica"
         - href: content/cap02/07-distribuicao-normal.qmd
           text: "Distribuição Normal"
-        - href: content/cap02/08-caudas-longas.qmd
-          text: "Distribuições de Cauda Longa"
     - part: "Capítulo 3: Amostragem e Estimação"
       chapters:
         - href: content/cap03/index.qmd

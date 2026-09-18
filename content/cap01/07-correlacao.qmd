@@ -10,7 +10,6 @@ Esta seção corresponde à seção 1.7 de @bruce2020.
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import seaborn as sns
 from formato import num
 
 plt.rcParams["figure.figsize"] = (7, 4)
@@ -30,7 +29,7 @@ $r = 1$ é associação linear positiva perfeita; $r = -1$ é associação linea
 
 ## Os dados
 
-Vamos usar retornos diários de ações e ETFs (fundos negociados em bolsa) do S&P 500, entre 1993 e 2015.
+Vamos usar retornos diários de ações do S&P 500, entre 1993 e 2015.
 
 ```{python}
 #| label: carrega
@@ -94,31 +93,6 @@ plt.show()
 
 O gráfico de dispersão é a contrapartida visual do número: a nuvem de pontos é alongada na diagonal, subindo da esquerda para a direita. Dias em que T sobe tendem a ser dias em que VZ também sobe. $r = 0{,}678$ é essa mesma informação, resumida em um único número.
 
-## Heatmap: a matriz de correlação como imagem
-
-Uma matriz de 5 × 5 ainda se lê em números. Uma de 17 × 17 não. Nesses casos, transformar a matriz em uma imagem colorida — um **heatmap** — é o único jeito prático de enxergar o padrão.
-
-```{python}
-#| label: fig-heatmap
-#| fig-cap: "Correlação dos retornos diários entre fundos negociados em bolsa (ETFs)."
-etfs = precos.loc[precos.index > "2012-07-01",
-                  setores[setores["Setor"] == "etf"]["Simbolo"]]
-
-fig, ax = plt.subplots(figsize=(7, 6))
-sns.heatmap(etfs.corr(), vmin=-1, vmax=1,
-            cmap=sns.diverging_palette(20, 220, as_cmap=True), ax=ax)
-plt.tight_layout()
-plt.show()
-```
-
-São 17 ETFs: XLI, QQQ, SPY, DIA, GLD, VXX, USO, IWM, XLE, XLY, XLU, XLB, XTL, XLV, XLP, XLF e XLK.
-
-::: {.conceito}
-A paleta usada é **divergente** — vai de um tom em uma ponta a outro tom na ponta oposta, passando por uma cor neutra no meio —, e centrada em zero (`vmin=-1, vmax=1`). Essa escolha não é estética: zero é o único ponto da escala com significado próprio, a fronteira entre "andam juntas" e "andam ao contrário". Uma paleta sequencial (clara para escura) esconderia justamente essa fronteira; a divergente a torna visível de relance.
-:::
-
-Duas leituras saltam do heatmap. Primeiro, SPY, DIA e IWM — três índices amplos do mercado americano (S&P 500, Dow Jones e Russell 2000, respectivamente) — formam um bloco fortemente correlacionado entre si: são medidas diferentes de essencialmente a mesma coisa, o mercado como um todo. Segundo, VXX aparece como um bloco de cor oposta a quase todo o resto — correlação **negativa** com praticamente todos os demais ETFs. VXX acompanha a volatilidade do mercado, e volatilidade sobe justamente quando os preços caem: é o mecanismo por trás do sinal trocado, e é exatamente esse contraste que a paleta divergente foi escolhida para deixar evidente.
-
 ## Três armadilhas
 
 ::: {.conceito}
@@ -165,15 +139,7 @@ $y = x^2$ é o exemplo mais determinístico que existe: conhecendo $x$, você sa
 Não. As duas são grandes operadoras de telecomunicações expostas aos mesmos fatores — taxa de juros, regulação do setor, ciclo econômico. A correlação vem de uma **causa comum**, não de uma causar a outra. Este é o erro mais frequente na leitura de correlações.
 :::
 
-**2.** No heatmap, o VXX aparece em um bloco de cor oposta (correlação negativa) contra quase todos os demais ETFs. Por quê?
-
-::: {.callout-tip collapse="true"}
-## Resposta
-
-O VXX acompanha a volatilidade do mercado, que sobe justamente quando os preços caem. É por isso que a paleta divergente importa: ela torna o sinal — negativo contra positivo — visível de relance, e o zero é uma referência com significado real, não um ponto arbitrário da escala.
-:::
-
-**3.** O código mostrou que a correlação entre `x` e `x²` é zero, embora `y` seja completamente determinado por `x`. Explique.
+**2.** O código mostrou que a correlação entre `x` e `x²` é zero, embora `y` seja completamente determinado por `x`. Explique.
 
 ::: {.callout-tip collapse="true"}
 ## Resposta

@@ -44,6 +44,7 @@ Decisões que acompanham esse escopo:
 - **Contagem:** revisão curta (princípio multiplicativo, permutação, combinação) junto da 5.2, porque o Bussab usa combinações na 5.2, na binomial e na hipergeométrica sem ter seção própria. O texto de partida é `content/cap02/04-contagem-permutacao-combinacao.qmd` no commit `bd099e5`, que tem travessões e cita "exercício 5.8": no Bussab é o **Exemplo 5.8**; corrigir ao recuperar.
 - **Os alunos já viram integral:** 7.1 a 7.3 fazem as contas por integral, não só como área.
 - **Não há aula de revisão antes das provas:** as Listas cumprem esse papel.
+- **Aula 6 = seções 2.1, 2.2 e 2.3 do livro** (5.1 e 5.2 do Bussab, divididas em três arquivos). Por falta de tempo, ficam como leitura, fora da exposição em aula: espaço discreto × contínuo (2.1), os desvios sobre ponto flutuante/`isclose` (2.2), a simulação da auditoria e a tabela completa da Mega-Sena (2.3). O texto do site não muda por isso.
 
 Ordem, profundidade e redação de cada seção continuam sendo combinadas com o professor, seção a seção, via `/create-lecture`.
 

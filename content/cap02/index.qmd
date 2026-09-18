@@ -16,3 +16,5 @@ As seções entram no site ao longo do semestre, antes da aula correspondente no
 | Seção | Tópico |
 |---|---|
 | [2.1](01-modelos-probabilisticos.qmd) | Modelos Probabilísticos |
+| [2.2](02-propriedades.qmd) | Propriedades da Probabilidade |
+| [2.3](03-contagem.qmd) | Contagem e Probabilidade Clássica |

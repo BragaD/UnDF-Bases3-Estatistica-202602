@@ -24,6 +24,7 @@ A notação segue @bussab2023 sempre que ele define o objeto; onde ele é omisso
 | Distância interquartil | $d_q = q_3 - q_1$ (Bussab); "IQR" no texto (Bruce) | — | inventar um terceiro nome |
 | Média amostral | $\bar{x}$ | $\bar{x} = \frac{1}{n}\sum x_i$ | $\mu$ para média de amostra |
 | Desvio padrão amostral | $s$ (divisor $n-1$, como o pandas) | `std(ddof=1)` | $\sigma$ para dado amostral |
+| União, interseção, complementar | $A \cup B$ (Bussab: *reunião*), $A \cap B$, $A^c$, $\varnothing$ | `A | B`, `A & B`, `todos - A` em `set` | $\bar{A}$ ou $A'$ para complementar |
 | Espaço amostral, ponto, evento | $\Omega$, $\omega$; evento $A \subseteq \Omega$ (não $\subset$) | $P(A) = \sum_{\omega \in A} P(\omega)$ no caso discreto | $S$ para espaço amostral |
 | Ponto amostral em fórmula | parênteses duplos quando o ponto é um par | $P\big((C, C)\big)$ | $P(C, C)$, que parece conjunta |
 | Condicional | $P(A \mid B) = P(A \cap B)/P(B)$, $P(B) > 0$ | — | $P(A/B)$ |
@@ -45,7 +46,9 @@ A notação segue @bussab2023 sempre que ele define o objeto; onde ele é omisso
 | 1.6–1.7 | Categóricos; correlação | $r$ | Bruce 1.6–1.7 |
 | 1.8 | (leitura complementar, fora do notebook) | — | Bruce 1.8 |
 | 2.1 | O que é um modelo probabilístico? | $\Omega$, $\omega$, $A \subseteq \Omega$, $P(A)$ | Bussab 5.1 |
-| 2.2–2.5 | Propriedades e contagem; condicional; Bayes (a escrever) | $A \cup B$, $A \cap B$, $A^c$, $\binom{n}{k}$, $P(A \mid B)$ | Bussab 5.2–5.4 |
+| 2.2 | Como combinar eventos? | $A \cup B$, $A \cap B$, $A^c$, $\varnothing$ | Bussab 5.2 (1ª metade) |
+| 2.3 | Como contar sem listar? | $m/n$, $n!$, $\binom{n}{k}$; permutação sem símbolo próprio ($P(n,k)$ colide com probabilidade) | Bussab 5.2 (2ª metade) |
+| 2.4–2.5 | Condicional e independência; Bayes (a escrever) | $P(A \mid B)$, partição | Bussab 5.3–5.4 |
 | Cap. 3 | V.a. discretas: $E$, Var, FDA; uniforme, Bernoulli, binomial, hipergeométrica (a escrever) | $b(n,p)$, $\mathrm{hip}(N,r,n)$ | Bussab 6.1–6.3, 6.5, 6.6.1–6.6.4 |
 | Cap. 4 | V.a. contínuas: densidade, $E$, Var, FDA; uniforme, normal (a escrever) | $N(\mu,\sigma^2)$ | Bussab 7.1–7.4.2 |
 
@@ -57,8 +60,9 @@ Escopo completo, por aula, no `CLAUDE.md`. Um capítulo do livro por capítulo d
 |---|---|---|---|
 | Estados brasileiros | `dados/estados.csv` (n = 27) | 1.3–1.5 | mediana é observação real; SP é o outlier; média ponderada < simples |
 | Aluguéis (BR) | gerado por `scripts/gerar-dados-alugueis.py` | "Agora é com você" da 1.3–1.5 | exercício no Colab |
-| Estados brasileiros (sorteio) | `dados/estados.csv` | 2.1 | $P$ equiprovável = frequência relativa; 13/27 acima da mediana; sortear UF × sortear pessoa (22,2% × 57,6%) |
+| Estados brasileiros (sorteio) | `dados/estados.csv` | 2.1, 2.2 (A grande × B taxa acima da mediana: interseção = BA, união = 18) | $P$ equiprovável = frequência relativa; 13/27 acima da mediana; sortear UF × sortear pessoa (22,2% × 57,6%) |
 | Builds de CI (passa/falha) | inline | 2.1, Cap. 3 | tradução do "bom/defeituoso" do Bussab 5.1 (Ex. 5.4) para software; vira binomial no Cap. 3 |
+| PINs, suíte de testes, auditoria de PRs, Mega-Sena | inline | 2.3 | princípio multiplicativo; permutação × combinação; Ex. 5.8 (20 PRs, 5 com bug, 4 sorteados); Ex. 5.9 com preços da Caixa de 18/09/2026 (R\$ 6,00 a aposta simples, 6 a 20 números) |
 | Lote de commits/casos de teste | inline | contagem, hipergeométrica | tradução de "lote de peças" do Bussab para software |
 
 ## Armadilhas de código ↔ teoria (verificadas)
@@ -70,7 +74,10 @@ Escopo completo, por aula, no `CLAUDE.md`. Um capítulo do livro por capítulo d
 | `scipy.stats.hypergeom(M, n, N)` ≠ $\mathrm{hip}(N, r, n)$ | letras colidem trocadas | mapear no comentário do chunk (a 2.6 já faz) |
 | `scipy.stats.norm(loc, scale)` recebe $\sigma$, Bussab escreve $\sigma^2$ | $N(0, 4)$ vira `norm(0, 2)` | nunca passar a variância em `scale` |
 | `set` de strings em Python sai em ordem diferente a cada processo (hash aleatório) | a saída do chunk muda a cada render e o `freeze` perde o sentido | exibir com `sorted(...)` |
-| Número de `{python} num(...)` dentro de `$...$` | a vírgula decimal vira `\,` no MathJax e aparece como espaço | deixar o número fora do `$...$` |
+| Número de `{python} num(...)` dentro de `$...$` | a vírgula decimal vira `\,` (aparece como espaço); o ponto de milhar vira `\.` e a **barra aparece na tela** (`10 \. 000`); trocar por `{,}` também falha (o Quarto escapa as chaves) | **nenhum** `num(...)` com vírgula ou ponto dentro de `$...$`: fórmula com símbolos, número na prosa ("…$\binom{20}{4}$, ou 4.845"); inteiros abaixo de 1.000 podem ficar dentro |
+| Tupla com resultado do numpy 2 na saída de um chunk | aparece `np.float64(0.217)` em vez de `0.217` | converter com `float(...)` antes de exibir |
+| Probabilidades calculadas por dois caminhos comparadas com `==` | `sum([1/27]*21)` e `1 - 6/27` diferem na 16ª casa; `==` dá `False` | `math.isclose`; perto de zero, `abs_tol=1e-12` |
+| Largura no celular (390 px, coluna de 339 px) | display com `\qquad`, inline longo, tabela com fórmula e até o ponto final de uma equação dentro de `.conceito` estouram a página | `aligned` em duas linhas; quebrar o inline; tabela dentro de `::: {.table-responsive}`; medir `scrollWidth` com Playwright |
 | pandas 3: texto é `str`, não `object`; indexação de Series categóricas mudou | comparações erradas **sem exceção** (ver CLAUDE.md) | testar o resultado, não só a ausência de erro |
 
 ## Anti-padrões já vividos

@@ -1,0 +1,256 @@
+# Contagem e Probabilidade Clássica
+
+::: {.callout-note}
+Esta seção se baseia na seção 5.2 de @bussab2023. Permutação e combinação, que o Bussab usa sem apresentar, entram aqui como revisão.
+:::
+
+```{python}
+#| label: setup
+#| include: false
+import pandas as pd
+from math import comb, factorial, perm
+from itertools import product
+from formato import num
+```
+
+No sorteio de um estado, calcular $P(A)$ foi contar: 6 estados grandes entre 27 dá $6/27$. Deu para fazer isso porque o `pandas` listava os 27 pontos amostrais e o `set` contava os que caíam no evento.
+
+Agora pense num jogo da Mega-Sena. O espaço amostral é o conjunto de todas as formas de escolher 6 números entre 60, e tem `{python} num(comb(60, 6), 0)` pontos. Listar todos para contar os favoráveis não é o caminho. Esta seção mostra como contar sem listar.
+
+## Casos favoráveis sobre casos possíveis
+
+Quando o espaço amostral é finito e todos os seus $n$ pontos têm a mesma probabilidade $1/n$, a fórmula da soma da seção 2.1 fica simples. Um evento $A$ com $m$ pontos tem $m$ parcelas iguais a $1/n$:
+
+::: {.conceito}
+Se $\Omega$ tem $n$ pontos igualmente prováveis e o evento $A$ tem $m$ desses pontos,
+
+$$
+P(A) = \frac{m}{n}.
+$$
+
+$m$ é o número de **casos favoráveis** e $n$, o de **casos possíveis**.
+:::
+
+Essa é a definição **clássica** de probabilidade, a mais antiga, criada para jogos de azar. Foi ela que usamos no dado ($1/6$), nas duas moedas ($2/4$ para faces iguais) e no sorteio de estados ($6/27$).
+
+Com ela, o problema de probabilidade vira um problema de contagem: basta saber $m$ e $n$, sem escrever $\Omega$ e $A$ por extenso. As próximas subseções dão as ferramentas para contar.
+
+::: {.callout-warning}
+## A fórmula só vale com pontos equiprováveis
+$m/n$ exige que todos os pontos tenham a mesma chance. No sorteio de uma pessoa (seção 2.1), os estados não são equiprováveis, e contar siglas dá a resposta errada. O mesmo vale para a soma de dois dados: 7 é 1 dos 11 valores possíveis, mas sua probabilidade não é $1/11$.
+:::
+
+## Princípio multiplicativo
+
+Um PIN de cartão tem 4 dígitos, cada um de 0 a 9. Quantos PINs existem? O primeiro dígito tem 10 opções. Para **cada** uma delas, o segundo tem outras 10, o que já dá $10 \times 10 = 100$ pares. Cada par se combina com as 10 opções do terceiro dígito, e assim por diante:
+
+$$
+10 \times 10 \times 10 \times 10 = 10^4,
+$$
+
+ou seja, `{python} num(10**4, 0)` PINs.
+
+::: {.conceito}
+**Princípio multiplicativo.** Se uma tarefa é feita em duas etapas, a primeira de $p$ maneiras e a segunda de $q$ maneiras para cada maneira da primeira, as duas juntas podem ser feitas de $p \times q$ maneiras. Com mais etapas, multiplica-se o número de maneiras de cada uma.
+:::
+
+O `itertools.product` da seção 2.1 lista os PINs de fato, e serve para conferir a conta enquanto a lista é pequena:
+
+```{python}
+#| label: pins
+pins = list(product(range(10), repeat=4))
+print(len(pins), 10**4)
+pins[:3]
+```
+
+Foi o mesmo princípio que deu $2 \times 2 \times 2 = 8$ resultados para três builds na seção 2.1: três etapas, duas opções em cada uma.
+
+Com a contagem pronta, a probabilidade sai da definição clássica. Para um ladrão que não sabe nada sobre o dono do cartão, o PIN pode ser qualquer um dos `{python} num(10**4, 0)`, com a mesma chance. Uma tentativa acerta com probabilidade 1 em `{python} num(10**4, 0)`. Se o banco bloqueia o cartão depois de 3 tentativas erradas, e o ladrão testa 3 PINs diferentes, são 3 casos favoráveis entre `{python} num(10**4, 0)` possíveis: probabilidade de `{python} num(100 * 3 / 10**4, 2)`%. O bloqueio existe para manter esse número pequeno.
+
+## Permutação e combinação
+
+O princípio multiplicativo tem dois casos que aparecem tanto que ganharam nome. Nos dois, escolhemos elementos de um conjunto **sem repetir** nenhum. A diferença é se a ordem da escolha importa.
+
+**Quando a ordem importa.**
+
+Uma suíte tem 5 testes, e queremos rodá-los em todas as ordens possíveis para descobrir se algum depende de outro ter rodado antes. Quantas ordens existem? O primeiro teste da fila pode ser qualquer um dos 5. Escolhido o primeiro, sobram 4 para a segunda posição, depois 3, 2 e 1:
+
+$$
+5 \times 4 \times 3 \times 2 \times 1 = 5! = `{python} factorial(5)`.
+$$
+
+O produto $n \times (n-1) \times \cdots \times 2 \times 1$ se escreve $n!$ e se lê "$n$ fatorial". Por convenção, $0! = 1$.
+
+Se só interessam as 3 primeiras posições da fila, a conta para no terceiro fator: $5 \times 4 \times 3 = `{python} perm(5, 3)`$. Em geral, escolher $k$ elementos entre $n$, em ordem e sem repetir, dá
+
+$$
+\begin{aligned}
+&n \times (n-1) \times \cdots \times (n-k+1) \\
+&= \frac{n!}{(n-k)!}
+\end{aligned}
+$$
+
+maneiras. Esses arranjos em ordem são as **permutações** de $k$ elementos entre $n$ (no ensino médio, *arranjos simples*).
+
+**Quando a ordem não importa.**
+
+Agora escolha 3 dos 5 testes para rodar num smoke test, sem se importar com a ordem. A escolha {T1, T2, T3} é a mesma que {T3, T1, T2}. A conta anterior deu `{python} perm(5, 3)` arranjos em ordem, mas cada grupo de 3 testes aparece ali $3! = `{python} factorial(3)`$ vezes, uma para cada ordem. Dividindo, sobram $`{python} perm(5, 3)`/`{python} factorial(3)` = `{python} comb(5, 3)`$ grupos.
+
+::: {.conceito}
+O número de **combinações** de $k$ elementos entre $n$, isto é, de subconjuntos de tamanho $k$, é
+
+$$
+\binom{n}{k} = \frac{n!}{k!\,(n-k)!}.
+$$
+
+Lê-se "$n$ escolhe $k$" ou "combinação de $n$, $k$ a $k$".
+:::
+
+O módulo `math` tem as três funções, e o `itertools` lista os arranjos e os subconjuntos para conferir enquanto $n$ é pequeno:
+
+```{python}
+#| label: perm-comb
+from itertools import combinations, permutations
+
+testes = ["T1", "T2", "T3", "T4", "T5"]
+
+print(factorial(5), len(list(permutations(testes))))     # ordens
+print(perm(5, 3), len(list(permutations(testes, 3))))  # 3 primeiros
+print(comb(5, 3), len(list(combinations(testes, 3))))  # grupos de 3
+```
+
+Diante de um problema novo, como saber qual das contas usar? Duas perguntas resolvem.
+
+::: {.callout-important}
+## Pode repetir? A ordem importa?
+Se os elementos podem se repetir, como os dígitos de um PIN, use o princípio multiplicativo direto ($10^4$ PINs). Se não podem, pergunte se trocar dois elementos de lugar gera um resultado diferente. Se sim, é permutação: posições numa fila, cargos diferentes, senhas sem dígito repetido. Se não, é combinação: grupos, comissões, amostras, apostas da Mega-Sena.
+:::
+
+## Auditando pull requests
+
+Uma equipe fez 20 pull requests na semana, e 5 deles introduziram um bug que ninguém percebeu. Sem saber quais, um auditor sorteia 4 PRs para revisar com calma. Qual a probabilidade de exatamente 2 dos 4 sorteados terem bug?
+
+Este é o Exemplo 5.8 de @bussab2023, com PRs no lugar de peças de um lote. O sorteio é sem reposição e a ordem não importa, então cada resultado é um subconjunto de 4 PRs entre 20. O que garante que todos os subconjuntos têm a mesma chance é o sorteio **ao acaso**: a cada retirada, todo PR que sobrou tem a mesma chance de sair. Cada sequência ordenada de 4 PRs fica com a mesma probabilidade, e cada subconjunto junta o mesmo número delas ($4! = 24$). A definição clássica se aplica.
+
+**Casos possíveis.** São os subconjuntos de 4 entre 20: $n = \binom{20}{4}$, ou `{python} num(comb(20, 4), 0)`. (Aqui $n$ é o número de casos possíveis da fórmula $m/n$, e não os 20 PRs.)
+
+**Casos favoráveis.** Um resultado favorável tem 2 PRs com bug, escolhidos entre os 5, **e** 2 sem bug, escolhidos entre os 15. Pelo princípio multiplicativo, as duas escolhas se combinam:
+
+$$
+m = \binom{5}{2} \times \binom{15}{2} = `{python} comb(5, 2)` \times `{python} comb(15, 2)`,
+$$
+
+ou seja, `{python} num(comb(5, 2) * comb(15, 2), 0)` casos favoráveis.
+
+```{python}
+#| label: auditoria
+p_dois = comb(5, 2) * comb(15, 2) / comb(20, 4)
+round(p_dois, 4)
+```
+
+A probabilidade é $m/n$, cerca de `{python} num(p_dois, 3)`: em pouco mais de uma auditoria a cada cinco, o auditor encontra exatamente 2 PRs com bug.
+
+Uma pergunta mais útil para a equipe é se o auditor encontra **pelo menos um** bug. Contar diretamente exigiria somar os casos de 1, 2, 3 e 4 PRs com bug. O complementar da seção 2.2 é mais curto: "pelo menos um" é o contrário de "nenhum", e nenhum bug significa escolher os 4 PRs entre os 15 sem bug.
+
+```{python}
+#| label: auditoria-pelo-menos-um
+p_nenhum = comb(15, 4) / comb(20, 4)
+round(p_nenhum, 4), round(1 - p_nenhum, 4)
+```
+
+O auditor encontra pelo menos um bug com probabilidade `{python} num(1 - p_nenhum, 3)`. Em mais de uma a cada quatro auditorias, os 5 bugs passam despercebidos.
+
+Uma simulação confere as duas contas até a segunda casa decimal: repetimos a auditoria 100.000 vezes e medimos a frequência relativa, como fizemos com o dado na seção 2.1.
+
+```{python}
+#| label: auditoria-simulada
+import numpy as np
+
+rng = np.random.default_rng(42)
+lote = np.array([1] * 5 + [0] * 15)       # 1 = PR com bug
+bugs = np.array([rng.choice(lote, size=4, replace=False).sum() for _ in range(100_000)])
+
+round(float((bugs == 2).mean()), 4), round(float((bugs >= 1).mean()), 4)
+```
+
+A estrutura da conta, combinações dentro do grupo de interesse vezes combinações dentro do resto, divididas pelas combinações do total, vai reaparecer no Capítulo 3 como a distribuição **hipergeométrica**.
+
+## Mega-Sena
+
+Na Mega-Sena, o jogador escolhe 6 números entre 60, e ganha o prêmio máximo se acertar os 6 sorteados. A ordem não importa: a aposta {4, 8, 15, 16, 23, 42} é a mesma em qualquer ordem. O espaço amostral é o conjunto dos subconjuntos de 6 entre 60, todos com a mesma chance de sair (pelo mesmo argumento dos pull requests). São $\binom{60}{6}$, ou `{python} num(comb(60, 6), 0)`, casos possíveis.
+
+Uma aposta simples é 1 caso favorável entre eles: a probabilidade de acertar a sena é de 1 em `{python} num(comb(60, 6), 0)`.
+
+O volante permite marcar de 6 a 20 números. Quem marca 7 números concorre com todos os subconjuntos de 6 que cabem dentro deles, que são $\binom{7}{6} = 7$. Uma aposta de 7 números equivale, portanto, a 7 apostas simples, e a Caixa cobra exatamente isso: a aposta simples custa R\$ 6,00, e a de 7 números, R\$ 42,00. O código monta a tabela inteira a partir dessa ideia (é o Exemplo 5.9 de @bussab2023, com os preços e a faixa de números atualizados):
+
+```{python}
+#| label: megasena
+from math import comb
+
+N = comb(60, 6)
+marcados = range(6, 21)
+tabela = pd.DataFrame({"apostas": [comb(k, 6) for k in marcados]},
+                      index=pd.Index(marcados, name="números"))
+tabela["preço (R$)"] = 6 * tabela["apostas"]
+tabela["1 chance em"] = (N / tabela["apostas"]).round().astype(int)
+
+tabela.loc[[6, 7, 8, 10, 15, 20]]
+```
+
+Os preços e as chances batem com a tabela oficial da Caixa (consultada em 18/09/2026). Marcar 20 números custa R\$ `{python} num(6 * comb(20, 6), 2)` e ainda deixa a chance da sena em 1 em `{python} num(round(N / comb(20, 6)), 0)`.
+
+## Exercícios
+
+**1.** Uma equipe de 8 pessoas precisa escolher um líder técnico e um vice. De quantas formas isso pode ser feito?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+Os cargos são diferentes, então a ordem importa: escolher Ana para líder e Bruno para vice não é o mesmo que o contrário. São as permutações de 2 entre 8: $8 \times 7 = 56$ formas.
+
+```python
+perm(8, 2)
+```
+:::
+
+**2.** Da mesma equipe, quantos comitês de 3 pessoas, sem cargos, podem ser formados?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+Num comitê sem cargos a ordem não importa. São as combinações de 3 entre 8:
+
+$$
+\binom{8}{3} = \frac{8!}{3!\,5!} = 56.
+$$
+
+O resultado coincide com o do exercício 1 por acaso: $8 \times 7 = 56$ conta pares ordenados, e $\binom{8}{3} = 56$ conta grupos de 3. Com outros números, as duas contas não batem.
+:::
+
+**3.** Na Mega-Sena, também há prêmio para quem acerta 4 dos 6 números sorteados (a quadra). Qual a probabilidade de fazer a quadra com uma aposta simples? Compare com a tabela da Caixa, que diz "1 em 2.332".
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+É o mesmo raciocínio dos pull requests. Dos 6 números marcados, 4 têm de estar entre os 6 sorteados, e os outros 2 entre os 54 não sorteados:
+
+$$
+P(\text{quadra}) = \frac{\binom{6}{4}\binom{54}{2}}{\binom{60}{6}}.
+$$
+
+```{python}
+#| label: quadra
+p_quadra = comb(6, 4) * comb(54, 2) / comb(60, 6)
+round(1 / p_quadra, 1)
+```
+
+Dá 1 em `{python} num(1 / p_quadra, 1)`, que a Caixa arredonda para 1 em 2.332.
+:::
+
+**4.** Diga se cada contagem é de permutações ou de combinações: (a) a ordem em que 4 microsserviços são implantados; (b) os 2 revisores de um PR, escolhidos entre 6 pessoas; (c) um PIN de 4 dígitos distintos.
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+(a) Permutação: implantar A antes de B é diferente de B antes de A; são $4! = 24$ ordens. (b) Combinação: os dois revisores têm o mesmo papel; são $\binom{6}{2} = 15$ duplas. (c) Permutação: 1234 e 4321 são PINs diferentes; são $10 \times 9 \times 8 \times 7 = 5.040$.
+:::

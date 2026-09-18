@@ -59,6 +59,10 @@ book:
           text: "Visão Geral"
         - href: content/cap02/01-modelos-probabilisticos.qmd
           text: "Modelos Probabilísticos"
+        - href: content/cap02/02-propriedades.qmd
+          text: "Propriedades da Probabilidade"
+        - href: content/cap02/03-contagem.qmd
+          text: "Contagem e Probabilidade Clássica"
   page-navigation: true
   page-footer:
     border: true

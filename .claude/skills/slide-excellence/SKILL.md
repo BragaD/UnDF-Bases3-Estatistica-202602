@@ -30,7 +30,7 @@ is_stub=$(grep -c -i 'em construção' "$F")
 Ecoe:
 
 ```
-Arquivo:        content/cap02/06-distribuicao-hipergeometrica.qmd
+Arquivo:        content/cap01/06-dados-binarios-categoricos.qmd
 Chunks Python:  7     OJS: 0     HTML: fresco
 Cita Bussab:    3     Stub: não
 Lentes:         visual, pedagogia, texto, substância, renderização  (puladas: voz — sem --com-voz)

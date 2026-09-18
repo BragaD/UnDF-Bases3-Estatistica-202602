@@ -8,23 +8,23 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Livro-texto (espinha): Bruce, Bruce & Gedeck — *Practical Statistics for Data Scientists*, 2ª ed. Código e dados originais: <https://github.com/gedeck/practical-statistics-for-data-scientists>
 
-Segunda fonte: o *pythonbook* de Ethan Weed contribui com a Introdução (motivacional), o capítulo de Probabilidade, a ordenação da Parte IV e enriquecimentos do Capítulo 1.
+Segunda fonte: o *pythonbook* de Ethan Weed contribui com a Introdução (motivacional) e enriquecimentos do Capítulo 1.
 
-Terceira fonte: **Bussab & Morettin — *Estatística Básica*** entra onde o Bruce é raso demais para graduação: os quantis empíricos das seções 1.4 e 1.5 (seção 3.3 dele) e, no Cap. 2, condicional/Bayes, contagem e hipergeométrica. O epub está em `livros/`, **gitignorado** — o repositório é público e o material tem direitos autorais.
+Terceira fonte: **Bussab & Morettin — *Estatística Básica*** entra onde o Bruce é raso demais para graduação: hoje, os quantis empíricos das seções 1.4 e 1.5 (seção 3.3 dele). O epub está em `livros/`, **gitignorado** — o repositório é público e o material tem direitos autorais.
 
 **Armadilha da edição:** o epub é a impressão de 2017 da Saraiva, mas o `references.bib` cita a 10ª ed. (2023) como `@bussab2023`. A numeração de seções das duas bate (3.3 Quantis Empíricos, 5.2–5.4, 6.6.4 Hipergeométrica), então as citações estão corretas — **não "corrija" a bib para 2017**, isso invalidaria todas elas de uma vez.
 
 Regra de atribuição: callouts `de @bruce2020` marcam conteúdo do livro-texto; `de @weed`, do pythonbook; `de @bussab2023`, do Bussab & Morettin. Como nos callouts do Bruce, o número citado é sempre o **da fonte**, não o nosso.
 
-**Estrutura: uma Introdução (motivacional, sem número) + 5 capítulos** — 1 Análise Exploratória de Dados, 2 Probabilidade e Distribuições, 3 Amostragem e Estimação, 4 Experimentos Estatísticos e Testes de Significância, 5 Regressão e Predição. Os capítulos 5–7 do Bruce (Classificação, ML Estatístico, Aprendizado Não-Supervisionado) ficam fora do escopo desta disciplina.
+**Estrutura atual: uma Introdução (motivacional, sem número) + 1 capítulo** — Análise Exploratória de Dados. É tudo que existe no livro hoje.
 
-**Mapa Bruce ↔ este livro** (a numeração dos dois **não bate**): Bruce cap. 1 → meu Cap. 1; **Bruce cap. 2 é dividido entre meu Cap. 2 e meu Cap. 3**; Bruce cap. 3 → meu Cap. 4; Bruce cap. 4 → meu Cap. 5. É por isso que os callouts `de @bruce2020` citam números de capítulo "fora de fase" com os capítulos deste livro — o número no callout é sempre do Bruce, nunca o nosso.
+O Cap. 1 corresponde ao **capítulo 1 de @bruce2020**. Como o número citado no callout é sempre o **da fonte**, e não o nosso, os dois coincidem hoje — mas não conte com isso: assim que o capítulo de probabilidade voltar, a numeração volta a divergir.
 
-**Escopo reduzido dos Caps. 4 e 5:** o Cap. 4 vai até os testes t (não cobre ANOVA, teste qui-quadrado, testes múltiplos nem poder do Bruce cap. 3); o Cap. 5 vai até predição (não cobre variáveis fatoriais, diagnóstico nem splines do Bruce cap. 4).
+**Os Capítulos 2 a 5 foram removidos do livro em 2.2026** — Probabilidade e Distribuições, Amostragem e Estimação, Experimentos Estatísticos e Testes de Significância, e Regressão e Predição. Os arquivos saíram de `content/`, as partes saíram do `_quarto.yml` e os notebooks `capitulo-02.ipynb` e `capitulo-03.ipynb` foram apagados. **Não os recrie por conta própria**; o conteúdo antigo está no histórico do git, mas o capítulo de probabilidade será reescrito de outra fonte (abaixo).
 
-**Escopo do Cap. 2:** cobre probabilidade condicional e Bayes, contagem (permutação/combinação) e as distribuições binomial, hipergeométrica e normal; as distribuições t, qui-quadrado, F e Poisson **foram removidas**, e a antiga seção 2.8 (Distribuições de Cauda Longa) **foi apagada** na redução de carga horária de 2.2026. As seções de condicional/Bayes, contagem e hipergeométrica baseiam-se em **@bussab2023**.
+**Próximo capítulo — Probabilidade (a construir):** a fonte será **@bussab2023, capítulos 5, 6 e 7**, e não mais o @bruce2020 nem o @weed. **O escopo ainda será definido** — quais seções de cada capítulo entram, em que ordem e com que profundidade é uma decisão do professor, ainda não tomada. Não presuma o escopo do capítulo antigo: ele vinha do Bruce, tinha outra espinha e foi apagado. Antes de escrever qualquer seção nova de probabilidade, **pergunte o escopo**.
 
-**Cortes de 2.2026 no Cap. 1** (o semestre perdeu quatro sextas e o Cap. 5 saiu do cronograma): da 1.5 saíram as convenções `lower` e `higher` de quantil, o gráfico de violino, a curva de densidade e a curtose; da 1.6, o valor esperado; da 1.7, o heatmap. A **1.8 continua no site** como leitura complementar — tem um `callout-warning` no topo, está marcada na tabela do `content/cap01/index.qmd` e **não entra no `notebooks/capitulo-01.ipynb`**. Com a curtose fora da 1.5 e a 2.8 apagada, a curtose **não existe mais no livro**; não a cite como "introduzida no Capítulo 1".
+**Cortes de 2.2026 no Cap. 1** (o semestre perdeu quatro sextas — 11/09 atestado, 02/10 e 23/10 eleições, 20/11 feriado): da 1.5 saíram as convenções `lower` e `higher` de quantil, o gráfico de violino, a curva de densidade e a curtose; da 1.6, o valor esperado; da 1.7, o heatmap. A **1.8 continua no site** como leitura complementar — tem um `callout-warning` no topo, está marcada na tabela do `content/cap01/index.qmd` e **não entra no `notebooks/capitulo-01.ipynb`**. A curtose **não existe mais no livro**; não a cite como "introduzida no Capítulo 1".
 
 ## Comandos
 
@@ -61,20 +61,16 @@ content/
 ├── intro/
 │   ├── 01-por-que-estatistica.qmd
 │   └── 02-paradoxo-simpson.qmd
-├── cap01/
-│   ├── index.qmd                      # Visão geral + objetivos + tabela de seções
-│   ├── 01-dados-estruturados.qmd      # Uma seção do livro por arquivo
-│   ├── 02-dados-retangulares.qmd
-│   └── ...
-├── cap02/
-├── cap03/
-├── cap04/
-└── cap05/
+└── cap01/
+    ├── index.qmd                      # Visão geral + objetivos + tabela de seções
+    ├── 01-dados-estruturados.qmd      # Uma seção do livro por arquivo
+    ├── 02-dados-retangulares.qmd
+    └── ...
 ```
 
 **Todo `.qmd` novo precisa ser registrado em `_quarto.yml` sob `book.chapters`.** O YAML define o sidebar e a ordem de navegação — arquivo não listado simplesmente não aparece no livro. A ordem vem do `_quarto.yml`, não do nome do arquivo; para reordenar, renomeie com `git mv` e atualize o YAML na mesma operação.
 
-A Introdução e os Capítulos 1 a 3 estão completos; **os Capítulos 4 e 5 ainda são stubs** (título + `callout-note` + aviso de construção). A seção completa que serve de modelo de **estrutura** é `content/cap01/03-estimativas-localizacao.qmd` (não de voz: ela tem travessões demais).
+A Introdução e o Capítulo 1 estão completos, e são **todo** o livro hoje. A seção que serve de modelo de **estrutura** é `content/cap01/03-estimativas-localizacao.qmd` (não de voz: ela tem travessões demais).
 
 ### Caminhos de dados
 
@@ -148,7 +144,7 @@ O nome da imagem é minúsculo e literal: o GHCR rejeita maiúsculas, então nã
 
 ### Widgets interativos (Observable JS)
 
-As seções 1.3 (dois widgets), 1.4 e 3.3 têm células `{ojs}`, nativas do Quarto: rodam no navegador do leitor, **não somam bytes ao site** e não afetam o `freeze` nem o CI.
+As seções 1.3 (dois widgets) e 1.4 têm células `{ojs}`, nativas do Quarto: rodam no navegador do leitor, **não somam bytes ao site** e não afetam o `freeze` nem o CI.
 
 Os dados vêm do próprio chunk Python da seção, via `ojs_define(dados = estado)` — uma fonte, dois consumidores. Nunca recarregue o CSV no OJS nem embuta os valores como literal.
 

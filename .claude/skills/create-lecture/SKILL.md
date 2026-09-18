@@ -1,7 +1,7 @@
 ---
 name: create-lecture
-description: Cria uma nova seção (ou preenche um stub) do livro Quarto de Bases 3 — Estatística a partir das fontes (Bruce, Weed, Bussab), com checagem de notação, callout de atribuição, código Python com semente e registro no _quarto.yml. Use quando o professor disser "cria a seção X", "escreve a 4.2", "preenche o stub do Cap. 5", "nova seção sobre Y". Colaborativo e em lotes — não despeja a seção inteira de uma vez.
-argument-hint: "[seção, ex.: 4.2 ou 'testes t'] [--fonte bruce|bussab|weed]"
+description: Cria uma nova seção (ou preenche um stub) do livro Quarto de Bases 3 — Estatística a partir das fontes (Bruce, Weed, Bussab), com checagem de notação, callout de atribuição, código Python com semente e registro no _quarto.yml. Use quando o professor disser "cria a seção X", "escreve a 1.9", "começa o capítulo de probabilidade", "nova seção sobre Y". Colaborativo e em lotes — não despeja a seção inteira de uma vez.
+argument-hint: "[seção, ex.: 1.9 ou 'probabilidade condicional'] [--fonte bruce|bussab|weed]"
 allowed-tools: ["Read", "Grep", "Glob", "Write", "Edit", "Bash", "Agent"]
 ---
 

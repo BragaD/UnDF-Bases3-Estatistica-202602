@@ -13,7 +13,7 @@ Examine a seção criticamente e desafie o desenho com 5–7 perguntas pedagógi
 
 ## Preparação
 
-1. Leia o arquivo-alvo (resolva "2.6" para `content/cap02/06-*.qmd`).
+1. Leia o arquivo-alvo (resolva "1.6" para `content/cap01/06-*.qmd`).
 2. Leia `.claude/rules/knowledge-base.md` (notação, progressão, armadilhas) e o `CLAUDE.md` (escopo e cortes).
 3. Leia o fim da seção anterior e o começo da seguinte.
 

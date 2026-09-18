@@ -58,18 +58,27 @@ Os arquivos deste diretório vêm do repositório oficial do livro-texto:
 
 Os nomes originais foram preservados para que o código do livro rode sem adaptação.
 
-Estão aqui apenas os 13 conjuntos usados pelos **capítulos 1–4**, que são o escopo desta
-disciplina. Os demais (`loan_data.csv.gz`, `loan200.csv`, `loan3000.csv`,
-`full_train_set.csv.gz`, `housetasks.csv`) pertencem aos capítulos 5–7 e não foram incluídos.
+Estão aqui os 13 conjuntos que o livro-texto usa em seus **capítulos 1–4**. Os demais
+(`loan_data.csv.gz`, `loan200.csv`, `loan3000.csv`, `full_train_set.csv.gz`,
+`housetasks.csv`) pertencem aos capítulos 5–7 do Bruce e não foram incluídos.
+
+**Em uso hoje** — as seções abaixo são as do *nosso* material, não as do Bruce:
 
 | Arquivo | Usado em |
 |---|---|
 | `dfw_airline.csv` | 1.6 Dados Binários e Categóricos |
-| `sp500_data.csv.gz` | 1.7 Correlação, 2.7 Caudas Longas |
+| `sp500_data.csv.gz` | 1.7 Correlação |
 | `sp500_sectors.csv` | 1.7 Correlação |
 | `kc_tax.csv.gz` | 1.8 Duas ou Mais Variáveis |
 | `lc_loans.csv` | 1.8 Duas ou Mais Variáveis |
 | `airline_stats.csv` | 1.8 Duas ou Mais Variáveis |
+
+**Sem uso no momento.** Os capítulos que os consumiam saíram do site enquanto o material é
+reconstruído. Os arquivos ficam aqui de propósito — a numeração abaixo é a do **Bruce**, para
+achar a seção de origem quando o conteúdo voltar.
+
+| Arquivo | Seção do Bruce |
+|---|---|
 | `loans_income.csv` | 2.3 Distribuição Amostral, 2.4 Bootstrap, 2.5 Intervalos de Confiança |
 | `web_page_data.csv` | 3.1 Teste A/B, 3.3 Reamostragem |
 | `four_sessions.csv` | 3.8 ANOVA |

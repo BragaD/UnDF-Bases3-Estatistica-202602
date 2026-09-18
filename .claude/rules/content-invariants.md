@@ -17,8 +17,8 @@ de conflito, o `CLAUDE.md` vence.
 ## Estrutura
 
 - **INV-1: Registro no `_quarto.yml`.** Todo `.qmd` novo em `content/` é listado em `book.chapters`. Arquivo não listado não existe para o leitor.
-- **INV-2: Callout de atribuição.** Toda seção abre com um `callout-note` dizendo de onde vem — "Esta seção corresponde à seção 1.3 de @bruce2020", "se baseia na seção 6.6.4 de @bussab2023", "se inspira no Capítulo 10 de @weed" —, com o número **da fonte**, nunca o nosso (Bruce cap. 2 → nossos Caps. 2 e 3; Bruce cap. 3 → nosso Cap. 4; Bruce cap. 4 → nosso Cap. 5).
-- **INV-3: Escopo.** Nada de t/qui-quadrado/F/Poisson no Cap. 2, de ANOVA/qui-quadrado/testes múltiplos/poder no Cap. 4, nem de variáveis fatoriais/diagnóstico/splines no Cap. 5. Curtose, violino, curva de densidade, valor esperado (1.6) e heatmap (1.7) foram cortados.
+- **INV-2: Callout de atribuição.** Toda seção abre com um `callout-note` dizendo de onde vem — "Esta seção corresponde à seção 1.3 de @bruce2020", "se baseia na seção 6.6.4 de @bussab2023", "se inspira no Capítulo 10 de @weed" —, com o número **da fonte**, nunca o nosso. Hoje o livro só tem o Cap. 1, que corresponde ao cap. 1 do Bruce, então os dois coincidem — mas a coincidência é temporária.
+- **INV-3: Escopo.** O livro tem hoje **só a Introdução e o Cap. 1**; os Caps. 2 a 5 foram removidos em 2.2026. Do Cap. 1 foram cortados: curtose, violino, curva de densidade, convenções `lower`/`higher` de quantil, valor esperado (1.6) e heatmap (1.7); a 1.8 é leitura complementar, fora do cronograma e do notebook. O capítulo de **probabilidade** será reescrito a partir de @bussab2023 caps. 5–7, com **escopo ainda não definido** — pergunte antes de escrever.
 - **INV-4: Bibliografia única.** Toda citação resolve em `references.bib`. `@bussab2023` **não** vira 2017.
 
 ## Código

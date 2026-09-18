@@ -82,7 +82,7 @@ Para cada definição, propriedade ou resultado enunciado:
 
 ## Lente 3 — Fidelidade das citações
 
-- [ ] O callout de atribuição (INV-2) cita a seção **da fonte**, e essa seção de fato trata do assunto? Lembre o mapa: Bruce cap. 2 → nossos Caps. 2 **e** 3.
+- [ ] O callout de atribuição (INV-2) cita a seção **da fonte**, e essa seção de fato trata do assunto? Hoje o livro só tem o Cap. 1, que corresponde ao cap. 1 do Bruce.
 - [ ] "Segundo @bussab2023, …" — o Bussab diz isso mesmo? Confira no epub e traga o trecho (uma frase) como `evidence`.
 - [ ] Números de exercício/exemplo citados ("exercício 5.15") existem e tratam daquilo?
 - [ ] Nomes e notação atribuídos à fonte estão certos (ex.: "distância interquartil $d_q$" é do Bussab; "IQR" é do Bruce).

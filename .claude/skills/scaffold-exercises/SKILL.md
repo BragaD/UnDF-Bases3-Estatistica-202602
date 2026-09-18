@@ -49,7 +49,7 @@ Tema vago demais para escrever objetivos → uma pergunta ao professor e para.
 - **Notação da casa:** a mesma do livro (`knowledge-base.md`); nada que colida.
 - **Calibração:** intro = um conceito; core = 2–3 passos encadeados; avançado = um insight não óbvio (ex.: por que a média ponderada fica abaixo da simples).
 - **Autocontida:** cada questão diz suas hipóteses; nada de "como na aula".
-- **Escopo:** só o que o livro cobre hoje (nada de curtose, Poisson, t no Cap. 2 etc.).
+- **Escopo:** só o que o livro cobre hoje — Introdução e Cap. 1, já descontados os cortes de 2.2026 (nada de curtose, violino, densidade, valor esperado ou heatmap).
 - Questões fechadas: alternativas plausíveis, uma só correta, distratores que capturam erros reais (divisor $n$ × $n-1$, com × sem reposição, $\sigma$ × $\sigma^2$ na scipy).
 
 ## Fase 2 — Gabarito

@@ -13,6 +13,7 @@ import matplotlib.pyplot as plt
 from formato import num
 
 plt.rcParams["figure.figsize"] = (7, 4)
+np.set_printoptions(legacy="1.25")   # números sem o prefixo np.float64 na saída
 
 # Modelo do lucro por sistema vendido (seção 3.1), em milhares de reais
 x = np.array([15, 10, 5, -5])
@@ -31,7 +32,7 @@ A tabela mostra tudo, mas o dono quer um número só para decidir se o negócio 
 
 ## Valor médio
 
-Imagine que a empresa venda 100 sistemas. Pelo modelo, espera-se que cerca de 56 deem lucro de 15, cerca de 23 deem 10, 2 deem 5 e 19 deem prejuízo de 5. A média desses 100 lucros seria
+Imagine que a empresa venda 100 sistemas. Pelo modelo, espera-se que cerca de 56 deem lucro de 15, cerca de 23 deem 10, cerca de 2 deem 5 e cerca de 19 deem prejuízo de 5. A média desses 100 lucros seria
 
 $$
 \begin{aligned}
@@ -41,7 +42,7 @@ $$
 \end{aligned}
 $$
 
-É a média ponderada do Capítulo 1, com as probabilidades no lugar das frequências relativas.
+É uma média ponderada, como a da seção 1.3, com pesos $p(x_i)$ no lugar das frequências relativas. Como os pesos somam 1, não é preciso dividir pela soma deles.
 
 ::: {.conceito}
 O **valor médio**, ou **esperança**, da variável aleatória discreta $X$ é
@@ -59,7 +60,7 @@ E = (x * p).sum()
 round(E, 2)
 ```
 
-O lucro médio é de R\$ `{python} num(E, 2)` mil por sistema. Nenhuma venda dá exatamente esse valor: $X$ só assume 15, 10, 5 ou $-5$. O valor médio não é o valor "mais provável" nem um valor possível. É o centro da distribuição, no mesmo sentido da média dos dados.
+O lucro médio é de R\$ `{python} num(E, 2)` mil por sistema. Nenhuma venda dá exatamente esse valor: $X$ só assume 15, 10, 5 ou $-5$. Aqui, o valor médio não é o valor mais provável (que é 15) nem sequer um valor possível. Em geral, ele não precisa ser nenhum dos dois. É o centro da distribuição, no mesmo sentido da média dos dados.
 
 A interpretação vem da frequência relativa. Uma simulação de 10.000 vendas, sorteando cada lucro com as probabilidades do modelo, mostra a média das vendas perto de $E(X)$:
 
@@ -70,11 +71,11 @@ vendas = rng.choice(x, size=10_000, p=p)
 round(float(vendas.mean()), 2)
 ```
 
-A média de `{python} num(float(vendas.mean()), 2)` nas vendas simuladas fica perto de `{python} num(E, 2)`, como as frequências do dado ficaram perto de 1/6 na seção 2.1. $E(X)$ é a média que se obteria num número muito grande de repetições do experimento.
+A média de `{python} num(float(vendas.mean()), 2)` nas vendas simuladas fica perto de `{python} num(E, 2)`, como as frequências do dado ficaram perto de 1/6 na seção 2.1. Quando o número de vendas cresce, a média das vendas se aproxima de $E(X)$.
 
 ## Variância e desvio-padrão
 
-Duas empresas podem ter o mesmo lucro médio com riscos muito diferentes. Para medir o quanto $X$ se afasta de $E(X)$, a ideia é a mesma da variância dos dados: a média dos desvios ao quadrado, agora ponderada pelas probabilidades.
+Duas empresas podem ter o mesmo lucro médio com riscos muito diferentes. Para medir o quanto $X$ se afasta de $E(X)$, a ideia é a mesma da variância dos dados: somar os desvios ao quadrado, agora pesados pelas probabilidades.
 
 ::: {.conceito}
 A **variância** da variável aleatória discreta $X$, com $\mu = E(X)$, é
@@ -93,16 +94,16 @@ DP = np.sqrt(Var)
 round(Var, 2), round(DP, 2)
 ```
 
-A variância do lucro é `{python} num(Var, 2)` (em mil reais ao quadrado), e o desvio-padrão, `{python} num(DP, 2)` mil reais, na mesma unidade do lucro. Um desvio de mais de 7 mil em torno de uma média de quase 10 mil diz que o lucro de uma venda isolada é bem incerto. O responsável é o prejuízo de 5 mil, que acontece em quase uma venda a cada cinco.
+A variância do lucro é `{python} num(Var, 2)` (em mil reais ao quadrado), e o desvio-padrão, `{python} num(DP, 2)` mil reais, na mesma unidade do lucro. (O Exemplo 6.6 de @bussab2023 dá 7,57 porque arredonda a variância para 57,23 antes de tirar a raiz.) Um desvio de mais de 7 mil em torno de uma média de quase 10 mil diz que o lucro de uma venda isolada é bem incerto. O responsável é o prejuízo de 5 mil, que acontece em quase uma venda a cada cinco.
 
 ::: {.callout-note}
 ## Sem a dúvida entre $n$ e $n - 1$
-Na variância de uma amostra, o pandas divide por $n - 1$ e a seção 3.2 de @bussab2023 divide por $n$ (seção 1.4). Na variância de uma variável aleatória não há $n$: os pesos são as probabilidades, que somam 1. A fórmula acima é a única versão.
+A variância dos dados da seção 1.4 dividia por $n - 1$, como o pandas; a seção 3.2 de @bussab2023 divide por $n$. Na variância de uma variável aleatória não há $n$: os pesos são as probabilidades, que somam 1. Com divisor $n$, a variância dos dados é $\sum (v - \bar{x})^2 f_v$, somando sobre os valores distintos $v$ com frequências relativas $f_v$. Trocando $f_v$ por $p(x)$, sai exatamente $\mathrm{Var}(X)$: a versão teórica corresponde ao divisor $n$.
 :::
 
 ## Transformações lineares
 
-O dono percebe que todos os valores do contrato estavam errados: preços e custos deveriam ser o dobro. O novo lucro é $Z = 2X$. As probabilidades não mudam, porque cada valor de $X$ vira um único valor de $Z$. O lucro médio dobra, mas a variância quadruplica:
+A empresa passa a vender o sistema num mercado em que preços e custos são o dobro dos atuais. O novo lucro é $Z = 2X$. As probabilidades não mudam, porque valores diferentes de $X$ dão valores diferentes de $Z$. O lucro médio dobra, mas a variância quadruplica:
 
 ```{python}
 #| label: z-2x
@@ -138,8 +139,8 @@ $$
 Somar uma constante desloca a distribuição inteira e não muda a variância. Multiplicar por $a$ multiplica cada desvio por $a$, e cada desvio ao quadrado por $a^2$. O desvio-padrão fica multiplicado por $|a|$. Essas duas regras vão ser usadas no Capítulo 4, para padronizar a distribuição normal.
 
 ::: {.callout-warning}
-## A regra só vale para transformações lineares
-Em geral, a média de uma função de $X$ não é a função da média. Com o lucro, a média de $X^2$ é $\sum x_i^2\, p(x_i)$, que dá `{python} num((x**2 * p).sum(), 2)`, enquanto o quadrado da média é $E(X)^2$, cerca de `{python} num(E**2, 2)`. A diferença entre os dois é a variância.
+## Em geral, a regra não vale para funções não lineares
+Em geral, a média de uma função de $X$ não é a função da média. Com o lucro, a média de $X^2$ se calcula com a mesma soma, trocando $x_i$ por $x_i^2$: $\sum x_i^2\, p(x_i)$, que dá `{python} num((x**2 * p).sum(), 2)`, enquanto o quadrado da média é $[E(X)]^2$, cerca de `{python} num(E**2, 2)`. A diferença entre os dois é a variância.
 :::
 
 ## Resumo
@@ -168,7 +169,7 @@ E_y = (y * py).sum()
 round(E_y, 2), round(np.sqrt(((y - E_y) ** 2 * py).sum()), 2)
 ```
 
-$E(Y) = 0 \times 0{,}75 + 5 \times 0{,}23 + 10 \times 0{,}02 = 1{,}35$ mil reais por sistema, com desvio-padrão de cerca de 2,4 mil.
+$E(Y) = 0 \times 0{,}75 + 5 \times 0{,}23 + 10 \times 0{,}02 = 1{,}35$ mil reais por sistema, com desvio-padrão de cerca de 2,43 mil.
 :::
 
 **2.** Um dado equilibrado é lançado, e $X$ é a face. Calcule $E(X)$ e $\mathrm{Var}(X)$. Um jogo paga, em reais, $G = 2X - 5$. Qual o ganho médio e o desvio-padrão do ganho?
@@ -176,7 +177,7 @@ $E(Y) = 0 \times 0{,}75 + 5 \times 0{,}23 + 10 \times 0{,}02 = 1{,}35$ mil reais
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
-$E(X) = (1 + 2 + \dots + 6)/6 = 3{,}5$ e $\mathrm{Var}(X) = \sum (x - 3{,}5)^2/6 = 17{,}5/6 \approx 2{,}92$. Pelas regras das transformações lineares, $E(G) = 2 \times 3{,}5 - 5 = 2$ reais e $\mathrm{Var}(G) = 4 \times 2{,}92 \approx 11{,}67$, com desvio-padrão de cerca de 3,42 reais.
+$E(X) = (1 + 2 + \dots + 6)/6 = 3{,}5$ e $\mathrm{Var}(X) = \sum (x - 3{,}5)^2/6 = 17{,}5/6 \approx 2{,}92$. Pelas regras das transformações lineares, $E(G) = 2 \times 3{,}5 - 5 = 2$ reais e $\mathrm{Var}(G) = 4 \times 17{,}5/6 = 35/3 \approx 11{,}67$, com desvio-padrão de cerca de 3,42 reais.
 :::
 
 **3.** Uma equipe precisa escolher entre dois fornecedores de módulos. Com o fornecedor A, o lucro por sistema tem média 10 e desvio-padrão 2; com o B, média 11 e desvio-padrão 8 (em mil reais). Qual escolher? Justifique.

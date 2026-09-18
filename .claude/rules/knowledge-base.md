@@ -32,6 +32,9 @@ A notação segue @bussab2023 sempre que ele define o objeto; onde ele é omisso
 | Binomial | $X \sim b(n, p)$; $P(X=k) = b(k; n, p)$ | — | $\mathrm{Bin}$ misturado com $b$ |
 | Hipergeométrica | $X \sim \mathrm{hip}(N, r, n)$: população $N$, $r$ sucessos, amostra $n$ | — | letras da scipy no texto |
 | Normal | $X \sim N(\mu, \sigma^2)$ — **variância** no 2º argumento | $Z \sim N(0, 1)$ | $N(\mu, \sigma)$ |
+| Bernoulli, Poisson, uniforme, exponencial | $\mathrm{Ber}(p)$, $\mathrm{Pois}(\lambda)$, $u(\alpha, \beta)$, $\mathrm{Exp}(\beta)$ com $\beta$ = **média** (Bussab 7.4.3) | $X \sim \mathrm{Pois}(3)$ | $\mathrm{Exp}(\lambda)$ com taxa sem avisar |
+| Binomial com parâmetros numéricos | $b(n, p)$ com vírgula e $p$ em fração, para não colidir com a vírgula decimal nem com a pmf $b(k; n, p)$ | $b(10, 1/10)$ | $b(10; 0{,}1)$ |
+| Variável aleatória | $X$ em todas as seções de um capítulo (não reusar $N$, que é população na hipergeométrica) | $X \sim \mathrm{Pois}(\lambda)$ | $N \sim \mathrm{Pois}$ |
 | Números | vírgula decimal na prosa e nas tabelas renderizadas (`formato.num`) | $0{,}25$ em LaTeX | `0.25` na prosa |
 
 ## Progressão do livro
@@ -48,9 +51,9 @@ A notação segue @bussab2023 sempre que ele define o objeto; onde ele é omisso
 | 2.1 | O que é um modelo probabilístico? | $\Omega$, $\omega$, $A \subseteq \Omega$, $P(A)$ | Bussab 5.1 |
 | 2.2 | Como combinar eventos? | $A \cup B$, $A \cap B$, $A^c$, $\varnothing$ | Bussab 5.2 (1ª metade) |
 | 2.3 | Como contar sem listar? | $m/n$, $n!$, $\binom{n}{k}$; permutação sem símbolo próprio ($P(n,k)$ colide com probabilidade) | Bussab 5.2 (2ª metade) |
-| 2.4–2.5 | Condicional e independência; Bayes (a escrever) | $P(A \mid B)$, partição | Bussab 5.3–5.4 |
-| Cap. 3 | V.a. discretas: $E$, Var, FDA; uniforme, Bernoulli, binomial, hipergeométrica (a escrever) | $b(n,p)$, $\mathrm{hip}(N,r,n)$ | Bussab 6.1–6.3, 6.5, 6.6.1–6.6.4 |
-| Cap. 4 | V.a. contínuas: densidade, $E$, Var, FDA; uniforme, normal (a escrever) | $N(\mu,\sigma^2)$ | Bussab 7.1–7.4.2 |
+| 2.4–2.5 | Condicional e independência; Bayes | $P(A \mid B)$, partição | Bussab 5.3–5.4 |
+| Cap. 3 | V.a. discretas: $E$, Var, FDA; uniforme, Bernoulli, binomial, hipergeométrica; Poisson (3.7, complementar) | $b(n,p)$, $\mathrm{hip}(N,r,n)$ | Bussab 6.1–6.3 (+ (6.4) e (6.5) da 6.4), 6.5, 6.6.1–6.6.4 |
+| Cap. 4 | V.a. contínuas: densidade, $E$, Var ((7.8) incluída), FDA, inversa da FDA; uniforme, normal; exponencial (4.6, complementar) | $N(\mu,\sigma^2)$, $\Phi$, $u(\alpha,\beta)$ | Bussab 7.1–7.4.3 |
 
 Escopo completo, por aula, no `CLAUDE.md`. Um capítulo do livro por capítulo do Bussab: Cap. 2 = Bussab 5, Cap. 3 = Bussab 6, Cap. 4 = Bussab 7. Remissões "no Capítulo 3/4" dentro do Cap. 2 estão corretas.
 
@@ -71,8 +74,14 @@ Escopo completo, por aula, no `CLAUDE.md`. Um capítulo do livro por capítulo d
 |---|---|---|
 | Quantil do Bussab (3.20) usa $p_i = (i - 0{,}5)/n$ com interpolação linear = `numpy.quantile(method="hazen")`; o padrão do pandas é `linear` (tipo 7) | Ex. 3.5 do Bussab: hazen dá $q_1 = 4{,}5$, $q_3 = 11{,}25$; pandas dá $5$ e $11$ | Se o texto disser "segue (3.20)", o código tem de usar `hazen`; se usar o padrão, o texto deve dizer que é outra convenção |
 | Variância na seção 3.2 do Bussab divide por $n$; pandas divide por $n-1$ | $\{3,5,5,7\}$: Bussab/`np.var` = 2; pandas = 2,667 | Citar o Bussab para a definição **e** o divisor usado |
-| `scipy.stats.hypergeom(M, n, N)` ≠ $\mathrm{hip}(N, r, n)$ | letras colidem trocadas | mapear no comentário do chunk (a 2.6 já faz) |
+| `scipy.stats.hypergeom(M, n, N)` × $\mathrm{hip}(N, r, n)$ | a ordem posicional coincide (população, sucessos, amostra), mas a letra $N$ é população no Bussab e amostra na scipy; `hypergeom(N=20, n=4, M=5)` com as letras do livro devolve `nan` sem erro. Trocar $r$ e $n$ dá a mesma distribuição (simetria), então esse erro nem aparece | usar os nomes da scipy (`M=`, `n=`, `N=`) com comentário da correspondência (a 3.6 faz) |
 | `scipy.stats.norm(loc, scale)` recebe $\sigma$, Bussab escreve $\sigma^2$ | $N(0, 4)$ vira `norm(0, 2)` | nunca passar a variância em `scale` |
+| `scipy.stats.uniform(loc, scale)`: `scale` é a **largura** | `uniform(10, 70)` é $u(10, 80)$ | `uniform(loc=α, scale=β-α)` |
+| `scipy.stats.randint(a, b)` exclui `b` (ao contrário de `random.randint`) | `randint(1, 6)` é um dado de 5 faces; `pmf(6)` dá 0 sem aviso | `randint(1, 7)` |
+| `scipy.stats.expon(scale=β)`: `scale` é a média; muitos textos usam a taxa | passar a taxa em `scale` troca média por taxa | `expon(scale=1/taxa)` |
+| Saída de numpy 2 com `np.float64(...)` | poluição nas tuplas de saída | `np.set_printoptions(legacy="1.25")` no setup de cada seção e no notebook |
+| Graphviz `{dot}` no modo escuro | texto e setas pretos sobre fundo escuro; SVG com 672 px inline | `bgcolor="transparent"` no dot; o `styles.css` tem `.quarto-dark svg g.graph` e `max-width: 100% !important` |
+| Tabela de Resumo com fórmulas | estoura a página no celular | `::: {.table-responsive}` em volta (padrão nos Caps. 2–4) |
 | `set` de strings em Python sai em ordem diferente a cada processo (hash aleatório) | a saída do chunk muda a cada render e o `freeze` perde o sentido | exibir com `sorted(...)` |
 | Número de `{python} num(...)` dentro de `$...$` | a vírgula decimal vira `\,` (aparece como espaço); o ponto de milhar vira `\.` e a **barra aparece na tela** (`10 \. 000`); trocar por `{,}` também falha (o Quarto escapa as chaves) | **nenhum** `num(...)` com vírgula ou ponto dentro de `$...$`: fórmula com símbolos, número na prosa ("…$\binom{20}{4}$, ou 4.845"); inteiros abaixo de 1.000 podem ficar dentro |
 | Tupla com resultado do numpy 2 na saída de um chunk | aparece `np.float64(0.217)` em vez de `0.217` | converter com `float(...)` antes de exibir |

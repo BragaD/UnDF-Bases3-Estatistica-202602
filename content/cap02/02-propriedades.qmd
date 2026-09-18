@@ -7,6 +7,7 @@ Esta seção se baseia na seção 5.2 de @bussab2023.
 ```{python}
 #| label: setup
 #| include: false
+import numpy as np
 import pandas as pd
 from formato import num
 
@@ -15,6 +16,7 @@ modelo_uf = {sigla: 1/27 for sigla in estado["Sigla"]}
 
 def prob(evento, modelo):
     return sum(modelo[w] for w in evento)
+np.set_printoptions(legacy="1.25")   # números sem o prefixo np.float64 na saída
 ```
 
 Na seção 2.1 sorteamos um estado e calculamos a probabilidade de dois eventos: ter mais de 10 milhões de habitantes e ter taxa de homicídios acima da mediana. Cada um foi calculado sozinho. Mas as perguntas que interessam costumam combinar eventos: qual a chance de o estado sorteado ser grande **ou** de taxa alta? De ser as duas coisas ao mesmo tempo? De **não** ser grande?

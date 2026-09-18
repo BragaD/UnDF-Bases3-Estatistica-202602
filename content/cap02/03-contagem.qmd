@@ -7,10 +7,12 @@ Esta seção se baseia na seção 5.2 de @bussab2023. Permutação e combinaçã
 ```{python}
 #| label: setup
 #| include: false
+import numpy as np
 import pandas as pd
 from math import comb, factorial, perm
 from itertools import product
 from formato import num
+np.set_printoptions(legacy="1.25")   # números sem o prefixo np.float64 na saída
 ```
 
 No sorteio de um estado, calcular $P(A)$ foi contar: 6 estados grandes entre 27 dá $6/27$. Deu para fazer isso porque o `pandas` listava os 27 pontos amostrais e o `set` contava os que caíam no evento.

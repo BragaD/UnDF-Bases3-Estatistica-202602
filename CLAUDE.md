@@ -16,13 +16,13 @@ Terceira fonte: **Bussab & Morettin — *Estatística Básica*** entra onde o Br
 
 Regra de atribuição: callouts `de @bruce2020` marcam conteúdo do livro-texto; `de @weed`, do pythonbook; `de @bussab2023`, do Bussab & Morettin. Como nos callouts do Bruce, o número citado é sempre o **da fonte**, não o nosso.
 
-**Estrutura atual:** uma Introdução (motivacional, sem número), o Cap. 1 (Análise Exploratória de Dados, completo) e o Cap. 2 (Probabilidade, em construção, seção a seção). Os Caps. 3 e 4 estão planejados (abaixo) e ainda não existem.
+**Estrutura atual:** uma Introdução (motivacional, sem número), o Cap. 1 (Análise Exploratória de Dados), o Cap. 2 (Probabilidade, 2.1–2.5), o Cap. 3 (Variáveis Aleatórias Discretas, 3.1–3.7) e o Cap. 4 (Variáveis Aleatórias Contínuas, 4.1–4.6), todos escritos. As seções 3.7 (Poisson) e 4.6 (exponencial) são leitura complementar, com `callout-warning` como a 1.8, e ficam fora dos notebooks. Cada capítulo tem `notebooks/capitulo-NN.ipynb`.
 
 O Cap. 1 corresponde ao **capítulo 1 de @bruce2020**. Como o número citado no callout é sempre o **da fonte**, e não o nosso, os dois coincidem no Cap. 1. No Cap. 2 já divergem: a seção 2.1 corresponde à 5.1 do Bussab.
 
 **Os Capítulos 2 a 5 foram removidos do livro em 2.2026** — Probabilidade e Distribuições, Amostragem e Estimação, Experimentos Estatísticos e Testes de Significância, e Regressão e Predição. Os arquivos saíram de `content/`, as partes saíram do `_quarto.yml` e os notebooks `capitulo-02.ipynb` e `capitulo-03.ipynb` foram apagados. **Não recrie os capítulos antigos**: o conteúdo deles está no histórico do git, e a probabilidade está sendo reescrita a partir do Bussab (abaixo), com outra espinha. Os novos `content/cap02/`, `cap03/` e `cap04/` seguem o escopo abaixo, não o antigo.
 
-**Próximo capítulo: Probabilidade (a construir).** A fonte é **@bussab2023, capítulos 5, 6 e 7**, e não mais o @bruce2020 nem o @weed. Não presuma o escopo do capítulo antigo: ele vinha do Bruce, tinha outra espinha e foi apagado. O escopo foi **definido pelo professor em 18/09/2026**, uma aula de 100 min por linha:
+**Capítulos de probabilidade (2 a 4).** A fonte é **@bussab2023, capítulos 5, 6 e 7**, e não mais o @bruce2020 nem o @weed. Não presuma o escopo do capítulo antigo: ele vinha do Bruce, tinha outra espinha e foi apagado. O escopo foi **definido pelo professor em 18/09/2026**, uma aula de 100 min por linha:
 
 | Aula | Data | Seções de @bussab2023 |
 |:-:|:-:|---|

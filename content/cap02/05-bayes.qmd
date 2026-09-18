@@ -10,6 +10,7 @@ Esta seção corresponde à seção 5.4 de @bussab2023.
 import numpy as np
 import pandas as pd
 from formato import num
+np.set_printoptions(legacy="1.25")   # números sem o prefixo np.float64 na saída
 ```
 
 Um banco usa um detector automático de fraude em transações com cartão. O fornecedor garante que o detector dispara o alerta em 99% das fraudes, e que só 5% das transações legítimas geram alarme falso. Uma transação acabou de disparar o alerta. Qual a probabilidade de ela ser mesmo uma fraude?
@@ -88,7 +89,7 @@ Entre as transações que dispararam o alerta, a fração de fraudes fica em `{p
 Confundir $P(\text{alerta} \mid \text{fraude})$ com $P(\text{fraude} \mid \text{alerta})$ é um dos erros mais comuns em probabilidade. Ele aparece em diagnósticos médicos, em detectores de intrusão, em filtros de spam e em tribunais. Quando o evento é raro, a posteriori pode ser baixa mesmo com um teste muito sensível.
 :::
 
-## O teorema com várias hipóteses
+## Várias hipóteses
 
 Fraude e legítima são duas hipóteses que se excluem e cobrem todas as possibilidades. O raciocínio vale para qualquer número de hipóteses nessas condições.
 

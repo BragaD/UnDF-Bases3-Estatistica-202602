@@ -1,0 +1,178 @@
+# Função de Distribuição Acumulada Contínua
+
+::: {.callout-note}
+Esta seção corresponde à seção 7.3 de @bussab2023.
+:::
+
+```{python}
+#| label: setup
+#| include: false
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from scipy.integrate import quad
+from formato import num
+
+plt.rcParams["figure.figsize"] = (7, 4)
+np.set_printoptions(legacy="1.25")   # números sem o prefixo np.float64 na saída
+```
+
+A função de distribuição acumulada da seção 3.3, $F(x) = P(X \le x)$, não dependia de que a variável fosse discreta: a definição vale para qualquer variável aleatória. O que muda numa variável contínua é o jeito de calcular $F$ e a cara do gráfico. A escada da seção 3.3 vira uma curva sem degraus.
+
+## Definição
+
+::: {.conceito}
+Se $X$ é contínua com densidade $f$, a **função de distribuição acumulada** é
+
+$$
+F(x) = P(X \le x) = \int_{-\infty}^{x} f(t)\, dt,
+$$
+
+a área sob a densidade à esquerda de $x$.
+:::
+
+A letra da variável de integração mudou para $t$ porque $x$ já é o limite superior. Para a densidade $f(x) = 2x$ em $[0, 1]$, da seção 4.1 (Exemplo 7.2 de @bussab2023), a f.d.a. é (Exemplo 7.6):
+
+$$
+F(x) =
+\begin{cases}
+0, & x < 0, \\
+\int_0^x 2t\, dt = x^2, & 0 \le x < 1, \\
+1, & x \ge 1.
+\end{cases}
+$$
+
+$F$ tem as mesmas propriedades da seção 3.3: fica entre 0 e 1, nunca desce, tende a 0 quando $x \to -\infty$ e a 1 quando $x \to +\infty$. No exemplo, os limites são atingidos: $F(x) = 0$ para $x < 0$ e $F(x) = 1$ para $x \ge 1$. A diferença é que agora ela é **contínua**, sem saltos, porque nenhum ponto isolado tem probabilidade positiva.
+
+```{python}
+#| label: fig-densidade-fda
+#| fig-cap: "Densidade f(x) = 2x (à esquerda) e sua f.d.a. F(x) = x² (à direita). F(0,5) = 0,25 é a área sombreada sob a densidade."
+#| fig-alt: "À esquerda, uma reta crescente de 0 a 2 com a área até x = 0,5 sombreada; à direita, uma parábola de 0 a 1 com um ponto marcado em (0,5; 0,25)."
+x = np.linspace(-0.2, 1.2, 400)
+f = np.where((x >= 0) & (x <= 1), 2 * x, 0)
+f[np.argmax(x > 1)] = np.nan          # corta o traço vertical no salto em x = 1
+F = np.clip(x, 0, 1) ** 2
+
+fig, (esq, dir) = plt.subplots(1, 2, figsize=(7, 2.8))
+esq.plot(x, f)
+esq.fill_between(x, f, where=(x >= 0) & (x <= 0.5), alpha=0.3)
+esq.set_title("densidade f(x)")
+dir.plot(x, F)
+dir.plot(0.5, 0.25, "o")
+dir.set_title("f.d.a. F(x)")
+for eixo in (esq, dir):
+    eixo.set_xlabel("x")
+plt.tight_layout()
+plt.show()
+```
+
+## Da f.d.a. de volta à densidade
+
+$F$ é a integral de $f$. Pelo teorema fundamental do cálculo, a derivada de $F$ devolve $f$ nos pontos em que $f$ é contínua.
+
+::: {.conceito}
+Nos pontos em que $F$ é derivável,
+
+$$
+f(x) = F'(x).
+$$
+:::
+
+Com $F(x) = x^2$, $F'(x) = 2x$ em $(0, 1)$, a densidade de partida. No ponto de quebra $x = 1$, $F$ não é derivável, mas o valor de $f$ num ponto isolado não altera nenhuma probabilidade. Às vezes o modelo chega pela f.d.a., e a densidade sai por derivação. No Exemplo 7.7 de @bussab2023, $F(x) = 1 - e^{-x}$ para $x \ge 0$ (e 0 para $x < 0$), e
+
+$$
+f(x) = F'(x) = e^{-x}, \quad x \ge 0.
+$$
+
+É um caso particular (com média 1) da densidade exponencial, um modelo comum para tempos de espera, tratado na seção 4.6, de leitura complementar.
+
+## Probabilidades de intervalos
+
+Como na seção 3.3, $P(a < X \le b) = F(b) - F(a)$. Numa variável contínua, incluir ou não os extremos não muda nada, porque $P(X = a) = P(X = b) = 0$ (seção 4.1). Para $f(x) = 2x$:
+
+$$
+\begin{aligned}
+P(0{,}3 \le X \le 0{,}8) &= F(0{,}8) - F(0{,}3) \\
+&= 0{,}64 - 0{,}09 = 0{,}55.
+\end{aligned}
+$$
+
+```{python}
+#| label: fda-intervalo
+F_2x = lambda t: np.clip(t, 0, 1) ** 2
+
+pela_fda = F_2x(0.8) - F_2x(0.3)
+pela_integral, _ = quad(lambda t: 2 * t, 0.3, 0.8)
+round(float(pela_fda), 4), round(pela_integral, 4)
+```
+
+Com a f.d.a. em mãos, não é preciso integrar de novo para cada intervalo: basta subtrair dois valores.
+
+## Por que $\sqrt{U}$ tem densidade $2x$
+
+A seção 4.2 simulou a densidade $2x$ tirando a raiz quadrada de números uniformes em $[0, 1]$. A f.d.a. explica o truque. Se $U$ é uniforme em $[0, 1]$, então $P(U \le u) = u$ para $0 \le u \le 1$, e para $X = \sqrt{U}$ e $0 \le x \le 1$:
+
+$$
+\begin{aligned}
+P(X \le x) &= P(\sqrt{U} \le x) \\
+&= P(U \le x^2) = x^2.
+\end{aligned}
+$$
+
+É exatamente a f.d.a. $F(x) = x^2$. A raiz quadrada é a inversa de $F$. O argumento vale em geral: se $F$ é contínua e estritamente crescente onde a densidade é positiva, então $P(F^{-1}(U) \le x) = P(U \le F(x)) = F(x)$, e aplicar a inversa de $F$ a um número uniforme simula $X$. Esse é um dos métodos que as bibliotecas usam para gerar números de outras distribuições a partir de um gerador uniforme; a `scipy.stats` o usa por padrão quando uma distribuição não tem gerador próprio.
+
+```{python}
+#| label: inversa
+rng = np.random.default_rng(42)
+amostra = np.sqrt(rng.uniform(0, 1, size=100_000))
+
+xs = [0.3, 0.5, 0.8]
+pd.DataFrame({
+    "x": xs,
+    "F(x) = x²": [v**2 for v in xs],
+    "proporção ≤ x": [(amostra <= v).mean() for v in xs],
+}).round(4)
+```
+
+## Resumo
+
+::: {.table-responsive}
+| | Discreta | Contínua |
+|---|---|---|
+| $F(x)$ | soma de $p(x_i)$ com $x_i \le x$ | $\int_{-\infty}^{x} f(t)\, dt$ |
+| Gráfico | escada | curva sem saltos |
+| Volta ao modelo | altura dos degraus | $f(x) = F'(x)$ |
+| $P(a < X \le b)$ | $F(b) - F(a)$, atenção aos extremos | $F(b) - F(a)$, extremos não importam |
+:::
+
+## Exercícios
+
+**1.** Para a densidade $f(x) = 3x^2$ em $[0, 1]$, encontre a f.d.a. e use-a para calcular $P(0{,}5 < X \le 0{,}9)$.
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+$F(x) = \int_0^x 3t^2\, dt = x^3$ para $0 \le x \le 1$ (0 antes, 1 depois). $P(0{,}5 < X \le 0{,}9) = 0{,}9^3 - 0{,}5^3 = 0{,}729 - 0{,}125 = 0{,}604$.
+:::
+
+**2.** A f.d.a. de uma variável é $F(x) = x/4$ para $0 \le x \le 4$ (0 antes, 1 depois). Qual a densidade? Que modelo é esse?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+$f(x) = F'(x) = 1/4$ em $[0, 4]$, e zero fora. É a uniforme contínua $u(0, 4)$, da seção 4.4.
+:::
+
+**3.** Como simular a densidade $3x^2$ em $[0, 1]$ a partir de um gerador uniforme?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+A f.d.a. é $F(x) = x^3$, e a inversa é a raiz cúbica. Então $X = U^{1/3}$, com $U$ uniforme em $[0, 1]$:
+
+```python
+rng = np.random.default_rng(42)
+x = rng.uniform(0, 1, size=100_000) ** (1 / 3)
+x.mean()   # perto de 3/4
+```
+:::

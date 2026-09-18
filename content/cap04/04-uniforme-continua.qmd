@@ -1,0 +1,159 @@
+# Distribuição Uniforme Contínua
+
+::: {.callout-note}
+Esta seção corresponde à seção 7.4.1 de @bussab2023.
+:::
+
+```{python}
+#| label: setup
+#| include: false
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from scipy import stats
+from formato import num
+
+plt.rcParams["figure.figsize"] = (7, 4)
+np.set_printoptions(legacy="1.25")   # números sem o prefixo np.float64 na saída
+```
+
+Um sistema tem milhares de clientes que sincronizam dados com o servidor toda hora cheia. Se todos disparassem no mesmo segundo, o servidor cairia. A solução comum é o **jitter**: cada cliente espera um tempo aleatório entre 0 e 60 segundos antes de sincronizar, sem preferência por nenhum instante do intervalo. O tempo de espera de um cliente é o exemplo mais simples de variável contínua, e é a generalização do relógio da seção 4.1 para um intervalo qualquer.
+
+## O modelo
+
+::: {.conceito}
+A variável aleatória $X$ tem **distribuição uniforme** no intervalo $[\alpha, \beta]$, $X \sim u(\alpha, \beta)$, quando sua densidade é
+
+$$
+f(x) =
+\begin{cases}
+\dfrac{1}{\beta - \alpha}, & \alpha \le x \le \beta, \\[4pt]
+0, & \text{fora do intervalo}.
+\end{cases}
+$$
+:::
+
+A altura $1/(\beta - \alpha)$ é a única que dá área 1 a um retângulo de base $\beta - \alpha$. No jitter, $X \sim u(0, 60)$, com densidade $1/60$. No relógio, $X \sim u(0, 360)$.
+
+A probabilidade de um subintervalo é a área de um retângulo, sem precisar de integral: para $\alpha \le c < d \le \beta$,
+
+$$
+P(c \le X \le d) = \frac{d - c}{\beta - \alpha}.
+$$
+
+## Valor médio, variância e f.d.a.
+
+Integrando como na seção 4.2 (Problema 29 de @bussab2023):
+
+$$
+\begin{aligned}
+E(X) &= \frac{\alpha + \beta}{2}, \\
+\mathrm{Var}(X) &= \frac{(\beta - \alpha)^2}{12}.
+\end{aligned}
+$$
+
+A média é o ponto médio do intervalo, e a variância depende só da largura. A f.d.a. da seção 4.3 cresce em linha reta de 0 a 1 ao longo do intervalo:
+
+$$
+F(x) =
+\begin{cases}
+0, & x < \alpha, \\
+\dfrac{x - \alpha}{\beta - \alpha}, & \alpha \le x < \beta, \\[4pt]
+1, & x \ge \beta.
+\end{cases}
+$$
+
+```{python}
+#| label: fig-uniforme
+#| fig-cap: "Densidade (à esquerda) e f.d.a. (à direita) da uniforme em [0, 60], o tempo de espera do jitter."
+#| fig-alt: "À esquerda, um retângulo de altura 1/60 entre 0 e 60; à direita, uma reta que sobe de 0 em x = 0 até 1 em x = 60."
+jitter = stats.uniform(loc=0, scale=60)
+x = np.linspace(-10, 70, 400)
+
+fig, (esq, dir) = plt.subplots(1, 2, figsize=(7, 2.8))
+esq.plot(x, jitter.pdf(x))
+esq.set_title("densidade f(x)")
+dir.plot(x, jitter.cdf(x))
+dir.set_title("f.d.a. F(x)")
+for eixo in (esq, dir):
+    eixo.set_xlabel("espera x (s)")
+plt.tight_layout()
+plt.show()
+```
+
+## Em Python
+
+A `scipy.stats.uniform` representa a uniforme, mas com dois parâmetros diferentes dos do livro: `loc` é o início do intervalo ($\alpha$), e `scale` é a **largura** ($\beta - \alpha$), e não o fim.
+
+```{python}
+#| label: jitter
+jitter = stats.uniform(loc=0, scale=60)          # u(0, 60)
+
+print(jitter.mean(), jitter.var(), round(jitter.std(), 2))
+print(jitter.cdf(15), round(jitter.cdf(45) - jitter.cdf(30), 2))
+```
+
+A espera média é de 30 segundos, com desvio-padrão de `{python} num(jitter.std(), 1)` segundos, que é $60/\sqrt{12}$. Um quarto dos clientes sincroniza nos primeiros 15 segundos, e outro quarto entre 30 e 45 segundos: em faixas de mesma largura, a carga se espalha por igual.
+
+::: {.callout-warning}
+## `scale` é a largura, não o fim do intervalo
+Para $u(10, 70)$, o certo é `stats.uniform(loc=10, scale=60)`. Escrever `stats.uniform(10, 70)` modela $u(10, 80)$, e o erro não gera aviso: a média sai 45 em vez de 40.
+:::
+
+## Números aleatórios
+
+O caso $u(0, 1)$ tem um papel especial: um **número aleatório**, no sentido dos geradores de computador, é um valor simulado de $u(0, 1)$. É o que o `rng.uniform(0, 1)` e o `rng.random()` do numpy devolvem. A seção 4.3 mostrou que, aplicando a inversa de uma f.d.a. contínua e estritamente crescente a números uniformes, sai uma amostra de outra distribuição. Por isso a uniforme em $[0, 1]$ está na base de quase toda simulação.
+
+Uma uniforme qualquer também sai de $u(0, 1)$ por uma transformação linear: se $U \sim u(0, 1)$, então $X = \alpha + (\beta - \alpha)\,U \sim u(\alpha, \beta)$. A f.d.a. da seção 4.3 mostra por quê: $P(X \le x) = P\big(U \le \tfrac{x - \alpha}{\beta - \alpha}\big) = \tfrac{x - \alpha}{\beta - \alpha}$, a f.d.a. da uniforme em $[\alpha, \beta]$. As regras da seção 4.2 (as da 3.2, estendidas às contínuas) dão a média e a variância de $X$ a partir da média e da variância de $U$, que são $1/2$ e $1/12$: $E(X) = \alpha + (\beta - \alpha)/2 = (\alpha + \beta)/2$ e $\mathrm{Var}(X) = (\beta - \alpha)^2/12$. (@bussab2023, na fórmula 7.16, faz o caminho inverso, levando qualquer uniforme a $u(-1/2, 1/2)$.)
+
+```{python}
+#| label: transformacao
+rng = np.random.default_rng(42)
+u = rng.random(100_000)
+espera = 0 + (60 - 0) * u
+
+round(float(espera.mean()), 2), round(float(espera.var()), 1), 60**2 / 12
+```
+
+## Resumo
+
+::: {.table-responsive}
+| Item | Uniforme $u(\alpha, \beta)$ |
+|---|---|
+| Densidade | $1/(\beta - \alpha)$ em $[\alpha, \beta]$ |
+| $E(X)$ | $(\alpha + \beta)/2$ |
+| $\mathrm{Var}(X)$ | $(\beta - \alpha)^2/12$ |
+| $F(x)$ | $(x - \alpha)/(\beta - \alpha)$ em $[\alpha, \beta]$ |
+| `scipy.stats` | `uniform(loc=α, scale=β - α)` |
+:::
+
+## Exercícios
+
+**1.** O tempo de resposta de um serviço é uniforme entre 100 e 400 ms. Qual a probabilidade de uma resposta levar mais de 300 ms? Qual a média e o desvio-padrão?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+$X \sim u(100, 400)$. $P(X > 300) = (400 - 300)/300 = 1/3$. $E(X) = 250$ ms e $\mathrm{DP}(X) = 300/\sqrt{12} \approx 86{,}6$ ms.
+
+```python
+t = stats.uniform(loc=100, scale=300)
+t.sf(300), t.mean(), t.std()
+```
+:::
+
+**2.** No Exemplo 7.8 de @bussab2023, $U \sim u(-1/2, 1/2)$. Calcule $E(U)$, $\mathrm{Var}(U)$ e $P(-1/4 \le U \le 1/4)$.
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+$E(U) = 0$, $\mathrm{Var}(U) = 1^2/12 = 1/12$ e $P(-1/4 \le U \le 1/4) = (1/4 + 1/4)/1 = 1/2$.
+:::
+
+**3.** O jitter de outro serviço é uniforme entre 30 e 90 segundos. Um colega escreveu `stats.uniform(30, 90)`. Que intervalo ele modelou, e que média obteve?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+Para a `scipy`, o segundo argumento é a largura, então ele modelou $u(30, 120)$, com média 75 segundos em vez de 60. O certo é `stats.uniform(loc=30, scale=60)`. Com `loc=0` o erro não aparece, porque a largura e o fim do intervalo são o mesmo número.
+:::

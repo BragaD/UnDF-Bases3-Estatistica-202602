@@ -6,14 +6,14 @@ Este capítulo é baseado no Capítulo 6 de @bussab2023.
 
 📓 [**Abrir o notebook deste capítulo no Colab ↗**](https://colab.research.google.com/github/BragaD/UnDF-Bases3-Estatistica-202602/blob/main/notebooks/capitulo-03.ipynb): só o código, pronto para rodar.
 
-::: {.callout-important}
-## Capítulo em construção
-As seções entram no site ao longo do semestre, antes da aula correspondente no cronograma.
-:::
-
 ## Seções
 
 | Seção | Tópico |
 |---|---|
 | [3.1](01-variaveis-aleatorias.qmd) | Variável Aleatória e Função de Probabilidade |
 | [3.2](02-valor-medio-variancia.qmd) | Valor Médio e Variância |
+| [3.3](03-distribuicao-acumulada.qmd) | Função de Distribuição Acumulada |
+| [3.4](04-uniforme-bernoulli.qmd) | Uniforme Discreta e Bernoulli |
+| [3.5](05-binomial.qmd) | Distribuição Binomial |
+| [3.6](06-hipergeometrica.qmd) | Distribuição Hipergeométrica |
+| [3.7](07-poisson.qmd) | Distribuição de Poisson *(leitura complementar, fora do cronograma)* |

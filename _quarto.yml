@@ -75,6 +75,32 @@ book:
           text: "Variável Aleatória e Função de Probabilidade"
         - href: content/cap03/02-valor-medio-variancia.qmd
           text: "Valor Médio e Variância"
+        - href: content/cap03/03-distribuicao-acumulada.qmd
+          text: "Função de Distribuição Acumulada"
+        - href: content/cap03/04-uniforme-bernoulli.qmd
+          text: "Uniforme Discreta e Bernoulli"
+        - href: content/cap03/05-binomial.qmd
+          text: "Distribuição Binomial"
+        - href: content/cap03/06-hipergeometrica.qmd
+          text: "Distribuição Hipergeométrica"
+        - href: content/cap03/07-poisson.qmd
+          text: "Distribuição de Poisson"
+    - part: "Capítulo 4: Variáveis Aleatórias Contínuas"
+      chapters:
+        - href: content/cap04/index.qmd
+          text: "Visão Geral"
+        - href: content/cap04/01-variaveis-continuas.qmd
+          text: "Variável Aleatória Contínua e Densidade"
+        - href: content/cap04/02-valor-medio-continuo.qmd
+          text: "Valor Médio e Variância de uma Variável Contínua"
+        - href: content/cap04/03-distribuicao-acumulada-continua.qmd
+          text: "Função de Distribuição Acumulada Contínua"
+        - href: content/cap04/04-uniforme-continua.qmd
+          text: "Distribuição Uniforme Contínua"
+        - href: content/cap04/05-normal.qmd
+          text: "Distribuição Normal"
+        - href: content/cap04/06-exponencial.qmd
+          text: "Distribuição Exponencial"
   page-navigation: true
   page-footer:
     border: true

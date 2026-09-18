@@ -1,0 +1,18 @@
+# Variáveis Aleatórias Contínuas
+
+::: {.callout-note}
+Este capítulo é baseado no Capítulo 7 de @bussab2023.
+:::
+
+📓 [**Abrir o notebook deste capítulo no Colab ↗**](https://colab.research.google.com/github/BragaD/UnDF-Bases3-Estatistica-202602/blob/main/notebooks/capitulo-04.ipynb): só o código, pronto para rodar.
+
+## Seções
+
+| Seção | Tópico |
+|---|---|
+| [4.1](01-variaveis-continuas.qmd) | Variável Aleatória Contínua e Densidade |
+| [4.2](02-valor-medio-continuo.qmd) | Valor Médio e Variância de uma Variável Contínua |
+| [4.3](03-distribuicao-acumulada-continua.qmd) | Função de Distribuição Acumulada Contínua |
+| [4.4](04-uniforme-continua.qmd) | Distribuição Uniforme Contínua |
+| [4.5](05-normal.qmd) | Distribuição Normal |
+| [4.6](06-exponencial.qmd) | Distribuição Exponencial *(leitura complementar, fora do cronograma)* |

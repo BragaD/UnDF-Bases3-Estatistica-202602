@@ -7,6 +7,7 @@ Esta seção corresponde à seção 5.3 de @bussab2023.
 ```{python}
 #| label: setup
 #| include: false
+import numpy as np
 import pandas as pd
 from fractions import Fraction
 from formato import num
@@ -21,6 +22,7 @@ A = set(estado.loc[estado["Populacao"] > 10_000_000, "Sigla"])
 mediana_taxa = estado["Taxa.Homicidios"].median()
 B = set(estado.loc[estado["Taxa.Homicidios"] > mediana_taxa, "Sigla"])
 todos = set(estado["Sigla"])
+np.set_printoptions(legacy="1.25")   # números sem o prefixo np.float64 na saída
 ```
 
 Na seção 2.2, a tabela de contingência dos estados mostrou que `{python} len(B)` dos 27 têm taxa de homicídios acima da mediana (taxa alta). Sorteando um estado sem saber nada sobre ele, $P(B) = `{python} len(B)`/27$, perto de metade.

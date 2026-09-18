@@ -13,6 +13,7 @@ import matplotlib.pyplot as plt
 from formato import num
 
 plt.rcParams["figure.figsize"] = (7, 4)
+np.set_printoptions(legacy="1.25")   # números sem o prefixo np.float64 na saída
 ```
 
 No Capítulo 1 descrevemos dados que já existiam: a população de cada estado, a taxa de homicídios, a proporção de atrasos por causa. Toda frequência relativa que calculamos contava algo que **já tinha acontecido**.
@@ -255,6 +256,7 @@ O evento "a requisição responde em menos de 200 ms" é o intervalo $A = \{t : 
 
 ## Resumo
 
+::: {.table-responsive}
 | Termo | O que é |
 |---|---|
 | Espaço amostral $\Omega$ | todos os resultados possíveis |
@@ -262,6 +264,7 @@ O evento "a requisição responde em menos de 200 ms" é o intervalo $A = \{t : 
 | Modelo probabilístico | $\Omega$ + uma $P(\omega)$ para cada ponto |
 | Evento $A$ | subconjunto de $\Omega$ |
 | $P(A)$ | soma das $P(\omega)$ com $\omega \in A$ |
+:::
 
 ::: {.conceito}
 **Regra prática:** antes de calcular qualquer probabilidade, escreva o espaço amostral e diga qual é a probabilidade de cada ponto. Os erros desta seção, o do número de caras e o da soma de dois dados, estão nesse passo, não na conta.

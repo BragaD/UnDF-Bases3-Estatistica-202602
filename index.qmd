@@ -6,18 +6,13 @@ Este é o material de apoio da disciplina **Bases 3 — Estatística**, oferecid
 
 A disciplina apresenta a estatística do ponto de vista de quem constrói software e trabalha com dados: menos fórmulas decoradas, mais raciocínio sobre o que os dados dizem e o que eles não dizem. Todos os exemplos são em **Python**.
 
-O material publicado hoje cobre a **Introdução**, o **Capítulo 1** (Análise Exploratória de Dados: estimativas de localização, variabilidade, distribuição, dados binários e categóricos, e correlação) e o começo do **Capítulo 2** (Probabilidade).
+O material cobre a **Introdução**, o **Capítulo 1** (Análise Exploratória de Dados: estimativas de localização, variabilidade, distribuição, dados binários e categóricos, e correlação) e três capítulos de probabilidade, escritos a partir dos capítulos 5, 6 e 7 de @bussab2023: o **Capítulo 2** (Probabilidade), o **Capítulo 3** (Variáveis Aleatórias Discretas) e o **Capítulo 4** (Variáveis Aleatórias Contínuas).
 
-::: {.callout-important}
-## Capítulo em construção
-O capítulo de **probabilidade** está sendo escrito a partir dos capítulos 5, 6 e 7 de @bussab2023. As seções entram no site ao longo do semestre, antes da aula correspondente no cronograma abaixo.
-:::
-
-A seção 1.8 (Explorando Duas ou Mais Variáveis) está fora do cronograma e permanece apenas como leitura complementar.
+Três seções estão fora do cronograma e ficam como leitura complementar: a 1.8 (Explorando Duas ou Mais Variáveis), a 3.7 (Distribuição de Poisson) e a 4.6 (Distribuição Exponencial).
 
 ## Cronograma
 
-As aulas são às **sextas-feiras**, de 21 de agosto a 18 de dezembro de 2026: Engenharia de Software das **8h30 às 10h10** e Sistemas de Informação das **10h20 às 12h00**. Das 18 sextas do período, **quatro não têm aula**: 11/09 (ausência do professor por atestado médico), 02/10 e 23/10 (eleições) e 20/11 (feriado). Restam, portanto, **14 encontros**. A Poisson e a exponencial ficam fora do cronograma, como leitura complementar do capítulo de probabilidade.
+As aulas são às **sextas-feiras**, de 21 de agosto a 18 de dezembro de 2026: Engenharia de Software das **8h30 às 10h10** e Sistemas de Informação das **10h20 às 12h00**. Das 18 sextas do período, **quatro não têm aula**: 11/09 (ausência do professor por atestado médico), 02/10 e 23/10 (eleições) e 20/11 (feriado). Restam, portanto, **14 encontros**.
 
 | Aula | Data | Conteúdo |
 |:----:|:----:|:---------|
@@ -28,14 +23,14 @@ As aulas são às **sextas-feiras**, de 21 de agosto a 18 de dezembro de 2026: E
 | 4 | 18/09 | 1 — Estimativas de variabilidade |
 | 5 | 25/09 | 1 — Explorando a distribuição dos dados · dados binários e categóricos · correlação |
 | — | 02/10 | *Sem aula — eleições* |
-| 6 | 09/10 | Probabilidade: experimento aleatório, espaço amostral e eventos · propriedades da probabilidade · revisão de contagem (permutação e combinação) |
+| 6 | 09/10 | [Probabilidade](content/cap02/index.qmd): experimento aleatório, espaço amostral e eventos · propriedades da probabilidade · revisão de contagem (permutação e combinação) |
 | 7 | 16/10 | Probabilidade condicional e independência · teorema de Bayes |
 | — | 23/10 | *Sem aula — eleições* |
 | 8 | 30/10 | **Prova 1**: análise exploratória e probabilidade · **entrega da [Lista 1](downloads/lista-1-prova-1.pdf)** |
-| 9 | 06/11 | Variáveis aleatórias discretas: função de probabilidade, valor médio, variância e função de distribuição acumulada |
+| 9 | 06/11 | [Variáveis Aleatórias Discretas](content/cap03/index.qmd): função de probabilidade, valor médio, variância e função de distribuição acumulada |
 | 10 | 13/11 | Modelos discretos: uniforme, Bernoulli, binomial e hipergeométrica |
 | — | 20/11 | *Sem aula — feriado* |
-| 11 | 27/11 | Variáveis aleatórias contínuas: função densidade de probabilidade, valor médio, variância e função de distribuição acumulada |
+| 11 | 27/11 | [Variáveis Aleatórias Contínuas](content/cap04/index.qmd): função densidade de probabilidade, valor médio, variância e função de distribuição acumulada |
 | 12 | 04/12 | Modelos contínuos: uniforme e normal |
 | 13 | 11/12 | **Prova 2**: variáveis aleatórias discretas e contínuas · **entrega da Lista 2** |
 | 14 | 18/12 | Devolutiva da Prova 2 (HPE — horário protegido para estudo) |
@@ -67,7 +62,7 @@ O código e os conjuntos de dados originais estão em [github.com/gedeck/practic
 
 Uma segunda fonte, o *pythonbook* de Ethan Weed [@weed], contribui com a introdução motivacional e com enriquecimentos do Capítulo 1.
 
-Como **bibliografia básica** em português, a disciplina adota também *Estatística Básica*, de Bussab e Morettin [@bussab2023], referência clássica dos fundamentos de estatística e probabilidade. É desse livro que vem o capítulo de **probabilidade**, em construção.
+Como **bibliografia básica** em português, a disciplina adota também *Estatística Básica*, de Bussab e Morettin [@bussab2023], referência clássica dos fundamentos de estatística e probabilidade. É desse livro que vêm os capítulos de **probabilidade**, do 2 ao 4.
 
 O Capítulo 1 deste material corresponde ao **capítulo 1 de @bruce2020**, com os quantis empíricos vindos da seção 3.3 de @bussab2023.
 

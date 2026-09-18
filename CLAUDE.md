@@ -66,7 +66,7 @@ content/
 
 **Todo `.qmd` novo precisa ser registrado em `_quarto.yml` sob `book.chapters`.** O YAML define o sidebar e a ordem de navegação — arquivo não listado simplesmente não aparece no livro. A ordem vem do `_quarto.yml`, não do nome do arquivo; para reordenar, renomeie com `git mv` e atualize o YAML na mesma operação.
 
-A Introdução e os Capítulos 1 a 3 estão completos; **os Capítulos 4 e 5 ainda são stubs** (título + `callout-note` + aviso de construção). A seção completa que serve de modelo de estilo é `content/cap01/03-estimativas-localizacao.qmd`.
+A Introdução e os Capítulos 1 a 3 estão completos; **os Capítulos 4 e 5 ainda são stubs** (título + `callout-note` + aviso de construção). A seção completa que serve de modelo de **estrutura** é `content/cap01/03-estimativas-localizacao.qmd` (não de voz: ela tem travessões demais).
 
 ### Caminhos de dados
 
@@ -158,3 +158,30 @@ docker run --rm -v "$PWD/_book:/site:ro" -v "$PWD/scripts:/scripts:ro" \
 ```
 
 Detalhe não óbvio: apesar do nome, esta imagem **não** vem com o pacote Python `playwright` pré-instalado — só os binários dos navegadores, em `/ms-playwright`. O `pip install playwright==1.61.0` (mesma versão do tag da imagem) é obrigatório antes de importar `playwright.sync_api`, senão o script falha com `ModuleNotFoundError`. O Playwright em si **não** entra na imagem do livro: ela ficaria centenas de MB maior à toa, e o CI a baixaria a cada push.
+
+### Skills e agentes de revisão (`.claude/`)
+
+Adaptados de [pedrohcgs/claude-code-my-workflow](https://github.com/pedrohcgs/claude-code-my-workflow), que é feito para **slides Beamer + R**. Aqui "lecture/slide" significa **seção do livro** (`content/capNN/*.qmd`), o código é Python e a referência de render é o próprio `.qmd` (não há Beamer). Os nomes das skills foram mantidos para bater com o original.
+
+- **Skills:** `/create-lecture` (nova seção ou stub), `/scaffold-exercises` (lista + gabarito em `avaliacoes/`), `/devils-advocate`, `/humanize`, `/visual-audit`, `/qa-quarto` (crítico ↔ consertador até convergir), `/slide-excellence` (fan-out de todas as lentes).
+- **Agentes:** `domain-reviewer` (substância, calibrado pelo **Bussab**), `pedagogy-reviewer`, `proofreader`, `slide-auditor` (layout da página), `humanize-auditor`, `quarto-critic`, `quarto-fixer`, `verifier`.
+- **Regras:** `.claude/rules/knowledge-base.md` guarda notação e **armadilhas código↔teoria verificadas** (quantil do Bussab = `method="hazen"`, não o padrão do pandas; variância do Bussab 3.2 divide por $n$; `hypergeom`/`norm` da scipy). `content-invariants.md` numera as regras deste arquivo (INV-1…12) para os revisores citarem.
+- **Achados** são arrays JSON validados por `scripts/validate-findings.py` (`id = sha1(arquivo:linha:locus)`). Relatórios e capturas (`scripts/captura-pagina.py`) vão para `quality_reports/`, gitignorado.
+
+#### Obrigatório: skills a cada escrita ou reescrita de conteúdo
+
+Toda vez que escrever ou reescrever prosa, código ou exercício do livro (`content/`, `index.qmd`, `notebooks/`, `avaliacoes/`), **use as skills abaixo antes de dar o trabalho por concluído**, mesmo que ninguém peça. Rascunho de IA não revisado não vai para o livro.
+
+| Situação | Antes | Depois de escrever |
+|---|---|---|
+| Seção nova ou stub preenchido | `/create-lecture` (Pré-Voo + lotes) | todos os itens da linha abaixo + `/devils-advocate` |
+| Reescrita ou trecho novo numa seção | ler `.claude/rules/knowledge-base.md` e `content-invariants.md` | `/humanize <arquivo> --so-novo`; agente `domain-reviewer` se mexeu em fórmula, número, definição ou citação; agente `proofreader` |
+| Mudança em gráfico, tabela, widget ou layout | — | `/visual-audit` |
+| Lista, prova ou exercício | `/scaffold-exercises` | agente `domain-reviewer` no gabarito; `/humanize` no enunciado |
+| Antes de commit/push (a `main` publica o site) | — | agente `verifier`; `/qa-quarto` nas seções alteradas |
+| Revisão completa pedida pelo professor | — | `/slide-excellence` |
+
+- **Achados de gravidade alta ou `blocker` são corrigidos antes de entregar**, ou apresentados ao professor quando exigem decisão dele (definição, número reportado, escolha pedagógica).
+- Se uma skill não puder rodar (Docker parado, sem `.venv`), diga qual ficou de fora e por quê. Nunca omita.
+- Ao escrever, **evite o travessão (—)**: ele não é estilo do professor e é o sinal de IA mais frequente no livro. Use vírgula, dois-pontos, parênteses ou ponto final. Também evite a antítese "não é X — é Y".
+- Mudança só em infraestrutura (`Dockerfile`, `Makefile`, CI, `.claude/`) não precisa de `/humanize` nem de `domain-reviewer`; precisa do `verifier`.

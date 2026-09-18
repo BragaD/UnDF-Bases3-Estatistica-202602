@@ -1,0 +1,18 @@
+# Probabilidade
+
+::: {.callout-note}
+Este capítulo é baseado no Capítulo 5 de @bussab2023.
+:::
+
+📓 [**Abrir o notebook deste capítulo no Colab ↗**](https://colab.research.google.com/github/BragaD/UnDF-Bases3-Estatistica-202602/blob/main/notebooks/capitulo-02.ipynb): só o código, pronto para rodar.
+
+::: {.callout-important}
+## Capítulo em construção
+As seções entram no site ao longo do semestre, antes da aula correspondente no cronograma.
+:::
+
+## Seções
+
+| Seção | Tópico |
+|---|---|
+| [2.1](01-modelos-probabilisticos.qmd) | Modelos Probabilísticos |

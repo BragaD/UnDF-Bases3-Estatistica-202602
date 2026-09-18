@@ -15,7 +15,7 @@ content/**/*_files/
 __pycache__/
 *.py[cod]
 .ipynb_checkpoints/
-**/*.quarto_ipynb
+**/*.quarto_ipynb*
 
 # Ambiente
 .env
@@ -47,3 +47,5 @@ livros/
 /docs/PID*
 /docs/ficha-PID.md
 /docs/Rotinas*
+
+**/*.quarto_ipynb

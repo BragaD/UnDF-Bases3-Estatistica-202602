@@ -16,13 +16,36 @@ Terceira fonte: **Bussab & Morettin — *Estatística Básica*** entra onde o Br
 
 Regra de atribuição: callouts `de @bruce2020` marcam conteúdo do livro-texto; `de @weed`, do pythonbook; `de @bussab2023`, do Bussab & Morettin. Como nos callouts do Bruce, o número citado é sempre o **da fonte**, não o nosso.
 
-**Estrutura atual: uma Introdução (motivacional, sem número) + 1 capítulo** — Análise Exploratória de Dados. É tudo que existe no livro hoje.
+**Estrutura atual:** uma Introdução (motivacional, sem número), o Cap. 1 (Análise Exploratória de Dados, completo) e o Cap. 2 (Probabilidade, em construção, seção a seção). Os Caps. 3 e 4 estão planejados (abaixo) e ainda não existem.
 
-O Cap. 1 corresponde ao **capítulo 1 de @bruce2020**. Como o número citado no callout é sempre o **da fonte**, e não o nosso, os dois coincidem hoje — mas não conte com isso: assim que o capítulo de probabilidade voltar, a numeração volta a divergir.
+O Cap. 1 corresponde ao **capítulo 1 de @bruce2020**. Como o número citado no callout é sempre o **da fonte**, e não o nosso, os dois coincidem no Cap. 1. No Cap. 2 já divergem: a seção 2.1 corresponde à 5.1 do Bussab.
 
-**Os Capítulos 2 a 5 foram removidos do livro em 2.2026** — Probabilidade e Distribuições, Amostragem e Estimação, Experimentos Estatísticos e Testes de Significância, e Regressão e Predição. Os arquivos saíram de `content/`, as partes saíram do `_quarto.yml` e os notebooks `capitulo-02.ipynb` e `capitulo-03.ipynb` foram apagados. **Não os recrie por conta própria**; o conteúdo antigo está no histórico do git, mas o capítulo de probabilidade será reescrito de outra fonte (abaixo).
+**Os Capítulos 2 a 5 foram removidos do livro em 2.2026** — Probabilidade e Distribuições, Amostragem e Estimação, Experimentos Estatísticos e Testes de Significância, e Regressão e Predição. Os arquivos saíram de `content/`, as partes saíram do `_quarto.yml` e os notebooks `capitulo-02.ipynb` e `capitulo-03.ipynb` foram apagados. **Não recrie os capítulos antigos**: o conteúdo deles está no histórico do git, e a probabilidade está sendo reescrita a partir do Bussab (abaixo), com outra espinha. Os novos `content/cap02/`, `cap03/` e `cap04/` seguem o escopo abaixo, não o antigo.
 
-**Próximo capítulo — Probabilidade (a construir):** a fonte será **@bussab2023, capítulos 5, 6 e 7**, e não mais o @bruce2020 nem o @weed. **O escopo ainda será definido** — quais seções de cada capítulo entram, em que ordem e com que profundidade é uma decisão do professor, ainda não tomada. Não presuma o escopo do capítulo antigo: ele vinha do Bruce, tinha outra espinha e foi apagado. Antes de escrever qualquer seção nova de probabilidade, **pergunte o escopo**.
+**Próximo capítulo: Probabilidade (a construir).** A fonte é **@bussab2023, capítulos 5, 6 e 7**, e não mais o @bruce2020 nem o @weed. Não presuma o escopo do capítulo antigo: ele vinha do Bruce, tinha outra espinha e foi apagado. O escopo foi **definido pelo professor em 18/09/2026**, uma aula de 100 min por linha:
+
+| Aula | Data | Seções de @bussab2023 |
+|:-:|:-:|---|
+| 6 | 09/10 | 5.1, 5.2 + revisão curta de contagem |
+| 7 | 16/10 | 5.3, 5.4 |
+| 8 | 30/10 | **Prova 1**: Cap. 1 + Cap. 5 |
+| 9 | 06/11 | 6.1, 6.2, 6.3 (com E(aX+b) e Var(aX+b) da 6.4), 6.5 |
+| 10 | 13/11 | 6.6.1 a 6.6.4 (uniforme discreta, Bernoulli, binomial, hipergeométrica) |
+| 11 | 27/11 | 7.1, 7.2, 7.3 |
+| 12 | 04/12 | 7.4.1, 7.4.2 (uniforme contínua, normal) |
+| 13 | 11/12 | **Prova 2**: Caps. 6 e 7 |
+
+Decisões que acompanham esse escopo:
+
+- **Três capítulos no livro, um por capítulo do Bussab:** Cap. 2 Probabilidade (Bussab 5 + contagem), Cap. 3 Variáveis Aleatórias Discretas (Bussab 6), Cap. 4 Variáveis Aleatórias Contínuas (Bussab 7). A seção 2.1 (`content/cap02/01-modelos-probabilisticos.qmd`) corresponde à 5.1.
+- **Suplementar, fora do cronograma:** 6.6.5 (Poisson) e 7.4.3 (exponencial), com `callout-warning` no topo como na 1.8, e fora do notebook do capítulo.
+- **Fora do livro:** 5.5, 5.6, 6.4 (exceto os dois resultados abaixo), 6.7 em diante, 7.5 em diante.
+- **Da 6.4 entram só E(aX+b) = aE(X)+b e Var(aX+b) = a²Var(X)**, como nota dentro da 6.3. A padronização da normal (7.4.2) depende deles.
+- **Contagem:** revisão curta (princípio multiplicativo, permutação, combinação) junto da 5.2, porque o Bussab usa combinações na 5.2, na binomial e na hipergeométrica sem ter seção própria. O texto de partida é `content/cap02/04-contagem-permutacao-combinacao.qmd` no commit `bd099e5`, que tem travessões e cita "exercício 5.8": no Bussab é o **Exemplo 5.8**; corrigir ao recuperar.
+- **Os alunos já viram integral:** 7.1 a 7.3 fazem as contas por integral, não só como área.
+- **Não há aula de revisão antes das provas:** as Listas cumprem esse papel.
+
+Ordem, profundidade e redação de cada seção continuam sendo combinadas com o professor, seção a seção, via `/create-lecture`.
 
 **Cortes de 2.2026 no Cap. 1** (o semestre perdeu quatro sextas — 11/09 atestado, 02/10 e 23/10 eleições, 20/11 feriado): da 1.5 saíram as convenções `lower` e `higher` de quantil, o gráfico de violino, a curva de densidade e a curtose; da 1.6, o valor esperado; da 1.7, o heatmap. A **1.8 continua no site** como leitura complementar — tem um `callout-warning` no topo, está marcada na tabela do `content/cap01/index.qmd` e **não entra no `notebooks/capitulo-01.ipynb`**. A curtose **não existe mais no livro**; não a cite como "introduzida no Capítulo 1".
 

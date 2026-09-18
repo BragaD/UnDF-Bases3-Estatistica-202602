@@ -79,6 +79,12 @@
   color: #9fb3c8;
 }
 
+/* ── Figuras PNG: nunca mais largas que a coluna (no celular eram cortadas) ── */
+.quarto-figure img {
+  max-width: 100%;
+  height: auto;
+}
+
 /* ── Diagramas Graphviz — escala total ── */
 .cell-output-display svg,
 .quarto-figure svg {

@@ -53,6 +53,12 @@ book:
           text: "Correlação"
         - href: content/cap01/08-duas-ou-mais-variaveis.qmd
           text: "Duas ou Mais Variáveis"
+    - part: "Capítulo 2: Probabilidade"
+      chapters:
+        - href: content/cap02/index.qmd
+          text: "Visão Geral"
+        - href: content/cap02/01-modelos-probabilisticos.qmd
+          text: "Modelos Probabilísticos"
   page-navigation: true
   page-footer:
     border: true

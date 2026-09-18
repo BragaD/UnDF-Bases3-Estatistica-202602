@@ -24,6 +24,8 @@ A notação segue @bussab2023 sempre que ele define o objeto; onde ele é omisso
 | Distância interquartil | $d_q = q_3 - q_1$ (Bussab); "IQR" no texto (Bruce) | — | inventar um terceiro nome |
 | Média amostral | $\bar{x}$ | $\bar{x} = \frac{1}{n}\sum x_i$ | $\mu$ para média de amostra |
 | Desvio padrão amostral | $s$ (divisor $n-1$, como o pandas) | `std(ddof=1)` | $\sigma$ para dado amostral |
+| Espaço amostral, ponto, evento | $\Omega$, $\omega$; evento $A \subseteq \Omega$ (não $\subset$) | $P(A) = \sum_{\omega \in A} P(\omega)$ no caso discreto | $S$ para espaço amostral |
+| Ponto amostral em fórmula | parênteses duplos quando o ponto é um par | $P\big((C, C)\big)$ | $P(C, C)$, que parece conjunta |
 | Condicional | $P(A \mid B) = P(A \cap B)/P(B)$, $P(B) > 0$ | — | $P(A/B)$ |
 | Combinação | $\binom{n}{k}$ | `math.comb(n, k)` | $C_n^k$ sem definir |
 | Binomial | $X \sim b(n, p)$; $P(X=k) = b(k; n, p)$ | — | $\mathrm{Bin}$ misturado com $b$ |
@@ -42,12 +44,12 @@ A notação segue @bussab2023 sempre que ele define o objeto; onde ele é omisso
 | 1.5 | Qual a forma da distribuição? | $q(p)$, boxplot, histograma | Bruce 1.5 + Bussab 3.3 |
 | 1.6–1.7 | Categóricos; correlação | $r$ | Bruce 1.6–1.7 |
 | 1.8 | (leitura complementar, fora do notebook) | — | Bruce 1.8 |
-| 2.1–2.2 | O que é probabilidade? Regras | $P(A)$, $A \cup B$, $A \cap B$ | @weed |
-| 2.3 | Condicional e Bayes | $P(A \mid B)$, partição | Bussab 5.3–5.4 |
-| 2.4 | Contagem | $n!$, $\binom{n}{k}$ | Bussab 5.2 |
-| 2.5–2.7 | Binomial, hipergeométrica, normal | $b(n,p)$, $\mathrm{hip}(N,r,n)$, $N(\mu,\sigma^2)$ | Bruce 2 + Bussab 6.6.4 |
-| 3.x | Amostragem, bootstrap, IC | — | Bruce 2 |
-| 4.x, 5.x | Testes até t; regressão até predição (stubs) | — | Bruce 3–4 |
+| 2.1 | O que é um modelo probabilístico? | $\Omega$, $\omega$, $A \subseteq \Omega$, $P(A)$ | Bussab 5.1 |
+| 2.2–2.5 | Propriedades e contagem; condicional; Bayes (a escrever) | $A \cup B$, $A \cap B$, $A^c$, $\binom{n}{k}$, $P(A \mid B)$ | Bussab 5.2–5.4 |
+| Cap. 3 | V.a. discretas: $E$, Var, FDA; uniforme, Bernoulli, binomial, hipergeométrica (a escrever) | $b(n,p)$, $\mathrm{hip}(N,r,n)$ | Bussab 6.1–6.3, 6.5, 6.6.1–6.6.4 |
+| Cap. 4 | V.a. contínuas: densidade, $E$, Var, FDA; uniforme, normal (a escrever) | $N(\mu,\sigma^2)$ | Bussab 7.1–7.4.2 |
+
+Escopo completo, por aula, no `CLAUDE.md`. Um capítulo do livro por capítulo do Bussab: Cap. 2 = Bussab 5, Cap. 3 = Bussab 6, Cap. 4 = Bussab 7. Remissões "no Capítulo 3/4" dentro do Cap. 2 estão corretas.
 
 ## Aplicações recorrentes
 
@@ -55,7 +57,9 @@ A notação segue @bussab2023 sempre que ele define o objeto; onde ele é omisso
 |---|---|---|---|
 | Estados brasileiros | `dados/estados.csv` (n = 27) | 1.3–1.5 | mediana é observação real; SP é o outlier; média ponderada < simples |
 | Aluguéis (BR) | gerado por `scripts/gerar-dados-alugueis.py` | "Agora é com você" da 1.3–1.5 | exercício no Colab |
-| Lote de commits/casos de teste | inline | 2.4, 2.6 | tradução de "lote de peças" do Bussab para software |
+| Estados brasileiros (sorteio) | `dados/estados.csv` | 2.1 | $P$ equiprovável = frequência relativa; 13/27 acima da mediana; sortear UF × sortear pessoa (22,2% × 57,6%) |
+| Builds de CI (passa/falha) | inline | 2.1, Cap. 3 | tradução do "bom/defeituoso" do Bussab 5.1 (Ex. 5.4) para software; vira binomial no Cap. 3 |
+| Lote de commits/casos de teste | inline | contagem, hipergeométrica | tradução de "lote de peças" do Bussab para software |
 
 ## Armadilhas de código ↔ teoria (verificadas)
 
@@ -65,6 +69,8 @@ A notação segue @bussab2023 sempre que ele define o objeto; onde ele é omisso
 | Variância na seção 3.2 do Bussab divide por $n$; pandas divide por $n-1$ | $\{3,5,5,7\}$: Bussab/`np.var` = 2; pandas = 2,667 | Citar o Bussab para a definição **e** o divisor usado |
 | `scipy.stats.hypergeom(M, n, N)` ≠ $\mathrm{hip}(N, r, n)$ | letras colidem trocadas | mapear no comentário do chunk (a 2.6 já faz) |
 | `scipy.stats.norm(loc, scale)` recebe $\sigma$, Bussab escreve $\sigma^2$ | $N(0, 4)$ vira `norm(0, 2)` | nunca passar a variância em `scale` |
+| `set` de strings em Python sai em ordem diferente a cada processo (hash aleatório) | a saída do chunk muda a cada render e o `freeze` perde o sentido | exibir com `sorted(...)` |
+| Número de `{python} num(...)` dentro de `$...$` | a vírgula decimal vira `\,` no MathJax e aparece como espaço | deixar o número fora do `$...$` |
 | pandas 3: texto é `str`, não `object`; indexação de Series categóricas mudou | comparações erradas **sem exceção** (ver CLAUDE.md) | testar o resultado, não só a ausência de erro |
 
 ## Anti-padrões já vividos
@@ -73,4 +79,5 @@ A notação segue @bussab2023 sempre que ele define o objeto; onde ele é omisso
 |---|---|---|
 | Citar a curtose como "vista no Cap. 1" | foi cortada em 2.2026 | a curtose não existe mais no livro |
 | Corrigir `@bussab2023` para 2017 | invalidaria todas as citações | numeração das seções bate; manter 2023 |
+| Resposta dependente de fato físico não dito no enunciado (relógio "elétrico" = contínuo, na 2.1) | o relógio de quartzo anda aos saltos; quem respondesse "discreto" estaria certo | a hipótese vai no enunciado, como faz o Bussab |
 | Gabarito em `.spoiler` | o HTML publicado expõe tudo | gabarito só em `avaliacoes/` (gitignorado) |

@@ -8,7 +8,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Livro-texto (espinha): Bruce, Bruce & Gedeck — *Practical Statistics for Data Scientists*, 2ª ed. Código e dados originais: <https://github.com/gedeck/practical-statistics-for-data-scientists>
 
-Segunda fonte: o *pythonbook* de Ethan Weed contribui com a Introdução (motivacional), o capítulo de Probabilidade, a ordenação da Parte IV e enriquecimentos do Capítulo 1. Regra de atribuição: callouts `de @bruce2020` marcam conteúdo do livro-texto; callouts `de @weed` marcam conteúdo do pythonbook.
+Segunda fonte: o *pythonbook* de Ethan Weed contribui com a Introdução (motivacional), o capítulo de Probabilidade, a ordenação da Parte IV e enriquecimentos do Capítulo 1.
+
+Terceira fonte: **Bussab & Morettin — *Estatística Básica*** entra onde o Bruce é raso demais para graduação: os quantis empíricos das seções 1.4 e 1.5 (seção 3.3 dele) e, no Cap. 2, condicional/Bayes, contagem e hipergeométrica. O epub está em `livros/`, **gitignorado** — o repositório é público e o material tem direitos autorais.
+
+**Armadilha da edição:** o epub é a impressão de 2017 da Saraiva, mas o `references.bib` cita a 10ª ed. (2023) como `@bussab2023`. A numeração de seções das duas bate (3.3 Quantis Empíricos, 5.2–5.4, 6.6.4 Hipergeométrica), então as citações estão corretas — **não "corrija" a bib para 2017**, isso invalidaria todas elas de uma vez.
+
+Regra de atribuição: callouts `de @bruce2020` marcam conteúdo do livro-texto; `de @weed`, do pythonbook; `de @bussab2023`, do Bussab & Morettin. Como nos callouts do Bruce, o número citado é sempre o **da fonte**, não o nosso.
 
 **Estrutura: uma Introdução (motivacional, sem número) + 5 capítulos** — 1 Análise Exploratória de Dados, 2 Probabilidade e Distribuições, 3 Amostragem e Estimação, 4 Experimentos Estatísticos e Testes de Significância, 5 Regressão e Predição. Os capítulos 5–7 do Bruce (Classificação, ML Estatístico, Aprendizado Não-Supervisionado) ficam fora do escopo desta disciplina.
 
@@ -22,7 +28,7 @@ Segunda fonte: o *pythonbook* de Ethan Weed contribui com a Introdução (motiva
 
 ## Comandos
 
-Tudo roda dentro do container — não há Python instalado no host.
+O render roda dentro do container. Mas se existir um `.venv/` na raiz (gitignorado, criado por `uv sync`), ele espelha o `uv.lock` e serve para executar chunks isoladamente sem subir o Docker — útil quando o daemon está parado. O `quarto render` continua sendo só no container.
 
 ```bash
 make preview   # hot-reload em http://localhost:4200

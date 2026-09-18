@@ -140,7 +140,7 @@ Segundo detalhe não óbvio: o Dockerfile grava `/etc/profile.d/venv.sh` reexpor
 
 O nome da imagem é minúsculo e literal: o GHCR rejeita maiúsculas, então não dá para usar `${{ github.repository_owner }}` (que resolveria para `BragaD`).
 
-`_book/` e `_freeze/` são artefatos locais gitignorados. `docs/` **não** é gitignorado — guarda specs, planos e o PID da disciplina. A rotina (`Rotinas - Sistemas de Informação.xlsx`, grade de terceiros) fica local, **não** versionada.
+`_book/` e `_freeze/` são artefatos locais gitignorados. `docs/superpowers/` é versionado — guarda os specs e planos das sessões. O resto de `docs/` **não**: os arquivos de PID (`docs/PID*`, `docs/ficha-PID.md`) e a grade de Rotinas (`docs/Rotinas*`, de terceiros) são documentos administrativos com dados de docente e ficam **locais**, pelo mesmo motivo que `avaliacoes/` e `livros/` — o repositório é público.
 
 ### Widgets interativos (Observable JS)
 

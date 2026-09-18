@@ -92,7 +92,7 @@ Com dois eventos, cada estado cai em uma de quatro casas: grande ou não, de tax
 grande = estado["Sigla"].isin(A).map({True: "A: grande", False: "não grande"})
 taxa_alta = estado["Sigla"].isin(B).map({True: "B: acima da mediana", False: "até a mediana"})
 
-pd.crosstab(grande.rename(None), taxa_alta.rename(None), margins=True, margins_name="Total")
+pd.crosstab(grande, taxa_alta, rownames=[""], colnames=[""], margins=True, margins_name="Total")
 ```
 
 A casa do cruzamento entre "A: grande" e "B: acima da mediana" é $A \cap B$. As margens trazem os tamanhos de $A$ e de $B$ separados.

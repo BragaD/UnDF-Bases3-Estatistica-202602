@@ -1,0 +1,286 @@
+# Probabilidade Condicional e Independência
+
+::: {.callout-note}
+Esta seção corresponde à seção 5.3 de @bussab2023.
+:::
+
+```{python}
+#| label: setup
+#| include: false
+import pandas as pd
+from fractions import Fraction
+from formato import num
+
+estado = pd.read_csv("dados/estados.csv")
+modelo_uf = {sigla: 1/27 for sigla in estado["Sigla"]}
+
+def prob(evento, modelo):
+    return sum(modelo[w] for w in evento)
+
+A = set(estado.loc[estado["Populacao"] > 10_000_000, "Sigla"])
+mediana_taxa = estado["Taxa.Homicidios"].median()
+B = set(estado.loc[estado["Taxa.Homicidios"] > mediana_taxa, "Sigla"])
+todos = set(estado["Sigla"])
+```
+
+Na seção 2.2, a tabela de contingência dos estados mostrou que `{python} len(B)` dos 27 têm taxa de homicídios acima da mediana (taxa alta). Sorteando um estado sem saber nada sobre ele, $P(B) = `{python} len(B)`/27$, perto de metade.
+
+Agora suponha que alguém sorteie o estado e conte só uma coisa: ele é grande, com mais de 10 milhões de habitantes. A chance de ter taxa alta continua perto de metade? A tabela responde. Entre os `{python} len(A)` estados grandes, só `{python} len(A & B)` tem taxa alta. Com essa informação, a chance cai para $`{python} len(A & B)`/`{python} len(A)`$.
+
+A informação mudou o espaço amostral: dos 27 estados, só os `{python} len(A)` grandes continuam possíveis. Esta seção formaliza essa ideia e mostra quando uma informação **não** muda nada.
+
+## Probabilidade condicional
+
+Saber que $A$ ocorreu restringe o espaço amostral a $A$. Dentro dessa nova região, o que importa de $B$ é só a parte que está em $A$, ou seja, $A \cap B$. A probabilidade de $B$ passa a ser a fatia de $A$ ocupada por $A \cap B$.
+
+::: {.conceito}
+A **probabilidade condicional** de $B$ dado $A$, com $P(A) > 0$, é
+
+$$
+P(B \mid A) = \frac{P(A \cap B)}{P(A)}.
+$$
+
+Lê-se "probabilidade de $B$ dado $A$".
+:::
+
+No sorteio de estados, $P(A \cap B) = `{python} len(A & B)`/27$ e $P(A) = `{python} len(A)`/27$, e os 27 se cancelam:
+
+```{python}
+#| label: condicional
+p_b_dado_a = prob(A & B, modelo_uf) / prob(A, modelo_uf)
+Fraction(p_b_dado_a).limit_denominator(), round(p_b_dado_a, 3), round(prob(B, modelo_uf), 3)
+```
+
+$P(B)$ é a probabilidade **a priori** de ter taxa alta, calculada antes de qualquer informação. $P(B \mid A)$ é a probabilidade **a posteriori**, depois de saber que o estado é grande. Aqui a informação diminuiu a chance, de `{python} num(prob(B, modelo_uf), 3)` para `{python} num(p_b_dado_a, 3)`.
+
+A ordem importa: $P(B \mid A)$ e $P(A \mid B)$ são perguntas diferentes. Dado que o estado tem taxa alta, a chance de ele ser grande é $`{python} len(A & B)`/`{python} len(B)`$: o denominador agora são os `{python} len(B)` estados de taxa alta.
+
+No `pandas`, a tabela de contingência dá as condicionais de uma vez. Com `normalize="index"`, cada linha é dividida pelo seu total e passa a ser a distribuição de $B$ dentro daquele grupo:
+
+```{python}
+#| label: condicional-tabela
+grande = estado["Sigla"].isin(A).map({True: "A: grande", False: "não grande"})
+taxa_alta = estado["Sigla"].isin(B).map({True: "B: taxa alta", False: "taxa não alta"})
+
+pd.crosstab(grande, taxa_alta, rownames=[""], colnames=[""], normalize="index").round(3)
+```
+
+A linha "A: grande" traz $P(B \mid A)$ e $P(B^c \mid A)$, que somam 1: dentro de $A$, a probabilidade condicional se comporta como uma probabilidade qualquer.
+
+## Regra do produto
+
+Multiplicando os dois lados da definição por $P(A)$, sai a **regra do produto**:
+
+$$
+P(A \cap B) = P(A)\, P(B \mid A).
+$$
+
+Ela é útil quando o experimento acontece em etapas e a probabilidade de cada etapa depende do que aconteceu antes. É o caso de sortear sem reposição.
+
+Um repositório tem 5 pull requests abertos, 2 com bug (B) e 3 sem bug (S). Um revisor pega um PR ao acaso, revisa, e depois pega outro entre os que sobraram. O **diagrama em árvore** mostra as etapas. Nos galhos da segunda etapa, as probabilidades são condicionais: depende de qual PR saiu primeiro.
+
+```{dot}
+//| label: fig-arvore-sem-reposicao
+//| fig-alt: "Árvore com dois níveis: primeiro PR com bug ou sem bug, depois o segundo PR, com as probabilidades condicionais em cada galho."
+//| fig-cap: "Dois PRs sorteados sem reposição entre 5 (2 com bug, 3 sem bug). Nos galhos da direita, as probabilidades são condicionais ao primeiro PR."
+digraph G {
+  rankdir=LR;
+  bgcolor="transparent";
+  node [shape=plaintext, fontname="Helvetica"];
+  edge [fontname="Helvetica", fontsize=11];
+  inicio [label=""];
+  B1 [label="B"]; S1 [label="S"];
+  BB [label="BB   2/5 × 1/4 = 2/20"];
+  BS [label="BS   2/5 × 3/4 = 6/20"];
+  SB [label="SB   3/5 × 2/4 = 6/20"];
+  SS [label="SS   3/5 × 2/4 = 6/20"];
+  inicio -> B1 [label="2/5"];
+  inicio -> S1 [label="3/5"];
+  B1 -> BB [label="1/4"];
+  B1 -> BS [label="3/4"];
+  S1 -> SB [label="2/4"];
+  S1 -> SS [label="2/4"];
+}
+```
+
+Cada caminho da árvore é um ponto amostral, e sua probabilidade é o produto dos galhos, pela regra do produto. Os quatro caminhos somam $20/20 = 1$.
+
+Qual a probabilidade de o **segundo** PR ter bug? Dois caminhos terminam com B na segunda etapa, BB e SB, e eles são disjuntos:
+
+$$
+P(\text{bug no 2º}) = \frac{2}{20} + \frac{6}{20} = \frac{8}{20} = \frac{2}{5}.
+$$
+
+É a mesma probabilidade de o primeiro ter bug. Faz sentido: sem saber o que saiu no primeiro sorteio, o segundo PR é um PR qualquer entre os 5.
+
+Uma enumeração em Python confere a árvore. Os 5 PRs recebem nomes, e cada par ordenado de PRs distintos é igualmente provável:
+
+```{python}
+#| label: arvore-enumerada
+from itertools import permutations
+
+prs = ["B1", "B2", "S1", "S2", "S3"]
+pares = list(permutations(prs, 2))        # 5 x 4 = 20 pares ordenados
+
+bug_no_segundo = [p for p in pares if p[1].startswith("B")]
+len(pares), Fraction(len(bug_no_segundo), len(pares))
+```
+
+A regra do produto se estende a mais etapas. Para três eventos,
+
+$$
+\begin{aligned}
+P(A \cap B \cap C) = {} &P(A)\, P(B \mid A) \\
+&\times P(C \mid A \cap B),
+\end{aligned}
+$$
+
+com $P(A \cap B) > 0$, e cada fator é condicional a tudo o que veio antes.
+
+## Independência
+
+Agora o revisor devolve o PR à fila depois de revisá-lo, e o segundo sorteio é feito de novo entre os 5. A composição da fila não muda de uma etapa para a outra, e a árvore fica com os mesmos números nas duas etapas:
+
+| Resultado | Probabilidade |
+|:-:|:-:|
+| BB | $2/5 \times 2/5 = 4/25$ |
+| BS | $2/5 \times 3/5 = 6/25$ |
+| SB | $3/5 \times 2/5 = 6/25$ |
+| SS | $3/5 \times 3/5 = 9/25$ |
+
+: Dois PRs sorteados com reposição. {#tbl-com-reposicao}
+
+Aqui $P(\text{bug no 2º} \mid \text{bug no 1º}) = 2/5$, que é igual a $P(\text{bug no 2º})$: saber o resultado do primeiro sorteio não muda nada sobre o segundo. Quando isso acontece, os eventos são **independentes**. Chamando de $B_1$ o evento "bug no 1º" e de $B_2$ o evento "bug no 2º", temos $P(B_2 \mid B_1) = P(B_2)$, e a regra do produto fica $P(B_1 \cap B_2) = P(B_1)\,P(B_2)$. Para dois eventos quaisquer:
+
+::: {.conceito}
+Os eventos $A$ e $B$ são **independentes** quando
+
+$$
+P(A \cap B) = P(A)\, P(B).
+$$
+:::
+
+A definição é simétrica: se $A$ não informa nada sobre $B$, $B$ também não informa nada sobre $A$. E ela serve nos dois sentidos. Às vezes a independência é uma **suposição** do modelo, como nos sorteios com reposição, e aí a fórmula permite calcular $P(A \cap B)$. Outras vezes ela é uma **pergunta** sobre dados, e a fórmula é o teste. No sorteio entre os 27 estados, a conta é exata. Com uma amostra, a igualdade quase nunca vale exatamente, e decidir se a diferença importa exige ferramentas de inferência estatística, que ficam fora deste livro.
+
+Nos estados, ser grande e ter taxa alta são independentes? Basta comparar os dois lados:
+
+```{python}
+#| label: independencia-estados
+lado_esq = prob(A & B, modelo_uf)
+lado_dir = prob(A, modelo_uf) * prob(B, modelo_uf)
+round(lado_esq, 4), round(lado_dir, 4)
+```
+
+$P(A \cap B)$, cerca de `{python} num(lado_esq, 3)`, fica bem abaixo de $P(A)\,P(B)$, cerca de `{python} num(lado_dir, 3)`. Os eventos não são independentes: entre os estados grandes, taxa alta é mais rara do que entre todos os estados. É a mesma associação negativa entre tamanho e taxa que fez a média ponderada da taxa de homicídios ficar abaixo da média simples na seção 1.3, agora vista por meio de eventos.
+
+Para três eventos, a independência exige mais do que os três pares. $A$, $B$ e $C$ são independentes quando
+
+$$
+\begin{aligned}
+P(A \cap B) &= P(A)\,P(B), \\
+P(A \cap C) &= P(A)\,P(C), \\
+P(B \cap C) &= P(B)\,P(C), \\
+P(A \cap B \cap C) &= P(A)\,P(B)\,P(C).
+\end{aligned}
+$$
+
+A última condição não decorre das outras três: há exemplos em que os três pares são independentes e o trio não é (Problema 59 de @bussab2023). Cuidado com o vocabulário ao consultar esse problema: o Bussab chama de *mutuamente independentes* os eventos que satisfazem só as três condições dos pares, mas em outros livros a expressão significa as quatro.
+
+::: {.callout-warning}
+## Independentes não são o mesmo que mutuamente exclusivos
+Dois eventos mutuamente exclusivos, com probabilidade positiva, **nunca** são independentes. Se $A$ e $C$ não podem ocorrer juntos, saber que $A$ ocorreu diz com certeza que $C$ não ocorreu: $P(C \mid A) = 0$, enquanto $P(C) > 0$. Exclusão é uma dependência extrema.
+:::
+
+## Confiabilidade de sistemas
+
+A independência é a suposição central de uma área que interessa a quem opera software: a **confiabilidade** de sistemas. A confiabilidade de um componente é a probabilidade de ele funcionar num período.
+
+Uma API atende uma requisição só se o serviço de autenticação **e** o banco de dados funcionarem. Os dois estão **em série**: a falha de qualquer um derruba o sistema. Seja $A_1$ o evento "a autenticação funciona" e $A_2$ o evento "o banco funciona". Se $P(A_1) = p_1$, $P(A_2) = p_2$, e os dois falham independentemente, o sistema funciona com probabilidade
+
+$$
+P(\text{sistema}) = P(A_1 \cap A_2) = p_1\, p_2.
+$$
+
+Agora o banco ganha uma réplica, e basta uma das duas cópias funcionar. Sejam $R_1$ e $R_2$ os eventos "a cópia 1 funciona" e "a cópia 2 funciona", cada um com probabilidade $p$, independentes. As cópias estão **em paralelo**, e o sistema de banco funciona se **pelo menos uma** funcionar. Pela regra da adição, ou pelo complementar,
+
+$$
+P(R_1 \cup R_2) = p + p - p^2 = 1 - (1 - p)^2.
+$$
+
+```{python}
+#| label: confiabilidade
+p_auth, p_banco = 0.99, 0.98
+
+serie = p_auth * p_banco
+banco_replicado = 1 - (1 - p_banco) ** 2
+com_replica = p_auth * banco_replicado
+
+round(serie, 4), round(banco_replicado, 4), round(com_replica, 4)
+```
+
+Em série, as confiabilidades se multiplicam, e o sistema é **menos** confiável que o pior componente: `{python} num(serie, 4)`, abaixo de 0,98. A réplica leva o banco de 0,98 a `{python} num(banco_replicado, 4)`, e o sistema passa a depender quase só da autenticação.
+
+A conta vale se as falhas forem independentes. Duas réplicas no mesmo servidor, na mesma rede ou na mesma região de nuvem tendem a cair juntas, e aí $P(R_1^c \cap R_2^c)$ é maior que $(1 - p)^2$. A redundância protege menos do que a fórmula promete.
+
+## Resumo
+
+::: {.table-responsive}
+| Conceito | Fórmula |
+|---|---|
+| Condicional | $P(B \mid A) = P(A \cap B) / P(A)$, com $P(A) > 0$ |
+| Regra do produto | $P(A \cap B) = P(A)\,P(B \mid A)$ |
+| Independência | $P(A \cap B) = P(A)\,P(B)$ |
+| Série (independentes) | $p_1 p_2$ |
+| Paralelo (independentes) | $1 - (1 - p_1)(1 - p_2)$ |
+:::
+
+::: {.conceito}
+**Regra prática:** antes de multiplicar probabilidades, pergunte se os eventos são independentes. Se não forem, o segundo fator é uma probabilidade condicional.
+:::
+
+## Exercícios
+
+**1.** Uma fila tem 8 tickets de suporte, 3 urgentes e 5 normais. Um atendente pega dois tickets ao acaso, um depois do outro, sem devolver. Calcule: (a) a probabilidade de os dois serem urgentes; (b) a probabilidade de o segundo ser urgente; (c) as mesmas probabilidades, se o primeiro ticket voltar para a fila antes do segundo sorteio.
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+(a) Pela regra do produto, $P(U_1 \cap U_2) = \frac{3}{8} \times \frac{2}{7} = \frac{6}{56} = \frac{3}{28}$.
+
+(b) Os caminhos que terminam em urgente são UU e NU: $\frac{3}{8} \times \frac{2}{7} + \frac{5}{8} \times \frac{3}{7} = \frac{6 + 15}{56} = \frac{21}{56} = \frac{3}{8}$, igual à probabilidade de o primeiro ser urgente.
+
+(c) Com reposição, os sorteios são independentes: $P(U_1 \cap U_2) = \frac{3}{8} \times \frac{3}{8} = \frac{9}{64}$, e $P(U_2) = \frac{3}{8}$.
+:::
+
+**2.** Dois desenvolvedores tentam, independentemente, reproduzir um bug. O primeiro consegue com probabilidade 2/3 e o segundo com probabilidade 3/4. Qual a probabilidade de o bug ser reproduzido? (Problema 17 de @bussab2023.)
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+O bug é reproduzido se pelo menos um conseguir. Pelo complementar, com independência: $1 - \frac{1}{3} \times \frac{1}{4} = 1 - \frac{1}{12} = \frac{11}{12}$.
+:::
+
+**3.** Numa execução de testes, $P(A) = 0{,}3$ e $P(B) = 0{,}4$. Calcule $P(A \cup B)$ se (a) $A$ e $B$ forem mutuamente exclusivos; (b) $A$ e $B$ forem independentes.
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+(a) $P(A \cap B) = 0$, então $P(A \cup B) = 0{,}3 + 0{,}4 = 0{,}7$.
+
+(b) $P(A \cap B) = 0{,}3 \times 0{,}4 = 0{,}12$, então $P(A \cup B) = 0{,}7 - 0{,}12 = 0{,}58$.
+:::
+
+**4.** Usando `dados/estados.csv`, sejam $A$ = "o estado tem mais de 10 milhões de habitantes" e $D$ = "o estado tem taxa de homicídios acima de 30". Calcule $P(D \mid A)$ e $P(D)$. $A$ e $D$ são independentes?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+```{python}
+#| label: ex4-resposta
+C30 = set(estado.loc[estado["Taxa.Homicidios"] > 30, "Sigla"])
+p_c_dado_a = prob(A & C30, modelo_uf) / prob(A, modelo_uf)
+round(p_c_dado_a, 3), round(prob(C30, modelo_uf), 3)
+```
+
+$P(D \mid A) = `{python} len(A & C30)`/`{python} len(A)`$, cerca de `{python} num(p_c_dado_a, 3)`, e $P(D) = `{python} len(C30)`/27$, cerca de `{python} num(prob(C30, modelo_uf), 3)`. Como $P(D \mid A) \ne P(D)$, os eventos não são independentes.
+:::

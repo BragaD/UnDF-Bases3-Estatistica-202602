@@ -18,3 +18,5 @@ As seções entram no site ao longo do semestre, antes da aula correspondente no
 | [2.1](01-modelos-probabilisticos.qmd) | Modelos Probabilísticos |
 | [2.2](02-propriedades.qmd) | Propriedades da Probabilidade |
 | [2.3](03-contagem.qmd) | Contagem e Probabilidade Clássica |
+| [2.4](04-condicional-independencia.qmd) | Probabilidade Condicional e Independência |
+| [2.5](05-bayes.qmd) | O Teorema de Bayes |

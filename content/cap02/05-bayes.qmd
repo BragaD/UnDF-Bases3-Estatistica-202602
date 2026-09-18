@@ -1,0 +1,251 @@
+# O Teorema de Bayes
+
+::: {.callout-note}
+Esta seção corresponde à seção 5.4 de @bussab2023.
+:::
+
+```{python}
+#| label: setup
+#| include: false
+import numpy as np
+import pandas as pd
+from formato import num
+```
+
+Um banco usa um detector automático de fraude em transações com cartão. O fornecedor garante que o detector dispara o alerta em 99% das fraudes, e que só 5% das transações legítimas geram alarme falso. Uma transação acabou de disparar o alerta. Qual a probabilidade de ela ser mesmo uma fraude?
+
+A resposta intuitiva é algo perto de 95% ou 99%. A resposta certa depende de uma informação que o fornecedor não deu: quantas transações são fraudes. Se 1% das transações forem fraudes, a probabilidade é de apenas `{python} num(100 * 0.01 * 0.99 / (0.01 * 0.99 + (1 - 0.01) * 0.05), 1)`%. Esta seção mostra de onde vem esse número, e por que a intuição erra tanto.
+
+## Invertendo a condicional
+
+O fornecedor informou $P(\text{alerta} \mid \text{fraude}) = 0{,}99$. A pergunta do banco é a condicional ao contrário, $P(\text{fraude} \mid \text{alerta})$. A seção 2.4 mostrou que as duas são diferentes, e a regra do produto liga uma à outra. A interseção pode ser escrita de dois jeitos:
+
+$$
+\begin{aligned}
+P(A \cap B) &= P(A)\,P(B \mid A) \\
+&= P(B)\,P(A \mid B).
+\end{aligned}
+$$
+
+Isolando $P(A \mid B)$, sai a forma mais simples do teorema.
+
+::: {.conceito}
+**Teorema de Bayes (forma simples).** Se $P(A) > 0$ e $P(B) > 0$,
+
+$$
+P(A \mid B) = \frac{P(A)\,P(B \mid A)}{P(B)}.
+$$
+:::
+
+Os termos têm nomes. $P(A)$ é a probabilidade **a priori** de $A$, antes da informação. $P(A \mid B)$ é a probabilidade **a posteriori**, depois de saber que $B$ ocorreu. $P(B \mid A)$ é a **verossimilhança** da hipótese $A$: o quanto $A$ torna provável a informação observada. O teorema diz como passar da priori à posteriori.
+
+## Probabilidade total
+
+Falta o denominador $P(B)$, a probabilidade de um alerta. Um alerta pode vir de uma fraude **ou** de uma transação legítima, e esses dois casos são disjuntos e cobrem todas as transações. Então o alerta se divide em duas partes, e cada parte sai da regra do produto:
+
+$$
+\begin{aligned}
+P(\text{alerta}) = {} &P(\text{fraude})\,P(\text{alerta} \mid \text{fraude}) \\
++ {} &P(\text{legít.})\,P(\text{alerta} \mid \text{legít.}).
+\end{aligned}
+$$
+
+```{python}
+#| label: fraude
+p_fraude = 0.01
+p_alerta_dado_fraude = 0.99       # verossimilhança da fraude
+p_alerta_dado_legitima = 0.05     # alarme falso
+
+p_alerta = p_fraude * p_alerta_dado_fraude + (1 - p_fraude) * p_alerta_dado_legitima
+p_fraude_dado_alerta = p_fraude * p_alerta_dado_fraude / p_alerta
+
+round(p_alerta, 4), round(p_fraude_dado_alerta, 4)
+```
+
+O alerta dispara em `{python} num(100 * p_alerta, 2)`% das transações. Dessas, só `{python} num(100 * p_fraude_dado_alerta, 1)`% são fraudes: de cada seis alertas, cinco são alarmes falsos.
+
+O motivo fica claro contando transações em vez de probabilidades. Em 10.000 transações, cerca de 100 são fraudes, e o detector pega 99 delas. As outras 9.900 são legítimas, e 5% delas, 495, também disparam o alerta. Os alertas verdadeiros são 99 entre 594. Como as fraudes são raras, até uma taxa pequena de alarme falso, aplicada ao grupo enorme das legítimas, produz mais alertas do que as fraudes.
+
+Uma simulação com 100.000 transações mostra a mesma coisa:
+
+```{python}
+#| label: fraude-simulada
+rng = np.random.default_rng(42)
+n = 100_000
+
+fraude = rng.random(n) < p_fraude
+alerta = np.where(fraude,
+                  rng.random(n) < p_alerta_dado_fraude,
+                  rng.random(n) < p_alerta_dado_legitima)
+
+int(alerta.sum()), int((fraude & alerta).sum()), round(float((fraude & alerta).sum() / alerta.sum()), 3)
+```
+
+Entre as transações que dispararam o alerta, a fração de fraudes fica em `{python} num(float((fraude & alerta).sum() / alerta.sum()), 3)`, contra `{python} num(p_fraude_dado_alerta, 3)` da fórmula. A diferença é flutuação de amostragem: são só cerca de mil fraudes simuladas.
+
+::: {.callout-warning}
+## Não ignore a probabilidade a priori
+Confundir $P(\text{alerta} \mid \text{fraude})$ com $P(\text{fraude} \mid \text{alerta})$ é um dos erros mais comuns em probabilidade. Ele aparece em diagnósticos médicos, em detectores de intrusão, em filtros de spam e em tribunais. Quando o evento é raro, a posteriori pode ser baixa mesmo com um teste muito sensível.
+:::
+
+## O teorema com várias hipóteses
+
+Fraude e legítima são duas hipóteses que se excluem e cobrem todas as possibilidades. O raciocínio vale para qualquer número de hipóteses nessas condições.
+
+Os eventos $C_1, C_2, \dots, C_n$ formam uma **partição** do espaço amostral quando não têm pontos em comum ($C_i \cap C_j = \varnothing$ para $i \ne j$) e, juntos, cobrem $\Omega$ ($C_1 \cup \dots \cup C_n = \Omega$). Um evento $A$ qualquer fica dividido em pedaços disjuntos, $A \cap C_1, \dots, A \cap C_n$, e somando as probabilidades dos pedaços:
+
+$$
+P(A) = \sum_{j=1}^{n} P(C_j)\,P(A \mid C_j).
+$$
+
+Essa é a **fórmula da probabilidade total**. $P(A)$ é uma média ponderada das verossimilhanças $P(A \mid C_j)$, com pesos $P(C_j)$.
+
+::: {.conceito}
+**Teorema de Bayes.** Se $C_1, \dots, C_n$ formam uma partição de $\Omega$, com $P(C_j) > 0$ para todo $j$, e $P(A) > 0$, então, para cada $i$,
+
+$$
+P(C_i \mid A) = \frac{P(C_i)\,P(A \mid C_i)}{\sum_{j=1}^{n} P(C_j)\,P(A \mid C_j)}.
+$$
+:::
+
+O numerador é uma das parcelas do denominador. Por isso o índice do somatório é $j$, e não $i$: o denominador soma todas as hipóteses, e o numerador escolhe uma.
+
+Outra leitura do teorema: a posteriori é a priori multiplicada pelo fator $P(A \mid C_i)/P(A)$. A posteriori fica maior que a priori exatamente quando a verossimilhança $P(A \mid C_i)$ supera $P(A)$, e menor quando fica abaixo.
+
+O Exemplo 5.15 de @bussab2023 mostra o teorema em ação. Uma empresa contrata desenvolvedores depois de um curso de uma semana. Ao fim do curso, 25% dos candidatos são avaliados como bons (B), 50% como médios (M) e 25% como fracos (F). Para economizar, a empresa quer trocar o curso por um teste técnico, e sabe que o teste aprova 80% dos bons, 50% dos médios e 20% dos fracos. Entre os aprovados no teste, que fração seria classificada como fraca no curso?
+
+```{dot}
+//| label: fig-arvore-bayes
+//| fig-alt: "Árvore com três ramos (bons, médios, fracos), cada um dividido em aprovado e reprovado, com a probabilidade de cada caminho."
+//| fig-cap: "Árvore do processo seletivo. Cada caminho termina com sua probabilidade; os caminhos que terminam em aprovação (A) somam P(A)."
+digraph G {
+  rankdir=LR;
+  bgcolor="transparent";
+  node [shape=plaintext, fontname="Helvetica"];
+  edge [fontname="Helvetica", fontsize=11];
+  inicio [label=""];
+  B [label="B"]; M [label="M"]; F [label="F"];
+  BA [label="A   0,25 × 0,80 = 0,20"];
+  BR [label="R   0,25 × 0,20 = 0,05"];
+  MA [label="A   0,50 × 0,50 = 0,25"];
+  MR [label="R   0,50 × 0,50 = 0,25"];
+  FA [label="A   0,25 × 0,20 = 0,05"];
+  FR [label="R   0,25 × 0,80 = 0,20"];
+  inicio -> B [label="0,25"];
+  inicio -> M [label="0,50"];
+  inicio -> F [label="0,25"];
+  B -> BA [label="0,80"]; B -> BR [label="0,20"];
+  M -> MA [label="0,50"]; M -> MR [label="0,50"];
+  F -> FA [label="0,20"]; F -> FR [label="0,80"];
+}
+```
+
+$P(A)$ é a soma dos três caminhos que terminam em aprovação, $0{,}20 + 0{,}25 + 0{,}05 = 0{,}50$. O numerador de $P(F \mid A)$ é o caminho FA, $0{,}05$. Em Python, com as hipóteses num dicionário:
+
+```{python}
+#| label: bayes-selecao
+priori = {"bom": 0.25, "médio": 0.50, "fraco": 0.25}
+verossimilhanca = {"bom": 0.80, "médio": 0.50, "fraco": 0.20}   # P(aprovado | nível)
+
+p_aprovado = sum(priori[c] * verossimilhanca[c] for c in priori)
+posteriori = {c: round(priori[c] * verossimilhanca[c] / p_aprovado, 2) for c in priori}
+
+print("P(aprovado) =", round(p_aprovado, 2))
+for nivel, valor in posteriori.items():
+    print(nivel, valor)
+```
+
+Entre os aprovados no teste, `{python} num(100 * posteriori["fraco"], 0)`% seriam fracos, `{python} num(100 * posteriori["médio"], 0)`% médios e `{python} num(100 * posteriori["bom"], 0)`% bons. A priori, os bons eram 25%. Entre os aprovados, passam a `{python} num(100 * posteriori["bom"], 0)`%, porque a verossimilhança dos bons (0,80) é maior que $P(A) = 0{,}50$. As probabilidades a posteriori somam 1, como devem: dado que o candidato foi aprovado, ele é bom, médio ou fraco.
+
+## Atualizando com novas informações
+
+A posteriori de hoje pode ser a priori de amanhã. Quando chega uma segunda informação, aplica-se o teorema de novo, partindo da probabilidade já atualizada. O Exemplo 5.16 de @bussab2023 faz isso com o mercado de ações; aqui, com os mesmos números, a pergunta é sobre um deploy.
+
+Um time estima em 10% a chance de um deploy precisar de rollback (evento $E$). Durante a implantação gradual, o monitoramento mostra um aumento de latência ($B_1$). O histórico diz que esse aumento aparece em 20% dos deploys que acabaram em rollback e em 5% dos que não acabaram:
+
+$$
+P(E \mid B_1) = \frac{0{,}020}{0{,}020 + 0{,}045} \approx 0{,}31.
+$$
+
+O numerador é $0{,}10 \times 0{,}20$, e o denominador soma a ele $0{,}90 \times 0{,}05$, os deploys sem rollback que também mostram o aumento. A informação triplicou a chance de rollback. Horas depois, chega uma segunda informação: a taxa de erro continua estável ($B_2$). Entre os deploys com aumento de latência, a taxa de erro ficou estável em 10% dos que acabaram em rollback e em 60% dos que não acabaram. As verossimilhanças agora são condicionais às duas coisas, ao rollback e ao aumento de latência:
+
+$$
+\begin{aligned}
+P(B_2 \mid E \cap B_1) &= 0{,}10, \\
+P(B_2 \mid E^c \cap B_1) &= 0{,}60.
+\end{aligned}
+$$
+
+A priori passa a ser 0,31:
+
+```{python}
+#| label: bayes-sequencial
+def bayes(priori, veross_E, veross_nao_E):
+    return priori * veross_E / (priori * veross_E + (1 - priori) * veross_nao_E)
+
+p1 = bayes(0.10, 0.20, 0.05)       # depois do aumento de latência
+p2 = bayes(p1, 0.10, 0.60)         # P(B2 | E∩B1) e P(B2 | Eᶜ∩B1)
+round(p1, 2), round(p2, 2)
+```
+
+A segunda informação derruba $P(E \mid B_1 \cap B_2)$ para `{python} num(p2, 2)`, abaixo até dos 10% iniciais. A probabilidade sobe quando a informação é mais provável sob rollback do que sem ele (0,20 contra 0,05) e cai no caso contrário (0,10 contra 0,60).
+
+## Resumo
+
+::: {.table-responsive}
+| Termo | O que é |
+|---|---|
+| A priori $P(C_i)$ | probabilidade da hipótese antes da informação |
+| Verossimilhança $P(A \mid C_i)$ | chance da informação observada sob a hipótese |
+| Probabilidade total $P(A)$ | $\sum_j P(C_j)\,P(A \mid C_j)$ |
+| A posteriori $P(C_i \mid A)$ | priori × verossimilhança ÷ $P(A)$ |
+:::
+
+::: {.conceito}
+**Regra prática:** para resolver um problema de Bayes, desenhe a árvore ou conte uma população imaginária (10.000 casos). As duas formas deixam visível o que a fórmula esconde: quantos casos de cada hipótese chegam até a informação observada.
+:::
+
+## Exercícios
+
+**1.** Um filtro de spam marca como spam 95% dos e-mails que são spam e 2% dos e-mails legítimos. Numa caixa de entrada, 30% dos e-mails são spam. Um e-mail foi marcado como spam. Qual a probabilidade de ele ser legítimo?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+$P(\text{marcado}) = 0{,}30 \times 0{,}95 + 0{,}70 \times 0{,}02 = 0{,}285 + 0{,}014 = 0{,}299$. Então
+
+$$
+P(\text{legítimo} \mid \text{marcado}) = \frac{0{,}014}{0{,}299} \approx 0{,}047.
+$$
+
+Cerca de 4,7% dos e-mails marcados são legítimos, e $P(\text{spam} \mid \text{marcado}) \approx 0{,}953$. Ao contrário do detector de fraude, a posteriori de spam fica alta, principalmente porque spam não é raro (30% dos e-mails). A taxa de alarme falso menor (2% contra 5%) também ajuda.
+:::
+
+**2.** Refaça a conta do detector de fraude supondo que 10% das transações sejam fraudes. O que acontece com $P(\text{fraude} \mid \text{alerta})$? E se forem 0,1%?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+```{python}
+#| label: ex2-resposta
+for p in [0.10, 0.01, 0.001]:
+    pa = p * 0.99 + (1 - p) * 0.05
+    print(p, round(p * 0.99 / pa, 3))
+```
+
+Com 10% de fraudes, a posteriori sobe para cerca de 0,69. Com 0,1%, cai para cerca de 0,019: quase todo alerta é falso. O mesmo detector vale muito ou quase nada, conforme a frequência do que ele procura.
+:::
+
+**3.** Três servidores atendem as requisições de um site: o servidor 1 ($S_1$) recebe 50% delas, o 2 ($S_2$) recebe 30% e o 3 ($S_3$) recebe 20%. As taxas de erro são 1%, 2% e 5%, respectivamente. Uma requisição deu erro. Qual a probabilidade de ela ter passado pelo servidor 3?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+Os três servidores formam uma partição. Pela probabilidade total, $P(\text{erro}) = 0{,}50 \times 0{,}01 + 0{,}30 \times 0{,}02 + 0{,}20 \times 0{,}05 = 0{,}005 + 0{,}006 + 0{,}010 = 0{,}021$. Então
+
+$$
+P(S_3 \mid \text{erro}) = \frac{0{,}010}{0{,}021} \approx 0{,}476.
+$$
+
+O servidor 3 recebe só 20% do tráfego, mas responde por quase metade dos erros.
+:::

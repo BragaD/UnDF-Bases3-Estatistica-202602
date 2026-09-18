@@ -63,6 +63,18 @@ book:
           text: "Propriedades da Probabilidade"
         - href: content/cap02/03-contagem.qmd
           text: "Contagem e Probabilidade Clássica"
+        - href: content/cap02/04-condicional-independencia.qmd
+          text: "Probabilidade Condicional e Independência"
+        - href: content/cap02/05-bayes.qmd
+          text: "O Teorema de Bayes"
+    - part: "Capítulo 3: Variáveis Aleatórias Discretas"
+      chapters:
+        - href: content/cap03/index.qmd
+          text: "Visão Geral"
+        - href: content/cap03/01-variaveis-aleatorias.qmd
+          text: "Variável Aleatória e Função de Probabilidade"
+        - href: content/cap03/02-valor-medio-variancia.qmd
+          text: "Valor Médio e Variância"
   page-navigation: true
   page-footer:
     border: true

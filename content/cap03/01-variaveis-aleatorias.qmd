@@ -1,0 +1,190 @@
+# Variável Aleatória e Função de Probabilidade
+
+::: {.callout-note}
+Esta seção corresponde às seções 6.1 e 6.2 de @bussab2023.
+:::
+
+```{python}
+#| label: setup
+#| include: false
+import pandas as pd
+import matplotlib.pyplot as plt
+from itertools import product
+from fractions import Fraction
+from formato import num
+
+plt.rcParams["figure.figsize"] = (7, 4)
+```
+
+No Capítulo 2, as perguntas eram sobre eventos: o estado sorteado é grande? O PR tem bug? A resposta era sim ou não. Muitas perguntas práticas, porém, pedem um **número**: quantos builds falharam, quanto dinheiro um projeto vai dar, quantos PRs com bug o auditor encontrou.
+
+No Capítulo 1, esse tipo de pergunta tinha resposta nos dados: média, variância, histograma de uma variável quantitativa. Este capítulo constrói a versão teórica dessas ferramentas. Assim como a probabilidade foi o modelo da frequência relativa, a **variável aleatória** vai ser o modelo de uma variável quantitativa.
+
+## Do experimento ao número
+
+O Exemplo 6.1 de @bussab2023 trata de uma fábrica que monta um produto com duas peças de fornecedores diferentes. Aqui, as peças são módulos de software.
+
+Uma empresa vende um sistema que integra dois módulos comprados de fornecedores diferentes: o de pagamentos, do fornecedor A, e o de notificações, do fornecedor B. Cada módulo chega **pronto** (P), **com retrabalho** (R), quando funciona, mas precisa de ajustes, ou **inutilizável** (I). O histórico dos fornecedores dá as probabilidades:
+
+| Estado do módulo | Fornecedor A (pagamentos) | Fornecedor B (notificações) |
+|---|:-:|:-:|
+| Pronto (P) | 0,80 | 0,70 |
+| Com retrabalho (R) | 0,10 | 0,20 |
+| Inutilizável (I) | 0,10 | 0,10 |
+
+: Qualidade dos módulos entregues por cada fornecedor. {#tbl-fornecedores}
+
+Os valores, em milhares de reais: cada módulo custa 5, e o sistema é vendido por 25. Cada módulo com retrabalho custa mais 5 para ajustar. Se algum módulo for inutilizável, nenhum ajuste é feito: a empresa entrega uma versão reduzida e recebe só 5. A pergunta do dono da empresa é: quanto ele lucra por sistema vendido?
+
+O experimento é receber os dois módulos. Como os fornecedores são diferentes, é razoável supor que a qualidade de um não influencia a do outro, e a probabilidade de cada par sai da regra do produto para eventos independentes (seção 2.4). O espaço amostral tem $3 \times 3 = 9$ pontos, e cada ponto dá um lucro:
+
+```{python}
+#| label: omega-modulos
+prob_a = {"P": 0.80, "R": 0.10, "I": 0.10}
+prob_b = {"P": 0.70, "R": 0.20, "I": 0.10}
+
+def lucro(a, b):
+    if "I" in (a, b):
+        return 5 - 10                          # versão reduzida
+    retrabalho = 5 * ((a == "R") + (b == "R"))
+    return 25 - 10 - retrabalho
+
+omega = pd.DataFrame(
+    [(a + b, prob_a[a] * prob_b[b], lucro(a, b)) for a, b in product("PRI", repeat=2)],
+    columns=["resultado", "probabilidade", "lucro"],
+)
+omega.round(2)
+```
+
+A coluna `lucro` associa um número a cada ponto do espaço amostral. É isso que se chama variável aleatória.
+
+::: {.conceito}
+Uma **variável aleatória discreta** é uma função $X$ que associa a cada ponto amostral $\omega \in \Omega$ um número real $X(\omega)$, e cujos valores possíveis formam um conjunto que pode ser listado (finito ou infinito enumerável).
+:::
+
+O "aleatório" do nome vem do experimento: antes de receber os módulos, não se sabe qual ponto de $\Omega$ vai ocorrer, e por isso não se sabe o valor de $X$. A função em si não tem nada de aleatório. A convenção é usar letra maiúscula para a variável ($X$) e minúscula para um valor que ela assume ($x$).
+
+## Função de probabilidade
+
+O lucro $X$ assume só quatro valores: 15, 10, 5 e $-5$. Cada valor corresponde a um evento de $\Omega$. Por exemplo, $X = 10$ ocorre nos pontos PR e RP, e $X = -5$ em todos os cinco pontos com algum I. A probabilidade de cada valor é a probabilidade do evento correspondente, somando os pontos:
+
+```{python}
+#| label: fp-lucro
+fp = omega.groupby("lucro")["probabilidade"].sum().sort_index(ascending=False)
+fp.round(2)
+```
+
+::: {.conceito}
+A **função de probabilidade** da variável aleatória discreta $X$ associa a cada valor $x_i$ a sua probabilidade:
+
+$$
+p(x_i) = P(X = x_i), \quad i = 1, 2, \dots
+$$
+:::
+
+As probabilidades $p(x_i)$ são números entre 0 e 1 e somam 1, porque os eventos $\{X = x_i\}$ são disjuntos e cobrem $\Omega$. O `groupby` do `pandas` fez exatamente o que a definição pede: juntou os pontos amostrais com o mesmo valor de $X$ e somou suas probabilidades.
+
+O gráfico da função de probabilidade tem uma barra em cada valor possível, com altura igual à probabilidade. Entre os valores não há nada: $X$ não assume 12 nem 7,5.
+
+```{python}
+#| label: fig-fp-lucro
+#| fig-cap: "Função de probabilidade do lucro X por sistema vendido, em milhares de reais."
+fig, ax = plt.subplots(figsize=(6, 3.5))
+ax.vlines(fp.index, 0, fp.values, linewidth=3)
+ax.plot(fp.index, fp.values, "o")
+ax.set_xticks(fp.index)
+ax.set_xlabel("lucro x (R$ mil)")
+ax.set_ylabel("p(x)")
+ax.set_ylim(0, 0.65)
+plt.show()
+```
+
+Com esse modelo, o dono da empresa já sabe que a chance de prejuízo é $P(X = -5)$, igual a `{python} num(fp[-5], 2)`, quase uma venda em cada cinco. Na seção 3.2, o mesmo modelo vai dizer quanto ele lucra em média.
+
+::: {.callout-important}
+## O modelo depende das suposições
+A tabela de $X$ só vale se os fornecedores cumprirem as probabilidades do histórico e se a qualidade de um módulo não influenciar a do outro. Se os dois fornecedores dependem da mesma biblioteca com defeito, os módulos tendem a falhar juntos, e a probabilidade de prejuízo muda.
+:::
+
+## Várias variáveis no mesmo experimento
+
+Um mesmo espaço amostral admite várias variáveis aleatórias. No experimento dos módulos, o gerente de projeto não se importa com o lucro, mas com o **custo de retrabalho** $Y$: 0 se nenhum módulo precisar de ajuste, 5 se um precisar, 10 se os dois precisarem. Se algum módulo for inutilizável, nenhum módulo passa por retrabalho, porque o sistema completo não é entregue.
+
+```{python}
+#| label: fp-retrabalho
+def retrabalho(a, b):
+    if "I" in (a, b):
+        return 0
+    return 5 * ((a == "R") + (b == "R"))
+
+omega["retrabalho"] = [retrabalho(r[0], r[1]) for r in omega["resultado"]]
+omega.groupby("retrabalho")["probabilidade"].sum().round(2)
+```
+
+Os pontos amostrais são os mesmos, e suas probabilidades também. O que muda é a função que transforma cada ponto em número, e com ela a função de probabilidade.
+
+Os exemplos do Capítulo 2 também escondiam variáveis aleatórias. Nas duas moedas da seção 2.1, o **número de caras** é uma variável $W$ com valores 0, 1 e 2. Nos dois PRs sorteados sem reposição da seção 2.4, o **número de PRs com bug** é uma variável $B$ com valores 0, 1 e 2. A enumeração dos 20 pares ordenados dá a função de probabilidade de $B$, em contagens sobre 20:
+
+```{python}
+#| label: fp-bugs
+from itertools import permutations
+
+prs = ["B1", "B2", "S1", "S2", "S3"]
+pares = list(permutations(prs, 2))
+
+bugs = pd.Series([sum(p.startswith("B") for p in par) for par in pares])
+bugs.value_counts().sort_index()
+```
+
+$P(B = 0) = 6/20 = 3/10$, $P(B = 1) = 12/20 = 6/10$ e $P(B = 2) = 2/20 = 1/10$. O caso $B = 1$ junta dois caminhos da árvore da seção 2.4, BS e SB.
+
+## Resumo
+
+| Conceito | O que é |
+|---|---|
+| Variável aleatória $X$ | função que dá um número a cada ponto de $\Omega$ |
+| Discreta | valores que podem ser listados |
+| Função de probabilidade | $p(x) = P(X = x)$, com $\sum p(x_i) = 1$ |
+
+::: {.conceito}
+**Regra prática:** para achar a função de probabilidade, liste os pontos de $\Omega$ com suas probabilidades, calcule o valor de $X$ em cada ponto e some as probabilidades dos pontos com o mesmo valor. Em `pandas`, é um `groupby` com `sum`.
+:::
+
+## Exercícios
+
+**1.** Lançam-se dois dados equilibrados, e $S$ é a soma das faces. Encontre a função de probabilidade de $S$. Qual o valor mais provável?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+```{python}
+#| label: ex1-resposta
+pares_dados = pd.DataFrame(list(product(range(1, 7), repeat=2)), columns=["d1", "d2"])
+pares_dados["S"] = pares_dados["d1"] + pares_dados["d2"]
+pares_dados["S"].value_counts().sort_index()   # casos favoráveis, em 36
+```
+
+$S$ vai de 2 a 12. As contagens sobem de 1 a 6 e depois descem, e cada probabilidade é a contagem dividida por 36: de 1/36 a 6/36 e de volta a 1/36. O valor mais provável é 7, com probabilidade $6/36 = 1/6$.
+:::
+
+**2.** Um servidor recebe requisições até a primeira que falha, e cada requisição falha com probabilidade 0,1, independentemente das outras. Seja $N$ o número de requisições até a primeira falha, contando a que falhou. Encontre $P(N = 1)$, $P(N = 2)$ e $P(N = k)$ para um $k$ qualquer.
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+$N = k$ quando as $k - 1$ primeiras requisições dão certo e a $k$-ésima falha. Pela independência,
+
+$$
+P(N = k) = 0{,}9^{\,k-1} \times 0{,}1, \qquad k = 1, 2, 3, \dots
+$$
+
+Então $P(N = 1) = 0{,}1$ e $P(N = 2) = 0{,}09$. $N$ é uma variável discreta com infinitos valores possíveis, que podem ser listados.
+:::
+
+**3.** No experimento dos módulos, seja $Z$ o número de módulos inutilizáveis (0, 1 ou 2). Encontre a função de probabilidade de $Z$.
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+$P(Z = 2) = 0{,}1 \times 0{,}1 = 0{,}01$. $P(Z = 0) = 0{,}9 \times 0{,}9 = 0{,}81$, porque cada módulo é utilizável com probabilidade 0,9. $P(Z = 1) = 1 - 0{,}81 - 0{,}01 = 0{,}18$.
+:::

@@ -19,7 +19,7 @@ np.set_printoptions(legacy="1.25")   # números sem o prefixo np.float64 na saí
 
 Muitas medidas se distribuem em forma de sino: a maior parte dos valores perto do centro, cada vez menos valores à medida que se afastam, e mais ou menos a mesma quantidade dos dois lados. Segundo @bussab2023, as origens do modelo estão nos trabalhos de Gauss sobre erros de observações astronômicas, por volta de 1810. Em software, o tempo de execução de uma suíte de testes estável costuma ter essa forma: quase sempre perto de um valor típico, raramente muito acima ou muito abaixo.
 
-O modelo para esse sino é a distribuição **normal**, ou gaussiana. É o modelo contínuo mais importante da estatística, e a base de boa parte da inferência. Na seção 3.5, o texto deixou uma promessa para cá: transformar "a tantos desvios-padrão da média" em probabilidade.
+O modelo para esse sino é a distribuição **normal**, ou gaussiana. É o modelo contínuo mais importante da estatística, e a base de boa parte da inferência.
 
 ## O modelo
 
@@ -80,6 +80,18 @@ print(round(Z.cdf(-1.73), 4))                # P(Z ≤ -1,73), igual pela simetr
 print(round(Z.cdf(1.73) - Z.cdf(0.47), 4))   # P(0,47 ≤ Z ≤ 1,73)
 ```
 
+## Usando a tabela da normal
+
+Numa prova feita à mão não há `scipy`. Por isso existe a [**tabela da normal padrão** (PDF)](../../downloads/tabela-normal-padrao.pdf), para imprimir ou consultar. Ela dá $\Phi(z) = P(Z \le z)$ para $z$ de 0,00 a 3,49. A linha é o valor de $z$ até a primeira casa decimal, e a coluna é a segunda casa.
+
+Para achar $\Phi(1{,}73)$, desça até a linha **1,7** e siga até a coluna **0,03**: o valor é 0,9582. As outras probabilidades saem desse número:
+
+- **Cauda à direita:** $P(Z > 1{,}73) = 1 - \Phi(1{,}73) = 0{,}0418$.
+- **$z$ negativo:** a tabela só tem $z \ge 0$, e a simetria resolve o resto. $\Phi(-1{,}73) = 1 - \Phi(1{,}73) = 0{,}0418$.
+- **Intervalo:** $P(0{,}47 \le Z \le 1{,}73)$ é a diferença $\Phi(1{,}73) - \Phi(0{,}47)$, ou seja, $0{,}9582 - 0{,}6808 = 0{,}2774$.
+
+A Tabela III de @bussab2023 usa outro formato: dá a área entre 0 e $z$, $P(0 \le Z \le z)$, e não a área acumulada desde $-\infty$. As duas se convertem somando ou tirando 0,5: $P(0 \le Z \le 1{,}73) = 0{,}9582 - 0{,}5 = 0{,}4582$, o valor do Bussab.
+
 ## Padronização
 
 A normal padrão serve para todas as outras por causa de uma transformação linear. Se $X \sim N(\mu, \sigma^2)$, defina
@@ -117,7 +129,7 @@ direto = X.cdf(5) - X.cdf(2)
 round(pela_padronizacao, 4), round(direto, 4)
 ```
 
-Os dois caminhos dão `{python} num(direto, 4)`, o valor do Bussab. Com a `scipy`, `stats.norm(loc=μ, scale=σ)` faz a conta direto, sem padronizar, mas a padronização continua útil para **interpretar**: dizer que um valor está a 2 desvios-padrão da média significa a mesma coisa em qualquer normal.
+Os dois caminhos dão `{python} num(direto, 4)`, o valor do Bussab. Com a tabela: $\Phi(0{,}5) = 0{,}6915$ e, pela simetria, $\Phi(-0{,}25) = 1 - 0{,}5987 = 0{,}4013$. A diferença é $0{,}2902$. Com a `scipy`, `stats.norm(loc=μ, scale=σ)` faz a conta direto, sem padronizar, mas a padronização continua útil para **interpretar**: dizer que um valor está a 2 desvios-padrão da média significa a mesma coisa em qualquer normal.
 
 ## A quantos desvios-padrão
 
@@ -131,7 +143,7 @@ pd.DataFrame({
 }).round(4)
 ```
 
-Cerca de 68% dos valores ficam a menos de um desvio-padrão da média, 95% a menos de dois, e 99,7% a menos de três. Na seção 3.5, a binomial das 100 requisições deu `{python} num(1 - stats.binom(100, 0.9).cdf(79), 4)` para $P(X \ge 80)$: só cerca de `{python} num(stats.binom(100, 0.9).cdf(79), 4)` de chance de 79 sucessos ou menos. O valor 80 fica $(90 - 80)/3 \approx 3{,}33$ desvios-padrão abaixo da média, e uma normal com essa média e esse desvio-padrão põe `{python} num(Z.cdf(-10 / 3), 4)` de probabilidade abaixo dele: a mesma ordem de grandeza. A normal só aproxima a binomial, e com $p = 0{,}9$, longe de 0,5, a binomial é assimétrica e as caudas diferem.
+Cerca de 68% dos valores ficam a menos de um desvio-padrão da média, 95% a menos de dois, e 99,7% a menos de três. Numa normal qualquer, um valor a mais de 3 desvios-padrão da média é raro: fica fora dessa faixa só 0,3% da probabilidade, somando os dois lados.
 
 ## Um exemplo completo
 
@@ -148,15 +160,6 @@ print(f"{deposito.sf(20_000):.1e}")
 
 (a) e (b) dão 0,5 cada, pela simetria em torno da média. (c) é cerca de `{python} num(deposito.cdf(15_000) - deposito.cdf(12_000), 4)` (o Bussab, com $z$ arredondado a duas casas e a Tabela III, obtém cerca de 0,0914). (d) é praticamente zero: R\$ 20.000 fica a $(20.000 - 10.000)/1.500 \approx 6{,}7$ desvios-padrão da média.
 
-A pergunta também pode ir no sentido contrário: qual o valor que só 5% dos depósitos ultrapassam? É a inversa da f.d.a. (seção 4.3), que a `scipy` chama de `ppf`. `ppf(0.95)` é o valor que deixa 95% da probabilidade abaixo dele, a versão teórica do quantil $q(0{,}95)$ da seção 1.5:
-
-```{python}
-#| label: ppf
-round(deposito.ppf(0.95), 2), round(Z.ppf(0.95), 4)
-```
-
-Só 5% dos depósitos passam de cerca de R\$ `{python} num(deposito.ppf(0.95), 0)`, que fica a `{python} num(Z.ppf(0.95), 3)` desvios-padrão acima da média.
-
 ::: {.callout-important}
 ## Nem todo dado é normal
 Dados com cauda longa à direita, como tempo de resposta de servidores ou renda, **não** são normais (até a suíte "estável" dos exercícios é uma idealização), e usar a normal para eles subestima a chance de valores muito altos. Antes de usar o modelo, olhe o histograma dos dados (seção 1.5) e desconfie de assimetria.
@@ -172,7 +175,7 @@ Dados com cauda longa à direita, como tempo de resposta de servidores ou renda,
 | Padronização | $Z = (X - \mu)/\sigma \sim N(0, 1)$ |
 | f.d.a. padrão | $\Phi(z) = P(Z \le z)$, sem fórmula fechada |
 | A 1, 2 e 3 desvios | cerca de 68%, 95% e 99,7% |
-| `scipy.stats` | `norm(loc=μ, scale=σ)`: `pdf`, `cdf`, `sf`, `ppf` |
+| `scipy.stats` | `norm(loc=μ, scale=σ)`: `pdf`, `cdf`, `sf` |
 :::
 
 ## Exercícios
@@ -190,12 +193,12 @@ t.sf(15), t.cdf(14) - t.cdf(10)
 ```
 :::
 
-**2.** Com a mesma suíte, a equipe quer um tempo limite (*timeout*) que só 1% das execuções normais ultrapasse. Qual deve ser o limite?
+**2.** Com a mesma suíte, a equipe usa um tempo limite (*timeout*) de 16 minutos. Que fração das execuções normais ultrapassa o limite? E se o limite fosse de 18 minutos?
 
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
-É o valor $x$ com $P(X > x) = 0{,}01$, ou seja, a inversa da f.d.a. em 0,99: `stats.norm(loc=12, scale=2).ppf(0.99)`, cerca de 16,65 minutos. Padronizando: $z = 2{,}326$ e $x = 12 + 2{,}326 \times 2$.
+16 minutos ficam a $(16 - 12)/2 = 2$ desvios-padrão da média: $P(X > 16) = P(Z > 2) \approx 0{,}023$, pouco mais de 2% das execuções. Com 18 minutos, 3 desvios-padrão, $P(Z > 3) \approx 0{,}0013$. A faixa de 2 desvios contém 95,45% da probabilidade (os 95% da regra são arredondamento) e deixa 4,55% de fora, metade de cada lado: 2,3%. Da mesma forma, 0,0013 é metade dos 0,27% que ficam fora da faixa de 3 desvios.
 :::
 
 **3.** Um colega calculou $P(X \le 5)$ para $X \sim N(3, 16)$ com `stats.norm(3, 16).cdf(5)` e obteve 0,55. O valor certo é maior ou menor? Por quê?

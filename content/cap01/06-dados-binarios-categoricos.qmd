@@ -14,17 +14,17 @@ from formato import num
 plt.rcParams["figure.figsize"] = (7, 4)
 ```
 
-A seção 1.5 abriu mão do resumo numérico e olhou a distribuição inteira — percentis, boxplot, histograma, assimetria. Todo esse ferramental depende de uma coisa: os valores serem números, ordenáveis e subtraíveis entre si. Isso desmorona por completo diante de dado categórico. Não existe percentil 95 de uma causa de atraso de voo, nem um "ponto médio" entre `Clima` e `Seguranca` para tirar uma mediana. A seção 1.1 já havia separado categórico de numérico — nominal, ordinal, binário — e é hora de ver o que sobra da caixa de ferramentas quando o dado é desse tipo.
+A seção 1.5 abriu mão do resumo numérico e olhou a distribuição inteira: percentis, boxplot, histograma, assimetria. Todo esse ferramental depende de uma coisa: os valores serem números, ordenáveis e subtraíveis entre si. Isso desmorona por completo diante de dado categórico. Não existe percentil 95 de uma causa de atraso de voo, nem um "ponto médio" entre `Clima` e `Seguranca` para tirar uma mediana. A seção 1.1 já havia separado categórico de numérico (nominal, ordinal, binário), e é hora de ver o que sobra da caixa de ferramentas quando o dado é desse tipo.
 
 A resposta, adiantando: quase tudo muda, e o pouco que sobra é mais simples do que parece.
 
 ## Os dados
 
-Vamos usar as causas de atraso de voo no aeroporto de Dallas/Fort Worth: problema atribuído à companhia aérea (`Companhia`), controle de tráfego aéreo (`ControleAereo`), clima (`Clima`), segurança (`Seguranca`) e atraso herdado de um voo anterior da mesma aeronave (`VooAnterior`). Cinco categorias nominais — nenhuma ordem natural entre elas, no sentido da seção 1.1.
+Vamos usar as causas de atraso de voo no aeroporto de Dallas/Fort Worth: problema atribuído à companhia aérea (`Companhia`), controle de tráfego aéreo (`ControleAereo`), clima (`Clima`), segurança (`Seguranca`) e atraso herdado de um voo anterior da mesma aeronave (`VooAnterior`). Cinco categorias nominais, sem nenhuma ordem natural entre elas, no sentido da seção 1.1.
 
 ## Proporções: o resumo que substitui a média
 
-Para dado numérico, o primeiro resumo é uma medida de localização — média, média aparada, mediana. Nenhuma delas se aplica aqui: somar "Companhia + Clima" e dividir por dois não produz nada interpretável, porque não há distância nem ordem entre as categorias. O que resta, e é suficiente, é a **proporção** de cada categoria sobre o total.
+Para dado numérico, o primeiro resumo é uma medida de localização: média, média aparada, mediana. Nenhuma delas se aplica aqui: somar "Companhia + Clima" e dividir por dois não produz nada interpretável, porque não há distância nem ordem entre as categorias. O que resta, e é suficiente, é a **proporção** de cada categoria sobre o total.
 
 ```{python}
 #| label: proporcoes
@@ -40,16 +40,17 @@ proporcoes.round(2).map(lambda v: num(v, 2))
 ```
 
 ::: {.conceito}
-Repare no formato de `dfw`: uma linha, cinco colunas. Cada **coluna** é uma categoria, e o único valor de cada uma é a contagem de atrasos atribuídos a ela — o oposto do formato "uma linha por observação" que os capítulos anteriores usaram. É por isso que os próximos chunks recorrem a `.transpose()`: para virar as cinco colunas em cinco linhas, uma por causa, antes de desenhar o gráfico ou extrair a moda.
+Repare no formato de `dfw`: uma linha, cinco colunas. Cada **coluna** é uma categoria, e o único valor de cada uma é a contagem de atrasos atribuídos a ela. É o oposto do formato "uma linha por observação" que os capítulos anteriores usaram. É por isso que os próximos chunks recorrem a `.transpose()`: para virar as cinco colunas em cinco linhas, uma por causa, antes de desenhar o gráfico ou extrair a moda.
 :::
 
-`ControleAereo` e `VooAnterior` somam sozinhos mais de 70% dos atrasos; `Seguranca` responde por pouco mais de um décimo de 1%. É toda a "distribuição" que um dado categórico tem para oferecer — não uma forma contínua, mas um conjunto de fatias.
+`ControleAereo` e `VooAnterior` somam sozinhos mais de 70% dos atrasos; `Seguranca` responde por pouco mais de um décimo de 1%. É toda a "distribuição" que um dado categórico tem para oferecer: um conjunto de fatias, sem forma contínua.
 
 ## Gráfico de barras não é histograma
 
 ```{python}
 #| label: fig-barras
 #| fig-cap: "Causas de atraso no aeroporto de Dallas/Fort Worth. As barras são separadas: o eixo é categórico, não contínuo."
+#| fig-alt: "Gráfico de barras separadas com as cinco causas de atraso no eixo horizontal e o número de atrasos no vertical. VooAnterior tem a barra mais alta, seguida de ControleAereo e Companhia; Clima é baixa e Seguranca é praticamente invisível."
 fig, ax = plt.subplots()
 dfw.transpose().plot.bar(ax=ax, legend=False, color="#4a90a4", edgecolor="white")
 ax.set_xlabel("Causa do atraso")
@@ -62,18 +63,19 @@ plt.show()
 É tentador olhar para esse gráfico como "o histograma da seção 1.5, com barras diferentes". Não é, e a diferença não é estética.
 
 ::: {.conceito}
-No histograma, o eixo X é numérico e contínuo, e as barras se encostam **porque** não há espaço entre uma faixa e a seguinte — são pedaços contíguos da mesma reta de números. No gráfico de barras, o eixo X é categórico, e as barras vêm separadas de propósito: não existe "entre `ControleAereo` e `Clima`", e a ordem em que as categorias aparecem no eixo é arbitrária, não informativa. Desenhar `Companhia`, `ControleAereo`, `Clima`, `Seguranca` e `VooAnterior` com barras encostadas sugeriria visualmente uma continuidade e uma ordem que os dados não têm — como se uma causa viesse "depois" da outra por algum motivo numérico. Não é preciosismo de estilo: é o mesmo cuidado que a seção 1.1 teve ao impedir que uma coluna nominal respondesse a perguntas de ordem.
+No histograma, o eixo X é numérico e contínuo, e as barras se encostam **porque** não há espaço entre uma faixa e a seguinte. São pedaços contíguos da mesma reta de números. No gráfico de barras, o eixo X é categórico, e as barras vêm separadas de propósito: não existe "entre `ControleAereo` e `Clima`", e a ordem em que as categorias aparecem no eixo é arbitrária, não informativa. Desenhar `Companhia`, `ControleAereo`, `Clima`, `Seguranca` e `VooAnterior` com barras encostadas sugeriria visualmente uma continuidade e uma ordem que os dados não têm, como se uma causa viesse "depois" da outra por algum motivo numérico. É o mesmo cuidado que a seção 1.1 teve ao impedir que uma coluna nominal respondesse a perguntas de ordem.
 :::
 
 ## O eixo que mente
 
-Um gráfico de barras honesto sobre a mecânica — barras separadas, eixo categórico — ainda pode enganar de outra forma, e essa é uma das mais comuns em jornais e apresentações. O truque não está nos dados; está no eixo.
+Um gráfico de barras honesto sobre a mecânica (barras separadas, eixo categórico) ainda pode enganar de outra forma, e essa é uma das mais comuns em jornais e apresentações. O truque não está nos dados; está no eixo.
 
 O gráfico abaixo mostra a taxa de homicídios dos nove estados do Nordeste (Atlas da Violência, 2024), com os estados em ordem alfabética da sigla.
 
 ```{python}
 #| label: fig-eixo-truncado
 #| fig-cap: "Taxa de homicídios dos nove estados do Nordeste, com o eixo Y começando em 20."
+#| fig-alt: "Gráfico de barras da taxa de homicídios por 100 mil habitantes dos nove estados do Nordeste, com o eixo vertical começando em 20. A barra do Piauí é um traço quase rente ao eixo, enquanto Pernambuco e Alagoas parecem muitas vezes mais altos."
 estado = pd.read_csv("dados/estados.csv")
 nordeste = ["AL", "BA", "CE", "MA", "PB", "PE", "PI", "RN", "SE"]
 ne = estado[estado["Sigla"].isin(nordeste)].sort_values("Sigla")
@@ -87,15 +89,16 @@ plt.tight_layout()
 plt.show()
 ```
 
-À primeira vista, a leitura é dramática. O Piauí parece quase não ter homicídios — a barra é um traço rente ao chão. Pernambuco se ergue várias vezes mais alto; Ceará, Alagoas e Bahia formam um bloco imponente que faz o Piauí, o Rio Grande do Norte e Sergipe parecerem casos à parte, quase pacíficos. Se você tivesse apenas este gráfico, concluiria que o estado mais violento do Nordeste tem uma taxa muitas vezes maior que a do menos violento — o olho lê Pernambuco como umas **36 vezes** o Piauí.
+À primeira vista, a leitura é dramática. O Piauí parece quase não ter homicídios: a barra é um traço rente ao chão. Pernambuco se ergue várias vezes mais alto; Ceará, Alagoas e Bahia formam um bloco imponente que faz o Piauí, o Rio Grande do Norte e Sergipe parecerem casos à parte, quase pacíficos. Se você tivesse apenas este gráfico, concluiria que o estado mais violento do Nordeste tem uma taxa muitas vezes maior que a do menos violento. O olho lê Pernambuco como umas **36 vezes** o Piauí.
 
-Mas essa impressão inteira vem de uma escolha que não está nos dados: o eixo Y começa em **20**, não em zero. Repare no canto inferior esquerdo — a régua começa lá. A barra do Piauí não mede a taxa do Piauí; mede o quanto ela **passa de 20**. E como a taxa do Piauí é 20,47, o que sobra para desenhar é `20,47 − 20 = 0,47` — quase nada. A do Piauí não é uma taxa baixa; é uma barra baixa, que é coisa diferente.
+Mas essa impressão inteira vem de uma escolha que não está nos dados: o eixo Y começa em **20**, não em zero. Repare no canto inferior esquerdo: a régua começa lá. A barra do Piauí não mede a taxa do Piauí; mede o quanto ela **passa de 20**. E como a taxa do Piauí é 20,47, o que sobra para desenhar é `20,47 − 20 = 0,47`, quase nada. A barra do Piauí é baixa, mas a taxa não é.
 
 Veja o que acontece quando a régua começa onde deveria, no zero:
 
 ```{python}
 #| label: fig-eixo-zero
-#| fig-cap: "O mesmo dado, com o eixo Y começando no zero — a imagem honesta."
+#| fig-cap: "O mesmo dado, com o eixo Y começando no zero: a imagem honesta."
+#| fig-alt: "Mesmo gráfico de barras dos nove estados do Nordeste, agora com o eixo vertical começando em zero. Todas as barras são altas, e a de Pernambuco, a maior, fica menos de duas vezes acima da do Piauí, a menor."
 fig, ax = plt.subplots(figsize=(7, 4))
 ax.bar(ne["Sigla"], ne["Taxa.Homicidios"], color="#b0c4d8", edgecolor="white")
 ax.set_ylim(0, 38)
@@ -105,14 +108,14 @@ plt.tight_layout()
 plt.show()
 ```
 
-Agora o Piauí aparece pelo que é: uma barra alta, como todas as outras. Os nove estados do Nordeste têm taxa acima de 20 por 100 mil — a região inteira convive com violência letal alta, e essa é a primeira coisa que salta aos olhos. Pernambuco ainda é o mais alto, mas a diferença para o Piauí é de `36,78 / 20,47` = **1,8×**, não 36×: uma taxa 80% maior, real e digna de atenção, mas longe do abismo que o primeiro gráfico encenava.
+Agora o Piauí aparece pelo que é: uma barra alta, como todas as outras. Os nove estados do Nordeste têm taxa acima de 20 por 100 mil. A região inteira convive com violência letal alta, e essa é a primeira coisa que salta aos olhos. Pernambuco ainda é o mais alto, mas a diferença para o Piauí é de `36,78 / 20,47` = **1,8×**, não 36×: uma taxa 80% maior, real e digna de atenção, mas longe do abismo que o primeiro gráfico encenava.
 
-O que torna o truque insidioso é que **todos os nove números são verdadeiros nos dois gráficos.** Não há dado inventado, não há erro de conta — só um eixo que começa em 20 em vez de em zero. É assim que se engana com uma base de dados honesta: não mentindo sobre os valores, mas escolhendo onde a régua começa a medir.
+O que torna o truque insidioso é que **todos os nove números são verdadeiros nos dois gráficos.** Não há dado inventado, não há erro de conta, só um eixo que começa em 20 em vez de em zero. É assim que se engana com uma base de dados honesta: não mentindo sobre os valores, mas escolhendo onde a régua começa a medir.
 
 Por que a barra é especialmente vulnerável a isso: o olho lê a quantidade pelo **comprimento** da barra, e comprimento só significa algo medido **a partir do zero**. Cortar o eixo quebra a correspondência entre comprimento e valor.
 
 ::: {.conceito}
-**Regra prática:** um gráfico de barras começa no eixo zero, sempre. A barra codifica a magnitude pelo seu comprimento, e comprimento medido a partir de um ponto qualquer não é magnitude nenhuma. (A regra é específica de barras: um gráfico de **linha**, mostrando evolução no tempo, às vezes pode truncar o eixo sem enganar — ali a informação está na **inclinação** da linha, não no comprimento de uma barra medida contra o zero.)
+**Regra prática:** um gráfico de barras começa no eixo zero, sempre. A barra codifica a magnitude pelo seu comprimento, e comprimento medido a partir de um ponto qualquer não é magnitude nenhuma. (A regra é específica de barras: um gráfico de **linha**, mostrando evolução no tempo, às vezes pode truncar o eixo sem enganar. Ali a informação está na **inclinação** da linha, não no comprimento de uma barra medida contra o zero.)
 :::
 
 ## A moda: a única "localização" possível
@@ -123,10 +126,10 @@ moda = proporcoes.transpose().iloc[:, 0].idxmax()
 print(f"Moda (causa mais frequente): {moda}")
 ```
 
-A **moda** — a categoria mais frequente — é a única medida de localização que sobrevive à falta de ordem e de distância entre categorias. Ela não exige somar nem ordenar nada: só contar qual fatia é a maior.
+A **moda** (a categoria mais frequente) é a única medida de localização que sobrevive à falta de ordem e de distância entre categorias. Ela não exige somar nem ordenar nada: só contar qual fatia é a maior.
 
 ::: {.exemplo}
-A moda de `dfw` é `VooAnterior`, com 42% dos atrasos — não `Companhia` nem `Clima`, as causas que viriam à mente primeiro ao pensar em "atraso de voo". A maior fonte de atraso em Dallas/Fort Worth não é uma causa local do próprio aeroporto: é um voo anterior da mesma aeronave chegando atrasado e empurrando o atraso adiante. O gargalo não está em Dallas — está na malha aérea inteira, se propagando de aeroporto em aeroporto.
+A moda de `dfw` é `VooAnterior`, com 42% dos atrasos, à frente de `Companhia` e `Clima`, as causas que viriam à mente primeiro ao pensar em "atraso de voo". A maior fonte de atraso em Dallas/Fort Worth não é uma causa local do próprio aeroporto: é um voo anterior da mesma aeronave chegando atrasado e empurrando o atraso adiante. O gargalo fica fora de Dallas, na malha aérea inteira, e se propaga de aeroporto em aeroporto.
 :::
 
 ## Resumo
@@ -140,7 +143,7 @@ A moda de `dfw` é `VooAnterior`, com 42% dos atrasos — não `Companhia` nem `
 | VooAnterior | `{python} num(dfw['VooAnterior'].iloc[0], 0)` | `{python} num(proporcoes['VooAnterior'].iloc[0], 2)`% |
 
 ::: {.conceito}
-**Regra prática:** para dado numérico, o resumo é localização + dispersão + forma (seções 1.3 a 1.5). Para dado categórico nominal, isso colapsa em proporção e moda — não porque o dado categórico seja "mais pobre", mas porque perguntas de soma, distância e ordem simplesmente não fazem sentido nele.
+**Regra prática:** para dado numérico, o resumo é localização + dispersão + forma (seções 1.3 a 1.5). Para dado categórico nominal, isso colapsa em proporção e moda. O dado categórico não fica "mais pobre" por isso: perguntas de soma, distância e ordem simplesmente não fazem sentido nele.
 :::
 
 ## Exercícios
@@ -150,7 +153,7 @@ A moda de `dfw` é `VooAnterior`, com 42% dos atrasos — não `Companhia` nem `
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
-Porque as categorias de `dfw` são nominais — não há ordem nem distância entre "Clima" e "Seguranca". Média e mediana exigem que os valores possam ser somados ou ordenados; nenhuma das duas operações significa algo quando o "valor" é o nome de uma causa de atraso. A moda só precisa contar qual categoria é a mais frequente, e essa pergunta continua fazendo sentido mesmo sem ordem nenhuma entre as categorias.
+Porque as categorias de `dfw` são nominais: não há ordem nem distância entre "Clima" e "Seguranca". Média e mediana exigem que os valores possam ser somados ou ordenados; nenhuma das duas operações significa algo quando o "valor" é o nome de uma causa de atraso. A moda só precisa contar qual categoria é a mais frequente, e essa pergunta continua fazendo sentido mesmo sem ordem nenhuma entre as categorias.
 :::
 
 **2.** Um jornal publica as taxas de homicídio de Pernambuco (36,78) e Piauí (20,47) num gráfico de barras com o eixo Y começando em 20. Quantas vezes maior a barra de Pernambuco *parece*? E qual é a razão *real* entre as duas taxas?
@@ -160,5 +163,5 @@ Porque as categorias de `dfw` são nominais — não há ordem nem distância en
 
 A barra de Pernambuco *parece* cerca de **36 vezes** a do Piauí: a altura desenhada de cada uma é o valor menos o piso do eixo, então a razão visual é `(36,78 − 20) / (20,47 − 20) = 16,78 / 0,47 ≈ 36`.
 
-A razão **real** é `36,78 / 20,47 ≈ 1,8` — Pernambuco tem uma taxa 80% maior, não 36 vezes maior. O eixo truncado transformou uma diferença de 80% num abismo aparente de 36 para 1. É por isso que um gráfico de barras deve começar no zero: só assim o comprimento da barra corresponde ao valor.
+A razão **real** é `36,78 / 20,47 ≈ 1,8`: Pernambuco tem uma taxa 80% maior, não 36 vezes maior. O eixo truncado transformou uma diferença de 80% num abismo aparente de 36 para 1. É por isso que um gráfico de barras deve começar no zero: só assim o comprimento da barra corresponde ao valor.
 :::

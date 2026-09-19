@@ -131,7 +131,7 @@ requisicoes = stats.binom(100, 0.9)
 round(1 - requisicoes.cdf(79), 4), requisicoes.mean(), requisicoes.std()
 ```
 
-A probabilidade é `{python} num(1 - requisicoes.cdf(79), 4)`. Faz sentido: o número esperado de sucessos é 90, com desvio-padrão 3, e 80 fica a mais de três desvios-padrão abaixo da média. No Capítulo 4, a distribuição normal vai dar um jeito de transformar essa distância, medida em desvios-padrão, em probabilidade.
+A probabilidade é `{python} num(1 - requisicoes.cdf(79), 4)`. Faz sentido: o número esperado de sucessos é 90, com desvio-padrão 3, e 80 fica a mais de três desvios-padrão abaixo da média.
 
 ::: {.callout-warning}
 ## Confira as três condições antes de usar a binomial

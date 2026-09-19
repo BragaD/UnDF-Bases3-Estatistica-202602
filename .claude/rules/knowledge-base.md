@@ -53,7 +53,7 @@ A notação segue @bussab2023 sempre que ele define o objeto; onde ele é omisso
 | 2.3 | Como contar sem listar? | $m/n$, $n!$, $\binom{n}{k}$; permutação sem símbolo próprio ($P(n,k)$ colide com probabilidade) | Bussab 5.2 (2ª metade) |
 | 2.4–2.5 | Condicional e independência; Bayes | $P(A \mid B)$, partição | Bussab 5.3–5.4 |
 | Cap. 3 | V.a. discretas: $E$, Var, FDA; uniforme, Bernoulli, binomial, hipergeométrica; Poisson (3.7, complementar) | $b(n,p)$, $\mathrm{hip}(N,r,n)$ | Bussab 6.1–6.3 (+ (6.4) e (6.5) da 6.4), 6.5, 6.6.1–6.6.4 |
-| Cap. 4 | V.a. contínuas: densidade, $E$, Var ((7.8) incluída), FDA, inversa da FDA; uniforme, normal; exponencial (4.6, complementar) | $N(\mu,\sigma^2)$, $\Phi$, $u(\alpha,\beta)$ | Bussab 7.1–7.4.3 |
+| Cap. 4 | V.a. contínuas: densidade, $E$, Var ((7.8) incluída), FDA; uniforme, normal com tabela $\Phi$; exponencial (4.6, complementar). Fora: transformação inversa, `ppf`/quantis (7.8), aproximação normal da binomial (7.5) | $N(\mu,\sigma^2)$, $\Phi$, $u(\alpha,\beta)$ | Bussab 7.1–7.4.3 |
 
 Escopo completo, por aula, no `CLAUDE.md`. Um capítulo do livro por capítulo do Bussab: Cap. 2 = Bussab 5, Cap. 3 = Bussab 6, Cap. 4 = Bussab 7. Remissões "no Capítulo 3/4" dentro do Cap. 2 estão corretas.
 
@@ -80,6 +80,8 @@ Escopo completo, por aula, no `CLAUDE.md`. Um capítulo do livro por capítulo d
 | `scipy.stats.randint(a, b)` exclui `b` (ao contrário de `random.randint`) | `randint(1, 6)` é um dado de 5 faces; `pmf(6)` dá 0 sem aviso | `randint(1, 7)` |
 | `scipy.stats.expon(scale=β)`: `scale` é a média; muitos textos usam a taxa | passar a taxa em `scale` troca média por taxa | `expon(scale=1/taxa)` |
 | Saída de numpy 2 com `np.float64(...)` | poluição nas tuplas de saída | `np.set_printoptions(legacy="1.25")` no setup de cada seção e no notebook |
+| PNG do matplotlib no modo escuro | fundo branco destoa do tema | o `styles.css` aplica `filter: invert(0.87) hue-rotate(180deg)` em `.quarto-dark .cell-output-display img`; não gerar figuras com fundo escuro próprio; figura com escala de cor sequencial (hexbin, heatmap) vai dentro de `::: {.sem-inversao}` para não inverter o sentido "mais escuro = mais" |
+| Numeração de figuras | Quarto numerava por arquivo ("Figura 16.1") | `crossref: chapters: false` no `_quarto.yml`: numeração por página |
 | Graphviz `{dot}` no modo escuro | texto e setas pretos sobre fundo escuro; SVG com 672 px inline | `bgcolor="transparent"` no dot; o `styles.css` tem `.quarto-dark svg g.graph` e `max-width: 100% !important` |
 | Tabela de Resumo com fórmulas | estoura a página no celular | `::: {.table-responsive}` em volta (padrão nos Caps. 2–4) |
 | `set` de strings em Python sai em ordem diferente a cada processo (hash aleatório) | a saída do chunk muda a cada render e o `freeze` perde o sentido | exibir com `sorted(...)` |

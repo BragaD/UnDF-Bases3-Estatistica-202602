@@ -4,6 +4,7 @@ project:
   execute-dir: project
   resources:
     - downloads/lista-1-prova-1.pdf
+    - downloads/tabela-normal-padrao.pdf
 
 execute:
   freeze: auto
@@ -127,6 +128,11 @@ format:
     code-overflow: wrap
 
 bibliography: references.bib
+
+# Numera figuras e tabelas por página (Figura 1, 2...), e não pelo número
+# de ordem do arquivo no livro (Figura 16.1 numa seção 2.4).
+crossref:
+  chapters: false
 
 editor: source
 code-annotations: hover

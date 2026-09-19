@@ -29,21 +29,27 @@ O Cap. 1 corresponde ao **capítulo 1 de @bruce2020**. Como o número citado no 
 | 6 | 09/10 | 5.1, 5.2 + revisão curta de contagem |
 | 7 | 16/10 | 5.3, 5.4 |
 | 8 | 30/10 | **Prova 1**: Cap. 1 + Cap. 5 |
-| 9 | 06/11 | 6.1, 6.2, 6.3 (com E(aX+b) e Var(aX+b) da 6.4), 6.5 |
-| 10 | 13/11 | 6.6.1 a 6.6.4 (uniforme discreta, Bernoulli, binomial, hipergeométrica) |
-| 11 | 27/11 | 7.1, 7.2, 7.3 |
-| 12 | 04/12 | 7.4.1, 7.4.2 (uniforme contínua, normal) |
-| 13 | 11/12 | **Prova 2**: Caps. 6 e 7 |
+| 9 | 06/11 | 6.1, 6.2, 6.3 (com (6.4), (6.5) e (6.6) da 6.4), 6.5 (seções 3.1 a 3.3) |
+| 10 | 13/11 | 6.6.1 a 6.6.4 (seções 3.4 a 3.6) |
+| 11 | 27/11 | 7.1, 7.2 (seções 4.1 e 4.2) |
+| 12 | 04/12 | 7.3, 7.4.1 (seções 4.3 e 4.4) |
+| 13 | 11/12 | 7.4.2 normal e uso da tabela (seção 4.5) |
+| 14 | 18/12 | **Prova 2**: Caps. 3 e 4. A revisão da Prova 2 é online e assíncrona |
 
 Decisões que acompanham esse escopo:
 
 - **Três capítulos no livro, um por capítulo do Bussab:** Cap. 2 Probabilidade (Bussab 5 + contagem), Cap. 3 Variáveis Aleatórias Discretas (Bussab 6), Cap. 4 Variáveis Aleatórias Contínuas (Bussab 7). A seção 2.1 (`content/cap02/01-modelos-probabilisticos.qmd`) corresponde à 5.1.
 - **Suplementar, fora do cronograma:** 6.6.5 (Poisson) e 7.4.3 (exponencial), com `callout-warning` no topo como na 1.8, e fora do notebook do capítulo.
 - **Fora do livro:** 5.5, 5.6, 6.4 (exceto os dois resultados abaixo), 6.7 em diante, 7.5 em diante.
-- **Da 6.4 entram só E(aX+b) = aE(X)+b e Var(aX+b) = a²Var(X)**, como nota dentro da 6.3. A padronização da normal (7.4.2) depende deles.
+- **Da 6.4 entram E(aX+b) = aE(X)+b, Var(aX+b) = a²Var(X) e, de forma curta, Var(X) = E(X²) − [E(X)]² (6.6)**, dentro da 3.2. A padronização da normal (7.4.2) depende deles.
 - **Contagem:** revisão curta (princípio multiplicativo, permutação, combinação) junto da 5.2, porque o Bussab usa combinações na 5.2, na binomial e na hipergeométrica sem ter seção própria. O texto de partida é `content/cap02/04-contagem-permutacao-combinacao.qmd` no commit `bd099e5`, que tem travessões e cita "exercício 5.8": no Bussab é o **Exemplo 5.8**; corrigir ao recuperar.
 - **Os alunos já viram integral:** 7.1 a 7.3 fazem as contas por integral, não só como área.
 - **Não há aula de revisão antes das provas:** as Listas cumprem esse papel.
+- **Prova 2 adiada para 18/12 (aula 14)** para aliviar o cronograma (decisão de 19/09/2026). A revisão da Prova 2 é online e assíncrona.
+- **Aulas 9 e 10, trechos deixados como leitura** (o site não muda): na 3.1, "Várias variáveis no mesmo experimento"; na 3.2, a simulação das vendas e o aviso sobre $n$ e $n-1$; na 3.3, "A versão teórica da acumulada empírica"; na 3.4, "Quando a incerteza é máxima"; na 3.5, a simulação somando Bernoullis; na 3.6, "População grande: quase binomial".
+- **Cap. 4 fica no escopo do Bussab 7.1 a 7.4:** a transformação inversa, o `ppf` como quantil e a comparação normal × binomial foram retirados (decisão de 19/09/2026). A regra 68%, 95% e 99,7% fica.
+- **Tabela da normal padrão:** `downloads/tabela-normal-padrao.pdf` (Φ(z) para z de 0,00 a 3,49), gerada uma vez por `scripts/gerar-tabela-normal.py`, servida pelo site (`project.resources`) e com link e explicação de uso na seção 4.5.
+- **Datas de consulta externas não vão para o texto** (ex.: preços da Mega-Sena): o que importa é o valor atual quando o aluno usa o material.
 - **Aula 6 = seções 2.1, 2.2 e 2.3 do livro** (5.1 e 5.2 do Bussab, divididas em três arquivos). Por falta de tempo, ficam como leitura, fora da exposição em aula: espaço discreto × contínuo (2.1), os desvios sobre ponto flutuante/`isclose` (2.2), a simulação da auditoria e a tabela completa da Mega-Sena (2.3). O texto do site não muda por isso.
 
 Ordem, profundidade e redação de cada seção continuam sendo combinadas com o professor, seção a seção, via `/create-lecture`.

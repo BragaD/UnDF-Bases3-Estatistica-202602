@@ -19,7 +19,7 @@ plt.rcParams["figure.figsize"] = (7, 4)
 
 Uma variável com centenas ou milhares de valores é impossível de compreender olhando linha a linha. O primeiro passo da exploração é resumi-la por um **valor típico**: uma estimativa de onde a maior parte dos dados está.
 
-Isso parece trivial — "é só tirar a média" — e é exatamente por parecer trivial que dá errado tantas vezes.
+Isso parece trivial ("é só tirar a média"), e é exatamente por parecer trivial que dá errado tantas vezes.
 
 ## Os dados
 
@@ -48,7 +48,7 @@ media = estado["Populacao"].mean()
 print(f"Média: {num(media)}")
 ```
 
-A média é sensível a valores extremos. A população de São Paulo (~46 milhões) e a de Roraima (~717 mil) diferem por um fator de 64 — e São Paulo puxa a média para cima sozinho.
+A média é sensível a valores extremos. A população de São Paulo (~46 milhões) e a de Roraima (~717 mil) diferem por um fator de 64, e São Paulo puxa a média para cima sozinho.
 
 ## Média aparada
 
@@ -68,8 +68,8 @@ Aparar 10% de cada ponta remove os 2 estados mais populosos e os 2 menos populos
 
 A **mediana** é o valor central dos dados ordenados. Ela depende apenas das observações do meio, então um valor extremo pode ser arbitrariamente grande sem movê-la. A definição completa tem dois casos:
 
-- Com **n ímpar** — como aqui, n = 27 —, existe um único valor central: o 14º estado da fila ordenada. A mediana **é uma observação de verdade**, não uma conta.
-- Com **n par**, não há um único valor central: a mediana é a **média dos dois valores do meio**, e é por isso que ela pode terminar em `,5` — não há meia pessoa, há uma média entre duas observações vizinhas.
+- Com **n ímpar** (como aqui, n = 27), existe um único valor central: o 14º estado da fila ordenada. A mediana **é uma observação de verdade**, não uma conta.
+- Com **n par**, não há um único valor central: a mediana é a **média dos dois valores do meio**, e é por isso que ela pode terminar em `,5` mesmo quando o dado conta pessoas: ela é a média entre duas observações vizinhas.
 
 ```{python}
 #| label: mediana
@@ -81,18 +81,18 @@ estado_mediano = estado.loc[estado["Populacao"] == mediana, "Estado"].iloc[0]
 print(f"É a população de: {estado_mediano}")
 ```
 
-A mediana calculada acima não é um número que a conta inventou: é a população de um estado real, a **Paraíba** — o estado que ficou exatamente no meio da fila quando as 27 unidades federativas são ordenadas por população.
+A mediana calculada acima é a população de um estado real, a **Paraíba**, o estado que ficou exatamente no meio da fila quando as 27 unidades federativas são ordenadas por população.
 
 ::: {.exemplo}
-A mediana é `{python} num(mediana, 0)` e a média é `{python} num(media, 0)` — a média é cerca de 90% maior. Essa diferença é a assinatura de uma distribuição assimétrica à direita, e é a razão pela qual reportar renda mediana e não renda média é a prática padrão.
+A mediana é `{python} num(mediana, 0)` e a média é `{python} num(media, 0)`, cerca de 90% maior. Essa diferença é a assinatura de uma distribuição assimétrica à direita, e é a razão pela qual reportar renda mediana e não renda média é a prática padrão.
 :::
 
 ## Moda
 
-A **moda** é o valor mais frequente de uma variável. Ao contrário da média e da mediana, ela não exige soma nem ordem entre os valores — só contagem —, e é por isso a única medida de localização que também se aplica a dados **categóricos**.
+A **moda** é o valor mais frequente de uma variável. Ao contrário da média e da mediana, ela não exige soma nem ordem entre os valores (só contagem), e é por isso a única medida de localização que também se aplica a dados **categóricos**.
 
 ::: {.callout-note}
-A ideia da moda como a medida "universal" — a que sobrevive mesmo quando não há soma nem ordem entre os valores — vem de @weed.
+A ideia da moda como a medida "universal" (a que sobrevive mesmo quando não há soma nem ordem entre os valores) vem de @weed.
 :::
 
 Na população dos estados, porém, a moda não tem o que dizer:
@@ -102,9 +102,9 @@ Na população dos estados, porém, a moda não tem o que dizer:
 print(f"Valores únicos de população: {estado['Populacao'].nunique()} de {len(estado)}")
 ```
 
-Vinte e sete valores únicos em vinte e sete estados: nenhuma população se repete, então nenhum valor é "mais frequente" que outro — todos empatam em frequência 1. Isso não é uma falha da moda; é o sintoma de que ela é a ferramenta errada para esta variável. Dado contínuo com muitas casas decimais raramente repete um valor exato, e é justamente aí que média e mediana fazem falta.
+Vinte e sete valores únicos em vinte e sete estados: nenhuma população se repete, então nenhum valor é "mais frequente" que outro. Todos empatam em frequência 1. Isso não é uma falha da moda; é o sintoma de que ela é a ferramenta errada para esta variável. Dado contínuo com muitas casas decimais raramente repete um valor exato, e é justamente aí que média e mediana fazem falta.
 
-É com dado **categórico** que a moda vira a medida certa — porque, para ele, média e mediana nem chegam a existir. As causas de atraso de voo do aeroporto de Dallas/Fort Worth, o mesmo dataset da seção 1.6, não têm ordem nem soma entre si: não há "média" entre `Clima` e `Seguranca`. Mas há uma categoria que ocorre mais que as outras:
+É com dado **categórico** que a moda vira a medida certa, porque, para ele, média e mediana nem chegam a existir. As causas de atraso de voo do aeroporto de Dallas/Fort Worth, o mesmo dataset da seção 1.6, não têm ordem nem soma entre si: não há "média" entre `Clima` e `Seguranca`. Mas há uma categoria que ocorre mais que as outras:
 
 ```{python}
 #| label: moda-categorica
@@ -118,7 +118,7 @@ A moda é `VooAnterior`: a maior fonte de atraso em Dallas/Fort Worth não é o 
 
 ## Estimativas ponderadas
 
-Nem toda observação merece o mesmo peso. Para a taxa de homicídios, tratar cada estado igualmente daria a Roraima a mesma influência que a São Paulo — mas eles representam números muito diferentes de pessoas.
+Nem toda observação merece o mesmo peso. Para a taxa de homicídios, tratar cada estado igualmente daria a Roraima a mesma influência que a São Paulo, mas eles representam números muito diferentes de pessoas.
 
 A **média ponderada** corrige isso:
 
@@ -134,15 +134,16 @@ print(f"Média ponderada   : {num(media_pond, 4)}")
 print(f"Mediana ponderada : {num(mediana_pond, 4)}")
 ```
 
-Aqui a ponderada é **menor** que a simples — o oposto do que se veria nos Estados Unidos. O motivo é um único estado: São Paulo tem a maior população do país (45.973.194 habitantes) e a menor taxa de homicídios (6,16 por 100.000) — sozinho, ele puxa a média ponderada para baixo. A violência letal no Brasil se concentra nos estados **menos** populosos, sobretudo no Norte e no Nordeste, e ponderar pela população dilui o peso deles na conta.
+Aqui a ponderada é **menor** que a simples, o oposto do que se veria nos Estados Unidos. O motivo é um único estado: São Paulo tem a maior população do país (45.973.194 habitantes) e a menor taxa de homicídios (6,16 por 100.000). Sozinho, ele puxa a média ponderada para baixo. A violência letal no Brasil se concentra nos estados **menos** populosos, sobretudo no Norte e no Nordeste, e ponderar pela população dilui o peso deles na conta.
 
-A média ponderada é a taxa de homicídios que uma pessoa média do Brasil enfrenta; a média simples é a taxa de um estado médio. São perguntas diferentes, com respostas diferentes — e a **direção** em que elas diferem não é uma lei da estatística, é um fato empírico sobre o país que está sendo medido.
+A média ponderada é a taxa de homicídios que uma pessoa média do Brasil enfrenta; a média simples é a taxa de um estado médio. São perguntas diferentes, com respostas diferentes. A **direção** em que elas diferem é um fato empírico sobre o país que está sendo medido e pode se inverter em outro país.
 
 ## Comparando as estimativas
 
 ```{python}
 #| label: fig-localizacao
 #| fig-cap: "As três estimativas de localização sobre a distribuição de população dos estados."
+#| fig-alt: "Histograma da população dos 27 estados em milhões, concentrado nos valores baixos com cauda longa à direita até São Paulo, perto de 46 milhões. Três linhas verticais marcam a mediana (verde, pontilhada) mais à esquerda, a média aparada (laranja, tracejada) no meio e a média (vermelha, contínua) mais à direita, puxada pela cauda."
 fig, ax = plt.subplots()
 
 ax.hist(estado["Populacao"] / 1e6, bins=20, color="#b0c4d8", edgecolor="white")
@@ -157,7 +158,7 @@ plt.tight_layout()
 plt.show()
 ```
 
-A média está à direita das outras duas, arrastada pela cauda de estados muito populosos. A média aparada e a mediana quase coincidem — é isso que "robusto a extremos" significa na prática.
+A média está à direita das outras duas, arrastada pela cauda de estados muito populosos. A média aparada e a mediana quase coincidem: é isso que "robusto a extremos" significa na prática.
 
 ## Resumo
 
@@ -168,12 +169,12 @@ A média está à direita das outras duas, arrastada pela cauda de estados muito
 | Mediana | `{python} num(mediana, 0)` | Sim |
 
 ::: {.conceito}
-**Regra prática:** a média é o padrão, mas é frágil. Quando os dados têm cauda longa ou outliers plausíveis — renda, população, valor de imóveis — a mediana ou a média aparada descrevem melhor o caso típico.
+**Regra prática:** a média é o padrão, mas é frágil. Quando os dados têm cauda longa ou outliers plausíveis (renda, população, valor de imóveis), a mediana ou a média aparada descrevem melhor o caso típico.
 :::
 
 ## Arraste o outlier
 
-Os números acima são uma fotografia. Para ver a média *perseguindo* um outlier — em vez de apenas ler que ela faz isso — arraste a população de São Paulo no controle abaixo até 300 milhões e observe as três linhas do histograma. A vermelha (média) desliza atrás do seu cursor. A verde (mediana) não se mexe um milímetro. A laranja (média aparada de 10%) também fica parada: descartar os 2 estados mais populosos tira São Paulo do cálculo antes que ele tenha chance de puxar nada.
+Os números acima são uma fotografia. Para ver a média *perseguindo* um outlier, em vez de apenas ler que ela faz isso, arraste a população de São Paulo no controle abaixo até 300 milhões e observe as três linhas do histograma. A vermelha (média) desliza atrás do seu cursor. A verde (mediana) não se mexe um milímetro. A laranja (média aparada de 10%) também fica parada: descartar os 2 estados mais populosos tira São Paulo do cálculo antes que ele tenha chance de puxar nada.
 
 ```{ojs}
 //| echo: false
@@ -197,11 +198,11 @@ function mediaAparada(x, prop) {
 //| echo: false
 // Sem `format` customizado, de propósito: o Inputs.range renderiza uma caixa
 // <input type="number"> ao lado do slider, e ela rejeita qualquer string não
-// numérica — um format que devolvesse "46,0 M" deixaria a caixa VAZIA. Sem ele,
+// numérica: um format que devolvesse "46,0 M" deixaria a caixa VAZIA. Sem ele,
 // a caixa mostra o valor, acompanha o slider e aceita digitação.
 //
 // O slider está em habitantes, não em milhões, para que o valor inicial seja
-// exatamente 45.973.194 — a população real de São Paulo. Em milhões, o
+// exatamente 45.973.194, a população real de São Paulo. Em milhões, o
 // Observable arredondaria o valor inicial para o step, e a média do widget
 // deixaria de bater com a que o chunk Python imprime acima nesta mesma página.
 viewof pop_sp = Inputs.range([1_000_000, 300_000_000], {
@@ -213,7 +214,7 @@ viewof pop_sp = Inputs.range([1_000_000, 300_000_000], {
 
 ```{ojs}
 //| echo: false
-md`São Paulo: **${fmt(pop_sp)}** habitantes — ${fmt(pop_sp / 1e6)} milhões.
+md`São Paulo: **${fmt(pop_sp)}** habitantes (${fmt(pop_sp / 1e6)} milhões).
 ${pop_sp === 45973194 ? "É o valor real." : "O valor real é 45.973.194."}`
 ```
 
@@ -264,11 +265,11 @@ Plot.plot({
 
 O widget anterior fixou o aparo em 10% e moveu o outlier. Este agora faz o inverso: a população fica como está, e quem se move é o próprio aparo, de 0% a 50%.
 
-Nos extremos, a média aparada deixa de ser uma terceira estimativa e vira uma das outras duas. Em 0%, `k = 0` — nada é descartado, e a aparada *é* a média. Em 50%, `k = 13` de cada ponta: com 27 estados, os 13 maiores e os 13 menores saem do cálculo, sobra só o estado central, e a função devolve a mediana por definição. Entre um extremo e outro não há salto: é uma família contínua, com o aparo como parâmetro que a percorre. Mova o controle abaixo e acompanhe o ponto laranja migrar do vermelho (média) até o verde (mediana).
+Nos extremos, a média aparada deixa de ser uma terceira estimativa e vira uma das outras duas. Em 0%, `k = 0`: nada é descartado, e a aparada *é* a média. Em 50%, `k = 13` de cada ponta: com 27 estados, os 13 maiores e os 13 menores saem do cálculo, sobra só o estado central, e a função devolve a mediana por definição. Entre um extremo e outro não há salto: é uma família contínua, com o aparo como parâmetro que a percorre. Mova o controle abaixo e acompanhe o ponto laranja migrar do vermelho (média) até o verde (mediana).
 
 ```{ojs}
 //| echo: false
-// O "%" vai no rótulo, não num `format` — a caixa <input type="number"> ao lado
+// O "%" vai no rótulo, não num `format`: a caixa <input type="number"> ao lado
 // do slider rejeitaria "10%" e ficaria vazia.
 viewof aparo = Inputs.range([0, 50], {
   step: 1,
@@ -291,13 +292,13 @@ estatB = ({
 
 ```{ojs}
 //| echo: false
-md`Aparo de **${aparo}%** — descarta **${estatB.cortados}** estados de cada ponta.
+md`Aparo de **${aparo}%**: descarta **${estatB.cortados}** estados de cada ponta.
 A média aparada vale **${fmt(estatB.aparada)}**.`
 ```
 
-Abaixo, as 27 unidades federativas em fila, ordenadas da menos populosa para a mais populosa, com a população em milhões. Os estados que o aparo **descarta** ficam em vermelho — e é fácil ver de onde eles saem: sempre das duas pontas, nunca do meio. É essa simetria que torna a média aparada robusta.
+Abaixo, as 27 unidades federativas em fila, ordenadas da menos populosa para a mais populosa, com a população em milhões. Os estados que o aparo **descarta** ficam em vermelho, e é fácil ver de onde eles saem: sempre das duas pontas, nunca do meio. É essa simetria que torna a média aparada robusta.
 
-Leve o aparo até 50% e olhe quem sobra: **a Paraíba, sozinha**. Não é coincidência — é a mesma Paraíba que apareceu na seção da mediana, o estado que fica no meio da fila. Aparar 50% descarta tudo menos o centro, e a média de um único valor é esse valor. É por isso que a média aparada de 50% **é** a mediana: você acabou de ver a definição virar a outra na tela.
+Leve o aparo até 50% e olhe quem sobra: **a Paraíba, sozinha**. É a mesma Paraíba que apareceu na seção da mediana, o estado que fica no meio da fila. Aparar 50% descarta tudo menos o centro, e a média de um único valor é esse valor. É por isso que a média aparada de 50% **é** a mediana: você acabou de ver a definição virar a outra na tela.
 
 ```{ojs}
 //| echo: false
@@ -361,7 +362,7 @@ Plot.plot({
 trim_mean(estado["Populacao"], 0.25)
 ```
 
-Com aparo de 50%, todas as observações são descartadas exceto a(s) central(is) — a média aparada **converge para a mediana**. A média aparada é, portanto, uma família contínua entre a média (aparo 0) e a mediana (aparo 0,5).
+Com aparo de 50%, todas as observações são descartadas exceto a(s) central(is): a média aparada **converge para a mediana**. A média aparada é, portanto, uma família contínua entre a média (aparo 0) e a mediana (aparo 0,5).
 
 Arraste o slider do aparo até 50% no widget acima: a média aparada pousa exatamente sobre a mediana.
 :::
@@ -371,7 +372,7 @@ Arraste o slider do aparo até 50% no widget acima: a média aparada pousa exata
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
-Ponderar pela população **reduz** a estimativa, então os estados mais populosos tendem a ter taxas de homicídio mais **baixas** que os menos populosos — o oposto do que se observaria nos Estados Unidos. São Paulo, o estado mais populoso do país, tem a menor taxa de homicídios do Brasil (6,16), e sozinho arrasta a média ponderada para baixo. Se não houvesse relação alguma entre tamanho e taxa, as duas médias seriam próximas; a diferença mostra que há relação — e a direção dela (positiva nos EUA, negativa no Brasil) é um fato sobre cada país, não uma consequência automática de ponderar.
+Ponderar pela população **reduz** a estimativa, então os estados mais populosos tendem a ter taxas de homicídio mais **baixas** que os menos populosos, o oposto do que se observaria nos Estados Unidos. São Paulo, o estado mais populoso do país, tem a menor taxa de homicídios do Brasil (6,16), e sozinho arrasta a média ponderada para baixo. Se não houvesse relação alguma entre tamanho e taxa, as duas médias seriam próximas; a diferença mostra que há relação. A direção dela (positiva nos EUA, negativa no Brasil) é um fato sobre cada país, não uma consequência automática de ponderar.
 :::
 
 **3.** Um relatório afirma que "a renda média das famílias do país subiu 8% no último ano, mas a renda mediana ficou estável". Como isso é possível?
@@ -379,7 +380,7 @@ Ponderar pela população **reduz** a estimativa, então os estados mais populos
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
-A média é sensível a extremos e a mediana não. Um ganho concentrado no topo da distribuição — os mais ricos ficando mais ricos — eleva a soma total (e portanto a média) sem mover o valor central. É exatamente o padrão de uma distribuição assimétrica à direita cuja cauda se alonga.
+A média é sensível a extremos e a mediana não. Um ganho concentrado no topo da distribuição (os mais ricos ficando mais ricos) eleva a soma total (e portanto a média) sem mover o valor central. É exatamente o padrão de uma distribuição assimétrica à direita cuja cauda se alonga.
 :::
 
 **4.** A moda não ajudou em nada com a população dos estados (27 valores únicos em 27). Em que tipo de dado a moda é a medida de localização certa a se usar, e por quê média e mediana não servem nesse caso?
@@ -387,16 +388,16 @@ A média é sensível a extremos e a mediana não. Um ganho concentrado no topo 
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
-A moda é a medida certa para dado **categórico** — nominal ou ordinal —, porque média e mediana exigem somar ou ordenar valores, e "somar" ou "ordenar" categorias como `Clima` e `Seguranca` não significa nada. A moda só precisa contar qual categoria aparece mais vezes, uma operação que continua fazendo sentido mesmo sem nenhuma noção de distância entre as categorias. É o caso das causas de atraso de voo da seção 1.6: `VooAnterior` é a moda, e não há como calcular uma "média" ou "mediana" de causa de atraso para comparar com ela.
+A moda é a medida certa para dado **categórico** (nominal ou ordinal), porque média e mediana exigem somar ou ordenar valores, e "somar" ou "ordenar" categorias como `Clima` e `Seguranca` não significa nada. A moda só precisa contar qual categoria aparece mais vezes, uma operação que continua fazendo sentido mesmo sem nenhuma noção de distância entre as categorias. É o caso das causas de atraso de voo da seção 1.6: `VooAnterior` é a moda, e não há como calcular uma "média" ou "mediana" de causa de atraso para comparar com ela.
 :::
 
 ## Agora é com você
 
-Até aqui, os dados vieram prontos: um CSV limpo, com 27 linhas, e a gente já sabia o que cada coluna era. Na prática, o primeiro contato com um conjunto de dados é diferente — você recebe um arquivo, abre, e precisa **descobrir** o que tem dentro antes de calcular qualquer coisa. Esta atividade é isso.
+Até aqui, os dados vieram prontos: um CSV limpo, com 27 linhas, e a gente já sabia o que cada coluna era. Na prática, o primeiro contato com um conjunto de dados é diferente: você recebe um arquivo, abre, e precisa **descobrir** o que tem dentro antes de calcular qualquer coisa. Esta atividade é isso.
 
-O conjunto: **10.692 imóveis para alugar** em cinco cidades brasileiras (São Paulo, Rio de Janeiro, Belo Horizonte, Porto Alegre e Campinas), com área, número de cômodos, andar, se aceita animal, se é mobiliado, e os valores de condomínio, aluguel, IPTU e seguro contra incêndio. Vem do dataset *Brazilian houses to rent*, publicado em domínio público (CC0); traduzimos os nomes das colunas — e **só** isso. O que estava estranho no original continua estranho, de propósito.
+O conjunto: **10.692 imóveis para alugar** em cinco cidades brasileiras (São Paulo, Rio de Janeiro, Belo Horizonte, Porto Alegre e Campinas), com área, número de cômodos, andar, se aceita animal, se é mobiliado, e os valores de condomínio, aluguel, IPTU e seguro contra incêndio. Vem do dataset *Brazilian houses to rent*, publicado em domínio público (CC0); traduzimos os nomes das colunas, e **só** isso. O que estava estranho no original continua estranho, de propósito.
 
-Abra o [notebook do capítulo no Colab](https://colab.research.google.com/github/BragaD/UnDF-Bases3-Estatistica-202602/blob/main/notebooks/capitulo-01.ipynb) — ou qualquer ambiente com pandas — e carregue o arquivo pela URL:
+Abra o [notebook do capítulo no Colab](https://colab.research.google.com/github/BragaD/UnDF-Bases3-Estatistica-202602/blob/main/notebooks/capitulo-01.ipynb) (ou qualquer ambiente com pandas) e carregue o arquivo pela URL:
 
 ```python
 import pandas as pd
@@ -411,7 +412,7 @@ alugueis = pd.read_csv("dados/alugueis.csv")
 alugueis.head()
 ```
 
-É só o que você recebe. Agora, quatro tarefas — faça na ordem, porque cada uma depende da anterior. As respostas estão escondidas logo abaixo de cada tarefa; **tente antes de abrir**.
+É só o que você recebe. Agora, quatro tarefas. Faça na ordem, porque cada uma depende da anterior. As respostas estão escondidas logo abaixo de cada tarefa; **tente antes de abrir**.
 
 **1.** Carregue o CSV e responda: quantas linhas e quantas colunas ele tem? Quais são os nomes das colunas?
 
@@ -424,7 +425,7 @@ print(f"{alugueis.shape[0]} linhas × {alugueis.shape[1]} colunas")
 print(list(alugueis.columns))
 ```
 
-`.shape` dá (linhas, colunas); `.columns` dá os nomes. Antes de qualquer estatística, saber o tamanho do dado é o que diz se você pode olhá-lo linha a linha (não pode — são mais de dez mil) ou se precisa resumi-lo (precisa: é o assunto deste capítulo).
+`.shape` dá (linhas, colunas); `.columns` dá os nomes. Antes de qualquer estatística, saber o tamanho do dado é o que diz se você pode olhá-lo linha a linha (não pode: são mais de dez mil) ou se precisa resumi-lo (precisa: é o assunto deste capítulo).
 :::
 
 **2.** Classifique **cada** uma das 13 colunas na taxonomia da [seção 1.1](01-dados-estruturados.qmd): numérico contínuo, numérico discreto, categórico nominal, categórico ordinal ou categórico binário. Justifique em uma frase por coluna. Há alguma coluna que não se encaixa bem em nenhuma categoria? Há alguma ordinal?
@@ -436,12 +437,12 @@ print(list(alugueis.columns))
 |---|---|---|
 | `cidade` | categórico **nominal** | cinco cidades, sem ordem natural entre elas |
 | `area_m2` | numérico **contínuo** | uma medida; pode ser qualquer valor num intervalo |
-| `quartos`, `banheiros`, `vagas` | numérico **discreto** | contagens — só inteiros, e "2,5 quartos" não existe |
+| `quartos`, `banheiros`, `vagas` | numérico **discreto** | contagens: só inteiros, e "2,5 quartos" não existe |
 | `andar` | numérico **discreto** (na intenção) | é uma contagem de andares… mas veja a tarefa 3 |
 | `aceita_animal`, `mobiliado` | categórico **binário** | exatamente dois valores, sim/não |
-| `condominio`, `aluguel`, `iptu`, `seguro_incendio`, `total` | numérico **contínuo** | valores em reais; o arquivo traz inteiros, mas dinheiro é quantidade contínua — a ausência de centavos é arredondamento, não natureza |
+| `condominio`, `aluguel`, `iptu`, `seguro_incendio`, `total` | numérico **contínuo** | valores em reais; o arquivo traz inteiros, mas dinheiro é quantidade contínua, e a ausência de centavos é arredondamento, não natureza |
 
-Não há coluna **ordinal** neste conjunto. A candidata mais próxima é `andar`: os andares têm ordem (o 10º fica acima do 5º), mas a distância entre eles é numérica e significa algo — cinco andares de diferença são cinco andares —, o que faz dele um discreto, não um ordinal. Um ordinal de verdade seria algo como "padrão do imóvel: simples / médio / alto", em que a ordem existe mas "a distância entre simples e médio" não é um número. Nem todo conjunto tem todos os tipos — e perceber a ausência também é classificar.
+Não há coluna **ordinal** neste conjunto. A candidata mais próxima é `andar`: os andares têm ordem (o 10º fica acima do 5º), mas a distância entre eles é numérica e significa algo (cinco andares de diferença são cinco andares), o que faz dele um discreto, não um ordinal. Um ordinal de verdade seria algo como "padrão do imóvel: simples / médio / alto", em que a ordem existe mas "a distância entre simples e médio" não é um número. Nem todo conjunto tem todos os tipos, e perceber a ausência também é classificar.
 :::
 
 **3.** Peça ao pandas o tipo que ele inferiu para cada coluna (`.dtypes`). Compare com a sua classificação da tarefa 2. Alguma coluna foi lida com um tipo que **não** é o mais apropriado? Descubra **por quê** olhando os valores dela, e corrija.
@@ -454,16 +455,16 @@ Não há coluna **ordinal** neste conjunto. A candidata mais próxima é `andar`
 alugueis.dtypes
 ```
 
-Todas as numéricas viraram `int64` — exceto **`andar`**, que o pandas leu como **texto** (`str`), igual às categóricas. Uma coluna que deveria ser número e virou texto é o sinal clássico de que **algum valor no meio dela não é número**. Para achá-lo:
+Todas as numéricas viraram `int64`, exceto **`andar`**, que o pandas leu como **texto** (`str`), igual às categóricas. Uma coluna que deveria ser número e virou texto é o sinal clássico de que **algum valor no meio dela não é número**. Para achá-lo:
 
 ```{python}
 #| label: alugueis-andar-valores
 alugueis["andar"].value_counts().head()
 ```
 
-O culpado é o `"-"`: `{python} num((alugueis["andar"] == "-").sum(), 0)` linhas — `{python} num(100 * (alugueis["andar"] == "-").mean(), 0)`% do total — trazem um traço em vez de um número, marcando imóvel térreo ou casa sem andar. Basta **um** valor assim para o pandas desistir de tratar a coluna como número: ele não adivinha o que o traço significa, então rebaixa a coluna inteira para texto — e aí `mean()` e `median()` deixam de funcionar nela.
+O culpado é o `"-"`: `{python} num((alugueis["andar"] == "-").sum(), 0)` linhas (`{python} num(100 * (alugueis["andar"] == "-").mean(), 0)`% do total) trazem um traço em vez de um número, marcando imóvel térreo ou casa sem andar. Basta **um** valor assim para o pandas desistir de tratar a coluna como número: ele não adivinha o que o traço significa, então rebaixa a coluna inteira para texto, e aí `mean()` e `median()` deixam de funcionar nela.
 
-A correção tem duas partes, e a primeira é uma **decisão**, não código: o que o `"-"` significa? Se for "andar zero" (térreo), substitua por 0; se for "não se aplica" (casa), o honesto é marcar como ausente (`NaN`). Como o arquivo não diz qual dos dois, a escolha segura é `NaN` — inventar um zero criaria milhares de imóveis "no térreo" que talvez não existam:
+A correção tem duas partes, e a primeira é uma **decisão**, não código: o que o `"-"` significa? Se for "andar zero" (térreo), substitua por 0; se for "não se aplica" (casa), o honesto é marcar como ausente (`NaN`). Como o arquivo não diz qual dos dois, a escolha segura é `NaN`: inventar um zero criaria milhares de imóveis "no térreo" que talvez não existam:
 
 ```{python}
 #| label: alugueis-andar-corrige
@@ -473,7 +474,7 @@ alugueis["andar"].dtype
 
 `errors="coerce"` converte o que dá e transforma o resto em `NaN`. Agora `andar` é numérico (`float64`, porque `NaN` só existe em float).
 
-E a segunda parte, que a seção 1.1 já defendeu: o pandas leu `cidade`, `aceita_animal` e `mobiliado` como texto genérico, mas elas são **categóricas** — declarar isso deixa a intenção explícita e evita que alguém, no futuro, tente uma "média de cidade":
+E a segunda parte, que a seção 1.1 já defendeu: o pandas leu `cidade`, `aceita_animal` e `mobiliado` como texto genérico, mas elas são **categóricas**. Declarar isso deixa a intenção explícita e evita que alguém, no futuro, tente uma "média de cidade":
 
 ```{python}
 #| label: alugueis-categoricas
@@ -482,17 +483,17 @@ for coluna in ["cidade", "aceita_animal", "mobiliado"]:
 alugueis.dtypes
 ```
 
-O pandas infere bem para números limpos e mal para todo o resto. **Inferência não é classificação** — a classificação é sua.
+O pandas infere bem para números limpos e mal para todo o resto. **Inferência não é classificação**: a classificação é sua.
 :::
 
-**4.** Para **cada** coluna, calcule as medidas de localização que fazem sentido para o tipo dela — e só elas. Em quais colunas a média e a mediana ficaram muito diferentes? O que isso indica sobre os dados?
+**4.** Para **cada** coluna, calcule as medidas de localização que fazem sentido para o tipo dela, e só elas. Em quais colunas a média e a mediana ficaram muito diferentes? O que isso indica sobre os dados?
 
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
 A regra é a da seção: média, média aparada e mediana para o **numérico**; moda para o **categórico**; e, no **binário**, a moda vira uma **proporção**.
 
-**Contínuas** — as três juntas, para ver onde divergem:
+**Contínuas**: as três juntas, para ver onde divergem:
 
 ```{python}
 #| label: alugueis-continuas
@@ -505,16 +506,16 @@ resumo = pd.DataFrame({
 resumo
 ```
 
-Em `aluguel` e `seguro_incendio` as três andam juntas: distribuição bem-comportada. Em **`condominio`** e **`area_m2`**, a média dispara para longe da mediana — o condomínio médio é R$ `{python} num(alugueis["condominio"].mean(), 0)`, mas o mediano é R$ `{python} num(alugueis["condominio"].median(), 0)`. O motivo aparece no máximo:
+Em `aluguel` e `seguro_incendio` as três andam juntas: distribuição bem-comportada. Em **`condominio`** e **`area_m2`**, a média dispara para longe da mediana: o condomínio médio é R$ `{python} num(alugueis["condominio"].mean(), 0)`, mas o mediano é R$ `{python} num(alugueis["condominio"].median(), 0)`. O motivo aparece no máximo:
 
 ```{python}
 #| label: alugueis-outliers
 alugueis[["area_m2", "condominio"]].max()
 ```
 
-Um condomínio de R$ `{python} num(alugueis["condominio"].max(), 0)` e um imóvel de `{python} num(alugueis["area_m2"].max(), 0)` m² (o tamanho de seis campos de futebol) são quase certamente **erros de digitação** — e um único deles basta para arrastar a média de dez mil imóveis. A mediana nem percebe; a média aparada também não. É a robustez da seção "Comparando as estimativas", agora num dado real, sem que ninguém tenha plantado o outlier de propósito.
+Um condomínio de R$ `{python} num(alugueis["condominio"].max(), 0)` e um imóvel de `{python} num(alugueis["area_m2"].max(), 0)` m² (o tamanho de seis campos de futebol) são quase certamente **erros de digitação**, e um único deles basta para arrastar a média de dez mil imóveis. A mediana nem percebe; a média aparada também não. É a robustez da seção "Comparando as estimativas", agora num dado real, sem que ninguém tenha plantado o outlier de propósito.
 
-**Discretas** — mediana e moda; a média até se calcula, mas "`{python} num(alugueis["quartos"].mean(), 2)` quartos" não descreve nenhum imóvel real:
+**Discretas**: mediana e moda; a média até se calcula, mas "`{python} num(alugueis["quartos"].mean(), 2)` quartos" não descreve nenhum imóvel real:
 
 ```{python}
 #| label: alugueis-discretas
@@ -525,9 +526,9 @@ pd.DataFrame({
 })
 ```
 
-(`andar` só entra aqui porque foi corrigida na tarefa 3 — a mediana ignora os `NaN`.)
+(`andar` só entra aqui porque foi corrigida na tarefa 3. A mediana ignora os `NaN`.)
 
-**Nominal** — só a moda faz sentido, e ela vem de contar:
+**Nominal**: só a moda faz sentido, e ela vem de contar:
 
 ```{python}
 #| label: alugueis-nominal
@@ -536,7 +537,7 @@ alugueis["cidade"].value_counts()
 
 A moda é `{python} alugueis["cidade"].mode().iloc[0]`, com `{python} num(100 * alugueis["cidade"].value_counts(normalize=True).iloc[0], 0)`% dos anúncios. Não existe "cidade média" nem "cidade mediana".
 
-**Binárias** — a moda é a categoria mais frequente, e a **proporção** de "sim" diz o mesmo com mais informação:
+**Binárias**: a moda é a categoria mais frequente, e a **proporção** de "sim" diz o mesmo com mais informação:
 
 ```{python}
 #| label: alugueis-binarias
@@ -545,7 +546,7 @@ for coluna in ["aceita_animal", "mobiliado"]:
     print(f"{coluna}: {num(100 * proporcao, 0)}% sim")
 ```
 
-`{python} num(100 * (alugueis["aceita_animal"] == "sim").mean(), 0)`% dos imóveis aceitam animal e só `{python} num(100 * (alugueis["mobiliado"] == "sim").mean(), 0)`% vêm mobiliados. Uma proporção *é* uma média — de uma coluna de 0 e 1 —, e é por isso que ela reaparece na seção 1.6.
+`{python} num(100 * (alugueis["aceita_animal"] == "sim").mean(), 0)`% dos imóveis aceitam animal e só `{python} num(100 * (alugueis["mobiliado"] == "sim").mean(), 0)`% vêm mobiliados. Uma proporção *é* uma média (de uma coluna de 0 e 1), e é por isso que ela reaparece na seção 1.6.
 :::
 
-Duas lições ficam. A primeira é que **classificar vem antes de calcular**: a medida certa depende do tipo, e o tipo é uma decisão sua, não do pandas. A segunda é que dado real vem sujo — um traço no lugar de um número, um zero a mais numa área — e as medidas robustas (mediana, média aparada) foram inventadas exatamente para sobreviver a isso.
+Duas lições ficam. A primeira é que **classificar vem antes de calcular**: a medida certa depende do tipo, e o tipo é uma decisão sua, não do pandas. A segunda é que dado real vem sujo (um traço no lugar de um número, um zero a mais numa área), e as medidas robustas (mediana, média aparada) foram inventadas exatamente para sobreviver a isso.

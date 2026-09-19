@@ -143,6 +143,14 @@ Somar uma constante desloca a distribuição inteira e não muda a variância. M
 Em geral, a média de uma função de $X$ não é a função da média. Com o lucro, a média de $X^2$ se calcula com a mesma soma, trocando $x_i$ por $x_i^2$: $\sum x_i^2\, p(x_i)$, que dá `{python} num((x**2 * p).sum(), 2)`, enquanto o quadrado da média é $[E(X)]^2$, cerca de `{python} num(E**2, 2)`. A diferença entre os dois é a variância.
 :::
 
+Essa diferença dá um atalho para a variância, a fórmula (6.6) de @bussab2023:
+
+$$
+\mathrm{Var}(X) = E(X^2) - [E(X)]^2.
+$$
+
+No lucro, $154{,}25 - 9{,}85^2 = 57{,}23$, o mesmo valor da definição.
+
 ## Resumo
 
 ::: {.table-responsive}
@@ -151,6 +159,7 @@ Em geral, a média de uma função de $X$ não é a função da média. Com o lu
 | Valor médio | $E(X) = \sum x_i\, p(x_i)$ | `{python} num(E, 2)` |
 | Variância | $\mathrm{Var}(X) = \sum (x_i - \mu)^2 p(x_i)$ | `{python} num(Var, 2)` |
 | Desvio-padrão | $\sqrt{\mathrm{Var}(X)}$ | `{python} num(DP, 2)` |
+| Atalho | $\mathrm{Var}(X) = E(X^2) - [E(X)]^2$ | |
 | Transformação linear | $E(aX+b) = aE(X)+b$; $\mathrm{Var}(aX+b) = a^2\mathrm{Var}(X)$ | |
 :::
 

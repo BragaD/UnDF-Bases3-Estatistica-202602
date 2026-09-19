@@ -49,3 +49,6 @@ livros/
 /docs/Rotinas*
 
 **/*.quarto_ipynb
+
+# Decisões respondidas pelo professor (documento de trabalho, local)
+docs/decisoes-*.md

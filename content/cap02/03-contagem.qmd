@@ -199,7 +199,7 @@ tabela["1 chance em"] = (N / tabela["apostas"]).round().astype(int)
 tabela.loc[[6, 7, 8, 10, 15, 20]]
 ```
 
-Os preços e as chances batem com a tabela oficial da Caixa (consultada em 18/09/2026). Marcar 20 números custa R\$ `{python} num(6 * comb(20, 6), 2)` e ainda deixa a chance da sena em 1 em `{python} num(round(N / comb(20, 6)), 0)`.
+Os preços e as chances batem com a tabela oficial da Caixa. Marcar 20 números custa R\$ `{python} num(6 * comb(20, 6), 2)` e ainda deixa a chance da sena em 1 em `{python} num(round(N / comb(20, 6)), 0)`.
 
 ## Exercícios
 

@@ -44,6 +44,7 @@ tabela.round(3)
 ```{python}
 #| label: fig-dado-simulado
 #| fig-cap: "Frequência relativa de cada face em 60, 600 e 60.000 lançamentos simulados. A linha tracejada marca 1/6."
+#| fig-alt: "Três gráficos de barras lado a lado com a frequência de cada face do dado. Com 60 lançamentos as barras oscilam longe da linha de 1/6; com 600 ficam mais perto; com 60.000 ficam quase coladas nela."
 fig, eixos = plt.subplots(1, 3, sharey=True, figsize=(7, 2.8))
 for eixo, n in zip(eixos, tabela.columns):
     eixo.bar(tabela.index, tabela[n])
@@ -157,12 +158,13 @@ prob(par, modelo_dado), prob(maior_que_3, modelo_dado)
 ```{python}
 #| label: fig-venn-dado
 #| fig-cap: "O espaço amostral do dado (retângulo), os eventos A = par e B = maior que 3 (círculos) e os seis pontos amostrais."
+#| fig-alt: "Diagrama de Venn: um retângulo com dois círculos que se sobrepõem. A face 2 fica só no círculo A, a face 5 só no círculo B, as faces 4 e 6 na sobreposição, e as faces 1 e 3 fora dos dois círculos."
 from matplotlib.patches import Circle, Rectangle
 
 fig, ax = plt.subplots(figsize=(5, 3))
 ax.add_patch(Rectangle((0, 0), 10, 6, fill=False, linewidth=1.5))
-ax.add_patch(Circle((4, 3), 2.2, alpha=0.25, color="C0"))
-ax.add_patch(Circle((6, 3), 2.2, alpha=0.25, color="C1"))
+ax.add_patch(Circle((4, 3), 2.2, alpha=0.35, color="C0"))
+ax.add_patch(Circle((6, 3), 2.2, alpha=0.35, color="C1"))
 
 posicoes = {2: (3, 3), 4: (5, 3.6), 6: (5, 2.4), 5: (7, 3), 1: (0.9, 5), 3: (9.1, 1)}
 for face, (x, y) in posicoes.items():

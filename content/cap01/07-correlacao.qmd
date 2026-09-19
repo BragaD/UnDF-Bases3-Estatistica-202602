@@ -15,7 +15,7 @@ from formato import num
 plt.rcParams["figure.figsize"] = (7, 4)
 ```
 
-Da seção 1.3 até a 1.6, cada ferramenta olhou para **uma** variável de cada vez: a localização e a dispersão da população dos estados, a forma de uma distribuição, a proporção de uma causa de atraso. A pergunta agora é outra, e é nova neste capítulo: dadas **duas** variáveis numéricas, elas se movem juntas? Quando uma sobe, a outra também sobe — ou desce, ou fica indiferente?
+Da seção 1.3 até a 1.6, cada ferramenta olhou para **uma** variável de cada vez: a localização e a dispersão da população dos estados, a forma de uma distribuição, a proporção de uma causa de atraso. A pergunta agora é outra, e é nova neste capítulo: dadas **duas** variáveis numéricas, elas se movem juntas? Quando uma sobe, a outra também sobe, desce ou fica indiferente?
 
 ## Coeficiente de correlação de Pearson
 
@@ -23,7 +23,7 @@ O **coeficiente de correlação de Pearson** mede o grau de associação **linea
 
 $$r = \frac{\sum_{i=1}^{n}(x_i - \bar{x})(y_i - \bar{y})}{(n-1)\, s_x \, s_y}$$
 
-O numerador é a soma dos produtos cruzados — a covariância, a menos do fator $1/(n-1)$: soma, para cada observação, o produto do quanto $x$ se afasta da sua média pelo quanto $y$ se afasta da sua. Se as duas variáveis tendem a se afastar da média **no mesmo sentido**, a maioria dos produtos é positiva, e a soma cresce; se tendem a se afastar em sentidos opostos, a soma fica negativa. O denominador — o produto dos dois desvios padrão, $s_x$ e $s_y$ — é o que faz de $r$ um número **adimensional**, preso entre $-1$ e $+1$, e por isso comparável entre pares de variáveis com unidades completamente diferentes: preço de ação, temperatura, taxa de homicídio, o que for.
+O numerador é a soma dos produtos cruzados (a covariância, a menos do fator $1/(n-1)$): soma, para cada observação, o produto do quanto $x$ se afasta da sua média pelo quanto $y$ se afasta da sua. Se as duas variáveis tendem a se afastar da média **no mesmo sentido**, a maioria dos produtos é positiva, e a soma cresce; se tendem a se afastar em sentidos opostos, a soma fica negativa. O denominador (o produto dos dois desvios padrão, $s_x$ e $s_y$) é o que faz de $r$ um número **adimensional**, preso entre $-1$ e $+1$, e por isso comparável entre pares de variáveis com unidades completamente diferentes: preço de ação, temperatura, taxa de homicídio, o que for.
 
 $r = 1$ é associação linear positiva perfeita; $r = -1$ é associação linear negativa perfeita; $r = 0$ é ausência de associação linear (mais adiante nesta seção, isso vai precisar de um cuidado extra).
 
@@ -62,7 +62,7 @@ telecom.head()
 `telecom` tem 754 dias de negociação e 5 empresas de telecomunicações: T (AT&T), CTL (CenturyLink), FTR (Frontier), VZ (Verizon) e LVLT (Level 3).
 
 ::: {.conceito}
-`precos.index` é uma string ("1993-01-29", e não uma data), mas a comparação `precos.index >= "2012-07-01"` ainda funciona porque datas no formato ISO (`AAAA-MM-DD`) comparam corretamente como texto: ordem alfabética e ordem cronológica coincidem. E `simbolos_telecom` é uma `Series`, não uma lista — `precos.loc[..., simbolos_telecom]` aceita os dois formatos para selecionar colunas, e preserva a ordem em que os símbolos aparecem em `simbolos_telecom`.
+`precos.index` é uma string ("1993-01-29", e não uma data), mas a comparação `precos.index >= "2012-07-01"` ainda funciona porque datas no formato ISO (`AAAA-MM-DD`) comparam corretamente como texto: ordem alfabética e ordem cronológica coincidem. E `simbolos_telecom` é uma `Series`, não uma lista: `precos.loc[..., simbolos_telecom]` aceita os dois formatos para selecionar colunas, e preserva a ordem em que os símbolos aparecem em `simbolos_telecom`.
 :::
 
 ## Matriz de correlação
@@ -75,18 +75,19 @@ telecom.corr().round(3).map(lambda v: num(v, 3))
 ```
 
 ::: {.exemplo}
-A maior correlação do grupo é entre T e VZ: `{python} num(telecom.corr().loc['T', 'VZ'], 3)`. Não é coincidência: AT&T e Verizon são as duas maiores operadoras de telecomunicações dos Estados Unidos, e seus retornos diários respondem aos mesmos choques de mercado — taxa de juros, regulação do setor, expectativa de crescimento da economia. Empresas menores e mais heterogêneas do grupo, como LVLT, têm correlação bem mais baixa com as demais (0,242 a 0,287): compartilham menos desses choques comuns.
+A maior correlação do grupo é entre T e VZ: `{python} num(telecom.corr().loc['T', 'VZ'], 3)`. Não é coincidência: AT&T e Verizon são as duas maiores operadoras de telecomunicações dos Estados Unidos, e seus retornos diários respondem aos mesmos choques de mercado: taxa de juros, regulação do setor, expectativa de crescimento da economia. Empresas menores e mais heterogêneas do grupo, como LVLT, têm correlação bem mais baixa com as demais (0,242 a 0,287): compartilham menos desses choques comuns.
 :::
 
 ```{python}
 #| label: fig-scatter
-#| fig-cap: "Retornos diários de AT&T (T) contra Verizon (VZ). A nuvem é alongada na diagonal — o sinal visual de correlação positiva."
+#| fig-cap: "Retornos diários de AT&T (T) contra Verizon (VZ). A nuvem é alongada na diagonal: o sinal visual de correlação positiva."
+#| fig-alt: "Gráfico de dispersão do retorno diário da AT&T no eixo horizontal contra o da Verizon no vertical, com linhas de referência no zero. A nuvem de pontos se alonga na diagonal, de baixo à esquerda para cima à direita, indicando correlação positiva."
 fig, ax = plt.subplots(figsize=(5, 5))
 ax.scatter(telecom["T"], telecom["VZ"], alpha=0.5, s=20, color="#2c7fb8")
 ax.axhline(0, color="grey", linewidth=0.8)
 ax.axvline(0, color="grey", linewidth=0.8)
-ax.set_xlabel("Retorno diário — AT&T (T)")
-ax.set_ylabel("Retorno diário — Verizon (VZ)")
+ax.set_xlabel("Retorno diário da AT&T (T)")
+ax.set_ylabel("Retorno diário da Verizon (VZ)")
 plt.tight_layout()
 plt.show()
 ```
@@ -98,7 +99,7 @@ O gráfico de dispersão é a contrapartida visual do número: a nuvem de pontos
 ::: {.conceito}
 **As três armadilhas da correlação:**
 
-1. **Correlação não implica causalidade.** T e VZ sobem e descem juntas porque respondem aos mesmos choques de mercado — uma causa comum —, não porque uma "causa" a outra.
+1. **Correlação não implica causalidade.** T e VZ sobem e descem juntas porque respondem aos mesmos choques de mercado (uma causa comum), não porque uma "causa" a outra.
 2. **O coeficiente é sensível a outliers.** Um único ponto extremo, longe da nuvem principal, pode criar uma correlação artificial ou mascarar uma correlação real, dependendo de onde ele cai.
 3. **Ele mede apenas relação linear.** Duas variáveis podem ter uma dependência determinística forte e correlação de Pearson igual a zero.
 :::
@@ -113,7 +114,7 @@ y = x ** 2
 print(f"Correlação entre x e x²: {np.corrcoef(x, y)[0, 1]:.3e}")
 ```
 
-$y = x^2$ é o exemplo mais determinístico que existe: conhecendo $x$, você sabe $y$ com certeza absoluta, sem incerteza nenhuma. E ainda assim a correlação entre eles é, na prática, zero — o valor calculado é da ordem de $10^{-17}$, um erro de arredondamento de ponto flutuante em torno de um zero exato. A razão é a simetria da parábola em torno de zero: para cada $x$ positivo que empurra a covariância para cima, existe um $x$ negativo simétrico que a empurra para baixo na mesma medida, e os dois efeitos se cancelam por completo. **Correlação zero significa "sem relação linear" — não significa "sem relação".** É a diferença entre as duas frases que faz da correlação uma ferramenta poderosa, mas estreita: ela responde a uma pergunta específica, e é preciso saber qual.
+$y = x^2$ é o exemplo mais determinístico que existe: conhecendo $x$, você sabe $y$ com certeza absoluta, sem incerteza nenhuma. E ainda assim a correlação entre eles é, na prática, zero: o valor calculado é da ordem de $10^{-17}$, um erro de arredondamento de ponto flutuante em torno de um zero exato. A razão é a simetria da parábola em torno de zero: para cada $x$ positivo que empurra a covariância para cima, existe um $x$ negativo simétrico que a empurra para baixo na mesma medida, e os dois efeitos se cancelam por completo. **Correlação zero significa "sem relação linear", o que é bem menos que "sem relação".** É a diferença entre as duas frases que faz da correlação uma ferramenta poderosa, mas estreita: ela responde a uma pergunta específica, e é preciso saber qual.
 
 ## Resumo
 
@@ -126,7 +127,7 @@ $y = x^2$ é o exemplo mais determinístico que existe: conhecendo $x$, você sa
 | CTL × FTR | `{python} num(telecom.corr().loc['CTL', 'FTR'], 3)` |
 
 ::: {.conceito}
-**Regra prática:** correlação alta é um convite a investigar, não uma conclusão. Antes de interpretar um $r$, olhe o gráfico de dispersão — ele revela outliers que o número esconde e formas não lineares que o número não enxerga.
+**Regra prática:** correlação alta é um convite a investigar, não uma conclusão. Antes de interpretar um $r$, olhe o gráfico de dispersão: ele revela outliers que o número esconde e formas não lineares que o número não enxerga.
 :::
 
 ## Exercícios
@@ -136,7 +137,7 @@ $y = x^2$ é o exemplo mais determinístico que existe: conhecendo $x$, você sa
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
-Não. As duas são grandes operadoras de telecomunicações expostas aos mesmos fatores — taxa de juros, regulação do setor, ciclo econômico. A correlação vem de uma **causa comum**, não de uma causar a outra. Este é o erro mais frequente na leitura de correlações.
+Não. As duas são grandes operadoras de telecomunicações expostas aos mesmos fatores: taxa de juros, regulação do setor, ciclo econômico. A correlação vem de uma **causa comum**, não de uma causar a outra. Este é o erro mais frequente na leitura de correlações.
 :::
 
 **2.** O código mostrou que a correlação entre `x` e `x²` é zero, embora `y` seja completamente determinado por `x`. Explique.
@@ -144,5 +145,5 @@ Não. As duas são grandes operadoras de telecomunicações expostas aos mesmos 
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
-Pearson mede associação **linear**. A parábola é simétrica em torno de zero: para cada $x$ positivo que puxa a covariância para cima, existe um $x$ negativo que a puxa para baixo na mesma medida, e os efeitos se cancelam. Uma correlação de zero descarta relação linear — não descarta relação.
+Pearson mede associação **linear**. A parábola é simétrica em torno de zero: para cada $x$ positivo que puxa a covariância para cima, existe um $x$ negativo que a puxa para baixo na mesma medida, e os efeitos se cancelam. Uma correlação de zero descarta apenas a relação linear.
 :::

@@ -100,12 +100,12 @@ O ângulo do relógio tem média 180° e desvio-padrão de cerca de `{python} nu
 
 ## A média de uma simulação
 
-Como na seção 3.2, a média de muitas observações simuladas se aproxima de $E(X)$. Para simular a densidade $2x$, um truque que a seção 4.3 vai justificar: se $U$ é uniforme em $[0, 1]$, então $\sqrt{U}$ tem densidade $2x$.
+Como na seção 3.2, a média de muitas observações simuladas se aproxima de $E(X)$. O numpy tem um gerador pronto para a densidade $2x$ em $[0, 1]$: é um caso particular da distribuição triangular, com o pico em 1.
 
 ```{python}
 #| label: simulacao-2x
 rng = np.random.default_rng(42)
-x = np.sqrt(rng.uniform(0, 1, size=100_000))
+x = rng.triangular(left=0, mode=1, right=1, size=100_000)   # densidade 2x em [0, 1]
 round(float(x.mean()), 4), round(float(x.var()), 4)
 ```
 

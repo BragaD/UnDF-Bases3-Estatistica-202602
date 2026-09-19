@@ -102,7 +102,7 @@ Para $u(10, 70)$, o certo é `stats.uniform(loc=10, scale=60)`. Escrever `stats.
 
 ## Números aleatórios
 
-O caso $u(0, 1)$ tem um papel especial: um **número aleatório**, no sentido dos geradores de computador, é um valor simulado de $u(0, 1)$. É o que o `rng.uniform(0, 1)` e o `rng.random()` do numpy devolvem. A seção 4.3 mostrou que, aplicando a inversa de uma f.d.a. contínua e estritamente crescente a números uniformes, sai uma amostra de outra distribuição. Por isso a uniforme em $[0, 1]$ está na base de quase toda simulação.
+O caso $u(0, 1)$ tem um papel especial: um **número aleatório**, no sentido dos geradores de computador, é um valor simulado de $u(0, 1)$. É o que o `rng.uniform(0, 1)` e o `rng.random()` do numpy devolvem. A uniforme em $[0, 1]$ está na base de quase toda simulação: os geradores das outras distribuições partem dela.
 
 Uma uniforme qualquer também sai de $u(0, 1)$ por uma transformação linear: se $U \sim u(0, 1)$, então $X = \alpha + (\beta - \alpha)\,U \sim u(\alpha, \beta)$. A f.d.a. da seção 4.3 mostra por quê: $P(X \le x) = P\big(U \le \tfrac{x - \alpha}{\beta - \alpha}\big) = \tfrac{x - \alpha}{\beta - \alpha}$, a f.d.a. da uniforme em $[\alpha, \beta]$. As regras da seção 4.2 (as da 3.2, estendidas às contínuas) dão a média e a variância de $X$ a partir da média e da variância de $U$, que são $1/2$ e $1/12$: $E(X) = \alpha + (\beta - \alpha)/2 = (\alpha + \beta)/2$ e $\mathrm{Var}(X) = (\beta - \alpha)^2/12$. (@bussab2023, na fórmula 7.16, faz o caminho inverso, levando qualquer uniforme a $u(-1/2, 1/2)$.)
 

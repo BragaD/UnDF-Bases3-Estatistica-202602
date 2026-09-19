@@ -6,6 +6,8 @@ Este capítulo é baseado no Capítulo 7 de @bussab2023.
 
 📓 [**Abrir o notebook deste capítulo no Colab ↗**](https://colab.research.google.com/github/BragaD/UnDF-Bases3-Estatistica-202602/blob/main/notebooks/capitulo-04.ipynb): só o código, pronto para rodar.
 
+A [tabela da normal padrão](../../downloads/tabela-normal-padrao.pdf) (PDF), usada na seção 4.5 e nas provas feitas à mão, pode ser impressa.
+
 ## Seções
 
 | Seção | Tópico |

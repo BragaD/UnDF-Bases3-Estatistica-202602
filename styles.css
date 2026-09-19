@@ -79,11 +79,42 @@
   color: #9fb3c8;
 }
 
-/* ── Diagramas Graphviz — escala total ── */
-.cell-output-display svg,
-.quarto-figure svg {
+/* ── Figuras PNG: nunca mais largas que a coluna (no celular eram cortadas) ── */
+.quarto-figure img {
   max-width: 100%;
   height: auto;
+}
+
+/* ── Diagramas Graphviz: escala total (o Quarto grava max-width: none inline) ── */
+.cell-output-display svg,
+.quarto-figure svg {
+  max-width: 100% !important;
+  height: auto;
+}
+
+/* Figuras do matplotlib no modo escuro: os PNG têm fundo branco. O filtro inverte
+   o brilho (fundo branco vira cinza-escuro, perto do fundo da página) e o
+   hue-rotate devolve as cores aos matizes originais. */
+.quarto-dark .cell-output-display img {
+  filter: invert(0.87) hue-rotate(180deg);
+}
+
+/* Figuras cuja escala de cor perderia o sentido invertida ("mais escuro = mais")
+   ficam de fora: chunk envolvido em `::: {.sem-inversao}`. */
+.quarto-dark .sem-inversao img {
+  filter: none;
+}
+
+/* Graphviz no modo escuro: texto, linhas e setas claros (use bgcolor="transparent" no dot) */
+.quarto-dark svg g.graph text {
+  fill: #e6e6e6;
+}
+.quarto-dark svg g.graph path {
+  stroke: #e6e6e6;
+}
+.quarto-dark svg g.graph polygon[fill="black"] {
+  fill: #e6e6e6;
+  stroke: #e6e6e6;
 }
 
 /* ── Spoiler (ofuscação, não proteção) ── */

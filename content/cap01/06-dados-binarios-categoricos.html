@@ -179,35 +179,6 @@ div.csl-indent {
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="../../styles.css">
 </head>
@@ -499,7 +470,7 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
- <span class="menu-text">Capítulo 2: Probabilidade e Distribuições</span></a>
+ <span class="menu-text">Capítulo 2: Probabilidade</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Alternar seção">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -512,42 +483,27 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/01-o-que-e-probabilidade.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">O que é Probabilidade</span></a>
+  <a href="../../content/cap02/01-modelos-probabilisticos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Modelos Probabilísticos</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/02-regras-probabilidade.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Regras de Probabilidade</span></a>
+  <a href="../../content/cap02/02-propriedades.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Propriedades da Probabilidade</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/03-probabilidade-condicional-bayes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Probabilidade Condicional e Bayes</span></a>
+  <a href="../../content/cap02/03-contagem.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Contagem e Probabilidade Clássica</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/04-contagem-permutacao-combinacao.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Contagem: Permutação e Combinação</span></a>
+  <a href="../../content/cap02/04-condicional-independencia.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Probabilidade Condicional e Independência</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/05-distribuicao-binomial.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Binomial</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/06-distribuicao-hipergeometrica.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Hipergeométrica</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/07-distribuicao-normal.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Normal</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../content/cap02/08-caudas-longas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuições de Cauda Longa</span></a>
+  <a href="../../content/cap02/05-bayes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">O Teorema de Bayes</span></a>
   </div>
 </li>
       </ul>
@@ -555,7 +511,7 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
- <span class="menu-text">Capítulo 3: Amostragem e Estimação</span></a>
+ <span class="menu-text">Capítulo 3: Variáveis Aleatórias Discretas</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Alternar seção">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -568,27 +524,37 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap03/01-amostragem-aleatoria.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Amostragem Aleatória e Viés</span></a>
+  <a href="../../content/cap03/01-variaveis-aleatorias.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Variável Aleatória e Função de Probabilidade</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap03/02-vies-selecao.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Viés de Seleção</span></a>
+  <a href="../../content/cap03/02-valor-medio-variancia.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Valor Médio e Variância</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap03/03-distribuicao-amostral.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Amostral</span></a>
+  <a href="../../content/cap03/03-distribuicao-acumulada.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Função de Distribuição Acumulada</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap03/04-bootstrap.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Bootstrap</span></a>
+  <a href="../../content/cap03/04-uniforme-bernoulli.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Uniforme Discreta e Bernoulli</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap03/05-intervalos-confianca.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Intervalos de Confiança</span></a>
+  <a href="../../content/cap03/05-binomial.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Binomial</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap03/06-hipergeometrica.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Hipergeométrica</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap03/07-poisson.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição de Poisson</span></a>
   </div>
 </li>
       </ul>
@@ -596,7 +562,7 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
- <span class="menu-text">Capítulo 4: Experimentos Estatísticos e Testes de Significância</span></a>
+ <span class="menu-text">Capítulo 4: Variáveis Aleatórias Contínuas</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Alternar seção">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -609,58 +575,32 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap04/01-teste-ab.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Teste A/B</span></a>
+  <a href="../../content/cap04/01-variaveis-continuas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Variável Aleatória Contínua e Densidade</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap04/02-testes-hipotese.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Testes de Hipótese</span></a>
+  <a href="../../content/cap04/02-valor-medio-continuo.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Valor Médio e Variância de uma Variável Contínua</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap04/03-reamostragem.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Reamostragem</span></a>
+  <a href="../../content/cap04/03-distribuicao-acumulada-continua.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Função de Distribuição Acumulada Contínua</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap04/04-significancia-valor-p.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Significância e Valores-p</span></a>
+  <a href="../../content/cap04/04-uniforme-continua.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Uniforme Contínua</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap04/05-testes-t.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Testes t</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
- <span class="menu-text">Capítulo 5: Regressão e Predição</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Alternar seção">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../content/cap05/index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Visão Geral</span></a>
+  <a href="../../content/cap04/05-normal.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Normal</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../content/cap05/01-regressao-linear-simples.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Regressão Linear Simples</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../content/cap05/02-regressao-linear-multipla.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Regressão Linear Múltipla</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../content/cap05/03-predicao.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Predição com Regressão</span></a>
+  <a href="../../content/cap04/06-exponencial.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Exponencial</span></a>
   </div>
 </li>
       </ul>
@@ -680,7 +620,6 @@ window.Quarto = {
   <li><a href="#gráfico-de-barras-não-é-histograma" id="toc-gráfico-de-barras-não-é-histograma" class="nav-link" data-scroll-target="#gráfico-de-barras-não-é-histograma">Gráfico de barras não é histograma</a></li>
   <li><a href="#o-eixo-que-mente" id="toc-o-eixo-que-mente" class="nav-link" data-scroll-target="#o-eixo-que-mente">O eixo que mente</a></li>
   <li><a href="#a-moda-a-única-localização-possível" id="toc-a-moda-a-única-localização-possível" class="nav-link" data-scroll-target="#a-moda-a-única-localização-possível">A moda: a única “localização” possível</a></li>
-  <li><a href="#valor-esperado" id="toc-valor-esperado" class="nav-link" data-scroll-target="#valor-esperado">Valor esperado</a></li>
   <li><a href="#resumo" id="toc-resumo" class="nav-link" data-scroll-target="#resumo">Resumo</a></li>
   <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios">Exercícios</a></li>
   </ul>
@@ -728,15 +667,15 @@ Nota
 <p>Esta seção corresponde à seção 1.6 de <span class="citation" data-cites="bruce2020">Bruce et al. (<a href="#ref-bruce2020" role="doc-biblioref">2020</a>)</span>.</p>
 </div>
 </div>
-<p>A seção 1.5 abriu mão do resumo numérico e olhou a distribuição inteira — percentis, boxplot, histograma, densidade. Todo esse ferramental depende de uma coisa: os valores serem números, ordenáveis e subtraíveis entre si. Isso desmorona por completo diante de dado categórico. Não existe percentil 95 de uma causa de atraso de voo, nem um “ponto médio” entre <code>Clima</code> e <code>Seguranca</code> para tirar uma mediana. A seção 1.1 já havia separado categórico de numérico — nominal, ordinal, binário — e é hora de ver o que sobra da caixa de ferramentas quando o dado é desse tipo.</p>
+<p>A seção 1.5 abriu mão do resumo numérico e olhou a distribuição inteira: percentis, boxplot, histograma, assimetria. Todo esse ferramental depende de uma coisa: os valores serem números, ordenáveis e subtraíveis entre si. Isso desmorona por completo diante de dado categórico. Não existe percentil 95 de uma causa de atraso de voo, nem um “ponto médio” entre <code>Clima</code> e <code>Seguranca</code> para tirar uma mediana. A seção 1.1 já havia separado categórico de numérico (nominal, ordinal, binário), e é hora de ver o que sobra da caixa de ferramentas quando o dado é desse tipo.</p>
 <p>A resposta, adiantando: quase tudo muda, e o pouco que sobra é mais simples do que parece.</p>
 <section id="os-dados" class="level2">
 <h2 class="anchored" data-anchor-id="os-dados">Os dados</h2>
-<p>Vamos usar as causas de atraso de voo no aeroporto de Dallas/Fort Worth: problema atribuído à companhia aérea (<code>Companhia</code>), controle de tráfego aéreo (<code>ControleAereo</code>), clima (<code>Clima</code>), segurança (<code>Seguranca</code>) e atraso herdado de um voo anterior da mesma aeronave (<code>VooAnterior</code>). Cinco categorias nominais — nenhuma ordem natural entre elas, no sentido da seção 1.1.</p>
+<p>Vamos usar as causas de atraso de voo no aeroporto de Dallas/Fort Worth: problema atribuído à companhia aérea (<code>Companhia</code>), controle de tráfego aéreo (<code>ControleAereo</code>), clima (<code>Clima</code>), segurança (<code>Seguranca</code>) e atraso herdado de um voo anterior da mesma aeronave (<code>VooAnterior</code>). Cinco categorias nominais, sem nenhuma ordem natural entre elas, no sentido da seção 1.1.</p>
 </section>
 <section id="proporções-o-resumo-que-substitui-a-média" class="level2">
 <h2 class="anchored" data-anchor-id="proporções-o-resumo-que-substitui-a-média">Proporções: o resumo que substitui a média</h2>
-<p>Para dado numérico, o primeiro resumo é uma medida de localização — média, média aparada, mediana. Nenhuma delas se aplica aqui: somar “Companhia + Clima” e dividir por dois não produz nada interpretável, porque não há distância nem ordem entre as categorias. O que resta, e é suficiente, é a <strong>proporção</strong> de cada categoria sobre o total.</p>
+<p>Para dado numérico, o primeiro resumo é uma medida de localização: média, média aparada, mediana. Nenhuma delas se aplica aqui: somar “Companhia + Clima” e dividir por dois não produz nada interpretável, porque não há distância nem ordem entre as categorias. O que resta, e é suficiente, é a <strong>proporção</strong> de cada categoria sobre o total.</p>
 <div id="cell-proporcoes" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>dfw <span class="op">=</span> pd.read_csv(<span class="st">"dados/dfw_airline.csv"</span>).rename(columns<span class="op">=</span>{</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Carrier"</span>: <span class="st">"Companhia"</span>,</span>
@@ -778,9 +717,9 @@ Nota
 </div>
 </div>
 <div class="conceito">
-<p>Repare no formato de <code>dfw</code>: uma linha, cinco colunas. Cada <strong>coluna</strong> é uma categoria, e o único valor de cada uma é a contagem de atrasos atribuídos a ela — o oposto do formato “uma linha por observação” que os capítulos anteriores usaram. É por isso que os próximos chunks recorrem a <code>.transpose()</code>: para virar as cinco colunas em cinco linhas, uma por causa, antes de desenhar o gráfico, extrair a moda ou calcular o valor esperado.</p>
+<p>Repare no formato de <code>dfw</code>: uma linha, cinco colunas. Cada <strong>coluna</strong> é uma categoria, e o único valor de cada uma é a contagem de atrasos atribuídos a ela. É o oposto do formato “uma linha por observação” que os capítulos anteriores usaram. É por isso que os próximos chunks recorrem a <code>.transpose()</code>: para virar as cinco colunas em cinco linhas, uma por causa, antes de desenhar o gráfico ou extrair a moda.</p>
 </div>
-<p><code>ControleAereo</code> e <code>VooAnterior</code> somam sozinhos mais de 70% dos atrasos; <code>Seguranca</code> responde por pouco mais de um décimo de 1%. É toda a “distribuição” que um dado categórico tem para oferecer — não uma forma contínua, mas um conjunto de fatias.</p>
+<p><code>ControleAereo</code> e <code>VooAnterior</code> somam sozinhos mais de 70% dos atrasos; <code>Seguranca</code> responde por pouco mais de um décimo de 1%. É toda a “distribuição” que um dado categórico tem para oferecer: um conjunto de fatias, sem forma contínua.</p>
 </section>
 <section id="gráfico-de-barras-não-é-histograma" class="level2">
 <h2 class="anchored" data-anchor-id="gráfico-de-barras-não-é-histograma">Gráfico de barras não é histograma</h2>
@@ -793,13 +732,13 @@ Nota
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
-<div id="fig-barras" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-barras" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Gráfico de barras separadas com as cinco causas de atraso no eixo horizontal e o número de atrasos no vertical. VooAnterior tem a barra mais alta, seguida de ControleAereo e Companhia; Clima é baixa e Seguranca é praticamente invisível.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-barras-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="06-dados-binarios-categoricos_files/figure-html/fig-barras-output-1.png" width="665" height="373" class="figure-img">
+<img src="06-dados-binarios-categoricos_files/figure-html/fig-barras-output-1.png" alt="Gráfico de barras separadas com as cinco causas de atraso no eixo horizontal e o número de atrasos no vertical. VooAnterior tem a barra mais alta, seguida de ControleAereo e Companhia; Clima é baixa e Seguranca é praticamente invisível." width="665" height="373" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-barras-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;9.1: Causas de atraso no aeroporto de Dallas/Fort Worth. As barras são separadas: o eixo é categórico, não contínuo.
+Figura&nbsp;1: Causas de atraso no aeroporto de Dallas/Fort Worth. As barras são separadas: o eixo é categórico, não contínuo.
 </figcaption>
 </figure>
 </div>
@@ -807,12 +746,12 @@ Figura&nbsp;9.1: Causas de atraso no aeroporto de Dallas/Fort Worth. As barras s
 </div>
 <p>É tentador olhar para esse gráfico como “o histograma da seção 1.5, com barras diferentes”. Não é, e a diferença não é estética.</p>
 <div class="conceito">
-<p>No histograma, o eixo X é numérico e contínuo, e as barras se encostam <strong>porque</strong> não há espaço entre uma faixa e a seguinte — são pedaços contíguos da mesma reta de números. No gráfico de barras, o eixo X é categórico, e as barras vêm separadas de propósito: não existe “entre <code>ControleAereo</code> e <code>Clima</code>”, e a ordem em que as categorias aparecem no eixo é arbitrária, não informativa. Desenhar <code>Companhia</code>, <code>ControleAereo</code>, <code>Clima</code>, <code>Seguranca</code> e <code>VooAnterior</code> com barras encostadas sugeriria visualmente uma continuidade e uma ordem que os dados não têm — como se uma causa viesse “depois” da outra por algum motivo numérico. Não é preciosismo de estilo: é o mesmo cuidado que a seção 1.1 teve ao impedir que uma coluna nominal respondesse a perguntas de ordem.</p>
+<p>No histograma, o eixo X é numérico e contínuo, e as barras se encostam <strong>porque</strong> não há espaço entre uma faixa e a seguinte. São pedaços contíguos da mesma reta de números. No gráfico de barras, o eixo X é categórico, e as barras vêm separadas de propósito: não existe “entre <code>ControleAereo</code> e <code>Clima</code>”, e a ordem em que as categorias aparecem no eixo é arbitrária, não informativa. Desenhar <code>Companhia</code>, <code>ControleAereo</code>, <code>Clima</code>, <code>Seguranca</code> e <code>VooAnterior</code> com barras encostadas sugeriria visualmente uma continuidade e uma ordem que os dados não têm, como se uma causa viesse “depois” da outra por algum motivo numérico. É o mesmo cuidado que a seção 1.1 teve ao impedir que uma coluna nominal respondesse a perguntas de ordem.</p>
 </div>
 </section>
 <section id="o-eixo-que-mente" class="level2">
 <h2 class="anchored" data-anchor-id="o-eixo-que-mente">O eixo que mente</h2>
-<p>Um gráfico de barras honesto sobre a mecânica — barras separadas, eixo categórico — ainda pode enganar de outra forma, e essa é uma das mais comuns em jornais e apresentações. O truque não está nos dados; está no eixo.</p>
+<p>Um gráfico de barras honesto sobre a mecânica (barras separadas, eixo categórico) ainda pode enganar de outra forma, e essa é uma das mais comuns em jornais e apresentações. O truque não está nos dados; está no eixo.</p>
 <p>O gráfico abaixo mostra a taxa de homicídios dos nove estados do Nordeste (Atlas da Violência, 2024), com os estados em ordem alfabética da sigla.</p>
 <div id="cell-fig-eixo-truncado" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>estado <span class="op">=</span> pd.read_csv(<span class="st">"dados/estados.csv"</span>)</span>
@@ -827,20 +766,20 @@ Figura&nbsp;9.1: Causas de atraso no aeroporto de Dallas/Fort Worth. As barras s
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
-<div id="fig-eixo-truncado" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-eixo-truncado" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Gráfico de barras da taxa de homicídios por 100 mil habitantes dos nove estados do Nordeste, com o eixo vertical começando em 20. A barra do Piauí é um traço quase rente ao eixo, enquanto Pernambuco e Alagoas parecem muitas vezes mais altos.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-eixo-truncado-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="06-dados-binarios-categoricos_files/figure-html/fig-eixo-truncado-output-1.png" width="663" height="374" class="figure-img">
+<img src="06-dados-binarios-categoricos_files/figure-html/fig-eixo-truncado-output-1.png" alt="Gráfico de barras da taxa de homicídios por 100 mil habitantes dos nove estados do Nordeste, com o eixo vertical começando em 20. A barra do Piauí é um traço quase rente ao eixo, enquanto Pernambuco e Alagoas parecem muitas vezes mais altos." width="663" height="374" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-eixo-truncado-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;9.2: Taxa de homicídios dos nove estados do Nordeste, com o eixo Y começando em 20.
+Figura&nbsp;2: Taxa de homicídios dos nove estados do Nordeste, com o eixo Y começando em 20.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>À primeira vista, a leitura é dramática. O Piauí parece quase não ter homicídios — a barra é um traço rente ao chão. Pernambuco se ergue várias vezes mais alto; Ceará, Alagoas e Bahia formam um bloco imponente que faz o Piauí, o Rio Grande do Norte e Sergipe parecerem casos à parte, quase pacíficos. Se você tivesse apenas este gráfico, concluiria que o estado mais violento do Nordeste tem uma taxa muitas vezes maior que a do menos violento — o olho lê Pernambuco como umas <strong>36 vezes</strong> o Piauí.</p>
-<p>Mas essa impressão inteira vem de uma escolha que não está nos dados: o eixo Y começa em <strong>20</strong>, não em zero. Repare no canto inferior esquerdo — a régua começa lá. A barra do Piauí não mede a taxa do Piauí; mede o quanto ela <strong>passa de 20</strong>. E como a taxa do Piauí é 20,47, o que sobra para desenhar é <code>20,47 − 20 = 0,47</code> — quase nada. A do Piauí não é uma taxa baixa; é uma barra baixa, que é coisa diferente.</p>
+<p>À primeira vista, a leitura é dramática. O Piauí parece quase não ter homicídios: a barra é um traço rente ao chão. Pernambuco se ergue várias vezes mais alto; Ceará, Alagoas e Bahia formam um bloco imponente que faz o Piauí, o Rio Grande do Norte e Sergipe parecerem casos à parte, quase pacíficos. Se você tivesse apenas este gráfico, concluiria que o estado mais violento do Nordeste tem uma taxa muitas vezes maior que a do menos violento. O olho lê Pernambuco como umas <strong>36 vezes</strong> o Piauí.</p>
+<p>Mas essa impressão inteira vem de uma escolha que não está nos dados: o eixo Y começa em <strong>20</strong>, não em zero. Repare no canto inferior esquerdo: a régua começa lá. A barra do Piauí não mede a taxa do Piauí; mede o quanto ela <strong>passa de 20</strong>. E como a taxa do Piauí é 20,47, o que sobra para desenhar é <code>20,47 − 20 = 0,47</code>, quase nada. A barra do Piauí é baixa, mas a taxa não é.</p>
 <p>Veja o que acontece quando a régua começa onde deveria, no zero:</p>
 <div id="cell-fig-eixo-zero" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="dv">4</span>))</span>
@@ -851,23 +790,23 @@ Figura&nbsp;9.2: Taxa de homicídios dos nove estados do Nordeste, com o eixo Y 
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
-<div id="fig-eixo-zero" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-eixo-zero" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Mesmo gráfico de barras dos nove estados do Nordeste, agora com o eixo vertical começando em zero. Todas as barras são altas, e a de Pernambuco, a maior, fica menos de duas vezes acima da do Piauí, a menor.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-eixo-zero-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="06-dados-binarios-categoricos_files/figure-html/fig-eixo-zero-output-1.png" width="663" height="374" class="figure-img">
+<img src="06-dados-binarios-categoricos_files/figure-html/fig-eixo-zero-output-1.png" alt="Mesmo gráfico de barras dos nove estados do Nordeste, agora com o eixo vertical começando em zero. Todas as barras são altas, e a de Pernambuco, a maior, fica menos de duas vezes acima da do Piauí, a menor." width="663" height="374" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-eixo-zero-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;9.3: O mesmo dado, com o eixo Y começando no zero — a imagem honesta.
+Figura&nbsp;3: O mesmo dado, com o eixo Y começando no zero: a imagem honesta.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>Agora o Piauí aparece pelo que é: uma barra alta, como todas as outras. Os nove estados do Nordeste têm taxa acima de 20 por 100 mil — a região inteira convive com violência letal alta, e essa é a primeira coisa que salta aos olhos. Pernambuco ainda é o mais alto, mas a diferença para o Piauí é de <code>36,78 / 20,47</code> = <strong>1,8×</strong>, não 36×: uma taxa 80% maior, real e digna de atenção, mas longe do abismo que o primeiro gráfico encenava.</p>
-<p>O que torna o truque insidioso é que <strong>todos os nove números são verdadeiros nos dois gráficos.</strong> Não há dado inventado, não há erro de conta — só um eixo que começa em 20 em vez de em zero. É assim que se engana com uma base de dados honesta: não mentindo sobre os valores, mas escolhendo onde a régua começa a medir.</p>
+<p>Agora o Piauí aparece pelo que é: uma barra alta, como todas as outras. Os nove estados do Nordeste têm taxa acima de 20 por 100 mil. A região inteira convive com violência letal alta, e essa é a primeira coisa que salta aos olhos. Pernambuco ainda é o mais alto, mas a diferença para o Piauí é de <code>36,78 / 20,47</code> = <strong>1,8×</strong>, não 36×: uma taxa 80% maior, real e digna de atenção, mas longe do abismo que o primeiro gráfico encenava.</p>
+<p>O que torna o truque insidioso é que <strong>todos os nove números são verdadeiros nos dois gráficos.</strong> Não há dado inventado, não há erro de conta, só um eixo que começa em 20 em vez de em zero. É assim que se engana com uma base de dados honesta: não mentindo sobre os valores, mas escolhendo onde a régua começa a medir.</p>
 <p>Por que a barra é especialmente vulnerável a isso: o olho lê a quantidade pelo <strong>comprimento</strong> da barra, e comprimento só significa algo medido <strong>a partir do zero</strong>. Cortar o eixo quebra a correspondência entre comprimento e valor.</p>
 <div class="conceito">
-<p><strong>Regra prática:</strong> um gráfico de barras começa no eixo zero, sempre. A barra codifica a magnitude pelo seu comprimento, e comprimento medido a partir de um ponto qualquer não é magnitude nenhuma. (A regra é específica de barras: um gráfico de <strong>linha</strong>, mostrando evolução no tempo, às vezes pode truncar o eixo sem enganar — ali a informação está na <strong>inclinação</strong> da linha, não no comprimento de uma barra medida contra o zero.)</p>
+<p><strong>Regra prática:</strong> um gráfico de barras começa no eixo zero, sempre. A barra codifica a magnitude pelo seu comprimento, e comprimento medido a partir de um ponto qualquer não é magnitude nenhuma. (A regra é específica de barras: um gráfico de <strong>linha</strong>, mostrando evolução no tempo, às vezes pode truncar o eixo sem enganar. Ali a informação está na <strong>inclinação</strong> da linha, não no comprimento de uma barra medida contra o zero.)</p>
 </div>
 </section>
 <section id="a-moda-a-única-localização-possível" class="level2">
@@ -879,30 +818,10 @@ Figura&nbsp;9.3: O mesmo dado, com o eixo Y começando no zero — a imagem hone
 <pre><code>Moda (causa mais frequente): VooAnterior</code></pre>
 </div>
 </div>
-<p>A <strong>moda</strong> — a categoria mais frequente — é a única medida de localização que sobrevive à falta de ordem e de distância entre categorias. Ela não exige somar nem ordenar nada: só contar qual fatia é a maior.</p>
+<p>A <strong>moda</strong> (a categoria mais frequente) é a única medida de localização que sobrevive à falta de ordem e de distância entre categorias. Ela não exige somar nem ordenar nada: só contar qual fatia é a maior.</p>
 <div class="exemplo">
-<p>A moda de <code>dfw</code> é <code>VooAnterior</code>, com 42% dos atrasos — não <code>Companhia</code> nem <code>Clima</code>, as causas que viriam à mente primeiro ao pensar em “atraso de voo”. A maior fonte de atraso em Dallas/Fort Worth não é uma causa local do próprio aeroporto: é um voo anterior da mesma aeronave chegando atrasado e empurrando o atraso adiante. O gargalo não está em Dallas — está na malha aérea inteira, se propagando de aeroporto em aeroporto.</p>
+<p>A moda de <code>dfw</code> é <code>VooAnterior</code>, com 42% dos atrasos, à frente de <code>Companhia</code> e <code>Clima</code>, as causas que viriam à mente primeiro ao pensar em “atraso de voo”. A maior fonte de atraso em Dallas/Fort Worth não é uma causa local do próprio aeroporto: é um voo anterior da mesma aeronave chegando atrasado e empurrando o atraso adiante. O gargalo fica fora de Dallas, na malha aérea inteira, e se propaga de aeroporto em aeroporto.</p>
 </div>
-</section>
-<section id="valor-esperado" class="level2">
-<h2 class="anchored" data-anchor-id="valor-esperado">Valor esperado</h2>
-<p>Quando as categorias, além de uma proporção, carregam um valor numérico associado — um custo, um ganho, um tempo —, é possível ir além da moda. O <strong>valor esperado</strong> pondera cada valor pela probabilidade da categoria a que ele pertence:</p>
-<p><span class="math display">\[\text{VE} = \sum_{i=1}^{n} p_i \cdot v_i\]</span></p>
-<p>Suponha que uma companhia aérea estime o custo médio de compensação por passageiro, e que esse custo dependa da causa do atraso:</p>
-<div id="valor-esperado" class="cell" data-execution_count="7">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Uma companhia estima o custo médio de compensação por passageiro,</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># conforme a causa do atraso.</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>custo <span class="op">=</span> {<span class="st">"Companhia"</span>: <span class="dv">180</span>, <span class="st">"ControleAereo"</span>: <span class="dv">40</span>, <span class="st">"Clima"</span>: <span class="dv">0</span>, <span class="st">"Seguranca"</span>: <span class="dv">25</span>, <span class="st">"VooAnterior"</span>: <span class="dv">120</span>}</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> (dfw <span class="op">/</span> dfw.values.<span class="bu">sum</span>()).transpose().iloc[:, <span class="dv">0</span>]   <span class="co"># probabilidade de cada causa</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>ve <span class="op">=</span> <span class="bu">sum</span>(p[causa] <span class="op">*</span> valor <span class="cf">for</span> causa, valor <span class="kw">in</span> custo.items())</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Valor esperado do custo por atraso: R$ </span><span class="sc">{</span>num(ve, <span class="dv">2</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Valor esperado do custo por atraso: R$ 104,55</code></pre>
-</div>
-</div>
-<p>R$ 104,55 não é o custo de nenhum atraso individual — nenhuma causa isolada custa exatamente isso. É o custo médio <strong>por atraso</strong>, se essa mistura de causas se repetisse indefinidamente. Uma causa rara contribui quase nada mesmo quando não é a mais barata (<code>Seguranca</code>, R$ 25 em 0,12% dos casos, entra com R$ 0,03 no total); uma causa de custo intermediário mas frequente (<code>ControleAereo</code>, R$ 40 em 30% dos casos) entra com R$ 12,16 — 400 vezes mais. O valor esperado não é dispersão nem localização de novo — é a base de toda decisão sob incerteza que a estatística tratará daqui em diante.</p>
 </section>
 <section id="resumo" class="level2">
 <h2 class="anchored" data-anchor-id="resumo">Resumo</h2>
@@ -943,12 +862,12 @@ Figura&nbsp;9.3: O mesmo dado, com o eixo Y começando no zero — a imagem hone
 </tbody>
 </table>
 <div class="conceito">
-<p><strong>Regra prática:</strong> para dado numérico, o resumo é localização + dispersão + forma (seções 1.3 a 1.5). Para dado categórico nominal, isso colapsa em proporção e moda — não porque o dado categórico seja “mais pobre”, mas porque perguntas de soma, distância e ordem simplesmente não fazem sentido nele. E quando cada categoria carrega um valor associado, o valor esperado combina probabilidade e consequência em um único número.</p>
+<p><strong>Regra prática:</strong> para dado numérico, o resumo é localização + dispersão + forma (seções 1.3 a 1.5). Para dado categórico nominal, isso colapsa em proporção e moda. O dado categórico não fica “mais pobre” por isso: perguntas de soma, distância e ordem simplesmente não fazem sentido nele.</p>
 </div>
 </section>
 <section id="exercícios" class="level2">
 <h2 class="anchored" data-anchor-id="exercícios">Exercícios</h2>
-<p><strong>1.</strong> A causa <code>Seguranca</code> responde por 0,12% dos atrasos. Uma companhia deveria investir em reduzir atrasos de segurança?</p>
+<p><strong>1.</strong> Por que a moda é a única medida de localização que faz sentido para <code>dfw</code>?</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -961,11 +880,11 @@ Figura&nbsp;9.3: O mesmo dado, com o eixo Y começando no zero — a imagem hone
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Pela frequência, não — <code>Seguranca</code> é, de longe, a menor causa. Mas frequência não é tudo: o valor esperado depende também do <strong>custo</strong> de cada evento. Uma categoria rara e catastrófica pode ter valor esperado maior que uma categoria frequente e barata (um incidente de segurança grave pode custar muito mais que os R$ 25 por passageiro usados no exemplo). A pergunta certa combina probabilidade e consequência — nunca uma sozinha.</p>
+<p>Porque as categorias de <code>dfw</code> são nominais: não há ordem nem distância entre “Clima” e “Seguranca”. Média e mediana exigem que os valores possam ser somados ou ordenados; nenhuma das duas operações significa algo quando o “valor” é o nome de uma causa de atraso. A moda só precisa contar qual categoria é a mais frequente, e essa pergunta continua fazendo sentido mesmo sem ordem nenhuma entre as categorias.</p>
 </div>
 </div>
 </div>
-<p><strong>2.</strong> Por que a moda é a única medida de localização que faz sentido para <code>dfw</code>?</p>
+<p><strong>2.</strong> Um jornal publica as taxas de homicídio de Pernambuco (36,78) e Piauí (20,47) num gráfico de barras com o eixo Y começando em 20. Quantas vezes maior a barra de Pernambuco <em>parece</em>? E qual é a razão <em>real</em> entre as duas taxas?</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -978,44 +897,8 @@ Figura&nbsp;9.3: O mesmo dado, com o eixo Y começando no zero — a imagem hone
 </div>
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Porque as categorias de <code>dfw</code> são nominais — não há ordem nem distância entre “Clima” e “Seguranca”. Média e mediana exigem que os valores possam ser somados ou ordenados; nenhuma das duas operações significa algo quando o “valor” é o nome de uma causa de atraso. A moda só precisa contar qual categoria é a mais frequente, e essa pergunta continua fazendo sentido mesmo sem ordem nenhuma entre as categorias.</p>
-</div>
-</div>
-</div>
-<p><strong>3.</strong> Recalcule o valor esperado supondo que o custo de <code>Clima</code> sobe de R$ 0 para R$ 200. O que muda, e por que o efeito é pequeno?</p>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Dica</span>Resposta
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-4" class="callout-4-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>custo[<span class="st">"Clima"</span>] <span class="op">=</span> <span class="dv">200</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="bu">sum</span>(p[causa] <span class="op">*</span> valor <span class="cf">for</span> causa, valor <span class="kw">in</span> custo.items())</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<p>O valor esperado sobe cerca de R$ 8 (0,0403 × 200 ≈ 8,05), passando de R$ 104,55 para cerca de R$ 112,60. O efeito é pequeno porque <code>Clima</code> tem probabilidade baixa (4%) — no valor esperado, cada custo entra <strong>ponderado</strong> pela sua probabilidade, não pelo valor bruto. É exatamente por isso que o valor esperado é a ferramenta certa para decisão: ele impede que um número grande, mas raro, domine a conclusão sozinho.</p>
-</div>
-</div>
-</div>
-<p><strong>4.</strong> Um jornal publica as taxas de homicídio de Pernambuco (36,78) e Piauí (20,47) num gráfico de barras com o eixo Y começando em 20. Quantas vezes maior a barra de Pernambuco <em>parece</em>? E qual é a razão <em>real</em> entre as duas taxas?</p>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Dica</span>Resposta
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
 <p>A barra de Pernambuco <em>parece</em> cerca de <strong>36 vezes</strong> a do Piauí: a altura desenhada de cada uma é o valor menos o piso do eixo, então a razão visual é <code>(36,78 − 20) / (20,47 − 20) = 16,78 / 0,47 ≈ 36</code>.</p>
-<p>A razão <strong>real</strong> é <code>36,78 / 20,47 ≈ 1,8</code> — Pernambuco tem uma taxa 80% maior, não 36 vezes maior. O eixo truncado transformou uma diferença de 80% num abismo aparente de 36 para 1. É por isso que um gráfico de barras deve começar no zero: só assim o comprimento da barra corresponde ao valor.</p>
+<p>A razão <strong>real</strong> é <code>36,78 / 20,47 ≈ 1,8</code>: Pernambuco tem uma taxa 80% maior, não 36 vezes maior. O eixo truncado transformou uma diferença de 80% num abismo aparente de 36 para 1. É por isso que um gráfico de barras deve começar no zero: só assim o comprimento da barra corresponde ao valor.</p>
 </div>
 </div>
 </div>

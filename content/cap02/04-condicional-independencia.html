@@ -1,0 +1,1679 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt" xml:lang="pt"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Douglas Braga">
+
+<title>Probabilidade Condicional e Independência – Bases 3</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../content/cap02/05-bayes.html" rel="next">
+<link href="../../content/cap02/03-contagem.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-0a6b7249c26820e032cb0bd839ff02b1.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-b15e405f270457097577c78528feeb38.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-4c6c0d00e29b3f69541def337cc0d8c7.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-b15e405f270457097577c78528feeb38.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Nenhum resultado",
+    "search-matching-documents-text": "documentos correspondentes",
+    "search-copy-link-title": "Copiar link para a busca",
+    "search-hide-matches-text": "Esconder correspondências adicionais",
+    "search-more-match-text": "mais correspondência neste documento",
+    "search-more-matches-text": "mais correspondências neste documento",
+    "search-clear-button-title": "Limpar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Procurar"
+  }
+}</script>
+<script>
+// Modo leitura: um botão que esconde as duas barras laterais e centraliza o
+// texto. A escolha é lembrada entre páginas (localStorage). Ver o CSS em
+// styles.css (classe html.modo-leitura e .btn-modo-leitura).
+(function () {
+  var CHAVE = "bases3-modo-leitura";
+
+  // 1. Aplicar o estado salvo ANTES do primeiro paint, para não haver flash das
+  //    barras aparecendo e sumindo. Este script está no <head>, então roda antes
+  //    de o <body> ser desenhado.
+  try {
+    if (localStorage.getItem(CHAVE) === "1") {
+      document.documentElement.classList.add("modo-leitura");
+    }
+  } catch (e) {}
+
+  // 2. Injetar o botão e ligar o toggle quando o DOM estiver pronto.
+  document.addEventListener("DOMContentLoaded", function () {
+    var btn = document.createElement("button");
+    btn.className = "btn-modo-leitura";
+    btn.type = "button";
+
+    function rotular() {
+      var ativo = document.documentElement.classList.contains("modo-leitura");
+      btn.innerHTML = ativo
+        ? '<i class="bi bi-layout-sidebar-inset"></i> Mostrar menus'
+        : '<i class="bi bi-arrows-angle-expand"></i> Modo leitura';
+      btn.setAttribute("aria-pressed", ativo ? "true" : "false");
+    }
+
+    rotular();
+
+    btn.addEventListener("click", function () {
+      var ativo = document.documentElement.classList.toggle("modo-leitura");
+      try {
+        localStorage.setItem(CHAVE, ativo ? "1" : "0");
+      } catch (e) {}
+      rotular();
+    });
+
+    document.body.appendChild(btn);
+  });
+})();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-sidebar floating nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../images/logo-undf.png" alt="Logo UnDF" class="navbar-logo light-content">
+    <img src="../../images/logo-undf.png" alt="Logo UnDF" class="navbar-logo dark-content">
+    </a>
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Bases 3 — Estatística</span>
+    </a>
+  </div>
+        <div class="quarto-navbar-tools tools-end">
+    <a href="https://github.com/BragaD/UnDF-Bases3-Estatistica-202602" title="Código fonte" class="quarto-navigation-tool px-1" aria-label="Código fonte"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Alternar modo escuro"><i class="bi"></i></a>
+</div>
+          <div id="quarto-search" class="" title="Procurar"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/cap02/index.html">Capítulo 2: Probabilidade</a></li><li class="breadcrumb-item"><a href="../../content/cap02/04-condicional-independencia.html"><span class="chapter-title">Probabilidade Condicional e Independência</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Início</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Introdução</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar seção">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/intro/01-por-que-estatistica.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Por que Estatística?</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/intro/02-paradoxo-simpson.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">O Paradoxo de Simpson</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Capítulo 1: Análise Exploratória de Dados</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Alternar seção">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap01/index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Visão Geral</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap01/01-dados-estruturados.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Elementos de Dados Estruturados</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap01/02-dados-retangulares.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Dados Retangulares</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap01/03-estimativas-localizacao.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Estimativas de Localização</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap01/04-estimativas-variabilidade.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Estimativas de Variabilidade</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap01/05-distribuicao-dados.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Explorando a Distribuição dos Dados</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap01/06-dados-binarios-categoricos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Dados Binários e Categóricos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap01/07-correlacao.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Correlação</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap01/08-duas-ou-mais-variaveis.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Duas ou Mais Variáveis</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Capítulo 2: Probabilidade</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Alternar seção">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap02/index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Visão Geral</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap02/01-modelos-probabilisticos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Modelos Probabilísticos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap02/02-propriedades.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Propriedades da Probabilidade</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap02/03-contagem.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Contagem e Probabilidade Clássica</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap02/04-condicional-independencia.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Probabilidade Condicional e Independência</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap02/05-bayes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">O Teorema de Bayes</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Capítulo 3: Variáveis Aleatórias Discretas</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Alternar seção">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap03/index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Visão Geral</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap03/01-variaveis-aleatorias.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Variável Aleatória e Função de Probabilidade</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap03/02-valor-medio-variancia.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Valor Médio e Variância</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap03/03-distribuicao-acumulada.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Função de Distribuição Acumulada</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap03/04-uniforme-bernoulli.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Uniforme Discreta e Bernoulli</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap03/05-binomial.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Binomial</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap03/06-hipergeometrica.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Hipergeométrica</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap03/07-poisson.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição de Poisson</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Capítulo 4: Variáveis Aleatórias Contínuas</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Alternar seção">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap04/index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Visão Geral</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap04/01-variaveis-continuas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Variável Aleatória Contínua e Densidade</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap04/02-valor-medio-continuo.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Valor Médio e Variância de uma Variável Contínua</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap04/03-distribuicao-acumulada-continua.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Função de Distribuição Acumulada Contínua</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap04/04-uniforme-continua.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Uniforme Contínua</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap04/05-normal.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Normal</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap04/06-exponencial.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Exponencial</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Nesta página</h2>
+   
+  <ul>
+  <li><a href="#probabilidade-condicional" id="toc-probabilidade-condicional" class="nav-link active" data-scroll-target="#probabilidade-condicional">Probabilidade condicional</a></li>
+  <li><a href="#regra-do-produto" id="toc-regra-do-produto" class="nav-link" data-scroll-target="#regra-do-produto">Regra do produto</a></li>
+  <li><a href="#independência" id="toc-independência" class="nav-link" data-scroll-target="#independência">Independência</a></li>
+  <li><a href="#confiabilidade-de-sistemas" id="toc-confiabilidade-de-sistemas" class="nav-link" data-scroll-target="#confiabilidade-de-sistemas">Confiabilidade de sistemas</a></li>
+  <li><a href="#resumo" id="toc-resumo" class="nav-link" data-scroll-target="#resumo">Resumo</a></li>
+  <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios">Exercícios</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/BragaD/UnDF-Bases3-Estatistica-202602/issues/new" class="toc-action"><i class="bi bi-github"></i>Criar uma issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/cap02/index.html">Capítulo 2: Probabilidade</a></li><li class="breadcrumb-item"><a href="../../content/cap02/04-condicional-independencia.html"><span class="chapter-title">Probabilidade Condicional e Independência</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-title">Probabilidade Condicional e Independência</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Autor</div>
+    <div class="quarto-title-meta-contents">
+             <p>Douglas Braga <a href="mailto:douglas.braga@undf.edu.br" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Nota
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Esta seção corresponde à seção 5.3 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>.</p>
+</div>
+</div>
+<p>Na seção 2.2, a tabela de contingência dos estados mostrou que 13 dos 27 têm taxa de homicídios acima da mediana (taxa alta). Sorteando um estado sem saber nada sobre ele, <span class="math inline">\(P(B) = 13/27\)</span>, perto de metade.</p>
+<p>Agora suponha que alguém sorteie o estado e conte só uma coisa: ele é grande, com mais de 10 milhões de habitantes. A chance de ter taxa alta continua perto de metade? A tabela responde. Entre os 6 estados grandes, só 1 tem taxa alta. Com essa informação, a chance cai para <span class="math inline">\(1/6\)</span>.</p>
+<p>A informação mudou o espaço amostral: dos 27 estados, só os 6 grandes continuam possíveis. Esta seção formaliza essa ideia e mostra quando uma informação <strong>não</strong> muda nada.</p>
+<section id="probabilidade-condicional" class="level2">
+<h2 class="anchored" data-anchor-id="probabilidade-condicional">Probabilidade condicional</h2>
+<p>Saber que <span class="math inline">\(A\)</span> ocorreu restringe o espaço amostral a <span class="math inline">\(A\)</span>. Dentro dessa nova região, o que importa de <span class="math inline">\(B\)</span> é só a parte que está em <span class="math inline">\(A\)</span>, ou seja, <span class="math inline">\(A \cap B\)</span>. A probabilidade de <span class="math inline">\(B\)</span> passa a ser a fatia de <span class="math inline">\(A\)</span> ocupada por <span class="math inline">\(A \cap B\)</span>.</p>
+<div class="conceito">
+<p>A <strong>probabilidade condicional</strong> de <span class="math inline">\(B\)</span> dado <span class="math inline">\(A\)</span>, com <span class="math inline">\(P(A) &gt; 0\)</span>, é</p>
+<p><span class="math display">\[
+P(B \mid A) = \frac{P(A \cap B)}{P(A)}.
+\]</span></p>
+<p>Lê-se “probabilidade de <span class="math inline">\(B\)</span> dado <span class="math inline">\(A\)</span>”.</p>
+</div>
+<p>No sorteio de estados, <span class="math inline">\(P(A \cap B) = 1/27\)</span> e <span class="math inline">\(P(A) = 6/27\)</span>, e os 27 se cancelam:</p>
+<div id="cell-condicional" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>p_b_dado_a <span class="op">=</span> prob(A <span class="op">&amp;</span> B, modelo_uf) <span class="op">/</span> prob(A, modelo_uf)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>Fraction(p_b_dado_a).limit_denominator(), <span class="bu">round</span>(p_b_dado_a, <span class="dv">3</span>), <span class="bu">round</span>(prob(B, modelo_uf), <span class="dv">3</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="condicional" class="cell-output cell-output-display" data-execution_count="2">
+<pre><code>(Fraction(1, 6), 0.167, 0.481)</code></pre>
+</div>
+</div>
+<p><span class="math inline">\(P(B)\)</span> é a probabilidade <strong>a priori</strong> de ter taxa alta, calculada antes de qualquer informação. <span class="math inline">\(P(B \mid A)\)</span> é a probabilidade <strong>a posteriori</strong>, depois de saber que o estado é grande. Aqui a informação diminuiu a chance, de 0,481 para 0,167.</p>
+<p>A ordem importa: <span class="math inline">\(P(B \mid A)\)</span> e <span class="math inline">\(P(A \mid B)\)</span> são perguntas diferentes. Dado que o estado tem taxa alta, a chance de ele ser grande é <span class="math inline">\(1/13\)</span>: o denominador agora são os 13 estados de taxa alta.</p>
+<p>No <code>pandas</code>, a tabela de contingência dá as condicionais de uma vez. Com <code>normalize="index"</code>, cada linha é dividida pelo seu total e passa a ser a distribuição de <span class="math inline">\(B\)</span> dentro daquele grupo:</p>
+<div id="cell-condicional-tabela" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>grande <span class="op">=</span> estado[<span class="st">"Sigla"</span>].isin(A).<span class="bu">map</span>({<span class="va">True</span>: <span class="st">"A: grande"</span>, <span class="va">False</span>: <span class="st">"não grande"</span>})</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>taxa_alta <span class="op">=</span> estado[<span class="st">"Sigla"</span>].isin(B).<span class="bu">map</span>({<span class="va">True</span>: <span class="st">"B: taxa alta"</span>, <span class="va">False</span>: <span class="st">"taxa não alta"</span>})</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>pd.crosstab(grande, taxa_alta, rownames<span class="op">=</span>[<span class="st">""</span>], colnames<span class="op">=</span>[<span class="st">""</span>], normalize<span class="op">=</span><span class="st">"index"</span>).<span class="bu">round</span>(<span class="dv">3</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="condicional-tabela" class="cell-output cell-output-display" data-execution_count="3">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">B: taxa alta</th>
+<th data-quarto-table-cell-role="th">taxa não alta</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">A: grande</th>
+<td>0.167</td>
+<td>0.833</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">não grande</th>
+<td>0.571</td>
+<td>0.429</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>A linha “A: grande” traz <span class="math inline">\(P(B \mid A)\)</span> e <span class="math inline">\(P(B^c \mid A)\)</span>, que somam 1: dentro de <span class="math inline">\(A\)</span>, a probabilidade condicional se comporta como uma probabilidade qualquer.</p>
+</section>
+<section id="regra-do-produto" class="level2">
+<h2 class="anchored" data-anchor-id="regra-do-produto">Regra do produto</h2>
+<p>Multiplicando os dois lados da definição por <span class="math inline">\(P(A)\)</span>, sai a <strong>regra do produto</strong>:</p>
+<p><span class="math display">\[
+P(A \cap B) = P(A)\, P(B \mid A).
+\]</span></p>
+<p>Ela é útil quando o experimento acontece em etapas e a probabilidade de cada etapa depende do que aconteceu antes. É o caso de sortear sem reposição.</p>
+<p>Um repositório tem 5 pull requests abertos, 2 com bug (B) e 3 sem bug (S). Um revisor pega um PR ao acaso, revisa, e depois pega outro entre os que sobraram. O <strong>diagrama em árvore</strong> mostra as etapas. Nos galhos da segunda etapa, as probabilidades são condicionais: depende de qual PR saiu primeiro.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div id="fig-arvore-sem-reposicao" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-arvore-sem-reposicao-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div>
+<svg width="672" height="480" viewbox="0.00 0.00 362.61 206.00" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 202)">
+<title>G</title>
+<!-- inicio -->
+<g id="node1" class="node">
+<title>inicio</title>
+</g>
+<!-- B1 -->
+<g id="node2" class="node">
+<title>B1</title>
+<text text-anchor="middle" x="132.29" y="-121.8" font-family="Helvetica,sans-Serif" font-size="14.00">B</text>
+</g>
+<!-- inicio&#45;&gt;B1 -->
+<g id="edge1" class="edge">
+<title>inicio-&gt;B1</title>
+<path fill="none" stroke="black" d="M54.06,-105.81C66.54,-109.07 81.69,-113.03 95.24,-116.58"></path>
+<polygon fill="black" stroke="black" points="94.67,-120.05 105.24,-119.19 96.45,-113.27 94.67,-120.05"></polygon>
+<text text-anchor="middle" x="79.65" y="-117.3" font-family="Helvetica,sans-Serif" font-size="11.00">2/5</text>
+</g>
+<!-- S1 -->
+<g id="node3" class="node">
+<title>S1</title>
+<text text-anchor="middle" x="132.29" y="-67.8" font-family="Helvetica,sans-Serif" font-size="14.00">S</text>
+</g>
+<!-- inicio&#45;&gt;S1 -->
+<g id="edge2" class="edge">
+<title>inicio-&gt;S1</title>
+<path fill="none" stroke="black" d="M54.06,-92.19C66.54,-88.93 81.69,-84.97 95.24,-81.42"></path>
+<polygon fill="black" stroke="black" points="96.45,-84.73 105.24,-78.81 94.67,-77.95 96.45,-84.73"></polygon>
+<text text-anchor="middle" x="79.65" y="-90.3" font-family="Helvetica,sans-Serif" font-size="11.00">3/5</text>
+</g>
+<!-- BB -->
+<g id="node4" class="node">
+<title>BB</title>
+<text text-anchor="middle" x="282.6" y="-175.8" font-family="Helvetica,sans-Serif" font-size="14.00">BB &nbsp;&nbsp;2/5 × 1/4 = 2/20</text>
+</g>
+<!-- B1&#45;&gt;BB -->
+<g id="edge3" class="edge">
+<title>B1-&gt;BB</title>
+<path fill="none" stroke="black" d="M159.3,-136.19C165.21,-138.46 171.46,-140.84 177.29,-143 191.13,-148.13 206.04,-153.5 220.15,-158.52"></path>
+<polygon fill="black" stroke="black" points="219.17,-161.89 229.77,-161.93 221.51,-155.29 219.17,-161.89"></polygon>
+<text text-anchor="middle" x="184.94" y="-151.3" font-family="Helvetica,sans-Serif" font-size="11.00">1/4</text>
+</g>
+<!-- BS -->
+<g id="node5" class="node">
+<title>BS</title>
+<text text-anchor="middle" x="282.6" y="-121.8" font-family="Helvetica,sans-Serif" font-size="14.00">BS &nbsp;&nbsp;2/5 × 3/4 = 6/20</text>
+</g>
+<!-- B1&#45;&gt;BS -->
+<g id="edge4" class="edge">
+<title>B1-&gt;BS</title>
+<path fill="none" stroke="black" d="M159.46,-126C171.09,-126 185.46,-126 200.22,-126"></path>
+<polygon fill="black" stroke="black" points="200.48,-129.5 210.48,-126 200.48,-122.5 200.48,-129.5"></polygon>
+<text text-anchor="middle" x="184.94" y="-129.3" font-family="Helvetica,sans-Serif" font-size="11.00">3/4</text>
+</g>
+<!-- SB -->
+<g id="node6" class="node">
+<title>SB</title>
+<text text-anchor="middle" x="282.6" y="-67.8" font-family="Helvetica,sans-Serif" font-size="14.00">SB &nbsp;&nbsp;3/5 × 2/4 = 6/20</text>
+</g>
+<!-- S1&#45;&gt;SB -->
+<g id="edge5" class="edge">
+<title>S1-&gt;SB</title>
+<path fill="none" stroke="black" d="M159.46,-72C171.09,-72 185.46,-72 200.22,-72"></path>
+<polygon fill="black" stroke="black" points="200.48,-75.5 210.48,-72 200.48,-68.5 200.48,-75.5"></polygon>
+<text text-anchor="middle" x="184.94" y="-75.3" font-family="Helvetica,sans-Serif" font-size="11.00">2/4</text>
+</g>
+<!-- SS -->
+<g id="node7" class="node">
+<title>SS</title>
+<text text-anchor="middle" x="282.6" y="-13.8" font-family="Helvetica,sans-Serif" font-size="14.00">SS &nbsp;&nbsp;3/5 × 2/4 = 6/20</text>
+</g>
+<!-- S1&#45;&gt;SS -->
+<g id="edge6" class="edge">
+<title>S1-&gt;SS</title>
+<path fill="none" stroke="black" d="M159.29,-61.67C165.2,-59.37 171.45,-56.97 177.29,-54.8 191.04,-49.69 205.87,-44.35 219.91,-39.38"></path>
+<polygon fill="black" stroke="black" points="221.21,-42.63 229.48,-36 218.89,-36.03 221.21,-42.63"></polygon>
+<text text-anchor="middle" x="184.94" y="-57.3" font-family="Helvetica,sans-Serif" font-size="11.00">2/4</text>
+</g>
+</g>
+</svg>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-arvore-sem-reposicao-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;1: Dois PRs sorteados sem reposição entre 5 (2 com bug, 3 sem bug). Nos galhos da direita, as probabilidades são condicionais ao primeiro PR.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Cada caminho da árvore é um ponto amostral, e sua probabilidade é o produto dos galhos, pela regra do produto. Os quatro caminhos somam <span class="math inline">\(20/20 = 1\)</span>.</p>
+<p>Qual a probabilidade de o <strong>segundo</strong> PR ter bug? Dois caminhos terminam com B na segunda etapa, BB e SB, e eles são disjuntos:</p>
+<p><span class="math display">\[
+P(\text{bug no 2º}) = \frac{2}{20} + \frac{6}{20} = \frac{8}{20} = \frac{2}{5}.
+\]</span></p>
+<p>É a mesma probabilidade de o primeiro ter bug. Faz sentido: sem saber o que saiu no primeiro sorteio, o segundo PR é um PR qualquer entre os 5.</p>
+<p>Uma enumeração em Python confere a árvore. Os 5 PRs recebem nomes, e cada par ordenado de PRs distintos é igualmente provável:</p>
+<div id="cell-arvore-enumerada" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itertools <span class="im">import</span> permutations</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>prs <span class="op">=</span> [<span class="st">"B1"</span>, <span class="st">"B2"</span>, <span class="st">"S1"</span>, <span class="st">"S2"</span>, <span class="st">"S3"</span>]</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>pares <span class="op">=</span> <span class="bu">list</span>(permutations(prs, <span class="dv">2</span>))        <span class="co"># 5 x 4 = 20 pares ordenados</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>bug_no_segundo <span class="op">=</span> [p <span class="cf">for</span> p <span class="kw">in</span> pares <span class="cf">if</span> p[<span class="dv">1</span>].startswith(<span class="st">"B"</span>)]</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(pares), Fraction(<span class="bu">len</span>(bug_no_segundo), <span class="bu">len</span>(pares))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="arvore-enumerada" class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>(20, Fraction(2, 5))</code></pre>
+</div>
+</div>
+<p>A regra do produto se estende a mais etapas. Para três eventos,</p>
+<p><span class="math display">\[
+\begin{aligned}
+P(A \cap B \cap C) = {} &amp;P(A)\, P(B \mid A) \\
+&amp;\times P(C \mid A \cap B),
+\end{aligned}
+\]</span></p>
+<p>com <span class="math inline">\(P(A \cap B) &gt; 0\)</span>, e cada fator é condicional a tudo o que veio antes.</p>
+</section>
+<section id="independência" class="level2">
+<h2 class="anchored" data-anchor-id="independência">Independência</h2>
+<p>Agora o revisor devolve o PR à fila depois de revisá-lo, e o segundo sorteio é feito de novo entre os 5. A composição da fila não muda de uma etapa para a outra, e a árvore fica com os mesmos números nas duas etapas:</p>
+<div id="tbl-com-reposicao" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-com-reposicao-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;1: Dois PRs sorteados com reposição.
+</figcaption>
+<div aria-describedby="tbl-com-reposicao-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Resultado</th>
+<th style="text-align: center;">Probabilidade</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">BB</td>
+<td style="text-align: center;"><span class="math inline">\(2/5 \times 2/5 = 4/25\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">BS</td>
+<td style="text-align: center;"><span class="math inline">\(2/5 \times 3/5 = 6/25\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">SB</td>
+<td style="text-align: center;"><span class="math inline">\(3/5 \times 2/5 = 6/25\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">SS</td>
+<td style="text-align: center;"><span class="math inline">\(3/5 \times 3/5 = 9/25\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Aqui <span class="math inline">\(P(\text{bug no 2º} \mid \text{bug no 1º}) = 2/5\)</span>, que é igual a <span class="math inline">\(P(\text{bug no 2º})\)</span>: saber o resultado do primeiro sorteio não muda nada sobre o segundo. Quando isso acontece, os eventos são <strong>independentes</strong>. Chamando de <span class="math inline">\(B_1\)</span> o evento “bug no 1º” e de <span class="math inline">\(B_2\)</span> o evento “bug no 2º”, temos <span class="math inline">\(P(B_2 \mid B_1) = P(B_2)\)</span>, e a regra do produto fica <span class="math inline">\(P(B_1 \cap B_2) = P(B_1)\,P(B_2)\)</span>. Para dois eventos quaisquer:</p>
+<div class="conceito">
+<p>Os eventos <span class="math inline">\(A\)</span> e <span class="math inline">\(B\)</span> são <strong>independentes</strong> quando</p>
+<p><span class="math display">\[
+P(A \cap B) = P(A)\, P(B).
+\]</span></p>
+</div>
+<p>A definição é simétrica: se <span class="math inline">\(A\)</span> não informa nada sobre <span class="math inline">\(B\)</span>, <span class="math inline">\(B\)</span> também não informa nada sobre <span class="math inline">\(A\)</span>. E ela serve nos dois sentidos. Às vezes a independência é uma <strong>suposição</strong> do modelo, como nos sorteios com reposição, e aí a fórmula permite calcular <span class="math inline">\(P(A \cap B)\)</span>. Outras vezes ela é uma <strong>pergunta</strong> sobre dados, e a fórmula é o teste. No sorteio entre os 27 estados, a conta é exata. Com uma amostra, a igualdade quase nunca vale exatamente, e decidir se a diferença importa exige ferramentas de inferência estatística, que ficam fora deste livro.</p>
+<p>Nos estados, ser grande e ter taxa alta são independentes? Basta comparar os dois lados:</p>
+<div id="cell-independencia-estados" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>lado_esq <span class="op">=</span> prob(A <span class="op">&amp;</span> B, modelo_uf)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>lado_dir <span class="op">=</span> prob(A, modelo_uf) <span class="op">*</span> prob(B, modelo_uf)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="bu">round</span>(lado_esq, <span class="dv">4</span>), <span class="bu">round</span>(lado_dir, <span class="dv">4</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="independencia-estados" class="cell-output cell-output-display" data-execution_count="5">
+<pre><code>(0.037, 0.107)</code></pre>
+</div>
+</div>
+<p><span class="math inline">\(P(A \cap B)\)</span>, cerca de 0,037, fica bem abaixo de <span class="math inline">\(P(A)\,P(B)\)</span>, cerca de 0,107. Os eventos não são independentes: entre os estados grandes, taxa alta é mais rara do que entre todos os estados. É a mesma associação negativa entre tamanho e taxa que fez a média ponderada da taxa de homicídios ficar abaixo da média simples na seção 1.3, agora vista por meio de eventos.</p>
+<p>Para três eventos, a independência exige mais do que os três pares. <span class="math inline">\(A\)</span>, <span class="math inline">\(B\)</span> e <span class="math inline">\(C\)</span> são independentes quando</p>
+<p><span class="math display">\[
+\begin{aligned}
+P(A \cap B) &amp;= P(A)\,P(B), \\
+P(A \cap C) &amp;= P(A)\,P(C), \\
+P(B \cap C) &amp;= P(B)\,P(C), \\
+P(A \cap B \cap C) &amp;= P(A)\,P(B)\,P(C).
+\end{aligned}
+\]</span></p>
+<p>A última condição não decorre das outras três: há exemplos em que os três pares são independentes e o trio não é (Problema 59 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>). Cuidado com o vocabulário ao consultar esse problema: o Bussab chama de <em>mutuamente independentes</em> os eventos que satisfazem só as três condições dos pares, mas em outros livros a expressão significa as quatro.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Aviso</span>Independentes não são o mesmo que mutuamente exclusivos
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Dois eventos mutuamente exclusivos, com probabilidade positiva, <strong>nunca</strong> são independentes. Se <span class="math inline">\(A\)</span> e <span class="math inline">\(C\)</span> não podem ocorrer juntos, saber que <span class="math inline">\(A\)</span> ocorreu diz com certeza que <span class="math inline">\(C\)</span> não ocorreu: <span class="math inline">\(P(C \mid A) = 0\)</span>, enquanto <span class="math inline">\(P(C) &gt; 0\)</span>. Exclusão é uma dependência extrema.</p>
+</div>
+</div>
+</section>
+<section id="confiabilidade-de-sistemas" class="level2">
+<h2 class="anchored" data-anchor-id="confiabilidade-de-sistemas">Confiabilidade de sistemas</h2>
+<p>A independência é a suposição central de uma área que interessa a quem opera software: a <strong>confiabilidade</strong> de sistemas. A confiabilidade de um componente é a probabilidade de ele funcionar num período.</p>
+<p>Uma API atende uma requisição só se o serviço de autenticação <strong>e</strong> o banco de dados funcionarem. Os dois estão <strong>em série</strong>: a falha de qualquer um derruba o sistema. Seja <span class="math inline">\(A_1\)</span> o evento “a autenticação funciona” e <span class="math inline">\(A_2\)</span> o evento “o banco funciona”. Se <span class="math inline">\(P(A_1) = p_1\)</span>, <span class="math inline">\(P(A_2) = p_2\)</span>, e os dois falham independentemente, o sistema funciona com probabilidade</p>
+<p><span class="math display">\[
+P(\text{sistema}) = P(A_1 \cap A_2) = p_1\, p_2.
+\]</span></p>
+<p>Agora o banco ganha uma réplica, e basta uma das duas cópias funcionar. Sejam <span class="math inline">\(R_1\)</span> e <span class="math inline">\(R_2\)</span> os eventos “a cópia 1 funciona” e “a cópia 2 funciona”, cada um com probabilidade <span class="math inline">\(p\)</span>, independentes. As cópias estão <strong>em paralelo</strong>, e o sistema de banco funciona se <strong>pelo menos uma</strong> funcionar. Pela regra da adição, ou pelo complementar,</p>
+<p><span class="math display">\[
+P(R_1 \cup R_2) = p + p - p^2 = 1 - (1 - p)^2.
+\]</span></p>
+<div id="cell-confiabilidade" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>p_auth, p_banco <span class="op">=</span> <span class="fl">0.99</span>, <span class="fl">0.98</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>serie <span class="op">=</span> p_auth <span class="op">*</span> p_banco</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>banco_replicado <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> (<span class="dv">1</span> <span class="op">-</span> p_banco) <span class="op">**</span> <span class="dv">2</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>com_replica <span class="op">=</span> p_auth <span class="op">*</span> banco_replicado</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="bu">round</span>(serie, <span class="dv">4</span>), <span class="bu">round</span>(banco_replicado, <span class="dv">4</span>), <span class="bu">round</span>(com_replica, <span class="dv">4</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="confiabilidade" class="cell-output cell-output-display" data-execution_count="6">
+<pre><code>(0.9702, 0.9996, 0.9896)</code></pre>
+</div>
+</div>
+<p>Em série, as confiabilidades se multiplicam, e o sistema é <strong>menos</strong> confiável que o pior componente: 0,9702, abaixo de 0,98. A réplica leva o banco de 0,98 a 0,9996, e o sistema passa a depender quase só da autenticação.</p>
+<p>A conta vale se as falhas forem independentes. Duas réplicas no mesmo servidor, na mesma rede ou na mesma região de nuvem tendem a cair juntas, e aí <span class="math inline">\(P(R_1^c \cap R_2^c)\)</span> é maior que <span class="math inline">\((1 - p)^2\)</span>. A redundância protege menos do que a fórmula promete.</p>
+</section>
+<section id="resumo" class="level2">
+<h2 class="anchored" data-anchor-id="resumo">Resumo</h2>
+<div class="table-responsive">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Conceito</th>
+<th>Fórmula</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Condicional</td>
+<td><span class="math inline">\(P(B \mid A) = P(A \cap B) / P(A)\)</span>, com <span class="math inline">\(P(A) &gt; 0\)</span></td>
+</tr>
+<tr class="even">
+<td>Regra do produto</td>
+<td><span class="math inline">\(P(A \cap B) = P(A)\,P(B \mid A)\)</span></td>
+</tr>
+<tr class="odd">
+<td>Independência</td>
+<td><span class="math inline">\(P(A \cap B) = P(A)\,P(B)\)</span></td>
+</tr>
+<tr class="even">
+<td>Série (independentes)</td>
+<td><span class="math inline">\(p_1 p_2\)</span></td>
+</tr>
+<tr class="odd">
+<td>Paralelo (independentes)</td>
+<td><span class="math inline">\(1 - (1 - p_1)(1 - p_2)\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="conceito">
+<p><strong>Regra prática:</strong> antes de multiplicar probabilidades, pergunte se os eventos são independentes. Se não forem, o segundo fator é uma probabilidade condicional.</p>
+</div>
+</section>
+<section id="exercícios" class="level2">
+<h2 class="anchored" data-anchor-id="exercícios">Exercícios</h2>
+<p><strong>1.</strong> Uma fila tem 8 tickets de suporte, 3 urgentes e 5 normais. Um atendente pega dois tickets ao acaso, um depois do outro, sem devolver. Calcule: (a) a probabilidade de os dois serem urgentes; (b) a probabilidade de o segundo ser urgente; (c) as mesmas probabilidades, se o primeiro ticket voltar para a fila antes do segundo sorteio.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="a">
+<li><p>Pela regra do produto, <span class="math inline">\(P(U_1 \cap U_2) = \frac{3}{8} \times \frac{2}{7} = \frac{6}{56} = \frac{3}{28}\)</span>.</p></li>
+<li><p>Os caminhos que terminam em urgente são UU e NU: <span class="math inline">\(\frac{3}{8} \times \frac{2}{7} + \frac{5}{8} \times \frac{3}{7} = \frac{6 + 15}{56} = \frac{21}{56} = \frac{3}{8}\)</span>, igual à probabilidade de o primeiro ser urgente.</p></li>
+<li><p>Com reposição, os sorteios são independentes: <span class="math inline">\(P(U_1 \cap U_2) = \frac{3}{8} \times \frac{3}{8} = \frac{9}{64}\)</span>, e <span class="math inline">\(P(U_2) = \frac{3}{8}\)</span>.</p></li>
+</ol>
+</div>
+</div>
+</div>
+<p><strong>2.</strong> Dois desenvolvedores tentam, independentemente, reproduzir um bug. O primeiro consegue com probabilidade 2/3 e o segundo com probabilidade 3/4. Qual a probabilidade de o bug ser reproduzido? (Problema 17 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>.)</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>O bug é reproduzido se pelo menos um conseguir. Pelo complementar, com independência: <span class="math inline">\(1 - \frac{1}{3} \times \frac{1}{4} = 1 - \frac{1}{12} = \frac{11}{12}\)</span>.</p>
+</div>
+</div>
+</div>
+<p><strong>3.</strong> Numa execução de testes, <span class="math inline">\(P(A) = 0{,}3\)</span> e <span class="math inline">\(P(B) = 0{,}4\)</span>. Calcule <span class="math inline">\(P(A \cup B)\)</span> se (a) <span class="math inline">\(A\)</span> e <span class="math inline">\(B\)</span> forem mutuamente exclusivos; (b) <span class="math inline">\(A\)</span> e <span class="math inline">\(B\)</span> forem independentes.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="a">
+<li><p><span class="math inline">\(P(A \cap B) = 0\)</span>, então <span class="math inline">\(P(A \cup B) = 0{,}3 + 0{,}4 = 0{,}7\)</span>.</p></li>
+<li><p><span class="math inline">\(P(A \cap B) = 0{,}3 \times 0{,}4 = 0{,}12\)</span>, então <span class="math inline">\(P(A \cup B) = 0{,}7 - 0{,}12 = 0{,}58\)</span>.</p></li>
+</ol>
+</div>
+</div>
+</div>
+<p><strong>4.</strong> Usando <code>dados/estados.csv</code>, sejam <span class="math inline">\(A\)</span> = “o estado tem mais de 10 milhões de habitantes” e <span class="math inline">\(D\)</span> = “o estado tem taxa de homicídios acima de 30”. Calcule <span class="math inline">\(P(D \mid A)\)</span> e <span class="math inline">\(P(D)\)</span>. <span class="math inline">\(A\)</span> e <span class="math inline">\(D\)</span> são independentes?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div id="cell-ex4-resposta" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>C30 <span class="op">=</span> <span class="bu">set</span>(estado.loc[estado[<span class="st">"Taxa.Homicidios"</span>] <span class="op">&gt;</span> <span class="dv">30</span>, <span class="st">"Sigla"</span>])</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>p_c_dado_a <span class="op">=</span> prob(A <span class="op">&amp;</span> C30, modelo_uf) <span class="op">/</span> prob(A, modelo_uf)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="bu">round</span>(p_c_dado_a, <span class="dv">3</span>), <span class="bu">round</span>(prob(C30, modelo_uf), <span class="dv">3</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="ex4-resposta" class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>(0.167, 0.259)</code></pre>
+</div>
+</div>
+<p><span class="math inline">\(P(D \mid A) = 1/6\)</span>, cerca de 0,167, e <span class="math inline">\(P(D) = 7/27\)</span>, cerca de 0,259. Como <span class="math inline">\(P(D \mid A) \ne P(D)\)</span>, os eventos não são independentes.</p>
+</div>
+</div>
+</div>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-bussab2023" class="csl-entry" role="listitem">
+Bussab, Wilton de Oliveira, e Pedro Alberto Morettin. 2023. <em>Estatística Básica</em>. 10ª ed. Saraiva.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('.spoiler').forEach(function (spoiler) {
+    const hash    = spoiler.dataset.passwordHash || '';
+    const hint    = spoiler.dataset.hint || 'Conteúdo protegido por senha';
+    const content = spoiler.innerHTML;
+
+    spoiler.innerHTML = `
+      <div class="spoiler-lock">
+        <span class="spoiler-icon">&#128274;</span>
+        <p class="spoiler-hint">${hint}</p>
+        <div class="spoiler-input-group">
+          <input type="password" class="spoiler-input" placeholder="Digite a senha…" autocomplete="off">
+          <button class="spoiler-btn">Acessar</button>
+        </div>
+        <p class="spoiler-error">Senha incorreta.</p>
+      </div>
+      <div class="spoiler-content">${content}</div>
+    `;
+    spoiler.style.display = 'block';
+
+    const lockDiv    = spoiler.querySelector('.spoiler-lock');
+    const contentDiv = spoiler.querySelector('.spoiler-content');
+    const input      = spoiler.querySelector('.spoiler-input');
+    const btn        = spoiler.querySelector('.spoiler-btn');
+    const errorMsg   = spoiler.querySelector('.spoiler-error');
+
+    async function tryUnlock() {
+      const val    = input.value;
+      const buf    = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(val));
+      const hex    = Array.from(new Uint8Array(buf))
+                         .map(b => b.toString(16).padStart(2, '0')).join('');
+
+      if (hex === hash) {
+        lockDiv.style.display    = 'none';
+        contentDiv.style.display = 'block';
+      } else {
+        errorMsg.style.display = 'block';
+        input.value = '';
+        input.focus();
+        setTimeout(() => { errorMsg.style.display = 'none'; }, 2500);
+      }
+    }
+
+    btn.addEventListener('click', tryUnlock);
+    input.addEventListener('keydown', e => { if (e.key === 'Enter') tryUnlock(); });
+  });
+});
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiada");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiada");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/BragaD\.github\.io\/UnDF-Bases3-Estatistica-202602");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+            // default icon
+            link.classList.add("external");
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        const annoteTargets = window.document.querySelectorAll('.code-annotation-anchor');
+        for (let i=0; i<annoteTargets.length; i++) {
+          const annoteTarget = annoteTargets[i];
+          const targetCell = annoteTarget.getAttribute("data-target-cell");
+          const targetAnnotation = annoteTarget.getAttribute("data-target-annotation");
+          const contentFn = () => {
+            const content = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+            if (content) {
+              const tipContent = content.cloneNode(true);
+              tipContent.classList.add("code-annotation-tip-content");
+              return tipContent.outerHTML;
+            }
+          }
+          const config = {
+            allowHTML: true,
+            content: contentFn,
+            onShow: (instance) => {
+              selectCodeLines(instance.reference);
+              instance.reference.classList.add('code-annotation-active');
+              window.tippy.hideAll();
+            },
+            onHide: (instance) => {
+              unselectCodeLines();
+              instance.reference.classList.remove('code-annotation-active');
+            },
+            maxWidth: 300,
+            delay: [50, 0],
+            duration: [200, 0],
+            offset: [5, 10],
+            arrow: true,
+            appendTo: function(el) {
+              return el.parentElement.parentElement.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'quarto',
+            placement: 'right',
+            popperOptions: {
+              modifiers: [
+              {
+                name: 'flip',
+                options: {
+                  flipVariations: false, // true by default
+                  allowedAutoPlacements: ['right'],
+                  fallbackPlacements: ['right', 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'left'],
+                },
+              },
+              {
+                name: 'preventOverflow',
+                options: {
+                  mainAxis: false,
+                  altAxis: false
+                }
+              }
+              ]        
+            }      
+          };
+          window.tippy(annoteTarget, config); 
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../content/cap02/03-contagem.html" class="pagination-link" aria-label="Contagem e Probabilidade Clássica">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Contagem e Probabilidade Clássica</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../content/cap02/05-bayes.html" class="pagination-link" aria-label="O Teorema de Bayes">
+        <span class="nav-page-text"><span class="chapter-title">O Teorema de Bayes</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>UnDF — Engenharia de Software e Sistemas de Informação — Estatística — 2026.2</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/BragaD/UnDF-Bases3-Estatistica-202602/issues/new" class="toc-action"><i class="bi bi-github"></i>Criar uma issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/BragaD/UnDF-Bases3-Estatistica-202602">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

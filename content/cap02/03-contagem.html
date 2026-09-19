@@ -1,0 +1,1572 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt" xml:lang="pt"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Douglas Braga">
+
+<title>Contagem e Probabilidade Clássica – Bases 3</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../content/cap02/04-condicional-independencia.html" rel="next">
+<link href="../../content/cap02/02-propriedades.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-0a6b7249c26820e032cb0bd839ff02b1.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-b15e405f270457097577c78528feeb38.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-4c6c0d00e29b3f69541def337cc0d8c7.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-b15e405f270457097577c78528feeb38.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Nenhum resultado",
+    "search-matching-documents-text": "documentos correspondentes",
+    "search-copy-link-title": "Copiar link para a busca",
+    "search-hide-matches-text": "Esconder correspondências adicionais",
+    "search-more-match-text": "mais correspondência neste documento",
+    "search-more-matches-text": "mais correspondências neste documento",
+    "search-clear-button-title": "Limpar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Procurar"
+  }
+}</script>
+<script>
+// Modo leitura: um botão que esconde as duas barras laterais e centraliza o
+// texto. A escolha é lembrada entre páginas (localStorage). Ver o CSS em
+// styles.css (classe html.modo-leitura e .btn-modo-leitura).
+(function () {
+  var CHAVE = "bases3-modo-leitura";
+
+  // 1. Aplicar o estado salvo ANTES do primeiro paint, para não haver flash das
+  //    barras aparecendo e sumindo. Este script está no <head>, então roda antes
+  //    de o <body> ser desenhado.
+  try {
+    if (localStorage.getItem(CHAVE) === "1") {
+      document.documentElement.classList.add("modo-leitura");
+    }
+  } catch (e) {}
+
+  // 2. Injetar o botão e ligar o toggle quando o DOM estiver pronto.
+  document.addEventListener("DOMContentLoaded", function () {
+    var btn = document.createElement("button");
+    btn.className = "btn-modo-leitura";
+    btn.type = "button";
+
+    function rotular() {
+      var ativo = document.documentElement.classList.contains("modo-leitura");
+      btn.innerHTML = ativo
+        ? '<i class="bi bi-layout-sidebar-inset"></i> Mostrar menus'
+        : '<i class="bi bi-arrows-angle-expand"></i> Modo leitura';
+      btn.setAttribute("aria-pressed", ativo ? "true" : "false");
+    }
+
+    rotular();
+
+    btn.addEventListener("click", function () {
+      var ativo = document.documentElement.classList.toggle("modo-leitura");
+      try {
+        localStorage.setItem(CHAVE, ativo ? "1" : "0");
+      } catch (e) {}
+      rotular();
+    });
+
+    document.body.appendChild(btn);
+  });
+})();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-sidebar floating nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../images/logo-undf.png" alt="Logo UnDF" class="navbar-logo light-content">
+    <img src="../../images/logo-undf.png" alt="Logo UnDF" class="navbar-logo dark-content">
+    </a>
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Bases 3 — Estatística</span>
+    </a>
+  </div>
+        <div class="quarto-navbar-tools tools-end">
+    <a href="https://github.com/BragaD/UnDF-Bases3-Estatistica-202602" title="Código fonte" class="quarto-navigation-tool px-1" aria-label="Código fonte"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Alternar modo escuro"><i class="bi"></i></a>
+</div>
+          <div id="quarto-search" class="" title="Procurar"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/cap02/index.html">Capítulo 2: Probabilidade</a></li><li class="breadcrumb-item"><a href="../../content/cap02/03-contagem.html"><span class="chapter-title">Contagem e Probabilidade Clássica</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Início</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Introdução</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar seção">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/intro/01-por-que-estatistica.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Por que Estatística?</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/intro/02-paradoxo-simpson.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">O Paradoxo de Simpson</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Capítulo 1: Análise Exploratória de Dados</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Alternar seção">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap01/index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Visão Geral</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap01/01-dados-estruturados.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Elementos de Dados Estruturados</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap01/02-dados-retangulares.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Dados Retangulares</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap01/03-estimativas-localizacao.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Estimativas de Localização</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap01/04-estimativas-variabilidade.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Estimativas de Variabilidade</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap01/05-distribuicao-dados.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Explorando a Distribuição dos Dados</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap01/06-dados-binarios-categoricos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Dados Binários e Categóricos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap01/07-correlacao.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Correlação</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap01/08-duas-ou-mais-variaveis.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Duas ou Mais Variáveis</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Capítulo 2: Probabilidade</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Alternar seção">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap02/index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Visão Geral</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap02/01-modelos-probabilisticos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Modelos Probabilísticos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap02/02-propriedades.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Propriedades da Probabilidade</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap02/03-contagem.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Contagem e Probabilidade Clássica</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap02/04-condicional-independencia.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Probabilidade Condicional e Independência</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap02/05-bayes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">O Teorema de Bayes</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Capítulo 3: Variáveis Aleatórias Discretas</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Alternar seção">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap03/index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Visão Geral</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap03/01-variaveis-aleatorias.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Variável Aleatória e Função de Probabilidade</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap03/02-valor-medio-variancia.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Valor Médio e Variância</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap03/03-distribuicao-acumulada.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Função de Distribuição Acumulada</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap03/04-uniforme-bernoulli.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Uniforme Discreta e Bernoulli</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap03/05-binomial.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Binomial</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap03/06-hipergeometrica.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Hipergeométrica</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap03/07-poisson.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição de Poisson</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Capítulo 4: Variáveis Aleatórias Contínuas</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Alternar seção">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap04/index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Visão Geral</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap04/01-variaveis-continuas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Variável Aleatória Contínua e Densidade</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap04/02-valor-medio-continuo.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Valor Médio e Variância de uma Variável Contínua</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap04/03-distribuicao-acumulada-continua.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Função de Distribuição Acumulada Contínua</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap04/04-uniforme-continua.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Uniforme Contínua</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap04/05-normal.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Normal</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap04/06-exponencial.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Exponencial</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Nesta página</h2>
+   
+  <ul>
+  <li><a href="#casos-favoráveis-sobre-casos-possíveis" id="toc-casos-favoráveis-sobre-casos-possíveis" class="nav-link active" data-scroll-target="#casos-favoráveis-sobre-casos-possíveis">Casos favoráveis sobre casos possíveis</a></li>
+  <li><a href="#princípio-multiplicativo" id="toc-princípio-multiplicativo" class="nav-link" data-scroll-target="#princípio-multiplicativo">Princípio multiplicativo</a></li>
+  <li><a href="#permutação-e-combinação" id="toc-permutação-e-combinação" class="nav-link" data-scroll-target="#permutação-e-combinação">Permutação e combinação</a></li>
+  <li><a href="#auditando-pull-requests" id="toc-auditando-pull-requests" class="nav-link" data-scroll-target="#auditando-pull-requests">Auditando pull requests</a></li>
+  <li><a href="#mega-sena" id="toc-mega-sena" class="nav-link" data-scroll-target="#mega-sena">Mega-Sena</a></li>
+  <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios">Exercícios</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/BragaD/UnDF-Bases3-Estatistica-202602/issues/new" class="toc-action"><i class="bi bi-github"></i>Criar uma issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/cap02/index.html">Capítulo 2: Probabilidade</a></li><li class="breadcrumb-item"><a href="../../content/cap02/03-contagem.html"><span class="chapter-title">Contagem e Probabilidade Clássica</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-title">Contagem e Probabilidade Clássica</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Autor</div>
+    <div class="quarto-title-meta-contents">
+             <p>Douglas Braga <a href="mailto:douglas.braga@undf.edu.br" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Nota
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Esta seção se baseia na seção 5.2 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>. Permutação e combinação, que o Bussab usa sem apresentar, entram aqui como revisão.</p>
+</div>
+</div>
+<p>No sorteio de um estado, calcular <span class="math inline">\(P(A)\)</span> foi contar: 6 estados grandes entre 27 dá <span class="math inline">\(6/27\)</span>. Deu para fazer isso porque o <code>pandas</code> listava os 27 pontos amostrais e o <code>set</code> contava os que caíam no evento.</p>
+<p>Agora pense num jogo da Mega-Sena. O espaço amostral é o conjunto de todas as formas de escolher 6 números entre 60, e tem 50.063.860 pontos. Listar todos para contar os favoráveis não é o caminho. Esta seção mostra como contar sem listar.</p>
+<section id="casos-favoráveis-sobre-casos-possíveis" class="level2">
+<h2 class="anchored" data-anchor-id="casos-favoráveis-sobre-casos-possíveis">Casos favoráveis sobre casos possíveis</h2>
+<p>Quando o espaço amostral é finito e todos os seus <span class="math inline">\(n\)</span> pontos têm a mesma probabilidade <span class="math inline">\(1/n\)</span>, a fórmula da soma da seção 2.1 fica simples. Um evento <span class="math inline">\(A\)</span> com <span class="math inline">\(m\)</span> pontos tem <span class="math inline">\(m\)</span> parcelas iguais a <span class="math inline">\(1/n\)</span>:</p>
+<div class="conceito">
+<p>Se <span class="math inline">\(\Omega\)</span> tem <span class="math inline">\(n\)</span> pontos igualmente prováveis e o evento <span class="math inline">\(A\)</span> tem <span class="math inline">\(m\)</span> desses pontos,</p>
+<p><span class="math display">\[
+P(A) = \frac{m}{n}.
+\]</span></p>
+<p><span class="math inline">\(m\)</span> é o número de <strong>casos favoráveis</strong> e <span class="math inline">\(n\)</span>, o de <strong>casos possíveis</strong>.</p>
+</div>
+<p>Essa é a definição <strong>clássica</strong> de probabilidade, a mais antiga, criada para jogos de azar. Foi ela que usamos no dado (<span class="math inline">\(1/6\)</span>), nas duas moedas (<span class="math inline">\(2/4\)</span> para faces iguais) e no sorteio de estados (<span class="math inline">\(6/27\)</span>).</p>
+<p>Com ela, o problema de probabilidade vira um problema de contagem: basta saber <span class="math inline">\(m\)</span> e <span class="math inline">\(n\)</span>, sem escrever <span class="math inline">\(\Omega\)</span> e <span class="math inline">\(A\)</span> por extenso. As próximas subseções dão as ferramentas para contar.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Aviso</span>A fórmula só vale com pontos equiprováveis
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(m/n\)</span> exige que todos os pontos tenham a mesma chance. No sorteio de uma pessoa (seção 2.1), os estados não são equiprováveis, e contar siglas dá a resposta errada. O mesmo vale para a soma de dois dados: 7 é 1 dos 11 valores possíveis, mas sua probabilidade não é <span class="math inline">\(1/11\)</span>.</p>
+</div>
+</div>
+</section>
+<section id="princípio-multiplicativo" class="level2">
+<h2 class="anchored" data-anchor-id="princípio-multiplicativo">Princípio multiplicativo</h2>
+<p>Um PIN de cartão tem 4 dígitos, cada um de 0 a 9. Quantos PINs existem? O primeiro dígito tem 10 opções. Para <strong>cada</strong> uma delas, o segundo tem outras 10, o que já dá <span class="math inline">\(10 \times 10 = 100\)</span> pares. Cada par se combina com as 10 opções do terceiro dígito, e assim por diante:</p>
+<p><span class="math display">\[
+10 \times 10 \times 10 \times 10 = 10^4,
+\]</span></p>
+<p>ou seja, 10.000 PINs.</p>
+<div class="conceito">
+<p><strong>Princípio multiplicativo.</strong> Se uma tarefa é feita em duas etapas, a primeira de <span class="math inline">\(p\)</span> maneiras e a segunda de <span class="math inline">\(q\)</span> maneiras para cada maneira da primeira, as duas juntas podem ser feitas de <span class="math inline">\(p \times q\)</span> maneiras. Com mais etapas, multiplica-se o número de maneiras de cada uma.</p>
+</div>
+<p>O <code>itertools.product</code> da seção 2.1 lista os PINs de fato, e serve para conferir a conta enquanto a lista é pequena:</p>
+<div id="cell-pins" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pins <span class="op">=</span> <span class="bu">list</span>(product(<span class="bu">range</span>(<span class="dv">10</span>), repeat<span class="op">=</span><span class="dv">4</span>))</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">len</span>(pins), <span class="dv">10</span><span class="op">**</span><span class="dv">4</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>pins[:<span class="dv">3</span>]</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>10000 10000</code></pre>
+</div>
+<div id="pins" class="cell-output cell-output-display" data-execution_count="2">
+<pre><code>[(0, 0, 0, 0), (0, 0, 0, 1), (0, 0, 0, 2)]</code></pre>
+</div>
+</div>
+<p>Foi o mesmo princípio que deu <span class="math inline">\(2 \times 2 \times 2 = 8\)</span> resultados para três builds na seção 2.1: três etapas, duas opções em cada uma.</p>
+<p>Com a contagem pronta, a probabilidade sai da definição clássica. Para um ladrão que não sabe nada sobre o dono do cartão, o PIN pode ser qualquer um dos 10.000, com a mesma chance. Uma tentativa acerta com probabilidade 1 em 10.000. Se o banco bloqueia o cartão depois de 3 tentativas erradas, e o ladrão testa 3 PINs diferentes, são 3 casos favoráveis entre 10.000 possíveis: probabilidade de 0,03%. O bloqueio existe para manter esse número pequeno.</p>
+</section>
+<section id="permutação-e-combinação" class="level2">
+<h2 class="anchored" data-anchor-id="permutação-e-combinação">Permutação e combinação</h2>
+<p>O princípio multiplicativo tem dois casos que aparecem tanto que ganharam nome. Nos dois, escolhemos elementos de um conjunto <strong>sem repetir</strong> nenhum. A diferença é se a ordem da escolha importa.</p>
+<p><strong>Quando a ordem importa.</strong></p>
+<p>Uma suíte tem 5 testes, e queremos rodá-los em todas as ordens possíveis para descobrir se algum depende de outro ter rodado antes. Quantas ordens existem? O primeiro teste da fila pode ser qualquer um dos 5. Escolhido o primeiro, sobram 4 para a segunda posição, depois 3, 2 e 1:</p>
+<p><span class="math display">\[
+5 \times 4 \times 3 \times 2 \times 1 = 5! = 120.
+\]</span></p>
+<p>O produto <span class="math inline">\(n \times (n-1) \times \cdots \times 2 \times 1\)</span> se escreve <span class="math inline">\(n!\)</span> e se lê “<span class="math inline">\(n\)</span> fatorial”. Por convenção, <span class="math inline">\(0! = 1\)</span>.</p>
+<p>Se só interessam as 3 primeiras posições da fila, a conta para no terceiro fator: <span class="math inline">\(5 \times 4 \times 3 = 60\)</span>. Em geral, escolher <span class="math inline">\(k\)</span> elementos entre <span class="math inline">\(n\)</span>, em ordem e sem repetir, dá</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;n \times (n-1) \times \cdots \times (n-k+1) \\
+&amp;= \frac{n!}{(n-k)!}
+\end{aligned}
+\]</span></p>
+<p>maneiras. Esses arranjos em ordem são as <strong>permutações</strong> de <span class="math inline">\(k\)</span> elementos entre <span class="math inline">\(n\)</span> (no ensino médio, <em>arranjos simples</em>).</p>
+<p><strong>Quando a ordem não importa.</strong></p>
+<p>Agora escolha 3 dos 5 testes para rodar num smoke test, sem se importar com a ordem. A escolha {T1, T2, T3} é a mesma que {T3, T1, T2}. A conta anterior deu 60 arranjos em ordem, mas cada grupo de 3 testes aparece ali <span class="math inline">\(3! = 6\)</span> vezes, uma para cada ordem. Dividindo, sobram <span class="math inline">\(60/6 = 10\)</span> grupos.</p>
+<div class="conceito">
+<p>O número de <strong>combinações</strong> de <span class="math inline">\(k\)</span> elementos entre <span class="math inline">\(n\)</span>, isto é, de subconjuntos de tamanho <span class="math inline">\(k\)</span>, é</p>
+<p><span class="math display">\[
+\binom{n}{k} = \frac{n!}{k!\,(n-k)!}.
+\]</span></p>
+<p>Lê-se “<span class="math inline">\(n\)</span> escolhe <span class="math inline">\(k\)</span>” ou “combinação de <span class="math inline">\(n\)</span>, <span class="math inline">\(k\)</span> a <span class="math inline">\(k\)</span>”.</p>
+</div>
+<p>O módulo <code>math</code> tem as três funções, e o <code>itertools</code> lista os arranjos e os subconjuntos para conferir enquanto <span class="math inline">\(n\)</span> é pequeno:</p>
+<div id="perm-comb" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itertools <span class="im">import</span> combinations, permutations</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>testes <span class="op">=</span> [<span class="st">"T1"</span>, <span class="st">"T2"</span>, <span class="st">"T3"</span>, <span class="st">"T4"</span>, <span class="st">"T5"</span>]</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(factorial(<span class="dv">5</span>), <span class="bu">len</span>(<span class="bu">list</span>(permutations(testes))))     <span class="co"># ordens</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(perm(<span class="dv">5</span>, <span class="dv">3</span>), <span class="bu">len</span>(<span class="bu">list</span>(permutations(testes, <span class="dv">3</span>))))  <span class="co"># 3 primeiros</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(comb(<span class="dv">5</span>, <span class="dv">3</span>), <span class="bu">len</span>(<span class="bu">list</span>(combinations(testes, <span class="dv">3</span>))))  <span class="co"># grupos de 3</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>120 120
+60 60
+10 10</code></pre>
+</div>
+</div>
+<p>Diante de um problema novo, como saber qual das contas usar? Duas perguntas resolvem.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Pode repetir? A ordem importa?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Se os elementos podem se repetir, como os dígitos de um PIN, use o princípio multiplicativo direto (<span class="math inline">\(10^4\)</span> PINs). Se não podem, pergunte se trocar dois elementos de lugar gera um resultado diferente. Se sim, é permutação: posições numa fila, cargos diferentes, senhas sem dígito repetido. Se não, é combinação: grupos, comissões, amostras, apostas da Mega-Sena.</p>
+</div>
+</div>
+</section>
+<section id="auditando-pull-requests" class="level2">
+<h2 class="anchored" data-anchor-id="auditando-pull-requests">Auditando pull requests</h2>
+<p>Uma equipe fez 20 pull requests na semana, e 5 deles introduziram um bug que ninguém percebeu. Sem saber quais, um auditor sorteia 4 PRs para revisar com calma. Qual a probabilidade de exatamente 2 dos 4 sorteados terem bug?</p>
+<p>Este é o Exemplo 5.8 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>, com PRs no lugar de peças de um lote. O sorteio é sem reposição e a ordem não importa, então cada resultado é um subconjunto de 4 PRs entre 20. O que garante que todos os subconjuntos têm a mesma chance é o sorteio <strong>ao acaso</strong>: a cada retirada, todo PR que sobrou tem a mesma chance de sair. Cada sequência ordenada de 4 PRs fica com a mesma probabilidade, e cada subconjunto junta o mesmo número delas (<span class="math inline">\(4! = 24\)</span>). A definição clássica se aplica.</p>
+<p><strong>Casos possíveis.</strong> São os subconjuntos de 4 entre 20: <span class="math inline">\(n = \binom{20}{4}\)</span>, ou 4.845. (Aqui <span class="math inline">\(n\)</span> é o número de casos possíveis da fórmula <span class="math inline">\(m/n\)</span>, e não os 20 PRs.)</p>
+<p><strong>Casos favoráveis.</strong> Um resultado favorável tem 2 PRs com bug, escolhidos entre os 5, <strong>e</strong> 2 sem bug, escolhidos entre os 15. Pelo princípio multiplicativo, as duas escolhas se combinam:</p>
+<p><span class="math display">\[
+m = \binom{5}{2} \times \binom{15}{2} = 10 \times 105,
+\]</span></p>
+<p>ou seja, 1.050 casos favoráveis.</p>
+<div id="cell-auditoria" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>p_dois <span class="op">=</span> comb(<span class="dv">5</span>, <span class="dv">2</span>) <span class="op">*</span> comb(<span class="dv">15</span>, <span class="dv">2</span>) <span class="op">/</span> comb(<span class="dv">20</span>, <span class="dv">4</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">round</span>(p_dois, <span class="dv">4</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="auditoria" class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>0.2167</code></pre>
+</div>
+</div>
+<p>A probabilidade é <span class="math inline">\(m/n\)</span>, cerca de 0,217: em pouco mais de uma auditoria a cada cinco, o auditor encontra exatamente 2 PRs com bug.</p>
+<p>Uma pergunta mais útil para a equipe é se o auditor encontra <strong>pelo menos um</strong> bug. Contar diretamente exigiria somar os casos de 1, 2, 3 e 4 PRs com bug. O complementar da seção 2.2 é mais curto: “pelo menos um” é o contrário de “nenhum”, e nenhum bug significa escolher os 4 PRs entre os 15 sem bug.</p>
+<div id="cell-auditoria-pelo-menos-um" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>p_nenhum <span class="op">=</span> comb(<span class="dv">15</span>, <span class="dv">4</span>) <span class="op">/</span> comb(<span class="dv">20</span>, <span class="dv">4</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="bu">round</span>(p_nenhum, <span class="dv">4</span>), <span class="bu">round</span>(<span class="dv">1</span> <span class="op">-</span> p_nenhum, <span class="dv">4</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="auditoria-pelo-menos-um" class="cell-output cell-output-display" data-execution_count="5">
+<pre><code>(0.2817, 0.7183)</code></pre>
+</div>
+</div>
+<p>O auditor encontra pelo menos um bug com probabilidade 0,718. Em mais de uma a cada quatro auditorias, os 5 bugs passam despercebidos.</p>
+<p>Uma simulação confere as duas contas até a segunda casa decimal: repetimos a auditoria 100.000 vezes e medimos a frequência relativa, como fizemos com o dado na seção 2.1.</p>
+<div id="cell-auditoria-simulada" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">42</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>lote <span class="op">=</span> np.array([<span class="dv">1</span>] <span class="op">*</span> <span class="dv">5</span> <span class="op">+</span> [<span class="dv">0</span>] <span class="op">*</span> <span class="dv">15</span>)       <span class="co"># 1 = PR com bug</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>bugs <span class="op">=</span> np.array([rng.choice(lote, size<span class="op">=</span><span class="dv">4</span>, replace<span class="op">=</span><span class="va">False</span>).<span class="bu">sum</span>() <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">100_000</span>)])</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="bu">round</span>(<span class="bu">float</span>((bugs <span class="op">==</span> <span class="dv">2</span>).mean()), <span class="dv">4</span>), <span class="bu">round</span>(<span class="bu">float</span>((bugs <span class="op">&gt;=</span> <span class="dv">1</span>).mean()), <span class="dv">4</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="auditoria-simulada" class="cell-output cell-output-display" data-execution_count="6">
+<pre><code>(0.217, 0.7208)</code></pre>
+</div>
+</div>
+<p>A estrutura da conta, combinações dentro do grupo de interesse vezes combinações dentro do resto, divididas pelas combinações do total, vai reaparecer no Capítulo 3 como a distribuição <strong>hipergeométrica</strong>.</p>
+</section>
+<section id="mega-sena" class="level2">
+<h2 class="anchored" data-anchor-id="mega-sena">Mega-Sena</h2>
+<p>Na Mega-Sena, o jogador escolhe 6 números entre 60, e ganha o prêmio máximo se acertar os 6 sorteados. A ordem não importa: a aposta {4, 8, 15, 16, 23, 42} é a mesma em qualquer ordem. O espaço amostral é o conjunto dos subconjuntos de 6 entre 60, todos com a mesma chance de sair (pelo mesmo argumento dos pull requests). São <span class="math inline">\(\binom{60}{6}\)</span>, ou 50.063.860, casos possíveis.</p>
+<p>Uma aposta simples é 1 caso favorável entre eles: a probabilidade de acertar a sena é de 1 em 50.063.860.</p>
+<p>O volante permite marcar de 6 a 20 números. Quem marca 7 números concorre com todos os subconjuntos de 6 que cabem dentro deles, que são <span class="math inline">\(\binom{7}{6} = 7\)</span>. Uma aposta de 7 números equivale, portanto, a 7 apostas simples, e a Caixa cobra exatamente isso: a aposta simples custa R$ 6,00, e a de 7 números, R$ 42,00. O código monta a tabela inteira a partir dessa ideia (é o Exemplo 5.9 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>, com os preços e a faixa de números atualizados):</p>
+<div id="cell-megasena" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> math <span class="im">import</span> comb</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> comb(<span class="dv">60</span>, <span class="dv">6</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>marcados <span class="op">=</span> <span class="bu">range</span>(<span class="dv">6</span>, <span class="dv">21</span>)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>tabela <span class="op">=</span> pd.DataFrame({<span class="st">"apostas"</span>: [comb(k, <span class="dv">6</span>) <span class="cf">for</span> k <span class="kw">in</span> marcados]},</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>                      index<span class="op">=</span>pd.Index(marcados, name<span class="op">=</span><span class="st">"números"</span>))</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>tabela[<span class="st">"preço (R$)"</span>] <span class="op">=</span> <span class="dv">6</span> <span class="op">*</span> tabela[<span class="st">"apostas"</span>]</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>tabela[<span class="st">"1 chance em"</span>] <span class="op">=</span> (N <span class="op">/</span> tabela[<span class="st">"apostas"</span>]).<span class="bu">round</span>().astype(<span class="bu">int</span>)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>tabela.loc[[<span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">10</span>, <span class="dv">15</span>, <span class="dv">20</span>]]</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="megasena" class="cell-output cell-output-display" data-execution_count="7">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">apostas</th>
+<th data-quarto-table-cell-role="th">preço (R$)</th>
+<th data-quarto-table-cell-role="th">1 chance em</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">números</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">6</th>
+<td>1</td>
+<td>6</td>
+<td>50063860</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">7</th>
+<td>7</td>
+<td>42</td>
+<td>7151980</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">8</th>
+<td>28</td>
+<td>168</td>
+<td>1787995</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">10</th>
+<td>210</td>
+<td>1260</td>
+<td>238399</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">15</th>
+<td>5005</td>
+<td>30030</td>
+<td>10003</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">20</th>
+<td>38760</td>
+<td>232560</td>
+<td>1292</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Os preços e as chances batem com a tabela oficial da Caixa. Marcar 20 números custa R$ 232.560,00 e ainda deixa a chance da sena em 1 em 1.292.</p>
+</section>
+<section id="exercícios" class="level2">
+<h2 class="anchored" data-anchor-id="exercícios">Exercícios</h2>
+<p><strong>1.</strong> Uma equipe de 8 pessoas precisa escolher um líder técnico e um vice. De quantas formas isso pode ser feito?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Os cargos são diferentes, então a ordem importa: escolher Ana para líder e Bruno para vice não é o mesmo que o contrário. São as permutações de 2 entre 8: <span class="math inline">\(8 \times 7 = 56\)</span> formas.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>perm(<span class="dv">8</span>, <span class="dv">2</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+<p><strong>2.</strong> Da mesma equipe, quantos comitês de 3 pessoas, sem cargos, podem ser formados?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Num comitê sem cargos a ordem não importa. São as combinações de 3 entre 8:</p>
+<p><span class="math display">\[
+\binom{8}{3} = \frac{8!}{3!\,5!} = 56.
+\]</span></p>
+<p>O resultado coincide com o do exercício 1 por acaso: <span class="math inline">\(8 \times 7 = 56\)</span> conta pares ordenados, e <span class="math inline">\(\binom{8}{3} = 56\)</span> conta grupos de 3. Com outros números, as duas contas não batem.</p>
+</div>
+</div>
+</div>
+<p><strong>3.</strong> Na Mega-Sena, também há prêmio para quem acerta 4 dos 6 números sorteados (a quadra). Qual a probabilidade de fazer a quadra com uma aposta simples? Compare com a tabela da Caixa, que diz “1 em 2.332”.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>É o mesmo raciocínio dos pull requests. Dos 6 números marcados, 4 têm de estar entre os 6 sorteados, e os outros 2 entre os 54 não sorteados:</p>
+<p><span class="math display">\[
+P(\text{quadra}) = \frac{\binom{6}{4}\binom{54}{2}}{\binom{60}{6}}.
+\]</span></p>
+<div id="cell-quadra" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>p_quadra <span class="op">=</span> comb(<span class="dv">6</span>, <span class="dv">4</span>) <span class="op">*</span> comb(<span class="dv">54</span>, <span class="dv">2</span>) <span class="op">/</span> comb(<span class="dv">60</span>, <span class="dv">6</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="bu">round</span>(<span class="dv">1</span> <span class="op">/</span> p_quadra, <span class="dv">1</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="quadra" class="cell-output cell-output-display" data-execution_count="8">
+<pre><code>2332.3</code></pre>
+</div>
+</div>
+<p>Dá 1 em 2.332,3, que a Caixa arredonda para 1 em 2.332.</p>
+</div>
+</div>
+</div>
+<p><strong>4.</strong> Diga se cada contagem é de permutações ou de combinações: (a) a ordem em que 4 microsserviços são implantados; (b) os 2 revisores de um PR, escolhidos entre 6 pessoas; (c) um PIN de 4 dígitos distintos.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="a">
+<li>Permutação: implantar A antes de B é diferente de B antes de A; são <span class="math inline">\(4! = 24\)</span> ordens. (b) Combinação: os dois revisores têm o mesmo papel; são <span class="math inline">\(\binom{6}{2} = 15\)</span> duplas. (c) Permutação: 1234 e 4321 são PINs diferentes; são <span class="math inline">\(10 \times 9 \times 8 \times 7 = 5.040\)</span>.</li>
+</ol>
+</div>
+</div>
+</div>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-bussab2023" class="csl-entry" role="listitem">
+Bussab, Wilton de Oliveira, e Pedro Alberto Morettin. 2023. <em>Estatística Básica</em>. 10ª ed. Saraiva.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('.spoiler').forEach(function (spoiler) {
+    const hash    = spoiler.dataset.passwordHash || '';
+    const hint    = spoiler.dataset.hint || 'Conteúdo protegido por senha';
+    const content = spoiler.innerHTML;
+
+    spoiler.innerHTML = `
+      <div class="spoiler-lock">
+        <span class="spoiler-icon">&#128274;</span>
+        <p class="spoiler-hint">${hint}</p>
+        <div class="spoiler-input-group">
+          <input type="password" class="spoiler-input" placeholder="Digite a senha…" autocomplete="off">
+          <button class="spoiler-btn">Acessar</button>
+        </div>
+        <p class="spoiler-error">Senha incorreta.</p>
+      </div>
+      <div class="spoiler-content">${content}</div>
+    `;
+    spoiler.style.display = 'block';
+
+    const lockDiv    = spoiler.querySelector('.spoiler-lock');
+    const contentDiv = spoiler.querySelector('.spoiler-content');
+    const input      = spoiler.querySelector('.spoiler-input');
+    const btn        = spoiler.querySelector('.spoiler-btn');
+    const errorMsg   = spoiler.querySelector('.spoiler-error');
+
+    async function tryUnlock() {
+      const val    = input.value;
+      const buf    = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(val));
+      const hex    = Array.from(new Uint8Array(buf))
+                         .map(b => b.toString(16).padStart(2, '0')).join('');
+
+      if (hex === hash) {
+        lockDiv.style.display    = 'none';
+        contentDiv.style.display = 'block';
+      } else {
+        errorMsg.style.display = 'block';
+        input.value = '';
+        input.focus();
+        setTimeout(() => { errorMsg.style.display = 'none'; }, 2500);
+      }
+    }
+
+    btn.addEventListener('click', tryUnlock);
+    input.addEventListener('keydown', e => { if (e.key === 'Enter') tryUnlock(); });
+  });
+});
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiada");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiada");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/BragaD\.github\.io\/UnDF-Bases3-Estatistica-202602");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+            // default icon
+            link.classList.add("external");
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        const annoteTargets = window.document.querySelectorAll('.code-annotation-anchor');
+        for (let i=0; i<annoteTargets.length; i++) {
+          const annoteTarget = annoteTargets[i];
+          const targetCell = annoteTarget.getAttribute("data-target-cell");
+          const targetAnnotation = annoteTarget.getAttribute("data-target-annotation");
+          const contentFn = () => {
+            const content = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+            if (content) {
+              const tipContent = content.cloneNode(true);
+              tipContent.classList.add("code-annotation-tip-content");
+              return tipContent.outerHTML;
+            }
+          }
+          const config = {
+            allowHTML: true,
+            content: contentFn,
+            onShow: (instance) => {
+              selectCodeLines(instance.reference);
+              instance.reference.classList.add('code-annotation-active');
+              window.tippy.hideAll();
+            },
+            onHide: (instance) => {
+              unselectCodeLines();
+              instance.reference.classList.remove('code-annotation-active');
+            },
+            maxWidth: 300,
+            delay: [50, 0],
+            duration: [200, 0],
+            offset: [5, 10],
+            arrow: true,
+            appendTo: function(el) {
+              return el.parentElement.parentElement.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'quarto',
+            placement: 'right',
+            popperOptions: {
+              modifiers: [
+              {
+                name: 'flip',
+                options: {
+                  flipVariations: false, // true by default
+                  allowedAutoPlacements: ['right'],
+                  fallbackPlacements: ['right', 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'left'],
+                },
+              },
+              {
+                name: 'preventOverflow',
+                options: {
+                  mainAxis: false,
+                  altAxis: false
+                }
+              }
+              ]        
+            }      
+          };
+          window.tippy(annoteTarget, config); 
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../content/cap02/02-propriedades.html" class="pagination-link" aria-label="Propriedades da Probabilidade">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Propriedades da Probabilidade</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../content/cap02/04-condicional-independencia.html" class="pagination-link" aria-label="Probabilidade Condicional e Independência">
+        <span class="nav-page-text"><span class="chapter-title">Probabilidade Condicional e Independência</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>UnDF — Engenharia de Software e Sistemas de Informação — Estatística — 2026.2</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/BragaD/UnDF-Bases3-Estatistica-202602/issues/new" class="toc-action"><i class="bi bi-github"></i>Criar uma issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/BragaD/UnDF-Bases3-Estatistica-202602">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

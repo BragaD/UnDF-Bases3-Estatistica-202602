@@ -1,0 +1,1711 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt" xml:lang="pt"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Douglas Braga">
+
+<title>Modelos Probabilísticos – Bases 3</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../content/cap02/02-propriedades.html" rel="next">
+<link href="../../content/cap02/index.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-0a6b7249c26820e032cb0bd839ff02b1.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-b15e405f270457097577c78528feeb38.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-4c6c0d00e29b3f69541def337cc0d8c7.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-b15e405f270457097577c78528feeb38.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Nenhum resultado",
+    "search-matching-documents-text": "documentos correspondentes",
+    "search-copy-link-title": "Copiar link para a busca",
+    "search-hide-matches-text": "Esconder correspondências adicionais",
+    "search-more-match-text": "mais correspondência neste documento",
+    "search-more-matches-text": "mais correspondências neste documento",
+    "search-clear-button-title": "Limpar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Procurar"
+  }
+}</script>
+<script>
+// Modo leitura: um botão que esconde as duas barras laterais e centraliza o
+// texto. A escolha é lembrada entre páginas (localStorage). Ver o CSS em
+// styles.css (classe html.modo-leitura e .btn-modo-leitura).
+(function () {
+  var CHAVE = "bases3-modo-leitura";
+
+  // 1. Aplicar o estado salvo ANTES do primeiro paint, para não haver flash das
+  //    barras aparecendo e sumindo. Este script está no <head>, então roda antes
+  //    de o <body> ser desenhado.
+  try {
+    if (localStorage.getItem(CHAVE) === "1") {
+      document.documentElement.classList.add("modo-leitura");
+    }
+  } catch (e) {}
+
+  // 2. Injetar o botão e ligar o toggle quando o DOM estiver pronto.
+  document.addEventListener("DOMContentLoaded", function () {
+    var btn = document.createElement("button");
+    btn.className = "btn-modo-leitura";
+    btn.type = "button";
+
+    function rotular() {
+      var ativo = document.documentElement.classList.contains("modo-leitura");
+      btn.innerHTML = ativo
+        ? '<i class="bi bi-layout-sidebar-inset"></i> Mostrar menus'
+        : '<i class="bi bi-arrows-angle-expand"></i> Modo leitura';
+      btn.setAttribute("aria-pressed", ativo ? "true" : "false");
+    }
+
+    rotular();
+
+    btn.addEventListener("click", function () {
+      var ativo = document.documentElement.classList.toggle("modo-leitura");
+      try {
+        localStorage.setItem(CHAVE, ativo ? "1" : "0");
+      } catch (e) {}
+      rotular();
+    });
+
+    document.body.appendChild(btn);
+  });
+})();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-sidebar floating nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../images/logo-undf.png" alt="Logo UnDF" class="navbar-logo light-content">
+    <img src="../../images/logo-undf.png" alt="Logo UnDF" class="navbar-logo dark-content">
+    </a>
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Bases 3 — Estatística</span>
+    </a>
+  </div>
+        <div class="quarto-navbar-tools tools-end">
+    <a href="https://github.com/BragaD/UnDF-Bases3-Estatistica-202602" title="Código fonte" class="quarto-navigation-tool px-1" aria-label="Código fonte"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Alternar modo escuro"><i class="bi"></i></a>
+</div>
+          <div id="quarto-search" class="" title="Procurar"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/cap02/index.html">Capítulo 2: Probabilidade</a></li><li class="breadcrumb-item"><a href="../../content/cap02/01-modelos-probabilisticos.html"><span class="chapter-title">Modelos Probabilísticos</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Início</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Introdução</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar seção">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/intro/01-por-que-estatistica.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Por que Estatística?</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/intro/02-paradoxo-simpson.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">O Paradoxo de Simpson</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Capítulo 1: Análise Exploratória de Dados</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Alternar seção">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap01/index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Visão Geral</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap01/01-dados-estruturados.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Elementos de Dados Estruturados</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap01/02-dados-retangulares.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Dados Retangulares</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap01/03-estimativas-localizacao.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Estimativas de Localização</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap01/04-estimativas-variabilidade.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Estimativas de Variabilidade</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap01/05-distribuicao-dados.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Explorando a Distribuição dos Dados</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap01/06-dados-binarios-categoricos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Dados Binários e Categóricos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap01/07-correlacao.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Correlação</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap01/08-duas-ou-mais-variaveis.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Duas ou Mais Variáveis</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Capítulo 2: Probabilidade</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Alternar seção">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap02/index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Visão Geral</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap02/01-modelos-probabilisticos.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Modelos Probabilísticos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap02/02-propriedades.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Propriedades da Probabilidade</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap02/03-contagem.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Contagem e Probabilidade Clássica</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap02/04-condicional-independencia.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Probabilidade Condicional e Independência</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap02/05-bayes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">O Teorema de Bayes</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Capítulo 3: Variáveis Aleatórias Discretas</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Alternar seção">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap03/index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Visão Geral</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap03/01-variaveis-aleatorias.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Variável Aleatória e Função de Probabilidade</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap03/02-valor-medio-variancia.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Valor Médio e Variância</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap03/03-distribuicao-acumulada.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Função de Distribuição Acumulada</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap03/04-uniforme-bernoulli.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Uniforme Discreta e Bernoulli</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap03/05-binomial.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Binomial</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap03/06-hipergeometrica.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Hipergeométrica</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap03/07-poisson.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição de Poisson</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Capítulo 4: Variáveis Aleatórias Contínuas</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Alternar seção">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap04/index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Visão Geral</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap04/01-variaveis-continuas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Variável Aleatória Contínua e Densidade</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap04/02-valor-medio-continuo.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Valor Médio e Variância de uma Variável Contínua</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap04/03-distribuicao-acumulada-continua.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Função de Distribuição Acumulada Contínua</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap04/04-uniforme-continua.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Uniforme Contínua</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap04/05-normal.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Normal</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../content/cap04/06-exponencial.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Distribuição Exponencial</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Nesta página</h2>
+   
+  <ul>
+  <li><a href="#da-frequência-ao-modelo" id="toc-da-frequência-ao-modelo" class="nav-link active" data-scroll-target="#da-frequência-ao-modelo">Da frequência ao modelo</a></li>
+  <li><a href="#espaço-amostral" id="toc-espaço-amostral" class="nav-link" data-scroll-target="#espaço-amostral">Espaço amostral</a></li>
+  <li><a href="#eventos" id="toc-eventos" class="nav-link" data-scroll-target="#eventos">Eventos</a></li>
+  <li><a href="#sorteando-um-estado" id="toc-sorteando-um-estado" class="nav-link" data-scroll-target="#sorteando-um-estado">Sorteando um estado</a></li>
+  <li><a href="#espaço-amostral-discreto-e-contínuo" id="toc-espaço-amostral-discreto-e-contínuo" class="nav-link" data-scroll-target="#espaço-amostral-discreto-e-contínuo">Espaço amostral discreto e contínuo</a></li>
+  <li><a href="#resumo" id="toc-resumo" class="nav-link" data-scroll-target="#resumo">Resumo</a></li>
+  <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios">Exercícios</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/BragaD/UnDF-Bases3-Estatistica-202602/issues/new" class="toc-action"><i class="bi bi-github"></i>Criar uma issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/cap02/index.html">Capítulo 2: Probabilidade</a></li><li class="breadcrumb-item"><a href="../../content/cap02/01-modelos-probabilisticos.html"><span class="chapter-title">Modelos Probabilísticos</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-title">Modelos Probabilísticos</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Autor</div>
+    <div class="quarto-title-meta-contents">
+             <p>Douglas Braga <a href="mailto:douglas.braga@undf.edu.br" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Nota
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Esta seção corresponde à seção 5.1 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>.</p>
+</div>
+</div>
+<p>No Capítulo 1 descrevemos dados que já existiam: a população de cada estado, a taxa de homicídios, a proporção de atrasos por causa. Toda frequência relativa que calculamos contava algo que <strong>já tinha acontecido</strong>.</p>
+<p>A probabilidade faz a pergunta ao contrário. Antes de lançar um dado, sortear um estado ou rodar um pipeline de testes, o que <strong>deve</strong> acontecer? Para responder sem esperar os dados, precisamos de um modelo.</p>
+<section id="da-frequência-ao-modelo" class="level2">
+<h2 class="anchored" data-anchor-id="da-frequência-ao-modelo">Da frequência ao modelo</h2>
+<p>Lance um dado 60 vezes e conte quantas vezes saiu cada face. Dividindo cada contagem por 60, você tem a distribuição de frequências do Capítulo 1. Lance mais 60 vezes e as frequências mudam. Nenhuma das duas tabelas é “a certa”.</p>
+<p>O computador lança o dado por nós. O chunk abaixo repete o experimento com 60, 600 e 60.000 lançamentos:</p>
+<div id="cell-dado-simulado" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">42</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>frequencias <span class="op">=</span> {}</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> n <span class="kw">in</span> [<span class="dv">60</span>, <span class="dv">600</span>, <span class="dv">60_000</span>]:</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    lancamentos <span class="op">=</span> rng.integers(<span class="dv">1</span>, <span class="dv">7</span>, size<span class="op">=</span>n)   <span class="co"># faces de 1 a 6</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    contagem <span class="op">=</span> pd.Series(lancamentos).value_counts(normalize<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    frequencias[n] <span class="op">=</span> contagem.sort_index()</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>tabela <span class="op">=</span> pd.DataFrame(frequencias)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>tabela.index.name <span class="op">=</span> <span class="st">"face"</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>tabela.<span class="bu">round</span>(<span class="dv">3</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="dado-simulado" class="cell-output cell-output-display" data-execution_count="2">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">60</th>
+<th data-quarto-table-cell-role="th">600</th>
+<th data-quarto-table-cell-role="th">60000</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">face</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">1</th>
+<td>0.167</td>
+<td>0.173</td>
+<td>0.167</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">2</th>
+<td>0.083</td>
+<td>0.173</td>
+<td>0.167</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">3</th>
+<td>0.200</td>
+<td>0.163</td>
+<td>0.165</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">4</th>
+<td>0.150</td>
+<td>0.158</td>
+<td>0.167</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">5</th>
+<td>0.267</td>
+<td>0.173</td>
+<td>0.167</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">6</th>
+<td>0.133</td>
+<td>0.158</td>
+<td>0.166</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="cell-fig-dado-simulado" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>fig, eixos <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">3</span>, sharey<span class="op">=</span><span class="va">True</span>, figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="fl">2.8</span>))</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> eixo, n <span class="kw">in</span> <span class="bu">zip</span>(eixos, tabela.columns):</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    eixo.bar(tabela.index, tabela[n])</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    eixo.axhline(<span class="dv">1</span><span class="op">/</span><span class="dv">6</span>, color<span class="op">=</span><span class="st">"black"</span>, linestyle<span class="op">=</span><span class="st">"--"</span>, linewidth<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    eixo.set_title(<span class="ss">f"n = </span><span class="sc">{</span>num(n, <span class="dv">0</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    eixo.set_xlabel(<span class="st">"face"</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>eixos[<span class="dv">0</span>].set_ylabel(<span class="st">"frequência relativa"</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="fig-dado-simulado" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Três gráficos de barras lado a lado com a frequência de cada face do dado. Com 60 lançamentos as barras oscilam longe da linha de 1/6; com 600 ficam mais perto; com 60.000 ficam quase coladas nela.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dado-simulado-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="01-modelos-probabilisticos_files/figure-html/fig-dado-simulado-output-1.png" alt="Três gráficos de barras lado a lado com a frequência de cada face do dado. Com 60 lançamentos as barras oscilam longe da linha de 1/6; com 600 ficam mais perto; com 60.000 ficam quase coladas nela." width="664" height="259" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dado-simulado-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;1: Frequência relativa de cada face em 60, 600 e 60.000 lançamentos simulados. A linha tracejada marca 1/6.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Com 60 lançamentos, a face 5 saiu em 26,7% das vezes e a face 2 em só 8,3%. Com 60.000, todas as faces ficam entre 16,54% e 16,73%, em torno de 1/6 ≈ 16,67%.</p>
+<p>Um aluno atento vai notar que <code>rng.integers</code> já sorteia cada face com a mesma chance: a simulação parte do dado equilibrado, e por isso converge para 1/6. O que ela mostra é outra coisa, o quanto a frequência observada oscila em torno do modelo quando <span class="math inline">\(n\)</span> é pequeno.</p>
+<p>Esse 1/6 não depende de lançamento nenhum. Ele sai de duas suposições: o dado tem seis faces, e é equilibrado, sem favorecer nenhuma delas. Se as seis faces têm a mesma chance e as chances somam 1, cada uma tem 1/6. A tabela abaixo é o <strong>modelo probabilístico</strong> do lançamento:</p>
+<div id="tbl-modelo-dado" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-modelo-dado-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;1: Modelo para o lançamento de um dado equilibrado.
+</figcaption>
+<div aria-describedby="tbl-modelo-dado-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Face</th>
+<th style="text-align: center;">Probabilidade</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1/6</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">1/6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">1/6</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">1/6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">1/6</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">1/6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><strong>Total</strong></td>
+<td style="text-align: center;"><strong>1</strong></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>A frequência observada muda a cada rodada de lançamentos. O modelo é fixo, e é com ele que calculamos antes de observar. Se o dado real estiver viciado, o modelo está errado, e os dados vão mostrar isso: com muitos lançamentos, as frequências se afastam de 1/6 e não voltam.</p>
+<p>O modelo descreve as frequências que esperamos, e ele é construído a partir de suposições sobre o experimento, não a partir de observações.</p>
+</section>
+<section id="espaço-amostral" class="level2">
+<h2 class="anchored" data-anchor-id="espaço-amostral">Espaço amostral</h2>
+<p>O modelo do dado tem duas partes: a lista do que pode sair e uma probabilidade para cada item da lista. A primeira parte ganha um nome.</p>
+<div class="conceito">
+<p>O <strong>espaço amostral</strong> <span class="math inline">\(\Omega\)</span> de um experimento é o conjunto de todos os seus resultados possíveis. Cada elemento <span class="math inline">\(\omega\)</span> de <span class="math inline">\(\Omega\)</span> é um <strong>ponto amostral</strong>.</p>
+</div>
+<p>Para o dado, <span class="math inline">\(\Omega = \{1, 2, 3, 4, 5, 6\}\)</span>, com seis pontos amostrais.</p>
+<p>Lançando uma moeda duas vezes, com C para cara e R para coroa, cada resultado é um par ordenado:</p>
+<p><span class="math display">\[
+\Omega = \{(C, C),\ (C, R),\ (R, C),\ (R, R)\}.
+\]</span></p>
+<p><span class="math inline">\((C, R)\)</span> e <span class="math inline">\((R, C)\)</span> são pontos diferentes: no primeiro, a cara saiu no primeiro lançamento; no segundo, no segundo lançamento. Se a moeda é equilibrada, cada um dos quatro pontos tem probabilidade 1/4.</p>
+<div class="conceito">
+<p>Um <strong>modelo probabilístico</strong> fica especificado por duas coisas: o espaço amostral <span class="math inline">\(\Omega\)</span> e uma probabilidade <span class="math inline">\(P(\omega)\)</span> para cada ponto amostral.</p>
+</div>
+<p>Agora um caso de software. Um pull request dispara três builds no servidor de integração contínua, e cada um <strong>passa</strong> (P) ou <strong>falha</strong> (F). O espaço amostral são as sequências de três letras. Enumerar à mão é fácil de errar; o <code>itertools.product</code> faz o produto cartesiano por nós:</p>
+<div id="cell-builds-omega" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itertools <span class="im">import</span> product</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>omega <span class="op">=</span> [<span class="st">""</span>.join(r) <span class="cf">for</span> r <span class="kw">in</span> product(<span class="st">"PF"</span>, repeat<span class="op">=</span><span class="dv">3</span>)]</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>omega</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="builds-omega" class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>['PPP', 'PPF', 'PFP', 'PFF', 'FPP', 'FPF', 'FFP', 'FFF']</code></pre>
+</div>
+</div>
+<p>São <span class="math inline">\(2 \times 2 \times 2 = 8\)</span> pontos amostrais. O mesmo raciocínio vale para <span class="math inline">\(n\)</span> builds: <span class="math inline">\(2^n\)</span> resultados, o que dá 1.024 com dez builds.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Aviso</span>O espaço amostral não é único
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Nas duas moedas, poderíamos anotar só o <strong>número de caras</strong>: <span class="math inline">\(\Omega = \{0, 1, 2\}\)</span>. É um espaço amostral válido, mas seus pontos não são igualmente prováveis. Uma cara sai de <span class="math inline">\((C, R)\)</span> ou de <span class="math inline">\((R, C)\)</span>, e por isso tem probabilidade 2/4, o dobro de “zero caras”. Quem escolhe o espaço amostral mais grosseiro e supõe chances iguais erra a conta.</p>
+</div>
+</div>
+</section>
+<section id="eventos" class="level2">
+<h2 class="anchored" data-anchor-id="eventos">Eventos</h2>
+<p>Quase nunca a pergunta é sobre um ponto amostral isolado. No dado, queremos saber a chance de sair um número par. Nas moedas, a chance de as duas faces serem iguais. Nos builds, a chance de exatamente dois falharem. Cada uma dessas perguntas junta vários pontos amostrais.</p>
+<div class="conceito">
+<p>Um <strong>evento</strong> é um subconjunto <span class="math inline">\(A \subseteq \Omega\)</span>. Num espaço amostral discreto, a probabilidade de <span class="math inline">\(A\)</span> é a soma das probabilidades dos pontos amostrais que ele contém:</p>
+<p><span class="math display">\[
+P(A) = \sum_{\omega \in A} P(\omega).
+\]</span></p>
+</div>
+<p>Nas duas moedas, o evento “faces iguais” é <span class="math inline">\(A = \{(C, C),\ (R, R)\}\)</span>, e</p>
+<p><span class="math display">\[
+\begin{aligned}
+P(A) &amp;= P\big((C, C)\big) + P\big((R, R)\big) \\
+     &amp;= \frac{1}{4} + \frac{1}{4} = \frac{1}{2}.
+\end{aligned}
+\]</span></p>
+<p>Em Python, um evento é um conjunto, e o modelo é um dicionário que associa cada ponto amostral à sua probabilidade:</p>
+<div id="cell-evento-dado" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>modelo_dado <span class="op">=</span> {face: <span class="dv">1</span><span class="op">/</span><span class="dv">6</span> <span class="cf">for</span> face <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">7</span>)}</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>par <span class="op">=</span> {<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>}</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>maior_que_3 <span class="op">=</span> {<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>}</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> prob(evento, modelo):</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">sum</span>(modelo[w] <span class="cf">for</span> w <span class="kw">in</span> evento)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>prob(par, modelo_dado), prob(maior_que_3, modelo_dado)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="evento-dado" class="cell-output cell-output-display" data-execution_count="5">
+<pre><code>(0.5, 0.5)</code></pre>
+</div>
+</div>
+<p>É costume desenhar eventos como regiões dentro de um retângulo que representa <span class="math inline">\(\Omega\)</span>, o <strong>diagrama de Venn</strong>:</p>
+<div id="cell-fig-venn-dado" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.patches <span class="im">import</span> Circle, Rectangle</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">3</span>))</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>ax.add_patch(Rectangle((<span class="dv">0</span>, <span class="dv">0</span>), <span class="dv">10</span>, <span class="dv">6</span>, fill<span class="op">=</span><span class="va">False</span>, linewidth<span class="op">=</span><span class="fl">1.5</span>))</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>ax.add_patch(Circle((<span class="dv">4</span>, <span class="dv">3</span>), <span class="fl">2.2</span>, alpha<span class="op">=</span><span class="fl">0.35</span>, color<span class="op">=</span><span class="st">"C0"</span>))</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>ax.add_patch(Circle((<span class="dv">6</span>, <span class="dv">3</span>), <span class="fl">2.2</span>, alpha<span class="op">=</span><span class="fl">0.35</span>, color<span class="op">=</span><span class="st">"C1"</span>))</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>posicoes <span class="op">=</span> {<span class="dv">2</span>: (<span class="dv">3</span>, <span class="dv">3</span>), <span class="dv">4</span>: (<span class="dv">5</span>, <span class="fl">3.6</span>), <span class="dv">6</span>: (<span class="dv">5</span>, <span class="fl">2.4</span>), <span class="dv">5</span>: (<span class="dv">7</span>, <span class="dv">3</span>), <span class="dv">1</span>: (<span class="fl">0.9</span>, <span class="dv">5</span>), <span class="dv">3</span>: (<span class="fl">9.1</span>, <span class="dv">1</span>)}</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> face, (x, y) <span class="kw">in</span> posicoes.items():</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    ax.plot(x, y, <span class="st">"ko"</span>, markersize<span class="op">=</span><span class="dv">4</span>)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    ax.annotate(<span class="bu">str</span>(face), (x, y), textcoords<span class="op">=</span><span class="st">"offset points"</span>, xytext<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">4</span>))</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>ax.text(<span class="fl">2.3</span>, <span class="fl">5.1</span>, <span class="st">"A (par)"</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>ax.text(<span class="fl">6.6</span>, <span class="fl">5.1</span>, <span class="st">"B (maior que 3)"</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>ax.text(<span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="vs">r"</span><span class="dv">$</span><span class="er">\</span><span class="vs">Omega</span><span class="dv">$</span><span class="vs">"</span>, fontsize<span class="op">=</span><span class="dv">13</span>)</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>ax.set_xlim(<span class="op">-</span><span class="fl">0.2</span>, <span class="fl">10.2</span>)</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>ax.set_ylim(<span class="op">-</span><span class="fl">0.2</span>, <span class="fl">6.2</span>)</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>ax.set_aspect(<span class="st">"equal"</span>)</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>ax.axis(<span class="st">"off"</span>)</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="fig-venn-dado" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Diagrama de Venn: um retângulo com dois círculos que se sobrepõem. A face 2 fica só no círculo A, a face 5 só no círculo B, as faces 4 e 6 na sobreposição, e as faces 1 e 3 fora dos dois círculos.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-venn-dado-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="01-modelos-probabilisticos_files/figure-html/fig-venn-dado-output-1.png" alt="Diagrama de Venn: um retângulo com dois círculos que se sobrepõem. A face 2 fica só no círculo A, a face 5 só no círculo B, as faces 4 e 6 na sobreposição, e as faces 1 e 3 fora dos dois círculos." width="380" height="241" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-venn-dado-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;2: O espaço amostral do dado (retângulo), os eventos A = par e B = maior que 3 (círculos) e os seis pontos amostrais.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>As faces 4 e 6 estão nos dois círculos ao mesmo tempo, e as faces 1 e 3 não estão em nenhum. A seção 2.2 dá nome a essas regiões e mostra como calcular suas probabilidades.</p>
+<p>Nos builds, “exatamente dois falham” é o evento</p>
+<div id="cell-builds-evento" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>dois_falham <span class="op">=</span> {w <span class="cf">for</span> w <span class="kw">in</span> omega <span class="cf">if</span> w.count(<span class="st">"F"</span>) <span class="op">==</span> <span class="dv">2</span>}</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="bu">sorted</span>(dois_falham)   <span class="co"># um set de strings não tem ordem fixa; sorted() a fixa</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="builds-evento" class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>['FFP', 'FPF', 'PFF']</code></pre>
+</div>
+</div>
+<p>Se os oito pontos fossem igualmente prováveis, teríamos <span class="math inline">\(P = 3/8\)</span>. Mas isso exigiria, entre outras coisas, que cada build falhasse metade das vezes, e um pipeline assim não duraria uma semana em produção. O evento é o mesmo com qualquer modelo; a probabilidade depende das <span class="math inline">\(P(\omega)\)</span> que atribuímos. O Capítulo 3 constrói o modelo em que cada build falha com uma probabilidade <span class="math inline">\(p\)</span> qualquer, sem que um influencie o outro.</p>
+</section>
+<section id="sorteando-um-estado" class="level2">
+<h2 class="anchored" data-anchor-id="sorteando-um-estado">Sorteando um estado</h2>
+<p>Voltemos aos dados do Capítulo 1. Escreva a sigla de cada unidade federativa num papel, dobre, misture e tire um papel ao acaso. O espaço amostral são as 27 siglas, e como nenhum papel é favorecido, cada ponto amostral tem probabilidade 1/27.</p>
+<div id="cell-estados-modelo" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>estado <span class="op">=</span> pd.read_csv(<span class="st">"dados/estados.csv"</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>modelo_uf <span class="op">=</span> {sigla: <span class="dv">1</span><span class="op">/</span><span class="dv">27</span> <span class="cf">for</span> sigla <span class="kw">in</span> estado[<span class="st">"Sigla"</span>]}</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(modelo_uf)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="estados-modelo" class="cell-output cell-output-display" data-execution_count="8">
+<pre><code>27</code></pre>
+</div>
+</div>
+<p>Qual a probabilidade de sortear um estado com mais de 10 milhões de habitantes?</p>
+<div id="cell-estados-grandes" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>grandes <span class="op">=</span> <span class="bu">set</span>(estado.loc[estado[<span class="st">"Populacao"</span>] <span class="op">&gt;</span> <span class="dv">10_000_000</span>, <span class="st">"Sigla"</span>])</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="bu">sorted</span>(grandes), prob(grandes, modelo_uf)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="estados-grandes" class="cell-output cell-output-display" data-execution_count="9">
+<pre><code>(['BA', 'MG', 'PR', 'RJ', 'RS', 'SP'], 0.2222222222222222)</code></pre>
+</div>
+</div>
+<p>São 6 estados, e <span class="math inline">\(P = 6/27\)</span>, cerca de 0,222. Repare que esse número é a <strong>frequência relativa</strong> do Capítulo 1: a proporção de estados com mais de 10 milhões de habitantes. Quando todos os pontos de um conjunto finito têm a mesma chance de ser sorteados, a probabilidade de um evento é a proporção de pontos que caem nele, e o pandas calcula isso direto:</p>
+<div id="cell-estados-proporcao" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>(estado[<span class="st">"Populacao"</span>] <span class="op">&gt;</span> <span class="dv">10_000_000</span>).mean()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="estados-proporcao" class="cell-output cell-output-display" data-execution_count="10">
+<pre><code>0.2222222222222222</code></pre>
+</div>
+</div>
+<p>Agora, a probabilidade de sortear um estado com taxa de homicídios <strong>acima da mediana</strong>. A intuição diz 1/2, porque a mediana divide os dados ao meio.</p>
+<div id="cell-estados-acima-mediana" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>mediana_taxa <span class="op">=</span> estado[<span class="st">"Taxa.Homicidios"</span>].median()</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>acima <span class="op">=</span> <span class="bu">set</span>(estado.loc[estado[<span class="st">"Taxa.Homicidios"</span>] <span class="op">&gt;</span> mediana_taxa, <span class="st">"Sigla"</span>])</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(acima), prob(acima, modelo_uf)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="estados-acima-mediana" class="cell-output cell-output-display" data-execution_count="11">
+<pre><code>(13, 0.48148148148148145)</code></pre>
+</div>
+</div>
+<p>Dá <span class="math inline">\(P = 13/27\)</span>, e não <span class="math inline">\(1/2\)</span>. Com <span class="math inline">\(n = 27\)</span> ímpar, a mediana é uma observação de verdade (seção 1.3): é a taxa do Rio Grande do Norte, que não está acima dela nem abaixo. Sobram 26 estados, 13 de cada lado.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Quem escolhe o modelo é você
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sortear um <strong>estado</strong> não é o mesmo que sortear um <strong>brasileiro</strong> e perguntar onde ele mora. No segundo experimento, o espaço amostral ainda pode ser o das 27 siglas, mas a probabilidade de cada uma é a fração da população que vive nela. Como no número de caras, cada ponto agrupa muitos resultados (aqui, pessoas), e por isso os pontos não têm a mesma chance. É a mesma ideia de peso da média ponderada da seção 1.3.</p>
+</div>
+</div>
+<div id="cell-estados-por-pessoa" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>modelo_pessoa <span class="op">=</span> <span class="bu">dict</span>(<span class="bu">zip</span>(estado[<span class="st">"Sigla"</span>], estado[<span class="st">"Populacao"</span>] <span class="op">/</span> estado[<span class="st">"Populacao"</span>].<span class="bu">sum</span>()))</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>prob(grandes, modelo_pessoa)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="estados-por-pessoa" class="cell-output cell-output-display" data-execution_count="12">
+<pre><code>0.5758702487843027</code></pre>
+</div>
+</div>
+<p>O evento “mora num estado com mais de 10 milhões de habitantes” é o mesmo conjunto de 6 siglas. Mas a probabilidade passa de 22,2% para 57,6%: mais da metade dos brasileiros mora nesses 6 estados.</p>
+</section>
+<section id="espaço-amostral-discreto-e-contínuo" class="level2">
+<h2 class="anchored" data-anchor-id="espaço-amostral-discreto-e-contínuo">Espaço amostral discreto e contínuo</h2>
+<p>Todos os espaços amostrais até aqui podiam ser listados: seis faces, quatro pares, oito sequências, 27 siglas. A lista também pode ser infinita e continuar listável. Se contarmos quantas requisições chegam a um servidor até a primeira falha, contando a que falhou, <span class="math inline">\(\Omega = \{1, 2, 3, \dots\}\)</span>. Espaços assim são <strong>discretos</strong>, e neles a fórmula da soma funciona.</p>
+<p>Agora meça o <strong>tempo de resposta</strong> de uma requisição, em milissegundos. Qualquer número real não negativo é um resultado possível:</p>
+<p><span class="math display">\[
+\Omega = \{t \in \mathbb{R} : t \ge 0\}.
+\]</span></p>
+<p>O evento “a requisição responde em menos de 200 ms” é o intervalo <span class="math inline">\(A = \{t : 0 \le t &lt; 200\}\)</span>. Não há como listar os pontos de <span class="math inline">\(A\)</span> um a um e somar suas probabilidades, porque os números entre 0 e 200 são tantos que não cabem numa lista, nem numa lista infinita como <span class="math inline">\(\{1, 2, 3, \dots\}\)</span>. Esse espaço amostral é <strong>contínuo</strong>, e a probabilidade de um evento vai ser calculada de outro modo, com uma integral, no Capítulo 4. Até lá, os espaços amostrais do livro são discretos.</p>
+</section>
+<section id="resumo" class="level2">
+<h2 class="anchored" data-anchor-id="resumo">Resumo</h2>
+<div class="table-responsive">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Termo</th>
+<th>O que é</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Espaço amostral <span class="math inline">\(\Omega\)</span></td>
+<td>todos os resultados possíveis</td>
+</tr>
+<tr class="even">
+<td>Ponto amostral <span class="math inline">\(\omega\)</span></td>
+<td>um resultado</td>
+</tr>
+<tr class="odd">
+<td>Modelo probabilístico</td>
+<td><span class="math inline">\(\Omega\)</span> + uma <span class="math inline">\(P(\omega)\)</span> para cada ponto</td>
+</tr>
+<tr class="even">
+<td>Evento <span class="math inline">\(A\)</span></td>
+<td>subconjunto de <span class="math inline">\(\Omega\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(P(A)\)</span></td>
+<td>soma das <span class="math inline">\(P(\omega)\)</span> com <span class="math inline">\(\omega \in A\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="conceito">
+<p><strong>Regra prática:</strong> antes de calcular qualquer probabilidade, escreva o espaço amostral e diga qual é a probabilidade de cada ponto. Os erros desta seção, o do número de caras e o da soma de dois dados, estão nesse passo, não na conta.</p>
+</div>
+</section>
+<section id="exercícios" class="level2">
+<h2 class="anchored" data-anchor-id="exercícios">Exercícios</h2>
+<p><strong>1.</strong> Dois usuários avaliam um aplicativo com uma nota de 1 a 5 estrelas, um depois do outro. Escreva o espaço amostral. Quantos pontos amostrais ele tem? Quais pontos formam o evento “as duas notas são iguais”?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(\Omega = \{(i, j) : i, j \in \{1, 2, 3, 4, 5\}\}\)</span>, com <span class="math inline">\(5 \times 5 = 25\)</span> pontos, em que <span class="math inline">\(i\)</span> é a nota do primeiro usuário e <span class="math inline">\(j\)</span> a do segundo. O evento é <span class="math inline">\(\{(1,1), (2,2), (3,3), (4,4), (5,5)\}\)</span>, com 5 pontos.</p>
+<p>Se os 25 pontos fossem igualmente prováveis, a probabilidade seria <span class="math inline">\(5/25 = 1/5\)</span>. Mas notas de aplicativo raramente são equiprováveis: a maioria dos apps tem muito mais notas 5 e 1 do que 3.</p>
+</div>
+</div>
+</div>
+<p><strong>2.</strong> Um colega argumenta: “a soma de dois dados vai de 2 a 12, são 11 resultados possíveis, então a chance de a soma dar 7 é 1/11”. Onde está o erro? Qual a probabilidade certa? Confira em Python.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(\{2, 3, \dots, 12\}\)</span> é um espaço amostral válido, mas seus pontos não são equiprováveis, o mesmo problema do número de caras nas duas moedas. O espaço com pontos equiprováveis é o dos 36 pares <span class="math inline">\((i, j)\)</span>, e 6 deles somam 7: <span class="math inline">\((1,6), (2,5), (3,4), (4,3), (5,2), (6,1)\)</span>. A probabilidade é <span class="math inline">\(6/36 = 1/6\)</span>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>pares <span class="op">=</span> <span class="bu">list</span>(product(<span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">7</span>), repeat<span class="op">=</span><span class="dv">2</span>))</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>soma_7 <span class="op">=</span> [p <span class="cf">for</span> p <span class="kw">in</span> pares <span class="cf">if</span> <span class="bu">sum</span>(p) <span class="op">==</span> <span class="dv">7</span>]</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(soma_7) <span class="op">/</span> <span class="bu">len</span>(pares)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+<p><strong>3.</strong> Classifique o espaço amostral de cada experimento como discreto ou contínuo: (a) número de commits num repositório em um dia; (b) duração de um build; (c) se um deploy deu certo ou não; (d) o ângulo do ponteiro dos segundos de um relógio que parou por falha, supondo que o ponteiro se move continuamente, sem saltos.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="a">
+<li>Discreto: <span class="math inline">\(\{0, 1, 2, \dots\}\)</span>, infinito mas listável. (b) Contínuo: qualquer duração real positiva. (c) Discreto: <span class="math inline">\(\{\text{sucesso}, \text{falha}\}\)</span>. (d) Contínuo: com o ponteiro se movendo sem saltos, o ângulo é qualquer valor em <span class="math inline">\([0°, 360°)\)</span>. A suposição do enunciado decide a resposta: se o ponteiro andasse aos saltos, um por segundo, o espaço seria discreto, com 60 posições.</li>
+</ol>
+</div>
+</div>
+</div>
+<p><strong>4.</strong> Usando <code>dados/estados.csv</code>, calcule a probabilidade de sortear um estado com taxa de homicídios acima de 30 por 100 mil habitantes. Depois, calcule a probabilidade de que um brasileiro sorteado ao acaso more num desses estados. Por que os dois números são diferentes?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>violentos <span class="op">=</span> <span class="bu">set</span>(estado.loc[estado[<span class="st">"Taxa.Homicidios"</span>] <span class="op">&gt;</span> <span class="dv">30</span>, <span class="st">"Sigla"</span>])</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>prob(violentos, modelo_uf), prob(violentos, modelo_pessoa)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<p>São 7 estados: <span class="math inline">\(P = 7/27\)</span>, cerca de 25,9% sorteando estados, e 23,0% sorteando pessoas. O evento é o mesmo, mas o modelo muda. O número cai por causa de São Paulo: sozinho, ele tem 22% da população e a menor taxa do país. Tirando SP da conta, a probabilidade por pessoa sobe para 29,4% e passa a ser <strong>maior</strong> que a por estado (26,9%). É o mesmo São Paulo que puxa a média ponderada da taxa para baixo na seção 1.3.</p>
+</div>
+</div>
+</div>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-bussab2023" class="csl-entry" role="listitem">
+Bussab, Wilton de Oliveira, e Pedro Alberto Morettin. 2023. <em>Estatística Básica</em>. 10ª ed. Saraiva.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('.spoiler').forEach(function (spoiler) {
+    const hash    = spoiler.dataset.passwordHash || '';
+    const hint    = spoiler.dataset.hint || 'Conteúdo protegido por senha';
+    const content = spoiler.innerHTML;
+
+    spoiler.innerHTML = `
+      <div class="spoiler-lock">
+        <span class="spoiler-icon">&#128274;</span>
+        <p class="spoiler-hint">${hint}</p>
+        <div class="spoiler-input-group">
+          <input type="password" class="spoiler-input" placeholder="Digite a senha…" autocomplete="off">
+          <button class="spoiler-btn">Acessar</button>
+        </div>
+        <p class="spoiler-error">Senha incorreta.</p>
+      </div>
+      <div class="spoiler-content">${content}</div>
+    `;
+    spoiler.style.display = 'block';
+
+    const lockDiv    = spoiler.querySelector('.spoiler-lock');
+    const contentDiv = spoiler.querySelector('.spoiler-content');
+    const input      = spoiler.querySelector('.spoiler-input');
+    const btn        = spoiler.querySelector('.spoiler-btn');
+    const errorMsg   = spoiler.querySelector('.spoiler-error');
+
+    async function tryUnlock() {
+      const val    = input.value;
+      const buf    = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(val));
+      const hex    = Array.from(new Uint8Array(buf))
+                         .map(b => b.toString(16).padStart(2, '0')).join('');
+
+      if (hex === hash) {
+        lockDiv.style.display    = 'none';
+        contentDiv.style.display = 'block';
+      } else {
+        errorMsg.style.display = 'block';
+        input.value = '';
+        input.focus();
+        setTimeout(() => { errorMsg.style.display = 'none'; }, 2500);
+      }
+    }
+
+    btn.addEventListener('click', tryUnlock);
+    input.addEventListener('keydown', e => { if (e.key === 'Enter') tryUnlock(); });
+  });
+});
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiada");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiada");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/BragaD\.github\.io\/UnDF-Bases3-Estatistica-202602");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+            // default icon
+            link.classList.add("external");
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        const annoteTargets = window.document.querySelectorAll('.code-annotation-anchor');
+        for (let i=0; i<annoteTargets.length; i++) {
+          const annoteTarget = annoteTargets[i];
+          const targetCell = annoteTarget.getAttribute("data-target-cell");
+          const targetAnnotation = annoteTarget.getAttribute("data-target-annotation");
+          const contentFn = () => {
+            const content = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+            if (content) {
+              const tipContent = content.cloneNode(true);
+              tipContent.classList.add("code-annotation-tip-content");
+              return tipContent.outerHTML;
+            }
+          }
+          const config = {
+            allowHTML: true,
+            content: contentFn,
+            onShow: (instance) => {
+              selectCodeLines(instance.reference);
+              instance.reference.classList.add('code-annotation-active');
+              window.tippy.hideAll();
+            },
+            onHide: (instance) => {
+              unselectCodeLines();
+              instance.reference.classList.remove('code-annotation-active');
+            },
+            maxWidth: 300,
+            delay: [50, 0],
+            duration: [200, 0],
+            offset: [5, 10],
+            arrow: true,
+            appendTo: function(el) {
+              return el.parentElement.parentElement.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'quarto',
+            placement: 'right',
+            popperOptions: {
+              modifiers: [
+              {
+                name: 'flip',
+                options: {
+                  flipVariations: false, // true by default
+                  allowedAutoPlacements: ['right'],
+                  fallbackPlacements: ['right', 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'left'],
+                },
+              },
+              {
+                name: 'preventOverflow',
+                options: {
+                  mainAxis: false,
+                  altAxis: false
+                }
+              }
+              ]        
+            }      
+          };
+          window.tippy(annoteTarget, config); 
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../content/cap02/index.html" class="pagination-link" aria-label="Visão Geral">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Visão Geral</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../content/cap02/02-propriedades.html" class="pagination-link" aria-label="Propriedades da Probabilidade">
+        <span class="nav-page-text"><span class="chapter-title">Propriedades da Probabilidade</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>UnDF — Engenharia de Software e Sistemas de Informação — Estatística — 2026.2</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/BragaD/UnDF-Bases3-Estatistica-202602/issues/new" class="toc-action"><i class="bi bi-github"></i>Criar uma issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/BragaD/UnDF-Bases3-Estatistica-202602">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

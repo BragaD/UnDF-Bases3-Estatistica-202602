@@ -1,0 +1,32 @@
+<script>
+  // Os títulos de capítulo da barra lateral são <a> sem href, e o Quarto não
+  // lhes dá tabindex. Enquanto os capítulos ficavam abertos, isso não
+  // atrapalhava: os links das seções estavam todos na ordem de tabulação. Com
+  // collapse-level: 1 eles nascem fechados, e sem este ajuste não haveria como
+  // abrir um capítulo usando só o teclado.
+  //
+  // Cada capítulo tem dois gatilhos, o título e a setinha. Só o título entra na
+  // ordem de tabulação; a setinha é redundante e ficaria como uma parada a mais.
+  document.addEventListener("DOMContentLoaded", function () {
+    var titulos = document.querySelectorAll(
+      '#quarto-sidebar a.sidebar-item-text[data-bs-toggle="collapse"]'
+    );
+
+    titulos.forEach(function (titulo) {
+      titulo.setAttribute("tabindex", "0");
+
+      var alvo = titulo.getAttribute("data-bs-target");
+      if (alvo && alvo.charAt(0) === "#") {
+        titulo.setAttribute("aria-controls", alvo.slice(1));
+      }
+
+      // Num <a> sem href o Enter não dispara clique sozinho.
+      titulo.addEventListener("keydown", function (evento) {
+        if (evento.key === "Enter" || evento.key === " ") {
+          evento.preventDefault();
+          titulo.click();
+        }
+      });
+    });
+  });
+</script>

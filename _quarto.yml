@@ -25,6 +25,10 @@ book:
     title: "Bases 3 — Estatística"
   date: today
   date-format: "DD/MM/YYYY"
+  # Capítulos fechados por padrão na barra lateral: só o do capítulo aberto
+  # fica expandido.
+  sidebar:
+    collapse-level: 1
   chapters:
     - text: "Início"
       href: index.qmd
@@ -118,7 +122,9 @@ format:
     css: styles.css
     number-sections: false
     include-in-header: modo-leitura.html
-    include-after-body: spoiler.html
+    include-after-body:
+      - spoiler.html
+      - sidebar-teclado.html
     toc: true
     toc-depth: 4
     toc-title: "Nesta página"

@@ -52,6 +52,23 @@ São **duas provas individuais**, de peso igual (35% cada), e **duas listas** de
 
 A **Prova 1** (30/10, aula 8) cobre a análise exploratória (aulas 3 a 5) e a probabilidade (aulas 6 e 7). A **Prova 2** (18/12, aula 14) cobre as variáveis aleatórias discretas e contínuas das aulas 9 a 13. A revisão da Prova 2 será online e assíncrona.
 
+::: {.callout-important}
+## Lista 1 revisada em 19/09/2026
+
+A primeira versão da Lista 1 cobrava binomial, hipergeométrica e normal, que agora estão nos Capítulos 3 e 4 e caem na Prova 2. Por causa disso, 12 questões mudaram, e as novas saíram das seções que continuam na Prova 1. Se você baixou a Lista 1 antes de 19/09, **baixe de novo**: a numeração continua a mesma, mas o que se pede em algumas questões não.
+
+| Questões | O que mudou |
+|:----|:----|
+| 13, 14 | substituídas por questões das seções 1.4 e 1.6 |
+| 16, 28, 29 | substituídas por questões das seções 2.1 e 2.2 |
+| 24, 26, 27 | substituídas por questões das seções 2.4 e 2.5 |
+| 10, 23, 25, 30 | mesmo assunto, enunciado alterado para não cobrar o que passou para a Prova 2 |
+
+: Mudanças na Lista 1 {.striped tbl-colwidths="[25,75]"}
+
+Nas demais questões mudou só a notação ou a redação, e o que se pede continua igual. A entrega segue em 30/10, na aula 8.
+:::
+
 ## Material Bibliográfico
 
 O livro-texto da disciplina é:

@@ -423,13 +423,13 @@ window.Quarto = {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
  <span class="menu-text">Introdução</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar seção">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Alternar seção">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../content/intro/01-por-que-estatistica.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Por que Estatística?</span></a>
@@ -500,13 +500,13 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
  <span class="menu-text">Capítulo 2: Probabilidade</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Alternar seção">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Alternar seção">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../content/cap02/index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Visão Geral</span></a>
@@ -541,13 +541,13 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
  <span class="menu-text">Capítulo 3: Variáveis Aleatórias Discretas</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Alternar seção">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Alternar seção">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../content/cap03/index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Visão Geral</span></a>
@@ -592,13 +592,13 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
  <span class="menu-text">Capítulo 4: Variáveis Aleatórias Contínuas</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Alternar seção">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Alternar seção">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../content/cap04/index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Visão Geral</span></a>
@@ -1780,6 +1780,38 @@ document.addEventListener('DOMContentLoaded', function () {
     input.addEventListener('keydown', e => { if (e.key === 'Enter') tryUnlock(); });
   });
 });
+</script>
+<script>
+  // Os títulos de capítulo da barra lateral são <a> sem href, e o Quarto não
+  // lhes dá tabindex. Enquanto os capítulos ficavam abertos, isso não
+  // atrapalhava: os links das seções estavam todos na ordem de tabulação. Com
+  // collapse-level: 1 eles nascem fechados, e sem este ajuste não haveria como
+  // abrir um capítulo usando só o teclado.
+  //
+  // Cada capítulo tem dois gatilhos, o título e a setinha. Só o título entra na
+  // ordem de tabulação; a setinha é redundante e ficaria como uma parada a mais.
+  document.addEventListener("DOMContentLoaded", function () {
+    var titulos = document.querySelectorAll(
+      '#quarto-sidebar a.sidebar-item-text[data-bs-toggle="collapse"]'
+    );
+
+    titulos.forEach(function (titulo) {
+      titulo.setAttribute("tabindex", "0");
+
+      var alvo = titulo.getAttribute("data-bs-target");
+      if (alvo && alvo.charAt(0) === "#") {
+        titulo.setAttribute("aria-controls", alvo.slice(1));
+      }
+
+      // Num <a> sem href o Enter não dispara clique sozinho.
+      titulo.addEventListener("keydown", function (evento) {
+        if (evento.key === "Enter" || evento.key === " ") {
+          evento.preventDefault();
+          titulo.click();
+        }
+      });
+    });
+  });
 </script>
 <script type="ojs-module-contents">
 eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6ImVzdGFkb3MgPSB0cmFuc3Bvc2UoZGFkb3MpXG5cbi8vIEVzcGVsaGEgbyBudW0oKSBkbyBmb3JtYXRvLnB5LCB1c2FkbyBub3MgY2h1bmtzIFB5dGhvbiBkZXN0YSBtZXNtYSBww6FnaW5hLlxuLy8gU2UgZGl2ZXJnaXJlbSwgbyBtZXNtbyBuw7ptZXJvIGFwYXJlY2VyaWEgZGUgZG9pcyBqZWl0b3MgbmEgbWVzbWEgdGVsYS5cbmZtdCA9IHggPT4geC50b0xvY2FsZVN0cmluZyhcInB0LUJSXCIsIHttaW5pbXVtRnJhY3Rpb25EaWdpdHM6IDEsIG1heGltdW1GcmFjdGlvbkRpZ2l0czogMX0pXG5cbi8vIE1lc21hIGRlZmluacOnw6NvIGRvIHNjaXB5LnN0YXRzLnRyaW1fbWVhbjogY29ydGEgayA9IGZsb29yKG4gw5cgcHJvcClcbi8vIG9ic2VydmHDp8O1ZXMgZGUgY2FkYSBwb250YSBlIHRpcmEgYSBtw6lkaWEgZG8gcXVlIHNvYnJhLlxuZnVuY3Rpb24gbWVkaWFBcGFyYWRhKHgsIHByb3ApIHtcbiAgY29uc3QgcyA9IFsuLi54XS5zb3J0KGQzLmFzY2VuZGluZyk7XG4gIGNvbnN0IGsgPSBNYXRoLmZsb29yKHMubGVuZ3RoICogcHJvcCk7XG4gIGNvbnN0IG51Y2xlbyA9IHMuc2xpY2Uoaywgcy5sZW5ndGggLSBrKTtcbiAgcmV0dXJuIG51Y2xlby5sZW5ndGggPyBkMy5tZWFuKG51Y2xlbykgOiBkMy5tZWRpYW4ocyk7XG59XG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJjZWxsTmFtZSI6Im9qcy1jZWxsLTIiLCJpbmxpbmUiOmZhbHNlLCJzb3VyY2UiOiIvLyBTZW0gYGZvcm1hdGAgY3VzdG9taXphZG8sIGRlIHByb3DDs3NpdG86IG8gSW5wdXRzLnJhbmdlIHJlbmRlcml6YSB1bWEgY2FpeGFcbi8vIDxpbnB1dCB0eXBlPVwibnVtYmVyXCI+IGFvIGxhZG8gZG8gc2xpZGVyLCBlIGVsYSByZWplaXRhIHF1YWxxdWVyIHN0cmluZyBuw6NvXG4vLyBudW3DqXJpY2E6IHVtIGZvcm1hdCBxdWUgZGV2b2x2ZXNzZSBcIjQ2LDAgTVwiIGRlaXhhcmlhIGEgY2FpeGEgVkFaSUEuIFNlbSBlbGUsXG4vLyBhIGNhaXhhIG1vc3RyYSBvIHZhbG9yLCBhY29tcGFuaGEgbyBzbGlkZXIgZSBhY2VpdGEgZGlnaXRhw6fDo28uXG4vL1xuLy8gTyBzbGlkZXIgZXN0w6EgZW0gaGFiaXRhbnRlcywgbsOjbyBlbSBtaWxow7VlcywgcGFyYSBxdWUgbyB2YWxvciBpbmljaWFsIHNlamFcbi8vIGV4YXRhbWVudGUgNDUuOTczLjE5NCwgYSBwb3B1bGHDp8OjbyByZWFsIGRlIFPDo28gUGF1bG8uIEVtIG1pbGjDtWVzLCBvXG4vLyBPYnNlcnZhYmxlIGFycmVkb25kYXJpYSBvIHZhbG9yIGluaWNpYWwgcGFyYSBvIHN0ZXAsIGUgYSBtw6lkaWEgZG8gd2lkZ2V0XG4vLyBkZWl4YXJpYSBkZSBiYXRlciBjb20gYSBxdWUgbyBjaHVuayBQeXRob24gaW1wcmltZSBhY2ltYSBuZXN0YSBtZXNtYSBww6FnaW5hLlxudmlld29mIHBvcF9zcCA9IElucHV0cy5yYW5nZShbMV8wMDBfMDAwLCAzMDBfMDAwXzAwMF0sIHtcbiAgc3RlcDogMSxcbiAgdmFsdWU6IDQ1OTczMTk0LFxuICBsYWJlbDogXCJQb3B1bGHDp8OjbyBkZSBTw6NvIFBhdWxvIChoYWJpdGFudGVzKTpcIlxufSlcbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMyIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6Im1kYFPDo28gUGF1bG86ICoqJHtmbXQocG9wX3NwKX0qKiBoYWJpdGFudGVzICgke2ZtdChwb3Bfc3AgLyAxZTYpfSBtaWxow7VlcykuXG4ke3BvcF9zcCA9PT0gNDU5NzMxOTQgPyBcIsOJIG8gdmFsb3IgcmVhbC5cIiA6IFwiTyB2YWxvciByZWFsIMOpIDQ1Ljk3My4xOTQuXCJ9YFxuIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0IiwiY2VsbE5hbWUiOiJvanMtY2VsbC00IiwiaW5saW5lIjpmYWxzZSwic291cmNlIjoicG9wc0EgPSBlc3RhZG9zLm1hcChkID0+IGQuU2lnbGEgPT09IFwiU1BcIiA/IHBvcF9zcCA6IGQuUG9wdWxhY2FvKVxuXG5lc3RhdEEgPSAoe1xuICBtZWRpYTogICBkMy5tZWFuKHBvcHNBKSxcbiAgYXBhcmFkYTogbWVkaWFBcGFyYWRhKHBvcHNBLCAwLjEwKSxcbiAgbWVkaWFuYTogZDMubWVkaWFuKHBvcHNBKVxufSlcbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtNSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6Imh0bWxgPHRhYmxlIGNsYXNzPVwidGFibGVcIj5cbiAgPHRoZWFkPjx0cj48dGg+RXN0aW1hdGl2YTwvdGg+PHRoIHN0eWxlPVwidGV4dC1hbGlnbjpyaWdodFwiPlZhbG9yPC90aD48L3RyPjwvdGhlYWQ+XG4gIDx0Ym9keT5cbiAgICA8dHI+PHRkPjxzcGFuIHN0eWxlPVwiY29sb3I6I2MwMzkyYlwiPuKUgTwvc3Bhbj4gTcOpZGlhPC90ZD5cbiAgICAgICAgPHRkIHN0eWxlPVwidGV4dC1hbGlnbjpyaWdodFwiPjxzdHJvbmc+JHtmbXQoZXN0YXRBLm1lZGlhKX08L3N0cm9uZz48L3RkPjwvdHI+XG4gICAgPHRyPjx0ZD48c3BhbiBzdHlsZT1cImNvbG9yOiNlNjdlMjJcIj7ilIU8L3NwYW4+IE3DqWRpYSBhcGFyYWRhICgxMCUpPC90ZD5cbiAgICAgICAgPHRkIHN0eWxlPVwidGV4dC1hbGlnbjpyaWdodFwiPjxzdHJvbmc+JHtmbXQoZXN0YXRBLmFwYXJhZGEpfTwvc3Ryb25nPjwvdGQ+PC90cj5cbiAgICA8dHI+PHRkPjxzcGFuIHN0eWxlPVwiY29sb3I6IzI3YWU2MFwiPuKUiDwvc3Bhbj4gTWVkaWFuYTwvdGQ+XG4gICAgICAgIDx0ZCBzdHlsZT1cInRleHQtYWxpZ246cmlnaHRcIj48c3Ryb25nPiR7Zm10KGVzdGF0QS5tZWRpYW5hKX08L3N0cm9uZz48L3RkPjwvdHI+XG4gIDwvdGJvZHk+XG48L3RhYmxlPmBcbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtNiIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6IlBsb3QucGxvdCh7XG4gIGhlaWdodDogMjYwLFxuICBtYXJnaW5MZWZ0OiA1NSxcbiAgeDoge2xhYmVsOiBcIlBvcHVsYcOnw6NvIChtaWxow7Vlcykg4oaSXCJ9LFxuICB5OiB7bGFiZWw6IFwi4oaRIE7Dum1lcm8gZGUgZXN0YWRvc1wiLCBncmlkOiB0cnVlfSxcbiAgbWFya3M6IFtcbiAgICBQbG90LnJlY3RZKHBvcHNBLCBQbG90LmJpblgoe3k6IFwiY291bnRcIn0sIHt4OiBkID0+IGQgLyAxZTYsIGZpbGw6IFwiI2IwYzRkOFwiLCB0aHJlc2hvbGRzOiAyMH0pKSxcbiAgICBQbG90LnJ1bGVYKFtlc3RhdEEubWVkaWEgLyAxZTZdLCAgIHtzdHJva2U6IFwiI2MwMzkyYlwiLCBzdHJva2VXaWR0aDogMn0pLFxuICAgIFBsb3QucnVsZVgoW2VzdGF0QS5hcGFyYWRhIC8gMWU2XSwge3N0cm9rZTogXCIjZTY3ZTIyXCIsIHN0cm9rZVdpZHRoOiAyLCBzdHJva2VEYXNoYXJyYXk6IFwiNSAzXCJ9KSxcbiAgICBQbG90LnJ1bGVYKFtlc3RhdEEubWVkaWFuYSAvIDFlNl0sIHtzdHJva2U6IFwiIzI3YWU2MFwiLCBzdHJva2VXaWR0aDogMi41LCBzdHJva2VEYXNoYXJyYXk6IFwiMSAzXCJ9KSxcbiAgICBQbG90LnJ1bGVZKFswXSlcbiAgXVxufSlcbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtNyIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6Ii8vIE8gXCIlXCIgdmFpIG5vIHLDs3R1bG8sIG7Do28gbnVtIGBmb3JtYXRgOiBhIGNhaXhhIDxpbnB1dCB0eXBlPVwibnVtYmVyXCI+IGFvIGxhZG9cbi8vIGRvIHNsaWRlciByZWplaXRhcmlhIFwiMTAlXCIgZSBmaWNhcmlhIHZhemlhLlxudmlld29mIGFwYXJvID0gSW5wdXRzLnJhbmdlKFswLCA1MF0sIHtcbiAgc3RlcDogMSxcbiAgdmFsdWU6IDEwLFxuICBsYWJlbDogXCJBcGFybyBlbSBjYWRhIHBvbnRhICglKTpcIlxufSlcbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtOCIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6InBvcHNCID0gZXN0YWRvcy5tYXAoZCA9PiBkLlBvcHVsYWNhbylcblxuZXN0YXRCID0gKHtcbiAgbWVkaWE6ICAgZDMubWVhbihwb3BzQiksXG4gIGFwYXJhZGE6IG1lZGlhQXBhcmFkYShwb3BzQiwgYXBhcm8gLyAxMDApLFxuICBtZWRpYW5hOiBkMy5tZWRpYW4ocG9wc0IpLFxuICBjb3J0YWRvczogTWF0aC5mbG9vcihwb3BzQi5sZW5ndGggKiBhcGFybyAvIDEwMClcbn0pXG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJjZWxsTmFtZSI6Im9qcy1jZWxsLTkiLCJpbmxpbmUiOmZhbHNlLCJzb3VyY2UiOiJtZGBBcGFybyBkZSAqKiR7YXBhcm99JSoqOiBkZXNjYXJ0YSAqKiR7ZXN0YXRCLmNvcnRhZG9zfSoqIGVzdGFkb3MgZGUgY2FkYSBwb250YS5cbkEgbcOpZGlhIGFwYXJhZGEgdmFsZSAqKiR7Zm10KGVzdGF0Qi5hcGFyYWRhKX0qKi5gXG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJjZWxsTmFtZSI6Im9qcy1jZWxsLTEwIiwiaW5saW5lIjpmYWxzZSwic291cmNlIjoiLy8gQSBmaWxhIG9yZGVuYWRhIMOpIGEgbWVzbWEgcXVlIGEgbWVkaWFBcGFyYWRhKCkgY29uc3Ryw7NpIGludGVybmFtZW50ZTogZWxhXG4vLyBvcmRlbmEsIGNvcnRhIGsgZGUgY2FkYSBwb250YSBlIHRpcmEgYSBtw6lkaWEgZG8gbsO6Y2xlby4gQXF1aSBvIGFsdW5vIHbDqiBvXG4vLyBjb3J0ZSBhY29udGVjZXIsIGVtIHZleiBkZSBzw7MgbGVyIHF1ZSBlbGUgYWNvbnRlY2UuXG5saXN0YUFwYXJvID0ge1xuICBjb25zdCBvcmRlbmFkb3MgPSBbLi4uZXN0YWRvc10uc29ydCgoYSwgYikgPT4gZDMuYXNjZW5kaW5nKGEuUG9wdWxhY2FvLCBiLlBvcHVsYWNhbykpO1xuICBjb25zdCBrID0gZXN0YXRCLmNvcnRhZG9zO1xuICBjb25zdCBuID0gb3JkZW5hZG9zLmxlbmd0aDtcblxuICByZXR1cm4gaHRtbGA8ZGl2IGNsYXNzPVwiYXBhcm8tbGlzdGFcIj5cbiAgICAke29yZGVuYWRvcy5tYXAoKGQsIGkpID0+IHtcbiAgICAgIGNvbnN0IGNvcnRhZG8gPSBpIDwgayB8fCBpID49IG4gLSBrO1xuICAgICAgcmV0dXJuIGh0bWxgPGRpdiBjbGFzcz1cImFwYXJvLWl0ZW0gJHtjb3J0YWRvID8gXCJjb3J0YWRvXCIgOiBcIlwifVwiPlxuICAgICAgICA8c3BhbiBjbGFzcz1cInNpZ2xhXCI+JHtkLlNpZ2xhfTwvc3Bhbj5cbiAgICAgICAgPHNwYW4gY2xhc3M9XCJ2YWxvclwiPiR7Zm10KGQuUG9wdWxhY2FvIC8gMWU2KX08L3NwYW4+XG4gICAgICA8L2Rpdj5gO1xuICAgIH0pfVxuICA8L2Rpdj5gO1xufVxuIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0IiwiY2VsbE5hbWUiOiJvanMtY2VsbC0xMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6Im1kYDxwIGNsYXNzPVwiYXBhcm8tbGVnZW5kYVwiPkVtIHZlcm1lbGhvLCBvcyAqKiR7ZXN0YXRCLmNvcnRhZG9zICogMn0qKiBlc3RhZG9zIGRlc2NhcnRhZG9zXG4oJHtlc3RhdEIuY29ydGFkb3N9IGRlIGNhZGEgcG9udGEpLiBSZXN0YW0gKioke3BvcHNCLmxlbmd0aCAtIGVzdGF0Qi5jb3J0YWRvcyAqIDJ9Kiogbm8gY8OhbGN1bG8gZGEgbcOpZGlhIGFwYXJhZGEuPC9wPmBcbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMTIiLCJpbmxpbmUiOmZhbHNlLCJzb3VyY2UiOiJQbG90LnBsb3Qoe1xuICBoZWlnaHQ6IDEzMCxcbiAgbWFyZ2luTGVmdDogNTUsXG4gIG1hcmdpbkJvdHRvbTogNDAsXG4gIHg6IHtkb21haW46IFszLjksIDguMV0sIGxhYmVsOiBcIlBvcHVsYcOnw6NvIChtaWxow7Vlcykg4oaSXCJ9LFxuICB5OiB7YXhpczogbnVsbCwgZG9tYWluOiBbLTEsIDFdfSxcbiAgbWFya3M6IFtcbiAgICBQbG90LnJ1bGVZKFswXSwge3N0cm9rZTogXCIjY2NjXCJ9KSxcbiAgICBQbG90LmxpbmsoW3t4MTogZXN0YXRCLm1lZGlhbmEgLyAxZTYsIHgyOiBlc3RhdEIubWVkaWEgLyAxZTZ9XSxcbiAgICAgICAgICAgICAge3gxOiBcIngxXCIsIHgyOiBcIngyXCIsIHkxOiAwLCB5MjogMCwgc3Ryb2tlOiBcIiNjY2NcIiwgc3Ryb2tlV2lkdGg6IDZ9KSxcbiAgICBQbG90LmRvdChbe3g6IGVzdGF0Qi5tZWRpYSAvIDFlNn1dLCAgIHt4OiBcInhcIiwgeTogMCwgcjogNywgZmlsbDogXCIjYzAzOTJiXCJ9KSxcbiAgICBQbG90LmRvdChbe3g6IGVzdGF0Qi5tZWRpYW5hIC8gMWU2fV0sIHt4OiBcInhcIiwgeTogMCwgcjogNywgZmlsbDogXCIjMjdhZTYwXCJ9KSxcbiAgICBQbG90LmRvdChbe3g6IGVzdGF0Qi5hcGFyYWRhIC8gMWU2fV0sIHt4OiBcInhcIiwgeTogMCwgcjogMTAsIGZpbGw6IFwiI2U2N2UyMlwiLFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHN0cm9rZTogXCJ3aGl0ZVwiLCBzdHJva2VXaWR0aDogMn0pLFxuICAgIFBsb3QudGV4dChbe3g6IGVzdGF0Qi5tZWRpYSAvIDFlNn1dLCAgIHt4OiBcInhcIiwgeTogMC42LCB0ZXh0OiBbXCJtw6lkaWFcIl0sIGZpbGw6IFwiI2MwMzkyYlwifSksXG4gICAgUGxvdC50ZXh0KFt7eDogZXN0YXRCLm1lZGlhbmEgLyAxZTZ9XSwge3g6IFwieFwiLCB5OiAwLjYsIHRleHQ6IFtcIm1lZGlhbmFcIl0sIGZpbGw6IFwiIzI3YWU2MFwifSksXG4gICAgUGxvdC50ZXh0KFt7eDogZXN0YXRCLmFwYXJhZGEgLyAxZTZ9XSwge3g6IFwieFwiLCB5OiAtMC42LCB0ZXh0OiBbXCJhcGFyYWRhXCJdLCBmaWxsOiBcIiNlNjdlMjJcIn0pXG4gIF1cbn0pXG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6InNoaW55SW5wdXQoJ3BvcF9zcCcpIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJzaGlueUlucHV0KCdhcGFybycpIn1dfQ==

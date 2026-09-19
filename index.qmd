@@ -1,42 +1,39 @@
 # Bem-vindo {.unnumbered}
 
-Este é o material de apoio da disciplina **Bases 3 — Estatística**, oferecida aos cursos de **Engenharia de Software** e **Sistemas de Informação** da UnDF.
+Este é o material de apoio da disciplina **Bases 3: Estatística**, oferecida aos cursos de **Engenharia de Software** e **Sistemas de Informação** da UnDF.
 
 ## Sobre a Disciplina
 
 A disciplina apresenta a estatística do ponto de vista de quem constrói software e trabalha com dados: menos fórmulas decoradas, mais raciocínio sobre o que os dados dizem e o que eles não dizem. Todos os exemplos são em **Python**.
 
-Os temas são:
+O material cobre a **Introdução**, o **Capítulo 1** (Análise Exploratória de Dados: estimativas de localização, variabilidade, distribuição, dados binários e categóricos, e correlação) e três capítulos de probabilidade, escritos a partir dos capítulos 5, 6 e 7 de @bussab2023: o **Capítulo 2** (Probabilidade), o **Capítulo 3** (Variáveis Aleatórias Discretas) e o **Capítulo 4** (Variáveis Aleatórias Contínuas).
 
-- Análise exploratória de dados: estimativas de localização, variabilidade, distribuição e correlação
-- Probabilidade e distribuições: regras de probabilidade, probabilidade condicional e Bayes, contagem, binomial, hipergeométrica, normal e cauda longa
-- Amostragem, distribuições amostrais, bootstrap e intervalos de confiança
-- Experimentos estatísticos: testes A/B, testes de hipótese, reamostragem, valores-p e testes t
-- Regressão e predição: regressão linear simples e múltipla, e predição
+Três seções estão fora do cronograma e ficam como leitura complementar: a 1.8 (Explorando Duas ou Mais Variáveis), a 3.7 (Distribuição de Poisson) e a 4.6 (Distribuição Exponencial).
 
 ## Cronograma
 
-São **17 encontros**, todos às **sextas-feiras** — Engenharia de Software das **8h30 às 10h10**, Sistemas de Informação das **10h20 às 12h00** —, de 21 de agosto a 18 de dezembro de 2026. Não há aula em 20/11 (feriado). A **Prova 1** fecha a primeira metade (Introdução, Capítulos 1 e 2) e a **Prova 2** fecha a segunda (Capítulos 3, 4 e 5).
+As aulas são às **sextas-feiras**, de 21 de agosto a 18 de dezembro de 2026: Engenharia de Software das **8h30 às 10h10** e Sistemas de Informação das **10h20 às 12h00**. Das 18 sextas do período, **quatro não têm aula**: 11/09 (ausência do professor por atestado médico), 02/10 e 23/10 (eleições) e 20/11 (feriado). Restam, portanto, **14 encontros**.
 
 | Aula | Data | Conteúdo |
 |:----:|:----:|:---------|
-| 1 | 21/08 | Apresentação da disciplina · [Introdução](content/intro/01-por-que-estatistica.qmd) — Por que Estatística? · O Paradoxo de Simpson |
-| 2 | 28/08 | Introdução ao Python e ao Google Colab — [abrir no Colab ↗](https://colab.research.google.com/github/BragaD/UnDF-Bases3-Estatistica-202602/blob/main/notebooks/aula-02-onboarding-python.ipynb) |
-| 3 | 04/09 | [1 — Análise Exploratória](content/cap01/index.qmd): dados estruturados e retangulares · estimativas de localização |
-| 4 | 11/09 | 1 — Estimativas de variabilidade · explorando a distribuição dos dados |
-| 5 | 18/09 | 1 — Dados binários e categóricos · correlação · duas ou mais variáveis |
-| 6 | 25/09 | [2 — Probabilidade e Distribuições](content/cap02/index.qmd): probabilidade · regras · condicional e Bayes |
-| 7 | 02/10 | 2 — Contagem · binomial · hipergeométrica |
-| 8 | 09/10 | 2 — Normal · caudas longas · **revisão para a Prova 1** |
-| 9 | 16/10 | **Prova 1** — Introdução, Capítulos 1 e 2 · **entrega da [Lista 1](downloads/lista-1-prova-1.pdf)** |
-| 10 | 23/10 | [3 — Amostragem e Estimação](content/cap03/index.qmd): amostragem aleatória e viés · viés de seleção |
-| 11 | 30/10 | 3 — Distribuição amostral · bootstrap |
-| 12 | 06/11 | 3 — Intervalos de confiança · [4 — Testes de Significância](content/cap04/index.qmd): teste A/B |
-| 13 | 13/11 | 4 — Testes de hipótese · reamostragem |
-| 14 | 27/11 | 4 — Significância e valores-p · testes t |
-| 15 | 04/12 | [5 — Regressão e Predição](content/cap05/index.qmd): regressão simples, múltipla e predição · **revisão para a Prova 2** |
-| 16 | 11/12 | **Prova 2** — Capítulos 3, 4 e 5 · **entrega da Lista 2** |
-| 17 | 18/12 | Devolutiva da Prova 2 (HPE — horário protegido para estudo) |
+| 1 | 21/08 | Apresentação da disciplina · [Introdução](content/intro/01-por-que-estatistica.qmd): Por que Estatística? · O Paradoxo de Simpson |
+| 2 | 28/08 | Introdução ao Python e ao Google Colab: [abrir no Colab ↗](https://colab.research.google.com/github/BragaD/UnDF-Bases3-Estatistica-202602/blob/main/notebooks/aula-02-onboarding-python.ipynb) |
+| 3 | 04/09 | [Análise Exploratória](content/cap01/index.qmd): dados estruturados e retangulares · estimativas de localização |
+|  | 11/09 | *Sem aula (atestado médico)* |
+| 4 | 18/09 | Estimativas de variabilidade |
+| 5 | 25/09 | Explorando a distribuição dos dados · dados binários e categóricos · correlação |
+|  | 02/10 | *Sem aula (eleições)* |
+| 6 | 09/10 | [Probabilidade](content/cap02/index.qmd): experimento aleatório, espaço amostral e eventos · propriedades da probabilidade · revisão de contagem (permutação e combinação) |
+| 7 | 16/10 | Probabilidade condicional e independência · teorema de Bayes |
+|  | 23/10 | *Sem aula (eleições)* |
+| 8 | 30/10 | **Prova 1**: análise exploratória e probabilidade · **entrega da [Lista 1](downloads/lista-1-prova-1.pdf)** |
+| 9 | 06/11 | [Variáveis Aleatórias Discretas](content/cap03/index.qmd): função de probabilidade, valor médio, variância e função de distribuição acumulada |
+| 10 | 13/11 | Modelos discretos: uniforme, Bernoulli, binomial e hipergeométrica |
+|  | 20/11 | *Sem aula (feriado)* |
+| 11 | 27/11 | [Variáveis Aleatórias Contínuas](content/cap04/index.qmd): função densidade de probabilidade, valor médio e variância |
+| 12 | 04/12 | Função de distribuição acumulada contínua · distribuição uniforme |
+| 13 | 11/12 | Distribuição normal · uso da [tabela da normal padrão](downloads/tabela-normal-padrao.pdf) |
+| 14 | 18/12 | **Prova 2**: variáveis aleatórias discretas e contínuas · **entrega da Lista 2** |
 
 : Cronograma do semestre 2.2026 {.striped tbl-colwidths="[8,12,80]"}
 
@@ -46,14 +43,14 @@ Quatro instrumentos, somando 100%:
 
 | Instrumento | Peso | Quando |
 |---|:--:|---|
-| [Lista 1](downloads/lista-1-prova-1.pdf) | 15% | entrega até 16/10/2026 (aula 9) |
-| Prova 1 | 35% | 16/10/2026 (aula 9) |
-| Lista 2 | 15% | entrega até 11/12/2026 (aula 16) |
-| Prova 2 | 35% | 11/12/2026 (aula 16) |
+| [Lista 1](downloads/lista-1-prova-1.pdf) | 15% | entrega até 30/10/2026 (aula 8) |
+| Prova 1 | 35% | 30/10/2026 (aula 8) |
+| Lista 2 | 15% | entrega até 18/12/2026 (aula 14) |
+| Prova 2 | 35% | 18/12/2026 (aula 14) |
 
-São **duas provas individuais**, de peso igual (35% cada), e **duas listas** de exercícios (15% cada). Cada lista fecha na data da prova correspondente — a Lista 1 até a Prova 1, a Lista 2 até a Prova 2 —, funcionando como estudo dirigido para a prova, e não como tarefa empilhada sobre ela. As listas são de entrega **manuscrita**: o Python pode ser usado como calculadora para chegar aos resultados, mas as respostas devem ser escritas à mão.
+São **duas provas individuais**, de peso igual (35% cada), e **duas listas** de exercícios (15% cada). Cada lista fecha na data da prova correspondente (a Lista 1 até a Prova 1, a Lista 2 até a Prova 2) e serve de estudo dirigido para ela. As listas são de entrega **manuscrita**: o Python pode ser usado como calculadora para chegar aos resultados, mas as respostas devem ser escritas à mão.
 
-A **Prova 1** cai na primeira aula após a metade da disciplina (aula 9, 16/10) e cobre a Introdução e os Capítulos 1 e 2 — análise exploratória, probabilidade e distribuições. A **Prova 2** (aula 16, 11/12) cobre os Capítulos 3, 4 e 5 — amostragem e estimação, testes de significância e regressão.
+A **Prova 1** (30/10, aula 8) cobre a análise exploratória (aulas 3 a 5) e a probabilidade (aulas 6 e 7). A **Prova 2** (18/12, aula 14) cobre as variáveis aleatórias discretas e contínuas das aulas 9 a 13. A revisão da Prova 2 será online e assíncrona.
 
 ## Material Bibliográfico
 
@@ -63,21 +60,21 @@ O livro-texto da disciplina é:
 
 O código e os conjuntos de dados originais estão em [github.com/gedeck/practical-statistics-for-data-scientists](https://github.com/gedeck/practical-statistics-for-data-scientists).
 
-Uma segunda fonte, o *pythonbook* de Ethan Weed [@weed], contribui com a introdução motivacional, o capítulo de probabilidade, a ordenação da Parte IV e enriquecimentos do Capítulo 1.
+Uma segunda fonte, o *pythonbook* de Ethan Weed [@weed], contribui com a introdução motivacional e com enriquecimentos do Capítulo 1.
 
-Como **bibliografia básica** em português, a disciplina adota também *Estatística Básica*, de Bussab e Morettin [@bussab2023], referência clássica dos fundamentos de estatística e probabilidade.
+Como **bibliografia básica** em português, a disciplina adota também *Estatística Básica*, de Bussab e Morettin [@bussab2023], referência clássica dos fundamentos de estatística e probabilidade. É desse livro que vêm os capítulos de **probabilidade**, do 2 ao 4.
 
-Esta disciplina cobre os **capítulos 1 a 4 de @bruce2020**, aqui reorganizados em uma introdução e cinco capítulos. Os capítulos 5 a 7 do Bruce, sobre aprendizado de máquina, ficam fora do escopo desta disciplina.
+O Capítulo 1 deste material corresponde ao **capítulo 1 de @bruce2020**, com os quantis empíricos vindos da seção 3.3 de @bussab2023.
 
 ## Como Usar Este Material
 
-Cada capítulo traz:
+O capítulo publicado traz:
 
 - Conceitos com exemplos executáveis em Python
 - Código que roda sobre conjuntos de dados reais, incluídos no repositório
 - Exercícios de fixação
 
-O ambiente completo (Python, bibliotecas e Quarto) está empacotado em um container Docker — veja o `README.md` para rodar o livro na sua máquina.
+O ambiente completo (Python, bibliotecas e Quarto) está empacotado em um container Docker. Veja o `README.md` para rodar o livro na sua máquina.
 
 ## Licença {.unnumbered}
 

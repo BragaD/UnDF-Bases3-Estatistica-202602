@@ -1,0 +1,198 @@
+# Distribuição Binomial
+
+::: {.callout-note}
+Esta seção corresponde à seção 6.6.3 de @bussab2023.
+:::
+
+```{python}
+#| label: setup
+#| include: false
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from math import comb
+from scipy import stats
+from formato import num
+
+plt.rcParams["figure.figsize"] = (7, 4)
+np.set_printoptions(legacy="1.25")   # números sem o prefixo np.float64 na saída
+```
+
+Na seção 2.1, três builds disparados por um pull request podiam passar ou falhar, e o texto avisou: supor os 8 resultados igualmente prováveis exigiria que cada build falhasse metade das vezes. O modelo em que cada build falha com uma probabilidade $p$ qualquer, sem influenciar os outros, ficou para o Capítulo 3. É esta seção, e o fim dela discute quando essa hipótese é razoável.
+
+Uma equipe roda 10 jobs de teste por noite. Cada job falha com probabilidade 0,1, e os jobs não dependem uns dos outros. Quantos jobs vão falhar numa noite? A resposta é uma variável aleatória, e ela aparece sempre que um ensaio de Bernoulli (seção 3.4) é repetido várias vezes, de forma independente e nas mesmas condições.
+
+## Contando sucessos
+
+Comecemos com 3 jobs, cada um falhando com probabilidade $p$. Chame a falha de sucesso (S) e o job que passa de fracasso (F), como combinado na seção 3.4. Qual a probabilidade de exatamente 2 falhas?
+
+As sequências com duas falhas são SSF, SFS e FSS. Como os jobs são independentes, a probabilidade de cada sequência é o produto (seção 2.4):
+
+$$
+P(\text{SSF}) = p \times p \times (1 - p) = p^2(1 - p),
+$$
+
+e o mesmo vale para SFS e FSS, porque a ordem dos fatores não muda o produto. As três sequências são disjuntas, então
+
+$$
+P(\text{2 falhas}) = 3\,p^2(1 - p).
+$$
+
+O 3 é o número de sequências com 2 falhas em 3 posições: escolher quais 2 das 3 posições têm falha, $\binom{3}{2} = 3$ (seção 2.3). O raciocínio vale para qualquer $n$ e $k$. Uma sequência com $k$ sucessos e $n - k$ fracassos tem probabilidade $p^k(1-p)^{n-k}$, e existem $\binom{n}{k}$ sequências assim.
+
+::: {.conceito}
+Um **experimento binomial** tem:
+
+1. $n$ ensaios de Bernoulli;
+2. ensaios independentes;
+3. a mesma probabilidade de sucesso $p$, $0 < p < 1$, em todos os ensaios.
+
+O número $X$ de sucessos tem **distribuição binomial**, $X \sim b(n, p)$, com
+
+$$
+P(X = k) = \binom{n}{k} p^k (1 - p)^{n - k},
+$$
+
+para $k = 0, 1, \dots, n$.
+
+A probabilidade $P(X = k)$ também se escreve $b(k; n, p)$.
+:::
+
+## Os jobs da noite
+
+Com $n = 10$ jobs e $p = 0{,}1$, o número $X$ de falhas tem distribuição $b(10, 1/10)$. A fórmula dá cada probabilidade, e o `math.comb` da seção 2.3 faz a conta:
+
+```{python}
+#| label: binomial-formula
+n, p = 10, 0.1
+[round(comb(n, k) * p**k * (1 - p)**(n - k), 4) for k in range(4)]
+```
+
+A `scipy.stats` tem o modelo pronto, a `binom`. O `pmf` dá $P(X = k)$, e o `cdf` dá a função de distribuição acumulada da seção 3.3, $P(X \le k)$:
+
+```{python}
+#| label: binomial-scipy
+jobs = stats.binom(n, p)
+tabela = pd.DataFrame({"k": range(11), "P(X = k)": jobs.pmf(range(11)), "P(X ≤ k)": jobs.cdf(range(11))})
+tabela.head(5).round(4)
+```
+
+```{python}
+#| label: fig-binomial-jobs
+#| fig-cap: "Distribuição do número de falhas em 10 jobs independentes, cada um com probabilidade 0,1 de falhar."
+#| fig-alt: "Gráfico de hastes com o máximo em 1 falha (cerca de 0,39), seguido de 0 falhas (0,35) e 2 falhas (0,19); de 5 falhas em diante as probabilidades são quase zero."
+k = np.arange(11)
+fig, ax = plt.subplots(figsize=(6, 3.5))
+ax.vlines(k, 0, jobs.pmf(k), linewidth=3)
+ax.plot(k, jobs.pmf(k), "o")
+ax.set_xticks(k)
+ax.set_xlabel("número de falhas k")
+ax.set_ylabel("P(X = k)")
+plt.show()
+```
+
+Numa noite típica falham 0 ou 1 jobs: juntos, esses dois casos somam `{python} num(jobs.cdf(1), 3)`. A probabilidade de pelo menos uma falha é, pelo complementar, $1 - P(X = 0)$, cerca de `{python} num(1 - jobs.pmf(0), 3)`. Mais de duas falhas acontecem em `{python} num(100 * jobs.sf(2), 1)`% das noites, e o método `sf` (*survival function*) dá esse $P(X > 2) = 1 - F(2)$ direto. Todos os 10 falharem tem probabilidade $0{,}1^{10} = 10^{-10}$ (Exemplo 6.13 de @bussab2023).
+
+## Valor médio e variância
+
+Em média, quantos jobs falham por noite? A intuição diz 10 × 0,1 = 1, e ela está certa.
+
+::: {.conceito}
+Se $X \sim b(n, p)$,
+
+$$
+\begin{aligned}
+E(X) &= np, \\
+\mathrm{Var}(X) &= np(1 - p).
+\end{aligned}
+$$
+:::
+
+A justificativa: $X$ é a soma de $n$ variáveis de Bernoulli, uma por ensaio, e cada uma tem média $p$ e variância $p(1-p)$ (seção 3.4). As médias de uma soma sempre se somam; as variâncias se somam quando as variáveis são independentes. A prova desse resultado sobre somas fica fora deste livro (é o Capítulo 8 de @bussab2023; a conta direta pela fórmula é o Problema 41 do Capítulo 6). A simulação abaixo confere as fórmulas somando, em cada noite simulada, 10 variáveis de Bernoulli:
+
+```{python}
+#| label: binomial-simulada
+rng = np.random.default_rng(42)
+ensaios = rng.random((10_000, n)) < p          # 10.000 noites x 10 jobs: True = falha
+noites = ensaios.sum(axis=1)                    # número de falhas em cada noite
+
+round(float(noites.mean()), 3), round(float(noites.var()), 3), jobs.mean(), jobs.var()
+```
+
+## Uma pergunta com $n$ grande
+
+Um serviço atende 100 requisições, e cada uma tem sucesso com probabilidade 0,9, independentemente das outras. Qual a probabilidade de pelo menos 80 darem certo? (É a situação (5') de @bussab2023, com requisições no lugar de moradores.)
+
+Somar $\binom{100}{k} 0{,}9^k 0{,}1^{100-k}$ para $k$ de 80 a 100 à mão seria longo. Pelo complementar, $P(X \ge 80) = 1 - P(X \le 79) = 1 - F(79)$:
+
+```{python}
+#| label: binomial-100
+requisicoes = stats.binom(100, 0.9)
+round(1 - requisicoes.cdf(79), 4), requisicoes.mean(), requisicoes.std()
+```
+
+A probabilidade é `{python} num(1 - requisicoes.cdf(79), 4)`. Faz sentido: o número esperado de sucessos é 90, com desvio-padrão 3, e 80 fica a mais de três desvios-padrão abaixo da média.
+
+::: {.callout-warning}
+## Confira as três condições antes de usar a binomial
+O modelo exige ensaios independentes e a mesma probabilidade $p$ em todos. Os builds de um mesmo pull request quase nunca são independentes: se o código quebrou, vários builds falham juntos. E, como costumam rodar em ambientes diferentes, nem o $p$ é o mesmo. Requisições feitas durante uma queda do serviço também falham em bloco. Nesses casos a binomial subestima a chance de muitas falhas ao mesmo tempo.
+:::
+
+## Resumo
+
+::: {.table-responsive}
+| Item | Binomial $b(n, p)$ |
+|---|---|
+| Situação | número de sucessos em $n$ ensaios de Bernoulli independentes, com o mesmo $p$ |
+| $P(X = k)$ | $\binom{n}{k} p^k (1-p)^{n-k}$ |
+| $E(X)$, $\mathrm{Var}(X)$ | $np$, $np(1-p)$ |
+| `scipy.stats` | `binom(n, p)`: `pmf`, `cdf`, `sf`, `mean`, `var` |
+:::
+
+## Exercícios
+
+**1.** Uma moeda equilibrada é lançada 3 vezes. Encontre a distribuição do número de caras e compare com as duas moedas da seção 2.1.
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+$X \sim b(3, 1/2)$: $P(X = 0) = 1/8$, $P(X = 1) = 3/8$, $P(X = 2) = 3/8$, $P(X = 3) = 1/8$ (Exemplo 6.12 e Tabela 6.12 de @bussab2023). Com duas moedas, $b(2, 1/2)$ dá 1/4, 2/4 e 1/4, as probabilidades de 0, 1 e 2 caras da seção 2.1.
+:::
+
+**2.** Um dado equilibrado é lançado 5 vezes. Qual a probabilidade de a face 5 aparecer no máximo 3 vezes?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+O número de vezes que sai a face 5 tem distribuição $b(5, 1/6)$, e $P(X \le 3) = F(3)$:
+
+```python
+stats.binom(5, 1/6).cdf(3)
+```
+
+Dá cerca de 0,9967. Pelo complementar, só em 0,33% das vezes a face 5 aparece 4 ou 5 vezes.
+:::
+
+**3.** Um filtro de spam erra a classificação de 2% dos e-mails, independentemente. Numa caixa com 50 e-mails, qual o número esperado de erros? Qual a probabilidade de nenhum erro? E de mais de 3 erros?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+$X \sim b(50, 1/50)$, com $E(X) = 50 \times 0{,}02 = 1$ erro.
+
+```{python}
+#| label: ex3-resposta
+filtro = stats.binom(50, 0.02)
+round(filtro.pmf(0), 4), round(filtro.sf(3), 4)
+```
+
+$P(X = 0) = 0{,}98^{50}$, cerca de `{python} num(filtro.pmf(0), 3)`, e $P(X > 3)$ fica em cerca de `{python} num(filtro.sf(3), 3)`.
+:::
+
+**4.** Por que o número de PRs com bug entre 4 sorteados sem reposição de um lote de 20 (seção 2.3) **não** é binomial?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+Sem reposição, os sorteios não são independentes: a probabilidade de o segundo PR ter bug depende do que saiu no primeiro. A condição 2 falha. Esse caso tem modelo próprio, a hipergeométrica, na seção 3.6.
+:::

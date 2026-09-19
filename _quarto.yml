@@ -4,6 +4,7 @@ project:
   execute-dir: project
   resources:
     - downloads/lista-1-prova-1.pdf
+    - downloads/tabela-normal-padrao.pdf
 
 execute:
   freeze: auto
@@ -53,64 +54,54 @@ book:
           text: "Correlação"
         - href: content/cap01/08-duas-ou-mais-variaveis.qmd
           text: "Duas ou Mais Variáveis"
-    - part: "Capítulo 2: Probabilidade e Distribuições"
+    - part: "Capítulo 2: Probabilidade"
       chapters:
         - href: content/cap02/index.qmd
           text: "Visão Geral"
-        - href: content/cap02/01-o-que-e-probabilidade.qmd
-          text: "O que é Probabilidade"
-        - href: content/cap02/02-regras-probabilidade.qmd
-          text: "Regras de Probabilidade"
-        - href: content/cap02/03-probabilidade-condicional-bayes.qmd
-          text: "Probabilidade Condicional e Bayes"
-        - href: content/cap02/04-contagem-permutacao-combinacao.qmd
-          text: "Contagem: Permutação e Combinação"
-        - href: content/cap02/05-distribuicao-binomial.qmd
-          text: "Distribuição Binomial"
-        - href: content/cap02/06-distribuicao-hipergeometrica.qmd
-          text: "Distribuição Hipergeométrica"
-        - href: content/cap02/07-distribuicao-normal.qmd
-          text: "Distribuição Normal"
-        - href: content/cap02/08-caudas-longas.qmd
-          text: "Distribuições de Cauda Longa"
-    - part: "Capítulo 3: Amostragem e Estimação"
+        - href: content/cap02/01-modelos-probabilisticos.qmd
+          text: "Modelos Probabilísticos"
+        - href: content/cap02/02-propriedades.qmd
+          text: "Propriedades da Probabilidade"
+        - href: content/cap02/03-contagem.qmd
+          text: "Contagem e Probabilidade Clássica"
+        - href: content/cap02/04-condicional-independencia.qmd
+          text: "Probabilidade Condicional e Independência"
+        - href: content/cap02/05-bayes.qmd
+          text: "O Teorema de Bayes"
+    - part: "Capítulo 3: Variáveis Aleatórias Discretas"
       chapters:
         - href: content/cap03/index.qmd
           text: "Visão Geral"
-        - href: content/cap03/01-amostragem-aleatoria.qmd
-          text: "Amostragem Aleatória e Viés"
-        - href: content/cap03/02-vies-selecao.qmd
-          text: "Viés de Seleção"
-        - href: content/cap03/03-distribuicao-amostral.qmd
-          text: "Distribuição Amostral"
-        - href: content/cap03/04-bootstrap.qmd
-          text: "Bootstrap"
-        - href: content/cap03/05-intervalos-confianca.qmd
-          text: "Intervalos de Confiança"
-    - part: "Capítulo 4: Experimentos Estatísticos e Testes de Significância"
+        - href: content/cap03/01-variaveis-aleatorias.qmd
+          text: "Variável Aleatória e Função de Probabilidade"
+        - href: content/cap03/02-valor-medio-variancia.qmd
+          text: "Valor Médio e Variância"
+        - href: content/cap03/03-distribuicao-acumulada.qmd
+          text: "Função de Distribuição Acumulada"
+        - href: content/cap03/04-uniforme-bernoulli.qmd
+          text: "Uniforme Discreta e Bernoulli"
+        - href: content/cap03/05-binomial.qmd
+          text: "Distribuição Binomial"
+        - href: content/cap03/06-hipergeometrica.qmd
+          text: "Distribuição Hipergeométrica"
+        - href: content/cap03/07-poisson.qmd
+          text: "Distribuição de Poisson"
+    - part: "Capítulo 4: Variáveis Aleatórias Contínuas"
       chapters:
         - href: content/cap04/index.qmd
           text: "Visão Geral"
-        - href: content/cap04/01-teste-ab.qmd
-          text: "Teste A/B"
-        - href: content/cap04/02-testes-hipotese.qmd
-          text: "Testes de Hipótese"
-        - href: content/cap04/03-reamostragem.qmd
-          text: "Reamostragem"
-        - href: content/cap04/04-significancia-valor-p.qmd
-          text: "Significância e Valores-p"
-        - href: content/cap04/05-testes-t.qmd
-          text: "Testes t"
-    - part: "Capítulo 5: Regressão e Predição"
-      chapters:
-        - href: content/cap05/index.qmd
-          text: "Visão Geral"
-        - href: content/cap05/01-regressao-linear-simples.qmd
-          text: "Regressão Linear Simples"
-        - href: content/cap05/02-regressao-linear-multipla.qmd
-          text: "Regressão Linear Múltipla"
-        - href: content/cap05/03-predicao.qmd
-          text: "Predição com Regressão"
+        - href: content/cap04/01-variaveis-continuas.qmd
+          text: "Variável Aleatória Contínua e Densidade"
+        - href: content/cap04/02-valor-medio-continuo.qmd
+          text: "Valor Médio e Variância de uma Variável Contínua"
+        - href: content/cap04/03-distribuicao-acumulada-continua.qmd
+          text: "Função de Distribuição Acumulada Contínua"
+        - href: content/cap04/04-uniforme-continua.qmd
+          text: "Distribuição Uniforme Contínua"
+        - href: content/cap04/05-normal.qmd
+          text: "Distribuição Normal"
+        - href: content/cap04/06-exponencial.qmd
+          text: "Distribuição Exponencial"
   page-navigation: true
   page-footer:
     border: true
@@ -137,6 +128,11 @@ format:
     code-overflow: wrap
 
 bibliography: references.bib
+
+# Numera figuras e tabelas por página (Figura 1, 2...), e não pelo número
+# de ordem do arquivo no livro (Figura 16.1 numa seção 2.4).
+crossref:
+  chapters: false
 
 editor: source
 code-annotations: hover

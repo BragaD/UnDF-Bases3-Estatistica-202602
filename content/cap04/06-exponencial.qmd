@@ -1,0 +1,107 @@
+# Distribuição Exponencial
+
+::: {.callout-note}
+Esta seção corresponde à seção 7.4.3 de @bussab2023.
+:::
+
+::: {.callout-warning}
+## Leitura complementar
+Esta seção **está fora do cronograma** do semestre 2.2026: não é dada em aula, não entra no notebook do capítulo e não cai em prova nem em lista. Fica aqui para quem quiser ir além.
+:::
+
+```{python}
+#| label: setup
+#| include: false
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy import stats
+from formato import num
+
+plt.rcParams["figure.figsize"] = (7, 4)
+np.set_printoptions(legacy="1.25")   # números sem o prefixo np.float64 na saída
+```
+
+Quanto tempo um servidor funciona até a próxima falha? Quanto tempo passa entre duas requisições? Tempos de espera como esses são contínuos, não negativos, e em geral têm muitos valores pequenos e alguns muito grandes. O modelo mais simples para eles é a distribuição **exponencial**, que já apareceu na seção 4.3 como exemplo de densidade obtida derivando a f.d.a.
+
+## O modelo
+
+::: {.conceito}
+A variável aleatória $T$ tem **distribuição exponencial** com parâmetro $\beta > 0$, $T \sim \mathrm{Exp}(\beta)$, quando sua densidade é
+
+$$
+f(t) = \frac{1}{\beta}\, e^{-t/\beta}, \quad t \ge 0,
+$$
+
+e zero para $t < 0$. Seu valor médio é $E(T) = \beta$ e sua variância é $\mathrm{Var}(T) = \beta^2$.
+:::
+
+Integrando a densidade como na seção 4.3, a f.d.a. é
+
+$$
+F(t) = 1 - e^{-t/\beta}, \quad t \ge 0,
+$$
+
+e a probabilidade de a espera passar de um valor $t$ tem forma simples: $P(T > t) = e^{-t/\beta}$. Com $\beta = 1$, é o Exemplo 7.7 de @bussab2023, visto na seção 4.3.
+
+## Tempo até a falha
+
+O Exemplo 7.10 de @bussab2023 trata o tempo de vida de um transistor, em horas, como $\mathrm{Exp}(500)$. Aqui, o tempo até a primeira falha de um servidor novo é $\mathrm{Exp}(500)$, com média de 500 horas. Qual a probabilidade de ele passar da média sem falhar?
+
+$$
+P(T > 500) = e^{-500/500} = e^{-1} \approx 0{,}368.
+$$
+
+Pouco menos de 37% dos servidores passam da média. Numa distribuição simétrica, como a normal, metade passaria. Na exponencial, os muitos tempos curtos e os poucos muito longos deixam a média acima da mediana.
+
+```{python}
+#| label: exponencial
+vida = stats.expon(scale=500)        # Exp(β = 500): scale é a média β
+
+print(round(vida.sf(500), 4), vida.mean(), vida.std())
+print(round(vida.median(), 1), round(vida.cdf(100), 4))
+```
+
+A mediana $m$ sai de $F(m) = 1 - e^{-m/500} = 1/2$, o que dá $m = 500 \ln 2$, cerca de `{python} num(vida.median(), 0)` horas: metade dos servidores falha antes disso. Nas primeiras 100 horas, `{python} num(100 * vida.cdf(100), 1)`% já falham.
+
+```{python}
+#| label: fig-exponencial
+#| fig-cap: "Densidade exponencial com média β = 500 horas. A linha tracejada marca a média; a pontilhada, a mediana."
+#| fig-alt: "Curva que começa alta em t = 0 e decresce suavemente, com a mediana perto de 347 e a média em 500."
+t = np.linspace(0, 2500, 400)
+fig, ax = plt.subplots(figsize=(6, 3.5))
+ax.plot(t, vida.pdf(t))
+ax.axvline(vida.mean(), color="black", linestyle="--", linewidth=1)
+ax.axvline(vida.median(), color="gray", linestyle=":", linewidth=1)
+ax.set_xlabel("tempo até a falha t (h)")
+ax.set_ylabel("densidade")
+plt.show()
+```
+
+::: {.callout-warning}
+## Média ou taxa?
+Aqui, e na seção 7.4.3 de @bussab2023, o parâmetro $\beta$ é a **média**. Muitos livros e bibliotecas usam a **taxa** $\lambda = 1/\beta$ (falhas por hora), com densidade $\lambda e^{-\lambda t}$. Na `scipy.stats.expon`, `scale` é a média: para uma taxa de 0,002 falha por hora, o certo é `expon(scale=1/0.002)`. Passar a taxa em `scale` dá um modelo com média 0,002 hora.
+:::
+
+Se as falhas acontecem ao acaso, a uma taxa constante, o número de falhas num intervalo de duração $t$ segue a Poisson da seção 3.7, com média $t/\beta$, e o tempo entre falhas consecutivas segue a exponencial. O processo de Poisson, que produz essas contagens, é assunto da seção 6.7 de @bussab2023; a ligação com a exponencial vai além dela e fica fora do escopo deste livro.
+
+## Exercícios
+
+**1.** O tempo entre duas requisições a um endpoint é exponencial com média de 0,5 segundo. Qual a probabilidade de passar mais de 2 segundos sem nenhuma requisição?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+$P(T > 2) = e^{-2/0{,}5} = e^{-4} \approx 0{,}018$.
+
+```python
+stats.expon(scale=0.5).sf(2)
+```
+:::
+
+**2.** Para o servidor com $\beta = 500$ horas, calcule a variância e o desvio-padrão do tempo até a falha. O que o desvio-padrão, igual à média, diz sobre a previsibilidade das falhas?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+$\mathrm{Var}(T) = 500^2 = 250.000$ horas² e $\mathrm{DP}(T) = 500$ horas. Um desvio-padrão do tamanho da média indica tempos muito variáveis: falhas logo no começo e servidores que duram muito mais que a média convivem no mesmo modelo.
+:::

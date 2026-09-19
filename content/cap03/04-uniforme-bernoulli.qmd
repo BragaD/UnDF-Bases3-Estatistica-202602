@@ -1,0 +1,159 @@
+# Uniforme Discreta e Bernoulli
+
+::: {.callout-note}
+Esta seção corresponde às seções 6.6.1 e 6.6.2 de @bussab2023.
+:::
+
+```{python}
+#| label: setup
+#| include: false
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from scipy import stats
+from formato import num
+
+plt.rcParams["figure.figsize"] = (7, 4)
+np.set_printoptions(legacy="1.25")   # números sem o prefixo np.float64 na saída
+```
+
+Nas seções anteriores, cada problema pedia um modelo construído do zero: listar o espaço amostral, calcular o valor da variável em cada ponto, somar probabilidades. Mas algumas situações se repetem tanto que o modelo já está pronto. Basta reconhecer a situação e usar a fórmula.
+
+Esta seção e as duas seguintes apresentam quatro desses modelos prontos. Os dois primeiros são os mais simples: a uniforme discreta, em que todos os valores têm a mesma chance, e a Bernoulli, em que só há dois resultados.
+
+## Uniforme discreta
+
+Um balanceador de carga distribui cada requisição sorteando um entre 10 servidores, numerados de 0 a 9, todos com a mesma chance. O número $X$ do servidor sorteado tem 10 valores possíveis, cada um com probabilidade $1/10$. É a mesma situação do dado equilibrado da seção 2.1, com 10 faces em vez de 6.
+
+::: {.conceito}
+A variável aleatória $X$, com $k$ valores distintos $x_1, \dots, x_k$, tem **distribuição uniforme discreta** quando
+
+$$
+P(X = x_i) = \frac{1}{k}, \quad i = 1, \dots, k.
+$$
+:::
+
+Com todos os pesos iguais a $1/k$, o valor médio da seção 3.2 vira a média simples dos valores, e a variância vira a média simples dos desvios ao quadrado:
+
+$$
+\begin{aligned}
+E(X) &= \frac{1}{k} \sum_{i=1}^{k} x_i, \\
+\mathrm{Var}(X) &= \frac{1}{k} \sum_{i=1}^{k} (x_i - E(X))^2.
+\end{aligned}
+$$
+
+No dado, $E(X) = 21/6 = 3{,}5$ e $\mathrm{Var}(X) = 35/12 \approx 2{,}92$ (Exemplo 6.10 de @bussab2023). Nos servidores de 0 a 9, $E(X) = 4{,}5$.
+
+A biblioteca `scipy.stats` tem os modelos prontos deste capítulo. A uniforme discreta em inteiros consecutivos é a `randint`:
+
+```{python}
+#| label: randint
+dado = stats.randint(1, 7)          # valores 1, 2, ..., 6 (o 7 fica de fora)
+servidor = stats.randint(0, 10)     # valores 0, 1, ..., 9
+
+print(round(dado.pmf(6), 4), dado.mean(), round(dado.var(), 4))
+print(servidor.mean(), servidor.var())
+```
+
+O método `pmf` (*probability mass function*) é a função de probabilidade, e `mean` e `var` dão o valor médio e a variância, sem precisar montar a tabela. O `cdf` dá a f.d.a. da seção 3.3: na uniforme, $F(x)$ é o número de valores $x_i \le x$ dividido por $k$, e `dado.cdf(4)` dá $4/6$.
+
+::: {.callout-warning}
+## O limite superior da `randint` fica de fora
+`stats.randint(1, 7)` representa os valores de 1 a 6, como o `range(1, 7)` do Python, e ao contrário do `random.randint(1, 6)` da biblioteca padrão, que inclui o 6. Escrever `randint(1, 6)` modela um dado de cinco faces, e o erro não gera aviso: `dado.pmf(6)` simplesmente devolve 0.
+:::
+
+## Bernoulli
+
+Muitos experimentos só têm dois resultados de interesse: um build passa ou falha, uma requisição dá certo ou dá erro. Chamamos um dos resultados de **sucesso** e o outro de **fracasso**, sem juízo de valor: se a pergunta é sobre falhas, a falha é o "sucesso".
+
+A variável que vale 1 no sucesso e 0 no fracasso transforma o experimento em número.
+
+::: {.conceito}
+A variável aleatória $X$ tem **distribuição de Bernoulli** com parâmetro $p$, $0 < p < 1$, quando assume só os valores 0 e 1, com
+
+$$
+P(X = 1) = p, \qquad P(X = 0) = 1 - p.
+$$
+
+Escreve-se $X \sim \mathrm{Ber}(p)$. Um experimento assim se chama **ensaio de Bernoulli**.
+:::
+
+O valor médio e a variância saem direto das definições da seção 3.2, com só dois valores na soma:
+
+$$
+\begin{aligned}
+E(X) &= 0 \times (1 - p) + 1 \times p = p, \\
+\mathrm{Var}(X) &= (0 - p)^2 (1 - p) + (1 - p)^2 p \\
+&= p(1 - p).
+\end{aligned}
+$$
+
+A média de uma Bernoulli é a própria probabilidade de sucesso. Isso se liga a um truque que já apareceu no livro: na seção 2.1, a média de uma coluna booleana, `(estado["Populacao"] > 10_000_000).mean()`, deu a proporção de estados grandes. Sorteando um estado ao acaso, com $X = 1$ se ele for grande, $X$ é uma Bernoulli com $p = 6/27$. Como o sorteio é uniforme sobre as 27 linhas, $E(X)$ é a média da coluna de zeros e uns, que é a proporção de uns.
+
+Uma requisição a um serviço externo falha com probabilidade 0,05. Com $X = 1$ quando a requisição falha, $X \sim \mathrm{Ber}(0{,}05)$:
+
+```{python}
+#| label: bernoulli
+falha = stats.bernoulli(0.05)
+falha.pmf([0, 1]), falha.mean(), falha.var()
+```
+
+## Quando a incerteza é máxima
+
+A variância $p(1 - p)$ depende só de $p$. Perto dos extremos ela quase se anula: com $p$ perto de 0 ou de 1, o resultado é quase certo. (Nos extremos, $p(1-p)$ vale 0, mas $p = 0$ e $p = 1$ ficam fora da definição, porque ali não há incerteza.) E é máxima em $p = 1/2$, quando sucesso e fracasso têm a mesma chance.
+
+```{python}
+#| label: fig-variancia-bernoulli
+#| fig-cap: "Variância de uma Bernoulli em função da probabilidade de sucesso p. O máximo, 0,25, fica em p = 0,5."
+#| fig-alt: "Parábola que vale 0 em p = 0 e p = 1 e atinge 0,25 em p = 0,5."
+p_grade = np.linspace(0, 1, 201)
+
+fig, ax = plt.subplots(figsize=(6, 3.5))
+ax.plot(p_grade, p_grade * (1 - p_grade))
+ax.axvline(0.5, color="gray", linestyle="--", linewidth=1)
+ax.set_xlabel("p")
+ax.set_ylabel("Var(X) = p(1 − p)")
+plt.show()
+```
+
+Um serviço que falha em 5% das requisições é mais previsível que uma moeda: a variância é `{python} num(0.05 * 0.95, 4)`, contra 0,25 da moeda. A curva também mostra que $p(1-p)$ é a variância de cada 0 ou 1 que entra numa proporção. Por isso, para estimar uma proporção com a mesma margem de erro em pontos percentuais, o pior caso é $p$ perto de 50%.
+
+## Resumo
+
+| Modelo | Valores | $P(X = x)$ | $E(X)$ | $\mathrm{Var}(X)$ | `scipy.stats` |
+|---|---|---|---|---|---|
+| Uniforme discreta | $x_1, \dots, x_k$ | $1/k$ | média dos $x_i$ | média dos desvios ao quadrado | `randint(a, b + 1)`, para os inteiros de $a$ a $b$ |
+| Bernoulli | 0, 1 | $1 - p$, $p$ | $p$ | $p(1 - p)$ | `bernoulli(p)` |
+
+: Modelos desta seção. {.table-responsive}
+
+## Exercícios
+
+**1.** Um sistema de testes A/B sorteia, para cada usuário, uma entre 4 versões da página (numeradas 1, 2, 3 e 4), todas com a mesma chance. Seja $X$ a versão sorteada. Calcule $E(X)$ e $\mathrm{Var}(X)$, à mão e com `scipy.stats`.
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+$E(X) = (1 + 2 + 3 + 4)/4 = 2{,}5$. $\mathrm{Var}(X) = [(1 - 2{,}5)^2 + (2 - 2{,}5)^2 + (3 - 2{,}5)^2 + (4 - 2{,}5)^2]/4 = 5/4 = 1{,}25$.
+
+```python
+versao = stats.randint(1, 5)
+versao.mean(), versao.var()
+```
+:::
+
+**2.** Um dado equilibrado é lançado, e $X = 1$ se sair a face 5 e $X = 0$ caso contrário. Qual a distribuição de $X$? Calcule $E(X)$ e $\mathrm{Var}(X)$.
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+$X \sim \mathrm{Ber}(1/6)$, com $E(X) = 1/6$ e $\mathrm{Var}(X) = (1/6)(5/6) = 5/36$ (Exemplo 6.11 de @bussab2023).
+:::
+
+**3.** Numa coluna `aprovado` com valores `True` e `False` de 200 candidatos, `df["aprovado"].mean()` devolve 0,35. O que esse número significa? Se cada candidato for um ensaio de Bernoulli com essa probabilidade, qual a variância de um ensaio?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+É a proporção de aprovados: 35% dos 200, ou 70 candidatos. A média de uma variável que só vale 0 e 1 é a fração de uns. A variância de um ensaio com $p = 0{,}35$ é $0{,}35 \times 0{,}65 = 0{,}2275$.
+:::

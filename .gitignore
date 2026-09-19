@@ -15,7 +15,7 @@ content/**/*_files/
 __pycache__/
 *.py[cod]
 .ipynb_checkpoints/
-**/*.quarto_ipynb
+**/*.quarto_ipynb*
 
 # Ambiente
 .env
@@ -40,3 +40,15 @@ quality_reports/
 # Livros-fonte (epub/pdf). O repositório é PÚBLICO: material com direitos
 # autorais fica local e NUNCA vai ao GitHub.
 livros/
+
+# Documentos administrativos da instituição — PID (plano individual docente,
+# com dados do professor) e a grade de Rotinas, que é de terceiros. O
+# repositório é PÚBLICO: ficam locais, como as avaliações e os livros-fonte.
+/docs/PID*
+/docs/ficha-PID.md
+/docs/Rotinas*
+
+**/*.quarto_ipynb
+
+# Decisões respondidas pelo professor (documento de trabalho, local)
+docs/decisoes-*.md

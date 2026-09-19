@@ -1,27 +1,19 @@
-# Amostragem e Estimação
+# Variáveis Aleatórias Discretas
 
 ::: {.callout-note}
-Este capítulo é baseado no Capítulo 2 de @bruce2020.
+Este capítulo é baseado no Capítulo 6 de @bussab2023.
 :::
 
-📓 [**Abrir o notebook deste capítulo no Colab ↗**](https://colab.research.google.com/github/BragaD/UnDF-Bases3-Estatistica-202602/blob/main/notebooks/capitulo-03.ipynb) — só o código, pronto para rodar.
-
-Uma amostra nunca é a população. A pergunta central deste capítulo é: quanto do que vemos na amostra é sinal, e quanto é acidente do sorteio? Antes de testar hipóteses, é preciso entender como uma amostra se relaciona com a população que a gerou e como estimar a partir dela. É o que este capítulo cobre.
-
-Ao final deste capítulo, você será capaz de:
-
-- Distinguir amostra de população, e reconhecer viés de amostra e viés de seleção
-- Distinguir a distribuição dos **dados** da distribuição amostral de uma **estatística**
-- Explicar o Teorema Central do Limite e o erro padrão
-- Usar o **bootstrap** para estimar a variabilidade de qualquer estatística, sem fórmula fechada
-- Construir e interpretar intervalos de confiança
+📓 [**Abrir o notebook deste capítulo no Colab ↗**](https://colab.research.google.com/github/BragaD/UnDF-Bases3-Estatistica-202602/blob/main/notebooks/capitulo-03.ipynb): só o código, pronto para rodar.
 
 ## Seções
 
 | Seção | Tópico |
 |---|---|
-| [3.1](01-amostragem-aleatoria.qmd) | Amostragem Aleatória e Viés |
-| [3.2](02-vies-selecao.qmd) | Viés de Seleção |
-| [3.3](03-distribuicao-amostral.qmd) | Distribuição Amostral |
-| [3.4](04-bootstrap.qmd) | Bootstrap |
-| [3.5](05-intervalos-confianca.qmd) | Intervalos de Confiança |
+| [3.1](01-variaveis-aleatorias.qmd) | Variável Aleatória e Função de Probabilidade |
+| [3.2](02-valor-medio-variancia.qmd) | Valor Médio e Variância |
+| [3.3](03-distribuicao-acumulada.qmd) | Função de Distribuição Acumulada |
+| [3.4](04-uniforme-bernoulli.qmd) | Uniforme Discreta e Bernoulli |
+| [3.5](05-binomial.qmd) | Distribuição Binomial |
+| [3.6](06-hipergeometrica.qmd) | Distribuição Hipergeométrica |
+| [3.7](07-poisson.qmd) | Distribuição de Poisson *(leitura complementar, fora do cronograma)* |

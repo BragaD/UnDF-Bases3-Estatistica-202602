@@ -1,0 +1,210 @@
+# Distribuição Normal
+
+::: {.callout-note}
+Esta seção corresponde à seção 7.4.2 de @bussab2023.
+:::
+
+```{python}
+#| label: setup
+#| include: false
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from scipy import stats
+from formato import num
+
+plt.rcParams["figure.figsize"] = (7, 4)
+np.set_printoptions(legacy="1.25")   # números sem o prefixo np.float64 na saída
+```
+
+Muitas medidas se distribuem em forma de sino: a maior parte dos valores perto do centro, cada vez menos valores à medida que se afastam, e mais ou menos a mesma quantidade dos dois lados. Segundo @bussab2023, as origens do modelo estão nos trabalhos de Gauss sobre erros de observações astronômicas, por volta de 1810. Em software, o tempo de execução de uma suíte de testes estável costuma ter essa forma: quase sempre perto de um valor típico, raramente muito acima ou muito abaixo.
+
+O modelo para esse sino é a distribuição **normal**, ou gaussiana. É o modelo contínuo mais importante da estatística, e a base de boa parte da inferência.
+
+## O modelo
+
+::: {.conceito}
+A variável aleatória $X$ tem **distribuição normal** com parâmetros $\mu$ (qualquer real) e $\sigma^2 > 0$, $X \sim N(\mu, \sigma^2)$, quando sua densidade, para todo $x$ real, é
+
+$$
+f(x) = \frac{1}{\sigma\sqrt{2\pi}}\, e^{-(x - \mu)^2 / (2\sigma^2)}.
+$$
+
+Seu valor médio é $E(X) = \mu$ e sua variância é $\mathrm{Var}(X) = \sigma^2$.
+:::
+
+A fórmula tem muitas letras, mas o formato do gráfico se lê direto nela:
+
+- **Máximo em $\mu$.** O expoente $-(x - \mu)^2/(2\sigma^2)$ é zero em $x = \mu$ e negativo em qualquer outro ponto.
+- **Simetria em torno de $\mu$.** O expoente só depende de $(x - \mu)^2$: um ponto a uma distância $d$ à direita de $\mu$ tem a mesma densidade que um à distância $d$ à esquerda.
+- **Largura dada por $\sigma$.** Quanto maior $\sigma$, mais devagar o expoente decresce, e mais espalhado o sino. Os pontos de inflexão, onde a curva muda de concavidade, ficam em $\mu - \sigma$ e $\mu + \sigma$.
+- **Caudas que nunca zeram.** A densidade é positiva em toda a reta, mas cai muito rápido longe de $\mu$.
+
+```{python}
+#| label: fig-normais
+#| fig-cap: "Três densidades normais. Mudar μ desloca o sino; aumentar σ o achata e alarga, mantendo a área total igual a 1."
+#| fig-alt: "Três curvas em forma de sino: N(0, 1) centrada em 0; N(3, 1) igual, deslocada para 3; N(0, 4) centrada em 0, mais baixa e mais larga."
+x = np.linspace(-7, 8, 600)
+
+fig, ax = plt.subplots(figsize=(6.5, 3.5))
+for mu, sigma in [(0, 1), (3, 1), (0, 2)]:
+    ax.plot(x, stats.norm(loc=mu, scale=sigma).pdf(x), label=f"N({mu}, {sigma**2})")
+ax.set_xlabel("x")
+ax.set_ylabel("densidade")
+ax.legend()
+plt.show()
+```
+
+::: {.callout-warning}
+## A `scipy` recebe o desvio-padrão, não a variância
+@bussab2023 escreve $N(\mu, \sigma^2)$, com a **variância** no segundo argumento. A `scipy.stats.norm(loc, scale)` recebe o **desvio-padrão** em `scale`. Para $N(3, 16)$, o certo é `stats.norm(loc=3, scale=4)`. Escrever `scale=16` dá outra distribuição, quatro vezes mais espalhada, sem nenhum aviso.
+:::
+
+## A normal padrão
+
+Entre todas as normais, uma serve de referência: a de média 0 e variância 1, a **normal padrão** $Z \sim N(0, 1)$. Sua f.d.a. tem notação própria, universal:
+
+$$
+\Phi(z) = P(Z \le z).
+$$
+
+A integral da densidade normal não tem fórmula fechada: $\Phi$ só se calcula numericamente. Por isso o Bussab traz uma tabela (a Tabela III, com $P(0 \le Z \le z)$), e por isso a `scipy` tem a `norm.cdf`. Qualquer probabilidade sai de $\Phi$ por diferença, $P(a \le Z \le b) = \Phi(b) - \Phi(a)$. A simetria em torno de 0 dá $\Phi(-z) = 1 - \Phi(z)$, e por isso basta tabelar $z \ge 0$. Os exemplos da seção 7.4.2 de @bussab2023, com $z = 1{,}73$:
+
+```{python}
+#| label: normal-padrao
+Z = stats.norm(loc=0, scale=1)
+
+print(round(Z.cdf(1.73) - 0.5, 4))           # P(0 ≤ Z ≤ 1,73), o valor da Tabela III
+print(round(Z.sf(1.73), 4))                  # P(Z ≥ 1,73)
+print(round(Z.cdf(-1.73), 4))                # P(Z ≤ -1,73), igual pela simetria
+print(round(Z.cdf(1.73) - Z.cdf(0.47), 4))   # P(0,47 ≤ Z ≤ 1,73)
+```
+
+## Usando a tabela da normal
+
+Numa prova feita à mão não há `scipy`. Por isso existe a [**tabela da normal padrão** (PDF)](../../downloads/tabela-normal-padrao.pdf), para imprimir ou consultar. Ela dá $\Phi(z) = P(Z \le z)$ para $z$ de 0,00 a 3,49. A linha é o valor de $z$ até a primeira casa decimal, e a coluna é a segunda casa.
+
+Para achar $\Phi(1{,}73)$, desça até a linha **1,7** e siga até a coluna **0,03**: o valor é 0,9582. As outras probabilidades saem desse número:
+
+- **Cauda à direita:** $P(Z > 1{,}73) = 1 - \Phi(1{,}73) = 0{,}0418$.
+- **$z$ negativo:** a tabela só tem $z \ge 0$, e a simetria resolve o resto. $\Phi(-1{,}73) = 1 - \Phi(1{,}73) = 0{,}0418$.
+- **Intervalo:** $P(0{,}47 \le Z \le 1{,}73)$ é a diferença $\Phi(1{,}73) - \Phi(0{,}47)$, ou seja, $0{,}9582 - 0{,}6808 = 0{,}2774$.
+
+A Tabela III de @bussab2023 usa outro formato: dá a área entre 0 e $z$, $P(0 \le Z \le z)$, e não a área acumulada desde $-\infty$. As duas se convertem somando ou tirando 0,5: $P(0 \le Z \le 1{,}73) = 0{,}9582 - 0{,}5 = 0{,}4582$, o valor do Bussab.
+
+## Padronização
+
+A normal padrão serve para todas as outras por causa de uma transformação linear. Se $X \sim N(\mu, \sigma^2)$, defina
+
+$$
+Z = \frac{X - \mu}{\sigma}.
+$$
+
+Pelas regras da seção 3.2, que valem também para variáveis contínuas (seção 4.2), com $a = 1/\sigma$ e $b = -\mu/\sigma$:
+
+$$
+\begin{aligned}
+E(Z) &= \frac{E(X) - \mu}{\sigma} = 0, \\
+\mathrm{Var}(Z) &= \frac{\mathrm{Var}(X)}{\sigma^2} = 1.
+\end{aligned}
+$$
+
+O que as regras não mostram, e que @bussab2023 também não demonstra, é que $Z$ continua sendo **normal**. Aceitando esse fato, $Z \sim N(0, 1)$, e toda pergunta sobre $X$ vira uma pergunta sobre $Z$. O valor $z = (x - \mu)/\sigma$ diz a quantos desvios-padrão $x$ está da média.
+
+Por exemplo, com $X \sim N(3, 16)$ (ou seja, $\sigma = 4$):
+
+$$
+\begin{aligned}
+P(2 \le X \le 5) &= P\left(\frac{2 - 3}{4} \le Z \le \frac{5 - 3}{4}\right) \\
+&= P(-0{,}25 \le Z \le 0{,}5).
+\end{aligned}
+$$
+
+```{python}
+#| label: padronizacao
+X = stats.norm(loc=3, scale=4)                 # N(3, 16): scale é o desvio-padrão
+
+pela_padronizacao = Z.cdf(0.5) - Z.cdf(-0.25)
+direto = X.cdf(5) - X.cdf(2)
+round(pela_padronizacao, 4), round(direto, 4)
+```
+
+Os dois caminhos dão `{python} num(direto, 4)`, o valor do Bussab. Com a tabela: $\Phi(0{,}5) = 0{,}6915$ e, pela simetria, $\Phi(-0{,}25) = 1 - 0{,}5987 = 0{,}4013$. A diferença é $0{,}2902$. Com a `scipy`, `stats.norm(loc=μ, scale=σ)` faz a conta direto, sem padronizar, mas a padronização continua útil para **interpretar**: dizer que um valor está a 2 desvios-padrão da média significa a mesma coisa em qualquer normal.
+
+## A quantos desvios-padrão
+
+Quanto da probabilidade fica até 1, 2 e 3 desvios-padrão da média? Pela padronização, a resposta é a mesma para qualquer normal:
+
+```{python}
+#| label: regra-68-95
+pd.DataFrame({
+    "até k desvios": [1, 2, 3],
+    "P(|Z| ≤ k)": [Z.cdf(k) - Z.cdf(-k) for k in (1, 2, 3)],
+}).round(4)
+```
+
+Cerca de 68% dos valores ficam a menos de um desvio-padrão da média, 95% a menos de dois, e 99,7% a menos de três. Numa normal qualquer, um valor a mais de 3 desvios-padrão da média é raro: fica fora dessa faixa só 0,3% da probabilidade, somando os dois lados.
+
+## Um exemplo completo
+
+O Exemplo 7.9 de @bussab2023: os depósitos num banco durante janeiro seguem uma normal com média R\$ 10.000 e desvio-padrão R\$ 1.500. Sorteado um depósito ao acaso, qual a probabilidade de ele ser (a) de até R\$ 10.000; (b) de pelo menos R\$ 10.000; (c) entre R\$ 12.000 e R\$ 15.000; (d) maior que R\$ 20.000?
+
+```{python}
+#| label: depositos
+deposito = stats.norm(loc=10_000, scale=1_500)
+
+print(deposito.cdf(10_000), deposito.sf(10_000))
+print(round(deposito.cdf(15_000) - deposito.cdf(12_000), 4))
+print(f"{deposito.sf(20_000):.1e}")
+```
+
+(a) e (b) dão 0,5 cada, pela simetria em torno da média. (c) é cerca de `{python} num(deposito.cdf(15_000) - deposito.cdf(12_000), 4)` (o Bussab, com $z$ arredondado a duas casas e a Tabela III, obtém cerca de 0,0914). (d) é praticamente zero: R\$ 20.000 fica a $(20.000 - 10.000)/1.500 \approx 6{,}7$ desvios-padrão da média.
+
+::: {.callout-important}
+## Nem todo dado é normal
+Dados com cauda longa à direita, como tempo de resposta de servidores ou renda, **não** são normais (até a suíte "estável" dos exercícios é uma idealização), e usar a normal para eles subestima a chance de valores muito altos. Antes de usar o modelo, olhe o histograma dos dados (seção 1.5) e desconfie de assimetria.
+:::
+
+## Resumo
+
+::: {.table-responsive}
+| Item | Normal $N(\mu, \sigma^2)$ |
+|---|---|
+| Densidade | sino simétrico em torno de $\mu$, com largura dada por $\sigma$ |
+| $E(X)$, $\mathrm{Var}(X)$ | $\mu$, $\sigma^2$ |
+| Padronização | $Z = (X - \mu)/\sigma \sim N(0, 1)$ |
+| f.d.a. padrão | $\Phi(z) = P(Z \le z)$, sem fórmula fechada |
+| A 1, 2 e 3 desvios | cerca de 68%, 95% e 99,7% |
+| `scipy.stats` | `norm(loc=μ, scale=σ)`: `pdf`, `cdf`, `sf` |
+:::
+
+## Exercícios
+
+**1.** O tempo de execução de uma suíte de testes é normal com média 12 minutos e desvio-padrão 2 minutos. Qual a probabilidade de uma execução levar mais de 15 minutos? E de ficar entre 10 e 14 minutos?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+$X \sim N(12, 4)$. $P(X > 15) = P(Z > 1{,}5) \approx 0{,}067$. $P(10 \le X \le 14) = P(-1 \le Z \le 1) \approx 0{,}683$, a faixa de um desvio-padrão.
+
+```python
+t = stats.norm(loc=12, scale=2)
+t.sf(15), t.cdf(14) - t.cdf(10)
+```
+:::
+
+**2.** Com a mesma suíte, a equipe usa um tempo limite (*timeout*) de 16 minutos. Que fração das execuções normais ultrapassa o limite? E se o limite fosse de 18 minutos?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+16 minutos ficam a $(16 - 12)/2 = 2$ desvios-padrão da média: $P(X > 16) = P(Z > 2) \approx 0{,}023$, pouco mais de 2% das execuções. Com 18 minutos, 3 desvios-padrão, $P(Z > 3) \approx 0{,}0013$. A faixa de 2 desvios contém 95,45% da probabilidade (os 95% da regra são arredondamento) e deixa 4,55% de fora, metade de cada lado: 2,3%. Da mesma forma, 0,0013 é metade dos 0,27% que ficam fora da faixa de 3 desvios.
+:::
+
+**3.** Um colega calculou $P(X \le 5)$ para $X \sim N(3, 16)$ com `stats.norm(3, 16).cdf(5)` e obteve 0,55. O valor certo é maior ou menor? Por quê?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+Ele passou a variância, 16, como `scale`, que é o desvio-padrão. Modelou uma normal com $\sigma = 16$, muito mais espalhada, em que 5 fica a só $2/16 = 0{,}125$ desvio-padrão da média. O certo é `stats.norm(3, 4).cdf(5)`, cerca de 0,69: com $\sigma = 4$, o valor 5 está a meio desvio-padrão acima da média, e a probabilidade acumulada é maior.
+:::

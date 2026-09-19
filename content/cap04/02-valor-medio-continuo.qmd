@@ -1,0 +1,152 @@
+# Valor Médio e Variância de uma Variável Contínua
+
+::: {.callout-note}
+Esta seção corresponde à seção 7.2 de @bussab2023.
+:::
+
+```{python}
+#| label: setup
+#| include: false
+import numpy as np
+import pandas as pd
+from scipy.integrate import quad
+from formato import num
+
+np.set_printoptions(legacy="1.25")   # números sem o prefixo np.float64 na saída
+```
+
+Na seção 3.2, o valor médio de uma variável discreta era a soma dos valores pesados pelas probabilidades, $\sum x_i\, p(x_i)$. Numa variável contínua não há lista de valores para somar, e cada valor isolado tem probabilidade zero. Como definir a média do tempo de resposta de um servidor, ou do ângulo do relógio da seção 4.1?
+
+Uma ideia simples resolve: dividir os valores em faixas, como no histograma da seção 4.1, trocar cada faixa pelo seu ponto médio e tratar a variável como se fosse discreta. Com faixas cada vez mais estreitas, a soma vira uma integral.
+
+## Da soma à integral
+
+Divida o intervalo limitado $[A, B]$, onde a densidade é positiva, em $n$ faixas de largura $h$, com pontos médios $x_1, \dots, x_n$. A probabilidade de $X$ cair na faixa $i$ é a área sob $f$ naquela faixa, que é aproximadamente a de um retângulo de base $h$ e altura $f(x_i)$:
+
+$$
+P(X \text{ na faixa } i) \approx f(x_i)\, h.
+$$
+
+Trocando $X$ pelo ponto médio da faixa em que ela cai, sai aproximadamente uma variável discreta, cujo valor médio é $\sum x_i\, f(x_i)\, h$. Para a densidade $f(x) = 2x$ em $[0, 1]$, da seção 4.1:
+
+```{python}
+#| label: soma-riemann
+def media_aproximada(n):
+    h = 1 / n
+    pontos_medios = (np.arange(n) + 0.5) * h
+    return (pontos_medios * 2 * pontos_medios * h).sum()
+
+pd.DataFrame({"faixas": [4, 10, 100, 1000],
+              "aproximação": [media_aproximada(n) for n in [4, 10, 100, 1000]]}).round(6)
+```
+
+A aproximação se estabiliza em $2/3 \approx 0{,}6667$ conforme as faixas estreitam. No limite, a soma $\sum x_i\, f(x_i)\, h$ vira a integral de $x\, f(x)$ (Exemplo 7.3 de @bussab2023).
+
+## Definições
+
+::: {.conceito}
+Se $X$ é contínua com densidade $f$, o **valor médio** e a **variância** de $X$ são
+
+$$
+\begin{aligned}
+E(X) &= \int_{-\infty}^{\infty} x\, f(x)\, dx, \\
+\mathrm{Var}(X) &= \int_{-\infty}^{\infty} (x - \mu)^2 f(x)\, dx,
+\end{aligned}
+$$
+
+com $\mu = E(X)$. O desvio-padrão é $\mathrm{DP}(X) = \sqrt{\mathrm{Var}(X)}$, na mesma unidade de $X$.
+:::
+
+As fórmulas são as da seção 3.2, com a soma trocada pela integral e $p(x_i)$ trocado por $f(x)\,dx$. Pela linearidade da integral, e porque a área total sob $f$ é 1, as propriedades também valem: $E(aX + b) = a\,E(X) + b$ e $\mathrm{Var}(aX + b) = a^2\,\mathrm{Var}(X)$.
+
+Na prática, a variância costuma ser mais fácil de calcular por outro caminho, a fórmula (7.8) de @bussab2023:
+
+$$
+\begin{aligned}
+\mathrm{Var}(X) &= E(X^2) - [E(X)]^2, \\
+E(X^2) &= \int_{-\infty}^{\infty} x^2 f(x)\, dx.
+\end{aligned}
+$$
+
+Ela sai de expandir $(x - \mu)^2 = x^2 - 2\mu x + \mu^2$ dentro da integral.
+
+## Os dois exemplos da seção 4.1
+
+Para $f(x) = 2x$ em $[0, 1]$:
+
+$$
+\begin{aligned}
+E(X) &= \int_0^1 x \cdot 2x\, dx = \left[\tfrac{2x^3}{3}\right]_0^1 = \tfrac{2}{3}, \\
+E(X^2) &= \int_0^1 x^2 \cdot 2x\, dx = \left[\tfrac{x^4}{2}\right]_0^1 = \tfrac{1}{2}, \\
+\mathrm{Var}(X) &= \tfrac{1}{2} - \left(\tfrac{2}{3}\right)^2 = \tfrac{1}{18}.
+\end{aligned}
+$$
+
+Para o relógio, com $f(x) = 1/360$ em $[0, 360)$, o valor médio é 180°, o meio do mostrador, como a simetria sugere. O `quad` confere as quatro contas:
+
+```{python}
+#| label: momentos-quad
+E_2x, _ = quad(lambda x: x * 2 * x, 0, 1)
+E2_2x, _ = quad(lambda x: x**2 * 2 * x, 0, 1)
+
+E_relogio, _ = quad(lambda x: x / 360, 0, 360)
+Var_relogio, _ = quad(lambda x: (x - 180) ** 2 / 360, 0, 360)
+
+print(round(E_2x, 4), round(E2_2x - E_2x**2, 4))
+print(round(E_relogio, 2), round(Var_relogio, 2), round(np.sqrt(Var_relogio), 2))
+```
+
+O ângulo do relógio tem média 180° e desvio-padrão de cerca de `{python} num(np.sqrt(Var_relogio), 1)`°. Na densidade $2x$, a média fica em $2/3$, puxada para a direita, onde a densidade é maior: a média é o ponto de equilíbrio da área sob a curva.
+
+## A média de uma simulação
+
+Como na seção 3.2, a média de muitas observações simuladas se aproxima de $E(X)$. O numpy tem um gerador pronto para a densidade $2x$ em $[0, 1]$: é um caso particular da distribuição triangular, com o pico em 1.
+
+```{python}
+#| label: simulacao-2x
+rng = np.random.default_rng(42)
+x = rng.triangular(left=0, mode=1, right=1, size=100_000)   # densidade 2x em [0, 1]
+round(float(x.mean()), 4), round(float(x.var()), 4)
+```
+
+A média simulada fica perto de $2/3 \approx 0{,}6667$, e a variância perto de $1/18 \approx 0{,}0556$.
+
+## Resumo
+
+::: {.table-responsive}
+| | Discreta | Contínua |
+|---|---|---|
+| $E(X)$ | $\sum x_i\, p(x_i)$ | $\int x\, f(x)\, dx$ |
+| $\mathrm{Var}(X)$ | $\sum (x_i - \mu)^2 p(x_i)$ | $\int (x - \mu)^2 f(x)\, dx$ |
+| Atalho | o mesmo | $E(X^2) - [E(X)]^2$ |
+:::
+
+## Exercícios
+
+**1.** Para $f(x) = 3x^2$ em $[0, 1]$ (exercício 1 da seção 4.1), calcule $E(X)$ e $\mathrm{Var}(X)$.
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+$E(X) = \int_0^1 3x^3\, dx = 3/4$ e $E(X^2) = \int_0^1 3x^4\, dx = 3/5$. $\mathrm{Var}(X) = 3/5 - 9/16 = 3/80 = 0{,}0375$.
+
+```python
+quad(lambda x: x * 3 * x**2, 0, 1)[0], quad(lambda x: x**2 * 3 * x**2, 0, 1)[0] - 0.75**2
+```
+:::
+
+**2.** O ângulo do relógio está em graus. Se ele for convertido para radianos, $Y = \pi X / 180$, qual a média e o desvio-padrão de $Y$?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+É uma transformação linear com $a = \pi/180$ e $b = 0$. $E(Y) = (\pi/180) \times 180 = \pi$, e $\mathrm{DP}(Y) = (\pi/180) \times 103{,}92 \approx 1{,}81$ radianos.
+:::
+
+**3.** Na densidade $2x$, a média é $2/3$. A mediana, o valor $m$ com $P(X \le m) = 1/2$, é maior ou menor que a média? Calcule.
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+$P(X \le m) = \int_0^m 2x\, dx = m^2 = 1/2$, então $m = 1/\sqrt{2} \approx 0{,}707$, maior que a média $2/3 \approx 0{,}667$. A densidade tem cauda à esquerda (valores pequenos são menos prováveis, mas puxam a média para baixo), e a média fica abaixo da mediana, como nos dados com assimetria à esquerda do Capítulo 1.
+:::

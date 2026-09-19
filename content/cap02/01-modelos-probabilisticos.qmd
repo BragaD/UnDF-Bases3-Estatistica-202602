@@ -1,0 +1,328 @@
+# Modelos Probabilísticos
+
+::: {.callout-note}
+Esta seção corresponde à seção 5.1 de @bussab2023.
+:::
+
+```{python}
+#| label: setup
+#| include: false
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from formato import num
+
+plt.rcParams["figure.figsize"] = (7, 4)
+np.set_printoptions(legacy="1.25")   # números sem o prefixo np.float64 na saída
+```
+
+No Capítulo 1 descrevemos dados que já existiam: a população de cada estado, a taxa de homicídios, a proporção de atrasos por causa. Toda frequência relativa que calculamos contava algo que **já tinha acontecido**.
+
+A probabilidade faz a pergunta ao contrário. Antes de lançar um dado, sortear um estado ou rodar um pipeline de testes, o que **deve** acontecer? Para responder sem esperar os dados, precisamos de um modelo.
+
+## Da frequência ao modelo
+
+Lance um dado 60 vezes e conte quantas vezes saiu cada face. Dividindo cada contagem por 60, você tem a distribuição de frequências do Capítulo 1. Lance mais 60 vezes e as frequências mudam. Nenhuma das duas tabelas é "a certa".
+
+O computador lança o dado por nós. O chunk abaixo repete o experimento com 60, 600 e 60.000 lançamentos:
+
+```{python}
+#| label: dado-simulado
+rng = np.random.default_rng(42)
+
+frequencias = {}
+for n in [60, 600, 60_000]:
+    lancamentos = rng.integers(1, 7, size=n)   # faces de 1 a 6
+    contagem = pd.Series(lancamentos).value_counts(normalize=True)
+    frequencias[n] = contagem.sort_index()
+
+tabela = pd.DataFrame(frequencias)
+tabela.index.name = "face"
+tabela.round(3)
+```
+
+```{python}
+#| label: fig-dado-simulado
+#| fig-cap: "Frequência relativa de cada face em 60, 600 e 60.000 lançamentos simulados. A linha tracejada marca 1/6."
+#| fig-alt: "Três gráficos de barras lado a lado com a frequência de cada face do dado. Com 60 lançamentos as barras oscilam longe da linha de 1/6; com 600 ficam mais perto; com 60.000 ficam quase coladas nela."
+fig, eixos = plt.subplots(1, 3, sharey=True, figsize=(7, 2.8))
+for eixo, n in zip(eixos, tabela.columns):
+    eixo.bar(tabela.index, tabela[n])
+    eixo.axhline(1/6, color="black", linestyle="--", linewidth=1)
+    eixo.set_title(f"n = {num(n, 0)}")
+    eixo.set_xlabel("face")
+eixos[0].set_ylabel("frequência relativa")
+plt.tight_layout()
+plt.show()
+```
+
+Com 60 lançamentos, a face 5 saiu em `{python} num(100 * tabela.loc[5, 60], 1)`% das vezes e a face 2 em só `{python} num(100 * tabela.loc[2, 60], 1)`%. Com 60.000, todas as faces ficam entre `{python} num(100 * tabela[60_000].min(), 2)`% e `{python} num(100 * tabela[60_000].max(), 2)`%, em torno de 1/6 ≈ 16,67%.
+
+Um aluno atento vai notar que `rng.integers` já sorteia cada face com a mesma chance: a simulação parte do dado equilibrado, e por isso converge para 1/6. O que ela mostra é outra coisa, o quanto a frequência observada oscila em torno do modelo quando $n$ é pequeno.
+
+Esse 1/6 não depende de lançamento nenhum. Ele sai de duas suposições: o dado tem seis faces, e é equilibrado, sem favorecer nenhuma delas. Se as seis faces têm a mesma chance e as chances somam 1, cada uma tem 1/6. A tabela abaixo é o **modelo probabilístico** do lançamento:
+
+| Face | Probabilidade |
+|:-:|:-:|
+| 1 | 1/6 |
+| 2 | 1/6 |
+| 3 | 1/6 |
+| 4 | 1/6 |
+| 5 | 1/6 |
+| 6 | 1/6 |
+| **Total** | **1** |
+
+: Modelo para o lançamento de um dado equilibrado. {#tbl-modelo-dado}
+
+A frequência observada muda a cada rodada de lançamentos. O modelo é fixo, e é com ele que calculamos antes de observar. Se o dado real estiver viciado, o modelo está errado, e os dados vão mostrar isso: com muitos lançamentos, as frequências se afastam de 1/6 e não voltam.
+
+O modelo descreve as frequências que esperamos, e ele é construído a partir de suposições sobre o experimento, não a partir de observações.
+
+## Espaço amostral
+
+O modelo do dado tem duas partes: a lista do que pode sair e uma probabilidade para cada item da lista. A primeira parte ganha um nome.
+
+::: {.conceito}
+O **espaço amostral** $\Omega$ de um experimento é o conjunto de todos os seus resultados possíveis. Cada elemento $\omega$ de $\Omega$ é um **ponto amostral**.
+:::
+
+Para o dado, $\Omega = \{1, 2, 3, 4, 5, 6\}$, com seis pontos amostrais.
+
+Lançando uma moeda duas vezes, com C para cara e R para coroa, cada resultado é um par ordenado:
+
+$$
+\Omega = \{(C, C),\ (C, R),\ (R, C),\ (R, R)\}.
+$$
+
+$(C, R)$ e $(R, C)$ são pontos diferentes: no primeiro, a cara saiu no primeiro lançamento; no segundo, no segundo lançamento. Se a moeda é equilibrada, cada um dos quatro pontos tem probabilidade 1/4.
+
+::: {.conceito}
+Um **modelo probabilístico** fica especificado por duas coisas: o espaço amostral $\Omega$ e uma probabilidade $P(\omega)$ para cada ponto amostral.
+:::
+
+Agora um caso de software. Um pull request dispara três builds no servidor de integração contínua, e cada um **passa** (P) ou **falha** (F). O espaço amostral são as sequências de três letras. Enumerar à mão é fácil de errar; o `itertools.product` faz o produto cartesiano por nós:
+
+```{python}
+#| label: builds-omega
+from itertools import product
+
+omega = ["".join(r) for r in product("PF", repeat=3)]
+omega
+```
+
+São $2 \times 2 \times 2 = `{python} len(omega)`$ pontos amostrais. O mesmo raciocínio vale para $n$ builds: $2^n$ resultados, o que dá `{python} num(2**10, 0)` com dez builds.
+
+::: {.callout-warning}
+## O espaço amostral não é único
+Nas duas moedas, poderíamos anotar só o **número de caras**: $\Omega = \{0, 1, 2\}$. É um espaço amostral válido, mas seus pontos não são igualmente prováveis. Uma cara sai de $(C, R)$ ou de $(R, C)$, e por isso tem probabilidade 2/4, o dobro de "zero caras". Quem escolhe o espaço amostral mais grosseiro e supõe chances iguais erra a conta.
+:::
+
+## Eventos
+
+Quase nunca a pergunta é sobre um ponto amostral isolado. No dado, queremos saber a chance de sair um número par. Nas moedas, a chance de as duas faces serem iguais. Nos builds, a chance de exatamente dois falharem. Cada uma dessas perguntas junta vários pontos amostrais.
+
+::: {.conceito}
+Um **evento** é um subconjunto $A \subseteq \Omega$. Num espaço amostral discreto, a probabilidade de $A$ é a soma das probabilidades dos pontos amostrais que ele contém:
+
+$$
+P(A) = \sum_{\omega \in A} P(\omega).
+$$
+:::
+
+Nas duas moedas, o evento "faces iguais" é $A = \{(C, C),\ (R, R)\}$, e
+
+$$
+\begin{aligned}
+P(A) &= P\big((C, C)\big) + P\big((R, R)\big) \\
+     &= \frac{1}{4} + \frac{1}{4} = \frac{1}{2}.
+\end{aligned}
+$$
+
+Em Python, um evento é um conjunto, e o modelo é um dicionário que associa cada ponto amostral à sua probabilidade:
+
+```{python}
+#| label: evento-dado
+modelo_dado = {face: 1/6 for face in range(1, 7)}
+
+par = {2, 4, 6}
+maior_que_3 = {4, 5, 6}
+
+def prob(evento, modelo):
+    return sum(modelo[w] for w in evento)
+
+prob(par, modelo_dado), prob(maior_que_3, modelo_dado)
+```
+
+É costume desenhar eventos como regiões dentro de um retângulo que representa $\Omega$, o **diagrama de Venn**:
+
+```{python}
+#| label: fig-venn-dado
+#| fig-cap: "O espaço amostral do dado (retângulo), os eventos A = par e B = maior que 3 (círculos) e os seis pontos amostrais."
+#| fig-alt: "Diagrama de Venn: um retângulo com dois círculos que se sobrepõem. A face 2 fica só no círculo A, a face 5 só no círculo B, as faces 4 e 6 na sobreposição, e as faces 1 e 3 fora dos dois círculos."
+from matplotlib.patches import Circle, Rectangle
+
+fig, ax = plt.subplots(figsize=(5, 3))
+ax.add_patch(Rectangle((0, 0), 10, 6, fill=False, linewidth=1.5))
+ax.add_patch(Circle((4, 3), 2.2, alpha=0.35, color="C0"))
+ax.add_patch(Circle((6, 3), 2.2, alpha=0.35, color="C1"))
+
+posicoes = {2: (3, 3), 4: (5, 3.6), 6: (5, 2.4), 5: (7, 3), 1: (0.9, 5), 3: (9.1, 1)}
+for face, (x, y) in posicoes.items():
+    ax.plot(x, y, "ko", markersize=4)
+    ax.annotate(str(face), (x, y), textcoords="offset points", xytext=(6, 4))
+
+ax.text(2.3, 5.1, "A (par)", fontsize=11)
+ax.text(6.6, 5.1, "B (maior que 3)", fontsize=11)
+ax.text(0.2, 0.3, r"$\Omega$", fontsize=13)
+ax.set_xlim(-0.2, 10.2)
+ax.set_ylim(-0.2, 6.2)
+ax.set_aspect("equal")
+ax.axis("off")
+plt.show()
+```
+
+As faces 4 e 6 estão nos dois círculos ao mesmo tempo, e as faces 1 e 3 não estão em nenhum. A seção 2.2 dá nome a essas regiões e mostra como calcular suas probabilidades.
+
+Nos builds, "exatamente dois falham" é o evento
+
+```{python}
+#| label: builds-evento
+dois_falham = {w for w in omega if w.count("F") == 2}
+sorted(dois_falham)   # um set de strings não tem ordem fixa; sorted() a fixa
+```
+
+Se os oito pontos fossem igualmente prováveis, teríamos $P = 3/8$. Mas isso exigiria, entre outras coisas, que cada build falhasse metade das vezes, e um pipeline assim não duraria uma semana em produção. O evento é o mesmo com qualquer modelo; a probabilidade depende das $P(\omega)$ que atribuímos. O Capítulo 3 constrói o modelo em que cada build falha com uma probabilidade $p$ qualquer, sem que um influencie o outro.
+
+## Sorteando um estado
+
+Voltemos aos dados do Capítulo 1. Escreva a sigla de cada unidade federativa num papel, dobre, misture e tire um papel ao acaso. O espaço amostral são as 27 siglas, e como nenhum papel é favorecido, cada ponto amostral tem probabilidade 1/27.
+
+```{python}
+#| label: estados-modelo
+estado = pd.read_csv("dados/estados.csv")
+
+modelo_uf = {sigla: 1/27 for sigla in estado["Sigla"]}
+len(modelo_uf)
+```
+
+Qual a probabilidade de sortear um estado com mais de 10 milhões de habitantes?
+
+```{python}
+#| label: estados-grandes
+grandes = set(estado.loc[estado["Populacao"] > 10_000_000, "Sigla"])
+sorted(grandes), prob(grandes, modelo_uf)
+```
+
+São `{python} len(grandes)` estados, e $P = `{python} len(grandes)`/27$, cerca de `{python} num(prob(grandes, modelo_uf), 3)`. Repare que esse número é a **frequência relativa** do Capítulo 1: a proporção de estados com mais de 10 milhões de habitantes. Quando todos os pontos de um conjunto finito têm a mesma chance de ser sorteados, a probabilidade de um evento é a proporção de pontos que caem nele, e o pandas calcula isso direto:
+
+```{python}
+#| label: estados-proporcao
+(estado["Populacao"] > 10_000_000).mean()
+```
+
+Agora, a probabilidade de sortear um estado com taxa de homicídios **acima da mediana**. A intuição diz 1/2, porque a mediana divide os dados ao meio.
+
+```{python}
+#| label: estados-acima-mediana
+mediana_taxa = estado["Taxa.Homicidios"].median()
+acima = set(estado.loc[estado["Taxa.Homicidios"] > mediana_taxa, "Sigla"])
+len(acima), prob(acima, modelo_uf)
+```
+
+Dá $P = `{python} len(acima)`/27$, e não $1/2$. Com $n = 27$ ímpar, a mediana é uma observação de verdade (seção 1.3): é a taxa do `{python} estado.loc[estado["Taxa.Homicidios"] == mediana_taxa, "Estado"].item()`, que não está acima dela nem abaixo. Sobram `{python} len(estado) - 1` estados, `{python} len(acima)` de cada lado.
+
+::: {.callout-important}
+## Quem escolhe o modelo é você
+Sortear um **estado** não é o mesmo que sortear um **brasileiro** e perguntar onde ele mora. No segundo experimento, o espaço amostral ainda pode ser o das 27 siglas, mas a probabilidade de cada uma é a fração da população que vive nela. Como no número de caras, cada ponto agrupa muitos resultados (aqui, pessoas), e por isso os pontos não têm a mesma chance. É a mesma ideia de peso da média ponderada da seção 1.3.
+:::
+
+```{python}
+#| label: estados-por-pessoa
+modelo_pessoa = dict(zip(estado["Sigla"], estado["Populacao"] / estado["Populacao"].sum()))
+prob(grandes, modelo_pessoa)
+```
+
+O evento "mora num estado com mais de 10 milhões de habitantes" é o mesmo conjunto de `{python} len(grandes)` siglas. Mas a probabilidade passa de `{python} num(100 * prob(grandes, modelo_uf), 1)`% para `{python} num(100 * prob(grandes, modelo_pessoa), 1)`%: mais da metade dos brasileiros mora nesses `{python} len(grandes)` estados.
+
+## Espaço amostral discreto e contínuo
+
+Todos os espaços amostrais até aqui podiam ser listados: seis faces, quatro pares, oito sequências, 27 siglas. A lista também pode ser infinita e continuar listável. Se contarmos quantas requisições chegam a um servidor até a primeira falha, contando a que falhou, $\Omega = \{1, 2, 3, \dots\}$. Espaços assim são **discretos**, e neles a fórmula da soma funciona.
+
+Agora meça o **tempo de resposta** de uma requisição, em milissegundos. Qualquer número real não negativo é um resultado possível:
+
+$$
+\Omega = \{t \in \mathbb{R} : t \ge 0\}.
+$$
+
+O evento "a requisição responde em menos de 200 ms" é o intervalo $A = \{t : 0 \le t < 200\}$. Não há como listar os pontos de $A$ um a um e somar suas probabilidades, porque os números entre 0 e 200 são tantos que não cabem numa lista, nem numa lista infinita como $\{1, 2, 3, \dots\}$. Esse espaço amostral é **contínuo**, e a probabilidade de um evento vai ser calculada de outro modo, com uma integral, no Capítulo 4. Até lá, os espaços amostrais do livro são discretos.
+
+## Resumo
+
+::: {.table-responsive}
+| Termo | O que é |
+|---|---|
+| Espaço amostral $\Omega$ | todos os resultados possíveis |
+| Ponto amostral $\omega$ | um resultado |
+| Modelo probabilístico | $\Omega$ + uma $P(\omega)$ para cada ponto |
+| Evento $A$ | subconjunto de $\Omega$ |
+| $P(A)$ | soma das $P(\omega)$ com $\omega \in A$ |
+:::
+
+::: {.conceito}
+**Regra prática:** antes de calcular qualquer probabilidade, escreva o espaço amostral e diga qual é a probabilidade de cada ponto. Os erros desta seção, o do número de caras e o da soma de dois dados, estão nesse passo, não na conta.
+:::
+
+## Exercícios
+
+**1.** Dois usuários avaliam um aplicativo com uma nota de 1 a 5 estrelas, um depois do outro. Escreva o espaço amostral. Quantos pontos amostrais ele tem? Quais pontos formam o evento "as duas notas são iguais"?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+$\Omega = \{(i, j) : i, j \in \{1, 2, 3, 4, 5\}\}$, com $5 \times 5 = 25$ pontos, em que $i$ é a nota do primeiro usuário e $j$ a do segundo. O evento é $\{(1,1), (2,2), (3,3), (4,4), (5,5)\}$, com 5 pontos.
+
+Se os 25 pontos fossem igualmente prováveis, a probabilidade seria $5/25 = 1/5$. Mas notas de aplicativo raramente são equiprováveis: a maioria dos apps tem muito mais notas 5 e 1 do que 3.
+:::
+
+**2.** Um colega argumenta: "a soma de dois dados vai de 2 a 12, são 11 resultados possíveis, então a chance de a soma dar 7 é 1/11". Onde está o erro? Qual a probabilidade certa? Confira em Python.
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+$\{2, 3, \dots, 12\}$ é um espaço amostral válido, mas seus pontos não são equiprováveis, o mesmo problema do número de caras nas duas moedas. O espaço com pontos equiprováveis é o dos 36 pares $(i, j)$, e 6 deles somam 7: $(1,6), (2,5), (3,4), (4,3), (5,2), (6,1)$. A probabilidade é $6/36 = 1/6$.
+
+```python
+pares = list(product(range(1, 7), repeat=2))
+soma_7 = [p for p in pares if sum(p) == 7]
+len(soma_7) / len(pares)
+```
+:::
+
+**3.** Classifique o espaço amostral de cada experimento como discreto ou contínuo: (a) número de commits num repositório em um dia; (b) duração de um build; (c) se um deploy deu certo ou não; (d) o ângulo do ponteiro dos segundos de um relógio que parou por falha, supondo que o ponteiro se move continuamente, sem saltos.
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+(a) Discreto: $\{0, 1, 2, \dots\}$, infinito mas listável. (b) Contínuo: qualquer duração real positiva. (c) Discreto: $\{\text{sucesso}, \text{falha}\}$. (d) Contínuo: com o ponteiro se movendo sem saltos, o ângulo é qualquer valor em $[0°, 360°)$. A suposição do enunciado decide a resposta: se o ponteiro andasse aos saltos, um por segundo, o espaço seria discreto, com 60 posições.
+:::
+
+**4.** Usando `dados/estados.csv`, calcule a probabilidade de sortear um estado com taxa de homicídios acima de 30 por 100 mil habitantes. Depois, calcule a probabilidade de que um brasileiro sorteado ao acaso more num desses estados. Por que os dois números são diferentes?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+```python
+violentos = set(estado.loc[estado["Taxa.Homicidios"] > 30, "Sigla"])
+prob(violentos, modelo_uf), prob(violentos, modelo_pessoa)
+```
+
+```{python}
+#| label: ex4-resposta
+#| include: false
+violentos = set(estado.loc[estado["Taxa.Homicidios"] > 30, "Sigla"])
+sem_sp = estado[estado["Sigla"] != "SP"]
+p_sem_sp = sem_sp.loc[sem_sp["Sigla"].isin(violentos), "Populacao"].sum() / sem_sp["Populacao"].sum()
+```
+
+São `{python} len(violentos)` estados: $P = `{python} len(violentos)`/27$, cerca de `{python} num(100 * prob(violentos, modelo_uf), 1)`% sorteando estados, e `{python} num(100 * prob(violentos, modelo_pessoa), 1)`% sorteando pessoas. O evento é o mesmo, mas o modelo muda. O número cai por causa de São Paulo: sozinho, ele tem `{python} num(100 * modelo_pessoa['SP'], 0)`% da população e a menor taxa do país. Tirando SP da conta, a probabilidade por pessoa sobe para `{python} num(100 * p_sem_sp, 1)`% e passa a ser **maior** que a por estado (`{python} num(100 * len(violentos) / 26, 1)`%). É o mesmo São Paulo que puxa a média ponderada da taxa para baixo na seção 1.3.
+:::

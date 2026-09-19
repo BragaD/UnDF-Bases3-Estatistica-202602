@@ -4,19 +4,19 @@
 Este capítulo é baseado no Capítulo 1 de @bruce2020, com os quantis empíricos das seções 1.4 e 1.5 vindos da seção 3.3 de @bussab2023.
 :::
 
-📓 [**Abrir o notebook deste capítulo no Colab ↗**](https://colab.research.google.com/github/BragaD/UnDF-Bases3-Estatistica-202602/blob/main/notebooks/capitulo-01.ipynb) — só o código, pronto para rodar.
+📓 [**Abrir o notebook deste capítulo no Colab ↗**](https://colab.research.google.com/github/BragaD/UnDF-Bases3-Estatistica-202602/blob/main/notebooks/capitulo-01.ipynb) (só o código, pronto para rodar).
 
-A estatística clássica nasceu preocupada com inferência: tirar conclusões sobre uma população grande a partir de uma amostra pequena. A análise exploratória de dados, proposta por John Tukey em 1962, inverte a ênfase — antes de testar qualquer hipótese, **olhe para os dados**.
+A estatística clássica nasceu preocupada com inferência: tirar conclusões sobre uma população grande a partir de uma amostra pequena. A análise exploratória de dados, proposta por John Tukey em 1962, inverte a ênfase: antes de testar qualquer hipótese, **olhe para os dados**.
 
 Ao final deste capítulo, você será capaz de:
 
 - Distinguir os tipos de dados estruturados e por que essa distinção importa para o software
 - Resumir uma variável por estimativas de localização, sabendo quando a média engana e a mediana não
 - Medir a dispersão dos dados e reconhecer a diferença entre desvio-padrão e desvio absoluto mediano
-- Explorar a distribuição de uma variável com percentis, boxplots, histogramas e densidade
+- Explorar a distribuição de uma variável com percentis, boxplots, histogramas e assimetria
 - Tratar dados binários e categóricos
 - Medir e visualizar a correlação entre variáveis, e reconhecer suas armadilhas
-- Explorar relações entre duas ou mais variáveis, numéricas e categóricas
+- Explorar relações entre duas ou mais variáveis, numéricas e categóricas *(leitura complementar)*
 
 ## Seções
 
@@ -29,4 +29,4 @@ Ao final deste capítulo, você será capaz de:
 | [1.5](05-distribuicao-dados.qmd) | Explorando a Distribuição dos Dados |
 | [1.6](06-dados-binarios-categoricos.qmd) | Explorando Dados Binários e Categóricos |
 | [1.7](07-correlacao.qmd) | Correlação |
-| [1.8](08-duas-ou-mais-variaveis.qmd) | Explorando Duas ou Mais Variáveis |
+| [1.8](08-duas-ou-mais-variaveis.qmd) | Explorando Duas ou Mais Variáveis *(leitura complementar, fora do cronograma)* |

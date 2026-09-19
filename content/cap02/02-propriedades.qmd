@@ -1,0 +1,267 @@
+# Propriedades da Probabilidade
+
+::: {.callout-note}
+Esta seção se baseia na seção 5.2 de @bussab2023.
+:::
+
+```{python}
+#| label: setup
+#| include: false
+import numpy as np
+import pandas as pd
+from formato import num
+
+estado = pd.read_csv("dados/estados.csv")
+modelo_uf = {sigla: 1/27 for sigla in estado["Sigla"]}
+
+def prob(evento, modelo):
+    return sum(modelo[w] for w in evento)
+np.set_printoptions(legacy="1.25")   # números sem o prefixo np.float64 na saída
+```
+
+Na seção 2.1 sorteamos um estado e calculamos a probabilidade de dois eventos: ter mais de 10 milhões de habitantes e ter taxa de homicídios acima da mediana. Cada um foi calculado sozinho. Mas as perguntas que interessam costumam combinar eventos: qual a chance de o estado sorteado ser grande **ou** de taxa alta? De ser as duas coisas ao mesmo tempo? De **não** ser grande?
+
+Esta seção mostra como calcular essas probabilidades a partir das que já conhecemos, sem voltar a contar ponto por ponto. O código reaproveita os dados dos estados, o dicionário `modelo_uf` e a função `prob` da seção 2.1.
+
+## Limites da probabilidade
+
+O modelo probabilístico é uma versão teórica da frequência relativa (seção 2.1), e herda algumas das propriedades dela. Uma frequência relativa é uma contagem dividida pelo total, então fica sempre entre 0 e 1. O mesmo vale para a probabilidade de qualquer evento $A$:
+
+$$
+0 \le P(A) \le 1.
+$$
+
+Dois eventos extremos ajudam a ancorar a escala. O próprio espaço amostral $\Omega$ é um evento, o **evento certo**: algum resultado sempre acontece. O conjunto vazio $\varnothing$, que não contém nenhum ponto amostral, é o **evento impossível**:
+
+$$
+P(\Omega) = 1, \qquad P(\varnothing) = 0.
+$$
+
+No sorteio de um estado, "sortear uma das 27 siglas" é o evento certo, e "sortear um estado com mais de 50 milhões de habitantes" é impossível, porque nem São Paulo chega lá:
+
+```{python}
+#| label: limites
+todos = set(estado["Sigla"])
+mais_de_50_milhoes = set(estado.loc[estado["Populacao"] > 50_000_000, "Sigla"])
+
+prob(todos, modelo_uf), prob(mais_de_50_milhoes, modelo_uf)
+```
+
+::: {.callout-warning}
+## Probabilidade fora de [0, 1] é erro
+Se uma conta devolver $P(A) = 1{,}2$ ou $P(A) = -0{,}1$, o erro está na conta. É o teste de sanidade mais barato que existe, e o primeiro a fazer.
+:::
+
+## União e interseção
+
+Vamos dar nome aos dois eventos da seção 2.1:
+
+- $A$: o estado sorteado tem mais de 10 milhões de habitantes (é **grande**);
+- $B$: o estado sorteado tem taxa de homicídios acima da mediana (tem **taxa alta**).
+
+```{python}
+#| label: eventos-ab
+A = set(estado.loc[estado["Populacao"] > 10_000_000, "Sigla"])
+mediana_taxa = estado["Taxa.Homicidios"].median()
+B = set(estado.loc[
+    estado["Taxa.Homicidios"] > mediana_taxa, "Sigla"
+])
+
+len(A), len(B)
+```
+
+A partir de dois eventos, construímos outros dois. Lembre o diagrama de Venn do dado, na seção 2.1 (@fig-venn-dado), com outros $A$ e $B$ (par e maior que 3): um dos novos eventos é a região coberta pelos dois círculos juntos, e o outro é a região em que eles se sobrepõem, onde estão as faces 4 e 6.
+
+::: {.conceito}
+A **união** $A \cup B$ é o evento em que **pelo menos um** de $A$ e $B$ ocorre.
+
+A **interseção** $A \cap B$ é o evento em que $A$ e $B$ ocorrem **ao mesmo tempo**.
+:::
+
+Em Python, as duas operações já existem para conjuntos: `|` é a união e `&` é a interseção.
+
+```{python}
+#| label: uniao-intersecao
+sorted(A & B), len(A | B)
+```
+
+Só um estado é grande e de taxa alta ao mesmo tempo: a `{python} estado.loc[estado["Sigla"].isin(A & B), "Estado"].item()`. E `{python} len(A | B)` dos 27 estados são grandes, de taxa alta ou as duas coisas.
+
+Com dois eventos, cada estado cai em uma de quatro casas: grande ou não, de taxa alta ou não. Uma **tabela de contingência** cruza as duas classificações e mostra as quatro casas de uma vez (a seção 1.8, de leitura complementar, usa o mesmo tipo de tabela):
+
+```{python}
+#| label: tabela-ab
+grande = estado["Sigla"].isin(A).map({True: "A: grande", False: "não grande"})
+taxa_alta = estado["Sigla"].isin(B).map({True: "B: acima da mediana", False: "até a mediana"})
+
+pd.crosstab(grande, taxa_alta, rownames=[""], colnames=[""], margins=True, margins_name="Total")
+```
+
+A casa do cruzamento entre "A: grande" e "B: acima da mediana" é $A \cap B$. As margens trazem os tamanhos de $A$ e de $B$ separados.
+
+## A regra da adição
+
+Qual a probabilidade de sortear um estado grande **ou** de taxa alta? A primeira ideia é somar:
+
+$$
+P(A) + P(B) = \frac{`{python} len(A)`}{27} + \frac{`{python} len(B)`}{27} = \frac{`{python} len(A) + len(B)`}{27}.
+$$
+
+Mas a união tem `{python} len(A | B)` estados, e não `{python} len(A) + len(B)`. A soma contou a `{python} estado.loc[estado["Sigla"].isin(A & B), "Estado"].item()` duas vezes: uma dentro de $A$ e outra dentro de $B$. Para corrigir, basta subtrair a interseção uma vez.
+
+::: {.conceito}
+**Regra da adição.** Para quaisquer eventos $A$ e $B$,
+
+$$
+P(A \cup B) = P(A) + P(B) - P(A \cap B)
+$$
+:::
+
+```{python}
+#| label: regra-adicao
+soma_com_desconto = prob(A, modelo_uf) + prob(B, modelo_uf) - prob(A & B, modelo_uf)
+direto = prob(A | B, modelo_uf)
+
+round(soma_com_desconto, 4), round(direto, 4)
+```
+
+Os dois caminhos dão $`{python} len(A | B)`/27$, cerca de `{python} num(direto, 3)`.
+
+Há um caso em que a soma simples funciona. Seja $C$ o evento "o estado sorteado tem menos de 1 milhão de habitantes":
+
+```{python}
+#| label: mutuamente-exclusivos
+C = set(estado.loc[estado["Populacao"] < 1_000_000, "Sigla"])
+sorted(C), A & C
+```
+
+Nenhum estado tem, ao mesmo tempo, mais de 10 milhões e menos de 1 milhão de habitantes: $A \cap C = \varnothing$, e o Python mostra isso como `set()`, o conjunto vazio. Eventos assim, que não podem ocorrer juntos, são **mutuamente exclusivos** (ou disjuntos). Como $P(\varnothing) = 0$, a regra da adição perde o último termo:
+
+$$
+\begin{aligned}
+P(A \cup C) &= P(A) + P(C), \\
+&\text{se } A \cap C = \varnothing.
+\end{aligned}
+$$
+
+::: {.callout-warning}
+## A soma simples exige eventos disjuntos
+Somar $P(A) + P(B)$ sem descontar a interseção só está certo quando $P(A \cap B) = 0$, o que acontece, em particular, quando $A$ e $B$ não podem ocorrer juntos. Antes de somar, pergunte: existe algum resultado que está nos dois eventos?
+:::
+
+## O complementar
+
+Falta a terceira pergunta da abertura: qual a probabilidade de o estado sorteado **não** ser grande?
+
+::: {.conceito}
+O **complementar** $A^c$ é o evento em que $A$ **não** ocorre: todos os pontos de $\Omega$ que não estão em $A$.
+:::
+
+Um evento e seu complementar não têm ponto em comum, e juntos cobrem o espaço amostral inteiro: $A \cap A^c = \varnothing$ e $A \cup A^c = \Omega$. Como são disjuntos, a regra da adição vale na forma simples, e $P(A) + P(A^c) = P(\Omega) = 1$. Daí sai a fórmula que mais economiza trabalho nesta seção:
+
+$$
+P(A^c) = 1 - P(A).
+$$
+
+Em Python, o complementar é a diferença entre o espaço amostral e o evento:
+
+```{python}
+#| label: complementar
+Ac = todos - A
+len(Ac), prob(Ac, modelo_uf), 1 - prob(A, modelo_uf)
+```
+
+São `{python} len(Ac)` estados que não são grandes, com probabilidade $`{python} len(Ac)`/27$. A fórmula chega ao mesmo número sem contar nenhum deles.
+
+Repare que as duas últimas saídas diferem na 16ª casa decimal. É arredondamento de ponto flutuante: somar `{python} len(Ac)` parcelas de 1/27 e calcular $1 - `{python} len(A)`/27$ acumulam erros diferentes. Por isso, em código, probabilidades obtidas por caminhos diferentes se comparam com tolerância, e não com `==`:
+
+```{python}
+#| label: isclose
+from math import isclose
+
+prob(Ac, modelo_uf) == 1 - prob(A, modelo_uf), isclose(prob(Ac, modelo_uf), 1 - prob(A, modelo_uf))
+```
+
+O `isclose` mede a diferença relativa ao tamanho dos números. Para comparar com zero, como ao conferir $P(A \cap C) = 0$, passe uma tolerância absoluta: `isclose(x, 0, abs_tol=1e-12)`.
+
+O complementar se combina com a união e a interseção. "O estado não é grande **nem** de taxa alta" é o complementar de "é grande **ou** de taxa alta":
+
+$$
+\begin{aligned}
+(A \cup B)^c &= A^c \cap B^c, \\
+(A \cap B)^c &= A^c \cup B^c.
+\end{aligned}
+$$
+
+São as **leis de De Morgan**. Em palavras: não ocorrer nenhum dos dois é o mesmo que não ocorrer o primeiro **e** não ocorrer o segundo; não ocorrerem os dois juntos é o mesmo que deixar de ocorrer pelo menos um deles. Os conjuntos do Python confirmam:
+
+```{python}
+#| label: de-morgan
+Bc = todos - B
+(todos - (A | B)) == (Ac & Bc), (todos - (A & B)) == (Ac | Bc)
+```
+
+A primeira lei dá a probabilidade de o estado não ser grande nem de taxa alta sem contar a casa correspondente da tabela: $P(A^c \cap B^c) = 1 - P(A \cup B)$, que dá $1 - `{python} len(A | B)`/27 = `{python} len(todos - (A | B))`/27$. A casa "não grande" × "até a mediana" da tabela de contingência tem exatamente esses `{python} len(todos - (A | B))` estados.
+
+## Resumo
+
+::: {.table-responsive}
+| Evento | Significado | Probabilidade |
+|---|---|---|
+| $A \cup B$ | pelo menos um | $P(A) + P(B) - P(A \cap B)$ |
+| $A \cap B$ | os dois | do modelo ou da tabela |
+| $A^c$ | $A$ não ocorre | $1 - P(A)$ |
+| $A^c \cap B^c$ | nenhum | $1 - P(A \cup B)$ |
+:::
+
+::: {.conceito}
+**Regra prática:** quando uma probabilidade parece difícil, veja se o complementar é mais fácil. Isso vai valer muito quando a pergunta for "pelo menos um" entre muitos eventos: nas próximas seções, "nenhum" costuma ser o caminho curto.
+:::
+
+## Exercícios
+
+**1.** (Adaptado do Ex. 5.7 de @bussab2023.) Numa execução noturna do pipeline, $A$ é o evento "o teste de integração falha" e $B$ é "o teste de carga falha", com $P(A) = 1/2$, $P(B) = 1/3$ e $P(A \cap B) = 1/4$. Calcule: (a) $P(A^c)$; (b) $P(A \cup B)$; (c) a probabilidade de nenhum dos dois falhar; (d) a probabilidade de o teste de carga falhar e o de integração passar.
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+(a) $P(A^c) = 1 - 1/2 = 1/2$.
+
+(b) $P(A \cup B) = 1/2 + 1/3 - 1/4 = 7/12$.
+
+(c) Nenhum falhar é $A^c \cap B^c = (A \cup B)^c$, pela primeira lei de De Morgan. Então $P = 1 - 7/12 = 5/12$.
+
+(d) O evento é $A^c \cap B$. O evento $B$ se divide em duas partes disjuntas, $B \cap A$ e $B \cap A^c$, então $P(B) = P(A \cap B) + P(A^c \cap B)$, e $P(A^c \cap B) = 1/3 - 1/4 = 1/12$.
+:::
+
+**2.** Escreva cada evento usando $\cup$, $\cap$ e complementar: (a) $A$ ocorre, mas $B$ não; (b) exatamente um dos dois ocorre; (c) nenhum dos dois ocorre.
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+(a) $A \cap B^c$. (b) $(A \cap B^c) \cup (A^c \cap B)$: ou só $A$, ou só $B$. (c) $A^c \cap B^c$, que pela lei de De Morgan é o mesmo que $(A \cup B)^c$.
+:::
+
+**3.** Um relatório afirma que, num sistema, a probabilidade de falha de disco é 0,6, a de falha de rede é 0,7 e a de as duas falharem juntas é 0,2. Esses números podem estar certos?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+Não. Pela regra da adição, a probabilidade de pelo menos uma falha seria $0{,}6 + 0{,}7 - 0{,}2 = 1{,}1$, maior que 1. Para $P(A \cup B) = 0{,}6 + 0{,}7 - P(A \cap B)$ não passar de 1, a interseção precisa ser de pelo menos $0{,}3$.
+:::
+
+**4.** Usando `dados/estados.csv`, calcule a probabilidade de sortear um estado com taxa de homicídios acima de 30 **ou** com menos de 1 milhão de habitantes. Calcule de dois jeitos: contando a união diretamente e pela regra da adição.
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+```{python}
+#| label: ex4-resposta
+V = set(estado.loc[estado["Taxa.Homicidios"] > 30, "Sigla"])
+direto_ex4 = prob(V | C, modelo_uf)
+pela_regra = prob(V, modelo_uf) + prob(C, modelo_uf) - prob(V & C, modelo_uf)
+sorted(V & C), round(direto_ex4, 4), round(pela_regra, 4)
+```
+
+São `{python} len(V)` estados acima de 30 e `{python} len(C)` com menos de 1 milhão, mas o `{python} estado.loc[estado["Sigla"].isin(V & C), "Estado"].item()` está nos dois grupos. A probabilidade é $(`{python} len(V)` + `{python} len(C)` - `{python} len(V & C)`)/27 = `{python} len(V | C)`/27$.
+:::

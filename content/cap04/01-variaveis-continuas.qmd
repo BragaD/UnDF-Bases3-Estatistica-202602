@@ -1,0 +1,170 @@
+# Variável Aleatória Contínua e Densidade
+
+::: {.callout-note}
+Esta seção corresponde à seção 7.1 de @bussab2023.
+:::
+
+```{python}
+#| label: setup
+#| include: false
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from scipy.integrate import quad
+from formato import num
+
+plt.rcParams["figure.figsize"] = (7, 4)
+np.set_printoptions(legacy="1.25")   # números sem o prefixo np.float64 na saída
+```
+
+Na seção 2.1, o tempo de resposta de uma requisição ficou de fora: ele pode ser qualquer número real não negativo, e os pontos de um intervalo não cabem numa lista. Sem lista, não há como somar probabilidades de pontos, e a fórmula da soma não serve. O texto prometeu outro caminho, com integral, para o Capítulo 4.
+
+Tempo de resposta, duração de um build, latência de rede, temperatura de uma CPU: são medidas, e assumem valores num intervalo de números reais. Este capítulo constrói os modelos para elas.
+
+## O relógio que para
+
+O Exemplo 7.1 de @bussab2023 é o relógio do exercício 3 da seção 2.1. O ponteiro dos segundos para por falha num instante qualquer, e $X$ é o ângulo que ele forma com a posição das 12 horas, em graus.
+
+Num relógio cujo ponteiro anda aos saltos, um por segundo, $X$ assume 60 valores (0°, 6°, 12°, ..., 354°), e, se nenhuma posição for favorecida, cada um tem probabilidade $1/60$: é a uniforme discreta da seção 3.4.
+
+Agora suponha um ponteiro que se move continuamente, sem saltos. $X$ pode ser qualquer valor em $[0°, 360°)$, e nenhuma região do mostrador é favorecida. A probabilidade de o ponteiro parar num quarto do mostrador, entre 0° e 90°, deve ser $1/4$. Entre 120° e 150°, um arco de 30°, deve ser $30/360 = 1/12$. Em geral, a probabilidade de um arco é proporcional ao seu comprimento: para $0 \le a < b < 360$,
+
+$$
+P(a \le X \le b) = \frac{b - a}{360}.
+$$
+
+E a probabilidade de o ponteiro parar **exatamente** em 90°? O ponto 90° cabe num arco tão pequeno quanto se queira, de 90° a $90° + \varepsilon$, com $\varepsilon > 0$. Então
+
+$$
+\begin{aligned}
+P(X = 90) &\le P(90 \le X \le 90 + \varepsilon) \\
+&= \varepsilon/360
+\end{aligned}
+$$
+
+para todo $\varepsilon > 0$. A única probabilidade que fica abaixo de todos esses números é zero, então $P(X = 90) = 0$. Parar em 90° continua possível. Acontece que, entre infinitos pontos igualmente prováveis, que não cabem numa lista, nenhum ponto isolado tem probabilidade positiva.
+
+## Do histograma à densidade
+
+No Capítulo 1, o histograma de uma variável contínua juntava as observações em faixas, e a altura de cada barra mostrava onde os dados se concentravam. Um histograma de **densidade** ajusta a altura para que a área de cada barra seja a proporção de observações na faixa. Assim, a área total das barras é 1.
+
+O código simula 100.000 paradas do ponteiro, supondo que nenhuma região é favorecida, e desenha o histograma de densidade com faixas cada vez mais estreitas:
+
+```{python}
+#| label: fig-histograma-densidade
+#| fig-cap: "Histogramas de densidade de 100.000 ângulos simulados, com faixas de 30° e de 5°. A linha tracejada é a densidade 1/360."
+#| fig-alt: "Dois histogramas com barras de altura quase constante perto de 1/360, um com 12 barras e outro com 72 barras mais estreitas."
+rng = np.random.default_rng(42)
+angulos = rng.uniform(0, 360, size=100_000)
+
+fig, eixos = plt.subplots(1, 2, sharey=True, figsize=(7, 2.8))
+for eixo, largura in zip(eixos, [30, 5]):
+    eixo.hist(angulos, bins=np.arange(0, 361, largura), density=True)
+    eixo.axhline(1/360, color="black", linestyle="--", linewidth=1)
+    eixo.set_title(f"faixas de {largura}°")
+    eixo.set_xlabel("ângulo x")
+eixos[0].set_ylabel("densidade")
+plt.tight_layout()
+plt.show()
+```
+
+Com faixas cada vez mais estreitas e cada vez mais observações, o topo do histograma se aproxima de uma curva, que @bussab2023 chama de histograma alisado e que a próxima subseção chama de **densidade**. No relógio, a curva é a reta horizontal na altura $1/360$, e a área sob ela entre $a$ e $b$ é $(b - a)/360$, a probabilidade do arco. A proporção de ângulos simulados entre 0° e 90° reproduz o valor teórico 1/4:
+
+```{python}
+#| label: proporcao-quarto
+round(float(((angulos >= 0) & (angulos <= 90)).mean()), 4)
+```
+
+## Função densidade de probabilidade
+
+A curva que substitui o histograma é o modelo teórico de uma variável contínua, como a função de probabilidade era o modelo de uma discreta. A área sob ela entre dois pontos, que é a integral, dá a probabilidade de a variável cair entre eles.
+
+::: {.conceito}
+Uma **variável aleatória contínua** pode assumir qualquer valor de um intervalo de números reais. Ela é descrita por uma **função densidade de probabilidade** (f.d.p.) $f$, com
+
+$$
+\begin{aligned}
+&f(x) \ge 0 \text{ para todo } x, \\
+&\int_{-\infty}^{\infty} f(x)\, dx = 1,
+\end{aligned}
+$$
+
+e a probabilidade de um intervalo é a área sob $f$:
+
+$$
+P(a \le X \le b) = \int_a^b f(x)\, dx.
+$$
+:::
+
+No relógio, $f(x) = 1/360$ para $0 \le x < 360$, e $f(x) = 0$ fora desse intervalo. A integral de $a$ a $b$ é $(b - a)/360$.
+
+Qualquer função não negativa com área total 1 define uma variável contínua. No Exemplo 7.2 de @bussab2023, $f(x) = 2x$ para $0 \le x \le 1$, e zero fora. A área total é a de um triângulo de base 1 e altura 2, que dá 1. A probabilidade de $X$ ficar na primeira metade do intervalo é
+
+$$
+\begin{aligned}
+P\left(0 \le X \le \tfrac{1}{2}\right) &= \int_0^{1/2} 2x\, dx \\
+&= \Big[x^2\Big]_0^{1/2} = \frac{1}{4},
+\end{aligned}
+$$
+
+e na segunda metade, $3/4$. O `scipy.integrate.quad` calcula a mesma integral numericamente, e serve para conferir contas à mão:
+
+```{python}
+#| label: quad
+f = lambda x: 2 * x
+area_1, _ = quad(f, 0, 0.5)
+area_2, _ = quad(f, 0.5, 1)
+round(area_1, 4), round(area_2, 4)
+```
+
+O `quad` devolve dois números: a integral e uma estimativa do erro numérico, que o `_` descarta.
+
+Nos dois intervalos, de mesma largura, as probabilidades são diferentes. No relógio, intervalos de mesma largura sempre têm a mesma probabilidade. A densidade diz onde a probabilidade se concentra: no Exemplo 7.2, perto de 1.
+
+::: {.callout-warning}
+## A densidade não é uma probabilidade
+$f(x)$ não é $P(X = x)$, que vale zero para qualquer $x$. Por isso $f$ pode passar de 1: no Exemplo 7.2, $f(1) = 2$. O que tem de ficar entre 0 e 1 é a **área** sob $f$ em qualquer intervalo, e a área total tem de ser 1.
+:::
+
+Como $P(X = a) = 0$, incluir ou não os extremos não muda nada numa variável contínua: $P(a \le X \le b) = P(a < X < b)$. É o oposto do que a seção 3.3 alertou para as variáveis discretas.
+
+## Resumo
+
+::: {.table-responsive}
+| | Discreta | Contínua |
+|---|---|---|
+| Valores | podem ser listados | qualquer valor de um intervalo |
+| Modelo | $p(x) = P(X = x)$ | densidade $f(x)$, com $f \ge 0$ |
+| Probabilidade de um intervalo | soma de $p(x)$ | integral de $f$ |
+| $P(X = x)$ | pode ser positiva | sempre 0 |
+:::
+
+## Exercícios
+
+**1.** Verifique que $f(x) = 3x^2$, para $0 \le x \le 1$, e zero fora, é uma densidade. Calcule $P(X \le 1/2)$ e $P(X > 0{,}9)$.
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+$f \ge 0$ e $\int_0^1 3x^2\, dx = [x^3]_0^1 = 1$. Então $P(X \le 1/2) = (1/2)^3 = 1/8$ e $P(X > 0{,}9) = 1 - 0{,}9^3 = 0{,}271$.
+
+```python
+quad(lambda x: 3 * x**2, 0, 0.5)[0], quad(lambda x: 3 * x**2, 0.9, 1)[0]
+```
+:::
+
+**2.** Para que valor de $c$ a função $f(x) = c$, para $2 \le x \le 7$, e zero fora, é uma densidade? Com esse $c$, calcule $P(3 \le X \le 4)$.
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+A área é $c \times (7 - 2) = 5c$, que tem de ser 1: $c = 1/5$. $P(3 \le X \le 4) = 1 \times 1/5 = 0{,}2$.
+:::
+
+**3.** Um colega diz: "como $P(X = 90) = 0$ no relógio, o ponteiro nunca para em 90°". O que está errado no raciocínio?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+Probabilidade zero não é o mesmo que impossibilidade numa variável contínua. O ponteiro para em algum ângulo exato, e cada ângulo exato tem probabilidade zero. O que se pode afirmar é que a chance de parar num intervalo pequeno em torno de 90° é pequena, proporcional à largura do intervalo.
+:::

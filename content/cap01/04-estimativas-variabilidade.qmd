@@ -24,13 +24,13 @@ estado = pd.read_csv("dados/estados.csv")
 ojs_define(dados = estado)
 ```
 
-A seção 1.3 resumiu a população dos estados por um valor típico — média, média aparada, mediana — e viu a média se deslocar para longe das outras duas, puxada pela cauda de estados muito populosos. Localização é só metade da história. A outra metade responde a uma pergunta diferente: quão espalhados os dados estão em torno desse valor típico? Essa é a **variabilidade**, ou dispersão.
+A seção 1.3 resumiu a população dos estados por um valor típico (média, média aparada, mediana) e viu a média se deslocar para longe das outras duas, puxada pela cauda de estados muito populosos. Localização é só metade da história. A outra metade responde a uma pergunta diferente: quão espalhados os dados estão em torno desse valor típico? Essa é a **variabilidade**, ou dispersão.
 
 Dois estados podem ter a mesma população mediana e mesmo assim serem completamente diferentes: num, quase todo mundo mora em cidades de tamanho parecido; no outro, uma metrópole convive com dezenas de municípios minúsculos. A localização não distingue esses dois casos. A dispersão, sim.
 
 ## Desvio e por que não usar a média dos desvios
 
-A forma mais direta de medir dispersão é olhar o **desvio** de cada observação em relação à média, $x_i - \bar{x}$, e resumir esses desvios em um único número. O problema é que a média aritmética dos desvios é sempre zero — não importa o quão espalhados os dados estejam. Isso não é uma propriedade dos dados: é uma consequência algébrica de como a própria média é definida. Os desvios positivos e negativos cancelam exatamente.
+A forma mais direta de medir dispersão é olhar o **desvio** de cada observação em relação à média, $x_i - \bar{x}$, e resumir esses desvios em um único número. O problema é que a média aritmética dos desvios é sempre zero, não importa o quão espalhados os dados estejam. Isso é uma consequência algébrica de como a própria média é definida. Os desvios positivos e negativos cancelam exatamente.
 
 Para obter um número útil é preciso eliminar o sinal antes de tirar a média. Há duas formas padrão de fazer isso: elevar cada desvio ao quadrado, ou tomar seu valor absoluto. A primeira leva à variância e ao desvio-padrão; a segunda, ao desvio absoluto médio.
 
@@ -46,14 +46,14 @@ desvio = estado["Populacao"].std()
 print(f"Desvio-padrão: {num(desvio)}")
 ```
 
-Tirar a raiz quadrada devolve o desvio-padrão à unidade original dos dados (habitantes, no caso), enquanto a variância fica em habitantes ao quadrado — uma unidade sem interpretação direta. Isso, somado à conveniência matemática de trabalhar com quadrados, é o motivo do desvio-padrão ser a medida de dispersão mais citada. Não é porque seja a mais robusta: é o contrário. Elevar ao quadrado amplifica desvios grandes muito mais do que pequenos, então o desvio-padrão é **ainda mais sensível a extremos que a própria média** — e a média já não era robusta.
+Tirar a raiz quadrada devolve o desvio-padrão à unidade original dos dados (habitantes, no caso), enquanto a variância fica em habitantes ao quadrado, uma unidade sem interpretação direta. Isso, somado à conveniência matemática de trabalhar com quadrados, é o motivo do desvio-padrão ser a medida de dispersão mais citada. Robustez não entra nessa conta, e o desvio-padrão está longe de ser robusto: elevar ao quadrado amplifica desvios grandes muito mais do que pequenos, então o desvio-padrão é **ainda mais sensível a extremos que a própria média**. E a média já não era robusta.
 
 ## Quartis
 
-A seção 1.3 definiu a mediana como o valor que parte a sequência ordenada em duas metades iguais. Nada obriga a parar em duas. Repetindo a mesma ideia — cortar os dados ordenados em quatro partes de igual tamanho — chega-se aos **quartis**: três valores, $q_1$, $q_2$ e $q_3$, que marcam onde ficam os cortes.
+A seção 1.3 definiu a mediana como o valor que parte a sequência ordenada em duas metades iguais. Nada obriga a parar em duas. Repetindo a mesma ideia (cortar os dados ordenados em quatro partes de igual tamanho), chega-se aos **quartis**: três valores, $q_1$, $q_2$ e $q_3$, que marcam onde ficam os cortes.
 
 - $q_1$, o **primeiro quartil**, deixa 25% das observações abaixo de si;
-- $q_2$, o **segundo quartil**, deixa 50% — ou seja, $q_2$ **é** a mediana, o mesmo número com outro nome;
+- $q_2$, o **segundo quartil**, deixa 50%, ou seja, $q_2$ **é** a mediana, o mesmo número com outro nome;
 - $q_3$, o **terceiro quartil**, deixa 75% abaixo.
 
 Tudo isso pressupõe os dados ordenados, e vale fixar a notação que a literatura usa para isso. As **estatísticas de ordem** de um conjunto de $n$ valores são os mesmos valores dispostos do menor ao maior,
@@ -71,7 +71,7 @@ print(f"q3 (terceiro quartil): {num(q3, 0)}")
 print(f"mediana:               {num(estado['Populacao'].median(), 0)}")
 ```
 
-O $q_2$ e a mediana saem idênticos, como tinham de sair — são a mesma definição.
+O $q_2$ e a mediana saem idênticos, como tinham de sair: são a mesma definição.
 
 ## Quando o quartil não é uma observação
 
@@ -81,7 +81,7 @@ A posição que o quantil $p$ ocupa na sequência ordenada é $(n-1)\,p + 1$. Co
 
 $$q_2:\ 26 \times 0{,}50 + 1 = 14 \qquad q_1:\ 26 \times 0{,}25 + 1 = 7{,}5 \qquad q_3:\ 26 \times 0{,}75 + 1 = 20{,}5$$
 
-A posição 14 existe. As posições 7,5 e 20,5 não existem — não há sétimo-e-meio estado. Quando a conta dá um número fracionário, o valor é obtido **interpolando** entre os dois vizinhos; aqui, como as duas posições caem exatamente no meio do caminho, a interpolação vira a média simples das duas observações vizinhas:
+A posição 14 existe. As posições 7,5 e 20,5 não existem: não há sétimo-e-meio estado. Quando a conta dá um número fracionário, o valor é obtido **interpolando** entre os dois vizinhos; aqui, como as duas posições caem exatamente no meio do caminho, a interpolação vira a média simples das duas observações vizinhas:
 
 ```{python}
 #| label: quartis-vizinhos
@@ -92,17 +92,17 @@ vizinhos["Populacao"] = vizinhos["Populacao"].map(lambda v: num(v, 0))
 vizinhos
 ```
 
-O $q_1$ de `{python} num(q1, 0)` é a média entre Mato Grosso do Sul e Distrito Federal; o $q_3$ de `{python} num(q3, 0)` é a média entre Ceará e Pernambuco. É a mesma regra que a seção 1.3 aplicou à mediana quando $n$ é par — posição fracionária, média das duas vizinhas — reaparecendo agora dentro de cada metade.
+O $q_1$ de `{python} num(q1, 0)` é a média entre Mato Grosso do Sul e Distrito Federal; o $q_3$ de `{python} num(q3, 0)` é a média entre Ceará e Pernambuco. É a mesma regra que a seção 1.3 aplicou à mediana quando $n$ é par (posição fracionária, média das duas vizinhas), reaparecendo agora dentro de cada metade.
 
-Note a inversão: é a mediana, aqui, que é o caso especial. Um quantil só cai sobre uma observação quando $(n-1)p$ dá um inteiro, e não há nada em $n = 27$ que garanta isso para $p = 0{,}25$ ou $p = 0{,}75$.
+Note a inversão: aqui é a mediana que é o caso especial. Um quantil só cai sobre uma observação quando $(n-1)p$ dá um inteiro, e não há nada em $n = 27$ que garanta isso para $p = 0{,}25$ ou $p = 0{,}75$.
 
-Por que interpolar assim, e não de outro jeito? A escolha não é única — há convenções concorrentes, e softwares diferentes dão respostas diferentes para os mesmos dados. A seção 1.5 mostra as cinco que o próprio pandas oferece.
+Por que interpolar assim, e não de outro jeito? A escolha não é única: há convenções concorrentes, e softwares diferentes dão respostas diferentes para os mesmos dados. A seção 1.5 mostra três delas, todas disponíveis no próprio pandas.
 
 ::: {.exemplo}
-Lendo os três números em português: um quarto dos estados tem até `{python} num(q1/1e6, 1)` milhões de habitantes; metade tem até `{python} num(q2/1e6, 1)` milhões; três quartos têm até `{python} num(q3/1e6, 1)` milhões. E, no quarto restante, estão os estados que vão de `{python} num(q3/1e6, 1)` milhões até os `{python} num(estado['Populacao'].max()/1e6, 1)` milhões de São Paulo — um quarto da lista cobrindo sozinho `{python} num(100 * (estado['Populacao'].max() - q3) / (estado['Populacao'].max() - estado['Populacao'].min()), 0)`% da amplitude total.
+Lendo os três números em português: um quarto dos estados tem até `{python} num(q1/1e6, 1)` milhões de habitantes; metade tem até `{python} num(q2/1e6, 1)` milhões; três quartos têm até `{python} num(q3/1e6, 1)` milhões. E, no quarto restante, estão os estados que vão de `{python} num(q3/1e6, 1)` milhões até os `{python} num(estado['Populacao'].max()/1e6, 1)` milhões de São Paulo: um quarto da lista cobrindo sozinho `{python} num(100 * (estado['Populacao'].max() - q3) / (estado['Populacao'].max() - estado['Populacao'].min()), 0)`% da amplitude total.
 :::
 
-Os três quartis são, segundo @bussab2023, medidas de localização **resistentes**: pouco afetadas por mudanças numa pequena porção dos dados. É fácil ver por quê. Multiplique a população de São Paulo por dez e $q_1$, $q_2$ e $q_3$ não se mexem um habitante — São Paulo continua sendo a 27ª observação ordenada, e nenhum dos três cortes olha para lá. A média, que a seção 1.3 viu ser sequestrada por um único valor grande, não tem essa proteção. É essa resistência que a próxima subseção herda.
+Os três quartis são, segundo @bussab2023, medidas de localização **resistentes**: pouco afetadas por mudanças numa pequena porção dos dados. É fácil ver por quê. Multiplique a população de São Paulo por dez e $q_1$, $q_2$ e $q_3$ não se mexem um habitante. São Paulo continua sendo a 27ª observação ordenada, e nenhum dos três cortes olha para lá. A média, que a seção 1.3 viu ser sequestrada por um único valor grande, não tem essa proteção. É essa resistência que a próxima subseção herda.
 
 ::: {.callout-note}
 A definição de quartil, a notação de estatísticas de ordem e o conceito de resistência seguem a seção 3.3 de @bussab2023.
@@ -112,11 +112,11 @@ A definição de quartil, a notação de estatísticas de ordem e o conceito de 
 
 Assim como a mediana substitui a média quando extremos distorcem a localização, existem substitutos robustos para o desvio-padrão. O primeiro deles já está pronto: basta medir a **largura** da faixa que os quartis acabaram de delimitar.
 
-A **amplitude interquartil** (IQR, de *interquartile range*) — que @bussab2023 chamam de **distância interquartil** e denotam por $d_q$ — é simplesmente a distância entre o terceiro e o primeiro quartil:
+A **amplitude interquartil** (IQR, de *interquartile range*), que @bussab2023 chamam de **distância interquartil** e denotam por $d_q$, é simplesmente a distância entre o terceiro e o primeiro quartil:
 
 $$d_q = q_3 - q_1$$
 
-É a largura da metade central dos dados. Os 25% menores valores e os 25% maiores podem ser o que quiserem — podem dobrar, podem ir para o infinito — que $d_q$ não se mexe, porque ela não olha para lá:
+É a largura da metade central dos dados. Os 25% menores valores e os 25% maiores podem ser o que quiserem (podem dobrar, podem ir para o infinito) que $d_q$ não se mexe, porque ela não olha para lá:
 
 ```{python}
 #| label: iqr
@@ -124,7 +124,7 @@ iqr = q3 - q1
 print(f"IQR: {num(iqr)}")
 ```
 
-O **desvio absoluto mediano** (MAD) segue a mesma lógica dos desvios em torno da média, mas trocando média por mediana nos dois lugares — tanto no ponto de referência quanto na forma de resumir os desvios:
+O **desvio absoluto mediano** (MAD) segue a mesma lógica dos desvios em torno da média, mas trocando média por mediana nos dois lugares: tanto no ponto de referência quanto na forma de resumir os desvios:
 
 $$\text{MAD} = \frac{\text{mediana}\big(|x_i - \text{mediana}(x)|\big)}{0{,}6745}$$
 
@@ -133,16 +133,17 @@ $$\text{MAD} = \frac{\text{mediana}\big(|x_i - \text{mediana}(x)|\big)}{0{,}6745
 mad = robust.scale.mad(estado["Populacao"])
 print(f"MAD: {num(mad)}")
 
-# O mesmo cálculo, explicitamente — para mostrar de onde vem o 0,6745
+# O mesmo cálculo, explicitamente, para mostrar de onde vem o 0,6745
 mad_manual = abs(estado["Populacao"] - estado["Populacao"].median()).median() / 0.6744897501960817
 print(f"MAD (manual): {num(mad_manual)}")
 ```
 
-Os dois cálculos batem exatamente: a função `robust.scale.mad` da `statsmodels` não faz nada além dessa conta. O fator 0,6745 no denominador não é arbitrário — ele calibra o MAD para que, sob uma distribuição normal, o valor resultante seja diretamente comparável ao desvio-padrão. Sem essa calibração, MAD e desvio-padrão viveriam em escalas diferentes e comparar os dois números não teria sentido.
+Os dois cálculos batem exatamente: a função `robust.scale.mad` da `statsmodels` não faz nada além dessa conta. O fator 0,6745 no denominador calibra o MAD para que, sob uma distribuição normal, o valor resultante seja diretamente comparável ao desvio-padrão. Sem essa calibração, MAD e desvio-padrão viveriam em escalas diferentes e comparar os dois números não teria sentido.
 
 ```{python}
 #| label: fig-variabilidade
 #| fig-cap: "As três medidas de dispersão sobre a distribuição de população dos estados."
+#| fig-alt: "Histograma da população dos estados em milhões, concentrado à esquerda com poucos estados isolados à direita, com uma linha vertical na mediana e três linhas verticais em mediana mais desvio-padrão, mediana mais IQR e mediana mais MAD, das quais a do desvio-padrão fica mais longe da mediana e a do MAD mais perto."
 mediana = estado["Populacao"].median()
 fig, ax = plt.subplots()
 
@@ -165,16 +166,16 @@ plt.show()
 ```
 
 ::: {.conceito}
-O desvio-padrão (9,26M) é quase o dobro do MAD (4,75M) — a razão entre os dois é 1,95, ainda mais próxima do dobro do que costuma aparecer. Essa distância entre uma medida sensível a extremos e uma medida robusta é o mesmo sinal que a diferença entre média e mediana já tinha dado na seção 1.3: a distribuição de população dos estados tem **cauda longa à direita**. Quanto mais as duas famílias de estimativas — a sensível e a robusta — discordam, mais forte é o sinal de cauda longa, não um capricho do cálculo.
+O desvio-padrão (9,26M) é quase o dobro do MAD (4,75M): a razão entre os dois é 1,95, ainda mais próxima do dobro do que costuma aparecer. Essa distância entre uma medida sensível a extremos e uma medida robusta é o mesmo sinal que a diferença entre média e mediana já tinha dado na seção 1.3: a distribuição de população dos estados tem **cauda longa à direita**. Quanto mais as duas famílias de estimativas (a sensível e a robusta) discordam, mais forte é o sinal de cauda longa, não um capricho do cálculo.
 :::
 
 ## Escores-padrão
 
-O desvio-padrão mede o espalhamento de uma distribuição inteira, mas às vezes a pergunta é sobre um único valor: SP é um estado populoso — só isso já se sabia desde a seção 1.3 —, mas *quão* populoso, em unidades de dispersão? O **escore-padrão**, ou z-score, responde exatamente isso: quantos desvios-padrão um valor está acima ou abaixo da média.
+O desvio-padrão mede o espalhamento de uma distribuição inteira, mas às vezes a pergunta é sobre um único valor: SP é um estado populoso (isso já se sabia desde a seção 1.3), mas *quão* populoso, em unidades de dispersão? O **escore-padrão**, ou z-score, responde exatamente isso: quantos desvios-padrão um valor está acima ou abaixo da média.
 
 $$z = \frac{x - \bar{x}}{s}$$
 
-Por ser uma razão entre duas grandezas na mesma unidade (o desvio $x - \bar{x}$ e o desvio-padrão $s$, ambos em habitantes, ou ambos em homicídios por 100 mil), o z-score é **adimensional** — um número puro, sem unidade. É essa ausência de unidade que permite comparar posições em escalas completamente diferentes: população se mede em dezenas de milhões, taxa de homicídios em dezenas por 100 mil habitantes, e olhar os dois números brutos lado a lado não diz nada sobre qual deles é mais extremo. Convertidos a z-score, os dois passam a viver na mesma escala.
+Por ser uma razão entre duas grandezas na mesma unidade (o desvio $x - \bar{x}$ e o desvio-padrão $s$, ambos em habitantes, ou ambos em homicídios por 100 mil), o z-score é **adimensional**: um número puro, sem unidade. É essa ausência de unidade que permite comparar posições em escalas completamente diferentes: população se mede em dezenas de milhões, taxa de homicídios em dezenas por 100 mil habitantes, e olhar os dois números brutos lado a lado não diz nada sobre qual deles é mais extremo. Convertidos a z-score, os dois passam a viver na mesma escala.
 
 ```{python}
 #| label: z-score
@@ -188,9 +189,9 @@ sp_t = estado.loc[estado["Sigla"] == "SP", "Taxa.Homicidios"].iloc[0]
 print(f"z-score da taxa de homicídios de SP: {num((sp_t - mu_t) / sd_t, 2)}")
 ```
 
-Os dois z-scores de São Paulo apontam em direções opostas. Em população, SP está a **pouco mais de 4 desvios-padrão acima da média** — um extremo raro, coerente com ser o outlier populacional que a seção 1.3 já havia identificado. Em taxa de homicídios, porém, SP está a **quase 2 desvios-padrão abaixo da média** — o mesmo estado, agora do lado oposto da distribuição. Um único estado, dois z-scores de sinais opostos, cada um resumindo a posição de SP na sua própria escala.
+Os dois z-scores de São Paulo apontam em direções opostas. Em população, SP está a **pouco mais de 4 desvios-padrão acima da média**, um extremo raro, coerente com ser o outlier populacional que a seção 1.3 já havia identificado. Em taxa de homicídios, porém, SP está a **quase 2 desvios-padrão abaixo da média**: o mesmo estado, agora do lado oposto da distribuição. Um único estado, dois z-scores de sinais opostos, cada um resumindo a posição de SP na sua própria escala.
 
-Essa padronização — subtrair a média, dividir pelo desvio-padrão — não é exclusiva deste exemplo: é a mesma conta que a distribuição Normal usa como referência (Cap. 2, seção 2.7), e é a mesma conta que o widget logo abaixo já emprega para mudar a dispersão da taxa de homicídios sem tocar na média.
+Essa padronização (subtrair a média, dividir pelo desvio-padrão) não é exclusiva deste exemplo: é a mesma conta que a distribuição Normal usa como referência, e é a mesma conta que o widget logo abaixo já emprega para mudar a dispersão da taxa de homicídios sem tocar na média.
 
 ::: {.callout-note}
 A leitura do z-score como "quantos desvios-padrão da média" e sua utilidade para comparar grandezas em escalas diferentes seguem @weed.
@@ -198,9 +199,9 @@ A leitura do z-score como "quantos desvios-padrão da média" e sua utilidade pa
 
 ## Mexa no desvio-padrão
 
-Os números acima são uma fotografia de uma única distribuição. Para separar de vez o que é a **média** do que é o **desvio-padrão**, o widget abaixo faz algo que nenhum gráfico estático consegue: muda a dispersão da taxa de homicídios sem tocar na média. Arraste o controle e observe a linha vermelha — ela não se move um pixel. Média e desvio-padrão são parâmetros independentes: um descreve *onde* os dados estão centrados, o outro descreve *quão longe* eles se espalham desse centro, e mudar um não obriga o outro a mudar.
+Os números acima são uma fotografia de uma única distribuição. Para separar de vez o que é a **média** do que é o **desvio-padrão**, o widget abaixo faz algo que nenhum gráfico estático consegue: muda a dispersão da taxa de homicídios sem tocar na média. Arraste o controle e observe a linha vermelha: ela não se move um pixel. Média e desvio-padrão são parâmetros independentes: um descreve *onde* os dados estão centrados, o outro descreve *quão longe* eles se espalham desse centro, e mudar um não obriga o outro a mudar.
 
-O truque por trás disso é o z-score. Cada estado tem um z-score real, $z_i = (x_i - \bar{x}) / s$, calculado uma única vez a partir dos dados verdadeiros. Para gerar uma taxa com um desvio-padrão diferente, basta inverter a fórmula: $x_i' = \bar{x} + z_i \times s_{\text{novo}}$. Essa não é uma aproximação — é a mesma identidade algébrica em outra direção, e ela devolve exatamente a média $\bar{x}$ para qualquer $s_{\text{novo}}$ que você escolher.
+O truque por trás disso é o z-score. Cada estado tem um z-score real, $z_i = (x_i - \bar{x}) / s$, calculado uma única vez a partir dos dados verdadeiros. Para gerar uma taxa com um desvio-padrão diferente, basta inverter a fórmula: $x_i' = \bar{x} + z_i \times s_{\text{novo}}$. É a mesma identidade algébrica em outra direção, sem aproximação nenhuma, e ela devolve exatamente a média $\bar{x}$ para qualquer $s_{\text{novo}}$ que você escolher.
 
 ```{ojs}
 //| echo: false
@@ -210,7 +211,7 @@ fmt = x => x.toLocaleString("pt-BR", {minimumFractionDigits: 1, maximumFractionD
 
 // O z-score da taxa real, calculado UMA vez. É ele que permite mudar o desvio
 // sem mexer na média: taxa' = μ + z × σ_novo devolve exatamente a média μ e
-// exatamente o desvio σ_novo. Não é aproximação — é identidade algébrica.
+// exatamente o desvio σ_novo, por identidade algébrica (sem aproximação).
 // d3.deviation usa n−1, igual ao .std(ddof=1) do pandas.
 base = {
   const taxas = estados.map(d => d["Taxa.Homicidios"]);
@@ -245,7 +246,7 @@ taxasAjustadas = base.z.map(d => ({sigla: d.sigla, taxa: base.mu + d.z * desvio}
 menor = taxasAjustadas.reduce((a, b) => (a.taxa < b.taxa ? a : b))
 ```
 
-Repare que os dois eixos do gráfico abaixo estão **travados** — o eixo x sempre vai de 0 a 45, o eixo y sempre vai de 0 a 8, não importa o que o slider faça. Isso é proposital: um eixo que se reajusta automaticamente absorveria o efeito da mudança, e as barras sempre pareceriam "do mesmo tamanho" — exatamente o que este widget existe para desmentir. Com o eixo fixo, dispersão maior significa, visivelmente, barras mais espalhadas e mais baixas; dispersão menor significa barras mais estreitas e mais altas, todas se apertando contra a linha vermelha da média.
+Repare que os dois eixos do gráfico abaixo estão **travados**: o eixo x sempre vai de 0 a 45, o eixo y sempre vai de 0 a 8, não importa o que o slider faça. Isso é proposital: um eixo que se reajusta automaticamente absorveria o efeito da mudança, e as barras sempre pareceriam "do mesmo tamanho", exatamente o que este widget existe para desmentir. Com o eixo fixo, dispersão maior significa, visivelmente, barras mais espalhadas e mais baixas; dispersão menor significa barras mais estreitas e mais altas, todas se apertando contra a linha vermelha da média.
 
 ```{ojs}
 //| echo: false
@@ -270,19 +271,19 @@ Plot.plot({
 
 ```{ojs}
 //| echo: false
-md`Média: **${fmt(base.mu)}** — a linha vermelha, que **não se move**.
+md`Média: **${fmt(base.mu)}** (a linha vermelha, que **não se move**).
 Desvio-padrão: **${fmt(desvio)}** (o real é ${fmt(base.sd)}).
 
-Menor taxa: **${fmt(menor.taxa)}** (${menor.sigla}) — Maior: **${fmt(d3.max(taxasAjustadas, d => d.taxa))}**`
+Menor taxa: **${fmt(menor.taxa)}** (${menor.sigla}). Maior: **${fmt(d3.max(taxasAjustadas, d => d.taxa))}**`
 ```
 
-Por que o slider para em 11,8, e não continua até 15 ou 20? Não é capricho de quem construiu o widget — é uma restrição matemática. O desvio-padrão máximo que essa distribuição pode ter, mantendo a média fixa em 22,74, é
+Por que o slider para em 11,8, e não continua até 15 ou 20? O limite vem de uma restrição matemática. O desvio-padrão máximo que essa distribuição pode ter, mantendo a média fixa em 22,74, é
 
 $$\sigma_{\text{crítico}} = \frac{\mu}{|z_{\min}|} = \frac{22{,}74}{1{,}926} = 11{,}81$$
 
-onde $z_{\min} = -1{,}926$ é o z-score de São Paulo — a **menor** taxa do país (6,16 por 100 mil). Acima de 11,81, a fórmula $x_i' = \bar{x} + z_i \times s_{\text{novo}}$ empurraria a taxa de São Paulo para um valor **negativo**. Taxa de homicídios negativa não existe: não há como matar menos que zero pessoas a cada 100 mil habitantes. Arraste o slider até o fim e veja a menor taxa da tabela encostar em zero — é exatamente esse limite sendo alcançado.
+onde $z_{\min} = -1{,}926$ é o z-score de São Paulo, dono da **menor** taxa do país (6,16 por 100 mil). Acima de 11,81, a fórmula $x_i' = \bar{x} + z_i \times s_{\text{novo}}$ empurraria a taxa de São Paulo para um valor **negativo**. Taxa de homicídios negativa não existe: não há como matar menos que zero pessoas a cada 100 mil habitantes. Arraste o slider até o fim e veja a menor taxa da tabela encostar em zero: é exatamente esse limite sendo alcançado.
 
-Essa restrição não é peculiaridade da taxa de homicídios: **o piso em zero limita quanta dispersão uma variável positiva pode ter, dada a sua média.** Uma variável que não pode ser negativa tem, por construção, muito mais espaço para se espalhar para cima do que para baixo — o chão está sempre a uma distância finita da média, o teto não está a distância nenhuma. É por isso que renda, população e tempo de espera, entre tantas outras variáveis que só existem como números positivos, tendem a ser **assimétricas à direita**: a cauda longa de valores altos não tem para onde recuar, mas a variação para baixo esbarra em zero muito antes. A seção 1.5 retoma exatamente essa assimetria — e agora você já viu de onde ela nasce.
+Essa restrição não é peculiaridade da taxa de homicídios: **o piso em zero limita quanta dispersão uma variável positiva pode ter, dada a sua média.** Uma variável que não pode ser negativa tem, por construção, muito mais espaço para se espalhar para cima do que para baixo: o chão está sempre a uma distância finita da média, o teto não está a distância nenhuma. É por isso que renda, população e tempo de espera, entre tantas outras variáveis que só existem como números positivos, tendem a ser **assimétricas à direita**: a cauda longa de valores altos não tem para onde recuar, mas a variação para baixo esbarra em zero muito antes. A seção 1.5 retoma exatamente essa assimetria, e agora você já viu de onde ela nasce.
 
 ## Resumo
 
@@ -303,7 +304,7 @@ Se a população de cada estado fosse multiplicada por 1.000, o desvio-padrão e
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
-Porque ela é sempre exatamente zero — é uma propriedade algébrica da média, não um fato sobre os dados. Os desvios positivos cancelam os negativos por construção. Daí a necessidade de eliminar o sinal, elevando ao quadrado (variância, desvio-padrão) ou tomando o módulo (desvio absoluto médio, MAD).
+Porque ela é sempre exatamente zero: é uma propriedade algébrica da média, não um fato sobre os dados. Os desvios positivos cancelam os negativos por construção. Daí a necessidade de eliminar o sinal, elevando ao quadrado (variância, desvio-padrão) ou tomando o módulo (desvio absoluto médio, MAD).
 :::
 
 **2.** Com $n = 27$, a mediana da população coincide com a população de um estado (a Paraíba), mas nem $q_1$ nem $q_3$ coincidem com a de estado algum. Por quê?
@@ -311,15 +312,15 @@ Porque ela é sempre exatamente zero — é uma propriedade algébrica da média
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
-Porque a posição do quantil $p$ na sequência ordenada é $(n-1)p + 1$, e ela só cai sobre uma observação quando o resultado é inteiro. Para $p = 0{,}5$ e $n = 27$ a conta dá $26 \times 0{,}5 + 1 = 14$ — inteiro, e a 14ª observação ordenada é a Paraíba. Para $p = 0{,}25$ e $p = 0{,}75$ ela dá 7,5 e 20,5, posições que não existem; o valor vem de uma interpolação entre os vizinhos (MS e DF de um lado, CE e PE do outro). Não é azar com esse $n$ — é o caso comum. O que é excepcional é a mediana coincidir.
+Porque a posição do quantil $p$ na sequência ordenada é $(n-1)p + 1$, e ela só cai sobre uma observação quando o resultado é inteiro. Para $p = 0{,}5$ e $n = 27$ a conta dá $26 \times 0{,}5 + 1 = 14$, inteiro, e a 14ª observação ordenada é a Paraíba. Para $p = 0{,}25$ e $p = 0{,}75$ ela dá 7,5 e 20,5, posições que não existem; o valor vem de uma interpolação entre os vizinhos (MS e DF de um lado, CE e PE do outro). É o caso comum com esse $n$. O que é excepcional é a mediana coincidir.
 :::
 
-**3.** O desvio-padrão da população dos estados é 9,26M e o MAD é 4,75M — quase o dobro. O que essa razão diz sobre os dados?
+**3.** O desvio-padrão da população dos estados é 9,26M e o MAD é 4,75M, quase o dobro. O que essa razão diz sobre os dados?
 
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
-Que há observações extremas puxando o desvio-padrão para cima. Sob uma distribuição normal, MAD e desvio-padrão seriam próximos — é para isso que serve o fator 0,6745 na fórmula do MAD. Uma razão desvio-padrão/MAD muito maior que 1 é um diagnóstico prático de cauda longa ou outliers, tal como a distância entre média e mediana foi na seção 1.3.
+Que há observações extremas puxando o desvio-padrão para cima. Sob uma distribuição normal, MAD e desvio-padrão seriam próximos: é para isso que serve o fator 0,6745 na fórmula do MAD. Uma razão desvio-padrão/MAD muito maior que 1 é um diagnóstico prático de cauda longa ou outliers, tal como a distância entre média e mediana foi na seção 1.3.
 :::
 
 **4.** Se você multiplicar todas as populações por 1.000, o que acontece com o desvio-padrão? E com o IQR?
@@ -327,7 +328,7 @@ Que há observações extremas puxando o desvio-padrão para cima. Sob uma distr
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
-Ambos são multiplicados por 1.000. As medidas de dispersão têm a mesma unidade dos dados e escalam linearmente com eles. A variância, ao contrário, seria multiplicada por 1.000.000 — ela está em unidade ao quadrado, o que é justamente o inconveniente que motiva o uso do desvio-padrão no lugar dela.
+Ambos são multiplicados por 1.000. As medidas de dispersão têm a mesma unidade dos dados e escalam linearmente com eles. A variância, ao contrário, seria multiplicada por 1.000.000, pois está em unidade ao quadrado, o que é justamente o inconveniente que motiva o uso do desvio-padrão no lugar dela.
 :::
 
 **5.** O z-score da população de SP é 4,12 e o z-score da sua taxa de homicídios é −1,93. Por que faz sentido comparar esses dois números, se população e taxa de homicídios são medidas em unidades completamente diferentes?
@@ -335,12 +336,12 @@ Ambos são multiplicados por 1.000. As medidas de dispersão têm a mesma unidad
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
-Porque o z-score é adimensional: ele é uma razão entre um desvio e um desvio-padrão medidos na mesma unidade, então a unidade original se cancela. Isso permite comparar a posição relativa de SP nas duas distribuições mesmo que uma esteja em habitantes e a outra em homicídios por 100 mil — os dois números, 4,12 e −1,93, dizem quantos desvios-padrão cada valor está da sua própria média, e podem ser colocados lado a lado nessa escala comum.
+Porque o z-score é adimensional: ele é uma razão entre um desvio e um desvio-padrão medidos na mesma unidade, então a unidade original se cancela. Isso permite comparar a posição relativa de SP nas duas distribuições mesmo que uma esteja em habitantes e a outra em homicídios por 100 mil. Os dois números, 4,12 e −1,93, dizem quantos desvios-padrão cada valor está da sua própria média, e podem ser colocados lado a lado nessa escala comum.
 :::
 
 ## Agora é com você
 
-Os mesmos 10.692 imóveis da [seção 1.3](03-estimativas-localizacao.qmd) — só que agora a pergunta não é "onde está o centro", e sim **quanto os valores se espalham** em torno dele. Carregue o conjunto (no Colab, pela mesma URL) e concentre-se nas seis colunas contínuas, em reais e metros quadrados:
+Os mesmos 10.692 imóveis da [seção 1.3](03-estimativas-localizacao.qmd), só que agora a pergunta é **quanto os valores se espalham** em torno do centro. Carregue o conjunto (no Colab, pela mesma URL) e concentre-se nas seis colunas contínuas, em reais e metros quadrados:
 
 ```{python}
 #| label: alugueis-var-carrega
@@ -369,10 +370,10 @@ dispersao = pd.DataFrame({
 dispersao
 ```
 
-Três números, três perguntas diferentes: o desvio-padrão usa todos os valores (e os eleva ao quadrado); o IQR só olha a largura da metade central; o MAD só olha a distância típica até a mediana. Quando os três concordam, a coluna é bem-comportada. Quando discordam, a diferença é informação — e é o assunto da tarefa 2.
+São três números para três perguntas diferentes: o desvio-padrão usa todos os valores (e os eleva ao quadrado); o IQR só olha a largura da metade central; o MAD só olha a distância típica até a mediana. Quando os três concordam, a coluna é bem-comportada. Quando discordam, a diferença é informação, e é o assunto da tarefa 2.
 :::
 
-**2.** Divida o desvio-padrão pelo MAD em cada coluna. Numa distribuição normal, os dois são parecidos (é para isso que serve o fator 0,6745). Em quais colunas a razão explode — e o que isso indica?
+**2.** Divida o desvio-padrão pelo MAD em cada coluna. Numa distribuição normal, os dois são parecidos (é para isso que serve o fator 0,6745). Em quais colunas a razão explode, e o que isso indica?
 
 ::: {.callout-tip collapse="true"}
 ## Resposta
@@ -383,7 +384,7 @@ razao = (alugueis[continuas].std() / alugueis[continuas].apply(robust.scale.mad)
 razao.sort_values(ascending=False)
 ```
 
-Na coluna mais bem-comportada, `{python} razao.idxmin()`, o desvio-padrão é `{python} num(razao.min(), 1)` vezes o MAD. Em **`condominio`** ele é `{python} num(razao["condominio"], 1)` vezes; em **`iptu`**, `{python} num(razao["iptu"], 1)`; em **`area_m2`**, `{python} num(razao["area_m2"], 1)` — e `total`, que soma condomínio e IPTU, herda o problema (`{python} num(razao["total"], 1)` vezes). É o mesmo sinal que a população dos estados deu nesta seção (desvio-padrão quase o dobro do MAD), só que gritado: uma cauda direita muito longa, com valores extremos que o desvio-padrão — por elevar ao quadrado — amplifica, e o MAD — por só olhar a mediana das distâncias — ignora. A razão dp/MAD funciona, na prática, como um **detector de outliers** que dispensa olhar o dado.
+Na coluna mais bem-comportada, `{python} razao.idxmin()`, o desvio-padrão é `{python} num(razao.min(), 1)` vezes o MAD. Em **`condominio`** ele é `{python} num(razao["condominio"], 1)` vezes; em **`iptu`**, `{python} num(razao["iptu"], 1)`; em **`area_m2`**, `{python} num(razao["area_m2"], 1)`. E `total`, que soma condomínio e IPTU, herda o problema (`{python} num(razao["total"], 1)` vezes). É o mesmo sinal que a população dos estados deu nesta seção (desvio-padrão quase o dobro do MAD), só que gritado: uma cauda direita muito longa, com valores extremos que o desvio-padrão amplifica (por elevar ao quadrado) e o MAD ignora (por só olhar a mediana das distâncias). A razão dp/MAD funciona, na prática, como um **detector de outliers** que dispensa olhar o dado.
 :::
 
 **3.** Remova do conjunto o(s) imóvel(is) com o maior valor de `condominio` e recalcule as três medidas dessa coluna. Qual delas mudou mais? Qual quase não se mexeu?
@@ -406,7 +407,7 @@ print(f"removidos: {quantos} imóvel(is) com condomínio de R$ {num(maior, 0)}")
 comparacao
 ```
 
-Tirar `{python} quantos` linha(s) de `{python} num(len(alugueis), 0)` derruba o desvio-padrão de R$ `{python} num(comparacao.loc["desvio-padrão", "com o outlier"], 0)` para R$ `{python} num(comparacao.loc["desvio-padrão", "sem o outlier"], 0)`. O IQR e o MAD praticamente não se mexem: `{python} num(comparacao.loc["IQR", "com o outlier"], 0)` → `{python} num(comparacao.loc["IQR", "sem o outlier"], 0)` e `{python} num(comparacao.loc["MAD", "com o outlier"], 0)` → `{python} num(comparacao.loc["MAD", "sem o outlier"], 0)`. É a definição operacional de **robustez**: uma medida robusta é aquela que um punhado de valores absurdos não consegue sequestrar. E note que o desvio-padrão "sem o outlier" continua bem acima do MAD — o próximo condomínio da fila (R$ `{python} num(sem_maior.max(), 0)`) já assume o papel. Outlier raramente é um só.
+Tirar `{python} quantos` linha(s) de `{python} num(len(alugueis), 0)` derruba o desvio-padrão de R$ `{python} num(comparacao.loc["desvio-padrão", "com o outlier"], 0)` para R$ `{python} num(comparacao.loc["desvio-padrão", "sem o outlier"], 0)`. O IQR e o MAD praticamente não se mexem: `{python} num(comparacao.loc["IQR", "com o outlier"], 0)` → `{python} num(comparacao.loc["IQR", "sem o outlier"], 0)` e `{python} num(comparacao.loc["MAD", "com o outlier"], 0)` → `{python} num(comparacao.loc["MAD", "sem o outlier"], 0)`. É a definição operacional de **robustez**: uma medida robusta é aquela que um punhado de valores absurdos não consegue sequestrar. E note que o desvio-padrão "sem o outlier" continua bem acima do MAD: o próximo condomínio da fila (R$ `{python} num(sem_maior.max(), 0)`) já assume o papel. Outlier raramente é um só.
 :::
 
 **4.** Calcule o escore-padrão (z) do imóvel de maior aluguel. Depois conte quantos imóveis têm |z| > 3 em `aluguel`. Se a distribuição fosse normal, que fração você esperaria? O que a diferença diz?
@@ -423,7 +424,7 @@ print(f"maior aluguel: R$ {num(aluguel.max(), 0)}  →  z = {num(z.max(), 2)}")
 print(f"imóveis com |z| > 3: {int(extremos.sum())} de {num(len(z), 0)} ({num(100 * extremos.mean(), 2)}%)")
 ```
 
-O maior aluguel está a `{python} num(z.max(), 1)` desvios-padrão da média. Numa normal, só cerca de 0,3% dos valores passam de 3 desvios; aqui são `{python} num(100 * extremos.mean(), 2)`% — mais do que a normal prevê. E esse número ainda é **subestimado**: o z divide pelo desvio-padrão, que os próprios extremos inflam, então cada extremo "encolhe" o z de todos os outros. É por isso que, em dado de cauda longa, a versão robusta do z (mediana no lugar da média, MAD no lugar do desvio-padrão) encontra mais outliers do que a clássica — e por que, antes de declarar um valor "atípico", vale saber como a régua foi calibrada.
+O maior aluguel está a `{python} num(z.max(), 1)` desvios-padrão da média. Numa normal, só cerca de 0,3% dos valores passam de 3 desvios; aqui são `{python} num(100 * extremos.mean(), 2)`%, mais do que a normal prevê. E esse número ainda é **subestimado**: o z divide pelo desvio-padrão, que os próprios extremos inflam, então cada extremo "encolhe" o z de todos os outros. É por isso que, em dado de cauda longa, a versão robusta do z (mediana no lugar da média, MAD no lugar do desvio-padrão) encontra mais outliers do que a clássica, e também por que, antes de declarar um valor "atípico", vale saber como a régua foi calibrada.
 :::
 
-A lição desta seção, agora em dado real: **as medidas de dispersão discordam entre si exatamente quando o dado é sujo** — e a discordância é a informação. Desvio-padrão para conjuntos bem-comportados; IQR e MAD quando há qualquer chance de cauda longa. E, com aluguéis, há.
+A lição desta seção, agora em dado real: **as medidas de dispersão discordam entre si exatamente quando o dado é sujo**, e a discordância é a informação. Desvio-padrão para conjuntos bem-comportados; IQR e MAD quando há qualquer chance de cauda longa. E, com aluguéis, há.

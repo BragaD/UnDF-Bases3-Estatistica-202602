@@ -647,6 +647,8 @@ window.Quarto = {
   <li><a href="#coeficiente-de-correlação-de-pearson" id="toc-coeficiente-de-correlação-de-pearson" class="nav-link active" data-scroll-target="#coeficiente-de-correlação-de-pearson">Coeficiente de correlação de Pearson</a></li>
   <li><a href="#os-dados" id="toc-os-dados" class="nav-link" data-scroll-target="#os-dados">Os dados</a></li>
   <li><a href="#matriz-de-correlação" id="toc-matriz-de-correlação" class="nav-link" data-scroll-target="#matriz-de-correlação">Matriz de correlação</a></li>
+  <li><a href="#quando-r-é-alto-demais-para-ser-interessante" id="toc-quando-r-é-alto-demais-para-ser-interessante" class="nav-link" data-scroll-target="#quando-r-é-alto-demais-para-ser-interessante">Quando r é alto demais para ser interessante</a></li>
+  <li><a href="#quando-um-único-ponto-destrói-o-r" id="toc-quando-um-único-ponto-destrói-o-r" class="nav-link" data-scroll-target="#quando-um-único-ponto-destrói-o-r">Quando um único ponto destrói o r</a></li>
   <li><a href="#três-armadilhas" id="toc-três-armadilhas" class="nav-link" data-scroll-target="#três-armadilhas">Três armadilhas</a></li>
   <li><a href="#resumo" id="toc-resumo" class="nav-link" data-scroll-target="#resumo">Resumo</a></li>
   <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios">Exercícios</a></li>
@@ -695,7 +697,7 @@ Nota
 <p>Esta seção corresponde à seção 1.7 de <span class="citation" data-cites="bruce2020">Bruce et al. (<a href="#ref-bruce2020" role="doc-biblioref">2020</a>)</span>.</p>
 </div>
 </div>
-<p>Da seção 1.3 até a 1.6, cada ferramenta olhou para <strong>uma</strong> variável de cada vez: a localização e a dispersão da população dos estados, a forma de uma distribuição, a proporção de uma causa de atraso. A pergunta agora é outra, e é nova neste capítulo: dadas <strong>duas</strong> variáveis numéricas, elas se movem juntas? Quando uma sobe, a outra também sobe, desce ou fica indiferente?</p>
+<p>Da seção 1.3 até a 1.6, cada ferramenta olhou para <strong>uma</strong> variável de cada vez: a localização e a dispersão da população dos estados, a forma de uma distribuição, a proporção de anúncios de cada cidade. A pergunta agora é outra, e é nova neste capítulo: dadas <strong>duas</strong> variáveis numéricas, elas se movem juntas? Quando uma sobe, a outra também sobe, desce ou fica indiferente?</p>
 <section id="coeficiente-de-correlação-de-pearson" class="level2">
 <h2 class="anchored" data-anchor-id="coeficiente-de-correlação-de-pearson">Coeficiente de correlação de Pearson</h2>
 <p>O <strong>coeficiente de correlação de Pearson</strong> mede o grau de associação <strong>linear</strong> entre duas variáveis numéricas:</p>
@@ -705,35 +707,12 @@ Nota
 </section>
 <section id="os-dados" class="level2">
 <h2 class="anchored" data-anchor-id="os-dados">Os dados</h2>
-<p>Vamos usar retornos diários de ações do S&amp;P 500, entre 1993 e 2015.</p>
+<p>Voltamos aos 10.692 anúncios de aluguel, agora com várias colunas numéricas ao mesmo tempo: área, quartos, banheiros, vagas de garagem, aluguel, condomínio, IPTU e seguro contra incêndio.</p>
 <div id="cell-carrega" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>SETORES <span class="op">=</span> {</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"consumer_discretionary"</span>: <span class="st">"consumo_discricionario"</span>,</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"consumer_staples"</span>: <span class="st">"consumo_essencial"</span>,</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"energy"</span>: <span class="st">"energia"</span>,</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"etf"</span>: <span class="st">"etf"</span>,</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"financials"</span>: <span class="st">"financeiro"</span>,</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"health_care"</span>: <span class="st">"saude"</span>,</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"industrials"</span>: <span class="st">"industrial"</span>,</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"information_technology"</span>: <span class="st">"tecnologia_da_informacao"</span>,</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"materials"</span>: <span class="st">"materiais"</span>,</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"telecommunications_services"</span>: <span class="st">"telecomunicacoes"</span>,</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"utilities"</span>: <span class="st">"utilidade_publica"</span>,</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>setores <span class="op">=</span> pd.read_csv(<span class="st">"dados/sp500_sectors.csv"</span>).rename(</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    columns<span class="op">=</span>{<span class="st">"sector"</span>: <span class="st">"Setor"</span>, <span class="st">"symbol"</span>: <span class="st">"Simbolo"</span>}</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>setores[<span class="st">"Setor"</span>] <span class="op">=</span> setores[<span class="st">"Setor"</span>].replace(SETORES)</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>precos  <span class="op">=</span> pd.read_csv(<span class="st">"dados/sp500_data.csv.gz"</span>, index_col<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>simbolos_telecom <span class="op">=</span> setores[setores[<span class="st">"Setor"</span>] <span class="op">==</span> <span class="st">"telecomunicacoes"</span>][<span class="st">"Simbolo"</span>]</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>telecom <span class="op">=</span> precos.loc[precos.index <span class="op">&gt;=</span> <span class="st">"2012-07-01"</span>, simbolos_telecom]</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"dias x empresas:"</span>, telecom.shape)</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>telecom.head()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>dias x empresas: (754, 5)</code></pre>
-</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>alugueis <span class="op">=</span> pd.read_csv(<span class="st">"dados/alugueis.csv"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>COLUNAS <span class="op">=</span> [<span class="st">"area_m2"</span>, <span class="st">"quartos"</span>, <span class="st">"banheiros"</span>, <span class="st">"vagas"</span>,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>           <span class="st">"aluguel"</span>, <span class="st">"condominio"</span>, <span class="st">"iptu"</span>, <span class="st">"seguro_incendio"</span>]</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>alugueis[COLUNAS].head()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div id="carrega" class="cell-output cell-output-display" data-execution_count="2">
 <div>
 
@@ -742,53 +721,71 @@ Nota
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">T</th>
-<th data-quarto-table-cell-role="th">CTL</th>
-<th data-quarto-table-cell-role="th">FTR</th>
-<th data-quarto-table-cell-role="th">VZ</th>
-<th data-quarto-table-cell-role="th">LVLT</th>
+<th data-quarto-table-cell-role="th">area_m2</th>
+<th data-quarto-table-cell-role="th">quartos</th>
+<th data-quarto-table-cell-role="th">banheiros</th>
+<th data-quarto-table-cell-role="th">vagas</th>
+<th data-quarto-table-cell-role="th">aluguel</th>
+<th data-quarto-table-cell-role="th">condominio</th>
+<th data-quarto-table-cell-role="th">iptu</th>
+<th data-quarto-table-cell-role="th">seguro_incendio</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">2012-07-02</th>
-<td>0.422496</td>
-<td>0.140847</td>
-<td>0.070879</td>
-<td>0.554180</td>
-<td>-0.519998</td>
+<th data-quarto-table-cell-role="th">0</th>
+<td>70</td>
+<td>2</td>
+<td>1</td>
+<td>1</td>
+<td>3300</td>
+<td>2065</td>
+<td>211</td>
+<td>42</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">2012-07-03</th>
-<td>-0.177448</td>
-<td>0.066280</td>
-<td>0.070879</td>
-<td>-0.025976</td>
-<td>-0.049999</td>
+<th data-quarto-table-cell-role="th">1</th>
+<td>320</td>
+<td>4</td>
+<td>4</td>
+<td>0</td>
+<td>4960</td>
+<td>1200</td>
+<td>1750</td>
+<td>63</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">2012-07-05</th>
-<td>-0.160548</td>
-<td>-0.132563</td>
-<td>0.055128</td>
-<td>-0.051956</td>
-<td>-0.180000</td>
+<th data-quarto-table-cell-role="th">2</th>
+<td>80</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>2800</td>
+<td>1000</td>
+<td>0</td>
+<td>41</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">2012-07-06</th>
-<td>0.342205</td>
-<td>0.132563</td>
-<td>0.007875</td>
-<td>0.140106</td>
-<td>-0.359999</td>
+<th data-quarto-table-cell-role="th">3</th>
+<td>51</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+<td>1112</td>
+<td>270</td>
+<td>22</td>
+<td>17</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">2012-07-09</th>
-<td>0.136883</td>
-<td>0.124279</td>
-<td>-0.023626</td>
-<td>0.253943</td>
-<td>0.180000</td>
+<th data-quarto-table-cell-role="th">4</th>
+<td>25</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>800</td>
+<td>0</td>
+<td>25</td>
+<td>11</td>
 </tr>
 </tbody>
 </table>
@@ -796,16 +793,13 @@ Nota
 </div>
 </div>
 </div>
-<p><code>telecom</code> tem 754 dias de negociação e 5 empresas de telecomunicações: T (AT&amp;T), CTL (CenturyLink), FTR (Frontier), VZ (Verizon) e LVLT (Level 3).</p>
-<div class="conceito">
-<p><code>precos.index</code> é uma string (“1993-01-29”, e não uma data), mas a comparação <code>precos.index &gt;= "2012-07-01"</code> ainda funciona porque datas no formato ISO (<code>AAAA-MM-DD</code>) comparam corretamente como texto: ordem alfabética e ordem cronológica coincidem. E <code>simbolos_telecom</code> é uma <code>Series</code>, não uma lista: <code>precos.loc[..., simbolos_telecom]</code> aceita os dois formatos para selecionar colunas, e preserva a ordem em que os símbolos aparecem em <code>simbolos_telecom</code>.</p>
-</div>
 </section>
 <section id="matriz-de-correlação" class="level2">
 <h2 class="anchored" data-anchor-id="matriz-de-correlação">Matriz de correlação</h2>
-<p>Com mais de duas variáveis, faz sentido calcular a correlação de <strong>todo par</strong>, não de um par isolado. O resultado é a <strong>matriz de correlação</strong>: simétrica (a correlação de T com VZ é a mesma de VZ com T) e com 1 na diagonal (toda variável tem correlação perfeita consigo mesma).</p>
+<p>Com mais de duas variáveis, faz sentido calcular a correlação de <strong>todo par</strong>, não de um par isolado. O resultado é a <strong>matriz de correlação</strong>: simétrica (a correlação da área com o aluguel é a mesma do aluguel com a área) e com 1 na diagonal (toda variável tem correlação perfeita consigo mesma).</p>
 <div id="cell-matriz" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>telecom.corr().<span class="bu">round</span>(<span class="dv">3</span>).<span class="bu">map</span>(<span class="kw">lambda</span> v: num(v, <span class="dv">3</span>))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>matriz <span class="op">=</span> alugueis[COLUNAS].corr()</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>matriz.<span class="bu">round</span>(<span class="dv">3</span>).<span class="bu">map</span>(<span class="kw">lambda</span> v: num(v, <span class="dv">3</span>))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div id="matriz" class="cell-output cell-output-display" data-execution_count="3">
 <div>
 
@@ -814,52 +808,103 @@ Nota
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">T</th>
-<th data-quarto-table-cell-role="th">CTL</th>
-<th data-quarto-table-cell-role="th">FTR</th>
-<th data-quarto-table-cell-role="th">VZ</th>
-<th data-quarto-table-cell-role="th">LVLT</th>
+<th data-quarto-table-cell-role="th">area_m2</th>
+<th data-quarto-table-cell-role="th">quartos</th>
+<th data-quarto-table-cell-role="th">banheiros</th>
+<th data-quarto-table-cell-role="th">vagas</th>
+<th data-quarto-table-cell-role="th">aluguel</th>
+<th data-quarto-table-cell-role="th">condominio</th>
+<th data-quarto-table-cell-role="th">iptu</th>
+<th data-quarto-table-cell-role="th">seguro_incendio</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">T</th>
+<th data-quarto-table-cell-role="th">area_m2</th>
 <td>1,000</td>
-<td>0,475</td>
-<td>0,328</td>
-<td>0,678</td>
-<td>0,279</td>
+<td>0,194</td>
+<td>0,227</td>
+<td>0,194</td>
+<td>0,181</td>
+<td>0,007</td>
+<td>0,039</td>
+<td>0,188</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">CTL</th>
-<td>0,475</td>
+<th data-quarto-table-cell-role="th">quartos</th>
+<td>0,194</td>
 <td>1,000</td>
-<td>0,420</td>
-<td>0,417</td>
-<td>0,287</td>
+<td>0,734</td>
+<td>0,618</td>
+<td>0,542</td>
+<td>0,007</td>
+<td>0,075</td>
+<td>0,565</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">FTR</th>
-<td>0,328</td>
-<td>0,420</td>
+<th data-quarto-table-cell-role="th">banheiros</th>
+<td>0,227</td>
+<td>0,734</td>
 <td>1,000</td>
-<td>0,287</td>
-<td>0,260</td>
+<td>0,697</td>
+<td>0,669</td>
+<td>0,050</td>
+<td>0,109</td>
+<td>0,676</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">VZ</th>
-<td>0,678</td>
-<td>0,417</td>
-<td>0,287</td>
+<th data-quarto-table-cell-role="th">vagas</th>
+<td>0,194</td>
+<td>0,618</td>
+<td>0,697</td>
 <td>1,000</td>
-<td>0,242</td>
+<td>0,578</td>
+<td>0,009</td>
+<td>0,098</td>
+<td>0,597</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">LVLT</th>
-<td>0,279</td>
-<td>0,287</td>
-<td>0,260</td>
-<td>0,242</td>
+<th data-quarto-table-cell-role="th">aluguel</th>
+<td>0,181</td>
+<td>0,542</td>
+<td>0,669</td>
+<td>0,578</td>
+<td>1,000</td>
+<td>0,036</td>
+<td>0,108</td>
+<td>0,987</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">condominio</th>
+<td>0,007</td>
+<td>0,007</td>
+<td>0,050</td>
+<td>0,009</td>
+<td>0,036</td>
+<td>1,000</td>
+<td>0,008</td>
+<td>0,030</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">iptu</th>
+<td>0,039</td>
+<td>0,075</td>
+<td>0,109</td>
+<td>0,098</td>
+<td>0,108</td>
+<td>0,008</td>
+<td>1,000</td>
+<td>0,106</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">seguro_incendio</th>
+<td>0,188</td>
+<td>0,565</td>
+<td>0,676</td>
+<td>0,597</td>
+<td>0,987</td>
+<td>0,030</td>
+<td>0,106</td>
 <td>1,000</td>
 </tr>
 </tbody>
@@ -868,49 +913,128 @@ Nota
 </div>
 </div>
 </div>
-<div class="exemplo">
-<p>A maior correlação do grupo é entre T e VZ: 0,678. Não é coincidência: AT&amp;T e Verizon são as duas maiores operadoras de telecomunicações dos Estados Unidos, e seus retornos diários respondem aos mesmos choques de mercado: taxa de juros, regulação do setor, expectativa de crescimento da economia. Empresas menores e mais heterogêneas do grupo, como LVLT, têm correlação bem mais baixa com as demais (0,242 a 0,287): compartilham menos desses choques comuns.</p>
+<p>Duas células dessa tabela deveriam incomodar, e cada uma por um motivo oposto.</p>
+<p>A maior correlação do quadro é entre <code>aluguel</code> e <code>seguro_incendio</code>, 0,987, praticamente 1. E a menor entre as que deveriam andar juntas é <code>area_m2</code> com <code>aluguel</code>: 0,181, quase nada, como se o tamanho do imóvel não tivesse relação com o preço. Nenhuma das duas é o que parece, e as duas próximas subseções desmontam uma de cada vez.</p>
+</section>
+<section id="quando-r-é-alto-demais-para-ser-interessante" class="level2">
+<h2 class="anchored" data-anchor-id="quando-r-é-alto-demais-para-ser-interessante">Quando r é alto demais para ser interessante</h2>
+<p>O seguro contra incêndio de um contrato de locação é calculado a partir do valor do aluguel, por uma fórmula da própria imobiliária, e não por uma medição independente do imóvel. O dado deixa isso à vista quando se olha a razão entre as duas colunas:</p>
+<div id="razao-seguro" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>razao_seguro <span class="op">=</span> <span class="dv">100</span> <span class="op">*</span> alugueis[<span class="st">"seguro_incendio"</span>] <span class="op">/</span> alugueis[<span class="st">"aluguel"</span>]</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"seguro como % do aluguel: mediana </span><span class="sc">{</span>num(razao_seguro.median(), <span class="dv">2</span>)<span class="sc">}</span><span class="ss">%, "</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f"quartis </span><span class="sc">{</span>num(razao_seguro.quantile(<span class="fl">0.25</span>), <span class="dv">2</span>)<span class="sc">}</span><span class="ss">% e </span><span class="sc">{</span>num(razao_seguro.quantile(<span class="fl">0.75</span>), <span class="dv">2</span>)<span class="sc">}</span><span class="ss">%"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>seguro como % do aluguel: mediana 1,31%, quartis 1,28% e 1,50%</code></pre>
 </div>
-<div id="cell-fig-scatter" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">5</span>))</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>ax.scatter(telecom[<span class="st">"T"</span>], telecom[<span class="st">"VZ"</span>], alpha<span class="op">=</span><span class="fl">0.5</span>, s<span class="op">=</span><span class="dv">20</span>, color<span class="op">=</span><span class="st">"#2c7fb8"</span>)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>ax.axhline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">"grey"</span>, linewidth<span class="op">=</span><span class="fl">0.8</span>)</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>ax.axvline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">"grey"</span>, linewidth<span class="op">=</span><span class="fl">0.8</span>)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Retorno diário da AT&amp;T (T)"</span>)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Retorno diário da Verizon (VZ)"</span>)</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Metade dos contratos cobra entre 1,28% e 1,50% do aluguel, o que descreve uma taxa fixada em contrato. Uma correlação de 0,987 entre as duas colunas não descobre nada sobre o mercado imobiliário; ela confirma que a conta foi feita como estava previsto no contrato. O coeficiente nem chega a 1 exato porque o valor é arredondado para reais inteiros e a taxa varia um pouco de contrato para contrato.</p>
+<div class="conceito">
+<p>Correlação perto de 1 entre duas colunas costuma ser um sinal de alerta antes de ser uma descoberta. As causas mais comuns são banais: uma coluna foi calculada a partir da outra, as duas medem a mesma coisa em unidades diferentes, ou as duas vêm da mesma fonte e carregam o mesmo erro. Vale conferir a origem de cada variável antes de comemorar.</p>
+</div>
+</section>
+<section id="quando-um-único-ponto-destrói-o-r" class="level2">
+<h2 class="anchored" data-anchor-id="quando-um-único-ponto-destrói-o-r">Quando um único ponto destrói o r</h2>
+<p>O caso da área é o oposto: a correlação é baixa demais para ser verdade. O gráfico de dispersão, que ainda não havia aparecido neste capítulo, resolve o problema em um segundo.</p>
+<div id="cell-fig-scatter-bruto" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="fl">4.5</span>))</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>ax.scatter(alugueis[<span class="st">"area_m2"</span>], alugueis[<span class="st">"aluguel"</span>], alpha<span class="op">=</span><span class="fl">0.4</span>, s<span class="op">=</span><span class="dv">12</span>, color<span class="op">=</span><span class="st">"#2c7fb8"</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Área (m²)"</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Aluguel mensal (R$)"</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
-<div id="fig-scatter" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Gráfico de dispersão do retorno diário da AT&amp;T no eixo horizontal contra o da Verizon no vertical, com linhas de referência no zero. A nuvem de pontos se alonga na diagonal, de baixo à esquerda para cima à direita, indicando correlação positiva.">
+<div id="fig-scatter-bruto" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Gráfico de dispersão de área em metros quadrados no eixo horizontal contra aluguel mensal no vertical, com todos os anúncios. Quase todos os pontos formam uma faixa colada ao eixo vertical, e três pontos isolados se afastam muito para a direita, um deles perto de 46 mil metros quadrados.">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-scatter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="07-correlacao_files/figure-html/fig-scatter-output-1.png" alt="Gráfico de dispersão do retorno diário da AT&amp;T no eixo horizontal contra o da Verizon no vertical, com linhas de referência no zero. A nuvem de pontos se alonga na diagonal, de baixo à esquerda para cima à direita, indicando correlação positiva." width="473" height="470" class="figure-img">
+<div aria-describedby="fig-scatter-bruto-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="07-correlacao_files/figure-html/fig-scatter-bruto-output-1.png" alt="Gráfico de dispersão de área em metros quadrados no eixo horizontal contra aluguel mensal no vertical, com todos os anúncios. Quase todos os pontos formam uma faixa colada ao eixo vertical, e três pontos isolados se afastam muito para a direita, um deles perto de 46 mil metros quadrados." width="568" height="423" class="figure-img">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-scatter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;1: Retornos diários de AT&amp;T (T) contra Verizon (VZ). A nuvem é alongada na diagonal: o sinal visual de correlação positiva.
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-scatter-bruto-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;1: Área construída contra aluguel, com os 10.692 anúncios. Um único imóvel de 46.335 m² espreme todo o resto contra o eixo vertical.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>O gráfico de dispersão é a contrapartida visual do número: a nuvem de pontos é alongada na diagonal, subindo da esquerda para a direita. Dias em que T sobe tendem a ser dias em que VZ também sobe. <span class="math inline">\(r = 0{,}678\)</span> é essa mesma informação, resumida em um único número.</p>
+<p>O gráfico é quase vazio. Há um anúncio com 46.335 m², cerca de quatro quarteirões de área construída, e a régua horizontal precisa ir até lá. Os outros dez mil e poucos imóveis viram uma mancha estreita grudada no eixo.</p>
+<div id="outliers" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>r_total <span class="op">=</span> alugueis[<span class="st">"area_m2"</span>].corr(alugueis[<span class="st">"aluguel"</span>])</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>sem_o_maior <span class="op">=</span> alugueis[alugueis[<span class="st">"area_m2"</span>] <span class="op">&lt;</span> alugueis[<span class="st">"area_m2"</span>].<span class="bu">max</span>()]</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>r_sem_um <span class="op">=</span> sem_o_maior[<span class="st">"area_m2"</span>].corr(sem_o_maior[<span class="st">"aluguel"</span>])</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>comum <span class="op">=</span> alugueis[(alugueis[<span class="st">"area_m2"</span>] <span class="op">&lt;</span> <span class="dv">400</span>) <span class="op">&amp;</span> (alugueis[<span class="st">"aluguel"</span>] <span class="op">&lt;</span> <span class="dv">15000</span>)]</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>r_comum <span class="op">=</span> comum[<span class="st">"area_m2"</span>].corr(comum[<span class="st">"aluguel"</span>])</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"todos os </span><span class="sc">{</span><span class="bu">len</span>(alugueis)<span class="sc">}</span><span class="ss"> anúncios      : r = </span><span class="sc">{</span>r_total<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"sem o maior imóvel (</span><span class="sc">{</span><span class="bu">len</span>(sem_o_maior)<span class="sc">}</span><span class="ss">) : r = </span><span class="sc">{</span>r_sem_um<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"área &lt; 400 m² e aluguel &lt; 15 mil (</span><span class="sc">{</span><span class="bu">len</span>(comum)<span class="sc">}</span><span class="ss">): r = </span><span class="sc">{</span>r_comum<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>todos os 10692 anúncios      : r = 0.181
+sem o maior imóvel (10691) : r = 0.306
+área &lt; 400 m² e aluguel &lt; 15 mil (9987): r = 0.654</code></pre>
+</div>
+</div>
+<p>Retirar <strong>um</strong> anúncio entre 10.692 leva a correlação de 0,181 para 0,306. Restringir a análise aos imóveis de área e preço comuns, o que descarta 705 anúncios no total, leva a 0,654.</p>
+<p>Vale entender <strong>por onde</strong> esse único ponto age, porque não é pelo caminho que a intuição sugere. O imóvel de 46.335 m² não está do lado contrário da relação, e a contribuição dele para o numerador da fórmula é até positiva. O estrago está no denominador: sozinho, ele leva o desvio padrão da área de 298,1 m² para 537,0 m². Como <span class="math inline">\(r\)</span> divide pela dispersão das duas variáveis, inflar <span class="math inline">\(s_x\)</span> encolhe o coeficiente, mesmo que o ponto “concorde” com a tendência geral.</p>
+<div id="cell-fig-scatter" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="fl">4.5</span>))</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>ax.scatter(comum[<span class="st">"area_m2"</span>], comum[<span class="st">"aluguel"</span>], alpha<span class="op">=</span><span class="fl">0.25</span>, s<span class="op">=</span><span class="dv">12</span>, color<span class="op">=</span><span class="st">"#2c7fb8"</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Área (m²)"</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Aluguel mensal (R$)"</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="fig-scatter" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Gráfico de dispersão de área em metros quadrados contra aluguel mensal, restrito aos imóveis comuns. A nuvem de pontos sobe da esquerda para a direita, densa perto da origem e mais esparsa nas áreas maiores.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-scatter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="07-correlacao_files/figure-html/fig-scatter-output-1.png" alt="Gráfico de dispersão de área em metros quadrados contra aluguel mensal, restrito aos imóveis comuns. A nuvem de pontos sobe da esquerda para a direita, densa perto da origem e mais esparsa nas áreas maiores." width="568" height="423" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-scatter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;2: Os mesmos dados, restritos a área abaixo de 400 m² e aluguel abaixo de R$ 15 mil. A nuvem alongada na diagonal é o sinal visual da correlação positiva.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Agora a nuvem de pontos é alongada na diagonal, subindo da esquerda para a direita: imóveis maiores custam mais. É a contrapartida visual de <span class="math inline">\(r = 0\,654\)</span>, a mesma informação resumida num único número.</p>
+<p>O condomínio conta a mesma história, de forma ainda mais crua. Na matriz, a correlação dele com o aluguel é 0,036, praticamente zero, embora seja óbvio que prédio caro costuma ter condomínio caro. A coluna tem dois problemas somados: 2.373 imóveis com condomínio zero, que são casas na maior parte (87% deles têm <code>andar</code> igual a <code>"-"</code>), e uma cauda que vai até R$ 1.117.000, valor que aparece em dois anúncios.</p>
+<div id="condominio" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>sem_zeros <span class="op">=</span> alugueis[alugueis[<span class="st">"condominio"</span>] <span class="op">&gt;</span> <span class="dv">0</span>]</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"todos os anúncios          : r = </span><span class="sc">{</span>alugueis[<span class="st">'condominio'</span>]<span class="sc">.</span>corr(alugueis[<span class="st">'aluguel'</span>])<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"sem os de condomínio zero  : r = </span><span class="sc">{</span>sem_zeros[<span class="st">'condominio'</span>]<span class="sc">.</span>corr(sem_zeros[<span class="st">'aluguel'</span>])<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> teto <span class="kw">in</span> (<span class="dv">200_000</span>, <span class="dv">50_000</span>, <span class="dv">10_000</span>):</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    faixa <span class="op">=</span> sem_zeros[sem_zeros[<span class="st">"condominio"</span>] <span class="op">&lt;</span> teto]</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  e abaixo de R$ </span><span class="sc">{</span>teto<span class="sc">:&gt;7}</span><span class="ss">  : r = </span><span class="sc">{</span>faixa[<span class="st">'condominio'</span>]<span class="sc">.</span>corr(faixa[<span class="st">'aluguel'</span>])<span class="sc">:.3f}</span><span class="ss">"</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>          <span class="ss">f"  (</span><span class="sc">{</span><span class="bu">len</span>(sem_zeros) <span class="op">-</span> <span class="bu">len</span>(faixa)<span class="sc">}</span><span class="ss"> anúncios a menos)"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>todos os anúncios          : r = 0.036
+sem os de condomínio zero  : r = 0.051
+  e abaixo de R$  200000  : r = 0.524  (4 anúncios a menos)
+  e abaixo de R$   50000  : r = 0.647  (5 anúncios a menos)
+  e abaixo de R$   10000  : r = 0.689  (11 anúncios a menos)</code></pre>
+</div>
+</div>
+<p>Tirar os zeros quase não mexe no coeficiente. O que o move é a cauda, e ela não se resolve removendo um ponto: são onze anúncios acima de R$ 10 mil de condomínio, e cada corte sucessivo ainda muda o resultado. É o aviso da seção 1.4 aparecendo de novo, agora numa correlação: outlier raramente é um só.</p>
 </section>
 <section id="três-armadilhas" class="level2">
 <h2 class="anchored" data-anchor-id="três-armadilhas">Três armadilhas</h2>
 <div class="conceito">
 <p><strong>As três armadilhas da correlação:</strong></p>
 <ol type="1">
-<li><strong>Correlação não implica causalidade.</strong> T e VZ sobem e descem juntas porque respondem aos mesmos choques de mercado (uma causa comum), não porque uma “causa” a outra.</li>
-<li><strong>O coeficiente é sensível a outliers.</strong> Um único ponto extremo, longe da nuvem principal, pode criar uma correlação artificial ou mascarar uma correlação real, dependendo de onde ele cai.</li>
+<li><strong>Correlação não implica causalidade.</strong> O aluguel e o seguro contra incêndio andam quase colados porque um é calculado a partir do outro. Fora esse caso, a explicação mais comum é uma causa comum agindo sobre as duas variáveis, e não uma causando a outra.</li>
+<li><strong>O coeficiente é sensível a outliers.</strong> Um único anúncio de 46.335 m² derrubou a correlação entre área e aluguel de 0,306 para 0,181.</li>
 <li><strong>Ele mede apenas relação linear.</strong> Duas variáveis podem ter uma dependência determinística forte e correlação de Pearson igual a zero.</li>
 </ol>
 </div>
-<p>A terceira armadilha é a mais contraintuitiva das três, e vale prová-la em vez de só declará-la.</p>
-<div id="nao-linear" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">200</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> x <span class="op">**</span> <span class="dv">2</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Correlação entre x e x²: </span><span class="sc">{</span>np<span class="sc">.</span>corrcoef(x, y)[<span class="dv">0</span>, <span class="dv">1</span>]<span class="sc">:.3e}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<p>As duas primeiras acabaram de aparecer no dado. A terceira é a mais contraintuitiva, e vale prová-la em vez de só declará-la.</p>
+<div id="nao-linear" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">200</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> x <span class="op">**</span> <span class="dv">2</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Correlação entre x e x²: </span><span class="sc">{</span>np<span class="sc">.</span>corrcoef(x, y)[<span class="dv">0</span>, <span class="dv">1</span>]<span class="sc">:.3e}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Correlação entre x e x²: 6.989e-17</code></pre>
 </div>
@@ -924,38 +1048,45 @@ Figura&nbsp;1: Retornos diários de AT&amp;T (T) contra Verizon (VZ). A nuvem é
 <tr class="header">
 <th>Par</th>
 <th>Correlação (r)</th>
+<th>Base</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>T × VZ</td>
-<td>0,678</td>
+<td>área × aluguel</td>
+<td>0,654</td>
+<td>imóveis comuns</td>
 </tr>
 <tr class="even">
-<td>T × CTL</td>
-<td>0,475</td>
+<td>banheiros × aluguel</td>
+<td>0,636</td>
+<td>imóveis comuns</td>
 </tr>
 <tr class="odd">
-<td>T × FTR</td>
-<td>0,328</td>
+<td>quartos × banheiros</td>
+<td>0,705</td>
+<td>imóveis comuns</td>
 </tr>
 <tr class="even">
-<td>T × LVLT</td>
-<td>0,279</td>
+<td>área × aluguel</td>
+<td>0,181</td>
+<td>todos os anúncios</td>
 </tr>
 <tr class="odd">
-<td>CTL × FTR</td>
-<td>0,420</td>
+<td>aluguel × seguro incêndio</td>
+<td>0,987</td>
+<td>todos os anúncios</td>
 </tr>
 </tbody>
 </table>
+<p>As duas últimas linhas são as que ensinam mais: a mesma dupla área e aluguel muda de 0,181 para 0,654 conforme os extremos entram ou saem da conta, e o par de correlação mais alta do dataset é justamente aquele em que uma coluna foi calculada da outra.</p>
 <div class="conceito">
 <p><strong>Regra prática:</strong> correlação alta é um convite a investigar, não uma conclusão. Antes de interpretar um <span class="math inline">\(r\)</span>, olhe o gráfico de dispersão: ele revela outliers que o número esconde e formas não lineares que o número não enxerga.</p>
 </div>
 </section>
 <section id="exercícios" class="level2">
 <h2 class="anchored" data-anchor-id="exercícios">Exercícios</h2>
-<p><strong>1.</strong> A correlação entre T e VZ é 0,678. Isso significa que o preço da AT&amp;T causa o preço da Verizon?</p>
+<p><strong>1.</strong> A correlação entre <code>aluguel</code> e <code>seguro_incendio</code> é 0,987, a maior do dataset. Por que ela não é uma descoberta sobre o mercado imobiliário?</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -968,11 +1099,12 @@ Figura&nbsp;1: Retornos diários de AT&amp;T (T) contra Verizon (VZ). A nuvem é
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Não. As duas são grandes operadoras de telecomunicações expostas aos mesmos fatores: taxa de juros, regulação do setor, ciclo econômico. A correlação vem de uma <strong>causa comum</strong>, não de uma causar a outra. Este é o erro mais frequente na leitura de correlações.</p>
+<p>Porque o seguro contra incêndio é <strong>calculado a partir do aluguel</strong>, por uma fórmula fixada no contrato: cerca de 1,3% dele, como a razão entre as duas colunas mostra. A segunda coluna é uma função da primeira, e a correlação alta estava garantida antes de qualquer dado ser coletado. Descobrir que <span class="math inline">\(r\)</span> é quase 1 aqui equivale a descobrir que a aritmética da imobiliária funciona.</p>
+<p>O mesmo cuidado vale sempre que uma coluna de um dataset derive de outra, o que é comum em dados de sistema: valor com imposto e valor sem imposto, tempo total e soma dos tempos parciais, idade e ano de nascimento.</p>
 </div>
 </div>
 </div>
-<p><strong>2.</strong> O código mostrou que a correlação entre <code>x</code> e <code>x²</code> é zero, embora <code>y</code> seja completamente determinado por <code>x</code>. Explique.</p>
+<p><strong>2.</strong> A correlação entre área e aluguel é 0,181 com todos os anúncios e 0,654 quando se restringe a imóveis abaixo de 400 m² e R$ 15 mil. Qual dos dois números você reportaria, e o que precisa dizer junto?</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -984,6 +1116,24 @@ Figura&nbsp;1: Retornos diários de AT&amp;T (T) contra Verizon (VZ). A nuvem é
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>O segundo, dizendo <strong>exatamente</strong> qual recorte foi aplicado e quantos anúncios ele descartou (705 de 10.692, cerca de 6,6%). Reportar 0,654 sem essa frase é esconder uma decisão que mais que triplicou o coeficiente.</p>
+<p>O 0,181 também descreve fielmente um conjunto, só que um conjunto que inclui um imóvel de 46.335 m². O ponto é que esse conjunto mistura dois fenômenos diferentes, o mercado de locação urbano e um punhado de registros atípicos ou errados, e um único coeficiente não consegue descrever os dois ao mesmo tempo. Quem lê precisa saber qual dos dois está sendo descrito.</p>
+</div>
+</div>
+</div>
+<p><strong>3.</strong> O código mostrou que a correlação entre <code>x</code> e <code>x²</code> é zero, embora <code>y</code> seja completamente determinado por <code>x</code>. Explique.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Pearson mede associação <strong>linear</strong>. A parábola é simétrica em torno de zero: para cada <span class="math inline">\(x\)</span> positivo que puxa a covariância para cima, existe um <span class="math inline">\(x\)</span> negativo que a puxa para baixo na mesma medida, e os efeitos se cancelam. Uma correlação de zero descarta apenas a relação linear.</p>
 </div>

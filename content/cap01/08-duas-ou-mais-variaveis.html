@@ -679,120 +679,115 @@ Nota
 <p>Esta seção <strong>está fora do cronograma</strong> do semestre 2.2026: não é dada em aula, não entra no notebook do capítulo e não cai em prova nem em lista. Fica aqui para quem quiser ir além.</p>
 </div>
 </div>
-<p>A seção anterior resolveu um problema específico: dadas duas variáveis <strong>numéricas</strong>, elas se movem juntas? A resposta coube em um único número (o r de Pearson) e num gráfico de dispersão que mostrava a mesma informação para o olho. Essa dupla funciona bem enquanto duas condições se mantêm: as duas variáveis precisam ser numéricas, e precisa haver poucos pontos o bastante para uma nuvem de pontos ser legível.</p>
+<p>A seção anterior resolveu um problema específico: dadas duas variáveis <strong>numéricas</strong>, elas se movem juntas? A resposta coube em um único número (o r de Pearson) e num gráfico de dispersão que mostrava a mesma informação para o olho. Essa dupla funciona bem enquanto duas condições se mantêm: as duas variáveis precisam ser numéricas, e o número de pontos precisa ser pequeno o bastante para a nuvem continuar legível.</p>
 <p>Nenhuma das duas condições é garantida, e esta seção lida com o que sobra quando elas faltam. E se as duas variáveis forem <strong>categóricas</strong>, sem “subir” nem “descer” para medir? E se uma for categórica e a outra numérica, que ferramenta substitui o r? E se houver tantos pontos que a própria nuvem de pontos deixe de funcionar? A seção segue esses três pares de tipos, na ordem das subseções a seguir: numérico × numérico, categórico × categórico, categórico × numérico. No fim, olha para mais de duas variáveis ao mesmo tempo.</p>
+<p>Continuamos com os anúncios de aluguel das seções anteriores, no mesmo recorte de imóveis comuns que a seção 1.7 fixou.</p>
+<div id="carrega" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>alugueis <span class="op">=</span> pd.read_csv(<span class="st">"dados/alugueis.csv"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>comum <span class="op">=</span> alugueis[(alugueis[<span class="st">"area_m2"</span>] <span class="op">&lt;</span> <span class="dv">400</span>) <span class="op">&amp;</span> (alugueis[<span class="st">"aluguel"</span>] <span class="op">&lt;</span> <span class="dv">15000</span>)]</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"anúncios no recorte: </span><span class="sc">{</span>num(<span class="bu">len</span>(comum), <span class="dv">0</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>anúncios no recorte: 9.987</code></pre>
+</div>
+</div>
 <section id="numérico-numérico-quando-o-gráfico-de-dispersão-não-basta" class="level2">
 <h2 class="anchored" data-anchor-id="numérico-numérico-quando-o-gráfico-de-dispersão-não-basta">Numérico × numérico: quando o gráfico de dispersão não basta</h2>
-<p>Vamos usar avaliações fiscais de imóveis do condado de King, em Washington: área construída e valor venal.</p>
-<div id="carrega-kc" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>kc <span class="op">=</span> pd.read_csv(<span class="st">"dados/kc_tax.csv.gz"</span>).rename(columns<span class="op">=</span>{</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TaxAssessedValue"</span>: <span class="st">"ValorVenal"</span>,</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SqFtTotLiving"</span>: <span class="st">"AreaConstruida"</span>,</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ZipCode"</span>: <span class="st">"CEP"</span>,</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"registros brutos: </span><span class="sc">{</span>num(<span class="bu">len</span>(kc), <span class="dv">0</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>kc0 <span class="op">=</span> kc.loc[(kc.ValorVenal <span class="op">&lt;</span> <span class="dv">750000</span>) <span class="op">&amp;</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>             (kc.AreaConstruida <span class="op">&gt;</span> <span class="dv">100</span>) <span class="op">&amp;</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>             (kc.AreaConstruida <span class="op">&lt;</span> <span class="dv">3500</span>), :]</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"após filtrar extremos: </span><span class="sc">{</span>num(<span class="bu">len</span>(kc0), <span class="dv">0</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>registros brutos: 498.249
-após filtrar extremos: 432.693</code></pre>
+<p>O gráfico de dispersão da seção 1.7 desenhava os mesmos 9.987 imóveis com transparência, e por isso funcionava. Veja o que acontece sem esse cuidado, com cada ponto opaco, como sai por padrão.</p>
+<div id="cell-fig-saturado" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="fl">4.5</span>))</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>ax.scatter(comum[<span class="st">"area_m2"</span>], comum[<span class="st">"aluguel"</span>], s<span class="op">=</span><span class="dv">12</span>, color<span class="op">=</span><span class="st">"#2c7fb8"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Área (m²)"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Aluguel mensal (R$)"</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="fig-saturado" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Gráfico de dispersão de área contra aluguel com pontos opacos. A região de áreas pequenas e aluguéis baixos forma uma mancha escura contínua, sem que se distinga quantos imóveis há em cada parte dela.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-saturado-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="08-duas-ou-mais-variaveis_files/figure-html/fig-saturado-output-1.png" alt="Gráfico de dispersão de área contra aluguel com pontos opacos. A região de áreas pequenas e aluguéis baixos forma uma mancha escura contínua, sem que se distinga quantos imóveis há em cada parte dela." width="568" height="423" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-saturado-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;1: Os mesmos imóveis, com pontos opacos. O miolo da nuvem vira uma mancha sólida.
+</figcaption>
+</figure>
 </div>
 </div>
-<p>O filtro derruba os registros de 498.249 para 432.693. O motivo é de visualização, e não estatístico: os poucos imóveis de valor extremo (acima de US$ 750 mil) ou de área implausível (menor que 100 pés² ou maior que 3.500) esticariam os eixos do gráfico até comprimir o grosso dos dados, que é a parte que interessa, num canto minúsculo da tela.</p>
+</div>
 <div class="conceito">
-<p>432.693 pontos ainda é um problema, mesmo depois do filtro. Um gráfico de dispersão como o da seção anterior (cada observação, um ponto) funcionava com 754 dias de negociação. Com quinhentas vezes mais pontos, a maior parte do plano acaba coberta várias vezes, os pontos se empilham uns sobre os outros, e a região mais densa vira uma mancha sólida e escura. Justamente onde mais importaria distinguir “muito denso” de “pouco denso”, o gráfico de dispersão não distingue nada: a informação de <strong>quantos</strong> pontos caem ali já se perdeu antes de chegar à tela.</p>
+<p>Dez mil pontos já bastam para o problema aparecer. Onde o dado é denso, os pontos se empilham uns sobre os outros e a região vira uma mancha uniforme: dá para ver que ali há “muitos” imóveis, mas não se são dois mil ou seis mil, nem onde exatamente eles se concentram dentro da mancha. A informação de <strong>quantos</strong> pontos caem em cada lugar se perde antes de chegar à tela, e é justamente ela que interessa no miolo da distribuição.</p>
 </div>
 <p>Duas ferramentas resolvem isso sem descartar pontos: o <strong>hexbin</strong>, que divide o plano em células hexagonais e colore cada uma pela contagem, e o <strong>contorno de densidade</strong> (KDE), que estima uma superfície contínua de densidade e a desenha como curvas de nível.</p>
 <div class="sem-inversao">
-<div id="cell-fig-hexbin" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">5</span>))</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>kc0.plot.hexbin(x<span class="op">=</span><span class="st">"AreaConstruida"</span>, y<span class="op">=</span><span class="st">"ValorVenal"</span>,</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>                gridsize<span class="op">=</span><span class="dv">30</span>, sharex<span class="op">=</span><span class="va">False</span>, ax<span class="op">=</span>ax)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Área construída (pés²)"</span>)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Valor venal (US$)"</span>)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-fig-hexbin" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">5</span>))</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>comum.plot.hexbin(x<span class="op">=</span><span class="st">"area_m2"</span>, y<span class="op">=</span><span class="st">"aluguel"</span>, gridsize<span class="op">=</span><span class="dv">30</span>, bins<span class="op">=</span><span class="st">"log"</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                  sharex<span class="op">=</span><span class="va">False</span>, ax<span class="op">=</span>ax)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Área (m²)"</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Aluguel mensal (R$)"</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
-<div id="fig-hexbin" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Gráfico hexbin de valor venal em dólares no eixo vertical contra área construída em pés quadrados no horizontal, com escala de cor pela contagem de imóveis. As células mais escuras formam um núcleo em área e valor moderados e se alinham numa diagonal ascendente.">
+<div id="fig-hexbin" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Gráfico hexbin de área no eixo horizontal contra aluguel no vertical, com escala de cor logarítmica pela contagem de anúncios. As células mais escuras formam um núcleo em áreas de até 100 metros quadrados e aluguéis de até 3 mil reais, e a partir dele uma faixa mais clara sobe na diagonal até áreas e aluguéis altos.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-hexbin-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="08-duas-ou-mais-variaveis_files/figure-html/fig-hexbin-output-1.png" alt="Gráfico hexbin de valor venal em dólares no eixo vertical contra área construída em pés quadrados no horizontal, com escala de cor pela contagem de imóveis. As células mais escuras formam um núcleo em área e valor moderados e se alinham numa diagonal ascendente." width="562" height="471" class="figure-img">
+<img src="08-duas-ou-mais-variaveis_files/figure-html/fig-hexbin-output-1.png" alt="Gráfico hexbin de área no eixo horizontal contra aluguel no vertical, com escala de cor logarítmica pela contagem de anúncios. As células mais escuras formam um núcleo em áreas de até 100 metros quadrados e aluguéis de até 3 mil reais, e a partir dele uma faixa mais clara sobe na diagonal até áreas e aluguéis altos." width="550" height="471" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-hexbin-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;1: Valor venal contra área construída, em 432.693 imóveis de King County. Cada hexágono é colorido pela quantidade de imóveis que caem nele.
+Figura&nbsp;2: Área contra aluguel nos imóveis comuns. Cada hexágono é colorido pela quantidade de anúncios que caem nele, em escala logarítmica de cor.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
 </div>
-<p>O hexbin não desenha um ponto por imóvel: ele conta quantos imóveis caem em cada célula e traduz a contagem em cor. O núcleo mais escuro concentra a imensa maioria dos 432 mil imóveis (área entre 1.000 e 2.000 pés², valor entre US$ 200 mil e US$ 400 mil), e a nuvem se afina para as bordas. A relação positiva entre área e valor, que ficaria invisível numa mancha de pontos sobrepostos, aparece como a diagonal ao longo da qual as células mais escuras se alinham.</p>
-<p>O KDE bidimensional sobre os 432.693 imóveis é caro: na prática, minutos de espera a cada render. Uma amostra de 10.000 pontos já basta para capturar a forma da densidade, e é isso que o código a seguir faz.</p>
+<p>O hexbin não desenha um ponto por imóvel: ele conta quantos imóveis caem em cada célula e traduz a contagem em cor. O núcleo mais escuro fica nas áreas de até uns 100 m² com aluguel de até uns R$ 3 mil, faixa que sozinha reúne quase metade dos anúncios, e a nuvem se afina para as bordas. A relação positiva entre área e aluguel, que a mancha sólida escondia, aparece como a diagonal ao longo da qual as células se alinham.</p>
 <div class="conceito">
-<p>Esta é a primeira seção do livro com um componente aleatório, e por isso a primeira em que a semente importa de fato. Sem <code>random_state=42</code>, cada <code>quarto render</code> sortearia 10.000 imóveis diferentes, e o contorno mudaria de forma sutil a cada execução: o gráfico publicado nunca seria o mesmo duas vezes, o cache do <code>freeze</code> perderia sentido (ele reexecuta um chunk quando o texto muda, não quando o sorteio decide mudar sozinho), e cada <code>push</code> acumularia um diff de ruído no site. É por isso que todo chunk deste livro com gerador aleatório fixa a semente, e é aqui que essa regra encontra seu primeiro caso real.</p>
+<p>O <code>bins="log"</code> muda a <strong>cor</strong>, não os dados: a escala passa a ser logarítmica, de modo que a diferença entre 1 e 10 anúncios ocupa o mesmo pedaço da régua de cores que a diferença entre 10 e 100. Sem isso, a célula mais cheia (mais de trezentos imóveis) esmaga todas as outras, e o gráfico vira um pontinho escuro num campo branco, que é o mesmo problema da mancha sólida com outra aparência. O preço é que a cor deixa de ser proporcional à contagem, e comparar dois tons exige olhar a régua ao lado.</p>
 </div>
-<div id="cell-fig-kde" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>amostra <span class="op">=</span> kc0.sample(<span class="dv">10000</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">5</span>))</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>sns.kdeplot(data<span class="op">=</span>amostra, x<span class="op">=</span><span class="st">"AreaConstruida"</span>, y<span class="op">=</span><span class="st">"ValorVenal"</span>, ax<span class="op">=</span>ax)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Área construída (pés²)"</span>)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Valor venal (US$)"</span>)</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-fig-kde" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">5</span>))</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>sns.kdeplot(data<span class="op">=</span>comum, x<span class="op">=</span><span class="st">"area_m2"</span>, y<span class="op">=</span><span class="st">"aluguel"</span>, ax<span class="op">=</span>ax,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>            clip<span class="op">=</span>((<span class="dv">0</span>, <span class="va">None</span>), (<span class="dv">0</span>, <span class="va">None</span>)))</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Área (m²)"</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Aluguel mensal (R$)"</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
-<div id="fig-kde" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Curvas de nível da densidade de valor venal no eixo vertical contra área construída no horizontal. As curvas são concêntricas em torno de um núcleo de área e valor moderados e se estendem ao longo de uma diagonal ascendente.">
+<div id="fig-kde" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Curvas de nível da densidade de aluguel no eixo vertical contra área no horizontal. As curvas são concêntricas em torno de um núcleo de áreas pequenas e aluguéis baixos e se estendem ao longo de uma diagonal ascendente.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-kde-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="08-duas-ou-mais-variaveis_files/figure-html/fig-kde-output-1.png" alt="Curvas de nível da densidade de valor venal no eixo vertical contra área construída no horizontal. As curvas são concêntricas em torno de um núcleo de área e valor moderados e se estendem ao longo de uma diagonal ascendente." width="569" height="471" class="figure-img">
+<img src="08-duas-ou-mais-variaveis_files/figure-html/fig-kde-output-1.png" alt="Curvas de nível da densidade de aluguel no eixo vertical contra área no horizontal. As curvas são concêntricas em torno de um núcleo de áreas pequenas e aluguéis baixos e se estendem ao longo de uma diagonal ascendente." width="568" height="471" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-kde-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;2: Curvas de nível da mesma relação. O KDE roda sobre uma amostra de 10.000 imóveis, com semente fixa, para o gráfico ser reprodutível.
+Figura&nbsp;3: Curvas de nível da mesma relação. Cada curva une pontos de densidade igual.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>As curvas de nível contam a mesma história do hexbin, só que mais suave: cada curva une pontos de densidade igual, como as isolinhas de um mapa topográfico. O centro concêntrico confirma o núcleo que o hexbin já mostrava, e a densidade cai gradualmente em todas as direções a partir dele, sem os degraus abruptos de célula para célula que o hexbin, por ser discreto, necessariamente tem.</p>
+<p>As curvas de nível contam a mesma história do hexbin, só que mais suave: cada curva une pontos de densidade igual, como as isolinhas de um mapa topográfico. O <code>clip</code> existe porque a estimativa de densidade não sabe que área e aluguel não podem ser negativos, e sem ele as curvas vazariam para o lado esquerdo do zero. O centro concêntrico confirma o núcleo que o hexbin já mostrava, e a densidade cai gradualmente em todas as direções a partir dele, sem os degraus abruptos de célula para célula que o hexbin, por ser discreto, necessariamente tem.</p>
 </section>
 <section id="categórico-categórico-a-tabela-de-contingência" class="level2">
 <h2 class="anchored" data-anchor-id="categórico-categórico-a-tabela-de-contingência">Categórico × categórico: a tabela de contingência</h2>
-<p>A pergunta muda de figura quando nenhuma das duas variáveis tem uma ordem numérica para “subir” ou “descer”. Não existe correlação entre duas categorias. A ferramenta aqui não é um coeficiente nem uma nuvem de pontos: é uma tabela.</p>
-<p>Vamos usar empréstimos do LendingClub, classificados por nota de risco (<code>Nota</code>, de A até G, sendo A a melhor) e por situação atual (<code>Situacao</code>).</p>
-<div id="cell-crosstab" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>SITUACAO <span class="op">=</span> {</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Fully Paid"</span>: <span class="st">"Quitado"</span>,</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Current"</span>: <span class="st">"Em dia"</span>,</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Late"</span>: <span class="st">"Atrasado"</span>,</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Charged Off"</span>: <span class="st">"Inadimplente"</span>,</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>lc <span class="op">=</span> pd.read_csv(<span class="st">"dados/lc_loans.csv"</span>).rename(columns<span class="op">=</span>{<span class="st">"status"</span>: <span class="st">"Situacao"</span>, <span class="st">"grade"</span>: <span class="st">"Nota"</span>})</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>lc[<span class="st">"Situacao"</span>] <span class="op">=</span> lc[<span class="st">"Situacao"</span>].replace(SITUACAO)</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>contagem <span class="op">=</span> lc.pivot_table(index<span class="op">=</span><span class="st">"Nota"</span>, columns<span class="op">=</span><span class="st">"Situacao"</span>,</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>                          aggfunc<span class="op">=</span><span class="kw">lambda</span> x: <span class="bu">len</span>(x), margins<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>contagem</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="crosstab" class="cell-output cell-output-display" data-execution_count="5">
+<p>A pergunta muda de figura quando nenhuma das duas variáveis tem uma ordem numérica para “subir” ou “descer”. O r de Pearson não se aplica a duas categorias, porque ele precisa de valores que se somem e se afastem de uma média. A ferramenta aqui não é um coeficiente nem uma nuvem de pontos: é uma tabela.</p>
+<p>Vamos cruzar a cidade do anúncio com o fato de o imóvel vir mobiliado ou não, as duas colunas categóricas da seção 1.6. Aqui voltamos à base completa, e não ao recorte: ele foi definido para conter os extremos de área e de preço, que não têm efeito sobre uma pergunta feita só de categorias.</p>
+<div id="cell-crosstab" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>contagem <span class="op">=</span> pd.crosstab(alugueis[<span class="st">"cidade"</span>], alugueis[<span class="st">"mobiliado"</span>], margins<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>contagem</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="crosstab" class="cell-output cell-output-display" data-execution_count="6">
 <div>
 
 
 <table class="dataframe caption-top table table-sm table-striped small" data-border="1">
 <thead>
 <tr class="header">
-<th data-quarto-table-cell-role="th">Situacao</th>
-<th data-quarto-table-cell-role="th">Atrasado</th>
-<th data-quarto-table-cell-role="th">Em dia</th>
-<th data-quarto-table-cell-role="th">Inadimplente</th>
-<th data-quarto-table-cell-role="th">Quitado</th>
+<th data-quarto-table-cell-role="th">mobiliado</th>
+<th data-quarto-table-cell-role="th">não</th>
+<th data-quarto-table-cell-role="th">sim</th>
 <th data-quarto-table-cell-role="th">All</th>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">Nota</th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">cidade</th>
 <th data-quarto-table-cell-role="th"></th>
 <th data-quarto-table-cell-role="th"></th>
 <th data-quarto-table-cell-role="th"></th>
@@ -800,68 +795,40 @@ Figura&nbsp;2: Curvas de nível da mesma relação. O KDE roda sobre uma amostra
 </thead>
 <tbody>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">A</th>
-<td>469</td>
-<td>50051</td>
-<td>1562</td>
-<td>20408</td>
-<td>72490</td>
+<th data-quarto-table-cell-role="th">Belo Horizonte</th>
+<td>1081</td>
+<td>177</td>
+<td>1258</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">B</th>
-<td>2056</td>
-<td>93852</td>
-<td>5302</td>
-<td>31160</td>
-<td>132370</td>
+<th data-quarto-table-cell-role="th">Campinas</th>
+<td>742</td>
+<td>111</td>
+<td>853</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">C</th>
-<td>2777</td>
-<td>88928</td>
-<td>6023</td>
-<td>23147</td>
-<td>120875</td>
+<th data-quarto-table-cell-role="th">Porto Alegre</th>
+<td>874</td>
+<td>319</td>
+<td>1193</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">D</th>
-<td>2308</td>
-<td>53281</td>
-<td>5007</td>
-<td>13681</td>
-<td>74277</td>
+<th data-quarto-table-cell-role="th">Rio de Janeiro</th>
+<td>1095</td>
+<td>406</td>
+<td>1501</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">E</th>
-<td>1374</td>
-<td>24639</td>
-<td>2842</td>
-<td>5949</td>
-<td>34804</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">F</th>
-<td>606</td>
-<td>8444</td>
-<td>1526</td>
-<td>2328</td>
-<td>12904</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">G</th>
-<td>199</td>
-<td>1990</td>
-<td>409</td>
-<td>643</td>
-<td>3241</td>
+<th data-quarto-table-cell-role="th">São Paulo</th>
+<td>4294</td>
+<td>1593</td>
+<td>5887</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">All</th>
-<td>9789</td>
-<td>321185</td>
-<td>22671</td>
-<td>97316</td>
-<td>450961</td>
+<td>8086</td>
+<td>2606</td>
+<td>10692</td>
 </tr>
 </tbody>
 </table>
@@ -869,95 +836,55 @@ Figura&nbsp;2: Curvas de nível da mesma relação. O KDE roda sobre uma amostra
 </div>
 </div>
 </div>
-<p>São 450.961 empréstimos ao todo (célula <code>All</code>/<code>All</code>), divididos em quatro situações (<code>Atrasado</code>; <code>Em dia</code>; <code>Inadimplente</code>, com prejuízo assumido; <code>Quitado</code>) e sete notas de risco.</p>
+<p>São 10.692 anúncios, distribuídos em cinco cidades e duas respostas possíveis. A linha <code>All</code> traz o total de cada coluna, e a coluna <code>All</code>, o total de cada cidade.</p>
 <div class="conceito">
-<p>Olhe a coluna <code>Inadimplente</code>. A nota C tem 6.023 empréstimos inadimplentes, mais que qualquer outra nota, mais que E, F e G somadas. É tentador ler isso como “C é a nota mais arriscada da carteira”. Mas a contagem mistura duas coisas: o quão arriscada é a nota, e o quão grande é a nota. B e C sozinhas concentram mais da metade da carteira (132.370 e 120.875 empréstimos), então é claro que têm mais de tudo, inclusive mais inadimplência. Comparar contagens brutas entre grupos de tamanhos tão diferentes é um erro clássico, e é exatamente o que a tabela de contagem convida a fazer.</p>
+<p>Olhe a coluna <code>sim</code>. São Paulo tem 1.593 imóveis mobiliados, quase quatro vezes mais que o Rio de Janeiro, que vem em segundo. É tentador ler isso como “São Paulo é a cidade onde mais se aluga mobiliado”. Mas a contagem mistura duas coisas: a frequência do imóvel mobiliado e o tamanho da cidade na amostra. São Paulo responde por 55% dos anúncios, então tem mais de tudo, inclusive mais mobiliados. Comparar contagens brutas entre grupos de tamanhos tão diferentes é um erro clássico, e é exatamente o que a tabela de contagem convida a fazer.</p>
 </div>
-<div id="cell-crosstab-pct" class="cell" data-execution_count="6">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>prop <span class="op">=</span> contagem.copy().loc[<span class="st">"A"</span>:<span class="st">"G"</span>, :].astype(<span class="bu">float</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>situacoes <span class="op">=</span> [c <span class="cf">for</span> c <span class="kw">in</span> prop.columns <span class="cf">if</span> c <span class="op">!=</span> <span class="st">"All"</span>]</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>prop.loc[:, situacoes] <span class="op">=</span> prop.loc[:, situacoes].div(prop[<span class="st">"All"</span>], axis<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>prop[<span class="st">"All"</span>] <span class="op">=</span> prop[<span class="st">"All"</span>] <span class="op">/</span> <span class="bu">sum</span>(prop[<span class="st">"All"</span>])</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>prop.<span class="bu">round</span>(<span class="dv">3</span>).<span class="bu">map</span>(<span class="kw">lambda</span> v: num(v, <span class="dv">3</span>))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="crosstab-pct" class="cell-output cell-output-display" data-execution_count="6">
+<div id="cell-crosstab-pct" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>prop <span class="op">=</span> <span class="dv">100</span> <span class="op">*</span> pd.crosstab(alugueis[<span class="st">"cidade"</span>], alugueis[<span class="st">"mobiliado"</span>], normalize<span class="op">=</span><span class="st">"index"</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>prop.<span class="bu">round</span>(<span class="dv">1</span>).<span class="bu">map</span>(<span class="kw">lambda</span> v: num(v, <span class="dv">1</span>))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="crosstab-pct" class="cell-output cell-output-display" data-execution_count="7">
 <div>
 
 
 <table class="dataframe caption-top table table-sm table-striped small" data-border="1">
 <thead>
 <tr class="header">
-<th data-quarto-table-cell-role="th">Situacao</th>
-<th data-quarto-table-cell-role="th">Atrasado</th>
-<th data-quarto-table-cell-role="th">Em dia</th>
-<th data-quarto-table-cell-role="th">Inadimplente</th>
-<th data-quarto-table-cell-role="th">Quitado</th>
-<th data-quarto-table-cell-role="th">All</th>
+<th data-quarto-table-cell-role="th">mobiliado</th>
+<th data-quarto-table-cell-role="th">não</th>
+<th data-quarto-table-cell-role="th">sim</th>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">Nota</th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">cidade</th>
 <th data-quarto-table-cell-role="th"></th>
 <th data-quarto-table-cell-role="th"></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">A</th>
-<td>0,006</td>
-<td>0,690</td>
-<td>0,022</td>
-<td>0,282</td>
-<td>0,161</td>
+<th data-quarto-table-cell-role="th">Belo Horizonte</th>
+<td>85,9</td>
+<td>14,1</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">B</th>
-<td>0,016</td>
-<td>0,709</td>
-<td>0,040</td>
-<td>0,235</td>
-<td>0,294</td>
+<th data-quarto-table-cell-role="th">Campinas</th>
+<td>87,0</td>
+<td>13,0</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">C</th>
-<td>0,023</td>
-<td>0,736</td>
-<td>0,050</td>
-<td>0,191</td>
-<td>0,268</td>
+<th data-quarto-table-cell-role="th">Porto Alegre</th>
+<td>73,3</td>
+<td>26,7</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">D</th>
-<td>0,031</td>
-<td>0,717</td>
-<td>0,067</td>
-<td>0,184</td>
-<td>0,165</td>
+<th data-quarto-table-cell-role="th">Rio de Janeiro</th>
+<td>73,0</td>
+<td>27,0</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">E</th>
-<td>0,039</td>
-<td>0,708</td>
-<td>0,082</td>
-<td>0,171</td>
-<td>0,077</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">F</th>
-<td>0,047</td>
-<td>0,654</td>
-<td>0,118</td>
-<td>0,180</td>
-<td>0,029</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">G</th>
-<td>0,061</td>
-<td>0,614</td>
-<td>0,126</td>
-<td>0,198</td>
-<td>0,007</td>
+<th data-quarto-table-cell-role="th">São Paulo</th>
+<td>72,9</td>
+<td>27,1</td>
 </tr>
 </tbody>
 </table>
@@ -965,105 +892,129 @@ Figura&nbsp;2: Curvas de nível da mesma relação. O KDE roda sobre uma amostra
 </div>
 </div>
 </div>
-<p>Dividir cada linha pelo seu próprio total remove o tamanho do grupo da conta e isola o que interessa: a taxa. E aí o padrão que a nota deveria capturar aparece, limpo.</p>
+<p>Dividir cada linha pelo seu próprio total remove o tamanho do grupo da conta e isola o que interessa: a taxa.</p>
 <div class="exemplo">
-<p>A proporção de <code>Inadimplente</code> cresce <strong>monotonicamente</strong> de A a G: 2,2% em A, subindo sem uma única inversão até 12,6% em G. É exatamente o que o rótulo “nota de risco” promete. A tabela de contagem, dominada pelo tamanho de cada grupo, escondia esse padrão em vez de revelá-lo.</p>
+<p>Em proporção, as cinco cidades se separam em dois blocos. São Paulo (27,1%), Rio de Janeiro (27,0%) e Porto Alegre (26,7%) têm cerca de um imóvel mobiliado a cada quatro. Belo Horizonte (14,1%) e Campinas (13,0%) ficam na metade disso. A tabela de contagem, dominada pelo tamanho de São Paulo, não deixava esse agrupamento aparecer.</p>
 </div>
 </section>
 <section id="categórico-numérico-boxplot-agrupado-e-violin-plot" class="level2">
 <h2 class="anchored" data-anchor-id="categórico-numérico-boxplot-agrupado-e-violin-plot">Categórico × numérico: boxplot agrupado e violin plot</h2>
 <p>Aqui uma variável é categórica e a outra numérica. Nem o r de Pearson se aplica (ele pede duas variáveis numéricas), nem a tabela de contingência (ela pede duas categóricas). A ferramenta natural é comparar a distribuição da variável numérica <strong>dentro de cada categoria</strong>, e o boxplot generaliza bem para isso: uma caixa por categoria, lado a lado.</p>
-<p>Vamos usar o percentual diário de voos atrasados por causa atribuível à própria companhia aérea (<code>pct_atraso_companhia</code>), por companhia (<code>Companhia</code>).</p>
-<div id="cell-fig-boxplot-grupo" class="cell" data-execution_count="7">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>voos <span class="op">=</span> pd.read_csv(<span class="st">"dados/airline_stats.csv"</span>).rename(columns<span class="op">=</span>{</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"pct_carrier_delay"</span>: <span class="st">"pct_atraso_companhia"</span>,</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"pct_atc_delay"</span>: <span class="st">"pct_atraso_controle"</span>,</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"pct_weather_delay"</span>: <span class="st">"pct_atraso_clima"</span>,</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"airline"</span>: <span class="st">"Companhia"</span>,</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="dv">5</span>))</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>voos.boxplot(by<span class="op">=</span><span class="st">"Companhia"</span>, column<span class="op">=</span><span class="st">"pct_atraso_companhia"</span>, ax<span class="op">=</span>ax)</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">""</span>)</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"</span><span class="sc">% d</span><span class="st">iário de voos atrasados"</span>)</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>ax.set_ylim(<span class="dv">0</span>, <span class="dv">50</span>)</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">""</span>)</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">""</span>)</span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">20</span>)</span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-fig-boxplot-grupo" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="dv">5</span>))</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>comum.boxplot(by<span class="op">=</span><span class="st">"cidade"</span>, column<span class="op">=</span><span class="st">"aluguel"</span>, ax<span class="op">=</span>ax)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">""</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Aluguel mensal (R$)"</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">""</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">""</span>)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">20</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
-<div id="fig-boxplot-grupo" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Boxplots lado a lado do percentual diário de voos atrasados por causa da companhia, um para cada uma das seis companhias aéreas. Alaska tem a caixa mais baixa e American a mediana mais alta, e todas têm muitos outliers acima do bigode superior.">
+<div id="fig-boxplot-grupo" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Boxplots lado a lado do aluguel mensal para as cinco cidades. São Paulo tem a caixa mais alta e Campinas a mais baixa; todas têm outliers acima do bigode superior.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-boxplot-grupo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="08-duas-ou-mais-variaveis_files/figure-html/fig-boxplot-grupo-output-1.png" alt="Boxplots lado a lado do percentual diário de voos atrasados por causa da companhia, um para cada uma das seis companhias aéreas. Alaska tem a caixa mais baixa e American a mediana mais alta, e todas têm muitos outliers acima do bigode superior." width="663" height="457" class="figure-img">
+<img src="08-duas-ou-mais-variaveis_files/figure-html/fig-boxplot-grupo-output-1.png" alt="Boxplots lado a lado do aluguel mensal para as cinco cidades. São Paulo tem a caixa mais alta e Campinas a mais baixa; todas têm outliers acima do bigode superior." width="664" height="457" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-boxplot-grupo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;3: Percentual diário de voos atrasados por causa da companhia, por companhia aérea.
+Figura&nbsp;4: Aluguel mensal por cidade, nos imóveis comuns.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>São 33.468 dias-companhia, distribuídos entre 6 companhias aéreas. As medianas (a linha dentro de cada caixa) ordenam as companhias de forma nítida: Alaska tem a mediana mais baixa, 3,23% (a melhor do grupo). American tem a mais alta, 8,43% (a pior). No meio, Delta (5,55%), United (6,45%), Southwest (6,96%) e Jet Blue (7,66%) ocupam posições intermediárias, nessa ordem.</p>
-<div id="cell-fig-violin" class="cell" data-execution_count="8">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="dv">5</span>))</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>sns.violinplot(data<span class="op">=</span>voos, x<span class="op">=</span><span class="st">"Companhia"</span>, y<span class="op">=</span><span class="st">"pct_atraso_companhia"</span>,</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>               ax<span class="op">=</span>ax, inner<span class="op">=</span><span class="st">"quartile"</span>, color<span class="op">=</span><span class="st">"#b0c4d8"</span>)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">""</span>)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"</span><span class="sc">% d</span><span class="st">iário de voos atrasados"</span>)</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>ax.set_ylim(<span class="dv">0</span>, <span class="dv">50</span>)</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">20</span>)</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<p>As medianas (a linha dentro de cada caixa) ordenam as cidades de forma nítida: São Paulo tem a mais alta, R$ 3.150, e Campinas a mais baixa, R$ 1.400. No meio ficam Rio de Janeiro (R$ 2.245), Belo Horizonte (R$ 2.000) e Porto Alegre (R$ 1.600), nessa ordem.</p>
+<div id="cell-fig-violin" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="dv">5</span>))</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>sns.violinplot(data<span class="op">=</span>comum, x<span class="op">=</span><span class="st">"cidade"</span>, y<span class="op">=</span><span class="st">"aluguel"</span>,</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>               ax<span class="op">=</span>ax, inner<span class="op">=</span><span class="st">"quartile"</span>, color<span class="op">=</span><span class="st">"#b0c4d8"</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">""</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Aluguel mensal (R$)"</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">20</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
-<div id="fig-violin" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Violin plots do percentual diário de voos atrasados por causa da companhia para as seis companhias aéreas, com linhas tracejadas na mediana e nos quartis. O violino da Alaska é baixo e largo perto de zero, e os de American, Delta e United têm caudas finas que chegam ao topo do eixo.">
+<div id="fig-violin" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Violin plots do aluguel mensal para as cinco cidades, com linhas tracejadas na mediana e nos quartis. Todos os violinos são largos na base, perto dos aluguéis baixos, e afinam para cima; o de São Paulo é o mais alongado.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-violin-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="08-duas-ou-mais-variaveis_files/figure-html/fig-violin-output-1.png" alt="Violin plots do percentual diário de voos atrasados por causa da companhia para as seis companhias aéreas, com linhas tracejadas na mediana e nos quartis. O violino da Alaska é baixo e largo perto de zero, e os de American, Delta e United têm caudas finas que chegam ao topo do eixo." width="663" height="471" class="figure-img">
+<img src="08-duas-ou-mais-variaveis_files/figure-html/fig-violin-output-1.png" alt="Violin plots do aluguel mensal para as cinco cidades, com linhas tracejadas na mediana e nos quartis. Todos os violinos são largos na base, perto dos aluguéis baixos, e afinam para cima; o de São Paulo é o mais alongado." width="664" height="472" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-violin-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;4: O mesmo dado em violin plot. A largura mostra a densidade, que o boxplot resume em cinco números.
+Figura&nbsp;5: O mesmo dado em violin plot. A largura mostra a densidade, que o boxplot resume em cinco números.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
 <div class="conceito">
-<p>O boxplot resume cada distribuição em cinco números: mínimo, quartis, mediana, máximo, ajustados por outliers. É compacto, mas apaga a <strong>forma</strong>: duas distribuições bem diferentes (uma concentrada num único pico, outra com dois picos separados) podem produzir boxplots quase idênticos, porque cinco números não distinguem “concentrado no meio” de “concentrado em dois lugares”. O violin plot troca a caixa por uma densidade espelhada dos dois lados: a largura em cada altura é proporcional à quantidade de voos com aquele percentual de atraso. A Alaska ilustra o ponto: cerca de 10% dos seus dias têm atraso por causa própria praticamente zero, uma concentração que o violin mostra como um bojo perto do eixo e que o boxplot, ocupado em resumir tudo à mediana e aos quartis, deixa passar como só “o quartil inferior é baixo”.</p>
+<p>O boxplot resume cada distribuição nos cinco números da seção 1.5: os quartis formam a caixa, a mediana é a linha de dentro, e os bigodes vão até o ponto mais distante dentro de 1,5 distância interquartil, com o que sobra desenhado ponto a ponto. É compacto, mas apaga a <strong>forma</strong>: duas distribuições bem diferentes (uma concentrada num único pico, outra com dois picos separados) podem produzir boxplots quase idênticos, porque cinco números não distinguem “concentrado no meio” de “concentrado em dois lugares”. O violin plot troca a caixa por uma densidade espelhada dos dois lados: a largura em cada altura é proporcional à densidade estimada naquele aluguel, calculada pelo mesmo método do KDE que desenhou as curvas de nível no começo desta seção. Por ser uma estimativa suavizada, ela arredonda os cantos da distribuição e se estende um pouco além do maior e do menor valor observados. Todas as cinco cidades mostram a mesma assimetria, com um bojo largo nos aluguéis baixos afinando numa cauda para cima, e é essa forma comum que o boxplot, ocupado em resumir tudo à mediana e aos quartis, deixa passar como só “a distância do terceiro quartil ao máximo é grande”.</p>
 </div>
 </section>
 <section id="múltiplas-variáveis-condicionando-por-uma-terceira" class="level2">
 <h2 class="anchored" data-anchor-id="múltiplas-variáveis-condicionando-por-uma-terceira">Múltiplas variáveis: condicionando por uma terceira</h2>
-<p>Tudo até aqui comparou exatamente duas variáveis. Perguntas reais costumam ter uma terceira à espreita: será que a relação entre área e valor do imóvel é a mesma em qualquer lugar, ou ela muda dependendo do bairro? A forma de responder é <strong>condicionar</strong>: fixar um valor da terceira variável de cada vez e repetir o gráfico de par para cada um. Visualmente, isso é uma grade de painéis pequenos (um <code>FacetGrid</code>) em vez de um único gráfico agregado.</p>
-<div id="cell-fig-facet" class="cell" data-execution_count="9">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>kc_ceps <span class="op">=</span> kc0.loc[kc0.CEP.isin([<span class="dv">98188</span>, <span class="dv">98105</span>, <span class="dv">98108</span>, <span class="dv">98126</span>]), :]</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> hexbin(x, y, color, <span class="op">**</span>kwargs):</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    cmap <span class="op">=</span> sns.light_palette(color, as_cmap<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    plt.hexbin(x, y, gridsize<span class="op">=</span><span class="dv">25</span>, cmap<span class="op">=</span>cmap, <span class="op">**</span>kwargs)</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> sns.FacetGrid(kc_ceps, col<span class="op">=</span><span class="st">"CEP"</span>, col_wrap<span class="op">=</span><span class="dv">2</span>, height<span class="op">=</span><span class="fl">3.2</span>)</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>g.<span class="bu">map</span>(hexbin, <span class="st">"AreaConstruida"</span>, <span class="st">"ValorVenal"</span>, extent<span class="op">=</span>[<span class="dv">0</span>, <span class="dv">3500</span>, <span class="dv">0</span>, <span class="dv">700000</span>])</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>g.set_axis_labels(<span class="st">"Área construída (pés²)"</span>, <span class="st">"Valor venal (US$)"</span>)</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Tudo até aqui comparou exatamente duas variáveis. Perguntas reais costumam ter uma terceira à espreita: será que a relação entre área e aluguel é a mesma em qualquer lugar, ou ela muda dependendo da cidade? A forma de responder é <strong>condicionar</strong>: fixar um valor da terceira variável de cada vez e repetir o gráfico de par para cada um. Visualmente, isso é uma grade de painéis pequenos (um <code>FacetGrid</code>) em vez de um único gráfico agregado.</p>
+<div class="sem-inversao">
+<div id="cell-fig-facet" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>quatro <span class="op">=</span> comum[comum[<span class="st">"cidade"</span>].isin(</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    [<span class="st">"São Paulo"</span>, <span class="st">"Rio de Janeiro"</span>, <span class="st">"Belo Horizonte"</span>, <span class="st">"Campinas"</span>])]</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> hexbin(x, y, color, <span class="op">**</span>kwargs):</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    cmap <span class="op">=</span> sns.light_palette(color, as_cmap<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    plt.hexbin(x, y, gridsize<span class="op">=</span><span class="dv">25</span>, cmap<span class="op">=</span>cmap, <span class="op">**</span>kwargs)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> sns.FacetGrid(quatro, col<span class="op">=</span><span class="st">"cidade"</span>, col_wrap<span class="op">=</span><span class="dv">2</span>, height<span class="op">=</span><span class="fl">3.6</span>)</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>g.<span class="bu">map</span>(hexbin, <span class="st">"area_m2"</span>, <span class="st">"aluguel"</span>, extent<span class="op">=</span>[<span class="dv">0</span>, <span class="dv">250</span>, <span class="dv">0</span>, <span class="dv">12000</span>])</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>g.set_axis_labels(<span class="st">"Área (m²)"</span>, <span class="st">"Aluguel mensal (R$)"</span>)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
-<div id="fig-facet" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Grade de quatro painéis hexbin, um por CEP, com área construída no eixo horizontal e valor venal no vertical. No CEP 98105 as células escuras sobem de forma íngreme até valores altos, enquanto no 98188 formam uma faixa baixa e quase plana.">
+<div id="fig-facet" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Grade de quatro painéis hexbin, um por cidade, com área no eixo horizontal e aluguel no vertical, todos nos mesmos eixos. São Paulo e Rio de Janeiro têm nuvens altas e espalhadas, que chegam a aluguéis de 6 mil reais em áreas moderadas. Belo Horizonte forma uma faixa diagonal nítida e mais baixa, e Campinas é a mais concentrada, com a maior parte dos anúncios abaixo de 2 mil reais.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-facet-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="08-duas-ou-mais-variaveis_files/figure-html/fig-facet-output-1.png" alt="Grade de quatro painéis hexbin, um por CEP, com área construída no eixo horizontal e valor venal no vertical. No CEP 98105 as células escuras sobem de forma íngreme até valores altos, enquanto no 98188 formam uma faixa baixa e quase plana." width="607" height="605" class="figure-img">
+<img src="08-duas-ou-mais-variaveis_files/figure-html/fig-facet-output-1.png" alt="Grade de quatro painéis hexbin, um por cidade, com área no eixo horizontal e aluguel no vertical, todos nos mesmos eixos. São Paulo e Rio de Janeiro têm nuvens altas e espalhadas, que chegam a aluguéis de 6 mil reais em áreas moderadas. Belo Horizonte forma uma faixa diagonal nítida e mais baixa, e Campinas é a mais concentrada, com a maior parte dos anúncios abaixo de 2 mil reais." width="684" height="682" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-facet-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;5: Área construída contra valor venal, condicionado ao CEP. A inclinação da relação muda de bairro para bairro.
+Figura&nbsp;6: Área contra aluguel, condicionado à cidade. O patamar de preço muda de cidade para cidade.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>Os quatro CEPs somam 98105 → 4.481 imóveis, 98108 → 5.535, 98126 → 5.631 e 98188 → 4.043. Juntos, são uma fração dos 432.693 originais, escolhida para caber em quatro painéis legíveis. O <code>extent</code> fixo em todos os painéis (mesma faixa de área e de valor) é o que torna os quatro comparáveis entre si: sem ele, cada painel escalaria os eixos para os seus próprios dados, e uma diferença de inclinação real poderia se confundir com um artefato de escala.</p>
+</div>
+<p>A grade mostra quatro das cinco cidades, por espaço; Porto Alegre fica de fora do desenho e volta na tabela logo abaixo. O <code>extent</code> fixo em todos os painéis (aqui, até 250 m² e R$ 12 mil) é o que torna os quatro comparáveis entre si: sem ele, cada painel escalaria os eixos para os seus próprios dados, e uma diferença real poderia se confundir com um artefato de escala. O preço é que os imóveis acima desses limites ficam fora do desenho, o que afeta São Paulo mais que Campinas, porque São Paulo tem mais imóveis grandes e caros.</p>
+<p>Um aviso sobre a cor: cada painel normaliza o próprio tom mais escuro pela célula mais cheia <strong>dele</strong>, então um hexágono escuro em Campinas vale menos anúncios que um hexágono igualmente escuro em São Paulo. Os painéis são comparáveis na posição e no espalhamento da nuvem, que é o que interessa aqui, e não na intensidade da cor.</p>
+<p>Comparados na mesma régua, os quatro painéis contam histórias diferentes. Campinas se concentra num aglomerado pequeno, com quase dois terços dos anúncios abaixo de R$ 2 mil. Belo Horizonte forma uma faixa diagonal nítida, que sobe com a área sem se espalhar muito. São Paulo e Rio de Janeiro têm nuvens mais altas e mais dispersas: para a mesma área de 50 a 100 m², os aluguéis vão de R$ 1 mil a mais de R$ 6 mil.</p>
+<p>Essa impressão visual tem um número por trás, e é o da seção anterior:</p>
+<div id="cell-r-por-cidade" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>r_cidade <span class="op">=</span> comum.groupby(<span class="st">"cidade"</span>).<span class="bu">apply</span>(</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">lambda</span> g: g[<span class="st">"area_m2"</span>].corr(g[<span class="st">"aluguel"</span>]), include_groups<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>r_cidade.<span class="bu">round</span>(<span class="dv">3</span>).<span class="bu">map</span>(<span class="kw">lambda</span> v: num(v, <span class="dv">3</span>))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="r-por-cidade" class="cell-output cell-output-display" data-execution_count="11">
+<pre><code>cidade
+Belo Horizonte    0,697
+Campinas          0,716
+Porto Alegre      0,691
+Rio de Janeiro    0,638
+São Paulo         0,638
+dtype: str</code></pre>
+</div>
+</div>
+<p>A correlação entre área e aluguel é mais alta em Campinas (0,716) e em Belo Horizonte (0,697) do que em São Paulo e no Rio de Janeiro (0,638 nas duas). Nas duas capitais maiores, a área explica menos do preço: localização, condomínio e padrão do prédio pesam mais, e o resultado é a nuvem mais espalhada que os painéis mostram.</p>
+<div id="cell-preco-m2" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>preco_m2 <span class="op">=</span> (comum[<span class="st">"aluguel"</span>] <span class="op">/</span> comum[<span class="st">"area_m2"</span>]).groupby(comum[<span class="st">"cidade"</span>]).median()</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>preco_m2.<span class="bu">round</span>(<span class="dv">1</span>).<span class="bu">map</span>(<span class="kw">lambda</span> v: num(v, <span class="dv">1</span>))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="preco-m2" class="cell-output cell-output-display" data-execution_count="12">
+<pre><code>cidade
+Belo Horizonte    20,0
+Campinas          18,6
+Porto Alegre      22,3
+Rio de Janeiro    30,0
+São Paulo         31,2
+dtype: str</code></pre>
+</div>
+</div>
 <div class="exemplo">
-<p>O 98105 fica perto da Universidade de Washington, e destoa dos outros três: valor mediano de US$ 537 mil para uma área mediana de 1.690 pés², cerca de US$ 318 por pé². No 98188, a mesma conta dá US$ 210 mil para 1.560 pés², cerca de US$ 135 por pé². A mesma área compra menos da metade do valor, dependendo só do CEP: a relação entre área e valor <strong>muda de inclinação</strong> por bairro, algo que o hexbin e o KDE agregados da primeira parte desta seção (que somavam todos os CEPs do condado numa única superfície) não tinham como revelar.</p>
+<p>A mesma área custa quase o dobro dependendo da cidade: o metro quadrado mediano sai por R$ 31,2 em São Paulo e R$ 18,6 em Campinas, com Rio de Janeiro (R$ 30,0), Porto Alegre (R$ 22,3) e Belo Horizonte (R$ 20,0) entre os dois extremos. Repare no que essa conta é: a mediana da razão entre aluguel e área, ou seja, o <strong>patamar</strong> de preço de cada cidade. Ela não mede quanto o aluguel sobe a cada metro quadrado a mais, que é outra pergunta e exigiria ajustar uma reta. O hexbin e o KDE do começo desta seção, que somavam as cinco cidades numa única superfície, não tinham como mostrar nem uma coisa nem a outra.</p>
 </div>
 </section>
 <section id="resumo" class="level2">
@@ -1095,12 +1046,12 @@ Figura&nbsp;5: Área construída contra valor venal, condicionado ao CEP. A incl
 </tbody>
 </table>
 <div class="conceito">
-<p><strong>Regra prática:</strong> o tipo das duas variáveis decide a ferramenta, não o contrário. Antes de escolher um gráfico, pergunte que tipo é cada variável. Se uma delas for numérica com muitos pontos, pergunte também quantos são. Um gráfico de dispersão que funcionou com 754 pontos na seção anterior simplesmente não funciona com 432 mil.</p>
+<p><strong>Regra prática:</strong> o tipo das duas variáveis decide a ferramenta, não o contrário. Antes de escolher um gráfico, pergunte que tipo é cada variável. Se uma delas for numérica com muitos pontos, pergunte também quantos são, e se a densidade no miolo da nuvem faz parte da resposta.</p>
 </div>
 </section>
 <section id="exercícios" class="level2">
 <h2 class="anchored" data-anchor-id="exercícios">Exercícios</h2>
-<p><strong>1.</strong> Por que o gráfico de dispersão falha com 432 mil imóveis, e o hexbin não?</p>
+<p><strong>1.</strong> Por que o gráfico de dispersão com pontos opacos falha no miolo da nuvem, e o hexbin não?</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1113,11 +1064,12 @@ Figura&nbsp;5: Área construída contra valor venal, condicionado ao CEP. A incl
 </div>
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Com centenas de milhares de pontos, eles se sobrepõem maciçamente, e a região mais densa vira uma mancha sólida: a informação de <strong>quantos</strong> pontos há em cada região do plano se perde antes de chegar à tela. O hexbin não desenha pontos individuais: divide o plano em células hexagonais e colore cada uma pela contagem de imóveis que caem nela, transformando densidade em cor. Isso continua legível justamente onde o gráfico de dispersão satura.</p>
+<p>Porque os pontos se sobrepõem: onde o dado é denso, o desenho vira uma mancha uniforme, e a informação de <strong>quantos</strong> imóveis caem em cada região se perde antes de chegar à tela. Dois mil e seis mil pontos empilhados produzem exatamente a mesma mancha. O hexbin não desenha pontos individuais: divide o plano em células hexagonais e colore cada uma pela contagem de imóveis que caem nela, transformando densidade em cor. Isso continua legível justamente onde o gráfico de dispersão satura.</p>
+<p>A transparência (<code>alpha</code>) é um meio-termo: ajuda até certo ponto, porque regiões mais densas ficam mais escuras, mas também satura quando há sobreposição suficiente.</p>
 </div>
 </div>
 </div>
-<p><strong>2.</strong> Na tabela de contingência em contagem, a nota B tem mais empréstimos <code>Inadimplente</code> (5.302) que a nota G (409). Isso significa que B é mais arriscada que G?</p>
+<p><strong>2.</strong> Na tabela de contagem, São Paulo tem 1.593 imóveis mobiliados e Campinas tem 111. Isso significa que se aluga mobiliado com mais frequência em São Paulo?</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1130,11 +1082,12 @@ Figura&nbsp;5: Área construída contra valor venal, condicionado ao CEP. A incl
 </div>
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Não. B tem 132.370 empréstimos e G tem apenas 3.241. B tem mais de tudo simplesmente porque é um grupo muito maior. Em <strong>proporção</strong>, a taxa de inadimplência de G (12,6%) é bem maior que a de B (4,0%). Comparar contagens brutas entre grupos de tamanhos muito diferentes é um erro clássico; a normalização por linha existe exatamente para evitá-lo.</p>
+<p>Não é o que a contagem mostra. São Paulo tem 5.887 anúncios e Campinas, 853: São Paulo tem mais de tudo porque é um grupo sete vezes maior. Em <strong>proporção</strong>, a diferença existe, mas é bem menor do que a contagem sugere: 27,1% em São Paulo contra 13,0% em Campinas, ou seja, cerca do dobro, e não catorze vezes.</p>
+<p>Comparar contagens brutas entre grupos de tamanhos muito diferentes é um erro clássico; a normalização por linha existe exatamente para evitá-lo.</p>
 </div>
 </div>
 </div>
-<p><strong>3.</strong> Se o chunk do KDE não tivesse <code>random_state=42</code>, o que aconteceria a cada <code>quarto render</code>?</p>
+<p><strong>3.</strong> O gráfico agregado de área contra aluguel mistura as cinco cidades. Que erro de leitura isso pode causar, e como a grade de painéis o evita?</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1147,7 +1100,9 @@ Figura&nbsp;5: Área construída contra valor venal, condicionado ao CEP. A incl
 </div>
 <div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>O <code>sample(10000)</code> sortearia 10.000 imóveis diferentes a cada execução, e o contorno de densidade mudaria de forma sutil todas as vezes. O gráfico publicado nunca seria o mesmo duas vezes, o cache do <code>freeze</code> deixaria de fazer sentido (ele existe para não reexecutar chunks que não mudaram, e um chunk aleatório sem semente “muda” sozinho a cada render), e cada <code>push</code> acumularia um diff de ruído no site. É por isso que todo chunk com componente aleatório neste livro fixa a semente.</p>
+<p>O gráfico agregado sugere que existe um preço só para cada área. Entre os imóveis de 55 a 65 m², a mediana do aluguel é R$ 1.950 em São Paulo, R$ 1.600 no Rio de Janeiro, R$ 1.300 em Porto Alegre e R$ 1.100 em Belo Horizonte e em Campinas. Quem lê a nuvem agregada vê essas cinco cidades empilhadas, e boa parte do que parece dispersão do mercado é, na verdade, a distância entre patamares de cidades diferentes.</p>
+<p>A grade de painéis evita isso fixando uma cidade por vez, com os mesmos eixos nos quatro, o que deixa os patamares lado a lado em vez de somados.</p>
+<p>Vale dizer o que este caso <strong>não</strong> é. As cinco cidades sobem na mesma direção, e o agregado fica no meio delas, sem inversão de sinal: não é um Paradoxo de Simpson como o da Introdução, em que a relação dentro dos grupos aponta para o lado contrário da relação agregada. O que se perde aqui é a diferença de nível entre os grupos, que já é motivo suficiente para condicionar antes de concluir.</p>
 </div>
 </div>
 </div>

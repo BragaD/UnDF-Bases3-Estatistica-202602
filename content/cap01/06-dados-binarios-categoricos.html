@@ -667,25 +667,25 @@ Nota
 <p>Esta seção corresponde à seção 1.6 de <span class="citation" data-cites="bruce2020">Bruce et al. (<a href="#ref-bruce2020" role="doc-biblioref">2020</a>)</span>.</p>
 </div>
 </div>
-<p>A seção 1.5 abriu mão do resumo numérico e olhou a distribuição inteira: percentis, boxplot, histograma, assimetria. Todo esse ferramental depende de uma coisa: os valores serem números, ordenáveis e subtraíveis entre si. Isso desmorona por completo diante de dado categórico. Não existe percentil 95 de uma causa de atraso de voo, nem um “ponto médio” entre <code>Clima</code> e <code>Seguranca</code> para tirar uma mediana. A seção 1.1 já havia separado categórico de numérico (nominal, ordinal, binário), e é hora de ver o que sobra da caixa de ferramentas quando o dado é desse tipo.</p>
+<p>A seção 1.5 abriu mão do resumo numérico e olhou a distribuição inteira: percentis, boxplot, histograma, assimetria. Todo esse ferramental depende de uma coisa: os valores serem números, ordenáveis e subtraíveis entre si. Isso desmorona por completo diante de dado categórico. Não existe percentil 95 de uma cidade, nem um “ponto médio” entre Campinas e Porto Alegre para tirar uma mediana. A seção 1.1 já havia separado categórico de numérico (nominal, ordinal, binário), e é hora de ver o que sobra da caixa de ferramentas quando o dado é desse tipo.</p>
 <p>A resposta, adiantando: quase tudo muda, e o pouco que sobra é mais simples do que parece.</p>
 <section id="os-dados" class="level2">
 <h2 class="anchored" data-anchor-id="os-dados">Os dados</h2>
-<p>Vamos usar as causas de atraso de voo no aeroporto de Dallas/Fort Worth: problema atribuído à companhia aérea (<code>Companhia</code>), controle de tráfego aéreo (<code>ControleAereo</code>), clima (<code>Clima</code>), segurança (<code>Seguranca</code>) e atraso herdado de um voo anterior da mesma aeronave (<code>VooAnterior</code>). Cinco categorias nominais, sem nenhuma ordem natural entre elas, no sentido da seção 1.1.</p>
+<p>Voltamos aos 10.692 anúncios de aluguel das seções 1.3 a 1.5, agora com as colunas que não são números. A <code>cidade</code>, que a seção 1.3 usou de passagem para mostrar a moda, é nominal: cinco valores, nenhuma ordem natural entre eles. <code>aceita_animal</code> e <code>mobiliado</code> são binárias, cada anúncio diz <code>sim</code> ou <code>não</code>, e não há terceira opção.</p>
 </section>
 <section id="proporções-o-resumo-que-substitui-a-média" class="level2">
 <h2 class="anchored" data-anchor-id="proporções-o-resumo-que-substitui-a-média">Proporções: o resumo que substitui a média</h2>
-<p>Para dado numérico, o primeiro resumo é uma medida de localização: média, média aparada, mediana. Nenhuma delas se aplica aqui: somar “Companhia + Clima” e dividir por dois não produz nada interpretável, porque não há distância nem ordem entre as categorias. O que resta, e é suficiente, é a <strong>proporção</strong> de cada categoria sobre o total.</p>
+<p>Para dado numérico, o primeiro resumo é uma medida de localização: média, média aparada, mediana. Nenhuma delas se aplica aqui: somar “Campinas + Porto Alegre” e dividir por dois não produz nada interpretável, porque não há distância nem ordem entre as categorias. O que resta, e é suficiente, é a <strong>proporção</strong> de cada categoria sobre o total.</p>
 <div id="cell-proporcoes" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>dfw <span class="op">=</span> pd.read_csv(<span class="st">"dados/dfw_airline.csv"</span>).rename(columns<span class="op">=</span>{</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Carrier"</span>: <span class="st">"Companhia"</span>,</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ATC"</span>: <span class="st">"ControleAereo"</span>,</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Weather"</span>: <span class="st">"Clima"</span>,</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Security"</span>: <span class="st">"Seguranca"</span>,</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Inbound"</span>: <span class="st">"VooAnterior"</span>,</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>proporcoes <span class="op">=</span> <span class="dv">100</span> <span class="op">*</span> dfw <span class="op">/</span> dfw.values.<span class="bu">sum</span>()</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>proporcoes.<span class="bu">round</span>(<span class="dv">2</span>).<span class="bu">map</span>(<span class="kw">lambda</span> v: num(v, <span class="dv">2</span>))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>alugueis <span class="op">=</span> pd.read_csv(<span class="st">"dados/alugueis.csv"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>contagem <span class="op">=</span> alugueis[<span class="st">"cidade"</span>].value_counts()</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>proporcoes <span class="op">=</span> <span class="dv">100</span> <span class="op">*</span> alugueis[<span class="st">"cidade"</span>].value_counts(normalize<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Anúncios"</span>: contagem,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Proporção (%)"</span>: proporcoes.<span class="bu">map</span>(<span class="kw">lambda</span> v: num(v, <span class="dv">2</span>)),</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div id="proporcoes" class="cell-output cell-output-display" data-execution_count="2">
 <div>
 
@@ -694,21 +694,40 @@ Nota
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">Companhia</th>
-<th data-quarto-table-cell-role="th">ControleAereo</th>
-<th data-quarto-table-cell-role="th">Clima</th>
-<th data-quarto-table-cell-role="th">Seguranca</th>
-<th data-quarto-table-cell-role="th">VooAnterior</th>
+<th data-quarto-table-cell-role="th">Anúncios</th>
+<th data-quarto-table-cell-role="th">Proporção (%)</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">cidade</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">0</th>
-<td>23,02</td>
-<td>30,40</td>
-<td>4,03</td>
-<td>0,12</td>
-<td>42,43</td>
+<th data-quarto-table-cell-role="th">São Paulo</th>
+<td>5887</td>
+<td>55,06</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Rio de Janeiro</th>
+<td>1501</td>
+<td>14,04</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Belo Horizonte</th>
+<td>1258</td>
+<td>11,77</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Porto Alegre</th>
+<td>1193</td>
+<td>11,16</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Campinas</th>
+<td>853</td>
+<td>7,98</td>
 </tr>
 </tbody>
 </table>
@@ -717,28 +736,39 @@ Nota
 </div>
 </div>
 <div class="conceito">
-<p>Repare no formato de <code>dfw</code>: uma linha, cinco colunas. Cada <strong>coluna</strong> é uma categoria, e o único valor de cada uma é a contagem de atrasos atribuídos a ela. É o oposto do formato “uma linha por observação” que os capítulos anteriores usaram. É por isso que os próximos chunks recorrem a <code>.transpose()</code>: para virar as cinco colunas em cinco linhas, uma por causa, antes de desenhar o gráfico ou extrair a moda.</p>
+<p>O <code>value_counts</code> faz as duas coisas que interessam num dado categórico: conta quantas vezes cada categoria aparece e, com <code>normalize=True</code>, divide essas contagens pelo total. Repare que o dado continua no formato “uma linha por imóvel” das seções anteriores, com 10.692 linhas. A tabela de cinco linhas acima não está no arquivo: ela é produzida na hora, contando.</p>
 </div>
-<p><code>ControleAereo</code> e <code>VooAnterior</code> somam sozinhos mais de 70% dos atrasos; <code>Seguranca</code> responde por pouco mais de um décimo de 1%. É toda a “distribuição” que um dado categórico tem para oferecer: um conjunto de fatias, sem forma contínua.</p>
+<p>São Paulo sozinha responde por 55,06% dos anúncios, mais que as outras quatro cidades somadas. Campinas, a menor, fica com 7,98%. É toda a “distribuição” que um dado nominal tem para oferecer: um conjunto de fatias, sem forma contínua e sem ordem obrigatória entre elas.</p>
+<p>Com variável binária a conta fica ainda mais curta, porque basta uma proporção: sabendo a fração de <code>sim</code>, a de <code>não</code> é o que falta para 100%.</p>
+<div id="cell-binarias" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>binarias <span class="op">=</span> <span class="dv">100</span> <span class="op">*</span> (alugueis[[<span class="st">"aceita_animal"</span>, <span class="st">"mobiliado"</span>]] <span class="op">==</span> <span class="st">"sim"</span>).mean()</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>binarias.<span class="bu">round</span>(<span class="dv">2</span>).<span class="bu">map</span>(<span class="kw">lambda</span> v: num(v, <span class="dv">2</span>))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="binarias" class="cell-output cell-output-display" data-execution_count="3">
+<pre><code>aceita_animal    77,78
+mobiliado        24,37
+dtype: str</code></pre>
+</div>
+</div>
+<p>Quase quatro em cada cinco anúncios aceitam animal (77,78%), e pouco menos de um quarto vem mobiliado (24,37%). Repare no truque do código: comparar a coluna com <code>"sim"</code> produz uma coluna de verdadeiro e falso, e a média de uma coluna dessas <strong>é</strong> a proporção de verdadeiros, porque o Python trata <code>True</code> como 1 e <code>False</code> como 0. Vale a pena guardar essa equivalência: ela reaparece no Capítulo 3, quando a proporção virar o valor médio de uma variável de Bernoulli.</p>
 </section>
 <section id="gráfico-de-barras-não-é-histograma" class="level2">
 <h2 class="anchored" data-anchor-id="gráfico-de-barras-não-é-histograma">Gráfico de barras não é histograma</h2>
-<div id="cell-fig-barras" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>dfw.transpose().plot.bar(ax<span class="op">=</span>ax, legend<span class="op">=</span><span class="va">False</span>, color<span class="op">=</span><span class="st">"#4a90a4"</span>, edgecolor<span class="op">=</span><span class="st">"white"</span>)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Causa do atraso"</span>)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Número de atrasos"</span>)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-fig-barras" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>contagem.plot.bar(ax<span class="op">=</span>ax, color<span class="op">=</span><span class="st">"#4a90a4"</span>, edgecolor<span class="op">=</span><span class="st">"white"</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Cidade"</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Número de anúncios"</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">20</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
-<div id="fig-barras" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Gráfico de barras separadas com as cinco causas de atraso no eixo horizontal e o número de atrasos no vertical. VooAnterior tem a barra mais alta, seguida de ControleAereo e Companhia; Clima é baixa e Seguranca é praticamente invisível.">
+<div id="fig-barras" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Gráfico de barras separadas com as cinco cidades no eixo horizontal e o número de anúncios no vertical. São Paulo tem a barra mais alta, com quase quatro vezes a do Rio de Janeiro; Belo Horizonte e Porto Alegre são parecidas, e Campinas é a menor.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-barras-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="06-dados-binarios-categoricos_files/figure-html/fig-barras-output-1.png" alt="Gráfico de barras separadas com as cinco causas de atraso no eixo horizontal e o número de atrasos no vertical. VooAnterior tem a barra mais alta, seguida de ControleAereo e Companhia; Clima é baixa e Seguranca é praticamente invisível." width="665" height="373" class="figure-img">
+<img src="06-dados-binarios-categoricos_files/figure-html/fig-barras-output-1.png" alt="Gráfico de barras separadas com as cinco cidades no eixo horizontal e o número de anúncios no vertical. São Paulo tem a barra mais alta, com quase quatro vezes a do Rio de Janeiro; Belo Horizonte e Porto Alegre são parecidas, e Campinas é a menor." width="664" height="375" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-barras-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;1: Causas de atraso no aeroporto de Dallas/Fort Worth. As barras são separadas: o eixo é categórico, não contínuo.
+Figura&nbsp;1: Anúncios de aluguel por cidade. As barras são separadas: o eixo é categórico, não contínuo.
 </figcaption>
 </figure>
 </div>
@@ -746,25 +776,25 @@ Figura&nbsp;1: Causas de atraso no aeroporto de Dallas/Fort Worth. As barras sã
 </div>
 <p>É tentador olhar para esse gráfico como “o histograma da seção 1.5, com barras diferentes”. Não é, e a diferença não é estética.</p>
 <div class="conceito">
-<p>No histograma, o eixo X é numérico e contínuo, e as barras se encostam <strong>porque</strong> não há espaço entre uma faixa e a seguinte. São pedaços contíguos da mesma reta de números. No gráfico de barras, o eixo X é categórico, e as barras vêm separadas de propósito: não existe “entre <code>ControleAereo</code> e <code>Clima</code>”, e a ordem em que as categorias aparecem no eixo é arbitrária, não informativa. Desenhar <code>Companhia</code>, <code>ControleAereo</code>, <code>Clima</code>, <code>Seguranca</code> e <code>VooAnterior</code> com barras encostadas sugeriria visualmente uma continuidade e uma ordem que os dados não têm, como se uma causa viesse “depois” da outra por algum motivo numérico. É o mesmo cuidado que a seção 1.1 teve ao impedir que uma coluna nominal respondesse a perguntas de ordem.</p>
+<p>No histograma, o eixo X é numérico e contínuo, e as barras se encostam <strong>porque</strong> não há espaço entre uma faixa e a seguinte. São pedaços contíguos da mesma reta de números. No gráfico de barras, o eixo X é categórico, e as barras vêm separadas de propósito: não existe “entre Belo Horizonte e Porto Alegre”, e a ordem em que as cidades aparecem no eixo é escolha de quem desenha, não informação do dado. Aqui elas estão em ordem decrescente de anúncios, mas poderiam estar em ordem alfabética ou geográfica sem que o gráfico dissesse nada diferente. Desenhar as cinco cidades com barras encostadas sugeriria uma continuidade e uma ordem que os dados não têm, como se uma cidade viesse “depois” da outra por algum motivo numérico. É o mesmo cuidado que a seção 1.1 teve ao impedir que uma coluna nominal respondesse a perguntas de ordem.</p>
 </div>
 </section>
 <section id="o-eixo-que-mente" class="level2">
 <h2 class="anchored" data-anchor-id="o-eixo-que-mente">O eixo que mente</h2>
 <p>Um gráfico de barras honesto sobre a mecânica (barras separadas, eixo categórico) ainda pode enganar de outra forma, e essa é uma das mais comuns em jornais e apresentações. O truque não está nos dados; está no eixo.</p>
 <p>O gráfico abaixo mostra a taxa de homicídios dos nove estados do Nordeste (Atlas da Violência, 2024), com os estados em ordem alfabética da sigla.</p>
-<div id="cell-fig-eixo-truncado" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>estado <span class="op">=</span> pd.read_csv(<span class="st">"dados/estados.csv"</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>nordeste <span class="op">=</span> [<span class="st">"AL"</span>, <span class="st">"BA"</span>, <span class="st">"CE"</span>, <span class="st">"MA"</span>, <span class="st">"PB"</span>, <span class="st">"PE"</span>, <span class="st">"PI"</span>, <span class="st">"RN"</span>, <span class="st">"SE"</span>]</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>ne <span class="op">=</span> estado[estado[<span class="st">"Sigla"</span>].isin(nordeste)].sort_values(<span class="st">"Sigla"</span>)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="dv">4</span>))</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>ax.bar(ne[<span class="st">"Sigla"</span>], ne[<span class="st">"Taxa.Homicidios"</span>], color<span class="op">=</span><span class="st">"#b0c4d8"</span>, edgecolor<span class="op">=</span><span class="st">"white"</span>)</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>ax.set_ylim(<span class="dv">20</span>, <span class="dv">38</span>)</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Estado"</span>)</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Taxa de homicídios (por 100 mil)"</span>)</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-fig-eixo-truncado" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>estado <span class="op">=</span> pd.read_csv(<span class="st">"dados/estados.csv"</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>nordeste <span class="op">=</span> [<span class="st">"AL"</span>, <span class="st">"BA"</span>, <span class="st">"CE"</span>, <span class="st">"MA"</span>, <span class="st">"PB"</span>, <span class="st">"PE"</span>, <span class="st">"PI"</span>, <span class="st">"RN"</span>, <span class="st">"SE"</span>]</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>ne <span class="op">=</span> estado[estado[<span class="st">"Sigla"</span>].isin(nordeste)].sort_values(<span class="st">"Sigla"</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="dv">4</span>))</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>ax.bar(ne[<span class="st">"Sigla"</span>], ne[<span class="st">"Taxa.Homicidios"</span>], color<span class="op">=</span><span class="st">"#b0c4d8"</span>, edgecolor<span class="op">=</span><span class="st">"white"</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>ax.set_ylim(<span class="dv">20</span>, <span class="dv">38</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Estado"</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Taxa de homicídios (por 100 mil)"</span>)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div id="fig-eixo-truncado" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Gráfico de barras da taxa de homicídios por 100 mil habitantes dos nove estados do Nordeste, com o eixo vertical começando em 20. A barra do Piauí é um traço quase rente ao eixo, enquanto Pernambuco e Alagoas parecem muitas vezes mais altos.">
 <figure class="quarto-float quarto-float-fig figure">
@@ -781,14 +811,14 @@ Figura&nbsp;2: Taxa de homicídios dos nove estados do Nordeste, com o eixo Y co
 <p>À primeira vista, a leitura é dramática. O Piauí parece quase não ter homicídios: a barra é um traço rente ao chão. Pernambuco se ergue várias vezes mais alto; Ceará, Alagoas e Bahia formam um bloco imponente que faz o Piauí, o Rio Grande do Norte e Sergipe parecerem casos à parte, quase pacíficos. Se você tivesse apenas este gráfico, concluiria que o estado mais violento do Nordeste tem uma taxa muitas vezes maior que a do menos violento. O olho lê Pernambuco como umas <strong>36 vezes</strong> o Piauí.</p>
 <p>Mas essa impressão inteira vem de uma escolha que não está nos dados: o eixo Y começa em <strong>20</strong>, não em zero. Repare no canto inferior esquerdo: a régua começa lá. A barra do Piauí não mede a taxa do Piauí; mede o quanto ela <strong>passa de 20</strong>. E como a taxa do Piauí é 20,47, o que sobra para desenhar é <code>20,47 − 20 = 0,47</code>, quase nada. A barra do Piauí é baixa, mas a taxa não é.</p>
 <p>Veja o que acontece quando a régua começa onde deveria, no zero:</p>
-<div id="cell-fig-eixo-zero" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="dv">4</span>))</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>ax.bar(ne[<span class="st">"Sigla"</span>], ne[<span class="st">"Taxa.Homicidios"</span>], color<span class="op">=</span><span class="st">"#b0c4d8"</span>, edgecolor<span class="op">=</span><span class="st">"white"</span>)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>ax.set_ylim(<span class="dv">0</span>, <span class="dv">38</span>)</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Estado"</span>)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Taxa de homicídios (por 100 mil)"</span>)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-fig-eixo-zero" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="dv">4</span>))</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>ax.bar(ne[<span class="st">"Sigla"</span>], ne[<span class="st">"Taxa.Homicidios"</span>], color<span class="op">=</span><span class="st">"#b0c4d8"</span>, edgecolor<span class="op">=</span><span class="st">"white"</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>ax.set_ylim(<span class="dv">0</span>, <span class="dv">38</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Estado"</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Taxa de homicídios (por 100 mil)"</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div id="fig-eixo-zero" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Mesmo gráfico de barras dos nove estados do Nordeste, agora com o eixo vertical começando em zero. Todas as barras são altas, e a de Pernambuco, a maior, fica menos de duas vezes acima da do Piauí, a menor.">
 <figure class="quarto-float quarto-float-fig figure">
@@ -811,16 +841,15 @@ Figura&nbsp;3: O mesmo dado, com o eixo Y começando no zero: a imagem honesta.
 </section>
 <section id="a-moda-a-única-localização-possível" class="level2">
 <h2 class="anchored" data-anchor-id="a-moda-a-única-localização-possível">A moda: a única “localização” possível</h2>
-<div id="moda" class="cell" data-execution_count="6">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>moda <span class="op">=</span> proporcoes.transpose().iloc[:, <span class="dv">0</span>].idxmax()</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Moda (causa mais frequente): </span><span class="sc">{</span>moda<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="moda" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Moda (cidade mais frequente): </span><span class="sc">{</span>alugueis[<span class="st">'cidade'</span>]<span class="sc">.</span>mode()[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Moda (causa mais frequente): VooAnterior</code></pre>
+<pre><code>Moda (cidade mais frequente): São Paulo</code></pre>
 </div>
 </div>
 <p>A <strong>moda</strong> (a categoria mais frequente) é a única medida de localização que sobrevive à falta de ordem e de distância entre categorias. Ela não exige somar nem ordenar nada: só contar qual fatia é a maior.</p>
 <div class="exemplo">
-<p>A moda de <code>dfw</code> é <code>VooAnterior</code>, com 42% dos atrasos, à frente de <code>Companhia</code> e <code>Clima</code>, as causas que viriam à mente primeiro ao pensar em “atraso de voo”. A maior fonte de atraso em Dallas/Fort Worth não é uma causa local do próprio aeroporto: é um voo anterior da mesma aeronave chegando atrasado e empurrando o atraso adiante. O gargalo fica fora de Dallas, na malha aérea inteira, e se propaga de aeroporto em aeroporto.</p>
+<p>A moda de <code>cidade</code> é São Paulo, com 5.887 dos 10.692 anúncios. Vale separar duas leituras que o número não distingue. Uma é sobre o mercado: São Paulo é a maior cidade do país e tem o maior mercado de locação. A outra é sobre a coleta: os anúncios vieram de um site, num período, e nada garante que as cinco cidades tenham sido raspadas com o mesmo esforço. A moda diz qual categoria aparece mais <strong>nestes dados</strong>, e transformar isso numa afirmação sobre o mundo exige saber como os dados chegaram até aqui.</p>
 </div>
 </section>
 <section id="resumo" class="level2">
@@ -828,36 +857,36 @@ Figura&nbsp;3: O mesmo dado, com o eixo Y começando no zero: a imagem honesta.
 <table class="caption-top table">
 <thead>
 <tr class="header">
-<th>Causa</th>
-<th>Contagem</th>
+<th>Cidade</th>
+<th>Anúncios</th>
 <th>Proporção</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Companhia</td>
-<td>64.263</td>
-<td>23,02%</td>
+<td>São Paulo</td>
+<td>5.887</td>
+<td>55,06%</td>
 </tr>
 <tr class="even">
-<td>ControleAereo</td>
-<td>84.856</td>
-<td>30,40%</td>
+<td>Rio de Janeiro</td>
+<td>1.501</td>
+<td>14,04%</td>
 </tr>
 <tr class="odd">
-<td>Clima</td>
-<td>11.235</td>
-<td>4,03%</td>
+<td>Belo Horizonte</td>
+<td>1.258</td>
+<td>11,77%</td>
 </tr>
 <tr class="even">
-<td>Seguranca</td>
-<td>343</td>
-<td>0,12%</td>
+<td>Porto Alegre</td>
+<td>1.193</td>
+<td>11,16%</td>
 </tr>
 <tr class="odd">
-<td>VooAnterior</td>
-<td>118.428</td>
-<td>42,43%</td>
+<td>Campinas</td>
+<td>853</td>
+<td>7,98%</td>
 </tr>
 </tbody>
 </table>
@@ -867,7 +896,7 @@ Figura&nbsp;3: O mesmo dado, com o eixo Y começando no zero: a imagem honesta.
 </section>
 <section id="exercícios" class="level2">
 <h2 class="anchored" data-anchor-id="exercícios">Exercícios</h2>
-<p><strong>1.</strong> Por que a moda é a única medida de localização que faz sentido para <code>dfw</code>?</p>
+<p><strong>1.</strong> Por que a moda é a única medida de localização que faz sentido para <code>cidade</code>?</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -880,7 +909,7 @@ Figura&nbsp;3: O mesmo dado, com o eixo Y começando no zero: a imagem honesta.
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Porque as categorias de <code>dfw</code> são nominais: não há ordem nem distância entre “Clima” e “Seguranca”. Média e mediana exigem que os valores possam ser somados ou ordenados; nenhuma das duas operações significa algo quando o “valor” é o nome de uma causa de atraso. A moda só precisa contar qual categoria é a mais frequente, e essa pergunta continua fazendo sentido mesmo sem ordem nenhuma entre as categorias.</p>
+<p>Porque <code>cidade</code> é nominal: não há ordem nem distância entre Campinas e Porto Alegre. Média e mediana exigem que os valores possam ser somados ou ordenados; nenhuma das duas operações significa algo quando o “valor” é o nome de uma cidade. A moda só precisa contar qual categoria é a mais frequente, e essa pergunta continua fazendo sentido mesmo sem ordem nenhuma entre as categorias.</p>
 </div>
 </div>
 </div>
@@ -899,6 +928,24 @@ Figura&nbsp;3: O mesmo dado, com o eixo Y começando no zero: a imagem honesta.
 <div class="callout-body-container callout-body">
 <p>A barra de Pernambuco <em>parece</em> cerca de <strong>36 vezes</strong> a do Piauí: a altura desenhada de cada uma é o valor menos o piso do eixo, então a razão visual é <code>(36,78 − 20) / (20,47 − 20) = 16,78 / 0,47 ≈ 36</code>.</p>
 <p>A razão <strong>real</strong> é <code>36,78 / 20,47 ≈ 1,8</code>: Pernambuco tem uma taxa 80% maior, não 36 vezes maior. O eixo truncado transformou uma diferença de 80% num abismo aparente de 36 para 1. É por isso que um gráfico de barras deve começar no zero: só assim o comprimento da barra corresponde ao valor.</p>
+</div>
+</div>
+</div>
+<p><strong>3.</strong> O código desta seção obteve a proporção de imóveis mobiliados tirando a <strong>média</strong> de uma coluna de verdadeiro e falso. Por que isso dá certo? E o que mudaria se a pergunta fosse sobre <code>cidade</code>, que tem cinco valores?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Dá certo porque o Python conta <code>True</code> como 1 e <code>False</code> como 0. A média de uma coluna assim é a soma dos uns dividida pelo número de linhas, que é a definição de proporção. Os dois caminhos, contar e depois dividir ou tirar a média direto, fazem a mesma conta.</p>
+<p>Com <code>cidade</code> não existe uma única coluna de zeros e uns para tirar a média, porque não há uma pergunta de sim ou não a fazer. O que existe são cinco perguntas, uma por cidade (“é São Paulo?”, “é Campinas?”), cada uma com a sua proporção, e as cinco somam 1. É exatamente o que o <code>value_counts(normalize=True)</code> devolve de uma vez. Essa passagem de uma pergunta binária para várias reaparece no Capítulo 3, quando uma variável de Bernoulli der lugar a uma distribuição com vários valores possíveis.</p>
 </div>
 </div>
 </div>

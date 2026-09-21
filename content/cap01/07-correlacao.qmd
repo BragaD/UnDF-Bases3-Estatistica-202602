@@ -15,7 +15,7 @@ from formato import num
 plt.rcParams["figure.figsize"] = (7, 4)
 ```
 
-Da seção 1.3 até a 1.6, cada ferramenta olhou para **uma** variável de cada vez: a localização e a dispersão da população dos estados, a forma de uma distribuição, a proporção de uma causa de atraso. A pergunta agora é outra, e é nova neste capítulo: dadas **duas** variáveis numéricas, elas se movem juntas? Quando uma sobe, a outra também sobe, desce ou fica indiferente?
+Da seção 1.3 até a 1.6, cada ferramenta olhou para **uma** variável de cada vez: a localização e a dispersão da população dos estados, a forma de uma distribuição, a proporção de anúncios de cada cidade. A pergunta agora é outra, e é nova neste capítulo: dadas **duas** variáveis numéricas, elas se movem juntas? Quando uma sobe, a outra também sobe, desce ou fica indiferente?
 
 ## Coeficiente de correlação de Pearson
 
@@ -29,82 +29,127 @@ $r = 1$ é associação linear positiva perfeita; $r = -1$ é associação linea
 
 ## Os dados
 
-Vamos usar retornos diários de ações do S&P 500, entre 1993 e 2015.
+Voltamos aos 10.692 anúncios de aluguel, agora com várias colunas numéricas ao mesmo tempo: área, quartos, banheiros, vagas de garagem, aluguel, condomínio, IPTU e seguro contra incêndio.
 
 ```{python}
 #| label: carrega
-SETORES = {
-    "consumer_discretionary": "consumo_discricionario",
-    "consumer_staples": "consumo_essencial",
-    "energy": "energia",
-    "etf": "etf",
-    "financials": "financeiro",
-    "health_care": "saude",
-    "industrials": "industrial",
-    "information_technology": "tecnologia_da_informacao",
-    "materials": "materiais",
-    "telecommunications_services": "telecomunicacoes",
-    "utilities": "utilidade_publica",
-}
-setores = pd.read_csv("dados/sp500_sectors.csv").rename(
-    columns={"sector": "Setor", "symbol": "Simbolo"}
-)
-setores["Setor"] = setores["Setor"].replace(SETORES)
-precos  = pd.read_csv("dados/sp500_data.csv.gz", index_col=0)
-
-simbolos_telecom = setores[setores["Setor"] == "telecomunicacoes"]["Simbolo"]
-telecom = precos.loc[precos.index >= "2012-07-01", simbolos_telecom]
-
-print("dias x empresas:", telecom.shape)
-telecom.head()
+alugueis = pd.read_csv("dados/alugueis.csv")
+COLUNAS = ["area_m2", "quartos", "banheiros", "vagas",
+           "aluguel", "condominio", "iptu", "seguro_incendio"]
+alugueis[COLUNAS].head()
 ```
-
-`telecom` tem 754 dias de negociação e 5 empresas de telecomunicações: T (AT&T), CTL (CenturyLink), FTR (Frontier), VZ (Verizon) e LVLT (Level 3).
-
-::: {.conceito}
-`precos.index` é uma string ("1993-01-29", e não uma data), mas a comparação `precos.index >= "2012-07-01"` ainda funciona porque datas no formato ISO (`AAAA-MM-DD`) comparam corretamente como texto: ordem alfabética e ordem cronológica coincidem. E `simbolos_telecom` é uma `Series`, não uma lista: `precos.loc[..., simbolos_telecom]` aceita os dois formatos para selecionar colunas, e preserva a ordem em que os símbolos aparecem em `simbolos_telecom`.
-:::
 
 ## Matriz de correlação
 
-Com mais de duas variáveis, faz sentido calcular a correlação de **todo par**, não de um par isolado. O resultado é a **matriz de correlação**: simétrica (a correlação de T com VZ é a mesma de VZ com T) e com 1 na diagonal (toda variável tem correlação perfeita consigo mesma).
+Com mais de duas variáveis, faz sentido calcular a correlação de **todo par**, não de um par isolado. O resultado é a **matriz de correlação**: simétrica (a correlação da área com o aluguel é a mesma do aluguel com a área) e com 1 na diagonal (toda variável tem correlação perfeita consigo mesma).
 
 ```{python}
 #| label: matriz
-telecom.corr().round(3).map(lambda v: num(v, 3))
+matriz = alugueis[COLUNAS].corr()
+matriz.round(3).map(lambda v: num(v, 3))
 ```
 
-::: {.exemplo}
-A maior correlação do grupo é entre T e VZ: `{python} num(telecom.corr().loc['T', 'VZ'], 3)`. Não é coincidência: AT&T e Verizon são as duas maiores operadoras de telecomunicações dos Estados Unidos, e seus retornos diários respondem aos mesmos choques de mercado: taxa de juros, regulação do setor, expectativa de crescimento da economia. Empresas menores e mais heterogêneas do grupo, como LVLT, têm correlação bem mais baixa com as demais (0,242 a 0,287): compartilham menos desses choques comuns.
-:::
+Duas células dessa tabela deveriam incomodar, e cada uma por um motivo oposto.
+
+A maior correlação do quadro é entre `aluguel` e `seguro_incendio`, `{python} num(matriz.loc["aluguel", "seguro_incendio"], 3)`, praticamente 1. E a menor entre as que deveriam andar juntas é `area_m2` com `aluguel`: `{python} num(matriz.loc["area_m2", "aluguel"], 3)`, quase nada, como se o tamanho do imóvel não tivesse relação com o preço. Nenhuma das duas é o que parece, e as duas próximas subseções desmontam uma de cada vez.
+
+## Quando r é alto demais para ser interessante
+
+O seguro contra incêndio de um contrato de locação é calculado a partir do valor do aluguel, por uma fórmula da própria imobiliária, e não por uma medição independente do imóvel. O dado deixa isso à vista quando se olha a razão entre as duas colunas:
 
 ```{python}
-#| label: fig-scatter
-#| fig-cap: "Retornos diários de AT&T (T) contra Verizon (VZ). A nuvem é alongada na diagonal: o sinal visual de correlação positiva."
-#| fig-alt: "Gráfico de dispersão do retorno diário da AT&T no eixo horizontal contra o da Verizon no vertical, com linhas de referência no zero. A nuvem de pontos se alonga na diagonal, de baixo à esquerda para cima à direita, indicando correlação positiva."
-fig, ax = plt.subplots(figsize=(5, 5))
-ax.scatter(telecom["T"], telecom["VZ"], alpha=0.5, s=20, color="#2c7fb8")
-ax.axhline(0, color="grey", linewidth=0.8)
-ax.axvline(0, color="grey", linewidth=0.8)
-ax.set_xlabel("Retorno diário da AT&T (T)")
-ax.set_ylabel("Retorno diário da Verizon (VZ)")
+#| label: razao-seguro
+razao_seguro = 100 * alugueis["seguro_incendio"] / alugueis["aluguel"]
+
+print(f"seguro como % do aluguel: mediana {num(razao_seguro.median(), 2)}%, "
+      f"quartis {num(razao_seguro.quantile(0.25), 2)}% e {num(razao_seguro.quantile(0.75), 2)}%")
+```
+
+Metade dos contratos cobra entre `{python} num(razao_seguro.quantile(0.25), 2)`% e `{python} num(razao_seguro.quantile(0.75), 2)`% do aluguel, o que descreve uma taxa fixada em contrato. Uma correlação de `{python} num(matriz.loc["aluguel", "seguro_incendio"], 3)` entre as duas colunas não descobre nada sobre o mercado imobiliário; ela confirma que a conta foi feita como estava previsto no contrato. O coeficiente nem chega a 1 exato porque o valor é arredondado para reais inteiros e a taxa varia um pouco de contrato para contrato.
+
+::: {.conceito}
+Correlação perto de 1 entre duas colunas costuma ser um sinal de alerta antes de ser uma descoberta. As causas mais comuns são banais: uma coluna foi calculada a partir da outra, as duas medem a mesma coisa em unidades diferentes, ou as duas vêm da mesma fonte e carregam o mesmo erro. Vale conferir a origem de cada variável antes de comemorar.
+:::
+
+## Quando um único ponto destrói o r
+
+O caso da área é o oposto: a correlação é baixa demais para ser verdade. O gráfico de dispersão, que ainda não havia aparecido neste capítulo, resolve o problema em um segundo.
+
+```{python}
+#| label: fig-scatter-bruto
+#| fig-cap: "Área construída contra aluguel, com os 10.692 anúncios. Um único imóvel de 46.335 m² espreme todo o resto contra o eixo vertical."
+#| fig-alt: "Gráfico de dispersão de área em metros quadrados no eixo horizontal contra aluguel mensal no vertical, com todos os anúncios. Quase todos os pontos formam uma faixa colada ao eixo vertical, e três pontos isolados se afastam muito para a direita, um deles perto de 46 mil metros quadrados."
+fig, ax = plt.subplots(figsize=(6, 4.5))
+ax.scatter(alugueis["area_m2"], alugueis["aluguel"], alpha=0.4, s=12, color="#2c7fb8")
+ax.set_xlabel("Área (m²)")
+ax.set_ylabel("Aluguel mensal (R$)")
 plt.tight_layout()
 plt.show()
 ```
 
-O gráfico de dispersão é a contrapartida visual do número: a nuvem de pontos é alongada na diagonal, subindo da esquerda para a direita. Dias em que T sobe tendem a ser dias em que VZ também sobe. $r = 0{,}678$ é essa mesma informação, resumida em um único número.
+O gráfico é quase vazio. Há um anúncio com `{python} num(alugueis["area_m2"].max(), 0)` m², cerca de quatro quarteirões de área construída, e a régua horizontal precisa ir até lá. Os outros dez mil e poucos imóveis viram uma mancha estreita grudada no eixo.
+
+```{python}
+#| label: outliers
+r_total = alugueis["area_m2"].corr(alugueis["aluguel"])
+
+sem_o_maior = alugueis[alugueis["area_m2"] < alugueis["area_m2"].max()]
+r_sem_um = sem_o_maior["area_m2"].corr(sem_o_maior["aluguel"])
+
+comum = alugueis[(alugueis["area_m2"] < 400) & (alugueis["aluguel"] < 15000)]
+r_comum = comum["area_m2"].corr(comum["aluguel"])
+
+print(f"todos os {len(alugueis)} anúncios      : r = {r_total:.3f}")
+print(f"sem o maior imóvel ({len(sem_o_maior)}) : r = {r_sem_um:.3f}")
+print(f"área < 400 m² e aluguel < 15 mil ({len(comum)}): r = {r_comum:.3f}")
+```
+
+Retirar **um** anúncio entre 10.692 leva a correlação de `{python} num(r_total, 3)` para `{python} num(r_sem_um, 3)`. Restringir a análise aos imóveis de área e preço comuns, o que descarta `{python} num(len(alugueis) - len(comum), 0)` anúncios no total, leva a `{python} num(r_comum, 3)`.
+
+Vale entender **por onde** esse único ponto age, porque não é pelo caminho que a intuição sugere. O imóvel de 46.335 m² não está do lado contrário da relação, e a contribuição dele para o numerador da fórmula é até positiva. O estrago está no denominador: sozinho, ele leva o desvio padrão da área de `{python} num(sem_o_maior["area_m2"].std(), 1)` m² para `{python} num(alugueis["area_m2"].std(), 1)` m². Como $r$ divide pela dispersão das duas variáveis, inflar $s_x$ encolhe o coeficiente, mesmo que o ponto "concorde" com a tendência geral.
+
+```{python}
+#| label: fig-scatter
+#| fig-cap: "Os mesmos dados, restritos a área abaixo de 400 m² e aluguel abaixo de R$ 15 mil. A nuvem alongada na diagonal é o sinal visual da correlação positiva."
+#| fig-alt: "Gráfico de dispersão de área em metros quadrados contra aluguel mensal, restrito aos imóveis comuns. A nuvem de pontos sobe da esquerda para a direita, densa perto da origem e mais esparsa nas áreas maiores."
+fig, ax = plt.subplots(figsize=(6, 4.5))
+ax.scatter(comum["area_m2"], comum["aluguel"], alpha=0.25, s=12, color="#2c7fb8")
+ax.set_xlabel("Área (m²)")
+ax.set_ylabel("Aluguel mensal (R$)")
+plt.tight_layout()
+plt.show()
+```
+
+Agora a nuvem de pontos é alongada na diagonal, subindo da esquerda para a direita: imóveis maiores custam mais. É a contrapartida visual de $r = `{python} num(r_comum, 3)`$, a mesma informação resumida num único número.
+
+O condomínio conta a mesma história, de forma ainda mais crua. Na matriz, a correlação dele com o aluguel é `{python} num(matriz.loc["condominio", "aluguel"], 3)`, praticamente zero, embora seja óbvio que prédio caro costuma ter condomínio caro. A coluna tem dois problemas somados: `{python} num((alugueis["condominio"] == 0).sum(), 0)` imóveis com condomínio zero, que são casas na maior parte (87% deles têm `andar` igual a `"-"`), e uma cauda que vai até R$ 1.117.000, valor que aparece em dois anúncios.
+
+```{python}
+#| label: condominio
+sem_zeros = alugueis[alugueis["condominio"] > 0]
+
+print(f"todos os anúncios          : r = {alugueis['condominio'].corr(alugueis['aluguel']):.3f}")
+print(f"sem os de condomínio zero  : r = {sem_zeros['condominio'].corr(sem_zeros['aluguel']):.3f}")
+
+for teto in (200_000, 50_000, 10_000):
+    faixa = sem_zeros[sem_zeros["condominio"] < teto]
+    print(f"  e abaixo de R$ {teto:>7}  : r = {faixa['condominio'].corr(faixa['aluguel']):.3f}"
+          f"  ({len(sem_zeros) - len(faixa)} anúncios a menos)")
+```
+
+Tirar os zeros quase não mexe no coeficiente. O que o move é a cauda, e ela não se resolve removendo um ponto: são onze anúncios acima de R$ 10 mil de condomínio, e cada corte sucessivo ainda muda o resultado. É o aviso da seção 1.4 aparecendo de novo, agora numa correlação: outlier raramente é um só.
 
 ## Três armadilhas
 
 ::: {.conceito}
 **As três armadilhas da correlação:**
 
-1. **Correlação não implica causalidade.** T e VZ sobem e descem juntas porque respondem aos mesmos choques de mercado (uma causa comum), não porque uma "causa" a outra.
-2. **O coeficiente é sensível a outliers.** Um único ponto extremo, longe da nuvem principal, pode criar uma correlação artificial ou mascarar uma correlação real, dependendo de onde ele cai.
+1. **Correlação não implica causalidade.** O aluguel e o seguro contra incêndio andam quase colados porque um é calculado a partir do outro. Fora esse caso, a explicação mais comum é uma causa comum agindo sobre as duas variáveis, e não uma causando a outra.
+2. **O coeficiente é sensível a outliers.** Um único anúncio de `{python} num(alugueis["area_m2"].max(), 0)` m² derrubou a correlação entre área e aluguel de `{python} num(r_sem_um, 3)` para `{python} num(r_total, 3)`.
 3. **Ele mede apenas relação linear.** Duas variáveis podem ter uma dependência determinística forte e correlação de Pearson igual a zero.
 :::
 
-A terceira armadilha é a mais contraintuitiva das três, e vale prová-la em vez de só declará-la.
+As duas primeiras acabaram de aparecer no dado. A terceira é a mais contraintuitiva, e vale prová-la em vez de só declará-la.
 
 ```{python}
 #| label: nao-linear
@@ -118,13 +163,21 @@ $y = x^2$ é o exemplo mais determinístico que existe: conhecendo $x$, você sa
 
 ## Resumo
 
-| Par | Correlação (r) |
-|---|---|
-| T × VZ | `{python} num(telecom.corr().loc['T', 'VZ'], 3)` |
-| T × CTL | `{python} num(telecom.corr().loc['T', 'CTL'], 3)` |
-| T × FTR | `{python} num(telecom.corr().loc['T', 'FTR'], 3)` |
-| T × LVLT | `{python} num(telecom.corr().loc['T', 'LVLT'], 3)` |
-| CTL × FTR | `{python} num(telecom.corr().loc['CTL', 'FTR'], 3)` |
+```{python}
+#| label: matriz-comum
+#| include: false
+matriz_comum = comum[COLUNAS].corr()
+```
+
+| Par | Correlação (r) | Base |
+|---|---|---|
+| área × aluguel | `{python} num(matriz_comum.loc['area_m2', 'aluguel'], 3)` | imóveis comuns |
+| banheiros × aluguel | `{python} num(matriz_comum.loc['banheiros', 'aluguel'], 3)` | imóveis comuns |
+| quartos × banheiros | `{python} num(matriz_comum.loc['quartos', 'banheiros'], 3)` | imóveis comuns |
+| área × aluguel | `{python} num(matriz.loc['area_m2', 'aluguel'], 3)` | todos os anúncios |
+| aluguel × seguro incêndio | `{python} num(matriz.loc['aluguel', 'seguro_incendio'], 3)` | todos os anúncios |
+
+As duas últimas linhas são as que ensinam mais: a mesma dupla área e aluguel muda de `{python} num(matriz.loc['area_m2', 'aluguel'], 3)` para `{python} num(matriz_comum.loc['area_m2', 'aluguel'], 3)` conforme os extremos entram ou saem da conta, e o par de correlação mais alta do dataset é justamente aquele em que uma coluna foi calculada da outra.
 
 ::: {.conceito}
 **Regra prática:** correlação alta é um convite a investigar, não uma conclusão. Antes de interpretar um $r$, olhe o gráfico de dispersão: ele revela outliers que o número esconde e formas não lineares que o número não enxerga.
@@ -132,15 +185,27 @@ $y = x^2$ é o exemplo mais determinístico que existe: conhecendo $x$, você sa
 
 ## Exercícios
 
-**1.** A correlação entre T e VZ é 0,678. Isso significa que o preço da AT&T causa o preço da Verizon?
+**1.** A correlação entre `aluguel` e `seguro_incendio` é 0,987, a maior do dataset. Por que ela não é uma descoberta sobre o mercado imobiliário?
 
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
-Não. As duas são grandes operadoras de telecomunicações expostas aos mesmos fatores: taxa de juros, regulação do setor, ciclo econômico. A correlação vem de uma **causa comum**, não de uma causar a outra. Este é o erro mais frequente na leitura de correlações.
+Porque o seguro contra incêndio é **calculado a partir do aluguel**, por uma fórmula fixada no contrato: cerca de 1,3% dele, como a razão entre as duas colunas mostra. A segunda coluna é uma função da primeira, e a correlação alta estava garantida antes de qualquer dado ser coletado. Descobrir que $r$ é quase 1 aqui equivale a descobrir que a aritmética da imobiliária funciona.
+
+O mesmo cuidado vale sempre que uma coluna de um dataset derive de outra, o que é comum em dados de sistema: valor com imposto e valor sem imposto, tempo total e soma dos tempos parciais, idade e ano de nascimento.
 :::
 
-**2.** O código mostrou que a correlação entre `x` e `x²` é zero, embora `y` seja completamente determinado por `x`. Explique.
+**2.** A correlação entre área e aluguel é 0,181 com todos os anúncios e 0,654 quando se restringe a imóveis abaixo de 400 m² e R$ 15 mil. Qual dos dois números você reportaria, e o que precisa dizer junto?
+
+::: {.callout-tip collapse="true"}
+## Resposta
+
+O segundo, dizendo **exatamente** qual recorte foi aplicado e quantos anúncios ele descartou (705 de 10.692, cerca de 6,6%). Reportar 0,654 sem essa frase é esconder uma decisão que mais que triplicou o coeficiente.
+
+O 0,181 também descreve fielmente um conjunto, só que um conjunto que inclui um imóvel de 46.335 m². O ponto é que esse conjunto mistura dois fenômenos diferentes, o mercado de locação urbano e um punhado de registros atípicos ou errados, e um único coeficiente não consegue descrever os dois ao mesmo tempo. Quem lê precisa saber qual dos dois está sendo descrito.
+:::
+
+**3.** O código mostrou que a correlação entre `x` e `x²` é zero, embora `y` seja completamente determinado por `x`. Explique.
 
 ::: {.callout-tip collapse="true"}
 ## Resposta

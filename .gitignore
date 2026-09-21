@@ -52,3 +52,6 @@ livros/
 
 # Decisões respondidas pelo professor (documento de trabalho, local)
 docs/decisoes-*.md
+
+# baixado pelo notebook quando ele roda local (o original fica na raiz)
+notebooks/formato.py

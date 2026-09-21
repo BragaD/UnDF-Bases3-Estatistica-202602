@@ -23,7 +23,9 @@ devolve HTML — sem o arquivo bruto, o pipeline não seria reproduzível.
 ## `alugueis.csv` — aluguéis em 5 cidades brasileiras (traduzido por nós)
 
 10.692 imóveis para alugar em São Paulo, Rio de Janeiro, Belo Horizonte, Porto
-Alegre e Campinas. Usado na atividade **"Agora é com você"** da seção 1.3.
+Alegre e Campinas. É o dataset que atravessa o capítulo: a atividade **"Agora é
+com você"** das seções 1.3 a 1.5, os dados categóricos e binários da 1.6, a
+matriz de correlação da 1.7 e os quatro pares de tipos da 1.8.
 
 Fonte: *Brazilian houses to rent* (v2), publicado no Kaggle por rubenssjr sob
 **CC0** (domínio público). O CSV bruto está versionado em
@@ -58,23 +60,15 @@ Os arquivos deste diretório vêm do repositório oficial do livro-texto:
 
 Os nomes originais foram preservados para que o código do livro rode sem adaptação.
 
-Estão aqui os 13 conjuntos que o livro-texto usa em seus **capítulos 1–4**. Os demais
-(`loan_data.csv.gz`, `loan200.csv`, `loan3000.csv`, `full_train_set.csv.gz`,
-`housetasks.csv`) pertencem aos capítulos 5–7 do Bruce e não foram incluídos.
-
-**Em uso hoje** — as seções abaixo são as do *nosso* material, não as do Bruce:
-
-| Arquivo | Usado em |
-|---|---|
-| `dfw_airline.csv` | 1.6 Dados Binários e Categóricos |
-| `sp500_data.csv.gz` | 1.7 Correlação |
-| `sp500_sectors.csv` | 1.7 Correlação |
-| `kc_tax.csv.gz` | 1.8 Duas ou Mais Variáveis |
-| `lc_loans.csv` | 1.8 Duas ou Mais Variáveis |
-| `airline_stats.csv` | 1.8 Duas ou Mais Variáveis |
+**Nenhum conjunto do livro-texto está em uso hoje.** Em 20/09/2026 as seções 1.3, 1.6, 1.7 e
+1.8 passaram a usar `alugueis.csv` e `estados.csv`, dado brasileiro, e seis arquivos saíram do
+repositório: `dfw_airline.csv` e `airline_stats.csv` (causas de atraso e atrasos por companhia
+aérea), `sp500_data.csv.gz` e `sp500_sectors.csv` (retornos de ações), `kc_tax.csv.gz`
+(imóveis de King County) e `lc_loans.csv` (empréstimos do LendingClub). Eles continuam no
+histórico do git e no repositório do livro-texto.
 
 **Sem uso no momento.** Os capítulos que os consumiam saíram do site enquanto o material é
-reconstruído. Os arquivos ficam aqui de propósito — a numeração abaixo é a do **Bruce**, para
+reconstruído. Os arquivos ficam aqui de propósito, e a numeração abaixo é a do **Bruce**, para
 achar a seção de origem quando o conteúdo voltar.
 
 | Arquivo | Seção do Bruce |

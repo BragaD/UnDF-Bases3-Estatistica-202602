@@ -62,7 +62,7 @@ Escopo completo, por aula, no `CLAUDE.md`. Um capítulo do livro por capítulo d
 | Aplicação | Dataset | Seções | Para quê |
 |---|---|---|---|
 | Estados brasileiros | `dados/estados.csv` (n = 27) | 1.3–1.5 | mediana é observação real; SP é o outlier; média ponderada < simples |
-| Aluguéis (BR) | gerado por `scripts/gerar-dados-alugueis.py` | "Agora é com você" da 1.3–1.5 | exercício no Colab |
+| Aluguéis (BR) | `dados/alugueis.csv`, gerado por `scripts/gerar-dados-alugueis.py` (n = 10.692) | "Agora é com você" da 1.3–1.5; 1.3 (moda), 1.6, 1.7 e 1.8 inteiras | `cidade` (5 níveis) e as binárias `mobiliado`/`aceita_animal` na 1.6; matriz de correlação na 1.7; os três pares de tipos na 1.8. Recorte padrão das 1.7 e 1.8: `area_m2 < 400` e `aluguel < 15000` (9.987 imóveis, 705 descartados) |
 | Estados brasileiros (sorteio) | `dados/estados.csv` | 2.1, 2.2 (A grande × B taxa acima da mediana: interseção = BA, união = 18) | $P$ equiprovável = frequência relativa; 13/27 acima da mediana; sortear UF × sortear pessoa (22,2% × 57,6%) |
 | Builds de CI (passa/falha) | inline | 2.1, Cap. 3 | tradução do "bom/defeituoso" do Bussab 5.1 (Ex. 5.4) para software; vira binomial no Cap. 3 |
 | PINs, suíte de testes, auditoria de PRs, Mega-Sena | inline | 2.3 | princípio multiplicativo; permutação × combinação; Ex. 5.8 (20 PRs, 5 com bug, 4 sorteados); Ex. 5.9 com preços da Caixa de 18/09/2026 (R\$ 6,00 a aposta simples, 6 a 20 números) |
@@ -82,6 +82,7 @@ Escopo completo, por aula, no `CLAUDE.md`. Um capítulo do livro por capítulo d
 | Saída de numpy 2 com `np.float64(...)` | poluição nas tuplas de saída | `np.set_printoptions(legacy="1.25")` no setup de cada seção e no notebook |
 | PNG do matplotlib no modo escuro | fundo branco destoa do tema | o `styles.css` aplica `filter: invert(0.87) hue-rotate(180deg)` em `.quarto-dark .cell-output-display img`; não gerar figuras com fundo escuro próprio; figura com escala de cor sequencial (hexbin, heatmap) vai dentro de `::: {.sem-inversao}` para não inverter o sentido "mais escuro = mais" |
 | Numeração de figuras | Quarto numerava por arquivo ("Figura 16.1") | `crossref: chapters: false` no `_quarto.yml`: numeração por página |
+| Hexbin com escala de cor linear sobre dado assimétrico | a célula mais cheia (300+ imóveis) esmaga as outras: sai um ponto escuro num campo branco, e a diagonal que a prosa afirma não aparece | `bins="log"` no hexbin (a 1.8 usa e explica), mantendo a figura dentro de `::: {.sem-inversao}` |
 | Graphviz `{dot}` no modo escuro | texto e setas pretos sobre fundo escuro; SVG com 672 px inline | `bgcolor="transparent"` no dot; o `styles.css` tem `.quarto-dark svg g.graph` e `max-width: 100% !important` |
 | Tabela de Resumo com fórmulas | estoura a página no celular | `::: {.table-responsive}` em volta (padrão nos Caps. 2–4) |
 | `set` de strings em Python sai em ordem diferente a cada processo (hash aleatório) | a saída do chunk muda a cada render e o `freeze` perde o sentido | exibir com `sorted(...)` |

@@ -122,7 +122,7 @@ Declarar o tipo de uma coluna é a mesma decisão que se toma ao escolher entre 
 Porque a distância entre 1 e 2 não é necessariamente igual à distância entre 4 e 5: a escala é ordinal, não intervalar. Calcular a média dessas notas pressupõe que os intervalos entre categorias são iguais, o que raramente é uma suposição defensável para percepção humana. A mediana ou a moda descrevem o valor típico sem exigir essa suposição.
 :::
 
-**3.** O CEP (`ZipCode`) do conjunto `kc_tax` é lido como número pelo pandas. É numérico?
+**3.** Num cadastro de imóveis, a coluna de CEP é lida como número pelo pandas. É numérico?
 
 ::: {.callout-tip collapse="true"}
 ## Resposta

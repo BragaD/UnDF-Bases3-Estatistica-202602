@@ -89,7 +89,7 @@ A mediana é `{python} num(mediana, 0)` e a média é `{python} num(media, 0)`, 
 
 ## Moda
 
-A **moda** é o valor mais frequente de uma variável. Ao contrário da média e da mediana, ela não exige soma nem ordem entre os valores (só contagem), e é por isso a única medida de localização que também se aplica a dados **categóricos**.
+A **moda** é o valor mais frequente de uma variável. Ao contrário da média e da mediana, ela não exige soma nem ordem entre os valores (só contagem), e é, por isso, a única medida de localização que também se aplica a dados **categóricos nominais**.
 
 ::: {.callout-note}
 A ideia da moda como a medida "universal" (a que sobrevive mesmo quando não há soma nem ordem entre os valores) vem de @weed.
@@ -104,17 +104,16 @@ print(f"Valores únicos de população: {estado['Populacao'].nunique()} de {len(
 
 Vinte e sete valores únicos em vinte e sete estados: nenhuma população se repete, então nenhum valor é "mais frequente" que outro. Todos empatam em frequência 1. Isso não é uma falha da moda; é o sintoma de que ela é a ferramenta errada para esta variável. Dado contínuo com muitas casas decimais raramente repete um valor exato, e é justamente aí que média e mediana fazem falta.
 
-É com dado **categórico** que a moda vira a medida certa, porque, para ele, média e mediana nem chegam a existir. As causas de atraso de voo do aeroporto de Dallas/Fort Worth, o mesmo dataset da seção 1.6, não têm ordem nem soma entre si: não há "média" entre `Clima` e `Seguranca`. Mas há uma categoria que ocorre mais que as outras:
+É com dado **categórico** que a moda vira a medida certa, porque, para ele, média e mediana nem chegam a existir. A cidade de um anúncio de aluguel, coluna do dataset que a seção 1.6 explora, não tem ordem nem soma: não há "média" entre Campinas e Porto Alegre. Mas há uma categoria que ocorre mais que as outras:
 
 ```{python}
 #| label: moda-categorica
-dfw = pd.read_csv("dados/dfw_airline.csv").rename(columns={
-    "Carrier": "Companhia", "ATC": "ControleAereo", "Weather": "Clima",
-    "Security": "Seguranca", "Inbound": "VooAnterior"})
-print(f"Causa modal de atraso: {dfw.iloc[0].idxmax()}")
+alugueis_cidades = pd.read_csv("dados/alugueis.csv")["cidade"]
+print(f"Cidade modal: {alugueis_cidades.mode()[0]}")
+print(alugueis_cidades.value_counts())
 ```
 
-A moda é `VooAnterior`: a maior fonte de atraso em Dallas/Fort Worth não é o clima nem a companhia aérea, é um voo anterior da mesma aeronave chegando atrasado e empurrando o atraso adiante. A seção 1.6 retoma este mesmo dataset e mostra por que, para dado categórico nominal, a moda é a única medida de localização que sobra.
+A moda é São Paulo, com mais anúncios que as outras quatro cidades somadas. A seção 1.6 retoma essas colunas e mostra por que, para dado categórico nominal, a moda é a única medida de localização que sobra.
 
 ## Estimativas ponderadas
 
@@ -388,14 +387,14 @@ A média é sensível a extremos e a mediana não. Um ganho concentrado no topo 
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
-A moda é a medida certa para dado **categórico** (nominal ou ordinal), porque média e mediana exigem somar ou ordenar valores, e "somar" ou "ordenar" categorias como `Clima` e `Seguranca` não significa nada. A moda só precisa contar qual categoria aparece mais vezes, uma operação que continua fazendo sentido mesmo sem nenhuma noção de distância entre as categorias. É o caso das causas de atraso de voo da seção 1.6: `VooAnterior` é a moda, e não há como calcular uma "média" ou "mediana" de causa de atraso para comparar com ela.
+A moda é a medida certa para dado **categórico**, porque média e mediana exigem somar ou ordenar valores, e "somar" ou "ordenar" categorias como São Paulo e Campinas não significa nada. A moda só precisa contar qual categoria aparece mais vezes, uma operação que continua fazendo sentido mesmo sem nenhuma noção de distância entre as categorias. É o caso da cidade do anúncio, que a seção 1.6 explora: São Paulo é a moda, e não há como calcular uma "média" ou "mediana" de cidade para comparar com ela. Num categórico **ordinal**, em que existe ordem mas não distância, a mediana também serve, como a seção 1.1 observou para notas de satisfação.
 :::
 
 ## Agora é com você
 
 Até aqui, os dados vieram prontos: um CSV limpo, com 27 linhas, e a gente já sabia o que cada coluna era. Na prática, o primeiro contato com um conjunto de dados é diferente: você recebe um arquivo, abre, e precisa **descobrir** o que tem dentro antes de calcular qualquer coisa. Esta atividade é isso.
 
-O conjunto: **10.692 imóveis para alugar** em cinco cidades brasileiras (São Paulo, Rio de Janeiro, Belo Horizonte, Porto Alegre e Campinas), com área, número de cômodos, andar, se aceita animal, se é mobiliado, e os valores de condomínio, aluguel, IPTU e seguro contra incêndio. Vem do dataset *Brazilian houses to rent*, publicado em domínio público (CC0); traduzimos os nomes das colunas, e **só** isso. O que estava estranho no original continua estranho, de propósito.
+O conjunto: **10.692 imóveis para alugar** em cinco cidades brasileiras (São Paulo, Rio de Janeiro, Belo Horizonte, Porto Alegre e Campinas), com área, quartos, banheiros, vagas de garagem, andar, se aceita animal, se é mobiliado, e os valores de condomínio, aluguel, IPTU e seguro contra incêndio. Vem do dataset *Brazilian houses to rent*, publicado em domínio público (CC0); traduzimos os nomes das colunas, e **só** isso. O que estava estranho no original continua estranho, de propósito.
 
 Abra o [notebook do capítulo no Colab](https://colab.research.google.com/github/BragaD/UnDF-Bases3-Estatistica-202602/blob/main/notebooks/capitulo-01.ipynb) (ou qualquer ambiente com pandas) e carregue o arquivo pela URL:
 

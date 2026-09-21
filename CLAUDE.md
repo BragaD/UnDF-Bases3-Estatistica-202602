@@ -111,7 +111,7 @@ estado = pd.read_csv("dados/estados.csv")   # ✓
 estado = pd.read_csv("../../dados/estados.csv")   # ✗ nunca
 ```
 
-Os 13 CSVs do livro-texto em `dados/` mantêm os nomes originais do repositório do livro, para que o código do livro-texto rode sem adaptação. `dados/README.md` mapeia cada arquivo à seção que o usa.
+**Todo o Cap. 1 roda hoje em dado brasileiro**, `dados/estados.csv` e `dados/alugueis.csv`. Em 20/09/2026 as seções 1.3, 1.6, 1.7 e 1.8 trocaram os datasets do livro-texto pelos aluguéis, e seis arquivos saíram de `dados/`: `dfw_airline.csv`, `airline_stats.csv`, `sp500_data.csv.gz`, `sp500_sectors.csv`, `kc_tax.csv.gz` e `lc_loans.csv`. Eles estão no histórico do git e no repositório do livro-texto; **não os traga de volta** sem decisão do professor. Os CSVs do livro-texto que sobraram em `dados/` não são usados por nenhuma seção, e mantêm os nomes originais para que o código do livro rode sem adaptação quando algum deles voltar. `dados/README.md` mapeia cada arquivo à seção que o usa.
 
 **O dado dos estados é brasileiro.** `dados/estados.csv` traz as 27 unidades federativas com população (IBGE, 2024) e taxa de homicídios (Atlas da Violência, 2024). Colunas em português: `Estado`, `Populacao`, `Taxa.Homicidios`, `Sigla`.
 

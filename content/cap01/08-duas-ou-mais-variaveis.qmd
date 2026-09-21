@@ -20,33 +20,37 @@ from formato import num
 plt.rcParams["figure.figsize"] = (7, 4)
 ```
 
-A seção anterior resolveu um problema específico: dadas duas variáveis **numéricas**, elas se movem juntas? A resposta coube em um único número (o r de Pearson) e num gráfico de dispersão que mostrava a mesma informação para o olho. Essa dupla funciona bem enquanto duas condições se mantêm: as duas variáveis precisam ser numéricas, e precisa haver poucos pontos o bastante para uma nuvem de pontos ser legível.
+A seção anterior resolveu um problema específico: dadas duas variáveis **numéricas**, elas se movem juntas? A resposta coube em um único número (o r de Pearson) e num gráfico de dispersão que mostrava a mesma informação para o olho. Essa dupla funciona bem enquanto duas condições se mantêm: as duas variáveis precisam ser numéricas, e o número de pontos precisa ser pequeno o bastante para a nuvem continuar legível.
 
 Nenhuma das duas condições é garantida, e esta seção lida com o que sobra quando elas faltam. E se as duas variáveis forem **categóricas**, sem "subir" nem "descer" para medir? E se uma for categórica e a outra numérica, que ferramenta substitui o r? E se houver tantos pontos que a própria nuvem de pontos deixe de funcionar? A seção segue esses três pares de tipos, na ordem das subseções a seguir: numérico × numérico, categórico × categórico, categórico × numérico. No fim, olha para mais de duas variáveis ao mesmo tempo.
 
-## Numérico × numérico: quando o gráfico de dispersão não basta
-
-Vamos usar avaliações fiscais de imóveis do condado de King, em Washington: área construída e valor venal.
+Continuamos com os anúncios de aluguel das seções anteriores, no mesmo recorte de imóveis comuns que a seção 1.7 fixou.
 
 ```{python}
-#| label: carrega-kc
-kc = pd.read_csv("dados/kc_tax.csv.gz").rename(columns={
-    "TaxAssessedValue": "ValorVenal",
-    "SqFtTotLiving": "AreaConstruida",
-    "ZipCode": "CEP",
-})
-print(f"registros brutos: {num(len(kc), 0)}")
-
-kc0 = kc.loc[(kc.ValorVenal < 750000) &
-             (kc.AreaConstruida > 100) &
-             (kc.AreaConstruida < 3500), :]
-print(f"após filtrar extremos: {num(len(kc0), 0)}")
+#| label: carrega
+alugueis = pd.read_csv("dados/alugueis.csv")
+comum = alugueis[(alugueis["area_m2"] < 400) & (alugueis["aluguel"] < 15000)]
+print(f"anúncios no recorte: {num(len(comum), 0)}")
 ```
 
-O filtro derruba os registros de 498.249 para 432.693. O motivo é de visualização, e não estatístico: os poucos imóveis de valor extremo (acima de US\$ 750 mil) ou de área implausível (menor que 100 pés² ou maior que 3.500) esticariam os eixos do gráfico até comprimir o grosso dos dados, que é a parte que interessa, num canto minúsculo da tela.
+## Numérico × numérico: quando o gráfico de dispersão não basta
+
+O gráfico de dispersão da seção 1.7 desenhava os mesmos `{python} num(len(comum), 0)` imóveis com transparência, e por isso funcionava. Veja o que acontece sem esse cuidado, com cada ponto opaco, como sai por padrão.
+
+```{python}
+#| label: fig-saturado
+#| fig-cap: "Os mesmos imóveis, com pontos opacos. O miolo da nuvem vira uma mancha sólida."
+#| fig-alt: "Gráfico de dispersão de área contra aluguel com pontos opacos. A região de áreas pequenas e aluguéis baixos forma uma mancha escura contínua, sem que se distinga quantos imóveis há em cada parte dela."
+fig, ax = plt.subplots(figsize=(6, 4.5))
+ax.scatter(comum["area_m2"], comum["aluguel"], s=12, color="#2c7fb8")
+ax.set_xlabel("Área (m²)")
+ax.set_ylabel("Aluguel mensal (R$)")
+plt.tight_layout()
+plt.show()
+```
 
 ::: {.conceito}
-432.693 pontos ainda é um problema, mesmo depois do filtro. Um gráfico de dispersão como o da seção anterior (cada observação, um ponto) funcionava com 754 dias de negociação. Com quinhentas vezes mais pontos, a maior parte do plano acaba coberta várias vezes, os pontos se empilham uns sobre os outros, e a região mais densa vira uma mancha sólida e escura. Justamente onde mais importaria distinguir "muito denso" de "pouco denso", o gráfico de dispersão não distingue nada: a informação de **quantos** pontos caem ali já se perdeu antes de chegar à tela.
+Dez mil pontos já bastam para o problema aparecer. Onde o dado é denso, os pontos se empilham uns sobre os outros e a região vira uma mancha uniforme: dá para ver que ali há "muitos" imóveis, mas não se são dois mil ou seis mil, nem onde exatamente eles se concentram dentro da mancha. A informação de **quantos** pontos caem em cada lugar se perde antes de chegar à tela, e é justamente ela que interessa no miolo da distribuição.
 :::
 
 Duas ferramentas resolvem isso sem descartar pontos: o **hexbin**, que divide o plano em células hexagonais e colore cada uma pela contagem, e o **contorno de densidade** (KDE), que estima uma superfície contínua de densidade e a desenha como curvas de nível.
@@ -54,107 +58,81 @@ Duas ferramentas resolvem isso sem descartar pontos: o **hexbin**, que divide o 
 ::: {.sem-inversao}
 ```{python}
 #| label: fig-hexbin
-#| fig-cap: "Valor venal contra área construída, em 432.693 imóveis de King County. Cada hexágono é colorido pela quantidade de imóveis que caem nele."
-#| fig-alt: "Gráfico hexbin de valor venal em dólares no eixo vertical contra área construída em pés quadrados no horizontal, com escala de cor pela contagem de imóveis. As células mais escuras formam um núcleo em área e valor moderados e se alinham numa diagonal ascendente."
+#| fig-cap: "Área contra aluguel nos imóveis comuns. Cada hexágono é colorido pela quantidade de anúncios que caem nele, em escala logarítmica de cor."
+#| fig-alt: "Gráfico hexbin de área no eixo horizontal contra aluguel no vertical, com escala de cor logarítmica pela contagem de anúncios. As células mais escuras formam um núcleo em áreas de até 100 metros quadrados e aluguéis de até 3 mil reais, e a partir dele uma faixa mais clara sobe na diagonal até áreas e aluguéis altos."
 fig, ax = plt.subplots(figsize=(6, 5))
-kc0.plot.hexbin(x="AreaConstruida", y="ValorVenal",
-                gridsize=30, sharex=False, ax=ax)
-ax.set_xlabel("Área construída (pés²)")
-ax.set_ylabel("Valor venal (US$)")
+comum.plot.hexbin(x="area_m2", y="aluguel", gridsize=30, bins="log",
+                  sharex=False, ax=ax)
+ax.set_xlabel("Área (m²)")
+ax.set_ylabel("Aluguel mensal (R$)")
 plt.tight_layout()
 plt.show()
 ```
 :::
 
-O hexbin não desenha um ponto por imóvel: ele conta quantos imóveis caem em cada célula e traduz a contagem em cor. O núcleo mais escuro concentra a imensa maioria dos 432 mil imóveis (área entre 1.000 e 2.000 pés², valor entre US\$ 200 mil e US\$ 400 mil), e a nuvem se afina para as bordas. A relação positiva entre área e valor, que ficaria invisível numa mancha de pontos sobrepostos, aparece como a diagonal ao longo da qual as células mais escuras se alinham.
-
-O KDE bidimensional sobre os 432.693 imóveis é caro: na prática, minutos de espera a cada render. Uma amostra de 10.000 pontos já basta para capturar a forma da densidade, e é isso que o código a seguir faz.
+O hexbin não desenha um ponto por imóvel: ele conta quantos imóveis caem em cada célula e traduz a contagem em cor. O núcleo mais escuro fica nas áreas de até uns 100 m² com aluguel de até uns R$ 3 mil, faixa que sozinha reúne quase metade dos anúncios, e a nuvem se afina para as bordas. A relação positiva entre área e aluguel, que a mancha sólida escondia, aparece como a diagonal ao longo da qual as células se alinham.
 
 ::: {.conceito}
-Esta é a primeira seção do livro com um componente aleatório, e por isso a primeira em que a semente importa de fato. Sem `random_state=42`, cada `quarto render` sortearia 10.000 imóveis diferentes, e o contorno mudaria de forma sutil a cada execução: o gráfico publicado nunca seria o mesmo duas vezes, o cache do `freeze` perderia sentido (ele reexecuta um chunk quando o texto muda, não quando o sorteio decide mudar sozinho), e cada `push` acumularia um diff de ruído no site. É por isso que todo chunk deste livro com gerador aleatório fixa a semente, e é aqui que essa regra encontra seu primeiro caso real.
+O `bins="log"` muda a **cor**, não os dados: a escala passa a ser logarítmica, de modo que a diferença entre 1 e 10 anúncios ocupa o mesmo pedaço da régua de cores que a diferença entre 10 e 100. Sem isso, a célula mais cheia (mais de trezentos imóveis) esmaga todas as outras, e o gráfico vira um pontinho escuro num campo branco, que é o mesmo problema da mancha sólida com outra aparência. O preço é que a cor deixa de ser proporcional à contagem, e comparar dois tons exige olhar a régua ao lado.
 :::
 
 ```{python}
 #| label: fig-kde
-#| fig-cap: "Curvas de nível da mesma relação. O KDE roda sobre uma amostra de 10.000 imóveis, com semente fixa, para o gráfico ser reprodutível."
-#| fig-alt: "Curvas de nível da densidade de valor venal no eixo vertical contra área construída no horizontal. As curvas são concêntricas em torno de um núcleo de área e valor moderados e se estendem ao longo de uma diagonal ascendente."
-amostra = kc0.sample(10000, random_state=42)
-
+#| fig-cap: "Curvas de nível da mesma relação. Cada curva une pontos de densidade igual."
+#| fig-alt: "Curvas de nível da densidade de aluguel no eixo vertical contra área no horizontal. As curvas são concêntricas em torno de um núcleo de áreas pequenas e aluguéis baixos e se estendem ao longo de uma diagonal ascendente."
 fig, ax = plt.subplots(figsize=(6, 5))
-sns.kdeplot(data=amostra, x="AreaConstruida", y="ValorVenal", ax=ax)
-ax.set_xlabel("Área construída (pés²)")
-ax.set_ylabel("Valor venal (US$)")
+sns.kdeplot(data=comum, x="area_m2", y="aluguel", ax=ax,
+            clip=((0, None), (0, None)))
+ax.set_xlabel("Área (m²)")
+ax.set_ylabel("Aluguel mensal (R$)")
 plt.tight_layout()
 plt.show()
 ```
 
-As curvas de nível contam a mesma história do hexbin, só que mais suave: cada curva une pontos de densidade igual, como as isolinhas de um mapa topográfico. O centro concêntrico confirma o núcleo que o hexbin já mostrava, e a densidade cai gradualmente em todas as direções a partir dele, sem os degraus abruptos de célula para célula que o hexbin, por ser discreto, necessariamente tem.
+As curvas de nível contam a mesma história do hexbin, só que mais suave: cada curva une pontos de densidade igual, como as isolinhas de um mapa topográfico. O `clip` existe porque a estimativa de densidade não sabe que área e aluguel não podem ser negativos, e sem ele as curvas vazariam para o lado esquerdo do zero. O centro concêntrico confirma o núcleo que o hexbin já mostrava, e a densidade cai gradualmente em todas as direções a partir dele, sem os degraus abruptos de célula para célula que o hexbin, por ser discreto, necessariamente tem.
 
 ## Categórico × categórico: a tabela de contingência
 
-A pergunta muda de figura quando nenhuma das duas variáveis tem uma ordem numérica para "subir" ou "descer". Não existe correlação entre duas categorias. A ferramenta aqui não é um coeficiente nem uma nuvem de pontos: é uma tabela.
+A pergunta muda de figura quando nenhuma das duas variáveis tem uma ordem numérica para "subir" ou "descer". O r de Pearson não se aplica a duas categorias, porque ele precisa de valores que se somem e se afastem de uma média. A ferramenta aqui não é um coeficiente nem uma nuvem de pontos: é uma tabela.
 
-Vamos usar empréstimos do LendingClub, classificados por nota de risco (`Nota`, de A até G, sendo A a melhor) e por situação atual (`Situacao`).
+Vamos cruzar a cidade do anúncio com o fato de o imóvel vir mobiliado ou não, as duas colunas categóricas da seção 1.6. Aqui voltamos à base completa, e não ao recorte: ele foi definido para conter os extremos de área e de preço, que não têm efeito sobre uma pergunta feita só de categorias.
 
 ```{python}
 #| label: crosstab
-SITUACAO = {
-    "Fully Paid": "Quitado",
-    "Current": "Em dia",
-    "Late": "Atrasado",
-    "Charged Off": "Inadimplente",
-}
-lc = pd.read_csv("dados/lc_loans.csv").rename(columns={"status": "Situacao", "grade": "Nota"})
-lc["Situacao"] = lc["Situacao"].replace(SITUACAO)
-
-contagem = lc.pivot_table(index="Nota", columns="Situacao",
-                          aggfunc=lambda x: len(x), margins=True)
+contagem = pd.crosstab(alugueis["cidade"], alugueis["mobiliado"], margins=True)
 contagem
 ```
 
-São 450.961 empréstimos ao todo (célula `All`/`All`), divididos em quatro situações (`Atrasado`; `Em dia`; `Inadimplente`, com prejuízo assumido; `Quitado`) e sete notas de risco.
+São `{python} num(len(alugueis), 0)` anúncios, distribuídos em cinco cidades e duas respostas possíveis. A linha `All` traz o total de cada coluna, e a coluna `All`, o total de cada cidade.
 
 ::: {.conceito}
-Olhe a coluna `Inadimplente`. A nota C tem 6.023 empréstimos inadimplentes, mais que qualquer outra nota, mais que E, F e G somadas. É tentador ler isso como "C é a nota mais arriscada da carteira". Mas a contagem mistura duas coisas: o quão arriscada é a nota, e o quão grande é a nota. B e C sozinhas concentram mais da metade da carteira (132.370 e 120.875 empréstimos), então é claro que têm mais de tudo, inclusive mais inadimplência. Comparar contagens brutas entre grupos de tamanhos tão diferentes é um erro clássico, e é exatamente o que a tabela de contagem convida a fazer.
+Olhe a coluna `sim`. São Paulo tem `{python} num(contagem.loc["São Paulo", "sim"], 0)` imóveis mobiliados, quase quatro vezes mais que o Rio de Janeiro, que vem em segundo. É tentador ler isso como "São Paulo é a cidade onde mais se aluga mobiliado". Mas a contagem mistura duas coisas: a frequência do imóvel mobiliado e o tamanho da cidade na amostra. São Paulo responde por 55% dos anúncios, então tem mais de tudo, inclusive mais mobiliados. Comparar contagens brutas entre grupos de tamanhos tão diferentes é um erro clássico, e é exatamente o que a tabela de contagem convida a fazer.
 :::
 
 ```{python}
 #| label: crosstab-pct
-prop = contagem.copy().loc["A":"G", :].astype(float)
-situacoes = [c for c in prop.columns if c != "All"]
-prop.loc[:, situacoes] = prop.loc[:, situacoes].div(prop["All"], axis=0)
-prop["All"] = prop["All"] / sum(prop["All"])
-prop.round(3).map(lambda v: num(v, 3))
+prop = 100 * pd.crosstab(alugueis["cidade"], alugueis["mobiliado"], normalize="index")
+prop.round(1).map(lambda v: num(v, 1))
 ```
 
-Dividir cada linha pelo seu próprio total remove o tamanho do grupo da conta e isola o que interessa: a taxa. E aí o padrão que a nota deveria capturar aparece, limpo.
+Dividir cada linha pelo seu próprio total remove o tamanho do grupo da conta e isola o que interessa: a taxa.
 
 ::: {.exemplo}
-A proporção de `Inadimplente` cresce **monotonicamente** de A a G: `{python} num(prop.loc['A', 'Inadimplente']*100, 1)`% em A, subindo sem uma única inversão até `{python} num(prop.loc['G', 'Inadimplente']*100, 1)`% em G. É exatamente o que o rótulo "nota de risco" promete. A tabela de contagem, dominada pelo tamanho de cada grupo, escondia esse padrão em vez de revelá-lo.
+Em proporção, as cinco cidades se separam em dois blocos. São Paulo (`{python} num(prop.loc["São Paulo", "sim"], 1)`%), Rio de Janeiro (`{python} num(prop.loc["Rio de Janeiro", "sim"], 1)`%) e Porto Alegre (`{python} num(prop.loc["Porto Alegre", "sim"], 1)`%) têm cerca de um imóvel mobiliado a cada quatro. Belo Horizonte (`{python} num(prop.loc["Belo Horizonte", "sim"], 1)`%) e Campinas (`{python} num(prop.loc["Campinas", "sim"], 1)`%) ficam na metade disso. A tabela de contagem, dominada pelo tamanho de São Paulo, não deixava esse agrupamento aparecer.
 :::
 
 ## Categórico × numérico: boxplot agrupado e violin plot
 
 Aqui uma variável é categórica e a outra numérica. Nem o r de Pearson se aplica (ele pede duas variáveis numéricas), nem a tabela de contingência (ela pede duas categóricas). A ferramenta natural é comparar a distribuição da variável numérica **dentro de cada categoria**, e o boxplot generaliza bem para isso: uma caixa por categoria, lado a lado.
 
-Vamos usar o percentual diário de voos atrasados por causa atribuível à própria companhia aérea (`pct_atraso_companhia`), por companhia (`Companhia`).
-
 ```{python}
 #| label: fig-boxplot-grupo
-#| fig-cap: "Percentual diário de voos atrasados por causa da companhia, por companhia aérea."
-#| fig-alt: "Boxplots lado a lado do percentual diário de voos atrasados por causa da companhia, um para cada uma das seis companhias aéreas. Alaska tem a caixa mais baixa e American a mediana mais alta, e todas têm muitos outliers acima do bigode superior."
-voos = pd.read_csv("dados/airline_stats.csv").rename(columns={
-    "pct_carrier_delay": "pct_atraso_companhia",
-    "pct_atc_delay": "pct_atraso_controle",
-    "pct_weather_delay": "pct_atraso_clima",
-    "airline": "Companhia",
-})
-
+#| fig-cap: "Aluguel mensal por cidade, nos imóveis comuns."
+#| fig-alt: "Boxplots lado a lado do aluguel mensal para as cinco cidades. São Paulo tem a caixa mais alta e Campinas a mais baixa; todas têm outliers acima do bigode superior."
 fig, ax = plt.subplots(figsize=(7, 5))
-voos.boxplot(by="Companhia", column="pct_atraso_companhia", ax=ax)
+comum.boxplot(by="cidade", column="aluguel", ax=ax)
 ax.set_xlabel("")
-ax.set_ylabel("% diário de voos atrasados")
-ax.set_ylim(0, 50)
+ax.set_ylabel("Aluguel mensal (R$)")
 plt.suptitle("")
 plt.title("")
 plt.xticks(rotation=20)
@@ -162,52 +140,75 @@ plt.tight_layout()
 plt.show()
 ```
 
-São 33.468 dias-companhia, distribuídos entre 6 companhias aéreas. As medianas (a linha dentro de cada caixa) ordenam as companhias de forma nítida: Alaska tem a mediana mais baixa, 3,23% (a melhor do grupo). American tem a mais alta, 8,43% (a pior). No meio, Delta (5,55%), United (6,45%), Southwest (6,96%) e Jet Blue (7,66%) ocupam posições intermediárias, nessa ordem.
+As medianas (a linha dentro de cada caixa) ordenam as cidades de forma nítida: São Paulo tem a mais alta, R$ `{python} num(comum.groupby("cidade")["aluguel"].median()["São Paulo"], 0)`, e Campinas a mais baixa, R$ `{python} num(comum.groupby("cidade")["aluguel"].median()["Campinas"], 0)`. No meio ficam Rio de Janeiro (R$ `{python} num(comum.groupby("cidade")["aluguel"].median()["Rio de Janeiro"], 0)`), Belo Horizonte (R$ `{python} num(comum.groupby("cidade")["aluguel"].median()["Belo Horizonte"], 0)`) e Porto Alegre (R$ `{python} num(comum.groupby("cidade")["aluguel"].median()["Porto Alegre"], 0)`), nessa ordem.
 
 ```{python}
 #| label: fig-violin
 #| fig-cap: "O mesmo dado em violin plot. A largura mostra a densidade, que o boxplot resume em cinco números."
-#| fig-alt: "Violin plots do percentual diário de voos atrasados por causa da companhia para as seis companhias aéreas, com linhas tracejadas na mediana e nos quartis. O violino da Alaska é baixo e largo perto de zero, e os de American, Delta e United têm caudas finas que chegam ao topo do eixo."
+#| fig-alt: "Violin plots do aluguel mensal para as cinco cidades, com linhas tracejadas na mediana e nos quartis. Todos os violinos são largos na base, perto dos aluguéis baixos, e afinam para cima; o de São Paulo é o mais alongado."
 fig, ax = plt.subplots(figsize=(7, 5))
-sns.violinplot(data=voos, x="Companhia", y="pct_atraso_companhia",
+sns.violinplot(data=comum, x="cidade", y="aluguel",
                ax=ax, inner="quartile", color="#b0c4d8")
 ax.set_xlabel("")
-ax.set_ylabel("% diário de voos atrasados")
-ax.set_ylim(0, 50)
+ax.set_ylabel("Aluguel mensal (R$)")
 plt.xticks(rotation=20)
 plt.tight_layout()
 plt.show()
 ```
 
 ::: {.conceito}
-O boxplot resume cada distribuição em cinco números: mínimo, quartis, mediana, máximo, ajustados por outliers. É compacto, mas apaga a **forma**: duas distribuições bem diferentes (uma concentrada num único pico, outra com dois picos separados) podem produzir boxplots quase idênticos, porque cinco números não distinguem "concentrado no meio" de "concentrado em dois lugares". O violin plot troca a caixa por uma densidade espelhada dos dois lados: a largura em cada altura é proporcional à quantidade de voos com aquele percentual de atraso. A Alaska ilustra o ponto: cerca de 10% dos seus dias têm atraso por causa própria praticamente zero, uma concentração que o violin mostra como um bojo perto do eixo e que o boxplot, ocupado em resumir tudo à mediana e aos quartis, deixa passar como só "o quartil inferior é baixo".
+O boxplot resume cada distribuição nos cinco números da seção 1.5: os quartis formam a caixa, a mediana é a linha de dentro, e os bigodes vão até o ponto mais distante dentro de 1,5 distância interquartil, com o que sobra desenhado ponto a ponto. É compacto, mas apaga a **forma**: duas distribuições bem diferentes (uma concentrada num único pico, outra com dois picos separados) podem produzir boxplots quase idênticos, porque cinco números não distinguem "concentrado no meio" de "concentrado em dois lugares". O violin plot troca a caixa por uma densidade espelhada dos dois lados: a largura em cada altura é proporcional à densidade estimada naquele aluguel, calculada pelo mesmo método do KDE que desenhou as curvas de nível no começo desta seção. Por ser uma estimativa suavizada, ela arredonda os cantos da distribuição e se estende um pouco além do maior e do menor valor observados. Todas as cinco cidades mostram a mesma assimetria, com um bojo largo nos aluguéis baixos afinando numa cauda para cima, e é essa forma comum que o boxplot, ocupado em resumir tudo à mediana e aos quartis, deixa passar como só "a distância do terceiro quartil ao máximo é grande".
 :::
 
 ## Múltiplas variáveis: condicionando por uma terceira
 
-Tudo até aqui comparou exatamente duas variáveis. Perguntas reais costumam ter uma terceira à espreita: será que a relação entre área e valor do imóvel é a mesma em qualquer lugar, ou ela muda dependendo do bairro? A forma de responder é **condicionar**: fixar um valor da terceira variável de cada vez e repetir o gráfico de par para cada um. Visualmente, isso é uma grade de painéis pequenos (um `FacetGrid`) em vez de um único gráfico agregado.
+Tudo até aqui comparou exatamente duas variáveis. Perguntas reais costumam ter uma terceira à espreita: será que a relação entre área e aluguel é a mesma em qualquer lugar, ou ela muda dependendo da cidade? A forma de responder é **condicionar**: fixar um valor da terceira variável de cada vez e repetir o gráfico de par para cada um. Visualmente, isso é uma grade de painéis pequenos (um `FacetGrid`) em vez de um único gráfico agregado.
 
+::: {.sem-inversao}
 ```{python}
 #| label: fig-facet
-#| fig-cap: "Área construída contra valor venal, condicionado ao CEP. A inclinação da relação muda de bairro para bairro."
-#| fig-alt: "Grade de quatro painéis hexbin, um por CEP, com área construída no eixo horizontal e valor venal no vertical. No CEP 98105 as células escuras sobem de forma íngreme até valores altos, enquanto no 98188 formam uma faixa baixa e quase plana."
-kc_ceps = kc0.loc[kc0.CEP.isin([98188, 98105, 98108, 98126]), :]
+#| fig-cap: "Área contra aluguel, condicionado à cidade. O patamar de preço muda de cidade para cidade."
+#| fig-alt: "Grade de quatro painéis hexbin, um por cidade, com área no eixo horizontal e aluguel no vertical, todos nos mesmos eixos. São Paulo e Rio de Janeiro têm nuvens altas e espalhadas, que chegam a aluguéis de 6 mil reais em áreas moderadas. Belo Horizonte forma uma faixa diagonal nítida e mais baixa, e Campinas é a mais concentrada, com a maior parte dos anúncios abaixo de 2 mil reais."
+quatro = comum[comum["cidade"].isin(
+    ["São Paulo", "Rio de Janeiro", "Belo Horizonte", "Campinas"])]
 
 def hexbin(x, y, color, **kwargs):
     cmap = sns.light_palette(color, as_cmap=True)
     plt.hexbin(x, y, gridsize=25, cmap=cmap, **kwargs)
 
-g = sns.FacetGrid(kc_ceps, col="CEP", col_wrap=2, height=3.2)
-g.map(hexbin, "AreaConstruida", "ValorVenal", extent=[0, 3500, 0, 700000])
-g.set_axis_labels("Área construída (pés²)", "Valor venal (US$)")
+g = sns.FacetGrid(quatro, col="cidade", col_wrap=2, height=3.6)
+g.map(hexbin, "area_m2", "aluguel", extent=[0, 250, 0, 12000])
+g.set_axis_labels("Área (m²)", "Aluguel mensal (R$)")
 plt.tight_layout()
 plt.show()
 ```
+:::
 
-Os quatro CEPs somam 98105 → 4.481 imóveis, 98108 → 5.535, 98126 → 5.631 e 98188 → 4.043. Juntos, são uma fração dos 432.693 originais, escolhida para caber em quatro painéis legíveis. O `extent` fixo em todos os painéis (mesma faixa de área e de valor) é o que torna os quatro comparáveis entre si: sem ele, cada painel escalaria os eixos para os seus próprios dados, e uma diferença de inclinação real poderia se confundir com um artefato de escala.
+A grade mostra quatro das cinco cidades, por espaço; Porto Alegre fica de fora do desenho e volta na tabela logo abaixo. O `extent` fixo em todos os painéis (aqui, até 250 m² e R$ 12 mil) é o que torna os quatro comparáveis entre si: sem ele, cada painel escalaria os eixos para os seus próprios dados, e uma diferença real poderia se confundir com um artefato de escala. O preço é que os imóveis acima desses limites ficam fora do desenho, o que afeta São Paulo mais que Campinas, porque São Paulo tem mais imóveis grandes e caros.
+
+Um aviso sobre a cor: cada painel normaliza o próprio tom mais escuro pela célula mais cheia **dele**, então um hexágono escuro em Campinas vale menos anúncios que um hexágono igualmente escuro em São Paulo. Os painéis são comparáveis na posição e no espalhamento da nuvem, que é o que interessa aqui, e não na intensidade da cor.
+
+Comparados na mesma régua, os quatro painéis contam histórias diferentes. Campinas se concentra num aglomerado pequeno, com quase dois terços dos anúncios abaixo de R$ 2 mil. Belo Horizonte forma uma faixa diagonal nítida, que sobe com a área sem se espalhar muito. São Paulo e Rio de Janeiro têm nuvens mais altas e mais dispersas: para a mesma área de 50 a 100 m², os aluguéis vão de R$ 1 mil a mais de R$ 6 mil.
+
+Essa impressão visual tem um número por trás, e é o da seção anterior:
+
+```{python}
+#| label: r-por-cidade
+r_cidade = comum.groupby("cidade").apply(
+    lambda g: g["area_m2"].corr(g["aluguel"]), include_groups=False)
+r_cidade.round(3).map(lambda v: num(v, 3))
+```
+
+A correlação entre área e aluguel é mais alta em Campinas (`{python} num(r_cidade["Campinas"], 3)`) e em Belo Horizonte (`{python} num(r_cidade["Belo Horizonte"], 3)`) do que em São Paulo e no Rio de Janeiro (`{python} num(r_cidade["São Paulo"], 3)` nas duas). Nas duas capitais maiores, a área explica menos do preço: localização, condomínio e padrão do prédio pesam mais, e o resultado é a nuvem mais espalhada que os painéis mostram.
+
+```{python}
+#| label: preco-m2
+preco_m2 = (comum["aluguel"] / comum["area_m2"]).groupby(comum["cidade"]).median()
+preco_m2.round(1).map(lambda v: num(v, 1))
+```
 
 ::: {.exemplo}
-O 98105 fica perto da Universidade de Washington, e destoa dos outros três: valor mediano de US\$ 537 mil para uma área mediana de 1.690 pés², cerca de US\$ 318 por pé². No 98188, a mesma conta dá US\$ 210 mil para 1.560 pés², cerca de US\$ 135 por pé². A mesma área compra menos da metade do valor, dependendo só do CEP: a relação entre área e valor **muda de inclinação** por bairro, algo que o hexbin e o KDE agregados da primeira parte desta seção (que somavam todos os CEPs do condado numa única superfície) não tinham como revelar.
+A mesma área custa quase o dobro dependendo da cidade: o metro quadrado mediano sai por R$ `{python} num(preco_m2["São Paulo"], 1)` em São Paulo e R$ `{python} num(preco_m2["Campinas"], 1)` em Campinas, com Rio de Janeiro (R$ `{python} num(preco_m2["Rio de Janeiro"], 1)`), Porto Alegre (R$ `{python} num(preco_m2["Porto Alegre"], 1)`) e Belo Horizonte (R$ `{python} num(preco_m2["Belo Horizonte"], 1)`) entre os dois extremos. Repare no que essa conta é: a mediana da razão entre aluguel e área, ou seja, o **patamar** de preço de cada cidade. Ela não mede quanto o aluguel sobe a cada metro quadrado a mais, que é outra pergunta e exigiria ajustar uma reta. O hexbin e o KDE do começo desta seção, que somavam as cinco cidades numa única superfície, não tinham como mostrar nem uma coisa nem a outra.
 :::
 
 ## Resumo
@@ -219,31 +220,39 @@ O 98105 fica perto da Universidade de Washington, e destoa dos outros três: val
 | Categórico × numérico | Boxplot agrupado; violin plot quando a forma da distribuição importa |
 
 ::: {.conceito}
-**Regra prática:** o tipo das duas variáveis decide a ferramenta, não o contrário. Antes de escolher um gráfico, pergunte que tipo é cada variável. Se uma delas for numérica com muitos pontos, pergunte também quantos são. Um gráfico de dispersão que funcionou com 754 pontos na seção anterior simplesmente não funciona com 432 mil.
+**Regra prática:** o tipo das duas variáveis decide a ferramenta, não o contrário. Antes de escolher um gráfico, pergunte que tipo é cada variável. Se uma delas for numérica com muitos pontos, pergunte também quantos são, e se a densidade no miolo da nuvem faz parte da resposta.
 :::
 
 ## Exercícios
 
-**1.** Por que o gráfico de dispersão falha com 432 mil imóveis, e o hexbin não?
+**1.** Por que o gráfico de dispersão com pontos opacos falha no miolo da nuvem, e o hexbin não?
 
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
-Com centenas de milhares de pontos, eles se sobrepõem maciçamente, e a região mais densa vira uma mancha sólida: a informação de **quantos** pontos há em cada região do plano se perde antes de chegar à tela. O hexbin não desenha pontos individuais: divide o plano em células hexagonais e colore cada uma pela contagem de imóveis que caem nela, transformando densidade em cor. Isso continua legível justamente onde o gráfico de dispersão satura.
+Porque os pontos se sobrepõem: onde o dado é denso, o desenho vira uma mancha uniforme, e a informação de **quantos** imóveis caem em cada região se perde antes de chegar à tela. Dois mil e seis mil pontos empilhados produzem exatamente a mesma mancha. O hexbin não desenha pontos individuais: divide o plano em células hexagonais e colore cada uma pela contagem de imóveis que caem nela, transformando densidade em cor. Isso continua legível justamente onde o gráfico de dispersão satura.
+
+A transparência (`alpha`) é um meio-termo: ajuda até certo ponto, porque regiões mais densas ficam mais escuras, mas também satura quando há sobreposição suficiente.
 :::
 
-**2.** Na tabela de contingência em contagem, a nota B tem mais empréstimos `Inadimplente` (5.302) que a nota G (409). Isso significa que B é mais arriscada que G?
+**2.** Na tabela de contagem, São Paulo tem 1.593 imóveis mobiliados e Campinas tem 111. Isso significa que se aluga mobiliado com mais frequência em São Paulo?
 
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
-Não. B tem 132.370 empréstimos e G tem apenas 3.241. B tem mais de tudo simplesmente porque é um grupo muito maior. Em **proporção**, a taxa de inadimplência de G (12,6%) é bem maior que a de B (4,0%). Comparar contagens brutas entre grupos de tamanhos muito diferentes é um erro clássico; a normalização por linha existe exatamente para evitá-lo.
+Não é o que a contagem mostra. São Paulo tem 5.887 anúncios e Campinas, 853: São Paulo tem mais de tudo porque é um grupo sete vezes maior. Em **proporção**, a diferença existe, mas é bem menor do que a contagem sugere: 27,1% em São Paulo contra 13,0% em Campinas, ou seja, cerca do dobro, e não catorze vezes.
+
+Comparar contagens brutas entre grupos de tamanhos muito diferentes é um erro clássico; a normalização por linha existe exatamente para evitá-lo.
 :::
 
-**3.** Se o chunk do KDE não tivesse `random_state=42`, o que aconteceria a cada `quarto render`?
+**3.** O gráfico agregado de área contra aluguel mistura as cinco cidades. Que erro de leitura isso pode causar, e como a grade de painéis o evita?
 
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
-O `sample(10000)` sortearia 10.000 imóveis diferentes a cada execução, e o contorno de densidade mudaria de forma sutil todas as vezes. O gráfico publicado nunca seria o mesmo duas vezes, o cache do `freeze` deixaria de fazer sentido (ele existe para não reexecutar chunks que não mudaram, e um chunk aleatório sem semente "muda" sozinho a cada render), e cada `push` acumularia um diff de ruído no site. É por isso que todo chunk com componente aleatório neste livro fixa a semente.
+O gráfico agregado sugere que existe um preço só para cada área. Entre os imóveis de 55 a 65 m², a mediana do aluguel é R$ 1.950 em São Paulo, R$ 1.600 no Rio de Janeiro, R$ 1.300 em Porto Alegre e R$ 1.100 em Belo Horizonte e em Campinas. Quem lê a nuvem agregada vê essas cinco cidades empilhadas, e boa parte do que parece dispersão do mercado é, na verdade, a distância entre patamares de cidades diferentes.
+
+A grade de painéis evita isso fixando uma cidade por vez, com os mesmos eixos nos quatro, o que deixa os patamares lado a lado em vez de somados.
+
+Vale dizer o que este caso **não** é. As cinco cidades sobem na mesma direção, e o agregado fica no meio delas, sem inversão de sinal: não é um Paradoxo de Simpson como o da Introdução, em que a relação dentro dos grupos aponta para o lado contrário da relação agregada. O que se perde aqui é a diferença de nível entre os grupos, que já é motivo suficiente para condicionar antes de concluir.
 :::

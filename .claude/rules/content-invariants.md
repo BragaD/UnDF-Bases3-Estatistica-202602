@@ -6,7 +6,7 @@ paths:
   - "notebooks/**/*.ipynb"
 ---
 
-# Invariantes de conteúdo (INV-1 a INV-12)
+# Invariantes de conteúdo (INV-1 a INV-13)
 
 Regras numeradas e inegociáveis para o conteúdo deste livro. Críticos, revisores e auditores
 citam o número ao apontar um problema ("viola INV-3") — e o campo `rule` de um `FINDING`
@@ -18,7 +18,7 @@ de conflito, o `CLAUDE.md` vence.
 
 - **INV-1: Registro no `_quarto.yml`.** Todo `.qmd` novo em `content/` é listado em `book.chapters`. Arquivo não listado não existe para o leitor.
 - **INV-2: Callout de atribuição.** Toda seção abre com um `callout-note` dizendo de onde vem — "Esta seção corresponde à seção 1.3 de @bruce2020", "se baseia na seção 6.6.4 de @bussab2023", "se inspira no Capítulo 10 de @weed" —, com o número **da fonte**, nunca o nosso. Hoje o livro só tem o Cap. 1, que corresponde ao cap. 1 do Bruce, então os dois coincidem — mas a coincidência é temporária.
-- **INV-3: Escopo.** O livro tem a Introdução e os Caps. 1 a 4 (os três últimos de probabilidade); os antigos Caps. 2 a 5 foram removidos em 2.2026. Do Cap. 1 foram cortados: curtose, violino, curva de densidade, convenções `lower`/`higher` de quantil, valor esperado (1.6) e heatmap (1.7); a 1.8 é leitura complementar, fora do cronograma e do notebook. Probabilidade vem de @bussab2023 caps. 5–7, em três capítulos do livro (2, 3 e 4), com o escopo por seção fixado no `CLAUDE.md` ("Próximo capítulo"); 6.6.5 (Poisson) e 7.4.3 (exponencial) são suplementares, fora do cronograma e do notebook.
+- **INV-3: Escopo.** O livro tem a Introdução e os Caps. 1 a 4 (os três últimos de probabilidade); os antigos Caps. 2 a 5 foram removidos em 2.2026. Do Cap. 1 foram cortados: curtose, violino, curva de densidade, convenções de quantil (1.5), valor esperado (1.6) e heatmap (1.7); a 1.8 é leitura complementar, fora do cronograma e do notebook. Probabilidade vem de @bussab2023 caps. 5–7, em três capítulos do livro (2, 3 e 4), com o escopo por seção fixado no `CLAUDE.md` ("Próximo capítulo"); 6.6.5 (Poisson) e 7.4.3 (exponencial) são suplementares, fora do cronograma e do notebook.
 - **INV-4: Bibliografia única.** Toda citação resolve em `references.bib`. `@bussab2023` **não** vira 2017.
 
 ## Código
@@ -37,3 +37,6 @@ de conflito, o `CLAUDE.md` vence.
 - **INV-10: Motivação antes da fórmula.** Toda definição é precedida por uma pergunta, um exemplo ou um dado que a torne necessária.
 - **INV-11: No máximo dois blocos coloridos seguidos.** Callouts, `.conceito` e `.exemplo` empilhados diluem a ênfase; o terceiro vira prosa.
 - **INV-12: Nada secreto no HTML.** `.spoiler` é ofuscação. Gabaritos e provas ficam em `avaliacoes/` (gitignorado); o repositório é público.
+- **INV-13: O texto é sobre o conteúdo, não sobre o material.** O foco é o conteúdo e a didática. Proibido na prosa de `content/`:
+  - **história editorial**: corte, mudança de abordagem, reescrita, versão anterior, o que o livro "agora" usa ou deixou de fora ("esta seção foi reduzida", "antes usávamos o dado americano");
+  - **meta-texto sobre o livro-fonte**: comparar o material com @bruce2020, @bussab2023 ou @weed, dizer como o livro-fonte está organizado ("é com esse exemplo que o Bruce abre o capítulo"), o que os autores fizeram ou usaram, o que o material tem, não tem, instala ou deixa de fora e por quê. **Exceção deste livro:** citar a fonte para uma definição, um nome, uma notação ou um resultado é conteúdo e continua permitido ("que @bussab2023 chamam de distância interquartil"); a remissão à fonte fora do callout de atribuição só entra quando carrega isso;

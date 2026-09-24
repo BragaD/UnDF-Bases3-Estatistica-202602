@@ -28,7 +28,7 @@ autor edita. Leia `.claude/rules/writing-with-ai.md`: um relatório limpo diz qu
 
 ## Categorias (detalhe no agente)
 
-1. Conectivos de enchimento · 2. Léxico-clichê · 3. Travessão e pontuação (travessões, antítese "não é X — é Y", ponto-e-vírgula empilhado) · 4. Parágrafos simétricos · 5. Tricolons · 6. Ressalvas empilhadas · 7. "Não apenas X, mas também Y" · 8. Aberturas formulaicas · 9. Pergunta-resposta retórica em série · 10. Autoelogio.
+1. Conectivos de enchimento · 2. Léxico-clichê · 3. Travessão e pontuação (travessões, antítese "não é X — é Y", ponto-e-vírgula empilhado) · 4. Parágrafos simétricos · 5. Tricolons · 6. Ressalvas empilhadas · 7. "Não apenas X, mas também Y" · 8. Aberturas formulaicas · 9. Pergunta-resposta retórica em série · 10. Autoelogio · 11. Meta-texto sobre o material/livro-fonte.
 
 ## Depois do relatório
 

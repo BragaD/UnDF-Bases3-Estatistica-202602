@@ -54,7 +54,7 @@ Decisões que acompanham esse escopo:
 
 Ordem, profundidade e redação de cada seção continuam sendo combinadas com o professor, seção a seção, via `/create-lecture`.
 
-**Cortes de 2.2026 no Cap. 1** (o semestre perdeu quatro sextas — 11/09 atestado, 02/10 e 23/10 eleições, 20/11 feriado): da 1.5 saíram as convenções `lower` e `higher` de quantil, o gráfico de violino, a curva de densidade e a curtose; da 1.6, o valor esperado; da 1.7, o heatmap. A **1.8 continua no site** como leitura complementar — tem um `callout-warning` no topo, está marcada na tabela do `content/cap01/index.qmd` e **não entra no `notebooks/capitulo-01.ipynb`**. A curtose **não existe mais no livro**; não a cite como "introduzida no Capítulo 1".
+**Cortes de 2.2026 no Cap. 1** (o semestre perdeu quatro sextas — 11/09 atestado, 02/10 e 23/10 eleições, 20/11 feriado): da 1.5 saíram as convenções de quantil (a subseção "Qual é o quantil, afinal?" inteira), o gráfico de violino, a curva de densidade e a curtose; da 1.6, o valor esperado; da 1.7, o heatmap. A **1.8 continua no site** como leitura complementar — tem um `callout-warning` no topo, está marcada na tabela do `content/cap01/index.qmd` e **não entra no `notebooks/capitulo-01.ipynb`**. A curtose **não existe mais no livro**; não a cite como "introduzida no Capítulo 1".
 
 ## Comandos
 
@@ -199,7 +199,7 @@ Adaptados de [pedrohcgs/claude-code-my-workflow](https://github.com/pedrohcgs/cl
 
 - **Skills:** `/create-lecture` (nova seção ou stub), `/scaffold-exercises` (lista + gabarito em `avaliacoes/`), `/devils-advocate`, `/humanize`, `/visual-audit`, `/qa-quarto` (crítico ↔ consertador até convergir), `/slide-excellence` (fan-out de todas as lentes).
 - **Agentes:** `domain-reviewer` (substância, calibrado pelo **Bussab**), `pedagogy-reviewer`, `proofreader`, `slide-auditor` (layout da página), `humanize-auditor`, `quarto-critic`, `quarto-fixer`, `verifier`.
-- **Regras:** `.claude/rules/knowledge-base.md` guarda notação e **armadilhas código↔teoria verificadas** (quantil do Bussab = `method="hazen"`, não o padrão do pandas; variância do Bussab 3.2 divide por $n$; `hypergeom`/`norm` da scipy). `content-invariants.md` numera as regras deste arquivo (INV-1…12) para os revisores citarem.
+- **Regras:** `.claude/rules/knowledge-base.md` guarda notação e **armadilhas código↔teoria verificadas** (quantil do Bussab = `method="hazen"`, não o padrão do pandas; variância do Bussab 3.2 divide por $n$; `hypergeom`/`norm` da scipy). `content-invariants.md` numera as regras deste arquivo (INV-1…13) para os revisores citarem.
 - **Achados** são arrays JSON validados por `scripts/validate-findings.py` (`id = sha1(arquivo:linha:locus)`). Relatórios e capturas (`scripts/captura-pagina.py`) vão para `quality_reports/`, gitignorado.
 
 #### Obrigatório: skills a cada escrita ou reescrita de conteúdo
@@ -219,3 +219,9 @@ Toda vez que escrever ou reescrever prosa, código ou exercício do livro (`cont
 - Se uma skill não puder rodar (Docker parado, sem `.venv`), diga qual ficou de fora e por quê. Nunca omita.
 - Ao escrever, **evite o travessão (—)**: ele não é estilo do professor e é o sinal de IA mais frequente no livro. Use vírgula, dois-pontos, parênteses ou ponto final. Também evite a antítese "não é X — é Y".
 - Mudança só em infraestrutura (`Dockerfile`, `Makefile`, CI, `.claude/`) não precisa de `/humanize` nem de `domain-reviewer`; precisa do `verifier`.
+
+#### O texto é sobre estatística, não sobre o material
+
+O foco é o conteúdo e a didática (INV-13). A prosa de `content/` não comenta a própria escrita: nada de corte, mudança de abordagem, reescrita ou versão anterior ("esta seção foi reduzida", "antes o exemplo era americano"). Essa história vive aqui e no git. Também não há meta-texto sobre o livro-fonte: comparar o material com o Bruce, o Bussab ou o Weed, dizer como eles se organizam ou o que os autores fizeram. Citar a fonte para uma **definição, um nome, uma notação ou um resultado** é conteúdo e continua permitido ("que @bussab2023 chamam de distância interquartil"). Fora disso, a fonte fica no callout de atribuição.
+
+As pontes com a seção anterior ("A seção 1.3 resumiu…") ficam: são estilo do professor neste livro, ao contrário do bases_5. Quem cobra a regra são `proofreader`, `humanize-auditor` e `pedagogy-reviewer`; não há teste automático.

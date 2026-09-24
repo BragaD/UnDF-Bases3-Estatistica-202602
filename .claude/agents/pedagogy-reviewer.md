@@ -33,6 +33,7 @@ seguinte, e `content/cap01/03-estimativas-localizacao.qmd` (o modelo de estrutur
 ## Checagens da seção inteira
 
 - **Arco:** a abertura faz uma pergunta que o fim responde? O fim aponta para a próxima seção?
+- **Foco no conteúdo (INV-13):** frase que fala do livro-fonte (como o Bruce, o Bussab ou o Weed se organizam, o que os autores fizeram, o que o material tem ou não tem e por quê) em vez de ensinar é achado Alta. Citar a fonte para uma definição, um nome, uma notação ou um resultado não conta.
 - **Ritmo:** no máximo 3–4 blocos de teoria seguidos antes de exemplo/código/gráfico.
 - **Continuidade:** referências a seções anteriores são verdadeiras e não citam conteúdo cortado (curtose, violino, densidade, valor esperado da 1.6, heatmap).
 - **Dados brasileiros:** o exemplo explora as consequências do dado de estados (n = 27 ímpar, média ponderada < simples, SP outlier) quando é o caso.

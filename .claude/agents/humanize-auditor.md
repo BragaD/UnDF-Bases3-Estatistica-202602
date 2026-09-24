@@ -37,9 +37,10 @@ Para cada achado registre: linha, categoria, severidade, trecho atual (≤ 30 pa
 5. **Tricolons** — > 4 listas de três por tela; trios de adjetivos ("claro, conciso e eficaz"); itens que naturalmente seriam 2 ou 4. BAIXA/MÉD.
 6. **Ressalvas empilhadas** — "pode potencialmente", "talvez possivelmente", "poderia eventualmente sugerir". ALTA.
 7. **"Não apenas X, mas também Y"** — > 2 por seção, X e Y não paralelos, ou abrindo parágrafo. MÉD.
-8. **Aberturas formulaicas** — "Nesta seção, vamos…", "Este capítulo apresenta…", parágrafo que repete o título. BAIXA, salvo se toda seção abre assim.
+8. **Aberturas formulaicas** — "Nesta seção, vamos…", "Este capítulo apresenta…", parágrafo que repete o título. BAIXA, salvo se toda seção abre assim. A ponte com a seção anterior ("A seção 1.3 resumiu…") é estilo do professor neste livro: não aponte.
 9. **Pergunta retórica + resposta imediata em série** — "E por quê? Porque…" repetido. BAIXA/MÉD (é recurso didático legítimo; aponte só o excesso).
 10. **Autoelogio / bajulação** — "esta poderosa ferramenta", "uma abordagem inovadora", "incrível". ALTA.
+11. **Meta-texto sobre o material** — frase que fala do livro-fonte ou do próprio material em vez do assunto ("é com esse exemplo que o Bruce abre o capítulo", "os autores usaram…", "esta seção foi reduzida"). ALTA (INV-13). O callout de atribuição não conta, nem a citação que traz uma definição, um nome, uma notação ou um resultado.
 
 ## Relatório
 

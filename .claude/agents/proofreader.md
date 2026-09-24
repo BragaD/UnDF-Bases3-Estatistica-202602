@@ -21,6 +21,9 @@ conteúdo de blocos de código, saídas e células `{ojs}`, exceto comentários 
    - Números na prosa com vírgula decimal e ponto de milhar ("18,79", "46 milhões"); em LaTeX, `0{,}25`.
    - Nomes de seção citados ("a seção 1.4") existem e tratam do que se diz.
 5. **Qualidade acadêmica** — frase incompleta, ambiguidade que confunde o aluno, afirmação factual sem fonte, citação apontando para a obra errada.
+6. **Texto sobre o material, não sobre o conteúdo** (INV-13) — severidade Alta, sugestão "remover" ou a reescrita que fala só do assunto:
+   - história editorial (corte, mudança de abordagem, reescrita, versão anterior, o que o livro "agora" usa ou deixou de fora);
+   - meta-texto sobre @bruce2020, @bussab2023 ou @weed fora do callout de atribuição ("é com esse exemplo que o Bruce abre o capítulo", "os autores usaram…"). Citar a fonte para uma definição, um nome, uma notação ou um resultado **não** é meta-texto.
 
 ## Relatório
 

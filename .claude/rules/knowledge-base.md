@@ -72,7 +72,7 @@ Escopo completo, por aula, no `CLAUDE.md`. Um capítulo do livro por capítulo d
 
 | Armadilha | Impacto | Correção |
 |---|---|---|
-| Quantil do Bussab (3.20) usa $p_i = (i - 0{,}5)/n$ com interpolação linear = `numpy.quantile(method="hazen")`; o padrão do pandas é `linear` (tipo 7) | Ex. 3.5 do Bussab: hazen dá $q_1 = 4{,}5$, $q_3 = 11{,}25$; pandas dá $5$ e $11$ | Se o texto disser "segue (3.20)", o código tem de usar `hazen`; se usar o padrão, o texto deve dizer que é outra convenção |
+| Quantil do Bussab (3.20, na 3.9 "Complementos Metodológicos"; o corpo da 3.3 usa a mediana de cada metade, sem a mediana) usa $p_i = (i - 0{,}5)/n$ com interpolação linear = `numpy.quantile(method="hazen")`; o padrão do pandas é `linear` (tipo 7) | Ex. 3.5 do Bussab: hazen dá $q_1 = 4{,}5$, $q_3 = 11{,}25$; pandas dá $5$ e $11$ | Se o texto disser "segue (3.20)", o código tem de usar `hazen`; se usar o padrão, o texto deve dizer que é outra convenção |
 | Variância na seção 3.2 do Bussab divide por $n$; pandas divide por $n-1$ | $\{3,5,5,7\}$: Bussab/`np.var` = 2; pandas = 2,667 | Citar o Bussab para a definição **e** o divisor usado |
 | `scipy.stats.hypergeom(M, n, N)` × $\mathrm{hip}(N, r, n)$ | a ordem posicional coincide (população, sucessos, amostra), mas a letra $N$ é população no Bussab e amostra na scipy; `hypergeom(N=20, n=4, M=5)` com as letras do livro devolve `nan` sem erro. Trocar $r$ e $n$ dá a mesma distribuição (simetria), então esse erro nem aparece | usar os nomes da scipy (`M=`, `n=`, `N=`) com comentário da correspondência (a 3.6 faz) |
 | `scipy.stats.norm(loc, scale)` recebe $\sigma$, Bussab escreve $\sigma^2$ | $N(0, 4)$ vira `norm(0, 2)` | nunca passar a variância em `scale` |
@@ -100,3 +100,4 @@ Escopo completo, por aula, no `CLAUDE.md`. Um capítulo do livro por capítulo d
 | Corrigir `@bussab2023` para 2017 | invalidaria todas as citações | numeração das seções bate; manter 2023 |
 | Resposta dependente de fato físico não dito no enunciado (relógio "elétrico" = contínuo, na 2.1) | o relógio de quartzo anda aos saltos; quem respondesse "discreto" estaria certo | a hipótese vai no enunciado, como faz o Bussab |
 | Gabarito em `.spoiler` | o HTML publicado expõe tudo | gabarito só em `avaliacoes/` (gitignorado) |
+| Meta-texto sobre o livro-fonte ou o material | frase que descreve o Bruce/Bussab/Weed ou o próprio livro em vez do assunto (padrão já vivido em Bases 5: "É essa pergunta que abre o ISLP…") | falar só do assunto; a fonte fica no callout de atribuição ou na citação que traz definição, nome, notação ou resultado (INV-13) |

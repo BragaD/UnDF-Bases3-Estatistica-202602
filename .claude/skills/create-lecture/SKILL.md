@@ -84,6 +84,7 @@ depois `make render`. Widgets OJS consomem `ojs_define` e usam `//| echo: false`
 [ ] Números da prosa ligados ao código
 [ ] 2–3 perguntas ao leitor
 [ ] ≤ 2 blocos coloridos seguidos
+[ ] Nenhum meta-texto sobre o livro-fonte/o material (INV-13)
 [ ] knowledge-base.md atualizada
 [ ] humanize + devils-advocate + domain-reviewer + verifier rodados
 ```

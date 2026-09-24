@@ -101,9 +101,9 @@ div.csl-indent {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-b15e405f270457097577c78528feeb38.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-4c6c0d00e29b3f69541def337cc0d8c7.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-b15e405f270457097577c78528feeb38.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-96de93aeef37c2f55637d13965bee670.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-fa5a435faa8b3fd8ba2c629fc35ba32a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-96de93aeef37c2f55637d13965bee670.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -645,7 +645,6 @@ window.Quarto = {
    
   <ul>
   <li><a href="#quantis-percentis-e-decis" id="toc-quantis-percentis-e-decis" class="nav-link active" data-scroll-target="#quantis-percentis-e-decis">Quantis, percentis e decis</a></li>
-  <li><a href="#qual-é-o-quantil-afinal" id="toc-qual-é-o-quantil-afinal" class="nav-link" data-scroll-target="#qual-é-o-quantil-afinal">Qual é o quantil, afinal?</a></li>
   <li><a href="#boxplot" id="toc-boxplot" class="nav-link" data-scroll-target="#boxplot">Boxplot</a></li>
   <li><a href="#tabela-de-frequência-e-histograma" id="toc-tabela-de-frequência-e-histograma" class="nav-link" data-scroll-target="#tabela-de-frequência-e-histograma">Tabela de frequência e histograma</a></li>
   <li><a href="#assimetria" id="toc-assimetria" class="nav-link" data-scroll-target="#assimetria">Assimetria</a></li>
@@ -782,93 +781,121 @@ Nota
 </div>
 </div>
 </div>
-<p>Os cinco números da tabela dizem: 5% dos estados têm taxa de homicídios de até 8,238 por 100.000 habitantes (os dois estados menos violentos do país); na outra ponta, 95% ficam até 35,197, ou seja, só 5% (2 estados, em 27) superam essa marca. O intervalo entre o percentil 5 e o percentil 95 cobre os 90% centrais da distribuição e é uma forma comum de descrever o “grosso” dos dados sem deixar os extremos dominarem a leitura, do mesmo jeito que a mediana evita que eles dominem a localização.</p>
+<p>Os números das pontas dizem: 2 estados, os menos violentos do país, têm taxa de homicídios de até 8,238 por 100.000 habitantes; na outra ponta, só 2 estados superam 35,197 por 100.000 habitantes. São 7,4% dos 27 de cada lado, e não 5%, porque 5% de 27 seriam 1,35 estado. Quando o percentil não cai sobre uma observação, o valor é interpolado entre as duas vizinhas, como a seção 1.4 fez com os quartis. O intervalo entre o percentil 5 e o percentil 95 cobre os 90% centrais da distribuição e é uma forma comum de descrever o “grosso” dos dados sem deixar os extremos dominarem a leitura, do mesmo jeito que a mediana evita que eles dominem a localização.</p>
 </section>
-<section id="qual-é-o-quantil-afinal" class="level2">
-<h2 class="anchored" data-anchor-id="qual-é-o-quantil-afinal">Qual é o quantil, afinal?</h2>
-<p>A definição acima (“o valor tal que <span class="math inline">\(100p\%\)</span> das observações são menores”) só é realizável ao pé da letra quando <span class="math inline">\(np\)</span> dá um número inteiro de observações. Quando não dá, <strong>não existe</strong> valor algum que satisfaça a definição, e é preciso escolher um.</p>
-<p>A seção 1.4 já esbarrou nisso: com <span class="math inline">\(n = 27\)</span>, a posição do primeiro quartil é 7,5, e o valor saiu da média entre a sétima e a oitava observações. Aquela foi <em>uma</em> escolha entre várias. O argumento <code>interpolation</code> do pandas dá acesso a elas; vejamos três:</p>
-<div id="cell-convencoes-estados" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>convencoes <span class="op">=</span> [<span class="st">"linear"</span>, <span class="st">"nearest"</span>, <span class="st">"midpoint"</span>]</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>comp <span class="op">=</span> pd.DataFrame(</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    {c: estado[<span class="st">"Populacao"</span>].quantile([<span class="fl">0.25</span>, <span class="fl">0.75</span>], interpolation<span class="op">=</span>c) <span class="cf">for</span> c <span class="kw">in</span> convencoes}</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>).T</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>comp.columns <span class="op">=</span> [<span class="st">"q1"</span>, <span class="st">"q3"</span>]</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>comp[<span class="st">"dq"</span>] <span class="op">=</span> comp[<span class="st">"q3"</span>] <span class="op">-</span> comp[<span class="st">"q1"</span>]</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>comp.<span class="bu">map</span>(<span class="kw">lambda</span> v: num(v, <span class="dv">0</span>))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="convencoes-estados" class="cell-output cell-output-display" data-execution_count="3">
-<div>
-
-
-<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<section id="boxplot" class="level2">
+<h2 class="anchored" data-anchor-id="boxplot">Boxplot</h2>
+<p>O <strong>boxplot</strong> é uma leitura visual direta dos percentis. A caixa vai do primeiro ao terceiro quartil, e a largura dessa caixa é exatamente o IQR que a seção 1.4 calculou como medida de dispersão. É a mesma conta, olhada de dois ângulos diferentes. A linha dentro da caixa marca a mediana. Os bigodes param na última observação que ainda está a até 1,5 vez o IQR de cada quartil, e qualquer observação além disso é desenhada como um ponto individual, não absorvida pela escala do gráfico.</p>
+<div id="boxplot-limites" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>pop <span class="op">=</span> estado[<span class="st">"Populacao"</span>]</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>q1, q2, q3 <span class="op">=</span> pop.quantile([<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>])</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>dq <span class="op">=</span> q3 <span class="op">-</span> q1</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>lim_inf <span class="op">=</span> q1 <span class="op">-</span> <span class="fl">1.5</span> <span class="op">*</span> dq</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>lim_sup <span class="op">=</span> q3 <span class="op">+</span> <span class="fl">1.5</span> <span class="op">*</span> dq</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>dentro <span class="op">=</span> estado[(pop <span class="op">&gt;=</span> lim_inf) <span class="op">&amp;</span> (pop <span class="op">&lt;=</span> lim_sup)]</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>fora <span class="op">=</span> estado[(pop <span class="op">&lt;</span> lim_inf) <span class="op">|</span> (pop <span class="op">&gt;</span> lim_sup)].sort_values(<span class="st">"Populacao"</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>bigode_inf <span class="op">=</span> dentro.loc[dentro[<span class="st">"Populacao"</span>].idxmin()]   <span class="co"># menor valor dentro dos limites</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>bigode_sup <span class="op">=</span> dentro.loc[dentro[<span class="st">"Populacao"</span>].idxmax()]   <span class="co"># maior valor dentro dos limites</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Nota
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A construção dos bigodes e os limites <span class="math inline">\(q_1 - 1{,}5\,d_q\)</span> e <span class="math inline">\(q_3 + 1{,}5\,d_q\)</span> seguem a seção 3.4 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>, que chama as observações fora deles de <em>pontos exteriores</em>.</p>
+</div>
+</div>
+<p>Cada traço do desenho marca um desses números:</p>
+<div class="table-responsive">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
 <thead>
 <tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">q1</th>
-<th data-quarto-table-cell-role="th">q3</th>
-<th data-quarto-table-cell-role="th">dq</th>
+<th>Elemento do desenho</th>
+<th>O que marca</th>
+<th>Na população dos estados</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">linear</th>
-<td>2.942.356</td>
-<td>9.386.342</td>
-<td>6.443.986</td>
+<td>Traço dentro da caixa</td>
+<td>a mediana, <span class="math inline">\(q_2\)</span></td>
+<td>4,145 milhões (PB)</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">nearest</th>
-<td>2.901.895</td>
-<td>9.539.029</td>
-<td>6.637.134</td>
+<td>Lado esquerdo da caixa</td>
+<td>o primeiro quartil, <span class="math inline">\(q_1\)</span></td>
+<td>2,942 milhões</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">midpoint</th>
-<td>2.942.356</td>
-<td>9.386.342</td>
-<td>6.443.986</td>
+<td>Lado direito da caixa</td>
+<td>o terceiro quartil, <span class="math inline">\(q_3\)</span></td>
+<td>9,386 milhões</td>
+</tr>
+<tr class="even">
+<td>Largura da caixa</td>
+<td>a distância interquartil, <span class="math inline">\(d_q = q_3 - q_1\)</span></td>
+<td>6,444 milhões</td>
+</tr>
+<tr class="odd">
+<td>Ponta do bigode da esquerda</td>
+<td>a menor observação maior ou igual a <span class="math inline">\(q_1 - 1{,}5\,d_q\)</span></td>
+<td>717 mil (RR)</td>
+</tr>
+<tr class="even">
+<td>Ponta do bigode da direita</td>
+<td>a maior observação menor ou igual a <span class="math inline">\(q_3 + 1{,}5\,d_q\)</span></td>
+<td>17,220 milhões (RJ)</td>
+</tr>
+<tr class="odd">
+<td>Pontos isolados</td>
+<td>as observações abaixo de <span class="math inline">\(q_1 - 1{,}5\,d_q\)</span> ou acima de <span class="math inline">\(q_3 + 1{,}5\,d_q\)</span></td>
+<td>MG e SP</td>
 </tr>
 </tbody>
 </table>
-
 </div>
-</div>
-</div>
-<p>Três convenções, e respostas diferentes para “qual é a distância interquartil da população dos estados”: da menor (6.443.986) à maior (6.637.134), uma diferença de 3,0%. Nenhuma está errada: <code>nearest</code> toma a observação mais próxima, <code>midpoint</code> o ponto médio entre as duas vizinhas, e <code>linear</code> (o padrão) interpola proporcionalmente à distância. Como aqui as posições caem exatamente no meio do caminho, <code>linear</code> e <code>midpoint</code> coincidem.</p>
-</section>
-<section id="boxplot" class="level2">
-<h2 class="anchored" data-anchor-id="boxplot">Boxplot</h2>
-<p>O <strong>boxplot</strong> é uma leitura visual direta dos percentis. A caixa vai do primeiro ao terceiro quartil, e a largura dessa caixa é exatamente o IQR que a seção 1.4 calculou como medida de dispersão. É a mesma conta, olhada de dois ângulos diferentes. A linha dentro da caixa marca a mediana. Os bigodes se estendem até 1,5 vez o IQR além de cada quartil, e qualquer observação além disso é desenhada como um ponto individual, não absorvida pela escala do gráfico.</p>
-<div id="cell-fig-boxplot" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">4</span>, <span class="dv">5</span>))</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>(estado[<span class="st">"Populacao"</span>] <span class="op">/</span> <span class="fl">1e6</span>).plot.box(ax<span class="op">=</span>ax)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"População (milhões)"</span>)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-fig-boxplot" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="dv">3</span>))</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>ax.boxplot(estado[<span class="st">"Populacao"</span>] <span class="op">/</span> <span class="fl">1e6</span>, orientation<span class="op">=</span><span class="st">"horizontal"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>ax.set_yticks([])</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"População (milhões)"</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
-<div id="fig-boxplot" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Boxplot vertical da população dos estados em milhões, com a caixa baixa e estreita perto de zero, o bigode superior mais longo que o inferior e dois pontos isolados bem acima do bigode.">
+<div id="fig-boxplot" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Boxplot horizontal da população dos estados em milhões, com a caixa estreita perto de zero, o bigode da direita mais longo que o da esquerda e dois pontos isolados bem à direita do bigode.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-boxplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="05-distribuicao-dados_files/figure-html/fig-boxplot-output-1.png" alt="Boxplot vertical da população dos estados em milhões, com a caixa baixa e estreita perto de zero, o bigode superior mais longo que o inferior e dois pontos isolados bem acima do bigode." width="375" height="470" class="figure-img">
+<img src="05-distribuicao-dados_files/figure-html/fig-boxplot-output-1.png" alt="Boxplot horizontal da população dos estados em milhões, com a caixa estreita perto de zero, o bigode da direita mais longo que o da esquerda e dois pontos isolados bem à direita do bigode." width="662" height="278" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-boxplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;1: Boxplot da população dos estados. Os pontos acima do bigode são os estados atipicamente populosos.
+Figura&nbsp;1: Boxplot da população dos estados. Os pontos à direita do bigode são os estados atipicamente populosos.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
 <div class="exemplo">
-<p>Lendo o gráfico: metade dos estados tem entre 2,9 e 9,4 milhões de habitantes: é o que a caixa mostra. A mediana está em 4,1 milhões. E os dois pontos isolados acima do bigode superior são Minas Gerais (21,3 milhões) e São Paulo (46,0 milhões): os únicos estados populosos o bastante para escapar de 1,5×IQR além do terceiro quartil.</p>
+<p>Lendo o gráfico: metade dos estados tem entre 2,9 e 9,4 milhões de habitantes, e é isso que a caixa mostra. O bigode da direita <strong>não</strong> vai até o limite <span class="math inline">\(q_3 + 1{,}5\,d_q\)</span>, que dá 19,1 milhões: ele para no último estado antes dele, Rio de Janeiro. Minas Gerais (21,3 milhões) e São Paulo (46,0 milhões) passam do limite e viram pontos. Na outra ponta, o limite <span class="math inline">\(q_1 - 1{,}5\,d_q\)</span> dá −6,7 milhões, uma população negativa, impossível. Nenhum estado fica abaixo dele, e o bigode da esquerda vai até o menor de todos, Roraima. O limite cai abaixo de zero porque a caixa é larga e fica perto do chão: é a assimetria à direita que a seção 1.4 atribuiu ao piso em zero. Com ela, aqui só podem aparecer pontos isolados do lado direito.</p>
 </div>
 </section>
 <section id="tabela-de-frequência-e-histograma" class="level2">
 <h2 class="anchored" data-anchor-id="tabela-de-frequência-e-histograma">Tabela de frequência e histograma</h2>
 <p>A <strong>tabela de frequência</strong> divide o intervalo de valores em faixas de largura igual e conta quantas observações caem em cada uma. <code>pd.cut</code> faz exatamente isso.</p>
-<div id="cell-freq" class="cell" data-execution_count="5">
+<div id="cell-freq" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>faixas <span class="op">=</span> pd.cut(estado[<span class="st">"Populacao"</span>], <span class="dv">10</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>faixas.value_counts().sort_index()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="freq" class="cell-output cell-output-display" data-execution_count="5">
+<div id="freq" class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>Populacao
 (671536.599, 5242433.1]     15
 (5242433.1, 9768073.2]       6
@@ -885,7 +912,7 @@ Name: count, dtype: int64</code></pre>
 </div>
 <p>As faixas são de <strong>largura</strong> igual, não de <strong>contagem</strong> igual, e o resultado mostra isso sem meio-termo. A primeira faixa, sozinha, concentra 15 dos 27 estados, mais da metade; as faixas do topo têm um estado cada, ou nenhum. Esse é o retrato de uma distribuição com cauda longa à direita, a mesma assinatura que a média puxada para cima (seção 1.3) e o desvio-padrão inflado (seção 1.4) já haviam denunciado, agora visível na contagem, faixa por faixa.</p>
 <p>O <strong>histograma</strong> é essa mesma tabela desenhada: uma barra por faixa, com altura proporcional à contagem. As barras se encostam porque o eixo é contínuo: não há espaço entre “faixa 1” e “faixa 2” do jeito que há entre categorias distintas.</p>
-<div id="cell-fig-histograma" class="cell" data-execution_count="6">
+<div id="cell-fig-histograma" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>(estado[<span class="st">"Populacao"</span>] <span class="op">/</span> <span class="fl">1e6</span>).plot.hist(ax<span class="op">=</span>ax, bins<span class="op">=</span><span class="dv">10</span>, edgecolor<span class="op">=</span><span class="st">"white"</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"População (milhões)"</span>)</span>
@@ -910,7 +937,7 @@ Figura&nbsp;2: Histograma da população. As barras se encostam porque o eixo é
 <h2 class="anchored" data-anchor-id="assimetria">Assimetria</h2>
 <p>As seções 1.3 e 1.4 reduziram a população dos estados a dois números: um valor típico e uma medida de quanto os dados se espalham em torno dele. Considere agora três turmas fictícias de 25 alunos, com boletins <strong>idênticos</strong>: média 65, desvio-padrão 12. Se essas duas estatísticas fossem tudo que existisse para descrever uma turma, seria razoável supor que as três se parecem. Elas não se parecem: uma tem a maioria das notas abaixo da média com um rastro de notas altas puxando para cima; outra é o espelho exato dessa primeira; a terceira não tem rastro para nenhum lado. Média e variância dizem <strong>onde</strong> os dados estão centrados e <strong>quão espalhados</strong> eles estão. Nenhuma das duas diz uma palavra sobre a <strong>forma</strong>.</p>
 <p>As quatro estatísticas a seguir tornam a diferença impossível de ignorar:</p>
-<div id="cell-tabela-assimetria" class="cell" data-execution_count="8">
+<div id="cell-tabela-assimetria" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>resumo <span class="op">=</span> pd.DataFrame(</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    {</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Média"</span>: [num(t.mean(), <span class="dv">1</span>) <span class="cf">for</span> t <span class="kw">in</span> turmas.values()],</span>
@@ -921,7 +948,7 @@ Figura&nbsp;2: Histograma da população. As barras se encostam porque o eixo é
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    index<span class="op">=</span><span class="bu">list</span>(turmas),</span>
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>resumo</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="tabela-assimetria" class="cell-output cell-output-display" data-execution_count="8">
+<div id="tabela-assimetria" class="cell-output cell-output-display" data-execution_count="9">
 <div>
 
 
@@ -969,7 +996,7 @@ Figura&nbsp;2: Histograma da população. As barras se encostam porque o eixo é
 <p><strong>Regra prática:</strong> assimetria positiva significa cauda à direita e média acima da mediana; assimetria negativa significa cauda à esquerda e média abaixo da mediana; assimetria zero significa média e mediana coincidindo. O sinal da assimetria é o sinal da diferença entre média e mediana.</p>
 </div>
 <p>O histograma deixa a mesma história visível:</p>
-<div id="cell-fig-assimetria" class="cell" data-execution_count="9">
+<div id="cell-fig-assimetria" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>fig, eixos <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">11</span>, <span class="fl">3.3</span>), sharey<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ax, (nome, notas) <span class="kw">in</span> <span class="bu">zip</span>(eixos, turmas.items()):</span>
@@ -997,13 +1024,13 @@ Figura&nbsp;3: Três turmas com a mesma média e a mesma variância, e formas co
 </div>
 <p>No painel A, a maioria das notas se aglomera abaixo de 65, com um rastro de notas altas se estendendo para a direita. É esse rastro que empurra a linha vermelha (média) para além da linha verde tracejada (mediana). No painel B a imagem é o espelho: a maioria das notas fica acima de 65, com o rastro agora à esquerda, e a média fica abaixo da mediana. No painel C não há rastro para nenhum dos dois lados, e as duas linhas praticamente se sobrepõem. O <code>sharey=True</code> importa: sem ele, cada painel escolheria sua própria escala vertical, e a comparação entre as três formas ficaria distorcida.</p>
 <p>O histograma mostra a forma inteira, mas a assimetria aparece igualmente bem no <strong>boxplot</strong>, que resume cada turma em cinco números. Empilhando os três lado a lado, a diferença salta aos olhos mesmo sem contar nenhuma nota:</p>
-<div id="cell-fig-boxplot-assimetria" class="cell" data-execution_count="10">
+<div id="cell-fig-boxplot-assimetria" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">3</span>))</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>caixas <span class="op">=</span> ax.boxplot(</span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    [turma_c, turma_b, turma_a],          <span class="co"># de baixo para cima: simétrica, esquerda, direita</span></span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    tick_labels<span class="op">=</span>[<span class="st">"C (simétrica)"</span>, <span class="st">"B (à esquerda)"</span>, <span class="st">"A (à direita)"</span>],</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    vert<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    orientation<span class="op">=</span><span class="st">"horizontal"</span>,</span>
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    patch_artist<span class="op">=</span><span class="va">True</span>,</span>
 <span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    medianprops<span class="op">=</span>{<span class="st">"color"</span>: <span class="st">"#27ae60"</span>, <span class="st">"linewidth"</span>: <span class="dv">2</span>},</span>
 <span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    widths<span class="op">=</span><span class="fl">0.6</span>,</span>
@@ -1014,15 +1041,11 @@ Figura&nbsp;3: Três turmas com a mesma média e a mesma variância, e formas co
 <span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Nota"</span>)</span>
 <span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
 <span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>/tmp/ipykernel_383/1648565835.py:3: MatplotlibDeprecationWarning: vert: bool was deprecated in Matplotlib 3.11 and will be removed in 3.13. Use orientation: {'vertical', 'horizontal'} instead.
-  caixas = ax.boxplot(</code></pre>
-</div>
 <div class="cell-output cell-output-display">
 <div id="fig-boxplot-assimetria" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Três boxplots horizontais de notas, um por turma: em A a mediana fica perto do lado esquerdo da caixa e o bigode direito é o mais longo, em B ocorre o espelho, e em C a mediana fica no centro da caixa com bigodes de comprimento parecido.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-boxplot-assimetria-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="05-distribuicao-dados_files/figure-html/fig-boxplot-assimetria-output-2.png" alt="Três boxplots horizontais de notas, um por turma: em A a mediana fica perto do lado esquerdo da caixa e o bigode direito é o mais longo, em B ocorre o espelho, e em C a mediana fica no centro da caixa com bigodes de comprimento parecido." width="765" height="278" class="figure-img">
+<img src="05-distribuicao-dados_files/figure-html/fig-boxplot-assimetria-output-1.png" alt="Três boxplots horizontais de notas, um por turma: em A a mediana fica perto do lado esquerdo da caixa e o bigode direito é o mais longo, em B ocorre o espelho, e em C a mediana fica no centro da caixa com bigodes de comprimento parecido." width="765" height="278" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-boxplot-assimetria-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figura&nbsp;4: As mesmas três turmas em boxplot. A linha central é a mediana; a caixa vai do primeiro ao terceiro quartil; os bigodes alcançam o restante das notas.
@@ -1036,9 +1059,9 @@ Figura&nbsp;4: As mesmas três turmas em boxplot. A linha central é a mediana; 
 <p><span class="math display">\[g_1 = \frac{\frac{1}{n}\sum_{i=1}^{n}(x_i - \bar{x})^3}{s^3}\]</span></p>
 <p>O expoente 3 é o que faz a fórmula funcionar: ele <strong>preserva o sinal</strong> do desvio. Um desvio acima da média entra positivo; um desvio abaixo, negativo. Eles se cancelariam, como cancelam na média dos desvios simples (seção 1.4), a menos que uma das caudas seja mais comprida ou mais extrema que a outra. É exatamente esse desequilíbrio residual que sobra depois do cancelamento. Compare com o desvio-padrão: ali o desvio é <strong>elevado ao quadrado</strong>. O quadrado de um número negativo é positivo, e o sinal desaparece. É por isso que o desvio-padrão, por mais que meça dispersão, não diz absolutamente nada sobre para qual lado os dados pendem.</p>
 <p>Voltando aos dados reais das 27 unidades federativas:</p>
-<div id="assimetria-real" class="cell" data-execution_count="11">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"População das UFs  : </span><span class="sc">{</span>num(stats.skew(estado[<span class="st">'Populacao'</span>], bias<span class="op">=</span><span class="va">False</span>), <span class="dv">2</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Taxa de homicídios : </span><span class="sc">{</span>num(stats.skew(estado[<span class="st">'Taxa.Homicidios'</span>], bias<span class="op">=</span><span class="va">False</span>), <span class="dv">2</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="assimetria-real" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"População das UFs  : </span><span class="sc">{</span>num(stats.skew(estado[<span class="st">'Populacao'</span>], bias<span class="op">=</span><span class="va">False</span>), <span class="dv">2</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Taxa de homicídios : </span><span class="sc">{</span>num(stats.skew(estado[<span class="st">'Taxa.Homicidios'</span>], bias<span class="op">=</span><span class="va">False</span>), <span class="dv">2</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>População das UFs  : 2,96
 Taxa de homicídios : -0,19</code></pre>
@@ -1070,7 +1093,7 @@ Taxa de homicídios : -0,19</code></pre>
 </tr>
 <tr class="even">
 <td>Boxplot</td>
-<td>Q1, mediana, Q3 e outliers num único desenho compacto</td>
+<td><span class="math inline">\(q_1\)</span>, mediana, <span class="math inline">\(q_3\)</span> e outliers num único desenho compacto</td>
 </tr>
 <tr class="odd">
 <td>Tabela de frequência / histograma</td>
@@ -1090,23 +1113,6 @@ Taxa de homicídios : -0,19</code></pre>
 <h2 class="anchored" data-anchor-id="exercícios">Exercícios</h2>
 <p><strong>1.</strong> A mediana da taxa de homicídios é 23,130 e o percentil 95 é 35,197. Interprete o segundo número em uma frase.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Dica</span>Resposta
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-3" class="callout-3-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>95% dos estados têm taxa de homicídios igual ou inferior a 35,197 por 100.000 habitantes; apenas 5% (2 estados, em 27) ficam acima disso.</p>
-</div>
-</div>
-</div>
-<p><strong>2.</strong> No boxplot, por que os pontos acima do bigode são desenhados individualmente em vez de o bigode simplesmente se estender até eles?</p>
-<div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -1118,11 +1124,11 @@ Taxa de homicídios : -0,19</code></pre>
 </div>
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Por convenção, o bigode vai até 1,5×IQR além do quartil. Pontos além disso são candidatos a outlier e são marcados individualmente justamente para chamar atenção: o objetivo é que você os <strong>veja</strong>, e não que eles sejam absorvidos pela escala do gráfico.</p>
+<p>O percentil 95 indica que só 5% dos estados ficam acima de 35,197 homicídios por 100.000 habitantes. Com 27 estados, isso não dá um número inteiro (seriam 1,35 estado): na prática, 2 estados (7,4% do total) ficam acima, e 25 (92,6%) ficam em 35,197 ou abaixo.</p>
 </div>
 </div>
 </div>
-<p><strong>3.</strong> A tabela de frequência com <code>pd.cut</code> em 10 faixas colocou mais da metade dos estados (15 de 27) na primeira faixa. Isso é um defeito do método?</p>
+<p><strong>2.</strong> No boxplot, por que os pontos além do bigode são desenhados individualmente em vez de o bigode simplesmente se estender até eles?</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1135,11 +1141,11 @@ Taxa de homicídios : -0,19</code></pre>
 </div>
 <div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Não. É um retrato fiel dos dados. <code>pd.cut</code> cria faixas de <strong>largura</strong> igual, e a distribuição de população dos estados é assimétrica. Se o objetivo fosse faixas de <strong>contagem</strong> igual, a ferramenta certa seria <code>pd.qcut</code> (que corta por quantis, não por largura). São perguntas diferentes: uma mostra a forma da distribuição, a outra a divide em grupos do mesmo tamanho.</p>
+<p>Por convenção, o bigode para na última observação que está a até 1,5×IQR do quartil. Pontos além disso são candidatos a outlier e são marcados individualmente justamente para chamar atenção: o objetivo é que você os <strong>veja</strong>, e não que eles sejam absorvidos pela escala do gráfico.</p>
 </div>
 </div>
 </div>
-<p><strong>4.</strong> Um relatório informa que a renda média de um município é R$ 4.200 e a mediana é R$ 2.100. Sem ver os dados, o que você pode afirmar sobre a assimetria da distribuição de renda? E se média e mediana fossem iguais?</p>
+<p><strong>3.</strong> A tabela de frequência com <code>pd.cut</code> em 10 faixas colocou mais da metade dos estados (15 de 27) na primeira faixa. Isso é um defeito do método?</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1152,6 +1158,23 @@ Taxa de homicídios : -0,19</code></pre>
 </div>
 <div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
+<p>Não. É um retrato fiel dos dados. <code>pd.cut</code> cria faixas de <strong>largura</strong> igual, e a distribuição de população dos estados é assimétrica. Se o objetivo fosse faixas de <strong>contagem</strong> igual, a ferramenta certa seria <code>pd.qcut</code> (que corta por quantis, não por largura). São perguntas diferentes: uma mostra a forma da distribuição, a outra a divide em grupos do mesmo tamanho.</p>
+</div>
+</div>
+</div>
+<p><strong>4.</strong> Um relatório informa que a renda média de um município é R$ 4.200 e a mediana é R$ 2.100. Sem ver os dados, o que você pode afirmar sobre a assimetria da distribuição de renda? E se média e mediana fossem iguais?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <p>A média é o dobro da mediana, então a assimetria é <strong>positiva</strong> (à direita): há uma cauda de rendas altas puxando a média para cima, enquanto a mediana permanece onde está a maior parte das pessoas. É o padrão universal da renda, e a razão pela qual se reporta a mediana. Se média e mediana fossem iguais, a distribuição seria simétrica, o que, para renda, praticamente não acontece.</p>
 </div>
 </div>
@@ -1160,10 +1183,10 @@ Taxa de homicídios : -0,19</code></pre>
 <section id="agora-é-com-você" class="level2">
 <h2 class="anchored" data-anchor-id="agora-é-com-você">Agora é com você</h2>
 <p>De volta aos 10.692 aluguéis das seções <a href="../../content/cap01/03-estimativas-localizacao.html">1.3</a> e <a href="../../content/cap01/04-estimativas-variabilidade.html">1.4</a>. Você já sabe onde está o centro e quanto os valores se espalham; falta a <strong>forma</strong>, e é nela que este conjunto mais surpreende.</p>
-<div id="cell-alugueis-dist-carrega" class="cell" data-execution_count="12">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>alugueis <span class="op">=</span> pd.read_csv(<span class="st">"dados/alugueis.csv"</span>)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>alugueis[[<span class="st">"aluguel"</span>, <span class="st">"condominio"</span>, <span class="st">"area_m2"</span>]].head()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="alugueis-dist-carrega" class="cell-output cell-output-display" data-execution_count="12">
+<div id="cell-alugueis-dist-carrega" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>alugueis <span class="op">=</span> pd.read_csv(<span class="st">"dados/alugueis.csv"</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>alugueis[[<span class="st">"aluguel"</span>, <span class="st">"condominio"</span>, <span class="st">"area_m2"</span>]].head()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="alugueis-dist-carrega" class="cell-output cell-output-display" data-execution_count="13">
 <div>
 
 
@@ -1216,7 +1239,7 @@ Taxa de homicídios : -0,19</code></pre>
 <p>Quatro tarefas, na ordem. Tente antes de abrir cada resposta.</p>
 <p><strong>1.</strong> Calcule os percentis 5, 25, 50, 75 e 95 de <code>aluguel</code> e de <code>condominio</code>, e ponha o máximo de cada uma na última linha da tabela. Compare o percentil 95 com o máximo: o que a distância entre eles diz?</p>
 <div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1225,16 +1248,16 @@ Taxa de homicídios : -0,19</code></pre>
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="cell-alugueis-dist-percentis" class="cell" data-execution_count="13">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>colunas <span class="op">=</span> [<span class="st">"aluguel"</span>, <span class="st">"condominio"</span>]</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>percentis <span class="op">=</span> [<span class="fl">0.05</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>, <span class="fl">0.95</span>]</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>tabela <span class="op">=</span> alugueis[colunas].quantile(percentis)</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>tabela.index <span class="op">=</span> [<span class="ss">f"</span><span class="sc">{</span>p<span class="sc">:.0%}</span><span class="ss">"</span> <span class="cf">for</span> p <span class="kw">in</span> percentis]</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>tabela.loc[<span class="st">"máximo"</span>] <span class="op">=</span> alugueis[colunas].<span class="bu">max</span>()</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>tabela.astype(<span class="bu">int</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="alugueis-dist-percentis" class="cell-output cell-output-display" data-execution_count="13">
+<div id="cell-alugueis-dist-percentis" class="cell" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>colunas <span class="op">=</span> [<span class="st">"aluguel"</span>, <span class="st">"condominio"</span>]</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>percentis <span class="op">=</span> [<span class="fl">0.05</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>, <span class="fl">0.95</span>]</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>tabela <span class="op">=</span> alugueis[colunas].quantile(percentis)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>tabela.index <span class="op">=</span> [<span class="ss">f"</span><span class="sc">{</span>p<span class="sc">:.0%}</span><span class="ss">"</span> <span class="cf">for</span> p <span class="kw">in</span> percentis]</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>tabela.loc[<span class="st">"máximo"</span>] <span class="op">=</span> alugueis[colunas].<span class="bu">max</span>()</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>tabela.astype(<span class="bu">int</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="alugueis-dist-percentis" class="cell-output cell-output-display" data-execution_count="14">
 <div>
 
 
@@ -1289,52 +1312,6 @@ Taxa de homicídios : -0,19</code></pre>
 </div>
 <p><strong>2.</strong> Desenhe o boxplot de <code>aluguel</code>. Pela regra de 1,5×IQR, calcule o limite superior do bigode e conte quantos imóveis são outliers. Que fração do conjunto isso representa? Há outliers pelo lado de baixo?</p>
 <div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Dica</span>Resposta
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-8" class="callout-8-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<div id="cell-alugueis-dist-boxplot" class="cell" data-execution_count="14">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>q1, q3 <span class="op">=</span> alugueis[<span class="st">"aluguel"</span>].quantile([<span class="fl">0.25</span>, <span class="fl">0.75</span>])</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>limite_sup <span class="op">=</span> q3 <span class="op">+</span> <span class="fl">1.5</span> <span class="op">*</span> (q3 <span class="op">-</span> q1)</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>limite_inf <span class="op">=</span> q1 <span class="op">-</span> <span class="fl">1.5</span> <span class="op">*</span> (q3 <span class="op">-</span> q1)</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>acima <span class="op">=</span> alugueis[<span class="st">"aluguel"</span>] <span class="op">&gt;</span> limite_sup</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>abaixo <span class="op">=</span> alugueis[<span class="st">"aluguel"</span>] <span class="op">&lt;</span> limite_inf</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Q1 = </span><span class="sc">{</span>num(q1, <span class="dv">0</span>)<span class="sc">}</span><span class="ss">   Q3 = </span><span class="sc">{</span>num(q3, <span class="dv">0</span>)<span class="sc">}</span><span class="ss">   IQR = </span><span class="sc">{</span>num(q3 <span class="op">-</span> q1, <span class="dv">0</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"limite superior = </span><span class="sc">{</span>num(limite_sup, <span class="dv">0</span>)<span class="sc">}</span><span class="ss"> → </span><span class="sc">{</span><span class="bu">int</span>(acima.<span class="bu">sum</span>())<span class="sc">}</span><span class="ss"> outliers (</span><span class="sc">{</span>num(<span class="dv">100</span> <span class="op">*</span> acima.mean(), <span class="dv">1</span>)<span class="sc">}</span><span class="ss">%)"</span>)</span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"limite inferior = </span><span class="sc">{</span>num(limite_inf, <span class="dv">0</span>)<span class="sc">}</span><span class="ss"> → </span><span class="sc">{</span><span class="bu">int</span>(abaixo.<span class="bu">sum</span>())<span class="sc">}</span><span class="ss"> outliers"</span>)</span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">4</span>, <span class="dv">5</span>))</span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>alugueis[<span class="st">"aluguel"</span>].plot.box(ax<span class="op">=</span>ax)</span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Aluguel (R$)"</span>)</span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Q1 = 1.530   Q3 = 5.000   IQR = 3.470
-limite superior = 10.205 → 715 outliers (6,7%)
-limite inferior = -3.675 → 0 outliers</code></pre>
-</div>
-<div class="cell-output cell-output-display">
-<div id="alugueis-dist-boxplot" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="05-distribuicao-dados_files/figure-html/alugueis-dist-boxplot-output-2.png" alt="Boxplot vertical do aluguel em reais, com a caixa comprimida perto da base, bigode inferior curto e uma coluna densa de pontos acima do bigode superior, que se estende até alguns valores isolados muito acima dos demais." width="376" height="470" class="figure-img"></p>
-<figcaption>Boxplot do aluguel. A caixa é o IQR; os pontos acima do bigode são os outliers pela regra de 1,5×IQR.</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<p>715 imóveis (6,7% do conjunto) passam do bigode superior (R$ 10.205). Pelo lado de baixo, 0: o limite inferior dá R$ -3.675, e não existe aluguel tão barato. Essa assimetria do próprio boxplot (bigode curto embaixo, chuva de pontos em cima) já é a assinatura visual da cauda longa à direita. E note a proporção: num dado normal, a regra de 1,5×IQR marca menos de 1% dos valores como outlier; aqui marca 6,7%. Quando “outlier” vira uma fatia visível do conjunto, o problema está em esperar simetria de um dado que não a tem.</p>
-</div>
-</div>
-</div>
-<p><strong>3.</strong> Monte a tabela de frequência de <code>area_m2</code> em 10 faixas de largura igual (<code>pd.cut</code>) e desenhe o histograma. Por que ficaram inúteis? Refaça as duas coisas só com os imóveis até o percentil 99 da área e compare.</p>
-<div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -1346,10 +1323,58 @@ limite inferior = -3.675 → 0 outliers</code></pre>
 </div>
 <div id="callout-9" class="callout-9-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="cell-alugueis-dist-faixas-bruto" class="cell" data-execution_count="15">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>faixas_bruto <span class="op">=</span> pd.cut(alugueis[<span class="st">"area_m2"</span>], <span class="dv">10</span>).value_counts().sort_index()</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>faixas_bruto</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="alugueis-dist-faixas-bruto" class="cell-output cell-output-display" data-execution_count="15">
+<div id="cell-alugueis-dist-boxplot" class="cell" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>q1, q3 <span class="op">=</span> alugueis[<span class="st">"aluguel"</span>].quantile([<span class="fl">0.25</span>, <span class="fl">0.75</span>])</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>limite_sup <span class="op">=</span> q3 <span class="op">+</span> <span class="fl">1.5</span> <span class="op">*</span> (q3 <span class="op">-</span> q1)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>limite_inf <span class="op">=</span> q1 <span class="op">-</span> <span class="fl">1.5</span> <span class="op">*</span> (q3 <span class="op">-</span> q1)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>acima <span class="op">=</span> alugueis[<span class="st">"aluguel"</span>] <span class="op">&gt;</span> limite_sup</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>abaixo <span class="op">=</span> alugueis[<span class="st">"aluguel"</span>] <span class="op">&lt;</span> limite_inf</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"q1 = </span><span class="sc">{</span>num(q1, <span class="dv">0</span>)<span class="sc">}</span><span class="ss">   q3 = </span><span class="sc">{</span>num(q3, <span class="dv">0</span>)<span class="sc">}</span><span class="ss">   IQR = </span><span class="sc">{</span>num(q3 <span class="op">-</span> q1, <span class="dv">0</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"limite superior = </span><span class="sc">{</span>num(limite_sup, <span class="dv">0</span>)<span class="sc">}</span><span class="ss"> → </span><span class="sc">{</span><span class="bu">int</span>(acima.<span class="bu">sum</span>())<span class="sc">}</span><span class="ss"> outliers (</span><span class="sc">{</span>num(<span class="dv">100</span> <span class="op">*</span> acima.mean(), <span class="dv">1</span>)<span class="sc">}</span><span class="ss">%)"</span>)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"limite inferior = </span><span class="sc">{</span>num(limite_inf, <span class="dv">0</span>)<span class="sc">}</span><span class="ss"> → </span><span class="sc">{</span><span class="bu">int</span>(abaixo.<span class="bu">sum</span>())<span class="sc">}</span><span class="ss"> outliers"</span>)</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="dv">3</span>))</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>ax.boxplot(alugueis[<span class="st">"aluguel"</span>], orientation<span class="op">=</span><span class="st">"horizontal"</span>,</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>           flierprops<span class="op">=</span>{<span class="st">"markersize"</span>: <span class="dv">4</span>, <span class="st">"alpha"</span>: <span class="fl">0.4</span>})   <span class="co"># centenas de outliers: pontos pequenos e transparentes</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>ax.set_yticks([])</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Aluguel (R$)"</span>)</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>q1 = 1.530   q3 = 5.000   IQR = 3.470
+limite superior = 10.205 → 715 outliers (6,7%)
+limite inferior = -3.675 → 0 outliers</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div id="alugueis-dist-boxplot" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="05-distribuicao-dados_files/figure-html/alugueis-dist-boxplot-output-2.png" alt="Boxplot horizontal do aluguel em reais, com a caixa comprimida perto do início do eixo, bigode da esquerda curto e uma faixa densa de pontos à direita do bigode da direita, que se estende até alguns valores isolados muito além dos demais." width="662" height="278" class="figure-img"></p>
+<figcaption>Boxplot do aluguel. A caixa é o IQR; os pontos à direita do bigode são os outliers pela regra de 1,5×IQR.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>715 imóveis (6,7% do conjunto) passam do limite do bigode da direita (R$ 10.205). Pelo lado de baixo, 0: o limite inferior dá R$ -3.675, e não existe aluguel tão barato. Essa assimetria do próprio boxplot (bigode curto à esquerda, chuva de pontos à direita) já é a assinatura visual da cauda longa à direita. E note a proporção: num dado normal, a regra de 1,5×IQR marca menos de 1% dos valores como outlier; aqui marca 6,7%. Quando “outlier” vira uma fatia visível do conjunto, o problema está em esperar simetria de um dado que não a tem.</p>
+</div>
+</div>
+</div>
+<p><strong>3.</strong> Monte a tabela de frequência de <code>area_m2</code> em 10 faixas de largura igual (<code>pd.cut</code>) e desenhe o histograma. Por que ficaram inúteis? Refaça as duas coisas só com os imóveis até o percentil 99 da área e compare.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div id="cell-alugueis-dist-faixas-bruto" class="cell" data-execution_count="16">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>faixas_bruto <span class="op">=</span> pd.cut(alugueis[<span class="st">"area_m2"</span>], <span class="dv">10</span>).value_counts().sort_index()</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>faixas_bruto</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="alugueis-dist-faixas-bruto" class="cell-output cell-output-display" data-execution_count="16">
 <pre><code>area_m2
 (-35.324, 4643.4]     10689
 (4643.4, 9275.8]          0
@@ -1365,15 +1390,15 @@ Name: count, dtype: int64</code></pre>
 </div>
 </div>
 <p>Dez faixas de largura igual entre o mínimo e 46.335 m² dão faixas de cerca de 4.634 m² cada, e 10.689 dos 10.692 imóveis caem na primeira. Não é um histograma; é uma barra e nove faixas quase vazias. Um único valor absurdo dita a escala inteira, e a forma real dos outros dez mil desaparece.</p>
-<div id="cell-alugueis-dist-faixas-filtrado" class="cell" data-execution_count="16">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>corte <span class="op">=</span> alugueis[<span class="st">"area_m2"</span>].quantile(<span class="fl">0.99</span>)</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>ate_corte <span class="op">=</span> alugueis.loc[alugueis[<span class="st">"area_m2"</span>] <span class="op">&lt;=</span> corte, <span class="st">"area_m2"</span>]</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"percentil 99 = </span><span class="sc">{</span>num(corte, <span class="dv">0</span>)<span class="sc">}</span><span class="ss"> m² → </span><span class="sc">{</span>num(<span class="bu">len</span>(ate_corte), <span class="dv">0</span>)<span class="sc">}</span><span class="ss"> imóveis dentro do corte"</span>)</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>pd.cut(ate_corte, <span class="dv">10</span>).value_counts().sort_index()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-alugueis-dist-faixas-filtrado" class="cell" data-execution_count="17">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>corte <span class="op">=</span> alugueis[<span class="st">"area_m2"</span>].quantile(<span class="fl">0.99</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>ate_corte <span class="op">=</span> alugueis.loc[alugueis[<span class="st">"area_m2"</span>] <span class="op">&lt;=</span> corte, <span class="st">"area_m2"</span>]</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"percentil 99 = </span><span class="sc">{</span>num(corte, <span class="dv">0</span>)<span class="sc">}</span><span class="ss"> m² → </span><span class="sc">{</span>num(<span class="bu">len</span>(ate_corte), <span class="dv">0</span>)<span class="sc">}</span><span class="ss"> imóveis dentro do corte"</span>)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>pd.cut(ate_corte, <span class="dv">10</span>).value_counts().sort_index()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>percentil 99 = 650 m² → 10.585 imóveis dentro do corte</code></pre>
 </div>
-<div id="alugueis-dist-faixas-filtrado" class="cell-output cell-output-display" data-execution_count="16">
+<div id="alugueis-dist-faixas-filtrado" class="cell-output cell-output-display" data-execution_count="17">
 <pre><code>area_m2
 (10.361, 74.9]    4271
 (74.9, 138.8]     2733
@@ -1388,13 +1413,13 @@ Name: count, dtype: int64</code></pre>
 Name: count, dtype: int64</code></pre>
 </div>
 </div>
-<div id="cell-alugueis-dist-hist" class="cell" data-execution_count="17">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>ate_corte.plot.hist(ax<span class="op">=</span>ax, bins<span class="op">=</span><span class="dv">20</span>, edgecolor<span class="op">=</span><span class="st">"white"</span>)</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Área (m²)"</span>)</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Número de imóveis"</span>)</span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-alugueis-dist-hist" class="cell" data-execution_count="18">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>ate_corte.plot.hist(ax<span class="op">=</span>ax, bins<span class="op">=</span><span class="dv">20</span>, edgecolor<span class="op">=</span><span class="st">"white"</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Área (m²)"</span>)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Número de imóveis"</span>)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div id="alugueis-dist-hist" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
@@ -1410,7 +1435,7 @@ Name: count, dtype: int64</code></pre>
 </div>
 <p><strong>4.</strong> Calcule a assimetria de <code>aluguel</code>, <code>condominio</code> e <code>area_m2</code>, e ponha média e mediana ao lado. O sinal bate com a regra “média &gt; mediana ⇒ assimetria positiva”? Qual coluna é a mais assimétrica, e por quê?</p>
 <div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1419,17 +1444,17 @@ Name: count, dtype: int64</code></pre>
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="cell-alugueis-dist-assimetria" class="cell" data-execution_count="18">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>colunas <span class="op">=</span> [<span class="st">"aluguel"</span>, <span class="st">"condominio"</span>, <span class="st">"area_m2"</span>]</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>forma <span class="op">=</span> pd.DataFrame({</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"média"</span>: alugueis[colunas].mean().<span class="bu">round</span>(<span class="dv">0</span>).astype(<span class="bu">int</span>),</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"mediana"</span>: alugueis[colunas].median().<span class="bu">round</span>(<span class="dv">0</span>).astype(<span class="bu">int</span>),</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"assimetria"</span>: pd.Series([<span class="bu">round</span>(stats.skew(alugueis[c], bias<span class="op">=</span><span class="va">False</span>), <span class="dv">1</span>) <span class="cf">for</span> c <span class="kw">in</span> colunas], index<span class="op">=</span>colunas),</span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>forma</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="alugueis-dist-assimetria" class="cell-output cell-output-display" data-execution_count="18">
+<div id="cell-alugueis-dist-assimetria" class="cell" data-execution_count="19">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>colunas <span class="op">=</span> [<span class="st">"aluguel"</span>, <span class="st">"condominio"</span>, <span class="st">"area_m2"</span>]</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>forma <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"média"</span>: alugueis[colunas].mean().<span class="bu">round</span>(<span class="dv">0</span>).astype(<span class="bu">int</span>),</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"mediana"</span>: alugueis[colunas].median().<span class="bu">round</span>(<span class="dv">0</span>).astype(<span class="bu">int</span>),</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"assimetria"</span>: pd.Series([<span class="bu">round</span>(stats.skew(alugueis[c], bias<span class="op">=</span><span class="va">False</span>), <span class="dv">1</span>) <span class="cf">for</span> c <span class="kw">in</span> colunas], index<span class="op">=</span>colunas),</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>forma</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="alugueis-dist-assimetria" class="cell-output cell-output-display" data-execution_count="19">
 <div>
 
 

@@ -101,9 +101,9 @@ div.csl-indent {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-b15e405f270457097577c78528feeb38.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-4c6c0d00e29b3f69541def337cc0d8c7.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-b15e405f270457097577c78528feeb38.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-96de93aeef37c2f55637d13965bee670.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-fa5a435faa8b3fd8ba2c629fc35ba32a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-96de93aeef37c2f55637d13965bee670.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -808,7 +808,7 @@ mediana:               4.145.040</code></pre>
 </div>
 <p>O <span class="math inline">\(q_1\)</span> de 2.942.356 é a média entre Mato Grosso do Sul e Distrito Federal; o <span class="math inline">\(q_3\)</span> de 9.386.342 é a média entre Ceará e Pernambuco. É a mesma regra que a seção 1.3 aplicou à mediana quando <span class="math inline">\(n\)</span> é par (posição fracionária, média das duas vizinhas), reaparecendo agora dentro de cada metade.</p>
 <p>Note a inversão: aqui é a mediana que é o caso especial. Um quantil só cai sobre uma observação quando <span class="math inline">\((n-1)p\)</span> dá um inteiro, e não há nada em <span class="math inline">\(n = 27\)</span> que garanta isso para <span class="math inline">\(p = 0{,}25\)</span> ou <span class="math inline">\(p = 0{,}75\)</span>.</p>
-<p>Por que interpolar assim, e não de outro jeito? A escolha não é única: há convenções concorrentes, e softwares diferentes dão respostas diferentes para os mesmos dados. A seção 1.5 mostra três delas, todas disponíveis no próprio pandas.</p>
+<p>Por que interpolar assim, e não de outro jeito? A escolha não é única: há convenções concorrentes: o pandas usa uma, <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span> adotam outra, e os quartis saem um pouco diferentes para os mesmos dados.</p>
 <div class="exemplo">
 <p>Lendo os três números em português: um quarto dos estados tem até 2,9 milhões de habitantes; metade tem até 4,1 milhões; três quartos têm até 9,4 milhões. E, no quarto restante, estão os estados que vão de 9,4 milhões até os 46,0 milhões de São Paulo: um quarto da lista cobrindo sozinho 81% da amplitude total.</p>
 </div>

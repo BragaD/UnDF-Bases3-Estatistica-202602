@@ -100,9 +100,9 @@ div.csl-indent {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-b15e405f270457097577c78528feeb38.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-4c6c0d00e29b3f69541def337cc0d8c7.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-b15e405f270457097577c78528feeb38.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-96de93aeef37c2f55637d13965bee670.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-fa5a435faa8b3fd8ba2c629fc35ba32a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-96de93aeef37c2f55637d13965bee670.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -770,7 +770,7 @@ Figura&nbsp;1: Densidade exponencial com média β = 500 horas. A linha tracejad
 <p>Aqui, e na seção 7.4.3 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>, o parâmetro <span class="math inline">\(\beta\)</span> é a <strong>média</strong>. Muitos livros e bibliotecas usam a <strong>taxa</strong> <span class="math inline">\(\lambda = 1/\beta\)</span> (falhas por hora), com densidade <span class="math inline">\(\lambda e^{-\lambda t}\)</span>. Na <code>scipy.stats.expon</code>, <code>scale</code> é a média: para uma taxa de 0,002 falha por hora, o certo é <code>expon(scale=1/0.002)</code>. Passar a taxa em <code>scale</code> dá um modelo com média 0,002 hora.</p>
 </div>
 </div>
-<p>Se as falhas acontecem ao acaso, a uma taxa constante, o número de falhas num intervalo de duração <span class="math inline">\(t\)</span> segue a Poisson da seção 3.7, com média <span class="math inline">\(t/\beta\)</span>, e o tempo entre falhas consecutivas segue a exponencial. O processo de Poisson, que produz essas contagens, é assunto da seção 6.7 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>; a ligação com a exponencial vai além dela e fica fora do escopo deste livro.</p>
+<p>Se as falhas acontecem ao acaso, a uma taxa constante, o número de falhas num intervalo de duração <span class="math inline">\(t\)</span> segue a Poisson da seção 3.7, com média <span class="math inline">\(t/\beta\)</span>, e o tempo entre falhas consecutivas segue a exponencial. O processo de Poisson, que produz essas contagens, é assunto da seção 6.7 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>.</p>
 </section>
 <section id="exercícios" class="level2">
 <h2 class="anchored" data-anchor-id="exercícios">Exercícios</h2>

@@ -101,9 +101,9 @@ div.csl-indent {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-b15e405f270457097577c78528feeb38.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-4c6c0d00e29b3f69541def337cc0d8c7.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-b15e405f270457097577c78528feeb38.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-96de93aeef37c2f55637d13965bee670.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-fa5a435faa8b3fd8ba2c629fc35ba32a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-96de93aeef37c2f55637d13965bee670.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -783,7 +783,7 @@ Figura&nbsp;1: Três densidades normais. Mudar μ desloca o sino; aumentar σ o 
 <li><strong><span class="math inline">\(z\)</span> negativo:</strong> a tabela só tem <span class="math inline">\(z \ge 0\)</span>, e a simetria resolve o resto. <span class="math inline">\(\Phi(-1{,}73) = 1 - \Phi(1{,}73) = 0{,}0418\)</span>.</li>
 <li><strong>Intervalo:</strong> <span class="math inline">\(P(0{,}47 \le Z \le 1{,}73)\)</span> é a diferença <span class="math inline">\(\Phi(1{,}73) - \Phi(0{,}47)\)</span>, ou seja, <span class="math inline">\(0{,}9582 - 0{,}6808 = 0{,}2774\)</span>.</li>
 </ul>
-<p>A Tabela III de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span> usa outro formato: dá a área entre 0 e <span class="math inline">\(z\)</span>, <span class="math inline">\(P(0 \le Z \le z)\)</span>, e não a área acumulada desde <span class="math inline">\(-\infty\)</span>. As duas se convertem somando ou tirando 0,5: <span class="math inline">\(P(0 \le Z \le 1{,}73) = 0{,}9582 - 0{,}5 = 0{,}4582\)</span>, o valor do Bussab.</p>
+<p>A Tabela III de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span> usa outro formato: dá a área entre 0 e <span class="math inline">\(z\)</span>, <span class="math inline">\(P(0 \le Z \le z)\)</span>, e não a área acumulada desde <span class="math inline">\(-\infty\)</span>. As duas se convertem somando ou tirando 0,5: <span class="math inline">\(P(0 \le Z \le 1{,}73) = 0{,}9582 - 0{,}5 = 0{,}4582\)</span>.</p>
 </section>
 <section id="padronização" class="level2">
 <h2 class="anchored" data-anchor-id="padronização">Padronização</h2>
@@ -798,7 +798,7 @@ E(Z) &amp;= \frac{E(X) - \mu}{\sigma} = 0, \\
 \mathrm{Var}(Z) &amp;= \frac{\mathrm{Var}(X)}{\sigma^2} = 1.
 \end{aligned}
 \]</span></p>
-<p>O que as regras não mostram, e que <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span> também não demonstra, é que <span class="math inline">\(Z\)</span> continua sendo <strong>normal</strong>. Aceitando esse fato, <span class="math inline">\(Z \sim N(0, 1)\)</span>, e toda pergunta sobre <span class="math inline">\(X\)</span> vira uma pergunta sobre <span class="math inline">\(Z\)</span>. O valor <span class="math inline">\(z = (x - \mu)/\sigma\)</span> diz a quantos desvios-padrão <span class="math inline">\(x\)</span> está da média.</p>
+<p>O que as regras não mostram é que <span class="math inline">\(Z\)</span> continua sendo <strong>normal</strong>. Aceitando esse fato, <span class="math inline">\(Z \sim N(0, 1)\)</span>, e toda pergunta sobre <span class="math inline">\(X\)</span> vira uma pergunta sobre <span class="math inline">\(Z\)</span>. O valor <span class="math inline">\(z = (x - \mu)/\sigma\)</span> diz a quantos desvios-padrão <span class="math inline">\(x\)</span> está da média.</p>
 <p>Por exemplo, com <span class="math inline">\(X \sim N(3, 16)\)</span> (ou seja, <span class="math inline">\(\sigma = 4\)</span>):</p>
 <p><span class="math display">\[
 \begin{aligned}
@@ -816,7 +816,7 @@ P(2 \le X \le 5) &amp;= P\left(\frac{2 - 3}{4} \le Z \le \frac{5 - 3}{4}\right) 
 <pre><code>(0.2902, 0.2902)</code></pre>
 </div>
 </div>
-<p>Os dois caminhos dão 0,2902, o valor do Bussab. Com a tabela: <span class="math inline">\(\Phi(0{,}5) = 0{,}6915\)</span> e, pela simetria, <span class="math inline">\(\Phi(-0{,}25) = 1 - 0{,}5987 = 0{,}4013\)</span>. A diferença é <span class="math inline">\(0{,}2902\)</span>. Com a <code>scipy</code>, <code>stats.norm(loc=μ, scale=σ)</code> faz a conta direto, sem padronizar, mas a padronização continua útil para <strong>interpretar</strong>: dizer que um valor está a 2 desvios-padrão da média significa a mesma coisa em qualquer normal.</p>
+<p>Os dois caminhos dão 0,2902. Com a tabela: <span class="math inline">\(\Phi(0{,}5) = 0{,}6915\)</span> e, pela simetria, <span class="math inline">\(\Phi(-0{,}25) = 1 - 0{,}5987 = 0{,}4013\)</span>. A diferença é <span class="math inline">\(0{,}2902\)</span>. Com a <code>scipy</code>, <code>stats.norm(loc=μ, scale=σ)</code> faz a conta direto, sem padronizar, mas a padronização continua útil para <strong>interpretar</strong>: dizer que um valor está a 2 desvios-padrão da média significa a mesma coisa em qualquer normal.</p>
 </section>
 <section id="a-quantos-desvios-padrão" class="level2">
 <h2 class="anchored" data-anchor-id="a-quantos-desvios-padrão">A quantos desvios-padrão</h2>
@@ -878,7 +878,7 @@ P(2 \le X \le 5) &amp;= P\left(\frac{2 - 3}{4} \le Z \le \frac{5 - 3}{4}\right) 
 </div>
 </div>
 <ol type="a">
-<li>e (b) dão 0,5 cada, pela simetria em torno da média. (c) é cerca de 0,0908 (o Bussab, com <span class="math inline">\(z\)</span> arredondado a duas casas e a Tabela III, obtém cerca de 0,0914). (d) é praticamente zero: R$ 20.000 fica a <span class="math inline">\((20.000 - 10.000)/1.500 \approx 6{,}7\)</span> desvios-padrão da média.</li>
+<li>e (b) dão 0,5 cada, pela simetria em torno da média. (c) é cerca de 0,0908. (d) é praticamente zero: R$ 20.000 fica a <span class="math inline">\((20.000 - 10.000)/1.500 \approx 6{,}7\)</span> desvios-padrão da média.</li>
 </ol>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">

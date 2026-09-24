@@ -101,9 +101,9 @@ div.csl-indent {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-b15e405f270457097577c78528feeb38.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-4c6c0d00e29b3f69541def337cc0d8c7.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-b15e405f270457097577c78528feeb38.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-96de93aeef37c2f55637d13965bee670.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-fa5a435faa8b3fd8ba2c629fc35ba32a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-96de93aeef37c2f55637d13965bee670.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -825,7 +825,7 @@ E(X) &amp;= np, \\
 \end{aligned}
 \]</span></p>
 </div>
-<p>A justificativa: <span class="math inline">\(X\)</span> é a soma de <span class="math inline">\(n\)</span> variáveis de Bernoulli, uma por ensaio, e cada uma tem média <span class="math inline">\(p\)</span> e variância <span class="math inline">\(p(1-p)\)</span> (seção 3.4). As médias de uma soma sempre se somam; as variâncias se somam quando as variáveis são independentes. A prova desse resultado sobre somas fica fora deste livro (é o Capítulo 8 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>; a conta direta pela fórmula é o Problema 41 do Capítulo 6). A simulação abaixo confere as fórmulas somando, em cada noite simulada, 10 variáveis de Bernoulli:</p>
+<p>A justificativa: <span class="math inline">\(X\)</span> é a soma de <span class="math inline">\(n\)</span> variáveis de Bernoulli, uma por ensaio, e cada uma tem média <span class="math inline">\(p\)</span> e variância <span class="math inline">\(p(1-p)\)</span> (seção 3.4). As médias de uma soma sempre se somam; as variâncias se somam quando as variáveis são independentes. A simulação abaixo confere as fórmulas somando, em cada noite simulada, 10 variáveis de Bernoulli:</p>
 <div id="cell-binomial-simulada" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">42</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>ensaios <span class="op">=</span> rng.random((<span class="dv">10_000</span>, n)) <span class="op">&lt;</span> p          <span class="co"># 10.000 noites x 10 jobs: True = falha</span></span>

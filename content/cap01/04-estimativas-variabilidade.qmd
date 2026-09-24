@@ -96,7 +96,7 @@ O $q_1$ de `{python} num(q1, 0)` é a média entre Mato Grosso do Sul e Distrito
 
 Note a inversão: aqui é a mediana que é o caso especial. Um quantil só cai sobre uma observação quando $(n-1)p$ dá um inteiro, e não há nada em $n = 27$ que garanta isso para $p = 0{,}25$ ou $p = 0{,}75$.
 
-Por que interpolar assim, e não de outro jeito? A escolha não é única: há convenções concorrentes, e softwares diferentes dão respostas diferentes para os mesmos dados. A seção 1.5 mostra três delas, todas disponíveis no próprio pandas.
+Por que interpolar assim, e não de outro jeito? A escolha não é única: há convenções concorrentes: o pandas usa uma, @bussab2023 adotam outra, e os quartis saem um pouco diferentes para os mesmos dados.
 
 ::: {.exemplo}
 Lendo os três números em português: um quarto dos estados tem até `{python} num(q1/1e6, 1)` milhões de habitantes; metade tem até `{python} num(q2/1e6, 1)` milhões; três quartos têm até `{python} num(q3/1e6, 1)` milhões. E, no quarto restante, estão os estados que vão de `{python} num(q3/1e6, 1)` milhões até os `{python} num(estado['Populacao'].max()/1e6, 1)` milhões de São Paulo: um quarto da lista cobrindo sozinho `{python} num(100 * (estado['Populacao'].max() - q3) / (estado['Populacao'].max() - estado['Populacao'].min()), 0)`% da amplitude total.

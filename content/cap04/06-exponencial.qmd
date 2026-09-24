@@ -82,7 +82,7 @@ plt.show()
 Aqui, e na seção 7.4.3 de @bussab2023, o parâmetro $\beta$ é a **média**. Muitos livros e bibliotecas usam a **taxa** $\lambda = 1/\beta$ (falhas por hora), com densidade $\lambda e^{-\lambda t}$. Na `scipy.stats.expon`, `scale` é a média: para uma taxa de 0,002 falha por hora, o certo é `expon(scale=1/0.002)`. Passar a taxa em `scale` dá um modelo com média 0,002 hora.
 :::
 
-Se as falhas acontecem ao acaso, a uma taxa constante, o número de falhas num intervalo de duração $t$ segue a Poisson da seção 3.7, com média $t/\beta$, e o tempo entre falhas consecutivas segue a exponencial. O processo de Poisson, que produz essas contagens, é assunto da seção 6.7 de @bussab2023; a ligação com a exponencial vai além dela e fica fora do escopo deste livro.
+Se as falhas acontecem ao acaso, a uma taxa constante, o número de falhas num intervalo de duração $t$ segue a Poisson da seção 3.7, com média $t/\beta$, e o tempo entre falhas consecutivas segue a exponencial. O processo de Poisson, que produz essas contagens, é assunto da seção 6.7 de @bussab2023.
 
 ## Exercícios
 

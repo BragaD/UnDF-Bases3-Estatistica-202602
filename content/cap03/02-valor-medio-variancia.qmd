@@ -94,7 +94,7 @@ DP = np.sqrt(Var)
 round(Var, 2), round(DP, 2)
 ```
 
-A variância do lucro é `{python} num(Var, 2)` (em mil reais ao quadrado), e o desvio-padrão, `{python} num(DP, 2)` mil reais, na mesma unidade do lucro. (O Exemplo 6.6 de @bussab2023 dá 7,57 porque arredonda a variância para 57,23 antes de tirar a raiz.) Um desvio de mais de 7 mil em torno de uma média de quase 10 mil diz que o lucro de uma venda isolada é bem incerto. O responsável é o prejuízo de 5 mil, que acontece em quase uma venda a cada cinco.
+A variância do lucro é `{python} num(Var, 2)` (em mil reais ao quadrado), e o desvio-padrão, `{python} num(DP, 2)` mil reais, na mesma unidade do lucro. Um desvio de mais de 7 mil em torno de uma média de quase 10 mil diz que o lucro de uma venda isolada é bem incerto. O responsável é o prejuízo de 5 mil, que acontece em quase uma venda a cada cinco.
 
 ::: {.callout-note}
 ## Sem a dúvida entre $n$ e $n - 1$

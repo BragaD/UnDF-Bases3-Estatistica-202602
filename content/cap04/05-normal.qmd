@@ -90,7 +90,7 @@ Para achar $\Phi(1{,}73)$, desça até a linha **1,7** e siga até a coluna **0,
 - **$z$ negativo:** a tabela só tem $z \ge 0$, e a simetria resolve o resto. $\Phi(-1{,}73) = 1 - \Phi(1{,}73) = 0{,}0418$.
 - **Intervalo:** $P(0{,}47 \le Z \le 1{,}73)$ é a diferença $\Phi(1{,}73) - \Phi(0{,}47)$, ou seja, $0{,}9582 - 0{,}6808 = 0{,}2774$.
 
-A Tabela III de @bussab2023 usa outro formato: dá a área entre 0 e $z$, $P(0 \le Z \le z)$, e não a área acumulada desde $-\infty$. As duas se convertem somando ou tirando 0,5: $P(0 \le Z \le 1{,}73) = 0{,}9582 - 0{,}5 = 0{,}4582$, o valor do Bussab.
+A Tabela III de @bussab2023 usa outro formato: dá a área entre 0 e $z$, $P(0 \le Z \le z)$, e não a área acumulada desde $-\infty$. As duas se convertem somando ou tirando 0,5: $P(0 \le Z \le 1{,}73) = 0{,}9582 - 0{,}5 = 0{,}4582$.
 
 ## Padronização
 
@@ -109,7 +109,7 @@ E(Z) &= \frac{E(X) - \mu}{\sigma} = 0, \\
 \end{aligned}
 $$
 
-O que as regras não mostram, e que @bussab2023 também não demonstra, é que $Z$ continua sendo **normal**. Aceitando esse fato, $Z \sim N(0, 1)$, e toda pergunta sobre $X$ vira uma pergunta sobre $Z$. O valor $z = (x - \mu)/\sigma$ diz a quantos desvios-padrão $x$ está da média.
+O que as regras não mostram é que $Z$ continua sendo **normal**. Aceitando esse fato, $Z \sim N(0, 1)$, e toda pergunta sobre $X$ vira uma pergunta sobre $Z$. O valor $z = (x - \mu)/\sigma$ diz a quantos desvios-padrão $x$ está da média.
 
 Por exemplo, com $X \sim N(3, 16)$ (ou seja, $\sigma = 4$):
 
@@ -129,7 +129,7 @@ direto = X.cdf(5) - X.cdf(2)
 round(pela_padronizacao, 4), round(direto, 4)
 ```
 
-Os dois caminhos dão `{python} num(direto, 4)`, o valor do Bussab. Com a tabela: $\Phi(0{,}5) = 0{,}6915$ e, pela simetria, $\Phi(-0{,}25) = 1 - 0{,}5987 = 0{,}4013$. A diferença é $0{,}2902$. Com a `scipy`, `stats.norm(loc=μ, scale=σ)` faz a conta direto, sem padronizar, mas a padronização continua útil para **interpretar**: dizer que um valor está a 2 desvios-padrão da média significa a mesma coisa em qualquer normal.
+Os dois caminhos dão `{python} num(direto, 4)`. Com a tabela: $\Phi(0{,}5) = 0{,}6915$ e, pela simetria, $\Phi(-0{,}25) = 1 - 0{,}5987 = 0{,}4013$. A diferença é $0{,}2902$. Com a `scipy`, `stats.norm(loc=μ, scale=σ)` faz a conta direto, sem padronizar, mas a padronização continua útil para **interpretar**: dizer que um valor está a 2 desvios-padrão da média significa a mesma coisa em qualquer normal.
 
 ## A quantos desvios-padrão
 
@@ -158,7 +158,7 @@ print(round(deposito.cdf(15_000) - deposito.cdf(12_000), 4))
 print(f"{deposito.sf(20_000):.1e}")
 ```
 
-(a) e (b) dão 0,5 cada, pela simetria em torno da média. (c) é cerca de `{python} num(deposito.cdf(15_000) - deposito.cdf(12_000), 4)` (o Bussab, com $z$ arredondado a duas casas e a Tabela III, obtém cerca de 0,0914). (d) é praticamente zero: R\$ 20.000 fica a $(20.000 - 10.000)/1.500 \approx 6{,}7$ desvios-padrão da média.
+(a) e (b) dão 0,5 cada, pela simetria em torno da média. (c) é cerca de `{python} num(deposito.cdf(15_000) - deposito.cdf(12_000), 4)`. (d) é praticamente zero: R\$ 20.000 fica a $(20.000 - 10.000)/1.500 \approx 6{,}7$ desvios-padrão da média.
 
 ::: {.callout-important}
 ## Nem todo dado é normal

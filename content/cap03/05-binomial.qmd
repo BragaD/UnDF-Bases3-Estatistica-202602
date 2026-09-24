@@ -108,7 +108,7 @@ E(X) &= np, \\
 $$
 :::
 
-A justificativa: $X$ é a soma de $n$ variáveis de Bernoulli, uma por ensaio, e cada uma tem média $p$ e variância $p(1-p)$ (seção 3.4). As médias de uma soma sempre se somam; as variâncias se somam quando as variáveis são independentes. A prova desse resultado sobre somas fica fora deste livro (é o Capítulo 8 de @bussab2023; a conta direta pela fórmula é o Problema 41 do Capítulo 6). A simulação abaixo confere as fórmulas somando, em cada noite simulada, 10 variáveis de Bernoulli:
+A justificativa: $X$ é a soma de $n$ variáveis de Bernoulli, uma por ensaio, e cada uma tem média $p$ e variância $p(1-p)$ (seção 3.4). As médias de uma soma sempre se somam; as variâncias se somam quando as variáveis são independentes. A simulação abaixo confere as fórmulas somando, em cada noite simulada, 10 variáveis de Bernoulli:
 
 ```{python}
 #| label: binomial-simulada

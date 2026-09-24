@@ -96,7 +96,7 @@ comparacao = pd.DataFrame({
 comparacao.round(4)
 ```
 
-Com o lote de 100 peças, a chance de nenhuma defeituosa é `{python} num(stats.hypergeom(M=100, n=10, N=5).pmf(0), 3)`, e a de pelo menos uma, `{python} num(1 - stats.hypergeom(M=100, n=10, N=5).pmf(0), 3)`. O Bussab chega ao mesmo $p_0 \approx 0{,}584$; o complementar sai impresso como 0,426 na impressão consultada, um erro de digitação. Com 10.000 peças, a hipergeométrica e a binomial já coincidem até a terceira casa e diferem em menos de 0,0001. Por isso, numa pesquisa com 1.000 entrevistados numa cidade de milhões de habitantes, usa-se a binomial mesmo sem reposição.
+Com o lote de 100 peças, a chance de nenhuma defeituosa é `{python} num(stats.hypergeom(M=100, n=10, N=5).pmf(0), 3)`, e a de pelo menos uma, `{python} num(1 - stats.hypergeom(M=100, n=10, N=5).pmf(0), 3)`. Com 10.000 peças, a hipergeométrica e a binomial já coincidem até a terceira casa e diferem em menos de 0,0001. Por isso, numa pesquisa com 1.000 entrevistados numa cidade de milhões de habitantes, usa-se a binomial mesmo sem reposição.
 
 ## Resumo
 

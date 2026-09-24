@@ -95,4 +95,4 @@ O ambiente completo (Python, bibliotecas e Quarto) está empacotado em um contai
 
 ## Licença {.unnumbered}
 
-Material disponibilizado para fins educacionais. Os dados e exemplos originais são de autoria de Bruce, Bruce e Gedeck [@bruce2020].
+Material disponibilizado para fins educacionais. A Introdução se baseia em @weed; o Capítulo 1, em @bruce2020 e @weed, com dados brasileiros: população do IBGE, taxa de homicídios do Atlas da Violência e o conjunto *Brazilian houses to rent* (Kaggle, CC0). Os Capítulos 2 a 4 se baseiam em @bussab2023.

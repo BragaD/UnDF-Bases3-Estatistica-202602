@@ -1,7 +1,7 @@
 # Contagem e Probabilidade Clássica
 
 ::: {.callout-note}
-Esta seção se baseia na seção 5.2 de @bussab2023. Permutação e combinação, que o Bussab usa sem apresentar, entram aqui como revisão.
+Esta seção se baseia na seção 5.2 de @bussab2023, com uma revisão de permutação e combinação.
 :::
 
 ```{python}

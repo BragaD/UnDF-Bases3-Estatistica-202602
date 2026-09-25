@@ -2,7 +2,7 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "Bases 3",
+    "title": "Estatística - Bases 3",
     "section": "",
     "text": "Bem-vindo\nEste é o material de apoio da disciplina Bases 3: Estatística, oferecida aos cursos de Engenharia de Software e Sistemas de Informação da UnDF.",
     "crumbs": [
@@ -12,7 +12,7 @@
   {
     "objectID": "index.html#sobre-a-disciplina",
     "href": "index.html#sobre-a-disciplina",
-    "title": "Bases 3",
+    "title": "Estatística - Bases 3",
     "section": "Sobre a Disciplina",
     "text": "Sobre a Disciplina\nA disciplina apresenta a estatística do ponto de vista de quem constrói software e trabalha com dados: menos fórmulas decoradas, mais raciocínio sobre o que os dados dizem e o que eles não dizem. Todos os exemplos são em Python.\nO material cobre a Introdução, o Capítulo 1 (Análise Exploratória de Dados: estimativas de localização, variabilidade, distribuição, dados binários e categóricos, e correlação) e três capítulos de probabilidade, escritos a partir dos capítulos 5, 6 e 7 de Bussab e Morettin (2023): o Capítulo 2 (Probabilidade), o Capítulo 3 (Variáveis Aleatórias Discretas) e o Capítulo 4 (Variáveis Aleatórias Contínuas).\nTrês seções estão fora do cronograma e ficam como leitura complementar: a 1.8 (Explorando Duas ou Mais Variáveis), a 3.7 (Distribuição de Poisson) e a 4.6 (Distribuição Exponencial).",
     "crumbs": [
@@ -22,7 +22,7 @@
   {
     "objectID": "index.html#cronograma",
     "href": "index.html#cronograma",
-    "title": "Bases 3",
+    "title": "Estatística - Bases 3",
     "section": "Cronograma",
     "text": "Cronograma\nAs aulas são às sextas-feiras, de 21 de agosto a 18 de dezembro de 2026: Engenharia de Software das 8h30 às 10h10 e Sistemas de Informação das 10h20 às 12h00. Das 18 sextas do período, quatro não têm aula: 11/09 (ausência do professor por atestado médico), 02/10 e 23/10 (eleições) e 20/11 (feriado). Restam, portanto, 14 encontros.\n\nCronograma do semestre 2.2026\n\n\n\n\n\n\n\nAula\nData\nConteúdo\n\n\n\n\n1\n21/08\nApresentação da disciplina · Introdução: Por que Estatística? · O Paradoxo de Simpson\n\n\n2\n28/08\nIntrodução ao Python e ao Google Colab: abrir no Colab ↗\n\n\n3\n04/09\nAnálise Exploratória: dados estruturados e retangulares · estimativas de localização\n\n\n\n11/09\nSem aula (atestado médico)\n\n\n4\n18/09\nEstimativas de variabilidade\n\n\n5\n25/09\nExplorando a distribuição dos dados · dados binários e categóricos · correlação\n\n\n\n02/10\nSem aula (eleições)\n\n\n6\n09/10\nProbabilidade: experimento aleatório, espaço amostral e eventos · propriedades da probabilidade · revisão de contagem (permutação e combinação)\n\n\n7\n16/10\nProbabilidade condicional e independência · teorema de Bayes\n\n\n\n23/10\nSem aula (eleições)\n\n\n8\n30/10\nProva 1: análise exploratória e probabilidade · entrega da Lista 1\n\n\n9\n06/11\nVariáveis Aleatórias Discretas: função de probabilidade, valor médio, variância e função de distribuição acumulada\n\n\n10\n13/11\nModelos discretos: uniforme, Bernoulli, binomial e hipergeométrica\n\n\n\n20/11\nSem aula (feriado)\n\n\n11\n27/11\nVariáveis Aleatórias Contínuas: função densidade de probabilidade, valor médio e variância\n\n\n12\n04/12\nFunção de distribuição acumulada contínua · distribuição uniforme\n\n\n13\n11/12\nDistribuição normal · uso da tabela da normal padrão\n\n\n14\n18/12\nProva 2: variáveis aleatórias discretas e contínuas · entrega da Lista 2",
     "crumbs": [
@@ -32,7 +32,7 @@
   {
     "objectID": "index.html#avaliação",
     "href": "index.html#avaliação",
-    "title": "Bases 3",
+    "title": "Estatística - Bases 3",
     "section": "Avaliação",
     "text": "Avaliação\nQuatro instrumentos, somando 100%:\n\n\n\nInstrumento\nPeso\nQuando\n\n\n\n\nLista 1\n15%\nentrega até 30/10/2026 (aula 8)\n\n\nProva 1\n35%\n30/10/2026 (aula 8)\n\n\nLista 2\n15%\nentrega até 18/12/2026 (aula 14)\n\n\nProva 2\n35%\n18/12/2026 (aula 14)\n\n\n\nSão duas provas individuais, de peso igual (35% cada), e duas listas de exercícios (15% cada). Cada lista fecha na data da prova correspondente (a Lista 1 até a Prova 1, a Lista 2 até a Prova 2) e serve de estudo dirigido para ela. As listas são de entrega manuscrita: o Python pode ser usado como calculadora para chegar aos resultados, mas as respostas devem ser escritas à mão.\nA Prova 1 (30/10, aula 8) cobre a análise exploratória (aulas 3 a 5) e a probabilidade (aulas 6 e 7). A Prova 2 (18/12, aula 14) cobre as variáveis aleatórias discretas e contínuas das aulas 9 a 13. A revisão da Prova 2 será online e assíncrona.\n\n\n\n\n\n\nImportanteLista 1 revisada em 19/09/2026\n\n\n\nA primeira versão da Lista 1 cobrava binomial, hipergeométrica e normal, que agora estão nos Capítulos 3 e 4 e caem na Prova 2. Por causa disso, 12 questões mudaram, e as novas saíram das seções que continuam na Prova 1. Se você baixou a Lista 1 antes de 19/09, baixe de novo: a numeração continua a mesma, mas o que se pede em algumas questões não.\n\nMudanças na Lista 1\n\n\n\n\n\n\nQuestões\nO que mudou\n\n\n\n\n13, 14\nsubstituídas por questões das seções 1.4 e 1.6\n\n\n16, 28, 29\nsubstituídas por questões das seções 2.1 e 2.2\n\n\n24, 26, 27\nsubstituídas por questões das seções 2.4 e 2.5\n\n\n10, 23, 25, 30\nmesmo assunto, enunciado alterado para não cobrar o que passou para a Prova 2\n\n\n\nNas demais questões mudou só a notação ou a redação, e o que se pede continua igual. A entrega segue em 30/10, na aula 8.",
     "crumbs": [
@@ -42,7 +42,7 @@
   {
     "objectID": "index.html#material-bibliográfico",
     "href": "index.html#material-bibliográfico",
-    "title": "Bases 3",
+    "title": "Estatística - Bases 3",
     "section": "Material Bibliográfico",
     "text": "Material Bibliográfico\nO livro-texto da disciplina é:\n\nBruce et al. (2020)\n\nO código e os conjuntos de dados originais estão em github.com/gedeck/practical-statistics-for-data-scientists.\nUma segunda fonte, o pythonbook de Ethan Weed (Weed e Navarro 2022), contribui com a introdução motivacional e com enriquecimentos do Capítulo 1.\nComo bibliografia básica em português, a disciplina adota também Estatística Básica, de Bussab e Morettin (Bussab e Morettin 2023), referência clássica dos fundamentos de estatística e probabilidade. É desse livro que vêm os capítulos de probabilidade, do 2 ao 4.\nO Capítulo 1 deste material corresponde ao capítulo 1 de Bruce et al. (2020), com os quantis empíricos vindos da seção 3.3 de Bussab e Morettin (2023).",
     "crumbs": [
@@ -52,7 +52,7 @@
   {
     "objectID": "index.html#como-usar-este-material",
     "href": "index.html#como-usar-este-material",
-    "title": "Bases 3",
+    "title": "Estatística - Bases 3",
     "section": "Como Usar Este Material",
     "text": "Como Usar Este Material\nO capítulo publicado traz:\n\nConceitos com exemplos executáveis em Python\nCódigo que roda sobre conjuntos de dados reais, incluídos no repositório\nExercícios de fixação\n\nO ambiente completo (Python, bibliotecas e Quarto) está empacotado em um container Docker. Veja o README.md para rodar o livro na sua máquina.",
     "crumbs": [
@@ -62,7 +62,7 @@
   {
     "objectID": "index.html#licença",
     "href": "index.html#licença",
-    "title": "Bases 3",
+    "title": "Estatística - Bases 3",
     "section": "Licença",
     "text": "Licença\nMaterial disponibilizado para fins educacionais. A Introdução se baseia em Weed e Navarro (2022); o Capítulo 1, em Bruce et al. (2020) e Weed e Navarro (2022), com dados brasileiros: população do IBGE, taxa de homicídios do Atlas da Violência e o conjunto Brazilian houses to rent (Kaggle, CC0). Os Capítulos 2 a 4 se baseiam em Bussab e Morettin (2023).\n\n\n\n\nBruce, Peter, Andrew Bruce, e Peter Gedeck. 2020. Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python. 2nd ed. O’Reilly Media.\n\n\nBussab, Wilton de Oliveira, e Pedro Alberto Morettin. 2023. Estatística Básica. 10ª ed. Saraiva.\n\n\nWeed, Ethan, e Danielle Navarro. 2022. Learning Statistics with Python. https://ethanweed.github.io/pythonbook/.",
     "crumbs": [

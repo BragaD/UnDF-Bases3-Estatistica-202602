@@ -14,15 +14,15 @@ jupyter: python3
 lang: pt
 
 book:
-  title: "Bases 3"
-  subtitle: "Estatística"
+  title: "Estatística - Bases 3"
   site-url: "https://BragaD.github.io/UnDF-Bases3-Estatistica-202602"
   repo-url: "https://github.com/BragaD/UnDF-Bases3-Estatistica-202602"
   repo-actions: [issue]
+  favicon: images/favicon.png
   navbar:
     logo: images/logo-undf.png
     logo-alt: "Logo UnDF"
-    title: "Bases 3 — Estatística"
+    title: "Estatística - Bases 3"
   date: today
   date-format: "DD/MM/YYYY"
   # Capítulos fechados por padrão na barra lateral: só o do capítulo aberto

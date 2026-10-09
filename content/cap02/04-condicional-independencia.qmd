@@ -10,44 +10,47 @@ Esta seção corresponde à seção 5.3 de @bussab2023.
 import numpy as np
 import pandas as pd
 from fractions import Fraction
+from itertools import product
 from formato import num
+
+valores = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"]
+naipes = ["copas", "ouros", "espadas", "paus"]
+baralho = pd.DataFrame(list(product(valores, naipes)),
+                       columns=["valor", "naipe"])
+baralho["carta"] = baralho["valor"] + " de " + baralho["naipe"]
+modelo_carta = {carta: 1/52 for carta in baralho["carta"]}
+
+A = set(baralho.loc[baralho["naipe"] == "copas", "carta"])
+B = set(baralho.loc[baralho["valor"].isin(["J", "Q", "K"]), "carta"])
 
 def prob(evento, modelo):
     return sum(modelo[w] for w in evento)
 np.set_printoptions(legacy="1.25")   # números sem o prefixo np.float64 na saída
 ```
 
-Voltemos aos 27 estados do Capítulo 1. Escreva a sigla de cada um num papel, misture e tire um papel ao acaso: cada estado tem probabilidade 1/27. Dois eventos interessam aqui:
+Na seção 2.2, sorteamos uma carta do baralho e definimos dois eventos: $A$, a carta é de copas, e $B$, a carta é uma figura. Acrescente um terceiro, $K$: a carta é um **rei**. O baralho tem 4 reis. Tirando uma carta sem saber nada sobre ela, $P(K) = 4/52$, ou $1/13$.
 
-- $A$: o estado sorteado tem mais de 10 milhões de habitantes (é **grande**);
-- $B$: o estado sorteado tem taxa de homicídios acima da mediana dos 27 (tem **taxa alta**).
-
-Uma tabela de contingência, como a da seção 2.2, cruza os dois. As probabilidades saem da função `prob` da seção 2.1:
+Agora suponha que alguém tire a carta, olhe e revele só uma coisa: é uma figura. A chance de ser um rei continua $1/13$? Uma tabela de contingência, como a da seção 2.2, cruza os dois eventos:
 
 ```{python}
-#| label: estados-eventos
-estado = pd.read_csv("dados/estados.csv")
-modelo_uf = {sigla: 1/27 for sigla in estado["Sigla"]}
+#| label: baralho-rei
+K = set(baralho.loc[baralho["valor"] == "K", "carta"])
 
-A = set(estado.loc[estado["Populacao"] > 10_000_000, "Sigla"])
-mediana_taxa = estado["Taxa.Homicidios"].median()
-B = set(estado.loc[estado["Taxa.Homicidios"] > mediana_taxa, "Sigla"])
+figura = baralho["carta"].isin(B).map({True: "B: figura", False: "não figura"})
+rei = baralho["carta"].isin(K).map({True: "K: rei", False: "não rei"})
 
-grande = estado["Sigla"].isin(A).map({True: "A: grande", False: "não grande"})
-taxa_alta = estado["Sigla"].isin(B).map({True: "B: taxa alta", False: "taxa não alta"})
-
-pd.crosstab(grande, taxa_alta, rownames=[""], colnames=[""], margins=True, margins_name="Total")
+pd.crosstab(figura, rei, rownames=[""], colnames=[""], margins=True, margins_name="Total")
 ```
 
-Dos 27 estados, `{python} len(B)` têm taxa alta. Sorteando um estado sem saber nada sobre ele, $P(B) = `{python} len(B)`/27$, perto de metade.
+Entre as `{python} len(B)` figuras, `{python} len(B & K)` são reis. Com essa informação, a chance sobe para $`{python} len(B & K)`/`{python} len(B)`$, ou $1/3$.
 
-Agora suponha que alguém sorteie o estado e conte só uma coisa: ele é grande, com mais de 10 milhões de habitantes. A chance de ter taxa alta continua perto de metade? A tabela responde. Entre os `{python} len(A)` estados grandes, só `{python} len(A & B)` tem taxa alta. Com essa informação, a chance cai para $`{python} len(A & B)`/`{python} len(A)`$.
-
-A informação mudou o espaço amostral: dos 27 estados, só os `{python} len(A)` grandes continuam possíveis. Esta seção formaliza essa ideia e mostra quando uma informação **não** muda nada.
+A informação mudou o espaço amostral: das 52 cartas, só as `{python} len(B)` figuras continuam possíveis. Esta seção formaliza essa ideia e mostra quando uma informação **não** muda nada.
 
 ## Probabilidade condicional
 
-Saber que $A$ ocorreu restringe o espaço amostral a $A$. Dentro dessa nova região, o que importa de $B$ é só a parte que está em $A$, ou seja, $A \cap B$. A probabilidade de $B$ passa a ser a fatia de $A$ ocupada por $A \cap B$.
+Saber que a carta é uma figura restringe o espaço amostral a $B$. Dentro dessa nova região, o que importa de $K$ é só a parte que está em $B$, ou seja, $B \cap K$. A probabilidade de $K$ passa a ser a fatia de $B$ ocupada por $B \cap K$.
+
+O raciocínio vale para dois eventos quaisquer. Na definição geral, $A$ é a informação e $B$ é o evento que interessa:
 
 ::: {.conceito}
 A **probabilidade condicional** de $B$ dado $A$, com $P(A) > 0$, é
@@ -59,26 +62,26 @@ $$
 Lê-se "probabilidade de $B$ dado $A$".
 :::
 
-No sorteio de estados, $P(A \cap B) = `{python} len(A & B)`/27$ e $P(A) = `{python} len(A)`/27$, e os 27 se cancelam:
+No baralho, a informação é $B$ (figura) e o evento que interessa é $K$ (rei), e a fórmula fica $P(K \mid B) = P(B \cap K)/P(B)$. Como $P(B \cap K) = `{python} len(B & K)`/52$ e $P(B) = `{python} len(B)`/52$, os 52 se cancelam. O código usa a função `prob` e o dicionário `modelo_carta` da seção 2.1:
 
 ```{python}
 #| label: condicional
-p_b_dado_a = prob(A & B, modelo_uf) / prob(A, modelo_uf)
-Fraction(p_b_dado_a).limit_denominator(), round(p_b_dado_a, 3), round(prob(B, modelo_uf), 3)
+p_k_dado_b = prob(B & K, modelo_carta) / prob(B, modelo_carta)
+Fraction(p_k_dado_b).limit_denominator(), round(p_k_dado_b, 3), round(prob(K, modelo_carta), 3)
 ```
 
-$P(B)$ é a probabilidade **a priori** de ter taxa alta, calculada antes de qualquer informação. $P(B \mid A)$ é a probabilidade **a posteriori**, depois de saber que o estado é grande. Aqui a informação diminuiu a chance, de `{python} num(prob(B, modelo_uf), 3)` para `{python} num(p_b_dado_a, 3)`.
+$P(K)$ é a probabilidade **a priori** de sair um rei, calculada antes de qualquer informação. $P(K \mid B)$ é a probabilidade **a posteriori**, depois de saber que a carta é uma figura. Aqui a informação aumentou a chance, de `{python} num(prob(K, modelo_carta), 3)` para `{python} num(p_k_dado_b, 3)`.
 
-A ordem importa: $P(B \mid A)$ e $P(A \mid B)$ são perguntas diferentes. Dado que o estado tem taxa alta, a chance de ele ser grande é $`{python} len(A & B)`/`{python} len(B)`$: o denominador agora são os `{python} len(B)` estados de taxa alta.
+A ordem importa: $P(K \mid B)$ e $P(B \mid K)$ são perguntas diferentes. Dado que a carta é um rei, a chance de ela ser uma figura é $`{python} len(B & K)`/`{python} len(K)` = 1$, porque todo rei é figura. O denominador passa a ser o número de reis, `{python} len(K)`.
 
-No `pandas`, a tabela de contingência dá as condicionais de uma vez. Com `normalize="index"`, cada linha é dividida pelo seu total e passa a ser a distribuição de $B$ dentro daquele grupo:
+No `pandas`, a tabela de contingência dá as condicionais de uma vez. Com `normalize="index"`, cada linha é dividida pelo seu total e passa a ser a distribuição de $K$ dentro daquele grupo:
 
 ```{python}
 #| label: condicional-tabela
-pd.crosstab(grande, taxa_alta, rownames=[""], colnames=[""], normalize="index").round(3)
+pd.crosstab(figura, rei, rownames=[""], colnames=[""], normalize="index").round(3)
 ```
 
-A linha "A: grande" traz $P(B \mid A)$ e $P(B^c \mid A)$, que somam 1: dentro de $A$, a probabilidade condicional se comporta como uma probabilidade qualquer.
+A linha "B: figura" traz $P(K \mid B)$ e $P(K^c \mid B)$, que somam 1: dentro de $B$, a probabilidade condicional se comporta como uma probabilidade qualquer. Na linha "não figura", a chance de rei é zero, porque nenhum rei fica fora das figuras.
 
 ## Regra do produto
 
@@ -173,18 +176,27 @@ P(A \cap B) = P(A)\, P(B).
 $$
 :::
 
-A definição é simétrica: se $A$ não informa nada sobre $B$, $B$ também não informa nada sobre $A$. E ela serve nos dois sentidos. Às vezes a independência é uma **suposição** do modelo, como nos sorteios com reposição, e aí a fórmula permite calcular $P(A \cap B)$. Outras vezes ela é uma **pergunta** sobre dados, e a fórmula é o teste. No sorteio entre os 27 estados, a conta é exata. Com uma amostra, a igualdade quase nunca vale exatamente, e decidir se a diferença importa exige ferramentas de inferência estatística, que ficam fora deste livro.
+A definição é simétrica: se $A$ não informa nada sobre $B$, $B$ também não informa nada sobre $A$. E ela serve nos dois sentidos. Às vezes a independência é uma **suposição** do modelo, como nos sorteios com reposição, e aí a fórmula permite calcular $P(A \cap B)$. Outras vezes ela é uma **pergunta** sobre dados, e a fórmula é o teste. No baralho, em que conhecemos as 52 cartas, a conta é exata. Com uma amostra de dados, a igualdade quase nunca vale exatamente, e decidir se a diferença importa exige ferramentas de inferência estatística, que ficam fora deste livro.
 
-Nos estados, ser grande e ter taxa alta são independentes? Basta comparar os dois lados:
+No baralho, ser de copas ($A$) e ser figura ($B$) são independentes? Basta comparar os dois lados da igualdade $P(A \cap B) = P(A)\,P(B)$. Com `Fraction`, a conta sai exata, sem arredondamento:
 
 ```{python}
-#| label: independencia-estados
-lado_esq = prob(A & B, modelo_uf)
-lado_dir = prob(A, modelo_uf) * prob(B, modelo_uf)
-round(lado_esq, 4), round(lado_dir, 4)
+#| label: independencia-copas-figura
+lado_esq = Fraction(len(A & B), 52)
+lado_dir = Fraction(len(A), 52) * Fraction(len(B), 52)
+lado_esq, lado_dir
 ```
 
-$P(A \cap B)$, cerca de `{python} num(lado_esq, 3)`, fica bem abaixo de $P(A)\,P(B)$, cerca de `{python} num(lado_dir, 3)`. Os eventos não são independentes: entre os estados grandes, taxa alta é mais rara do que entre todos os estados. É a mesma associação negativa entre tamanho e taxa que fez a média ponderada da taxa de homicídios ficar abaixo da média simples na seção 1.3, agora vista por meio de eventos.
+Os dois lados dão $3/52$: os eventos são independentes. Cada naipe tem 3 figuras em 13 cartas, a mesma proporção do baralho inteiro, 12 em 52. Saber que a carta é de copas não muda a chance de ela ser figura: $P(B \mid A) = 3/13 = P(B)$.
+
+Com figura e rei, a comparação falha:
+
+```{python}
+#| label: independencia-figura-rei
+Fraction(len(B & K), 52), Fraction(len(B), 52) * Fraction(len(K), 52)
+```
+
+$P(B \cap K) = 1/13$ é bem maior que $P(B)\,P(K) = 3/169$. Os eventos não são independentes: saber que a carta é figura leva a chance de rei de $1/13$ para $1/3$.
 
 Para três eventos, a independência exige mais do que os três pares. $A$, $B$ e $C$ são independentes quando
 
@@ -283,17 +295,21 @@ O bug é reproduzido se pelo menos um conseguir. Pelo complementar, com independ
 (b) $P(A \cap B) = 0{,}3 \times 0{,}4 = 0{,}12$, então $P(A \cup B) = 0{,}7 - 0{,}12 = 0{,}58$.
 :::
 
-**4.** Usando `dados/estados.csv`, sejam $A$ = "o estado tem mais de 10 milhões de habitantes" e $D$ = "o estado tem taxa de homicídios acima de 30". Calcule $P(D \mid A)$ e $P(D)$. $A$ e $D$ são independentes?
+**4.** No baralho de 52 cartas, seja $V$ o evento "a carta é vermelha" (copas ou ouros). (a) Calcule $P(B \mid V)$, em que $B$ é "a carta é uma figura", e compare com $P(B)$. $V$ e $B$ são independentes? (b) Faça o mesmo com $A$, "a carta é de copas": calcule $P(A \mid V)$ e compare com $P(A)$.
 
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
 ```{python}
 #| label: ex4-resposta
-C30 = set(estado.loc[estado["Taxa.Homicidios"] > 30, "Sigla"])
-p_c_dado_a = prob(A & C30, modelo_uf) / prob(A, modelo_uf)
-round(p_c_dado_a, 3), round(prob(C30, modelo_uf), 3)
+V = set(baralho.loc[baralho["naipe"].isin(["copas", "ouros"]), "carta"])
+
+p_b_dado_v = Fraction(len(B & V), len(V))
+p_a_dado_v = Fraction(len(A & V), len(V))
+p_b_dado_v, Fraction(len(B), 52), p_a_dado_v, Fraction(len(A), 52)
 ```
 
-$P(D \mid A) = `{python} len(A & C30)`/`{python} len(A)`$, cerca de `{python} num(p_c_dado_a, 3)`, e $P(D) = `{python} len(C30)`/27$, cerca de `{python} num(prob(C30, modelo_uf), 3)`. Como $P(D \mid A) \ne P(D)$, os eventos não são independentes.
+(a) Entre as `{python} len(V)` cartas vermelhas há `{python} len(B & V)` figuras: $P(B \mid V) = `{python} len(B & V)`/`{python} len(V)` = 3/13$, igual a $P(B) = 12/52 = 3/13$. Os eventos são independentes: a cor não diz nada sobre a carta ser figura.
+
+(b) Entre as `{python} len(V)` vermelhas, `{python} len(A & V)` são de copas: $P(A \mid V) = `{python} len(A & V)`/`{python} len(V)` = 1/2$, o dobro de $P(A) = 1/4$. Os eventos não são independentes: saber que a carta é vermelha elimina espadas e paus.
 :::

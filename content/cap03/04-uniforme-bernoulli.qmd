@@ -88,7 +88,7 @@ E(X) &= 0 \times (1 - p) + 1 \times p = p, \\
 \end{aligned}
 $$
 
-A média de uma Bernoulli é a própria probabilidade de sucesso. Isso se liga a um truque que já apareceu no livro: na seção 2.1, a média de uma coluna booleana, `(estado["Populacao"] > 10_000_000).mean()`, deu a proporção de estados grandes. Sorteando um estado ao acaso, com $X = 1$ se ele for grande, $X$ é uma Bernoulli com $p = 6/27$. Como o sorteio é uniforme sobre as 27 linhas, $E(X)$ é a média da coluna de zeros e uns, que é a proporção de uns.
+A média de uma Bernoulli é a própria probabilidade de sucesso. Isso se liga a um truque que já apareceu no livro: na seção 2.1, a média de uma coluna booleana, `(baralho["naipe"] == "copas").mean()`, deu a proporção de cartas de copas. Tirando uma carta ao acaso, com $X = 1$ se ela for de copas, $X$ é uma Bernoulli com $p = 13/52$. Como o sorteio é uniforme sobre as 52 linhas da tabela `baralho`, $E(X)$ é a média da coluna de zeros e uns, que é a proporção de uns.
 
 Uma requisição a um serviço externo falha com probabilidade 0,05. Com $X = 1$ quando a requisição falha, $X \sim \mathrm{Ber}(0{,}05)$:
 

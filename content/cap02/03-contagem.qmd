@@ -15,7 +15,7 @@ from formato import num
 np.set_printoptions(legacy="1.25")   # números sem o prefixo np.float64 na saída
 ```
 
-No sorteio de um estado, calcular $P(A)$ foi contar: 6 estados grandes entre 27 dá $6/27$. Deu para fazer isso porque o `pandas` listava os 27 pontos amostrais e o `set` contava os que caíam no evento.
+No sorteio de uma carta, calcular $P(A)$ foi contar: 13 cartas de copas entre 52 dá $13/52$. Deu para fazer isso porque o `pandas` listava os 52 pontos amostrais e o `set` reunia os que caíam no evento.
 
 Agora pense num jogo da Mega-Sena. O espaço amostral é o conjunto de todas as formas de escolher 6 números entre 60, e tem `{python} num(comb(60, 6), 0)` pontos. Listar todos para contar os favoráveis não é o caminho. Esta seção mostra como contar sem listar.
 
@@ -33,13 +33,13 @@ $$
 $m$ é o número de **casos favoráveis** e $n$, o de **casos possíveis**.
 :::
 
-Essa é a definição **clássica** de probabilidade, a mais antiga, criada para jogos de azar. Foi ela que usamos no dado ($1/6$), nas duas moedas ($2/4$ para faces iguais) e no sorteio de estados ($6/27$).
+Essa é a definição **clássica** de probabilidade, a mais antiga, criada para jogos de azar. Foi ela que usamos no dado ($1/6$), nas duas moedas ($2/4$ para faces iguais) e no sorteio de uma carta de copas ($13/52$).
 
 Com ela, o problema de probabilidade vira um problema de contagem: basta saber $m$ e $n$, sem escrever $\Omega$ e $A$ por extenso. As próximas subseções dão as ferramentas para contar.
 
 ::: {.callout-warning}
 ## A fórmula só vale com pontos equiprováveis
-$m/n$ exige que todos os pontos tenham a mesma chance. No sorteio de uma pessoa (seção 2.1), os estados não são equiprováveis, e contar siglas dá a resposta errada. O mesmo vale para a soma de dois dados: 7 é 1 dos 11 valores possíveis, mas sua probabilidade não é $1/11$.
+$m/n$ exige que todos os pontos tenham a mesma chance. Ao anotar só o tipo da carta (seção 2.1), ás, número e figura não são equiprováveis, e $1/3$ para cada um é a resposta errada. O mesmo vale para a soma de dois dados: 7 é 1 dos 11 valores possíveis, mas sua probabilidade não é $1/11$.
 :::
 
 ## Princípio multiplicativo

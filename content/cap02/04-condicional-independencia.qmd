@@ -12,20 +12,34 @@ import pandas as pd
 from fractions import Fraction
 from formato import num
 
-estado = pd.read_csv("dados/estados.csv")
-modelo_uf = {sigla: 1/27 for sigla in estado["Sigla"]}
-
 def prob(evento, modelo):
     return sum(modelo[w] for w in evento)
+np.set_printoptions(legacy="1.25")   # números sem o prefixo np.float64 na saída
+```
+
+Voltemos aos 27 estados do Capítulo 1. Escreva a sigla de cada um num papel, misture e tire um papel ao acaso: cada estado tem probabilidade 1/27. Dois eventos interessam aqui:
+
+- $A$: o estado sorteado tem mais de 10 milhões de habitantes (é **grande**);
+- $B$: o estado sorteado tem taxa de homicídios acima da mediana dos 27 (tem **taxa alta**).
+
+Uma tabela de contingência, como a da seção 2.2, cruza os dois. As probabilidades saem da função `prob` da seção 2.1:
+
+```{python}
+#| label: estados-eventos
+estado = pd.read_csv("dados/estados.csv")
+modelo_uf = {sigla: 1/27 for sigla in estado["Sigla"]}
 
 A = set(estado.loc[estado["Populacao"] > 10_000_000, "Sigla"])
 mediana_taxa = estado["Taxa.Homicidios"].median()
 B = set(estado.loc[estado["Taxa.Homicidios"] > mediana_taxa, "Sigla"])
-todos = set(estado["Sigla"])
-np.set_printoptions(legacy="1.25")   # números sem o prefixo np.float64 na saída
+
+grande = estado["Sigla"].isin(A).map({True: "A: grande", False: "não grande"})
+taxa_alta = estado["Sigla"].isin(B).map({True: "B: taxa alta", False: "taxa não alta"})
+
+pd.crosstab(grande, taxa_alta, rownames=[""], colnames=[""], margins=True, margins_name="Total")
 ```
 
-Na seção 2.2, a tabela de contingência dos estados mostrou que `{python} len(B)` dos 27 têm taxa de homicídios acima da mediana (taxa alta). Sorteando um estado sem saber nada sobre ele, $P(B) = `{python} len(B)`/27$, perto de metade.
+Dos 27 estados, `{python} len(B)` têm taxa alta. Sorteando um estado sem saber nada sobre ele, $P(B) = `{python} len(B)`/27$, perto de metade.
 
 Agora suponha que alguém sorteie o estado e conte só uma coisa: ele é grande, com mais de 10 milhões de habitantes. A chance de ter taxa alta continua perto de metade? A tabela responde. Entre os `{python} len(A)` estados grandes, só `{python} len(A & B)` tem taxa alta. Com essa informação, a chance cai para $`{python} len(A & B)`/`{python} len(A)`$.
 
@@ -61,9 +75,6 @@ No `pandas`, a tabela de contingência dá as condicionais de uma vez. Com `norm
 
 ```{python}
 #| label: condicional-tabela
-grande = estado["Sigla"].isin(A).map({True: "A: grande", False: "não grande"})
-taxa_alta = estado["Sigla"].isin(B).map({True: "B: taxa alta", False: "taxa não alta"})
-
 pd.crosstab(grande, taxa_alta, rownames=[""], colnames=[""], normalize="index").round(3)
 ```
 

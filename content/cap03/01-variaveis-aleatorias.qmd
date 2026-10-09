@@ -18,7 +18,7 @@ plt.rcParams["figure.figsize"] = (7, 4)
 np.set_printoptions(legacy="1.25")   # números sem o prefixo np.float64 na saída
 ```
 
-No Capítulo 2, as perguntas eram sobre eventos: o estado sorteado é grande? O PR tem bug? A resposta era sim ou não. Muitas perguntas práticas, porém, pedem um **número**: quantos builds falharam, quanto dinheiro um projeto vai dar, quantos PRs com bug o auditor encontrou.
+No Capítulo 2, as perguntas eram sobre eventos: a carta sorteada é de copas? O PR tem bug? A resposta era sim ou não. Muitas perguntas práticas, porém, pedem um **número**: quantos builds falharam, quanto dinheiro um projeto vai dar, quantos PRs com bug o auditor encontrou.
 
 No Capítulo 1, esse tipo de pergunta tinha resposta nos dados: média, variância, histograma de uma variável quantitativa. Este capítulo constrói a versão teórica dessas ferramentas. Assim como a probabilidade foi o modelo da frequência relativa, a **variável aleatória** vai ser o modelo de uma variável quantitativa.
 

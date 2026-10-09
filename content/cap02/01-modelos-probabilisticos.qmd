@@ -16,9 +16,9 @@ plt.rcParams["figure.figsize"] = (7, 4)
 np.set_printoptions(legacy="1.25")   # números sem o prefixo np.float64 na saída
 ```
 
-No Capítulo 1 descrevemos dados que já existiam: a população de cada estado, a taxa de homicídios, a proporção de atrasos por causa. Toda frequência relativa que calculamos contava algo que **já tinha acontecido**.
+No Capítulo 1 descrevemos dados que já existiam: a população de cada estado, a taxa de homicídios, o aluguel de cada imóvel. Toda frequência relativa que calculamos contava algo que **já tinha acontecido**.
 
-A probabilidade faz a pergunta ao contrário. Antes de lançar um dado, sortear um estado ou rodar um pipeline de testes, o que **deve** acontecer? Para responder sem esperar os dados, precisamos de um modelo.
+A probabilidade faz a pergunta ao contrário. Antes de lançar um dado, tirar uma carta do baralho ou rodar um pipeline de testes, o que **deve** acontecer? Para responder sem esperar os dados, precisamos de um modelo.
 
 ## Da frequência ao modelo
 
@@ -193,60 +193,67 @@ sorted(dois_falham)   # um set de strings não tem ordem fixa; sorted() a fixa
 
 Se os oito pontos fossem igualmente prováveis, teríamos $P = 3/8$. Mas isso exigiria, entre outras coisas, que cada build falhasse metade das vezes, e um pipeline assim não duraria uma semana em produção. O evento é o mesmo com qualquer modelo; a probabilidade depende das $P(\omega)$ que atribuímos. O Capítulo 3 constrói o modelo em que cada build falha com uma probabilidade $p$ qualquer, sem que um influencie o outro.
 
-## Sorteando um estado
+## Tirando uma carta do baralho
 
-Voltemos aos dados do Capítulo 1. Escreva a sigla de cada unidade federativa num papel, dobre, misture e tire um papel ao acaso. O espaço amostral são as 27 siglas, e como nenhum papel é favorecido, cada ponto amostral tem probabilidade 1/27.
+Um baralho comum tem 52 cartas: 13 valores (A, o ás; os números de 2 a 10; J, o valete; Q, a dama; K, o rei) em cada um de 4 naipes (copas, ouros, espadas e paus). Embaralhe bem e tire uma carta. O espaço amostral são as 52 cartas, e como o embaralhamento não favorece nenhuma, cada ponto amostral tem probabilidade 1/52.
 
-```{python}
-#| label: estados-modelo
-estado = pd.read_csv("dados/estados.csv")
-
-modelo_uf = {sigla: 1/27 for sigla in estado["Sigla"]}
-len(modelo_uf)
-```
-
-Qual a probabilidade de sortear um estado com mais de 10 milhões de habitantes?
+O `product` que listou os builds também monta o baralho, combinando cada valor com cada naipe:
 
 ```{python}
-#| label: estados-grandes
-grandes = set(estado.loc[estado["Populacao"] > 10_000_000, "Sigla"])
-sorted(grandes), prob(grandes, modelo_uf)
+#| label: baralho-modelo
+valores = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"]
+naipes = ["copas", "ouros", "espadas", "paus"]
+
+baralho = pd.DataFrame(list(product(valores, naipes)),
+                       columns=["valor", "naipe"])
+baralho["carta"] = baralho["valor"] + " de " + baralho["naipe"]
+
+modelo_carta = {carta: 1/52 for carta in baralho["carta"]}
+baralho.head()
 ```
 
-São `{python} len(grandes)` estados, e $P = `{python} len(grandes)`/27$, cerca de `{python} num(prob(grandes, modelo_uf), 3)`. Repare que esse número é a **frequência relativa** do Capítulo 1: a proporção de estados com mais de 10 milhões de habitantes. Quando todos os pontos de um conjunto finito têm a mesma chance de ser sorteados, a probabilidade de um evento é a proporção de pontos que caem nele, e o pandas calcula isso direto:
+A tabela tem `{python} len(baralho)` linhas, uma por carta. Qual a probabilidade de tirar uma carta de copas?
 
 ```{python}
-#| label: estados-proporcao
-(estado["Populacao"] > 10_000_000).mean()
+#| label: baralho-copas
+copas = set(baralho.loc[baralho["naipe"] == "copas", "carta"])
+len(copas), prob(copas, modelo_carta)
 ```
 
-Agora, a probabilidade de sortear um estado com taxa de homicídios **acima da mediana**. A intuição diz 1/2, porque a mediana divide os dados ao meio.
+São `{python} len(copas)` cartas, e $P = `{python} len(copas)`/52 = 1/4$. Repare que esse número é uma **frequência relativa** como as do Capítulo 1: a proporção de cartas de copas no baralho. Quando todos os pontos de um conjunto finito têm a mesma chance de ser sorteados, a probabilidade de um evento é a proporção de pontos que caem nele, e o pandas calcula isso direto:
 
 ```{python}
-#| label: estados-acima-mediana
-mediana_taxa = estado["Taxa.Homicidios"].median()
-acima = set(estado.loc[estado["Taxa.Homicidios"] > mediana_taxa, "Sigla"])
-len(acima), prob(acima, modelo_uf)
+#| label: baralho-proporcao
+(baralho["naipe"] == "copas").mean()
 ```
 
-Dá $P = `{python} len(acima)`/27$, e não $1/2$. Com $n = 27$ ímpar, a mediana é uma observação de verdade (seção 1.3): é a taxa do `{python} estado.loc[estado["Taxa.Homicidios"] == mediana_taxa, "Estado"].item()`, que não está acima dela nem abaixo. Sobram `{python} len(estado) - 1` estados, `{python} len(acima)` de cada lado.
+O valete, a dama e o rei são as **figuras**. Qual a probabilidade de tirar uma figura?
+
+```{python}
+#| label: baralho-figuras
+figuras = set(baralho.loc[baralho["valor"].isin(["J", "Q", "K"]), "carta"])
+len(figuras), prob(figuras, modelo_carta)
+```
+
+São 3 figuras em cada um dos 4 naipes, `{python} len(figuras)` cartas ao todo, e $P = `{python} len(figuras)`/52$, cerca de `{python} num(prob(figuras, modelo_carta), 3)`.
 
 ::: {.callout-important}
 ## Quem escolhe o modelo é você
-Sortear um **estado** não é o mesmo que sortear um **brasileiro** e perguntar onde ele mora. No segundo experimento, o espaço amostral ainda pode ser o das 27 siglas, mas a probabilidade de cada uma é a fração da população que vive nela. Como no número de caras, cada ponto agrupa muitos resultados (aqui, pessoas), e por isso os pontos não têm a mesma chance. É a mesma ideia de peso da média ponderada da seção 1.3.
+O 1/52 vale para um baralho completo e bem embaralhado, assim como o 1/6 vale para um dado equilibrado. Se anotarmos só o **tipo** da carta (ás, número ou figura), o espaço amostral passa a ter três pontos, e eles não têm a mesma chance. Como no número de caras, cada ponto agrupa vários resultados: 4 ases, 36 números e 12 figuras.
 :::
 
 ```{python}
-#| label: estados-por-pessoa
-modelo_pessoa = dict(zip(estado["Sigla"], estado["Populacao"] / estado["Populacao"].sum()))
-prob(grandes, modelo_pessoa)
+#| label: baralho-por-tipo
+modelo_tipo = {"ás": 4/52, "número": 36/52, "figura": 12/52}
+p_as_ou_figura = prob({"ás", "figura"}, modelo_tipo)
+p_as_ou_figura
 ```
 
-O evento "mora num estado com mais de 10 milhões de habitantes" é o mesmo conjunto de `{python} len(grandes)` siglas. Mas a probabilidade passa de `{python} num(100 * prob(grandes, modelo_uf), 1)`% para `{python} num(100 * prob(grandes, modelo_pessoa), 1)`%: mais da metade dos brasileiros mora nesses `{python} len(grandes)` estados.
+A função `prob` é a mesma: ela soma as probabilidades dos pontos do evento, sejam elas iguais ou não. Tirar um ás ou uma figura tem probabilidade $4/52 + 12/52 = 16/52$, cerca de `{python} num(p_as_ou_figura, 3)`.
 
 ## Espaço amostral discreto e contínuo
 
-Todos os espaços amostrais até aqui podiam ser listados: seis faces, quatro pares, oito sequências, 27 siglas. A lista também pode ser infinita e continuar listável. Se contarmos quantas requisições chegam a um servidor até a primeira falha, contando a que falhou, $\Omega = \{1, 2, 3, \dots\}$. Espaços assim são **discretos**, e neles a fórmula da soma funciona.
+Todos os espaços amostrais até aqui podiam ser listados: seis faces, quatro pares, oito sequências, 52 cartas. A lista também pode ser infinita e continuar listável. Se contarmos quantas requisições chegam a um servidor até a primeira falha, contando a que falhou, $\Omega = \{1, 2, 3, \dots\}$. Espaços assim são **discretos**, e neles a fórmula da soma funciona.
 
 Agora meça o **tempo de resposta** de uma requisição, em milissegundos. Qualquer número real não negativo é um resultado possível:
 
@@ -306,23 +313,17 @@ len(soma_7) / len(pares)
 (a) Discreto: $\{0, 1, 2, \dots\}$, infinito mas listável. (b) Contínuo: qualquer duração real positiva. (c) Discreto: $\{\text{sucesso}, \text{falha}\}$. (d) Contínuo: com o ponteiro se movendo sem saltos, o ângulo é qualquer valor em $[0°, 360°)$. A suposição do enunciado decide a resposta: se o ponteiro andasse aos saltos, um por segundo, o espaço seria discreto, com 60 posições.
 :::
 
-**4.** Usando `dados/estados.csv`, calcule a probabilidade de sortear um estado com taxa de homicídios acima de 30 por 100 mil habitantes. Depois, calcule a probabilidade de que um brasileiro sorteado ao acaso more num desses estados. Por que os dois números são diferentes?
+**4.** O baralho de truco é o baralho comum sem as cartas 8, 9 e 10. Tirando uma carta ao acaso de um baralho de truco, qual a probabilidade de sair uma figura? Compare com o baralho de 52 cartas. O evento mudou?
 
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
-```python
-violentos = set(estado.loc[estado["Taxa.Homicidios"] > 30, "Sigla"])
-prob(violentos, modelo_uf), prob(violentos, modelo_pessoa)
-```
-
 ```{python}
 #| label: ex4-resposta
-#| include: false
-violentos = set(estado.loc[estado["Taxa.Homicidios"] > 30, "Sigla"])
-sem_sp = estado[estado["Sigla"] != "SP"]
-p_sem_sp = sem_sp.loc[sem_sp["Sigla"].isin(violentos), "Populacao"].sum() / sem_sp["Populacao"].sum()
+truco = baralho[~baralho["valor"].isin(["8", "9", "10"])]
+modelo_truco = {carta: 1/len(truco) for carta in truco["carta"]}
+len(truco), round(prob(figuras, modelo_truco), 3)
 ```
 
-São `{python} len(violentos)` estados: $P = `{python} len(violentos)`/27$, cerca de `{python} num(100 * prob(violentos, modelo_uf), 1)`% sorteando estados, e `{python} num(100 * prob(violentos, modelo_pessoa), 1)`% sorteando pessoas. O evento é o mesmo, mas o modelo muda. O número cai por causa de São Paulo: sozinho, ele tem `{python} num(100 * modelo_pessoa['SP'], 0)`% da população e a menor taxa do país. Tirando SP da conta, a probabilidade por pessoa sobe para `{python} num(100 * p_sem_sp, 1)`% e passa a ser **maior** que a por estado (`{python} num(100 * len(violentos) / 26, 1)`%). É o mesmo São Paulo que puxa a média ponderada da taxa para baixo na seção 1.3.
+Saem 3 valores de cada naipe, ou seja, 12 cartas, e sobram `{python} len(truco)`. A probabilidade de figura é $`{python} len(figuras)`/`{python} len(truco)`$, ou `{python} num(prob(figuras, modelo_truco), 1)`, contra $`{python} len(figuras)`/52$, cerca de `{python} num(prob(figuras, modelo_carta), 3)`, no baralho completo. O evento é o mesmo conjunto de `{python} len(figuras)` cartas. O que mudou foi o modelo: o espaço amostral ficou menor, e cada ponto passou de 1/52 para 1/`{python} len(truco)`.
 :::

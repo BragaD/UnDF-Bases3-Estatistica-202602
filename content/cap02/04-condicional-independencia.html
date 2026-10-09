@@ -696,25 +696,16 @@ Nota
 <p>Esta seção corresponde à seção 5.3 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>.</p>
 </div>
 </div>
-<p>Voltemos aos 27 estados do Capítulo 1. Escreva a sigla de cada um num papel, misture e tire um papel ao acaso: cada estado tem probabilidade 1/27. Dois eventos interessam aqui:</p>
-<ul>
-<li><span class="math inline">\(A\)</span>: o estado sorteado tem mais de 10 milhões de habitantes (é <strong>grande</strong>);</li>
-<li><span class="math inline">\(B\)</span>: o estado sorteado tem taxa de homicídios acima da mediana dos 27 (tem <strong>taxa alta</strong>).</li>
-</ul>
-<p>Uma tabela de contingência, como a da seção 2.2, cruza os dois. As probabilidades saem da função <code>prob</code> da seção 2.1:</p>
-<div id="cell-estados-eventos" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>estado <span class="op">=</span> pd.read_csv(<span class="st">"dados/estados.csv"</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>modelo_uf <span class="op">=</span> {sigla: <span class="dv">1</span><span class="op">/</span><span class="dv">27</span> <span class="cf">for</span> sigla <span class="kw">in</span> estado[<span class="st">"Sigla"</span>]}</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> <span class="bu">set</span>(estado.loc[estado[<span class="st">"Populacao"</span>] <span class="op">&gt;</span> <span class="dv">10_000_000</span>, <span class="st">"Sigla"</span>])</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>mediana_taxa <span class="op">=</span> estado[<span class="st">"Taxa.Homicidios"</span>].median()</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>B <span class="op">=</span> <span class="bu">set</span>(estado.loc[estado[<span class="st">"Taxa.Homicidios"</span>] <span class="op">&gt;</span> mediana_taxa, <span class="st">"Sigla"</span>])</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>grande <span class="op">=</span> estado[<span class="st">"Sigla"</span>].isin(A).<span class="bu">map</span>({<span class="va">True</span>: <span class="st">"A: grande"</span>, <span class="va">False</span>: <span class="st">"não grande"</span>})</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>taxa_alta <span class="op">=</span> estado[<span class="st">"Sigla"</span>].isin(B).<span class="bu">map</span>({<span class="va">True</span>: <span class="st">"B: taxa alta"</span>, <span class="va">False</span>: <span class="st">"taxa não alta"</span>})</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>pd.crosstab(grande, taxa_alta, rownames<span class="op">=</span>[<span class="st">""</span>], colnames<span class="op">=</span>[<span class="st">""</span>], margins<span class="op">=</span><span class="va">True</span>, margins_name<span class="op">=</span><span class="st">"Total"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="estados-eventos" class="cell-output cell-output-display" data-execution_count="2">
+<p>Na seção 2.2, sorteamos uma carta do baralho e definimos dois eventos: <span class="math inline">\(A\)</span>, a carta é de copas, e <span class="math inline">\(B\)</span>, a carta é uma figura. Acrescente um terceiro, <span class="math inline">\(K\)</span>: a carta é um <strong>rei</strong>. O baralho tem 4 reis. Tirando uma carta sem saber nada sobre ela, <span class="math inline">\(P(K) = 4/52\)</span>, ou <span class="math inline">\(1/13\)</span>.</p>
+<p>Agora suponha que alguém tire a carta, olhe e revele só uma coisa: é uma figura. A chance de ser um rei continua <span class="math inline">\(1/13\)</span>? Uma tabela de contingência, como a da seção 2.2, cruza os dois eventos:</p>
+<div id="cell-baralho-rei" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>K <span class="op">=</span> <span class="bu">set</span>(baralho.loc[baralho[<span class="st">"valor"</span>] <span class="op">==</span> <span class="st">"K"</span>, <span class="st">"carta"</span>])</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>figura <span class="op">=</span> baralho[<span class="st">"carta"</span>].isin(B).<span class="bu">map</span>({<span class="va">True</span>: <span class="st">"B: figura"</span>, <span class="va">False</span>: <span class="st">"não figura"</span>})</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>rei <span class="op">=</span> baralho[<span class="st">"carta"</span>].isin(K).<span class="bu">map</span>({<span class="va">True</span>: <span class="st">"K: rei"</span>, <span class="va">False</span>: <span class="st">"não rei"</span>})</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>pd.crosstab(figura, rei, rownames<span class="op">=</span>[<span class="st">""</span>], colnames<span class="op">=</span>[<span class="st">""</span>], margins<span class="op">=</span><span class="va">True</span>, margins_name<span class="op">=</span><span class="st">"Total"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="baralho-rei" class="cell-output cell-output-display" data-execution_count="2">
 <div>
 
 
@@ -722,8 +713,8 @@ Nota
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">B: taxa alta</th>
-<th data-quarto-table-cell-role="th">taxa não alta</th>
+<th data-quarto-table-cell-role="th">K: rei</th>
+<th data-quarto-table-cell-role="th">não rei</th>
 <th data-quarto-table-cell-role="th">Total</th>
 </tr>
 <tr class="even">
@@ -735,22 +726,22 @@ Nota
 </thead>
 <tbody>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">A: grande</th>
-<td>1</td>
-<td>5</td>
-<td>6</td>
+<th data-quarto-table-cell-role="th">B: figura</th>
+<td>4</td>
+<td>8</td>
+<td>12</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">não grande</th>
-<td>12</td>
-<td>9</td>
-<td>21</td>
+<th data-quarto-table-cell-role="th">não figura</th>
+<td>0</td>
+<td>40</td>
+<td>40</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">Total</th>
-<td>13</td>
-<td>14</td>
-<td>27</td>
+<td>4</td>
+<td>48</td>
+<td>52</td>
 </tr>
 </tbody>
 </table>
@@ -758,12 +749,12 @@ Nota
 </div>
 </div>
 </div>
-<p>Dos 27 estados, 13 têm taxa alta. Sorteando um estado sem saber nada sobre ele, <span class="math inline">\(P(B) = 13/27\)</span>, perto de metade.</p>
-<p>Agora suponha que alguém sorteie o estado e conte só uma coisa: ele é grande, com mais de 10 milhões de habitantes. A chance de ter taxa alta continua perto de metade? A tabela responde. Entre os 6 estados grandes, só 1 tem taxa alta. Com essa informação, a chance cai para <span class="math inline">\(1/6\)</span>.</p>
-<p>A informação mudou o espaço amostral: dos 27 estados, só os 6 grandes continuam possíveis. Esta seção formaliza essa ideia e mostra quando uma informação <strong>não</strong> muda nada.</p>
+<p>Entre as 12 figuras, 4 são reis. Com essa informação, a chance sobe para <span class="math inline">\(4/12\)</span>, ou <span class="math inline">\(1/3\)</span>.</p>
+<p>A informação mudou o espaço amostral: das 52 cartas, só as 12 figuras continuam possíveis. Esta seção formaliza essa ideia e mostra quando uma informação <strong>não</strong> muda nada.</p>
 <section id="probabilidade-condicional" class="level2">
 <h2 class="anchored" data-anchor-id="probabilidade-condicional">Probabilidade condicional</h2>
-<p>Saber que <span class="math inline">\(A\)</span> ocorreu restringe o espaço amostral a <span class="math inline">\(A\)</span>. Dentro dessa nova região, o que importa de <span class="math inline">\(B\)</span> é só a parte que está em <span class="math inline">\(A\)</span>, ou seja, <span class="math inline">\(A \cap B\)</span>. A probabilidade de <span class="math inline">\(B\)</span> passa a ser a fatia de <span class="math inline">\(A\)</span> ocupada por <span class="math inline">\(A \cap B\)</span>.</p>
+<p>Saber que a carta é uma figura restringe o espaço amostral a <span class="math inline">\(B\)</span>. Dentro dessa nova região, o que importa de <span class="math inline">\(K\)</span> é só a parte que está em <span class="math inline">\(B\)</span>, ou seja, <span class="math inline">\(B \cap K\)</span>. A probabilidade de <span class="math inline">\(K\)</span> passa a ser a fatia de <span class="math inline">\(B\)</span> ocupada por <span class="math inline">\(B \cap K\)</span>.</p>
+<p>O raciocínio vale para dois eventos quaisquer. Na definição geral, <span class="math inline">\(A\)</span> é a informação e <span class="math inline">\(B\)</span> é o evento que interessa:</p>
 <div class="conceito">
 <p>A <strong>probabilidade condicional</strong> de <span class="math inline">\(B\)</span> dado <span class="math inline">\(A\)</span>, com <span class="math inline">\(P(A) &gt; 0\)</span>, é</p>
 <p><span class="math display">\[
@@ -771,19 +762,19 @@ P(B \mid A) = \frac{P(A \cap B)}{P(A)}.
 \]</span></p>
 <p>Lê-se “probabilidade de <span class="math inline">\(B\)</span> dado <span class="math inline">\(A\)</span>”.</p>
 </div>
-<p>No sorteio de estados, <span class="math inline">\(P(A \cap B) = 1/27\)</span> e <span class="math inline">\(P(A) = 6/27\)</span>, e os 27 se cancelam:</p>
+<p>No baralho, a informação é <span class="math inline">\(B\)</span> (figura) e o evento que interessa é <span class="math inline">\(K\)</span> (rei), e a fórmula fica <span class="math inline">\(P(K \mid B) = P(B \cap K)/P(B)\)</span>. Como <span class="math inline">\(P(B \cap K) = 4/52\)</span> e <span class="math inline">\(P(B) = 12/52\)</span>, os 52 se cancelam. O código usa a função <code>prob</code> e o dicionário <code>modelo_carta</code> da seção 2.1:</p>
 <div id="cell-condicional" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>p_b_dado_a <span class="op">=</span> prob(A <span class="op">&amp;</span> B, modelo_uf) <span class="op">/</span> prob(A, modelo_uf)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>Fraction(p_b_dado_a).limit_denominator(), <span class="bu">round</span>(p_b_dado_a, <span class="dv">3</span>), <span class="bu">round</span>(prob(B, modelo_uf), <span class="dv">3</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>p_k_dado_b <span class="op">=</span> prob(B <span class="op">&amp;</span> K, modelo_carta) <span class="op">/</span> prob(B, modelo_carta)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>Fraction(p_k_dado_b).limit_denominator(), <span class="bu">round</span>(p_k_dado_b, <span class="dv">3</span>), <span class="bu">round</span>(prob(K, modelo_carta), <span class="dv">3</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div id="condicional" class="cell-output cell-output-display" data-execution_count="3">
-<pre><code>(Fraction(1, 6), 0.167, 0.481)</code></pre>
+<pre><code>(Fraction(1, 3), 0.333, 0.077)</code></pre>
 </div>
 </div>
-<p><span class="math inline">\(P(B)\)</span> é a probabilidade <strong>a priori</strong> de ter taxa alta, calculada antes de qualquer informação. <span class="math inline">\(P(B \mid A)\)</span> é a probabilidade <strong>a posteriori</strong>, depois de saber que o estado é grande. Aqui a informação diminuiu a chance, de 0,481 para 0,167.</p>
-<p>A ordem importa: <span class="math inline">\(P(B \mid A)\)</span> e <span class="math inline">\(P(A \mid B)\)</span> são perguntas diferentes. Dado que o estado tem taxa alta, a chance de ele ser grande é <span class="math inline">\(1/13\)</span>: o denominador agora são os 13 estados de taxa alta.</p>
-<p>No <code>pandas</code>, a tabela de contingência dá as condicionais de uma vez. Com <code>normalize="index"</code>, cada linha é dividida pelo seu total e passa a ser a distribuição de <span class="math inline">\(B\)</span> dentro daquele grupo:</p>
+<p><span class="math inline">\(P(K)\)</span> é a probabilidade <strong>a priori</strong> de sair um rei, calculada antes de qualquer informação. <span class="math inline">\(P(K \mid B)\)</span> é a probabilidade <strong>a posteriori</strong>, depois de saber que a carta é uma figura. Aqui a informação aumentou a chance, de 0,077 para 0,333.</p>
+<p>A ordem importa: <span class="math inline">\(P(K \mid B)\)</span> e <span class="math inline">\(P(B \mid K)\)</span> são perguntas diferentes. Dado que a carta é um rei, a chance de ela ser uma figura é <span class="math inline">\(4/4 = 1\)</span>, porque todo rei é figura. O denominador passa a ser o número de reis, 4.</p>
+<p>No <code>pandas</code>, a tabela de contingência dá as condicionais de uma vez. Com <code>normalize="index"</code>, cada linha é dividida pelo seu total e passa a ser a distribuição de <span class="math inline">\(K\)</span> dentro daquele grupo:</p>
 <div id="cell-condicional-tabela" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>pd.crosstab(grande, taxa_alta, rownames<span class="op">=</span>[<span class="st">""</span>], colnames<span class="op">=</span>[<span class="st">""</span>], normalize<span class="op">=</span><span class="st">"index"</span>).<span class="bu">round</span>(<span class="dv">3</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>pd.crosstab(figura, rei, rownames<span class="op">=</span>[<span class="st">""</span>], colnames<span class="op">=</span>[<span class="st">""</span>], normalize<span class="op">=</span><span class="st">"index"</span>).<span class="bu">round</span>(<span class="dv">3</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div id="condicional-tabela" class="cell-output cell-output-display" data-execution_count="4">
 <div>
 
@@ -792,8 +783,8 @@ P(B \mid A) = \frac{P(A \cap B)}{P(A)}.
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">B: taxa alta</th>
-<th data-quarto-table-cell-role="th">taxa não alta</th>
+<th data-quarto-table-cell-role="th">K: rei</th>
+<th data-quarto-table-cell-role="th">não rei</th>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th"></th>
@@ -803,14 +794,14 @@ P(B \mid A) = \frac{P(A \cap B)}{P(A)}.
 </thead>
 <tbody>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">A: grande</th>
-<td>0.167</td>
-<td>0.833</td>
+<th data-quarto-table-cell-role="th">B: figura</th>
+<td>0.333</td>
+<td>0.667</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">não grande</th>
-<td>0.571</td>
-<td>0.429</td>
+<th data-quarto-table-cell-role="th">não figura</th>
+<td>0.000</td>
+<td>1.000</td>
 </tr>
 </tbody>
 </table>
@@ -818,7 +809,7 @@ P(B \mid A) = \frac{P(A \cap B)}{P(A)}.
 </div>
 </div>
 </div>
-<p>A linha “A: grande” traz <span class="math inline">\(P(B \mid A)\)</span> e <span class="math inline">\(P(B^c \mid A)\)</span>, que somam 1: dentro de <span class="math inline">\(A\)</span>, a probabilidade condicional se comporta como uma probabilidade qualquer.</p>
+<p>A linha “B: figura” traz <span class="math inline">\(P(K \mid B)\)</span> e <span class="math inline">\(P(K^c \mid B)\)</span>, que somam 1: dentro de <span class="math inline">\(B\)</span>, a probabilidade condicional se comporta como uma probabilidade qualquer. Na linha “não figura”, a chance de rei é zero, porque nenhum rei fica fora das figuras.</p>
 </section>
 <section id="regra-do-produto" class="level2">
 <h2 class="anchored" data-anchor-id="regra-do-produto">Regra do produto</h2>
@@ -997,17 +988,25 @@ Tabela&nbsp;1: Dois PRs sorteados com reposição.
 P(A \cap B) = P(A)\, P(B).
 \]</span></p>
 </div>
-<p>A definição é simétrica: se <span class="math inline">\(A\)</span> não informa nada sobre <span class="math inline">\(B\)</span>, <span class="math inline">\(B\)</span> também não informa nada sobre <span class="math inline">\(A\)</span>. E ela serve nos dois sentidos. Às vezes a independência é uma <strong>suposição</strong> do modelo, como nos sorteios com reposição, e aí a fórmula permite calcular <span class="math inline">\(P(A \cap B)\)</span>. Outras vezes ela é uma <strong>pergunta</strong> sobre dados, e a fórmula é o teste. No sorteio entre os 27 estados, a conta é exata. Com uma amostra, a igualdade quase nunca vale exatamente, e decidir se a diferença importa exige ferramentas de inferência estatística, que ficam fora deste livro.</p>
-<p>Nos estados, ser grande e ter taxa alta são independentes? Basta comparar os dois lados:</p>
-<div id="cell-independencia-estados" class="cell" data-execution_count="6">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>lado_esq <span class="op">=</span> prob(A <span class="op">&amp;</span> B, modelo_uf)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>lado_dir <span class="op">=</span> prob(A, modelo_uf) <span class="op">*</span> prob(B, modelo_uf)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="bu">round</span>(lado_esq, <span class="dv">4</span>), <span class="bu">round</span>(lado_dir, <span class="dv">4</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="independencia-estados" class="cell-output cell-output-display" data-execution_count="6">
-<pre><code>(0.037, 0.107)</code></pre>
+<p>A definição é simétrica: se <span class="math inline">\(A\)</span> não informa nada sobre <span class="math inline">\(B\)</span>, <span class="math inline">\(B\)</span> também não informa nada sobre <span class="math inline">\(A\)</span>. E ela serve nos dois sentidos. Às vezes a independência é uma <strong>suposição</strong> do modelo, como nos sorteios com reposição, e aí a fórmula permite calcular <span class="math inline">\(P(A \cap B)\)</span>. Outras vezes ela é uma <strong>pergunta</strong> sobre dados, e a fórmula é o teste. No baralho, em que conhecemos as 52 cartas, a conta é exata. Com uma amostra de dados, a igualdade quase nunca vale exatamente, e decidir se a diferença importa exige ferramentas de inferência estatística, que ficam fora deste livro.</p>
+<p>No baralho, ser de copas (<span class="math inline">\(A\)</span>) e ser figura (<span class="math inline">\(B\)</span>) são independentes? Basta comparar os dois lados da igualdade <span class="math inline">\(P(A \cap B) = P(A)\,P(B)\)</span>. Com <code>Fraction</code>, a conta sai exata, sem arredondamento:</p>
+<div id="cell-independencia-copas-figura" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>lado_esq <span class="op">=</span> Fraction(<span class="bu">len</span>(A <span class="op">&amp;</span> B), <span class="dv">52</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>lado_dir <span class="op">=</span> Fraction(<span class="bu">len</span>(A), <span class="dv">52</span>) <span class="op">*</span> Fraction(<span class="bu">len</span>(B), <span class="dv">52</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>lado_esq, lado_dir</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="independencia-copas-figura" class="cell-output cell-output-display" data-execution_count="6">
+<pre><code>(Fraction(3, 52), Fraction(3, 52))</code></pre>
 </div>
 </div>
-<p><span class="math inline">\(P(A \cap B)\)</span>, cerca de 0,037, fica bem abaixo de <span class="math inline">\(P(A)\,P(B)\)</span>, cerca de 0,107. Os eventos não são independentes: entre os estados grandes, taxa alta é mais rara do que entre todos os estados. É a mesma associação negativa entre tamanho e taxa que fez a média ponderada da taxa de homicídios ficar abaixo da média simples na seção 1.3, agora vista por meio de eventos.</p>
+<p>Os dois lados dão <span class="math inline">\(3/52\)</span>: os eventos são independentes. Cada naipe tem 3 figuras em 13 cartas, a mesma proporção do baralho inteiro, 12 em 52. Saber que a carta é de copas não muda a chance de ela ser figura: <span class="math inline">\(P(B \mid A) = 3/13 = P(B)\)</span>.</p>
+<p>Com figura e rei, a comparação falha:</p>
+<div id="cell-independencia-figura-rei" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>Fraction(<span class="bu">len</span>(B <span class="op">&amp;</span> K), <span class="dv">52</span>), Fraction(<span class="bu">len</span>(B), <span class="dv">52</span>) <span class="op">*</span> Fraction(<span class="bu">len</span>(K), <span class="dv">52</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="independencia-figura-rei" class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>(Fraction(1, 13), Fraction(3, 169))</code></pre>
+</div>
+</div>
+<p><span class="math inline">\(P(B \cap K) = 1/13\)</span> é bem maior que <span class="math inline">\(P(B)\,P(K) = 3/169\)</span>. Os eventos não são independentes: saber que a carta é figura leva a chance de rei de <span class="math inline">\(1/13\)</span> para <span class="math inline">\(1/3\)</span>.</p>
 <p>Para três eventos, a independência exige mais do que os três pares. <span class="math inline">\(A\)</span>, <span class="math inline">\(B\)</span> e <span class="math inline">\(C\)</span> são independentes quando</p>
 <p><span class="math display">\[
 \begin{aligned}
@@ -1043,15 +1042,15 @@ P(\text{sistema}) = P(A_1 \cap A_2) = p_1\, p_2.
 <p><span class="math display">\[
 P(R_1 \cup R_2) = p + p - p^2 = 1 - (1 - p)^2.
 \]</span></p>
-<div id="cell-confiabilidade" class="cell" data-execution_count="7">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>p_auth, p_banco <span class="op">=</span> <span class="fl">0.99</span>, <span class="fl">0.98</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>serie <span class="op">=</span> p_auth <span class="op">*</span> p_banco</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>banco_replicado <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> (<span class="dv">1</span> <span class="op">-</span> p_banco) <span class="op">**</span> <span class="dv">2</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>com_replica <span class="op">=</span> p_auth <span class="op">*</span> banco_replicado</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="bu">round</span>(serie, <span class="dv">4</span>), <span class="bu">round</span>(banco_replicado, <span class="dv">4</span>), <span class="bu">round</span>(com_replica, <span class="dv">4</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="confiabilidade" class="cell-output cell-output-display" data-execution_count="7">
+<div id="cell-confiabilidade" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>p_auth, p_banco <span class="op">=</span> <span class="fl">0.99</span>, <span class="fl">0.98</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>serie <span class="op">=</span> p_auth <span class="op">*</span> p_banco</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>banco_replicado <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> (<span class="dv">1</span> <span class="op">-</span> p_banco) <span class="op">**</span> <span class="dv">2</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>com_replica <span class="op">=</span> p_auth <span class="op">*</span> banco_replicado</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="bu">round</span>(serie, <span class="dv">4</span>), <span class="bu">round</span>(banco_replicado, <span class="dv">4</span>), <span class="bu">round</span>(com_replica, <span class="dv">4</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="confiabilidade" class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>(0.9702, 0.9996, 0.9896)</code></pre>
 </div>
 </div>
@@ -1156,7 +1155,7 @@ P(R_1 \cup R_2) = p + p - p^2 = 1 - (1 - p)^2.
 </div>
 </div>
 </div>
-<p><strong>4.</strong> Usando <code>dados/estados.csv</code>, sejam <span class="math inline">\(A\)</span> = “o estado tem mais de 10 milhões de habitantes” e <span class="math inline">\(D\)</span> = “o estado tem taxa de homicídios acima de 30”. Calcule <span class="math inline">\(P(D \mid A)\)</span> e <span class="math inline">\(P(D)\)</span>. <span class="math inline">\(A\)</span> e <span class="math inline">\(D\)</span> são independentes?</p>
+<p><strong>4.</strong> No baralho de 52 cartas, seja <span class="math inline">\(V\)</span> o evento “a carta é vermelha” (copas ou ouros). (a) Calcule <span class="math inline">\(P(B \mid V)\)</span>, em que <span class="math inline">\(B\)</span> é “a carta é uma figura”, e compare com <span class="math inline">\(P(B)\)</span>. <span class="math inline">\(V\)</span> e <span class="math inline">\(B\)</span> são independentes? (b) Faça o mesmo com <span class="math inline">\(A\)</span>, “a carta é de copas”: calcule <span class="math inline">\(P(A \mid V)\)</span> e compare com <span class="math inline">\(P(A)\)</span>.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1169,15 +1168,20 @@ P(R_1 \cup R_2) = p + p - p^2 = 1 - (1 - p)^2.
 </div>
 <div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="cell-ex4-resposta" class="cell" data-execution_count="8">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>C30 <span class="op">=</span> <span class="bu">set</span>(estado.loc[estado[<span class="st">"Taxa.Homicidios"</span>] <span class="op">&gt;</span> <span class="dv">30</span>, <span class="st">"Sigla"</span>])</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>p_c_dado_a <span class="op">=</span> prob(A <span class="op">&amp;</span> C30, modelo_uf) <span class="op">/</span> prob(A, modelo_uf)</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="bu">round</span>(p_c_dado_a, <span class="dv">3</span>), <span class="bu">round</span>(prob(C30, modelo_uf), <span class="dv">3</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="ex4-resposta" class="cell-output cell-output-display" data-execution_count="8">
-<pre><code>(0.167, 0.259)</code></pre>
+<div id="cell-ex4-resposta" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>V <span class="op">=</span> <span class="bu">set</span>(baralho.loc[baralho[<span class="st">"naipe"</span>].isin([<span class="st">"copas"</span>, <span class="st">"ouros"</span>]), <span class="st">"carta"</span>])</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>p_b_dado_v <span class="op">=</span> Fraction(<span class="bu">len</span>(B <span class="op">&amp;</span> V), <span class="bu">len</span>(V))</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>p_a_dado_v <span class="op">=</span> Fraction(<span class="bu">len</span>(A <span class="op">&amp;</span> V), <span class="bu">len</span>(V))</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>p_b_dado_v, Fraction(<span class="bu">len</span>(B), <span class="dv">52</span>), p_a_dado_v, Fraction(<span class="bu">len</span>(A), <span class="dv">52</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="ex4-resposta" class="cell-output cell-output-display" data-execution_count="9">
+<pre><code>(Fraction(3, 13), Fraction(3, 13), Fraction(1, 2), Fraction(1, 4))</code></pre>
 </div>
 </div>
-<p><span class="math inline">\(P(D \mid A) = 1/6\)</span>, cerca de 0,167, e <span class="math inline">\(P(D) = 7/27\)</span>, cerca de 0,259. Como <span class="math inline">\(P(D \mid A) \ne P(D)\)</span>, os eventos não são independentes.</p>
+<ol type="a">
+<li><p>Entre as 26 cartas vermelhas há 6 figuras: <span class="math inline">\(P(B \mid V) = 6/26 = 3/13\)</span>, igual a <span class="math inline">\(P(B) = 12/52 = 3/13\)</span>. Os eventos são independentes: a cor não diz nada sobre a carta ser figura.</p></li>
+<li><p>Entre as 26 vermelhas, 13 são de copas: <span class="math inline">\(P(A \mid V) = 13/26 = 1/2\)</span>, o dobro de <span class="math inline">\(P(A) = 1/4\)</span>. Os eventos não são independentes: saber que a carta é vermelha elimina espadas e paus.</p></li>
+</ol>
 </div>
 </div>
 </div>

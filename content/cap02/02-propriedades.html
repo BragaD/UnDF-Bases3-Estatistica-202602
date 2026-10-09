@@ -696,8 +696,8 @@ Nota
 <p>Esta seção se baseia na seção 5.2 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>.</p>
 </div>
 </div>
-<p>Na seção 2.1 sorteamos um estado e calculamos a probabilidade de dois eventos: ter mais de 10 milhões de habitantes e ter taxa de homicídios acima da mediana. Cada um foi calculado sozinho. Mas as perguntas que interessam costumam combinar eventos: qual a chance de o estado sorteado ser grande <strong>ou</strong> de taxa alta? De ser as duas coisas ao mesmo tempo? De <strong>não</strong> ser grande?</p>
-<p>Esta seção mostra como calcular essas probabilidades a partir das que já conhecemos, sem voltar a contar ponto por ponto. O código reaproveita os dados dos estados, o dicionário <code>modelo_uf</code> e a função <code>prob</code> da seção 2.1.</p>
+<p>Na seção 2.1 tiramos uma carta do baralho e calculamos a probabilidade de dois eventos: sair uma carta de copas e sair uma figura. Cada um foi calculado sozinho. Mas as perguntas que interessam costumam combinar eventos: qual a chance de a carta ser de copas <strong>ou</strong> figura? De ser as duas coisas ao mesmo tempo? De <strong>não</strong> ser de copas?</p>
+<p>Esta seção mostra como calcular essas probabilidades a partir das que já conhecemos, sem voltar a contar ponto por ponto. O código reaproveita a tabela <code>baralho</code>, o dicionário <code>modelo_carta</code> e a função <code>prob</code> da seção 2.1.</p>
 <section id="limites-da-probabilidade" class="level2">
 <h2 class="anchored" data-anchor-id="limites-da-probabilidade">Limites da probabilidade</h2>
 <p>O modelo probabilístico é uma versão teórica da frequência relativa (seção 2.1), e herda algumas das propriedades dela. Uma frequência relativa é uma contagem dividida pelo total, então fica sempre entre 0 e 1. O mesmo vale para a probabilidade de qualquer evento <span class="math inline">\(A\)</span>:</p>
@@ -708,12 +708,12 @@ Nota
 <p><span class="math display">\[
 P(\Omega) = 1, \qquad P(\varnothing) = 0.
 \]</span></p>
-<p>No sorteio de um estado, “sortear uma das 27 siglas” é o evento certo, e “sortear um estado com mais de 50 milhões de habitantes” é impossível, porque nem São Paulo chega lá:</p>
+<p>No sorteio de uma carta, “tirar uma das 52 cartas” é o evento certo, e “tirar um coringa” é impossível, porque o baralho de 52 cartas não tem coringa:</p>
 <div id="cell-limites" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>todos <span class="op">=</span> <span class="bu">set</span>(estado[<span class="st">"Sigla"</span>])</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>mais_de_50_milhoes <span class="op">=</span> <span class="bu">set</span>(estado.loc[estado[<span class="st">"Populacao"</span>] <span class="op">&gt;</span> <span class="dv">50_000_000</span>, <span class="st">"Sigla"</span>])</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>todos <span class="op">=</span> <span class="bu">set</span>(baralho[<span class="st">"carta"</span>])</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>coringas <span class="op">=</span> <span class="bu">set</span>(baralho.loc[baralho[<span class="st">"valor"</span>] <span class="op">==</span> <span class="st">"coringa"</span>, <span class="st">"carta"</span>])</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>prob(todos, modelo_uf), prob(mais_de_50_milhoes, modelo_uf)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>prob(todos, modelo_carta), prob(coringas, modelo_carta)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div id="limites" class="cell-output cell-output-display" data-execution_count="2">
 <pre><code>(1.0, 0)</code></pre>
 </div>
@@ -736,19 +736,16 @@ P(\Omega) = 1, \qquad P(\varnothing) = 0.
 <h2 class="anchored" data-anchor-id="união-e-interseção">União e interseção</h2>
 <p>Vamos dar nome aos dois eventos da seção 2.1:</p>
 <ul>
-<li><span class="math inline">\(A\)</span>: o estado sorteado tem mais de 10 milhões de habitantes (é <strong>grande</strong>);</li>
-<li><span class="math inline">\(B\)</span>: o estado sorteado tem taxa de homicídios acima da mediana (tem <strong>taxa alta</strong>).</li>
+<li><span class="math inline">\(A\)</span>: a carta é de <strong>copas</strong>;</li>
+<li><span class="math inline">\(B\)</span>: a carta é uma <strong>figura</strong> (J, Q ou K).</li>
 </ul>
 <div id="cell-eventos-ab" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> <span class="bu">set</span>(estado.loc[estado[<span class="st">"Populacao"</span>] <span class="op">&gt;</span> <span class="dv">10_000_000</span>, <span class="st">"Sigla"</span>])</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>mediana_taxa <span class="op">=</span> estado[<span class="st">"Taxa.Homicidios"</span>].median()</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>B <span class="op">=</span> <span class="bu">set</span>(estado.loc[</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    estado[<span class="st">"Taxa.Homicidios"</span>] <span class="op">&gt;</span> mediana_taxa, <span class="st">"Sigla"</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>])</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(A), <span class="bu">len</span>(B)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> <span class="bu">set</span>(baralho.loc[baralho[<span class="st">"naipe"</span>] <span class="op">==</span> <span class="st">"copas"</span>, <span class="st">"carta"</span>])</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>B <span class="op">=</span> <span class="bu">set</span>(baralho.loc[baralho[<span class="st">"valor"</span>].isin([<span class="st">"J"</span>, <span class="st">"Q"</span>, <span class="st">"K"</span>]), <span class="st">"carta"</span>])</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(A), <span class="bu">len</span>(B)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div id="eventos-ab" class="cell-output cell-output-display" data-execution_count="3">
-<pre><code>(6, 13)</code></pre>
+<pre><code>(13, 12)</code></pre>
 </div>
 </div>
 <p>A partir de dois eventos, construímos outros dois. Lembre o diagrama de Venn do dado, na seção 2.1 (<a href="01-modelos-probabilisticos.html#fig-venn-dado" class="quarto-xref">Figura&nbsp;<span>2</span></a>), com outros <span class="math inline">\(A\)</span> e <span class="math inline">\(B\)</span> (par e maior que 3): um dos novos eventos é a região coberta pelos dois círculos juntos, e o outro é a região em que eles se sobrepõem, onde estão as faces 4 e 6.</p>
@@ -760,16 +757,16 @@ P(\Omega) = 1, \qquad P(\varnothing) = 0.
 <div id="cell-uniao-intersecao" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">sorted</span>(A <span class="op">&amp;</span> B), <span class="bu">len</span>(A <span class="op">|</span> B)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div id="uniao-intersecao" class="cell-output cell-output-display" data-execution_count="4">
-<pre><code>(['BA'], 18)</code></pre>
+<pre><code>(['J de copas', 'K de copas', 'Q de copas'], 22)</code></pre>
 </div>
 </div>
-<p>Só um estado é grande e de taxa alta ao mesmo tempo: a Bahia. E 18 dos 27 estados são grandes, de taxa alta ou as duas coisas.</p>
-<p>Com dois eventos, cada estado cai em uma de quatro casas: grande ou não, de taxa alta ou não. Uma <strong>tabela de contingência</strong> cruza as duas classificações e mostra as quatro casas de uma vez (a seção 1.8, de leitura complementar, usa o mesmo tipo de tabela):</p>
+<p>Três cartas são de copas e também figuras: o valete, a dama e o rei de copas. Ao todo, 22 das 52 cartas são de copas, figuras ou as duas coisas.</p>
+<p>Com dois eventos, cada carta cai em uma de quatro casas: de copas ou não, figura ou não. Uma <strong>tabela de contingência</strong> cruza as duas classificações e mostra as quatro casas de uma vez (a seção 1.8, de leitura complementar, usa o mesmo tipo de tabela):</p>
 <div id="cell-tabela-ab" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>grande <span class="op">=</span> estado[<span class="st">"Sigla"</span>].isin(A).<span class="bu">map</span>({<span class="va">True</span>: <span class="st">"A: grande"</span>, <span class="va">False</span>: <span class="st">"não grande"</span>})</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>taxa_alta <span class="op">=</span> estado[<span class="st">"Sigla"</span>].isin(B).<span class="bu">map</span>({<span class="va">True</span>: <span class="st">"B: acima da mediana"</span>, <span class="va">False</span>: <span class="st">"até a mediana"</span>})</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>de_copas <span class="op">=</span> baralho[<span class="st">"carta"</span>].isin(A).<span class="bu">map</span>({<span class="va">True</span>: <span class="st">"A: copas"</span>, <span class="va">False</span>: <span class="st">"não copas"</span>})</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>figura <span class="op">=</span> baralho[<span class="st">"carta"</span>].isin(B).<span class="bu">map</span>({<span class="va">True</span>: <span class="st">"B: figura"</span>, <span class="va">False</span>: <span class="st">"não figura"</span>})</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>pd.crosstab(grande, taxa_alta, rownames<span class="op">=</span>[<span class="st">""</span>], colnames<span class="op">=</span>[<span class="st">""</span>], margins<span class="op">=</span><span class="va">True</span>, margins_name<span class="op">=</span><span class="st">"Total"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>pd.crosstab(de_copas, figura, rownames<span class="op">=</span>[<span class="st">""</span>], colnames<span class="op">=</span>[<span class="st">""</span>], margins<span class="op">=</span><span class="va">True</span>, margins_name<span class="op">=</span><span class="st">"Total"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div id="tabela-ab" class="cell-output cell-output-display" data-execution_count="5">
 <div>
 
@@ -778,8 +775,8 @@ P(\Omega) = 1, \qquad P(\varnothing) = 0.
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">B: acima da mediana</th>
-<th data-quarto-table-cell-role="th">até a mediana</th>
+<th data-quarto-table-cell-role="th">B: figura</th>
+<th data-quarto-table-cell-role="th">não figura</th>
 <th data-quarto-table-cell-role="th">Total</th>
 </tr>
 <tr class="even">
@@ -791,22 +788,22 @@ P(\Omega) = 1, \qquad P(\varnothing) = 0.
 </thead>
 <tbody>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">A: grande</th>
-<td>1</td>
-<td>5</td>
-<td>6</td>
+<th data-quarto-table-cell-role="th">A: copas</th>
+<td>3</td>
+<td>10</td>
+<td>13</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">não grande</th>
-<td>12</td>
+<th data-quarto-table-cell-role="th">não copas</th>
 <td>9</td>
-<td>21</td>
+<td>30</td>
+<td>39</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">Total</th>
-<td>13</td>
-<td>14</td>
-<td>27</td>
+<td>12</td>
+<td>40</td>
+<td>52</td>
 </tr>
 </tbody>
 </table>
@@ -814,15 +811,15 @@ P(\Omega) = 1, \qquad P(\varnothing) = 0.
 </div>
 </div>
 </div>
-<p>A casa do cruzamento entre “A: grande” e “B: acima da mediana” é <span class="math inline">\(A \cap B\)</span>. As margens trazem os tamanhos de <span class="math inline">\(A\)</span> e de <span class="math inline">\(B\)</span> separados.</p>
+<p>A casa do cruzamento entre “A: copas” e “B: figura” é <span class="math inline">\(A \cap B\)</span>. As margens trazem os tamanhos de <span class="math inline">\(A\)</span> e de <span class="math inline">\(B\)</span> separados.</p>
 </section>
 <section id="a-regra-da-adição" class="level2">
 <h2 class="anchored" data-anchor-id="a-regra-da-adição">A regra da adição</h2>
-<p>Qual a probabilidade de sortear um estado grande <strong>ou</strong> de taxa alta? A primeira ideia é somar:</p>
+<p>Qual a probabilidade de tirar uma carta de copas <strong>ou</strong> uma figura? A primeira ideia é somar:</p>
 <p><span class="math display">\[
-P(A) + P(B) = \frac{6}{27} + \frac{13}{27} = \frac{19}{27}.
+P(A) + P(B) = \frac{13}{52} + \frac{12}{52} = \frac{25}{52}.
 \]</span></p>
-<p>Mas a união tem 18 estados, e não 19. A soma contou a Bahia duas vezes: uma dentro de <span class="math inline">\(A\)</span> e outra dentro de <span class="math inline">\(B\)</span>. Para corrigir, basta subtrair a interseção uma vez.</p>
+<p>Mas a união tem 22 cartas, e não 25. A soma contou as três figuras de copas duas vezes: uma dentro de <span class="math inline">\(A\)</span> e outra dentro de <span class="math inline">\(B\)</span>. Para corrigir, basta subtrair a interseção uma vez.</p>
 <div class="conceito">
 <p><strong>Regra da adição.</strong> Para quaisquer eventos <span class="math inline">\(A\)</span> e <span class="math inline">\(B\)</span>,</p>
 <p><span class="math display">\[
@@ -830,30 +827,31 @@ P(A \cup B) = P(A) + P(B) - P(A \cap B)
 \]</span></p>
 </div>
 <div id="cell-regra-adicao" class="cell" data-execution_count="6">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>soma_com_desconto <span class="op">=</span> prob(A, modelo_uf) <span class="op">+</span> prob(B, modelo_uf) <span class="op">-</span> prob(A <span class="op">&amp;</span> B, modelo_uf)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>direto <span class="op">=</span> prob(A <span class="op">|</span> B, modelo_uf)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>soma_com_desconto <span class="op">=</span> prob(A, modelo_carta) <span class="op">+</span> prob(B, modelo_carta) <span class="op">-</span> prob(A <span class="op">&amp;</span> B, modelo_carta)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>direto <span class="op">=</span> prob(A <span class="op">|</span> B, modelo_carta)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="bu">round</span>(soma_com_desconto, <span class="dv">4</span>), <span class="bu">round</span>(direto, <span class="dv">4</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div id="regra-adicao" class="cell-output cell-output-display" data-execution_count="6">
-<pre><code>(0.6667, 0.6667)</code></pre>
+<pre><code>(0.4231, 0.4231)</code></pre>
 </div>
 </div>
-<p>Os dois caminhos dão <span class="math inline">\(18/27\)</span>, cerca de 0,667.</p>
-<p>Há um caso em que a soma simples funciona. Seja <span class="math inline">\(C\)</span> o evento “o estado sorteado tem menos de 1 milhão de habitantes”:</p>
+<p>Os dois caminhos dão <span class="math inline">\(22/52\)</span>, cerca de 0,423.</p>
+<p>Há um caso em que a soma simples funciona. Seja <span class="math inline">\(C\)</span> o evento “a carta é de espadas”:</p>
 <div id="cell-mutuamente-exclusivos" class="cell" data-execution_count="7">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>C <span class="op">=</span> <span class="bu">set</span>(estado.loc[estado[<span class="st">"Populacao"</span>] <span class="op">&lt;</span> <span class="dv">1_000_000</span>, <span class="st">"Sigla"</span>])</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="bu">sorted</span>(C), A <span class="op">&amp;</span> C</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>C <span class="op">=</span> <span class="bu">set</span>(baralho.loc[baralho[<span class="st">"naipe"</span>] <span class="op">==</span> <span class="st">"espadas"</span>, <span class="st">"carta"</span>])</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(C), A <span class="op">&amp;</span> C</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div id="mutuamente-exclusivos" class="cell-output cell-output-display" data-execution_count="7">
-<pre><code>(['AC', 'AP', 'RR'], set())</code></pre>
+<pre><code>(13, set())</code></pre>
 </div>
 </div>
-<p>Nenhum estado tem, ao mesmo tempo, mais de 10 milhões e menos de 1 milhão de habitantes: <span class="math inline">\(A \cap C = \varnothing\)</span>, e o Python mostra isso como <code>set()</code>, o conjunto vazio. Eventos assim, que não podem ocorrer juntos, são <strong>mutuamente exclusivos</strong> (ou disjuntos). Como <span class="math inline">\(P(\varnothing) = 0\)</span>, a regra da adição perde o último termo:</p>
+<p>Nenhuma carta é de copas e de espadas ao mesmo tempo: <span class="math inline">\(A \cap C = \varnothing\)</span>, e o Python mostra isso como <code>set()</code>, o conjunto vazio. Eventos assim, que não podem ocorrer juntos, são <strong>mutuamente exclusivos</strong> (ou disjuntos). Como <span class="math inline">\(P(\varnothing) = 0\)</span>, a regra da adição perde o último termo:</p>
 <p><span class="math display">\[
 \begin{aligned}
 P(A \cup C) &amp;= P(A) + P(C), \\
 &amp;\text{se } A \cap C = \varnothing.
 \end{aligned}
 \]</span></p>
+<p>Copas ou espadas dá <span class="math inline">\(13/52 + 13/52 = 26/52\)</span>, metade do baralho.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -870,7 +868,7 @@ P(A \cup C) &amp;= P(A) + P(C), \\
 </section>
 <section id="o-complementar" class="level2">
 <h2 class="anchored" data-anchor-id="o-complementar">O complementar</h2>
-<p>Falta a terceira pergunta da abertura: qual a probabilidade de o estado sorteado <strong>não</strong> ser grande?</p>
+<p>Falta a terceira pergunta da abertura: qual a probabilidade de a carta <strong>não</strong> ser de copas?</p>
 <div class="conceito">
 <p>O <strong>complementar</strong> <span class="math inline">\(A^c\)</span> é o evento em que <span class="math inline">\(A\)</span> <strong>não</strong> ocorre: todos os pontos de <span class="math inline">\(\Omega\)</span> que não estão em <span class="math inline">\(A\)</span>.</p>
 </div>
@@ -881,23 +879,31 @@ P(A^c) = 1 - P(A).
 <p>Em Python, o complementar é a diferença entre o espaço amostral e o evento:</p>
 <div id="cell-complementar" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>Ac <span class="op">=</span> todos <span class="op">-</span> A</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(Ac), prob(Ac, modelo_uf), <span class="dv">1</span> <span class="op">-</span> prob(A, modelo_uf)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(Ac), prob(Ac, modelo_carta), <span class="dv">1</span> <span class="op">-</span> prob(A, modelo_carta)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div id="complementar" class="cell-output cell-output-display" data-execution_count="8">
-<pre><code>(21, 0.7777777777777777, 0.7777777777777778)</code></pre>
+<pre><code>(39, 0.75, 0.75)</code></pre>
 </div>
 </div>
-<p>São 21 estados que não são grandes, com probabilidade <span class="math inline">\(21/27\)</span>. A fórmula chega ao mesmo número sem contar nenhum deles.</p>
-<p>Repare que as duas últimas saídas diferem na 16ª casa decimal. É arredondamento de ponto flutuante: somar 21 parcelas de 1/27 e calcular <span class="math inline">\(1 - 6/27\)</span> acumulam erros diferentes. Por isso, em código, probabilidades obtidas por caminhos diferentes se comparam com tolerância, e não com <code>==</code>:</p>
-<div id="cell-isclose" class="cell" data-execution_count="9">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> math <span class="im">import</span> isclose</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>prob(Ac, modelo_uf) <span class="op">==</span> <span class="dv">1</span> <span class="op">-</span> prob(A, modelo_uf), isclose(prob(Ac, modelo_uf), <span class="dv">1</span> <span class="op">-</span> prob(A, modelo_uf))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="isclose" class="cell-output cell-output-display" data-execution_count="9">
+<p>São 39 cartas que não são de copas, com probabilidade <span class="math inline">\(39/52\)</span>. A fórmula chega ao mesmo número sem contar nenhuma delas.</p>
+<p>Com as figuras, os dois caminhos não dão exatamente a mesma saída:</p>
+<div id="cell-complementar-b" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>Bc <span class="op">=</span> todos <span class="op">-</span> B</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>prob(Bc, modelo_carta), <span class="dv">1</span> <span class="op">-</span> prob(B, modelo_carta)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="complementar-b" class="cell-output cell-output-display" data-execution_count="9">
+<pre><code>(0.7692307692307693, 0.7692307692307692)</code></pre>
+</div>
+</div>
+<p>Os dois números diferem na 16ª casa decimal. É arredondamento de ponto flutuante: somar 40 parcelas de 1/52 e calcular <span class="math inline">\(1 - 12/52\)</span> acumulam erros diferentes. Por isso, em código, probabilidades obtidas por caminhos diferentes se comparam com tolerância, e não com <code>==</code>:</p>
+<div id="cell-isclose" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> math <span class="im">import</span> isclose</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>prob(Bc, modelo_carta) <span class="op">==</span> <span class="dv">1</span> <span class="op">-</span> prob(B, modelo_carta), isclose(prob(Bc, modelo_carta), <span class="dv">1</span> <span class="op">-</span> prob(B, modelo_carta))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="isclose" class="cell-output cell-output-display" data-execution_count="10">
 <pre><code>(False, True)</code></pre>
 </div>
 </div>
 <p>O <code>isclose</code> mede a diferença relativa ao tamanho dos números. Para comparar com zero, como ao conferir <span class="math inline">\(P(A \cap C) = 0\)</span>, passe uma tolerância absoluta: <code>isclose(x, 0, abs_tol=1e-12)</code>.</p>
-<p>O complementar se combina com a união e a interseção. “O estado não é grande <strong>nem</strong> de taxa alta” é o complementar de “é grande <strong>ou</strong> de taxa alta”:</p>
+<p>O complementar se combina com a união e a interseção. “A carta não é de copas <strong>nem</strong> figura” é o complementar de “é de copas <strong>ou</strong> figura”:</p>
 <p><span class="math display">\[
 \begin{aligned}
 (A \cup B)^c &amp;= A^c \cap B^c, \\
@@ -905,14 +911,13 @@ P(A^c) = 1 - P(A).
 \end{aligned}
 \]</span></p>
 <p>São as <strong>leis de De Morgan</strong>. Em palavras: não ocorrer nenhum dos dois é o mesmo que não ocorrer o primeiro <strong>e</strong> não ocorrer o segundo; não ocorrerem os dois juntos é o mesmo que deixar de ocorrer pelo menos um deles. Os conjuntos do Python confirmam:</p>
-<div id="cell-de-morgan" class="cell" data-execution_count="10">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>Bc <span class="op">=</span> todos <span class="op">-</span> B</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>(todos <span class="op">-</span> (A <span class="op">|</span> B)) <span class="op">==</span> (Ac <span class="op">&amp;</span> Bc), (todos <span class="op">-</span> (A <span class="op">&amp;</span> B)) <span class="op">==</span> (Ac <span class="op">|</span> Bc)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="de-morgan" class="cell-output cell-output-display" data-execution_count="10">
+<div id="cell-de-morgan" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>(todos <span class="op">-</span> (A <span class="op">|</span> B)) <span class="op">==</span> (Ac <span class="op">&amp;</span> Bc), (todos <span class="op">-</span> (A <span class="op">&amp;</span> B)) <span class="op">==</span> (Ac <span class="op">|</span> Bc)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="de-morgan" class="cell-output cell-output-display" data-execution_count="11">
 <pre><code>(True, True)</code></pre>
 </div>
 </div>
-<p>A primeira lei dá a probabilidade de o estado não ser grande nem de taxa alta sem contar a casa correspondente da tabela: <span class="math inline">\(P(A^c \cap B^c) = 1 - P(A \cup B)\)</span>, que dá <span class="math inline">\(1 - 18/27 = 9/27\)</span>. A casa “não grande” × “até a mediana” da tabela de contingência tem exatamente esses 9 estados.</p>
+<p>A primeira lei dá a probabilidade de a carta não ser de copas nem figura sem contar a casa correspondente da tabela: <span class="math inline">\(P(A^c \cap B^c) = 1 - P(A \cup B)\)</span>, que dá <span class="math inline">\(1 - 22/52 = 30/52\)</span>. A casa “não copas” × “não figura” da tabela de contingência tem exatamente essas 30 cartas.</p>
 </section>
 <section id="resumo" class="level2">
 <h2 class="anchored" data-anchor-id="resumo">Resumo</h2>
@@ -1013,7 +1018,7 @@ P(A^c) = 1 - P(A).
 </div>
 </div>
 </div>
-<p><strong>4.</strong> Usando <code>dados/estados.csv</code>, calcule a probabilidade de sortear um estado com taxa de homicídios acima de 30 <strong>ou</strong> com menos de 1 milhão de habitantes. Calcule de dois jeitos: contando a união diretamente e pela regra da adição.</p>
+<p><strong>4.</strong> Tirando uma carta do baralho de 52, calcule a probabilidade de sair um ás <strong>ou</strong> uma carta de espadas. Calcule de dois jeitos: contando a união diretamente e pela regra da adição.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1026,16 +1031,16 @@ P(A^c) = 1 - P(A).
 </div>
 <div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="cell-ex4-resposta" class="cell" data-execution_count="11">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>V <span class="op">=</span> <span class="bu">set</span>(estado.loc[estado[<span class="st">"Taxa.Homicidios"</span>] <span class="op">&gt;</span> <span class="dv">30</span>, <span class="st">"Sigla"</span>])</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>direto_ex4 <span class="op">=</span> prob(V <span class="op">|</span> C, modelo_uf)</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>pela_regra <span class="op">=</span> prob(V, modelo_uf) <span class="op">+</span> prob(C, modelo_uf) <span class="op">-</span> prob(V <span class="op">&amp;</span> C, modelo_uf)</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="bu">sorted</span>(V <span class="op">&amp;</span> C), <span class="bu">round</span>(direto_ex4, <span class="dv">4</span>), <span class="bu">round</span>(pela_regra, <span class="dv">4</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="ex4-resposta" class="cell-output cell-output-display" data-execution_count="11">
-<pre><code>(['AP'], 0.3333, 0.3333)</code></pre>
+<div id="cell-ex4-resposta" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>ases <span class="op">=</span> <span class="bu">set</span>(baralho.loc[baralho[<span class="st">"valor"</span>] <span class="op">==</span> <span class="st">"A"</span>, <span class="st">"carta"</span>])</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>direto_ex4 <span class="op">=</span> prob(ases <span class="op">|</span> C, modelo_carta)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>pela_regra <span class="op">=</span> prob(ases, modelo_carta) <span class="op">+</span> prob(C, modelo_carta) <span class="op">-</span> prob(ases <span class="op">&amp;</span> C, modelo_carta)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="bu">sorted</span>(ases <span class="op">&amp;</span> C), <span class="bu">round</span>(direto_ex4, <span class="dv">4</span>), <span class="bu">round</span>(pela_regra, <span class="dv">4</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="ex4-resposta" class="cell-output cell-output-display" data-execution_count="12">
+<pre><code>(['A de espadas'], 0.3077, 0.3077)</code></pre>
 </div>
 </div>
-<p>São 7 estados acima de 30 e 3 com menos de 1 milhão, mas o Amapá está nos dois grupos. A probabilidade é <span class="math inline">\((7 + 3 - 1)/27 = 9/27\)</span>.</p>
+<p>São 4 ases e 13 cartas de espadas, mas o ás de espadas está nos dois grupos. A probabilidade é <span class="math inline">\((4 + 13 - 1)/52 = 16/52\)</span>.</p>
 </div>
 </div>
 </div>

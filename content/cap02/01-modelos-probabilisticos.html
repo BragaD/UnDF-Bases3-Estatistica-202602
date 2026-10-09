@@ -648,7 +648,7 @@ window.Quarto = {
   <li><a href="#da-frequência-ao-modelo" id="toc-da-frequência-ao-modelo" class="nav-link active" data-scroll-target="#da-frequência-ao-modelo">Da frequência ao modelo</a></li>
   <li><a href="#espaço-amostral" id="toc-espaço-amostral" class="nav-link" data-scroll-target="#espaço-amostral">Espaço amostral</a></li>
   <li><a href="#eventos" id="toc-eventos" class="nav-link" data-scroll-target="#eventos">Eventos</a></li>
-  <li><a href="#sorteando-um-estado" id="toc-sorteando-um-estado" class="nav-link" data-scroll-target="#sorteando-um-estado">Sorteando um estado</a></li>
+  <li><a href="#tirando-uma-carta-do-baralho" id="toc-tirando-uma-carta-do-baralho" class="nav-link" data-scroll-target="#tirando-uma-carta-do-baralho">Tirando uma carta do baralho</a></li>
   <li><a href="#espaço-amostral-discreto-e-contínuo" id="toc-espaço-amostral-discreto-e-contínuo" class="nav-link" data-scroll-target="#espaço-amostral-discreto-e-contínuo">Espaço amostral discreto e contínuo</a></li>
   <li><a href="#resumo" id="toc-resumo" class="nav-link" data-scroll-target="#resumo">Resumo</a></li>
   <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios">Exercícios</a></li>
@@ -697,8 +697,8 @@ Nota
 <p>Esta seção corresponde à seção 5.1 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>.</p>
 </div>
 </div>
-<p>No Capítulo 1 descrevemos dados que já existiam: a população de cada estado, a taxa de homicídios, a proporção de atrasos por causa. Toda frequência relativa que calculamos contava algo que <strong>já tinha acontecido</strong>.</p>
-<p>A probabilidade faz a pergunta ao contrário. Antes de lançar um dado, sortear um estado ou rodar um pipeline de testes, o que <strong>deve</strong> acontecer? Para responder sem esperar os dados, precisamos de um modelo.</p>
+<p>No Capítulo 1 descrevemos dados que já existiam: a população de cada estado, a taxa de homicídios, o aluguel de cada imóvel. Toda frequência relativa que calculamos contava algo que <strong>já tinha acontecido</strong>.</p>
+<p>A probabilidade faz a pergunta ao contrário. Antes de lançar um dado, tirar uma carta do baralho ou rodar um pipeline de testes, o que <strong>deve</strong> acontecer? Para responder sem esperar os dados, precisamos de um modelo.</p>
 <section id="da-frequência-ao-modelo" class="level2">
 <h2 class="anchored" data-anchor-id="da-frequência-ao-modelo">Da frequência ao modelo</h2>
 <p>Lance um dado 60 vezes e conte quantas vezes saiu cada face. Dividindo cada contagem por 60, você tem a distribuição de frequências do Capítulo 1. Lance mais 60 vezes e as frequências mudam. Nenhuma das duas tabelas é “a certa”.</p>
@@ -970,43 +970,94 @@ Figura&nbsp;2: O espaço amostral do dado (retângulo), os eventos A = par e B =
 </div>
 <p>Se os oito pontos fossem igualmente prováveis, teríamos <span class="math inline">\(P = 3/8\)</span>. Mas isso exigiria, entre outras coisas, que cada build falhasse metade das vezes, e um pipeline assim não duraria uma semana em produção. O evento é o mesmo com qualquer modelo; a probabilidade depende das <span class="math inline">\(P(\omega)\)</span> que atribuímos. O Capítulo 3 constrói o modelo em que cada build falha com uma probabilidade <span class="math inline">\(p\)</span> qualquer, sem que um influencie o outro.</p>
 </section>
-<section id="sorteando-um-estado" class="level2">
-<h2 class="anchored" data-anchor-id="sorteando-um-estado">Sorteando um estado</h2>
-<p>Voltemos aos dados do Capítulo 1. Escreva a sigla de cada unidade federativa num papel, dobre, misture e tire um papel ao acaso. O espaço amostral são as 27 siglas, e como nenhum papel é favorecido, cada ponto amostral tem probabilidade 1/27.</p>
-<div id="cell-estados-modelo" class="cell" data-execution_count="8">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>estado <span class="op">=</span> pd.read_csv(<span class="st">"dados/estados.csv"</span>)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>modelo_uf <span class="op">=</span> {sigla: <span class="dv">1</span><span class="op">/</span><span class="dv">27</span> <span class="cf">for</span> sigla <span class="kw">in</span> estado[<span class="st">"Sigla"</span>]}</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(modelo_uf)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="estados-modelo" class="cell-output cell-output-display" data-execution_count="8">
-<pre><code>27</code></pre>
+<section id="tirando-uma-carta-do-baralho" class="level2">
+<h2 class="anchored" data-anchor-id="tirando-uma-carta-do-baralho">Tirando uma carta do baralho</h2>
+<p>Um baralho comum tem 52 cartas: 13 valores (A, o ás; os números de 2 a 10; J, o valete; Q, a dama; K, o rei) em cada um de 4 naipes (copas, ouros, espadas e paus). Embaralhe bem e tire uma carta. O espaço amostral são as 52 cartas, e como o embaralhamento não favorece nenhuma, cada ponto amostral tem probabilidade 1/52.</p>
+<p>O <code>product</code> que listou os builds também monta o baralho, combinando cada valor com cada naipe:</p>
+<div id="cell-baralho-modelo" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>valores <span class="op">=</span> [<span class="st">"A"</span>, <span class="st">"2"</span>, <span class="st">"3"</span>, <span class="st">"4"</span>, <span class="st">"5"</span>, <span class="st">"6"</span>, <span class="st">"7"</span>, <span class="st">"8"</span>, <span class="st">"9"</span>, <span class="st">"10"</span>, <span class="st">"J"</span>, <span class="st">"Q"</span>, <span class="st">"K"</span>]</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>naipes <span class="op">=</span> [<span class="st">"copas"</span>, <span class="st">"ouros"</span>, <span class="st">"espadas"</span>, <span class="st">"paus"</span>]</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>baralho <span class="op">=</span> pd.DataFrame(<span class="bu">list</span>(product(valores, naipes)),</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>                       columns<span class="op">=</span>[<span class="st">"valor"</span>, <span class="st">"naipe"</span>])</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>baralho[<span class="st">"carta"</span>] <span class="op">=</span> baralho[<span class="st">"valor"</span>] <span class="op">+</span> <span class="st">" de "</span> <span class="op">+</span> baralho[<span class="st">"naipe"</span>]</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>modelo_carta <span class="op">=</span> {carta: <span class="dv">1</span><span class="op">/</span><span class="dv">52</span> <span class="cf">for</span> carta <span class="kw">in</span> baralho[<span class="st">"carta"</span>]}</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>baralho.head()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="baralho-modelo" class="cell-output cell-output-display" data-execution_count="8">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">valor</th>
+<th data-quarto-table-cell-role="th">naipe</th>
+<th data-quarto-table-cell-role="th">carta</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>A</td>
+<td>copas</td>
+<td>A de copas</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>A</td>
+<td>ouros</td>
+<td>A de ouros</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>A</td>
+<td>espadas</td>
+<td>A de espadas</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>A</td>
+<td>paus</td>
+<td>A de paus</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>2</td>
+<td>copas</td>
+<td>2 de copas</td>
+</tr>
+</tbody>
+</table>
+
 </div>
 </div>
-<p>Qual a probabilidade de sortear um estado com mais de 10 milhões de habitantes?</p>
-<div id="cell-estados-grandes" class="cell" data-execution_count="9">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>grandes <span class="op">=</span> <span class="bu">set</span>(estado.loc[estado[<span class="st">"Populacao"</span>] <span class="op">&gt;</span> <span class="dv">10_000_000</span>, <span class="st">"Sigla"</span>])</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="bu">sorted</span>(grandes), prob(grandes, modelo_uf)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="estados-grandes" class="cell-output cell-output-display" data-execution_count="9">
-<pre><code>(['BA', 'MG', 'PR', 'RJ', 'RS', 'SP'], 0.2222222222222222)</code></pre>
+</div>
+<p>A tabela tem 52 linhas, uma por carta. Qual a probabilidade de tirar uma carta de copas?</p>
+<div id="cell-baralho-copas" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>copas <span class="op">=</span> <span class="bu">set</span>(baralho.loc[baralho[<span class="st">"naipe"</span>] <span class="op">==</span> <span class="st">"copas"</span>, <span class="st">"carta"</span>])</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(copas), prob(copas, modelo_carta)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="baralho-copas" class="cell-output cell-output-display" data-execution_count="9">
+<pre><code>(13, 0.25)</code></pre>
 </div>
 </div>
-<p>São 6 estados, e <span class="math inline">\(P = 6/27\)</span>, cerca de 0,222. Repare que esse número é a <strong>frequência relativa</strong> do Capítulo 1: a proporção de estados com mais de 10 milhões de habitantes. Quando todos os pontos de um conjunto finito têm a mesma chance de ser sorteados, a probabilidade de um evento é a proporção de pontos que caem nele, e o pandas calcula isso direto:</p>
-<div id="cell-estados-proporcao" class="cell" data-execution_count="10">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>(estado[<span class="st">"Populacao"</span>] <span class="op">&gt;</span> <span class="dv">10_000_000</span>).mean()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="estados-proporcao" class="cell-output cell-output-display" data-execution_count="10">
-<pre><code>0.2222222222222222</code></pre>
+<p>São 13 cartas, e <span class="math inline">\(P = 13/52 = 1/4\)</span>. Repare que esse número é uma <strong>frequência relativa</strong> como as do Capítulo 1: a proporção de cartas de copas no baralho. Quando todos os pontos de um conjunto finito têm a mesma chance de ser sorteados, a probabilidade de um evento é a proporção de pontos que caem nele, e o pandas calcula isso direto:</p>
+<div id="cell-baralho-proporcao" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>(baralho[<span class="st">"naipe"</span>] <span class="op">==</span> <span class="st">"copas"</span>).mean()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="baralho-proporcao" class="cell-output cell-output-display" data-execution_count="10">
+<pre><code>0.25</code></pre>
 </div>
 </div>
-<p>Agora, a probabilidade de sortear um estado com taxa de homicídios <strong>acima da mediana</strong>. A intuição diz 1/2, porque a mediana divide os dados ao meio.</p>
-<div id="cell-estados-acima-mediana" class="cell" data-execution_count="11">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>mediana_taxa <span class="op">=</span> estado[<span class="st">"Taxa.Homicidios"</span>].median()</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>acima <span class="op">=</span> <span class="bu">set</span>(estado.loc[estado[<span class="st">"Taxa.Homicidios"</span>] <span class="op">&gt;</span> mediana_taxa, <span class="st">"Sigla"</span>])</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(acima), prob(acima, modelo_uf)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="estados-acima-mediana" class="cell-output cell-output-display" data-execution_count="11">
-<pre><code>(13, 0.48148148148148145)</code></pre>
+<p>O valete, a dama e o rei são as <strong>figuras</strong>. Qual a probabilidade de tirar uma figura?</p>
+<div id="cell-baralho-figuras" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>figuras <span class="op">=</span> <span class="bu">set</span>(baralho.loc[baralho[<span class="st">"valor"</span>].isin([<span class="st">"J"</span>, <span class="st">"Q"</span>, <span class="st">"K"</span>]), <span class="st">"carta"</span>])</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(figuras), prob(figuras, modelo_carta)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="baralho-figuras" class="cell-output cell-output-display" data-execution_count="11">
+<pre><code>(12, 0.23076923076923078)</code></pre>
 </div>
 </div>
-<p>Dá <span class="math inline">\(P = 13/27\)</span>, e não <span class="math inline">\(1/2\)</span>. Com <span class="math inline">\(n = 27\)</span> ímpar, a mediana é uma observação de verdade (seção 1.3): é a taxa do Rio Grande do Norte, que não está acima dela nem abaixo. Sobram 26 estados, 13 de cada lado.</p>
+<p>São 3 figuras em cada um dos 4 naipes, 12 cartas ao todo, e <span class="math inline">\(P = 12/52\)</span>, cerca de 0,231.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1017,21 +1068,22 @@ Figura&nbsp;2: O espaço amostral do dado (retângulo), os eventos A = par e B =
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Sortear um <strong>estado</strong> não é o mesmo que sortear um <strong>brasileiro</strong> e perguntar onde ele mora. No segundo experimento, o espaço amostral ainda pode ser o das 27 siglas, mas a probabilidade de cada uma é a fração da população que vive nela. Como no número de caras, cada ponto agrupa muitos resultados (aqui, pessoas), e por isso os pontos não têm a mesma chance. É a mesma ideia de peso da média ponderada da seção 1.3.</p>
+<p>O 1/52 vale para um baralho completo e bem embaralhado, assim como o 1/6 vale para um dado equilibrado. Se anotarmos só o <strong>tipo</strong> da carta (ás, número ou figura), o espaço amostral passa a ter três pontos, e eles não têm a mesma chance. Como no número de caras, cada ponto agrupa vários resultados: 4 ases, 36 números e 12 figuras.</p>
 </div>
 </div>
-<div id="cell-estados-por-pessoa" class="cell" data-execution_count="12">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>modelo_pessoa <span class="op">=</span> <span class="bu">dict</span>(<span class="bu">zip</span>(estado[<span class="st">"Sigla"</span>], estado[<span class="st">"Populacao"</span>] <span class="op">/</span> estado[<span class="st">"Populacao"</span>].<span class="bu">sum</span>()))</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>prob(grandes, modelo_pessoa)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="estados-por-pessoa" class="cell-output cell-output-display" data-execution_count="12">
-<pre><code>0.5758702487843027</code></pre>
+<div id="cell-baralho-por-tipo" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>modelo_tipo <span class="op">=</span> {<span class="st">"ás"</span>: <span class="dv">4</span><span class="op">/</span><span class="dv">52</span>, <span class="st">"número"</span>: <span class="dv">36</span><span class="op">/</span><span class="dv">52</span>, <span class="st">"figura"</span>: <span class="dv">12</span><span class="op">/</span><span class="dv">52</span>}</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>p_as_ou_figura <span class="op">=</span> prob({<span class="st">"ás"</span>, <span class="st">"figura"</span>}, modelo_tipo)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>p_as_ou_figura</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="baralho-por-tipo" class="cell-output cell-output-display" data-execution_count="12">
+<pre><code>0.3076923076923077</code></pre>
 </div>
 </div>
-<p>O evento “mora num estado com mais de 10 milhões de habitantes” é o mesmo conjunto de 6 siglas. Mas a probabilidade passa de 22,2% para 57,6%: mais da metade dos brasileiros mora nesses 6 estados.</p>
+<p>A função <code>prob</code> é a mesma: ela soma as probabilidades dos pontos do evento, sejam elas iguais ou não. Tirar um ás ou uma figura tem probabilidade <span class="math inline">\(4/52 + 12/52 = 16/52\)</span>, cerca de 0,308.</p>
 </section>
 <section id="espaço-amostral-discreto-e-contínuo" class="level2">
 <h2 class="anchored" data-anchor-id="espaço-amostral-discreto-e-contínuo">Espaço amostral discreto e contínuo</h2>
-<p>Todos os espaços amostrais até aqui podiam ser listados: seis faces, quatro pares, oito sequências, 27 siglas. A lista também pode ser infinita e continuar listável. Se contarmos quantas requisições chegam a um servidor até a primeira falha, contando a que falhou, <span class="math inline">\(\Omega = \{1, 2, 3, \dots\}\)</span>. Espaços assim são <strong>discretos</strong>, e neles a fórmula da soma funciona.</p>
+<p>Todos os espaços amostrais até aqui podiam ser listados: seis faces, quatro pares, oito sequências, 52 cartas. A lista também pode ser infinita e continuar listável. Se contarmos quantas requisições chegam a um servidor até a primeira falha, contando a que falhou, <span class="math inline">\(\Omega = \{1, 2, 3, \dots\}\)</span>. Espaços assim são <strong>discretos</strong>, e neles a fórmula da soma funciona.</p>
 <p>Agora meça o <strong>tempo de resposta</strong> de uma requisição, em milissegundos. Qualquer número real não negativo é um resultado possível:</p>
 <p><span class="math display">\[
 \Omega = \{t \in \mathbb{R} : t \ge 0\}.
@@ -1110,9 +1162,9 @@ Figura&nbsp;2: O espaço amostral do dado (retângulo), os eventos A = par e B =
 <div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p><span class="math inline">\(\{2, 3, \dots, 12\}\)</span> é um espaço amostral válido, mas seus pontos não são equiprováveis, o mesmo problema do número de caras nas duas moedas. O espaço com pontos equiprováveis é o dos 36 pares <span class="math inline">\((i, j)\)</span>, e 6 deles somam 7: <span class="math inline">\((1,6), (2,5), (3,4), (4,3), (5,2), (6,1)\)</span>. A probabilidade é <span class="math inline">\(6/36 = 1/6\)</span>.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>pares <span class="op">=</span> <span class="bu">list</span>(product(<span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">7</span>), repeat<span class="op">=</span><span class="dv">2</span>))</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>soma_7 <span class="op">=</span> [p <span class="cf">for</span> p <span class="kw">in</span> pares <span class="cf">if</span> <span class="bu">sum</span>(p) <span class="op">==</span> <span class="dv">7</span>]</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(soma_7) <span class="op">/</span> <span class="bu">len</span>(pares)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>pares <span class="op">=</span> <span class="bu">list</span>(product(<span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">7</span>), repeat<span class="op">=</span><span class="dv">2</span>))</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>soma_7 <span class="op">=</span> [p <span class="cf">for</span> p <span class="kw">in</span> pares <span class="cf">if</span> <span class="bu">sum</span>(p) <span class="op">==</span> <span class="dv">7</span>]</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(soma_7) <span class="op">/</span> <span class="bu">len</span>(pares)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
@@ -1135,7 +1187,7 @@ Figura&nbsp;2: O espaço amostral do dado (retângulo), os eventos A = par e B =
 </div>
 </div>
 </div>
-<p><strong>4.</strong> Usando <code>dados/estados.csv</code>, calcule a probabilidade de sortear um estado com taxa de homicídios acima de 30 por 100 mil habitantes. Depois, calcule a probabilidade de que um brasileiro sorteado ao acaso more num desses estados. Por que os dois números são diferentes?</p>
+<p><strong>4.</strong> O baralho de truco é o baralho comum sem as cartas 8, 9 e 10. Tirando uma carta ao acaso de um baralho de truco, qual a probabilidade de sair uma figura? Compare com o baralho de 52 cartas. O evento mudou?</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1148,9 +1200,15 @@ Figura&nbsp;2: O espaço amostral do dado (retângulo), os eventos A = par e B =
 </div>
 <div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>violentos <span class="op">=</span> <span class="bu">set</span>(estado.loc[estado[<span class="st">"Taxa.Homicidios"</span>] <span class="op">&gt;</span> <span class="dv">30</span>, <span class="st">"Sigla"</span>])</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>prob(violentos, modelo_uf), prob(violentos, modelo_pessoa)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<p>São 7 estados: <span class="math inline">\(P = 7/27\)</span>, cerca de 25,9% sorteando estados, e 23,0% sorteando pessoas. O evento é o mesmo, mas o modelo muda. O número cai por causa de São Paulo: sozinho, ele tem 22% da população e a menor taxa do país. Tirando SP da conta, a probabilidade por pessoa sobe para 29,4% e passa a ser <strong>maior</strong> que a por estado (26,9%). É o mesmo São Paulo que puxa a média ponderada da taxa para baixo na seção 1.3.</p>
+<div id="cell-ex4-resposta" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>truco <span class="op">=</span> baralho[<span class="op">~</span>baralho[<span class="st">"valor"</span>].isin([<span class="st">"8"</span>, <span class="st">"9"</span>, <span class="st">"10"</span>])]</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>modelo_truco <span class="op">=</span> {carta: <span class="dv">1</span><span class="op">/</span><span class="bu">len</span>(truco) <span class="cf">for</span> carta <span class="kw">in</span> truco[<span class="st">"carta"</span>]}</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(truco), <span class="bu">round</span>(prob(figuras, modelo_truco), <span class="dv">3</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="ex4-resposta" class="cell-output cell-output-display" data-execution_count="13">
+<pre><code>(40, 0.3)</code></pre>
+</div>
+</div>
+<p>Saem 3 valores de cada naipe, ou seja, 12 cartas, e sobram 40. A probabilidade de figura é <span class="math inline">\(12/40\)</span>, ou 0,3, contra <span class="math inline">\(12/52\)</span>, cerca de 0,231, no baralho completo. O evento é o mesmo conjunto de 12 cartas. O que mudou foi o modelo: o espaço amostral ficou menor, e cada ponto passou de 1/52 para 1/40.</p>
 </div>
 </div>
 </div>

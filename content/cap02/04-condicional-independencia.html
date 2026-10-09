@@ -696,7 +696,69 @@ Nota
 <p>Esta seção corresponde à seção 5.3 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>.</p>
 </div>
 </div>
-<p>Na seção 2.2, a tabela de contingência dos estados mostrou que 13 dos 27 têm taxa de homicídios acima da mediana (taxa alta). Sorteando um estado sem saber nada sobre ele, <span class="math inline">\(P(B) = 13/27\)</span>, perto de metade.</p>
+<p>Voltemos aos 27 estados do Capítulo 1. Escreva a sigla de cada um num papel, misture e tire um papel ao acaso: cada estado tem probabilidade 1/27. Dois eventos interessam aqui:</p>
+<ul>
+<li><span class="math inline">\(A\)</span>: o estado sorteado tem mais de 10 milhões de habitantes (é <strong>grande</strong>);</li>
+<li><span class="math inline">\(B\)</span>: o estado sorteado tem taxa de homicídios acima da mediana dos 27 (tem <strong>taxa alta</strong>).</li>
+</ul>
+<p>Uma tabela de contingência, como a da seção 2.2, cruza os dois. As probabilidades saem da função <code>prob</code> da seção 2.1:</p>
+<div id="cell-estados-eventos" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>estado <span class="op">=</span> pd.read_csv(<span class="st">"dados/estados.csv"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>modelo_uf <span class="op">=</span> {sigla: <span class="dv">1</span><span class="op">/</span><span class="dv">27</span> <span class="cf">for</span> sigla <span class="kw">in</span> estado[<span class="st">"Sigla"</span>]}</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> <span class="bu">set</span>(estado.loc[estado[<span class="st">"Populacao"</span>] <span class="op">&gt;</span> <span class="dv">10_000_000</span>, <span class="st">"Sigla"</span>])</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>mediana_taxa <span class="op">=</span> estado[<span class="st">"Taxa.Homicidios"</span>].median()</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>B <span class="op">=</span> <span class="bu">set</span>(estado.loc[estado[<span class="st">"Taxa.Homicidios"</span>] <span class="op">&gt;</span> mediana_taxa, <span class="st">"Sigla"</span>])</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>grande <span class="op">=</span> estado[<span class="st">"Sigla"</span>].isin(A).<span class="bu">map</span>({<span class="va">True</span>: <span class="st">"A: grande"</span>, <span class="va">False</span>: <span class="st">"não grande"</span>})</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>taxa_alta <span class="op">=</span> estado[<span class="st">"Sigla"</span>].isin(B).<span class="bu">map</span>({<span class="va">True</span>: <span class="st">"B: taxa alta"</span>, <span class="va">False</span>: <span class="st">"taxa não alta"</span>})</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>pd.crosstab(grande, taxa_alta, rownames<span class="op">=</span>[<span class="st">""</span>], colnames<span class="op">=</span>[<span class="st">""</span>], margins<span class="op">=</span><span class="va">True</span>, margins_name<span class="op">=</span><span class="st">"Total"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="estados-eventos" class="cell-output cell-output-display" data-execution_count="2">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">B: taxa alta</th>
+<th data-quarto-table-cell-role="th">taxa não alta</th>
+<th data-quarto-table-cell-role="th">Total</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">A: grande</th>
+<td>1</td>
+<td>5</td>
+<td>6</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">não grande</th>
+<td>12</td>
+<td>9</td>
+<td>21</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Total</th>
+<td>13</td>
+<td>14</td>
+<td>27</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Dos 27 estados, 13 têm taxa alta. Sorteando um estado sem saber nada sobre ele, <span class="math inline">\(P(B) = 13/27\)</span>, perto de metade.</p>
 <p>Agora suponha que alguém sorteie o estado e conte só uma coisa: ele é grande, com mais de 10 milhões de habitantes. A chance de ter taxa alta continua perto de metade? A tabela responde. Entre os 6 estados grandes, só 1 tem taxa alta. Com essa informação, a chance cai para <span class="math inline">\(1/6\)</span>.</p>
 <p>A informação mudou o espaço amostral: dos 27 estados, só os 6 grandes continuam possíveis. Esta seção formaliza essa ideia e mostra quando uma informação <strong>não</strong> muda nada.</p>
 <section id="probabilidade-condicional" class="level2">
@@ -710,22 +772,19 @@ P(B \mid A) = \frac{P(A \cap B)}{P(A)}.
 <p>Lê-se “probabilidade de <span class="math inline">\(B\)</span> dado <span class="math inline">\(A\)</span>”.</p>
 </div>
 <p>No sorteio de estados, <span class="math inline">\(P(A \cap B) = 1/27\)</span> e <span class="math inline">\(P(A) = 6/27\)</span>, e os 27 se cancelam:</p>
-<div id="cell-condicional" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>p_b_dado_a <span class="op">=</span> prob(A <span class="op">&amp;</span> B, modelo_uf) <span class="op">/</span> prob(A, modelo_uf)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>Fraction(p_b_dado_a).limit_denominator(), <span class="bu">round</span>(p_b_dado_a, <span class="dv">3</span>), <span class="bu">round</span>(prob(B, modelo_uf), <span class="dv">3</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="condicional" class="cell-output cell-output-display" data-execution_count="2">
+<div id="cell-condicional" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>p_b_dado_a <span class="op">=</span> prob(A <span class="op">&amp;</span> B, modelo_uf) <span class="op">/</span> prob(A, modelo_uf)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>Fraction(p_b_dado_a).limit_denominator(), <span class="bu">round</span>(p_b_dado_a, <span class="dv">3</span>), <span class="bu">round</span>(prob(B, modelo_uf), <span class="dv">3</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="condicional" class="cell-output cell-output-display" data-execution_count="3">
 <pre><code>(Fraction(1, 6), 0.167, 0.481)</code></pre>
 </div>
 </div>
 <p><span class="math inline">\(P(B)\)</span> é a probabilidade <strong>a priori</strong> de ter taxa alta, calculada antes de qualquer informação. <span class="math inline">\(P(B \mid A)\)</span> é a probabilidade <strong>a posteriori</strong>, depois de saber que o estado é grande. Aqui a informação diminuiu a chance, de 0,481 para 0,167.</p>
 <p>A ordem importa: <span class="math inline">\(P(B \mid A)\)</span> e <span class="math inline">\(P(A \mid B)\)</span> são perguntas diferentes. Dado que o estado tem taxa alta, a chance de ele ser grande é <span class="math inline">\(1/13\)</span>: o denominador agora são os 13 estados de taxa alta.</p>
 <p>No <code>pandas</code>, a tabela de contingência dá as condicionais de uma vez. Com <code>normalize="index"</code>, cada linha é dividida pelo seu total e passa a ser a distribuição de <span class="math inline">\(B\)</span> dentro daquele grupo:</p>
-<div id="cell-condicional-tabela" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>grande <span class="op">=</span> estado[<span class="st">"Sigla"</span>].isin(A).<span class="bu">map</span>({<span class="va">True</span>: <span class="st">"A: grande"</span>, <span class="va">False</span>: <span class="st">"não grande"</span>})</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>taxa_alta <span class="op">=</span> estado[<span class="st">"Sigla"</span>].isin(B).<span class="bu">map</span>({<span class="va">True</span>: <span class="st">"B: taxa alta"</span>, <span class="va">False</span>: <span class="st">"taxa não alta"</span>})</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>pd.crosstab(grande, taxa_alta, rownames<span class="op">=</span>[<span class="st">""</span>], colnames<span class="op">=</span>[<span class="st">""</span>], normalize<span class="op">=</span><span class="st">"index"</span>).<span class="bu">round</span>(<span class="dv">3</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="condicional-tabela" class="cell-output cell-output-display" data-execution_count="3">
+<div id="cell-condicional-tabela" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>pd.crosstab(grande, taxa_alta, rownames<span class="op">=</span>[<span class="st">""</span>], colnames<span class="op">=</span>[<span class="st">""</span>], normalize<span class="op">=</span><span class="st">"index"</span>).<span class="bu">round</span>(<span class="dv">3</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="condicional-tabela" class="cell-output cell-output-display" data-execution_count="4">
 <div>
 
 
@@ -872,15 +931,15 @@ P(\text{bug no 2º}) = \frac{2}{20} + \frac{6}{20} = \frac{8}{20} = \frac{2}{5}.
 \]</span></p>
 <p>É a mesma probabilidade de o primeiro ter bug. Faz sentido: sem saber o que saiu no primeiro sorteio, o segundo PR é um PR qualquer entre os 5.</p>
 <p>Uma enumeração em Python confere a árvore. Os 5 PRs recebem nomes, e cada par ordenado de PRs distintos é igualmente provável:</p>
-<div id="cell-arvore-enumerada" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itertools <span class="im">import</span> permutations</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>prs <span class="op">=</span> [<span class="st">"B1"</span>, <span class="st">"B2"</span>, <span class="st">"S1"</span>, <span class="st">"S2"</span>, <span class="st">"S3"</span>]</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>pares <span class="op">=</span> <span class="bu">list</span>(permutations(prs, <span class="dv">2</span>))        <span class="co"># 5 x 4 = 20 pares ordenados</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>bug_no_segundo <span class="op">=</span> [p <span class="cf">for</span> p <span class="kw">in</span> pares <span class="cf">if</span> p[<span class="dv">1</span>].startswith(<span class="st">"B"</span>)]</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(pares), Fraction(<span class="bu">len</span>(bug_no_segundo), <span class="bu">len</span>(pares))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="arvore-enumerada" class="cell-output cell-output-display" data-execution_count="4">
+<div id="cell-arvore-enumerada" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itertools <span class="im">import</span> permutations</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>prs <span class="op">=</span> [<span class="st">"B1"</span>, <span class="st">"B2"</span>, <span class="st">"S1"</span>, <span class="st">"S2"</span>, <span class="st">"S3"</span>]</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>pares <span class="op">=</span> <span class="bu">list</span>(permutations(prs, <span class="dv">2</span>))        <span class="co"># 5 x 4 = 20 pares ordenados</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>bug_no_segundo <span class="op">=</span> [p <span class="cf">for</span> p <span class="kw">in</span> pares <span class="cf">if</span> p[<span class="dv">1</span>].startswith(<span class="st">"B"</span>)]</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(pares), Fraction(<span class="bu">len</span>(bug_no_segundo), <span class="bu">len</span>(pares))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="arvore-enumerada" class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>(20, Fraction(2, 5))</code></pre>
 </div>
 </div>
@@ -940,11 +999,11 @@ P(A \cap B) = P(A)\, P(B).
 </div>
 <p>A definição é simétrica: se <span class="math inline">\(A\)</span> não informa nada sobre <span class="math inline">\(B\)</span>, <span class="math inline">\(B\)</span> também não informa nada sobre <span class="math inline">\(A\)</span>. E ela serve nos dois sentidos. Às vezes a independência é uma <strong>suposição</strong> do modelo, como nos sorteios com reposição, e aí a fórmula permite calcular <span class="math inline">\(P(A \cap B)\)</span>. Outras vezes ela é uma <strong>pergunta</strong> sobre dados, e a fórmula é o teste. No sorteio entre os 27 estados, a conta é exata. Com uma amostra, a igualdade quase nunca vale exatamente, e decidir se a diferença importa exige ferramentas de inferência estatística, que ficam fora deste livro.</p>
 <p>Nos estados, ser grande e ter taxa alta são independentes? Basta comparar os dois lados:</p>
-<div id="cell-independencia-estados" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>lado_esq <span class="op">=</span> prob(A <span class="op">&amp;</span> B, modelo_uf)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>lado_dir <span class="op">=</span> prob(A, modelo_uf) <span class="op">*</span> prob(B, modelo_uf)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="bu">round</span>(lado_esq, <span class="dv">4</span>), <span class="bu">round</span>(lado_dir, <span class="dv">4</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="independencia-estados" class="cell-output cell-output-display" data-execution_count="5">
+<div id="cell-independencia-estados" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>lado_esq <span class="op">=</span> prob(A <span class="op">&amp;</span> B, modelo_uf)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>lado_dir <span class="op">=</span> prob(A, modelo_uf) <span class="op">*</span> prob(B, modelo_uf)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="bu">round</span>(lado_esq, <span class="dv">4</span>), <span class="bu">round</span>(lado_dir, <span class="dv">4</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="independencia-estados" class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>(0.037, 0.107)</code></pre>
 </div>
 </div>
@@ -984,15 +1043,15 @@ P(\text{sistema}) = P(A_1 \cap A_2) = p_1\, p_2.
 <p><span class="math display">\[
 P(R_1 \cup R_2) = p + p - p^2 = 1 - (1 - p)^2.
 \]</span></p>
-<div id="cell-confiabilidade" class="cell" data-execution_count="6">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>p_auth, p_banco <span class="op">=</span> <span class="fl">0.99</span>, <span class="fl">0.98</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>serie <span class="op">=</span> p_auth <span class="op">*</span> p_banco</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>banco_replicado <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> (<span class="dv">1</span> <span class="op">-</span> p_banco) <span class="op">**</span> <span class="dv">2</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>com_replica <span class="op">=</span> p_auth <span class="op">*</span> banco_replicado</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="bu">round</span>(serie, <span class="dv">4</span>), <span class="bu">round</span>(banco_replicado, <span class="dv">4</span>), <span class="bu">round</span>(com_replica, <span class="dv">4</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="confiabilidade" class="cell-output cell-output-display" data-execution_count="6">
+<div id="cell-confiabilidade" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>p_auth, p_banco <span class="op">=</span> <span class="fl">0.99</span>, <span class="fl">0.98</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>serie <span class="op">=</span> p_auth <span class="op">*</span> p_banco</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>banco_replicado <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> (<span class="dv">1</span> <span class="op">-</span> p_banco) <span class="op">**</span> <span class="dv">2</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>com_replica <span class="op">=</span> p_auth <span class="op">*</span> banco_replicado</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="bu">round</span>(serie, <span class="dv">4</span>), <span class="bu">round</span>(banco_replicado, <span class="dv">4</span>), <span class="bu">round</span>(com_replica, <span class="dv">4</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="confiabilidade" class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>(0.9702, 0.9996, 0.9896)</code></pre>
 </div>
 </div>
@@ -1110,11 +1169,11 @@ P(R_1 \cup R_2) = p + p - p^2 = 1 - (1 - p)^2.
 </div>
 <div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="cell-ex4-resposta" class="cell" data-execution_count="7">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>C30 <span class="op">=</span> <span class="bu">set</span>(estado.loc[estado[<span class="st">"Taxa.Homicidios"</span>] <span class="op">&gt;</span> <span class="dv">30</span>, <span class="st">"Sigla"</span>])</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>p_c_dado_a <span class="op">=</span> prob(A <span class="op">&amp;</span> C30, modelo_uf) <span class="op">/</span> prob(A, modelo_uf)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="bu">round</span>(p_c_dado_a, <span class="dv">3</span>), <span class="bu">round</span>(prob(C30, modelo_uf), <span class="dv">3</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="ex4-resposta" class="cell-output cell-output-display" data-execution_count="7">
+<div id="cell-ex4-resposta" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>C30 <span class="op">=</span> <span class="bu">set</span>(estado.loc[estado[<span class="st">"Taxa.Homicidios"</span>] <span class="op">&gt;</span> <span class="dv">30</span>, <span class="st">"Sigla"</span>])</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>p_c_dado_a <span class="op">=</span> prob(A <span class="op">&amp;</span> C30, modelo_uf) <span class="op">/</span> prob(A, modelo_uf)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="bu">round</span>(p_c_dado_a, <span class="dv">3</span>), <span class="bu">round</span>(prob(C30, modelo_uf), <span class="dv">3</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="ex4-resposta" class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>(0.167, 0.259)</code></pre>
 </div>
 </div>

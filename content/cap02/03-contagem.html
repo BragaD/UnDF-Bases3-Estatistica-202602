@@ -696,7 +696,7 @@ Nota
 <p>Esta seção se baseia na seção 5.2 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>, com uma revisão de permutação e combinação.</p>
 </div>
 </div>
-<p>No sorteio de um estado, calcular <span class="math inline">\(P(A)\)</span> foi contar: 6 estados grandes entre 27 dá <span class="math inline">\(6/27\)</span>. Deu para fazer isso porque o <code>pandas</code> listava os 27 pontos amostrais e o <code>set</code> contava os que caíam no evento.</p>
+<p>No sorteio de uma carta, calcular <span class="math inline">\(P(A)\)</span> foi contar: 13 cartas de copas entre 52 dá <span class="math inline">\(13/52\)</span>. Deu para fazer isso porque o <code>pandas</code> listava os 52 pontos amostrais e o <code>set</code> reunia os que caíam no evento.</p>
 <p>Agora pense num jogo da Mega-Sena. O espaço amostral é o conjunto de todas as formas de escolher 6 números entre 60, e tem 50.063.860 pontos. Listar todos para contar os favoráveis não é o caminho. Esta seção mostra como contar sem listar.</p>
 <section id="casos-favoráveis-sobre-casos-possíveis" class="level2">
 <h2 class="anchored" data-anchor-id="casos-favoráveis-sobre-casos-possíveis">Casos favoráveis sobre casos possíveis</h2>
@@ -708,7 +708,7 @@ P(A) = \frac{m}{n}.
 \]</span></p>
 <p><span class="math inline">\(m\)</span> é o número de <strong>casos favoráveis</strong> e <span class="math inline">\(n\)</span>, o de <strong>casos possíveis</strong>.</p>
 </div>
-<p>Essa é a definição <strong>clássica</strong> de probabilidade, a mais antiga, criada para jogos de azar. Foi ela que usamos no dado (<span class="math inline">\(1/6\)</span>), nas duas moedas (<span class="math inline">\(2/4\)</span> para faces iguais) e no sorteio de estados (<span class="math inline">\(6/27\)</span>).</p>
+<p>Essa é a definição <strong>clássica</strong> de probabilidade, a mais antiga, criada para jogos de azar. Foi ela que usamos no dado (<span class="math inline">\(1/6\)</span>), nas duas moedas (<span class="math inline">\(2/4\)</span> para faces iguais) e no sorteio de uma carta de copas (<span class="math inline">\(13/52\)</span>).</p>
 <p>Com ela, o problema de probabilidade vira um problema de contagem: basta saber <span class="math inline">\(m\)</span> e <span class="math inline">\(n\)</span>, sem escrever <span class="math inline">\(\Omega\)</span> e <span class="math inline">\(A\)</span> por extenso. As próximas subseções dão as ferramentas para contar.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -720,7 +720,7 @@ P(A) = \frac{m}{n}.
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><span class="math inline">\(m/n\)</span> exige que todos os pontos tenham a mesma chance. No sorteio de uma pessoa (seção 2.1), os estados não são equiprováveis, e contar siglas dá a resposta errada. O mesmo vale para a soma de dois dados: 7 é 1 dos 11 valores possíveis, mas sua probabilidade não é <span class="math inline">\(1/11\)</span>.</p>
+<p><span class="math inline">\(m/n\)</span> exige que todos os pontos tenham a mesma chance. Ao anotar só o tipo da carta (seção 2.1), ás, número e figura não são equiprováveis, e <span class="math inline">\(1/3\)</span> para cada um é a resposta errada. O mesmo vale para a soma de dois dados: 7 é 1 dos 11 valores possíveis, mas sua probabilidade não é <span class="math inline">\(1/11\)</span>.</p>
 </div>
 </div>
 </section>

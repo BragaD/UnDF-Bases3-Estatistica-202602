@@ -4,53 +4,25 @@
 Esta seção corresponde à seção 5.3 de @bussab2023.
 :::
 
-```{python}
-#| label: setup
-#| include: false
-import numpy as np
-import pandas as pd
-from fractions import Fraction
-from itertools import product
-from formato import num
+Numa turma de 200 alunos, 120 fizeram a lista de exercícios antes da prova e 80 não fizeram. No fim do semestre, a tabela de contingência cruza as duas informações (os números são inventados para o exemplo):
 
-valores = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"]
-naipes = ["copas", "ouros", "espadas", "paus"]
-baralho = pd.DataFrame(list(product(valores, naipes)),
-                       columns=["valor", "naipe"])
-baralho["carta"] = baralho["valor"] + " de " + baralho["naipe"]
-modelo_carta = {carta: 1/52 for carta in baralho["carta"]}
+| | Aprovado | Reprovado | Total |
+|:--|:-:|:-:|:-:|
+| Fez a lista | 96 | 24 | 120 |
+| Não fez | 32 | 48 | 80 |
+| **Total** | **128** | **72** | **200** |
 
-A = set(baralho.loc[baralho["naipe"] == "copas", "carta"])
-B = set(baralho.loc[baralho["valor"].isin(["J", "Q", "K"]), "carta"])
+: Alunos de uma turma hipotética, pela lista e pelo resultado. {#tbl-turma}
 
-def prob(evento, modelo):
-    return sum(modelo[w] for w in evento)
-np.set_printoptions(legacy="1.25")   # números sem o prefixo np.float64 na saída
-```
+Sorteie um aluno da turma, todos com a mesma chance. Sejam $A$ o evento "o aluno fez a lista" e $B$ o evento "o aluno foi aprovado". Sem saber nada sobre o aluno sorteado, $P(B) = 128/200 = 0{,}64$.
 
-Na seção 2.2, sorteamos uma carta do baralho e definimos dois eventos: $A$, a carta é de copas, e $B$, a carta é uma figura. Acrescente um terceiro, $K$: a carta é um **rei**. O baralho tem 4 reis. Tirando uma carta sem saber nada sobre ela, $P(K) = 4/52$, ou $1/13$.
+Agora suponha que alguém conte só uma coisa sobre o aluno: ele fez a lista. A chance de aprovação continua 0,64? Entre os 120 que fizeram a lista, 96 foram aprovados, e a chance sobe para $96/120 = 0{,}80$.
 
-Agora suponha que alguém tire a carta, olhe e revele só uma coisa: é uma figura. A chance de ser um rei continua $1/13$? Uma tabela de contingência, como a da seção 2.2, cruza os dois eventos:
-
-```{python}
-#| label: baralho-rei
-K = set(baralho.loc[baralho["valor"] == "K", "carta"])
-
-figura = baralho["carta"].isin(B).map({True: "B: figura", False: "não figura"})
-rei = baralho["carta"].isin(K).map({True: "K: rei", False: "não rei"})
-
-pd.crosstab(figura, rei, rownames=[""], colnames=[""], margins=True, margins_name="Total")
-```
-
-Entre as `{python} len(B)` figuras, `{python} len(B & K)` são reis. Com essa informação, a chance sobe para $`{python} len(B & K)`/`{python} len(B)`$, ou $1/3$.
-
-A informação mudou o espaço amostral: das 52 cartas, só as `{python} len(B)` figuras continuam possíveis. Esta seção formaliza essa ideia e mostra quando uma informação **não** muda nada.
+A informação mudou o espaço amostral: dos 200 alunos, só os 120 que fizeram a lista continuam possíveis. Esta seção formaliza essa ideia e mostra quando uma informação **não** muda nada.
 
 ## Probabilidade condicional
 
-Saber que a carta é uma figura restringe o espaço amostral a $B$. Dentro dessa nova região, o que importa de $K$ é só a parte que está em $B$, ou seja, $B \cap K$. A probabilidade de $K$ passa a ser a fatia de $B$ ocupada por $B \cap K$.
-
-O raciocínio vale para dois eventos quaisquer. Na definição geral, $A$ é a informação e $B$ é o evento que interessa:
+Saber que $A$ ocorreu restringe o espaço amostral a $A$. Dentro dessa nova região, o que importa de $B$ é só a parte que está em $A$, ou seja, $A \cap B$. A probabilidade de $B$ passa a ser a fatia de $A$ ocupada por $A \cap B$.
 
 ::: {.conceito}
 A **probabilidade condicional** de $B$ dado $A$, com $P(A) > 0$, é
@@ -62,26 +34,31 @@ $$
 Lê-se "probabilidade de $B$ dado $A$".
 :::
 
-No baralho, a informação é $B$ (figura) e o evento que interessa é $K$ (rei), e a fórmula fica $P(K \mid B) = P(B \cap K)/P(B)$. Como $P(B \cap K) = `{python} len(B & K)`/52$ e $P(B) = `{python} len(B)`/52$, os 52 se cancelam. O código usa a função `prob` e o dicionário `modelo_carta` da seção 2.1:
+Na turma, $P(A \cap B) = 96/200$ e $P(A) = 120/200$, e os 200 se cancelam:
 
-```{python}
-#| label: condicional
-p_k_dado_b = prob(B & K, modelo_carta) / prob(B, modelo_carta)
-Fraction(p_k_dado_b).limit_denominator(), round(p_k_dado_b, 3), round(prob(K, modelo_carta), 3)
-```
+$$
+P(B \mid A) = \frac{96/200}{120/200} = \frac{96}{120} = 0{,}80.
+$$
 
-$P(K)$ é a probabilidade **a priori** de sair um rei, calculada antes de qualquer informação. $P(K \mid B)$ é a probabilidade **a posteriori**, depois de saber que a carta é uma figura. Aqui a informação aumentou a chance, de `{python} num(prob(K, modelo_carta), 3)` para `{python} num(p_k_dado_b, 3)`.
+$P(B)$ é a probabilidade **a priori** de aprovação, calculada antes de qualquer informação. $P(B \mid A)$ é a probabilidade **a posteriori**, depois de saber que o aluno fez a lista. Aqui a informação aumentou a chance, de 0,64 para 0,80. Saber que o aluno não fez a lista diminui a chance: entre os 80 que não fizeram a lista, 32 foram aprovados, e $P(B \mid A^c) = 32/80 = 0{,}40$.
 
-A ordem importa: $P(K \mid B)$ e $P(B \mid K)$ são perguntas diferentes. Dado que a carta é um rei, a chance de ela ser uma figura é $`{python} len(B & K)`/`{python} len(K)` = 1$, porque todo rei é figura. O denominador passa a ser o número de reis, `{python} len(K)`.
+A ordem importa: $P(B \mid A)$ e $P(A \mid B)$ são perguntas diferentes. Dado que o aluno foi aprovado, a chance de ele ter feito a lista é $96/128 = 0{,}75$: o denominador agora são os 128 aprovados.
 
-No `pandas`, a tabela de contingência dá as condicionais de uma vez. Com `normalize="index"`, cada linha é dividida pelo seu total e passa a ser a distribuição de $K$ dentro daquele grupo:
+Dividindo cada linha da @tbl-turma pelo seu total, cada linha passa a ser a distribuição do resultado dentro daquele grupo:
 
-```{python}
-#| label: condicional-tabela
-pd.crosstab(figura, rei, rownames=[""], colnames=[""], normalize="index").round(3)
-```
+| | Aprovado | Reprovado | Total |
+|:--|:-:|:-:|:-:|
+| Fez a lista | 0,80 | 0,20 | 1 |
+| Não fez | 0,40 | 0,60 | 1 |
 
-A linha "B: figura" traz $P(K \mid B)$ e $P(K^c \mid B)$, que somam 1: dentro de $B$, a probabilidade condicional se comporta como uma probabilidade qualquer. Na linha "não figura", a chance de rei é zero, porque nenhum rei fica fora das figuras.
+: Probabilidades condicionais do resultado, dado o grupo. {#tbl-turma-linhas}
+
+A linha "Fez a lista" traz $P(B \mid A)$ e $P(B^c \mid A)$, que somam 1: dentro de $A$, a probabilidade condicional se comporta como uma probabilidade qualquer.
+
+::: {.callout-warning}
+## Condicional não é causa
+A tabela mostra que a aprovação é mais frequente entre quem fez a lista. Ela não mostra que a lista causou a aprovação: quem faz a lista pode ser também quem vai às aulas e estuda mais. Comparar $P(B \mid A)$ com $P(B \mid A^c)$ mostra associação, não causa.
+:::
 
 ## Regra do produto
 
@@ -93,10 +70,12 @@ $$
 
 Ela é útil quando o experimento acontece em etapas e a probabilidade de cada etapa depende do que aconteceu antes. É o caso de sortear sem reposição.
 
-Um repositório tem 5 pull requests abertos, 2 com bug (B) e 3 sem bug (S). Um revisor pega um PR ao acaso, revisa, e depois pega outro entre os que sobraram. O **diagrama em árvore** mostra as etapas. Nos galhos da segunda etapa, as probabilidades são condicionais: depende de qual PR saiu primeiro.
+Um repositório tem 5 pull requests abertos, 2 com bug (B) e 3 sem bug (S). Um revisor pega um PR ao acaso, revisa, e depois pega outro entre os que sobraram. O **diagrama em árvore** mostra as etapas. Nos galhos da segunda etapa, as probabilidades são condicionais: dependem de qual PR saiu primeiro.
 
 ```{dot}
 //| label: fig-arvore-sem-reposicao
+//| fig-width: 4.5
+//| fig-height: 2.6
 //| fig-alt: "Árvore com dois níveis: primeiro PR com bug ou sem bug, depois o segundo PR, com as probabilidades condicionais em cada galho."
 //| fig-cap: "Dois PRs sorteados sem reposição entre 5 (2 com bug, 3 sem bug). Nos galhos da direita, as probabilidades são condicionais ao primeiro PR."
 digraph G {
@@ -127,20 +106,7 @@ $$
 P(\text{bug no 2º}) = \frac{2}{20} + \frac{6}{20} = \frac{8}{20} = \frac{2}{5}.
 $$
 
-É a mesma probabilidade de o primeiro ter bug. Faz sentido: sem saber o que saiu no primeiro sorteio, o segundo PR é um PR qualquer entre os 5.
-
-Uma enumeração em Python confere a árvore. Os 5 PRs recebem nomes, e cada par ordenado de PRs distintos é igualmente provável:
-
-```{python}
-#| label: arvore-enumerada
-from itertools import permutations
-
-prs = ["B1", "B2", "S1", "S2", "S3"]
-pares = list(permutations(prs, 2))        # 5 x 4 = 20 pares ordenados
-
-bug_no_segundo = [p for p in pares if p[1].startswith("B")]
-len(pares), Fraction(len(bug_no_segundo), len(pares))
-```
+É a mesma probabilidade de o primeiro ter bug. Faz sentido: sem saber o que saiu no primeiro sorteio, o segundo PR é um PR qualquer entre os 5. Mas, sabendo que o primeiro tinha bug, sobra 1 PR com bug entre 4, e $P(\text{bug no 2º} \mid \text{bug no 1º}) = 1/4$, abaixo de $2/5$. Sem reposição, o resultado do primeiro sorteio informa sobre o segundo.
 
 A regra do produto se estende a mais etapas. Para três eventos,
 
@@ -176,27 +142,20 @@ P(A \cap B) = P(A)\, P(B).
 $$
 :::
 
-A definição é simétrica: se $A$ não informa nada sobre $B$, $B$ também não informa nada sobre $A$. E ela serve nos dois sentidos. Às vezes a independência é uma **suposição** do modelo, como nos sorteios com reposição, e aí a fórmula permite calcular $P(A \cap B)$. Outras vezes ela é uma **pergunta** sobre dados, e a fórmula é o teste. No baralho, em que conhecemos as 52 cartas, a conta é exata. Com uma amostra de dados, a igualdade quase nunca vale exatamente, e decidir se a diferença importa exige ferramentas de inferência estatística, que ficam fora deste livro.
+A definição é simétrica: se $A$ não informa nada sobre $B$, $B$ também não informa nada sobre $A$. E ela serve nos dois sentidos. Às vezes a independência é uma **suposição** do modelo, como nos sorteios com reposição, e aí a fórmula permite calcular $P(A \cap B)$. Outras vezes ela é uma **pergunta** sobre dados, e a fórmula é o teste.
 
-No baralho, ser de copas ($A$) e ser figura ($B$) são independentes? Basta comparar os dois lados da igualdade $P(A \cap B) = P(A)\,P(B)$. Com `Fraction`, a conta sai exata, sem arredondamento:
+Na turma, os 200 alunos são todo o espaço amostral do sorteio, e a conta é exata. Se fossem uma amostra dos alunos que já cursaram a disciplina, a igualdade quase nunca valeria à risca, e decidir se a diferença importa exigiria ferramentas de inferência estatística.
 
-```{python}
-#| label: independencia-copas-figura
-lado_esq = Fraction(len(A & B), 52)
-lado_dir = Fraction(len(A), 52) * Fraction(len(B), 52)
-lado_esq, lado_dir
-```
+Na turma, fazer a lista e ser aprovado são independentes? Basta comparar os dois lados da igualdade:
 
-Os dois lados dão $3/52$: os eventos são independentes. Cada naipe tem 3 figuras em 13 cartas, a mesma proporção do baralho inteiro, 12 em 52. Saber que a carta é de copas não muda a chance de ela ser figura: $P(B \mid A) = 3/13 = P(B)$.
+$$
+\begin{aligned}
+P(A \cap B) &= \frac{96}{200} = 0{,}48, \\
+P(A)\,P(B) &= 0{,}60 \times 0{,}64 = 0{,}384.
+\end{aligned}
+$$
 
-Com figura e rei, a comparação falha:
-
-```{python}
-#| label: independencia-figura-rei
-Fraction(len(B & K), 52), Fraction(len(B), 52) * Fraction(len(K), 52)
-```
-
-$P(B \cap K) = 1/13$ é bem maior que $P(B)\,P(K) = 3/169$. Os eventos não são independentes: saber que a carta é figura leva a chance de rei de $1/13$ para $1/3$.
+Os dois lados são diferentes: os eventos não são independentes. Saber que o aluno fez a lista muda a chance de aprovação. Se fossem independentes, a taxa de aprovação seria 0,64 nos dois grupos, e a célula "fez a lista e foi aprovado" teria $120 \times 0{,}64 = 76{,}8$ alunos, e não 96.
 
 Para três eventos, a independência exige mais do que os três pares. $A$, $B$ e $C$ são independentes quando
 
@@ -220,7 +179,7 @@ Dois eventos mutuamente exclusivos, com probabilidade positiva, **nunca** são i
 
 A independência é a suposição central de uma área que interessa a quem opera software: a **confiabilidade** de sistemas. A confiabilidade de um componente é a probabilidade de ele funcionar num período.
 
-Uma API atende uma requisição só se o serviço de autenticação **e** o banco de dados funcionarem. Os dois estão **em série**: a falha de qualquer um derruba o sistema. Seja $A_1$ o evento "a autenticação funciona" e $A_2$ o evento "o banco funciona". Se $P(A_1) = p_1$, $P(A_2) = p_2$, e os dois falham independentemente, o sistema funciona com probabilidade
+Uma API atende uma requisição só se o serviço de autenticação **e** o banco de dados funcionarem. Os dois estão **em série**: a falha de qualquer um derruba o sistema. Seja $A_1$ o evento "a autenticação funciona" e $A_2$ o evento "o banco funciona". Se $P(A_1) = p_1$, $P(A_2) = p_2$ e os dois falham independentemente, o sistema funciona com probabilidade
 
 $$
 P(\text{sistema}) = P(A_1 \cap A_2) = p_1\, p_2.
@@ -232,18 +191,19 @@ $$
 P(R_1 \cup R_2) = p + p - p^2 = 1 - (1 - p)^2.
 $$
 
-```{python}
-#| label: confiabilidade
-p_auth, p_banco = 0.99, 0.98
+A segunda forma vem do complementar: as duas cópias falham com probabilidade $(1 - p)^2$, porque, se $R_1$ e $R_2$ são independentes, as falhas $R_1^c$ e $R_2^c$ também são.
 
-serie = p_auth * p_banco
-banco_replicado = 1 - (1 - p_banco) ** 2
-com_replica = p_auth * banco_replicado
+Com $p_1 = 0{,}99$ para a autenticação e $p = 0{,}98$ para cada cópia do banco:
 
-round(serie, 4), round(banco_replicado, 4), round(com_replica, 4)
-```
+$$
+\begin{aligned}
+\text{em série:}\quad & 0{,}99 \times 0{,}98 = 0{,}9702, \\
+\text{banco com réplica:}\quad & 1 - 0{,}02^2 = 0{,}9996, \\
+\text{sistema com réplica:}\quad & 0{,}99 \times 0{,}9996 \approx 0{,}9896.
+\end{aligned}
+$$
 
-Em série, as confiabilidades se multiplicam, e o sistema é **menos** confiável que o pior componente: `{python} num(serie, 4)`, abaixo de 0,98. A réplica leva o banco de 0,98 a `{python} num(banco_replicado, 4)`, e o sistema passa a depender quase só da autenticação.
+Em série, as confiabilidades se multiplicam, e o sistema é **menos** confiável que o pior componente: 0,9702, abaixo de 0,98. A réplica leva o banco de 0,98 a 0,9996, e o sistema passa a depender quase só da autenticação.
 
 A conta vale se as falhas forem independentes. Duas réplicas no mesmo servidor, na mesma rede ou na mesma região de nuvem tendem a cair juntas, e aí $P(R_1^c \cap R_2^c)$ é maior que $(1 - p)^2$. A redundância protege menos do que a fórmula promete.
 
@@ -295,21 +255,12 @@ O bug é reproduzido se pelo menos um conseguir. Pelo complementar, com independ
 (b) $P(A \cap B) = 0{,}3 \times 0{,}4 = 0{,}12$, então $P(A \cup B) = 0{,}7 - 0{,}12 = 0{,}58$.
 :::
 
-**4.** No baralho de 52 cartas, seja $V$ o evento "a carta é vermelha" (copas ou ouros). (a) Calcule $P(B \mid V)$, em que $B$ é "a carta é uma figura", e compare com $P(B)$. $V$ e $B$ são independentes? (b) Faça o mesmo com $A$, "a carta é de copas": calcule $P(A \mid V)$ e compare com $P(A)$.
+**4.** Use a @tbl-turma. (a) Calcule $P(A \mid B^c)$, a probabilidade de um aluno reprovado ter feito a lista, e compare com $P(A)$. (b) Dos 200 alunos, 80 estudam à noite, e 48 deles fizeram a lista. Os eventos "estuda à noite" e "fez a lista" são independentes?
 
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
-```{python}
-#| label: ex4-resposta
-V = set(baralho.loc[baralho["naipe"].isin(["copas", "ouros"]), "carta"])
+(a) Entre os 72 reprovados, 24 fizeram a lista: $P(A \mid B^c) = 24/72 = 1/3$, contra $P(A) = 0{,}60$. Saber que o aluno foi reprovado diminui a chance de ele ter feito a lista.
 
-p_b_dado_v = Fraction(len(B & V), len(V))
-p_a_dado_v = Fraction(len(A & V), len(V))
-p_b_dado_v, Fraction(len(B), 52), p_a_dado_v, Fraction(len(A), 52)
-```
-
-(a) Entre as `{python} len(V)` cartas vermelhas há `{python} len(B & V)` figuras: $P(B \mid V) = `{python} len(B & V)`/`{python} len(V)` = 3/13$, igual a $P(B) = 12/52 = 3/13$. Os eventos são independentes: a cor não diz nada sobre a carta ser figura.
-
-(b) Entre as `{python} len(V)` vermelhas, `{python} len(A & V)` são de copas: $P(A \mid V) = `{python} len(A & V)`/`{python} len(V)` = 1/2$, o dobro de $P(A) = 1/4$. Os eventos não são independentes: saber que a carta é vermelha elimina espadas e paus.
+(b) Seja $T$ o evento "estuda à noite". $P(A \mid T) = 48/80 = 0{,}60$, igual a $P(A) = 120/200 = 0{,}60$. Os eventos são independentes. Pela definição: $P(A \cap T) = 48/200 = 0{,}24$ e $P(A)\,P(T) = 0{,}60 \times 0{,}40 = 0{,}24$. Saber o turno do aluno não muda a chance de ele ter feito a lista.
 :::

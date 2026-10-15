@@ -28,13 +28,12 @@ O Cap. 1 corresponde ao **capítulo 1 de @bruce2020**. Como o número citado no 
 |:-:|:-:|---|
 | 6 | 09/10 | 5.1, 5.2 + revisão curta de contagem |
 | 7 | 16/10 | 5.3, 5.4 |
-| 8 | 30/10 | **Prova 1**: Cap. 1 + Cap. 5 |
-| 9 | 06/11 | 6.1, 6.2, 6.3 (com (6.4), (6.5) e (6.6) da 6.4), 6.5 (seções 3.1 a 3.3) |
-| 10 | 13/11 | 6.6.1 a 6.6.4 (seções 3.4 a 3.6) |
-| 11 | 27/11 | 7.1, 7.2 (seções 4.1 e 4.2) |
-| 12 | 04/12 | 7.3, 7.4.1 (seções 4.3 e 4.4) |
-| 13 | 11/12 | 7.4.2 normal e uso da tabela (seção 4.5) |
-| 14 | 18/12 | **Prova 2**: Caps. 3 e 4. A revisão da Prova 2 é online e assíncrona |
+| 8 | 06/11 | **Prova 1**: Cap. 1 + Cap. 5 · entrega da Lista 1 |
+| 9 | 13/11 | 6.1, 6.2, 6.3 (com (6.4), (6.5) e (6.6) da 6.4), 6.5 (seções 3.1 a 3.3) |
+| 10 | 27/11 | 6.6.1 a 6.6.4 (seções 3.4 a 3.6) |
+| 11 | 04/12 | 7.1 a 7.3, 7.4.1 (seções 4.1 a 4.4) |
+| 12 | 11/12 | 7.4.2 normal e uso da tabela (seção 4.5) |
+| 13 | 18/12 | **Prova 2**: Caps. 3 e 4. A revisão da Prova 2 é online e assíncrona |
 
 Decisões que acompanham esse escopo:
 
@@ -45,7 +44,8 @@ Decisões que acompanham esse escopo:
 - **Contagem:** revisão curta (princípio multiplicativo, permutação, combinação) junto da 5.2, porque o Bussab usa combinações na 5.2, na binomial e na hipergeométrica sem ter seção própria. O texto de partida é `content/cap02/04-contagem-permutacao-combinacao.qmd` no commit `bd099e5`, que tem travessões e cita "exercício 5.8": no Bussab é o **Exemplo 5.8**; corrigir ao recuperar.
 - **Os alunos já viram integral:** 7.1 a 7.3 fazem as contas por integral, não só como área.
 - **Não há aula de revisão antes das provas:** as Listas cumprem esse papel.
-- **Prova 2 adiada para 18/12 (aula 14)** para aliviar o cronograma (decisão de 19/09/2026). A revisão da Prova 2 é online e assíncrona.
+- **Prova 2 adiada para 18/12** para aliviar o cronograma (decisão de 19/09/2026). A revisão da Prova 2 é online e assíncrona.
+- **30/10 sem aula (Dia do Servidor Público)** (decisão de 15/10/2026): a Prova 1 e a entrega da Lista 1 passaram para 06/11 (aula 8), e as seções 4.1 a 4.4, que ocupavam duas aulas, passaram a caber numa só (aula 11, 04/12). O semestre ficou com 13 encontros, e a Prova 2 é a aula 13.
 - **Aulas 9 e 10, trechos deixados como leitura** (o site não muda): na 3.1, "Várias variáveis no mesmo experimento"; na 3.2, a simulação das vendas e o aviso sobre $n$ e $n-1$; na 3.3, "A versão teórica da acumulada empírica"; na 3.4, "Quando a incerteza é máxima"; na 3.5, a simulação somando Bernoullis; na 3.6, "População grande: quase binomial".
 - **Cap. 4 fica no escopo do Bussab 7.1 a 7.4:** a transformação inversa, o `ppf` como quantil e a comparação normal × binomial foram retirados (decisão de 19/09/2026). A regra 68%, 95% e 99,7% fica.
 - **Tabela da normal padrão:** `downloads/tabela-normal-padrao.pdf` (Φ(z) para z de 0,00 a 3,49), gerada uma vez por `scripts/gerar-tabela-normal.py`, servida pelo site (`project.resources`) e com link e explicação de uso na seção 4.5.
@@ -55,7 +55,7 @@ Decisões que acompanham esse escopo:
 
 Ordem, profundidade e redação de cada seção continuam sendo combinadas com o professor, seção a seção, via `/create-lecture`.
 
-**Cortes de 2.2026 no Cap. 1** (o semestre perdeu quatro sextas — 11/09 atestado, 02/10 e 23/10 eleições, 20/11 feriado): da 1.5 saíram as convenções de quantil (a subseção "Qual é o quantil, afinal?" inteira), o gráfico de violino, a curva de densidade e a curtose; da 1.6, o valor esperado; da 1.7, o heatmap. A **1.8 continua no site** como leitura complementar — tem um `callout-warning` no topo, está marcada na tabela do `content/cap01/index.qmd` e **não entra no `notebooks/capitulo-01.ipynb`**. A curtose **não existe mais no livro**; não a cite como "introduzida no Capítulo 1".
+**Cortes de 2.2026 no Cap. 1** (o semestre perdeu quatro sextas — 11/09 atestado, 02/10 e 23/10 eleições, 20/11 feriado; a quinta, 30/10, veio depois e foi absorvida no Cap. 4): da 1.5 saíram as convenções de quantil (a subseção "Qual é o quantil, afinal?" inteira), o gráfico de violino, a curva de densidade e a curtose; da 1.6, o valor esperado; da 1.7, o heatmap. A **1.8 continua no site** como leitura complementar — tem um `callout-warning` no topo, está marcada na tabela do `content/cap01/index.qmd` e **não entra no `notebooks/capitulo-01.ipynb`**. A curtose **não existe mais no livro**; não a cite como "introduzida no Capítulo 1".
 
 ## Comandos
 

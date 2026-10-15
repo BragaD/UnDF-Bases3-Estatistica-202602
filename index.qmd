@@ -12,7 +12,7 @@ Três seções estão fora do cronograma e ficam como leitura complementar: a 1.
 
 ## Cronograma
 
-As aulas são às **sextas-feiras**, de 21 de agosto a 18 de dezembro de 2026: Engenharia de Software das **8h30 às 10h10** e Sistemas de Informação das **10h20 às 12h00**. Das 18 sextas do período, **quatro não têm aula**: 11/09 (ausência do professor por atestado médico), 02/10 e 23/10 (eleições) e 20/11 (feriado). Restam, portanto, **14 encontros**.
+As aulas são às **sextas-feiras**, de 21 de agosto a 18 de dezembro de 2026: Engenharia de Software das **8h30 às 10h10** e Sistemas de Informação das **10h20 às 12h00**. Das 18 sextas do período, **cinco não têm aula**: 11/09 (ausência do professor por atestado médico), 02/10 e 23/10 (eleições), 30/10 (Dia do Servidor Público) e 20/11 (feriado). Restam, portanto, **13 encontros**.
 
 | Aula | Data | Conteúdo |
 |:----:|:----:|:---------|
@@ -26,14 +26,14 @@ As aulas são às **sextas-feiras**, de 21 de agosto a 18 de dezembro de 2026: E
 | 6 | 09/10 | [Probabilidade](content/cap02/index.qmd): experimento aleatório, espaço amostral e eventos · propriedades da probabilidade · revisão de contagem (permutação e combinação) |
 | 7 | 16/10 | Probabilidade condicional e independência · teorema de Bayes |
 |  | 23/10 | *Sem aula (eleições)* |
-| 8 | 30/10 | **Prova 1**: análise exploratória e probabilidade · **entrega da [Lista 1](downloads/lista-1-prova-1.pdf)** |
-| 9 | 06/11 | [Variáveis Aleatórias Discretas](content/cap03/index.qmd): função de probabilidade, valor médio, variância e função de distribuição acumulada |
-| 10 | 13/11 | Modelos discretos: uniforme, Bernoulli, binomial e hipergeométrica |
+|  | 30/10 | *Sem aula (Dia do Servidor Público)* |
+| 8 | 06/11 | **Prova 1**: análise exploratória e probabilidade · **entrega da [Lista 1](downloads/lista-1-prova-1.pdf)** |
+| 9 | 13/11 | [Variáveis Aleatórias Discretas](content/cap03/index.qmd): função de probabilidade, valor médio, variância e função de distribuição acumulada |
 |  | 20/11 | *Sem aula (feriado)* |
-| 11 | 27/11 | [Variáveis Aleatórias Contínuas](content/cap04/index.qmd): função densidade de probabilidade, valor médio e variância |
-| 12 | 04/12 | Função de distribuição acumulada contínua · distribuição uniforme |
-| 13 | 11/12 | Distribuição normal · uso da [tabela da normal padrão](downloads/tabela-normal-padrao.pdf) |
-| 14 | 18/12 | **Prova 2**: variáveis aleatórias discretas e contínuas · **entrega da Lista 2** |
+| 10 | 27/11 | Modelos discretos: uniforme, Bernoulli, binomial e hipergeométrica |
+| 11 | 04/12 | [Variáveis Aleatórias Contínuas](content/cap04/index.qmd): função densidade de probabilidade, valor médio, variância e função de distribuição acumulada · distribuição uniforme |
+| 12 | 11/12 | Distribuição normal · uso da [tabela da normal padrão](downloads/tabela-normal-padrao.pdf) |
+| 13 | 18/12 | **Prova 2**: variáveis aleatórias discretas e contínuas · **entrega da Lista 2** |
 
 : Cronograma do semestre 2.2026 {.striped tbl-colwidths="[8,12,80]"}
 
@@ -43,14 +43,14 @@ Quatro instrumentos, somando 100%:
 
 | Instrumento | Peso | Quando |
 |---|:--:|---|
-| [Lista 1](downloads/lista-1-prova-1.pdf) | 15% | entrega até 30/10/2026 (aula 8) |
-| Prova 1 | 35% | 30/10/2026 (aula 8) |
-| Lista 2 | 15% | entrega até 18/12/2026 (aula 14) |
-| Prova 2 | 35% | 18/12/2026 (aula 14) |
+| [Lista 1](downloads/lista-1-prova-1.pdf) | 15% | entrega até 06/11/2026 (aula 8) |
+| Prova 1 | 35% | 06/11/2026 (aula 8) |
+| Lista 2 | 15% | entrega até 18/12/2026 (aula 13) |
+| Prova 2 | 35% | 18/12/2026 (aula 13) |
 
 São **duas provas individuais**, de peso igual (35% cada), e **duas listas** de exercícios (15% cada). Cada lista fecha na data da prova correspondente (a Lista 1 até a Prova 1, a Lista 2 até a Prova 2) e serve de estudo dirigido para ela. As listas são de entrega **manuscrita**: o Python pode ser usado como calculadora para chegar aos resultados, mas as respostas devem ser escritas à mão.
 
-A **Prova 1** (30/10, aula 8) cobre a análise exploratória (aulas 3 a 5) e a probabilidade (aulas 6 e 7). A **Prova 2** (18/12, aula 14) cobre as variáveis aleatórias discretas e contínuas das aulas 9 a 13. A revisão da Prova 2 será online e assíncrona.
+A **Prova 1** (06/11, aula 8) cobre a análise exploratória (aulas 3 a 5) e a probabilidade (aulas 6 e 7). A **Prova 2** (18/12, aula 13) cobre as variáveis aleatórias discretas e contínuas das aulas 9 a 12. A revisão da Prova 2 será online e assíncrona.
 
 ::: {.callout-important}
 ## Lista 1 revisada em 19/09/2026
@@ -66,7 +66,7 @@ A primeira versão da Lista 1 cobrava binomial, hipergeométrica e normal, que a
 
 : Mudanças na Lista 1 {.striped tbl-colwidths="[25,75]"}
 
-Nas demais questões mudou só a notação ou a redação, e o que se pede continua igual. A entrega segue em 30/10, na aula 8.
+Nas demais questões mudou só a notação ou a redação, e o que se pede continua igual. A entrega é em 06/11, na aula 8, junto com a Prova 1.
 :::
 
 ## Material Bibliográfico

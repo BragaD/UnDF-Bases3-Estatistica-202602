@@ -4,7 +4,9 @@
 Esta seção corresponde à seção 5.3 de @bussab2023.
 :::
 
-Numa turma de 200 alunos, 120 fizeram a lista de exercícios antes da prova e 80 não fizeram. No fim do semestre, a tabela de contingência cruza as duas informações (os números são inventados para o exemplo):
+Uma disciplina tem 200 alunos. Antes da prova, o professor passou uma lista de exercícios opcional: 120 alunos fizeram a lista e 80 não fizeram. No fim do semestre, cada aluno tem duas informações registradas: se fez a lista e se foi aprovado. Quem fez a lista tem mais chance de ser aprovado?
+
+Para responder, cruzamos as duas informações numa tabela de contingência, como na seção 2.2. Cada linha é um grupo de alunos (fez ou não fez a lista), cada coluna é um resultado (aprovado ou reprovado), e cada célula conta os alunos que estão nas duas situações ao mesmo tempo. A última linha e a última coluna trazem os totais:
 
 | | Aprovado | Reprovado | Total |
 |:--|:-:|:-:|:-:|
@@ -12,11 +14,15 @@ Numa turma de 200 alunos, 120 fizeram a lista de exercícios antes da prova e 80
 | Não fez | 32 | 48 | 80 |
 | **Total** | **128** | **72** | **200** |
 
-: Alunos de uma turma hipotética, pela lista e pelo resultado. {#tbl-turma}
+: Alunos da turma, pela lista e pelo resultado. {#tbl-turma}
 
-Sorteie um aluno da turma, todos com a mesma chance. Sejam $A$ o evento "o aluno fez a lista" e $B$ o evento "o aluno foi aprovado". Sem saber nada sobre o aluno sorteado, $P(B) = 128/200 = 0{,}64$.
+Dos 120 alunos que fizeram a lista, 96 foram aprovados e 24 reprovados. Dos 80 que não fizeram, 32 foram aprovados e 48 reprovados. Na turma inteira, 128 dos 200 alunos foram aprovados.
 
-Agora suponha que alguém conte só uma coisa sobre o aluno: ele fez a lista. A chance de aprovação continua 0,64? Entre os 120 que fizeram a lista, 96 foram aprovados, e a chance sobe para $96/120 = 0{,}80$.
+Para falar em probabilidade, a tabela vira um experimento: sorteie um aluno da turma, todos com a mesma chance. Sejam $A$ o evento "o aluno fez a lista" e $B$ o evento "o aluno foi aprovado". Na tabela, $A$ é a linha "Fez a lista" e $B$ é a coluna "Aprovado". A célula que está nas duas ao mesmo tempo, com 96 alunos, corresponde a $A \cap B$.
+
+Sem saber nada sobre o aluno sorteado, a probabilidade de ele ter sido aprovado é a proporção de aprovados na turma, $P(B) = 128/200 = 0{,}64$.
+
+Agora suponha que alguém olhe a ficha do aluno sorteado e descubra uma única coisa: ele fez a lista. A chance de aprovação continua 0,64? O aluno sorteado agora só pode ser um dos 120 da primeira linha da tabela, e entre eles 96 foram aprovados. A chance sobe para $96/120 = 0{,}80$.
 
 A informação mudou o espaço amostral: dos 200 alunos, só os 120 que fizeram a lista continuam possíveis. Esta seção formaliza essa ideia e mostra quando uma informação **não** muda nada.
 
@@ -68,45 +74,44 @@ $$
 P(A \cap B) = P(A)\, P(B \mid A).
 $$
 
-Ela é útil quando o experimento acontece em etapas e a probabilidade de cada etapa depende do que aconteceu antes. É o caso de sortear sem reposição.
+Ela é útil quando o experimento acontece em etapas e a probabilidade de cada etapa depende do que aconteceu antes.
 
-Um repositório tem 5 pull requests abertos, 2 com bug (B) e 3 sem bug (S). Um revisor pega um PR ao acaso, revisa, e depois pega outro entre os que sobraram. O **diagrama em árvore** mostra as etapas. Nos galhos da segunda etapa, as probabilidades são condicionais: dependem de qual PR saiu primeiro.
+Você chega em casa à noite com um molho de 5 chaves parecidas, e só uma abre a porta. No escuro, você testa as chaves uma por uma, ao acaso, e separa no bolso cada chave que falha, para não testá-la de novo. Qual a probabilidade de a porta abrir só na segunda tentativa?
+
+Seja $C_i$ o evento "a $i$-ésima chave testada é a certa". A porta abre só na segunda tentativa quando a primeira chave falha e a segunda é a certa, o evento $C_1^c \cap C_2$. Na primeira tentativa, 4 das 5 chaves falham: $P(C_1^c) = 4/5$. Se a primeira falhou, sobram 4 chaves no molho, e uma delas é a certa: $P(C_2 \mid C_1^c) = 1/4$. Pela regra do produto,
+
+$$
+P(C_1^c \cap C_2) = P(C_1^c)\,P(C_2 \mid C_1^c) = \frac{4}{5} \times \frac{1}{4} = \frac{1}{5}.
+$$
+
+O **diagrama em árvore** organiza as etapas. Cada galho traz a probabilidade daquela etapa, condicional ao caminho que levou até ele, e cada caminho termina com o produto dos seus galhos. Caminhos diferentes não podem ocorrer juntos, então a probabilidade de um evento que reúne vários caminhos é a soma deles:
 
 ```{dot}
-//| label: fig-arvore-sem-reposicao
-//| fig-width: 4.5
-//| fig-height: 2.6
-//| fig-alt: "Árvore com dois níveis: primeiro PR com bug ou sem bug, depois o segundo PR, com as probabilidades condicionais em cada galho."
-//| fig-cap: "Dois PRs sorteados sem reposição entre 5 (2 com bug, 3 sem bug). Nos galhos da direita, as probabilidades são condicionais ao primeiro PR."
+//| label: fig-arvore-chaves
+//| fig-width: 6
+//| fig-height: 1.7
+//| fig-alt: "Árvore das tentativas com 5 chaves, sem testar de novo as que falharam. Na primeira tentativa, a chave abre com 1/5 ou falha com 4/5; depois de uma falha, a segunda abre com 1/4 ou falha com 3/4; depois de duas falhas, a terceira abre com 1/3 ou falha com 2/3. Os três caminhos que terminam em abrir têm probabilidade 1/5 cada, e o caminho em que as três primeiras falham tem 2/5."
+//| fig-cap: "Tentativas com um molho de 5 chaves, separando as que falham. Depois da primeira etapa, as probabilidades dos galhos são condicionais às falhas anteriores."
 digraph G {
   rankdir=LR;
   bgcolor="transparent";
-  node [shape=plaintext, fontname="Helvetica"];
-  edge [fontname="Helvetica", fontsize=11];
-  inicio [label=""];
-  B1 [label="B"]; S1 [label="S"];
-  BB [label="BB   2/5 × 1/4 = 2/20"];
-  BS [label="BS   2/5 × 3/4 = 6/20"];
-  SB [label="SB   3/5 × 2/4 = 6/20"];
-  SS [label="SS   3/5 × 2/4 = 6/20"];
-  inicio -> B1 [label="2/5"];
-  inicio -> S1 [label="3/5"];
-  B1 -> BB [label="1/4"];
-  B1 -> BS [label="3/4"];
-  S1 -> SB [label="2/4"];
-  S1 -> SS [label="2/4"];
+  ranksep=0.4; nodesep=0.25;
+  node [shape=plaintext, fontname="Helvetica", fontsize=16];
+  edge [fontname="Helvetica", fontsize=13];
+  inicio [label="início"];
+  F1 [label="1 falha"]; F2 [label="2 falhas"];
+  A1 [label="abre na 1ª\n1/5"];
+  A2 [label="abre na 2ª\n4/5 × 1/4 = 1/5"];
+  A3 [label="abre na 3ª\n4/5 × 3/4 × 1/3 = 1/5"];
+  F3 [label="falha nas três\n4/5 × 3/4 × 2/3 = 2/5"];
+  inicio -> A1 [label="1/5"];
+  inicio -> F1 [label="4/5"];
+  F1 -> A2 [label="1/4"];
+  F1 -> F2 [label="3/4"];
+  F2 -> A3 [label="1/3"];
+  F2 -> F3 [label="2/3"];
 }
 ```
-
-Cada caminho da árvore é um ponto amostral, e sua probabilidade é o produto dos galhos, pela regra do produto. Os quatro caminhos somam $20/20 = 1$.
-
-Qual a probabilidade de o **segundo** PR ter bug? Dois caminhos terminam com B na segunda etapa, BB e SB, e eles são disjuntos:
-
-$$
-P(\text{bug no 2º}) = \frac{2}{20} + \frac{6}{20} = \frac{8}{20} = \frac{2}{5}.
-$$
-
-É a mesma probabilidade de o primeiro ter bug. Faz sentido: sem saber o que saiu no primeiro sorteio, o segundo PR é um PR qualquer entre os 5. Mas, sabendo que o primeiro tinha bug, sobra 1 PR com bug entre 4, e $P(\text{bug no 2º} \mid \text{bug no 1º}) = 1/4$, abaixo de $2/5$. Sem reposição, o resultado do primeiro sorteio informa sobre o segundo.
 
 A regra do produto se estende a mais etapas. Para três eventos,
 
@@ -117,22 +122,23 @@ P(A \cap B \cap C) = {} &P(A)\, P(B \mid A) \\
 \end{aligned}
 $$
 
-com $P(A \cap B) > 0$, e cada fator é condicional a tudo o que veio antes.
+com $P(A \cap B) > 0$, e cada fator é condicional a tudo o que veio antes. O evento "a porta abre só na terceira tentativa" é o caminho $C_1^c \cap C_2^c \cap C_3$, que é a fórmula com $A = C_1^c$, $B = C_2^c$ e $C = C_3$:
+
+$$
+P(C_1^c \cap C_2^c \cap C_3) = \frac{4}{5} \times \frac{3}{4} \times \frac{1}{3} = \frac{1}{5}.
+$$
+
+Continuando a árvore, a porta abrir só na quarta ou só na quinta tentativa também tem probabilidade $1/5$. Testar as chaves ao acaso é o mesmo que embaralhar o molho e testar na ordem, e a chave certa tem a mesma chance de cair em qualquer uma das 5 posições. Assim, sem saber nada da primeira tentativa, $P(C_2) = 1/5$. Sabendo que a primeira chave falhou, $P(C_2 \mid C_1^c) = 1/4$: separando as chaves, cada falha informa sobre a próxima tentativa.
 
 ## Independência
 
-Agora o revisor devolve o PR à fila depois de revisá-lo, e o segundo sorteio é feito de novo entre os 5. A composição da fila não muda de uma etapa para a outra, e a árvore fica com os mesmos números nas duas etapas:
+Agora suponha que você não separe as chaves que falham: depois de cada tentativa, a chave volta para o molho, e a próxima é sorteada de novo entre as 5. Agora $C_i$ é o evento "o $i$-ésimo sorteio dá a chave certa" (pense nos sorteios como uma sequência que continua mesmo depois que a porta abre; os seguintes só não são usados). O molho é o mesmo em todos os sorteios, e o primeiro não informa nada sobre o segundo:
 
-| Resultado | Probabilidade |
-|:-:|:-:|
-| BB | $2/5 \times 2/5 = 4/25$ |
-| BS | $2/5 \times 3/5 = 6/25$ |
-| SB | $3/5 \times 2/5 = 6/25$ |
-| SS | $3/5 \times 3/5 = 9/25$ |
+$$
+P(C_2 \mid C_1^c) = \frac{1}{5} = P(C_2).
+$$
 
-: Dois PRs sorteados com reposição. {#tbl-com-reposicao}
-
-Aqui $P(\text{bug no 2º} \mid \text{bug no 1º}) = 2/5$, que é igual a $P(\text{bug no 2º})$: saber o resultado do primeiro sorteio não muda nada sobre o segundo. Quando isso acontece, os eventos são **independentes**. Chamando de $B_1$ o evento "bug no 1º" e de $B_2$ o evento "bug no 2º", temos $P(B_2 \mid B_1) = P(B_2)$, e a regra do produto fica $P(B_1 \cap B_2) = P(B_1)\,P(B_2)$. Para dois eventos quaisquer:
+Quando isso acontece, os eventos são **independentes**, e a regra do produto fica $P(C_1^c \cap C_2) = P(C_1^c)\,P(C_2) = 4/5 \times 1/5 = 4/25$. É menos que o $1/5$ de quem separa as chaves: devolver ao molho a chave que falhou desperdiça tentativas. Para dois eventos quaisquer:
 
 ::: {.conceito}
 Os eventos $A$ e $B$ são **independentes** quando
@@ -142,11 +148,11 @@ P(A \cap B) = P(A)\, P(B).
 $$
 :::
 
-A definição é simétrica: se $A$ não informa nada sobre $B$, $B$ também não informa nada sobre $A$. E ela serve nos dois sentidos. Às vezes a independência é uma **suposição** do modelo, como nos sorteios com reposição, e aí a fórmula permite calcular $P(A \cap B)$. Outras vezes ela é uma **pergunta** sobre dados, e a fórmula é o teste.
+A definição é simétrica: se $A$ não informa nada sobre $B$, $B$ também não informa nada sobre $A$. E ela serve nos dois sentidos. Às vezes a independência é uma **suposição** do modelo, como nas chaves que voltam para o molho, e aí a fórmula permite calcular $P(A \cap B)$. Outras vezes ela é uma **pergunta** sobre dados, e a fórmula é o teste.
 
 Na turma, os 200 alunos são todo o espaço amostral do sorteio, e a conta é exata. Se fossem uma amostra dos alunos que já cursaram a disciplina, a igualdade quase nunca valeria à risca, e decidir se a diferença importa exigiria ferramentas de inferência estatística.
 
-Na turma, fazer a lista e ser aprovado são independentes? Basta comparar os dois lados da igualdade:
+Voltemos à turma: fazer a lista e ser aprovado são independentes? Basta comparar os dois lados da igualdade:
 
 $$
 \begin{aligned}

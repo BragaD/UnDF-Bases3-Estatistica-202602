@@ -127,7 +127,7 @@ omega.groupby("retrabalho")["probabilidade"].sum().round(2)
 
 Os pontos amostrais são os mesmos, e suas probabilidades também. O que muda é a função que transforma cada ponto em número, e com ela a função de probabilidade.
 
-Os exemplos do Capítulo 2 também escondiam variáveis aleatórias. Nas duas moedas da seção 2.1, o **número de caras** é uma variável $W$ com valores 0, 1 e 2. Nos dois PRs sorteados sem reposição da seção 2.4, o **número de PRs com bug** é uma variável $B$ com valores 0, 1 e 2. A enumeração dos 20 pares ordenados dá a função de probabilidade de $B$, em contagens sobre 20:
+Outros experimentos também guardam variáveis aleatórias. Nas duas moedas da seção 2.1, o **número de caras** é uma variável $W$ com valores 0, 1 e 2. Num repositório com 5 pull requests, 2 deles com bug, um revisor sorteia dois sem reposição; o **número de PRs com bug** entre os dois é uma variável $B$ com valores 0, 1 e 2. A enumeração dos 20 pares ordenados dá a função de probabilidade de $B$, em contagens sobre 20:
 
 ```{python}
 #| label: fp-bugs
@@ -140,7 +140,7 @@ bugs = pd.Series([sum(p.startswith("B") for p in par) for par in pares])
 bugs.value_counts().sort_index()
 ```
 
-$P(B = 0) = 6/20 = 3/10$, $P(B = 1) = 12/20 = 6/10$ e $P(B = 2) = 2/20 = 1/10$. O caso $B = 1$ junta dois caminhos da árvore da seção 2.4, BS e SB.
+$P(B = 0) = 6/20 = 3/10$, $P(B = 1) = 12/20 = 6/10$ e $P(B = 2) = 2/20 = 1/10$. O caso $B = 1$ junta duas ordens, com bug no primeiro ou no segundo PR.
 
 ## Resumo
 

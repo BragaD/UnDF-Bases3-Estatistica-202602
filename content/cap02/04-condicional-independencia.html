@@ -24,41 +24,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 /* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
@@ -81,7 +46,7 @@ div.csl-indent {
 }</style>
 
 
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -176,9 +141,6 @@ div.csl-indent {
   });
 })();
 </script>
-<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
-
-<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -696,65 +658,52 @@ Nota
 <p>Esta seção corresponde à seção 5.3 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>.</p>
 </div>
 </div>
-<p>Na seção 2.2, sorteamos uma carta do baralho e definimos dois eventos: <span class="math inline">\(A\)</span>, a carta é de copas, e <span class="math inline">\(B\)</span>, a carta é uma figura. Acrescente um terceiro, <span class="math inline">\(K\)</span>: a carta é um <strong>rei</strong>. O baralho tem 4 reis. Tirando uma carta sem saber nada sobre ela, <span class="math inline">\(P(K) = 4/52\)</span>, ou <span class="math inline">\(1/13\)</span>.</p>
-<p>Agora suponha que alguém tire a carta, olhe e revele só uma coisa: é uma figura. A chance de ser um rei continua <span class="math inline">\(1/13\)</span>? Uma tabela de contingência, como a da seção 2.2, cruza os dois eventos:</p>
-<div id="cell-baralho-rei" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>K <span class="op">=</span> <span class="bu">set</span>(baralho.loc[baralho[<span class="st">"valor"</span>] <span class="op">==</span> <span class="st">"K"</span>, <span class="st">"carta"</span>])</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>figura <span class="op">=</span> baralho[<span class="st">"carta"</span>].isin(B).<span class="bu">map</span>({<span class="va">True</span>: <span class="st">"B: figura"</span>, <span class="va">False</span>: <span class="st">"não figura"</span>})</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>rei <span class="op">=</span> baralho[<span class="st">"carta"</span>].isin(K).<span class="bu">map</span>({<span class="va">True</span>: <span class="st">"K: rei"</span>, <span class="va">False</span>: <span class="st">"não rei"</span>})</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>pd.crosstab(figura, rei, rownames<span class="op">=</span>[<span class="st">""</span>], colnames<span class="op">=</span>[<span class="st">""</span>], margins<span class="op">=</span><span class="va">True</span>, margins_name<span class="op">=</span><span class="st">"Total"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="baralho-rei" class="cell-output cell-output-display" data-execution_count="2">
-<div>
-
-
-<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<p>Numa turma de 200 alunos, 120 fizeram a lista de exercícios antes da prova e 80 não fizeram. No fim do semestre, a tabela de contingência cruza as duas informações (os números são inventados para o exemplo):</p>
+<div id="tbl-turma" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-turma-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;1: Alunos de uma turma hipotética, pela lista e pelo resultado.
+</figcaption>
+<div aria-describedby="tbl-turma-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
 <thead>
 <tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">K: rei</th>
-<th data-quarto-table-cell-role="th">não rei</th>
-<th data-quarto-table-cell-role="th">Total</th>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
+<th style="text-align: left;"></th>
+<th style="text-align: center;">Aprovado</th>
+<th style="text-align: center;">Reprovado</th>
+<th style="text-align: center;">Total</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">B: figura</th>
-<td>4</td>
-<td>8</td>
-<td>12</td>
+<td style="text-align: left;">Fez a lista</td>
+<td style="text-align: center;">96</td>
+<td style="text-align: center;">24</td>
+<td style="text-align: center;">120</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">não figura</th>
-<td>0</td>
-<td>40</td>
-<td>40</td>
+<td style="text-align: left;">Não fez</td>
+<td style="text-align: center;">32</td>
+<td style="text-align: center;">48</td>
+<td style="text-align: center;">80</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">Total</th>
-<td>4</td>
-<td>48</td>
-<td>52</td>
+<td style="text-align: left;"><strong>Total</strong></td>
+<td style="text-align: center;"><strong>128</strong></td>
+<td style="text-align: center;"><strong>72</strong></td>
+<td style="text-align: center;"><strong>200</strong></td>
 </tr>
 </tbody>
 </table>
-
 </div>
+</figure>
 </div>
-</div>
-<p>Entre as 12 figuras, 4 são reis. Com essa informação, a chance sobe para <span class="math inline">\(4/12\)</span>, ou <span class="math inline">\(1/3\)</span>.</p>
-<p>A informação mudou o espaço amostral: das 52 cartas, só as 12 figuras continuam possíveis. Esta seção formaliza essa ideia e mostra quando uma informação <strong>não</strong> muda nada.</p>
+<p>Sorteie um aluno da turma, todos com a mesma chance. Sejam <span class="math inline">\(A\)</span> o evento “o aluno fez a lista” e <span class="math inline">\(B\)</span> o evento “o aluno foi aprovado”. Sem saber nada sobre o aluno sorteado, <span class="math inline">\(P(B) = 128/200 = 0{,}64\)</span>.</p>
+<p>Agora suponha que alguém conte só uma coisa sobre o aluno: ele fez a lista. A chance de aprovação continua 0,64? Entre os 120 que fizeram a lista, 96 foram aprovados, e a chance sobe para <span class="math inline">\(96/120 = 0{,}80\)</span>.</p>
+<p>A informação mudou o espaço amostral: dos 200 alunos, só os 120 que fizeram a lista continuam possíveis. Esta seção formaliza essa ideia e mostra quando uma informação <strong>não</strong> muda nada.</p>
 <section id="probabilidade-condicional" class="level2">
 <h2 class="anchored" data-anchor-id="probabilidade-condicional">Probabilidade condicional</h2>
-<p>Saber que a carta é uma figura restringe o espaço amostral a <span class="math inline">\(B\)</span>. Dentro dessa nova região, o que importa de <span class="math inline">\(K\)</span> é só a parte que está em <span class="math inline">\(B\)</span>, ou seja, <span class="math inline">\(B \cap K\)</span>. A probabilidade de <span class="math inline">\(K\)</span> passa a ser a fatia de <span class="math inline">\(B\)</span> ocupada por <span class="math inline">\(B \cap K\)</span>.</p>
-<p>O raciocínio vale para dois eventos quaisquer. Na definição geral, <span class="math inline">\(A\)</span> é a informação e <span class="math inline">\(B\)</span> é o evento que interessa:</p>
+<p>Saber que <span class="math inline">\(A\)</span> ocorreu restringe o espaço amostral a <span class="math inline">\(A\)</span>. Dentro dessa nova região, o que importa de <span class="math inline">\(B\)</span> é só a parte que está em <span class="math inline">\(A\)</span>, ou seja, <span class="math inline">\(A \cap B\)</span>. A probabilidade de <span class="math inline">\(B\)</span> passa a ser a fatia de <span class="math inline">\(A\)</span> ocupada por <span class="math inline">\(A \cap B\)</span>.</p>
 <div class="conceito">
 <p>A <strong>probabilidade condicional</strong> de <span class="math inline">\(B\)</span> dado <span class="math inline">\(A\)</span>, com <span class="math inline">\(P(A) &gt; 0\)</span>, é</p>
 <p><span class="math display">\[
@@ -762,54 +711,60 @@ P(B \mid A) = \frac{P(A \cap B)}{P(A)}.
 \]</span></p>
 <p>Lê-se “probabilidade de <span class="math inline">\(B\)</span> dado <span class="math inline">\(A\)</span>”.</p>
 </div>
-<p>No baralho, a informação é <span class="math inline">\(B\)</span> (figura) e o evento que interessa é <span class="math inline">\(K\)</span> (rei), e a fórmula fica <span class="math inline">\(P(K \mid B) = P(B \cap K)/P(B)\)</span>. Como <span class="math inline">\(P(B \cap K) = 4/52\)</span> e <span class="math inline">\(P(B) = 12/52\)</span>, os 52 se cancelam. O código usa a função <code>prob</code> e o dicionário <code>modelo_carta</code> da seção 2.1:</p>
-<div id="cell-condicional" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>p_k_dado_b <span class="op">=</span> prob(B <span class="op">&amp;</span> K, modelo_carta) <span class="op">/</span> prob(B, modelo_carta)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>Fraction(p_k_dado_b).limit_denominator(), <span class="bu">round</span>(p_k_dado_b, <span class="dv">3</span>), <span class="bu">round</span>(prob(K, modelo_carta), <span class="dv">3</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="condicional" class="cell-output cell-output-display" data-execution_count="3">
-<pre><code>(Fraction(1, 3), 0.333, 0.077)</code></pre>
-</div>
-</div>
-<p><span class="math inline">\(P(K)\)</span> é a probabilidade <strong>a priori</strong> de sair um rei, calculada antes de qualquer informação. <span class="math inline">\(P(K \mid B)\)</span> é a probabilidade <strong>a posteriori</strong>, depois de saber que a carta é uma figura. Aqui a informação aumentou a chance, de 0,077 para 0,333.</p>
-<p>A ordem importa: <span class="math inline">\(P(K \mid B)\)</span> e <span class="math inline">\(P(B \mid K)\)</span> são perguntas diferentes. Dado que a carta é um rei, a chance de ela ser uma figura é <span class="math inline">\(4/4 = 1\)</span>, porque todo rei é figura. O denominador passa a ser o número de reis, 4.</p>
-<p>No <code>pandas</code>, a tabela de contingência dá as condicionais de uma vez. Com <code>normalize="index"</code>, cada linha é dividida pelo seu total e passa a ser a distribuição de <span class="math inline">\(K\)</span> dentro daquele grupo:</p>
-<div id="cell-condicional-tabela" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>pd.crosstab(figura, rei, rownames<span class="op">=</span>[<span class="st">""</span>], colnames<span class="op">=</span>[<span class="st">""</span>], normalize<span class="op">=</span><span class="st">"index"</span>).<span class="bu">round</span>(<span class="dv">3</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="condicional-tabela" class="cell-output cell-output-display" data-execution_count="4">
-<div>
-
-
-<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<p>Na turma, <span class="math inline">\(P(A \cap B) = 96/200\)</span> e <span class="math inline">\(P(A) = 120/200\)</span>, e os 200 se cancelam:</p>
+<p><span class="math display">\[
+P(B \mid A) = \frac{96/200}{120/200} = \frac{96}{120} = 0{,}80.
+\]</span></p>
+<p><span class="math inline">\(P(B)\)</span> é a probabilidade <strong>a priori</strong> de aprovação, calculada antes de qualquer informação. <span class="math inline">\(P(B \mid A)\)</span> é a probabilidade <strong>a posteriori</strong>, depois de saber que o aluno fez a lista. Aqui a informação aumentou a chance, de 0,64 para 0,80. Saber que o aluno não fez a lista diminui a chance: entre os 80 que não fizeram a lista, 32 foram aprovados, e <span class="math inline">\(P(B \mid A^c) = 32/80 = 0{,}40\)</span>.</p>
+<p>A ordem importa: <span class="math inline">\(P(B \mid A)\)</span> e <span class="math inline">\(P(A \mid B)\)</span> são perguntas diferentes. Dado que o aluno foi aprovado, a chance de ele ter feito a lista é <span class="math inline">\(96/128 = 0{,}75\)</span>: o denominador agora são os 128 aprovados.</p>
+<p>Dividindo cada linha da <a href="#tbl-turma" class="quarto-xref">Tabela&nbsp;<span>1</span></a> pelo seu total, cada linha passa a ser a distribuição do resultado dentro daquele grupo:</p>
+<div id="tbl-turma-linhas" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-turma-linhas-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;2: Probabilidades condicionais do resultado, dado o grupo.
+</figcaption>
+<div aria-describedby="tbl-turma-linhas-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
 <thead>
 <tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">K: rei</th>
-<th data-quarto-table-cell-role="th">não rei</th>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
+<th style="text-align: left;"></th>
+<th style="text-align: center;">Aprovado</th>
+<th style="text-align: center;">Reprovado</th>
+<th style="text-align: center;">Total</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">B: figura</th>
-<td>0.333</td>
-<td>0.667</td>
+<td style="text-align: left;">Fez a lista</td>
+<td style="text-align: center;">0,80</td>
+<td style="text-align: center;">0,20</td>
+<td style="text-align: center;">1</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">não figura</th>
-<td>0.000</td>
-<td>1.000</td>
+<td style="text-align: left;">Não fez</td>
+<td style="text-align: center;">0,40</td>
+<td style="text-align: center;">0,60</td>
+<td style="text-align: center;">1</td>
 </tr>
 </tbody>
 </table>
-
+</div>
+</figure>
+</div>
+<p>A linha “Fez a lista” traz <span class="math inline">\(P(B \mid A)\)</span> e <span class="math inline">\(P(B^c \mid A)\)</span>, que somam 1: dentro de <span class="math inline">\(A\)</span>, a probabilidade condicional se comporta como uma probabilidade qualquer.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Aviso</span>Condicional não é causa
 </div>
 </div>
+<div class="callout-body-container callout-body">
+<p>A tabela mostra que a aprovação é mais frequente entre quem fez a lista. Ela não mostra que a lista causou a aprovação: quem faz a lista pode ser também quem vai às aulas e estuda mais. Comparar <span class="math inline">\(P(B \mid A)\)</span> com <span class="math inline">\(P(B \mid A^c)\)</span> mostra associação, não causa.</p>
 </div>
-<p>A linha “B: figura” traz <span class="math inline">\(P(K \mid B)\)</span> e <span class="math inline">\(P(K^c \mid B)\)</span>, que somam 1: dentro de <span class="math inline">\(B\)</span>, a probabilidade condicional se comporta como uma probabilidade qualquer. Na linha “não figura”, a chance de rei é zero, porque nenhum rei fica fora das figuras.</p>
+</div>
 </section>
 <section id="regra-do-produto" class="level2">
 <h2 class="anchored" data-anchor-id="regra-do-produto">Regra do produto</h2>
@@ -818,14 +773,14 @@ P(B \mid A) = \frac{P(A \cap B)}{P(A)}.
 P(A \cap B) = P(A)\, P(B \mid A).
 \]</span></p>
 <p>Ela é útil quando o experimento acontece em etapas e a probabilidade de cada etapa depende do que aconteceu antes. É o caso de sortear sem reposição.</p>
-<p>Um repositório tem 5 pull requests abertos, 2 com bug (B) e 3 sem bug (S). Um revisor pega um PR ao acaso, revisa, e depois pega outro entre os que sobraram. O <strong>diagrama em árvore</strong> mostra as etapas. Nos galhos da segunda etapa, as probabilidades são condicionais: depende de qual PR saiu primeiro.</p>
-<div class="cell" data-layout-align="default">
+<p>Um repositório tem 5 pull requests abertos, 2 com bug (B) e 3 sem bug (S). Um revisor pega um PR ao acaso, revisa, e depois pega outro entre os que sobraram. O <strong>diagrama em árvore</strong> mostra as etapas. Nos galhos da segunda etapa, as probabilidades são condicionais: dependem de qual PR saiu primeiro.</p>
+<div class="cell" data-fig-width="4.5" data-fig-height="2.6" data-layout-align="default">
 <div class="cell-output-display">
 <div id="fig-arvore-sem-reposicao" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-arvore-sem-reposicao-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div>
-<svg width="672" height="480" viewbox="0.00 0.00 362.61 206.00" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none">
+<svg width="432" height="250" viewbox="0.00 0.00 362.61 206.00" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none">
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 202)">
 <title>G</title>
 <!-- inicio -->
@@ -920,20 +875,7 @@ Figura&nbsp;1: Dois PRs sorteados sem reposição entre 5 (2 com bug, 3 sem bug)
 <p><span class="math display">\[
 P(\text{bug no 2º}) = \frac{2}{20} + \frac{6}{20} = \frac{8}{20} = \frac{2}{5}.
 \]</span></p>
-<p>É a mesma probabilidade de o primeiro ter bug. Faz sentido: sem saber o que saiu no primeiro sorteio, o segundo PR é um PR qualquer entre os 5.</p>
-<p>Uma enumeração em Python confere a árvore. Os 5 PRs recebem nomes, e cada par ordenado de PRs distintos é igualmente provável:</p>
-<div id="cell-arvore-enumerada" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itertools <span class="im">import</span> permutations</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>prs <span class="op">=</span> [<span class="st">"B1"</span>, <span class="st">"B2"</span>, <span class="st">"S1"</span>, <span class="st">"S2"</span>, <span class="st">"S3"</span>]</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>pares <span class="op">=</span> <span class="bu">list</span>(permutations(prs, <span class="dv">2</span>))        <span class="co"># 5 x 4 = 20 pares ordenados</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>bug_no_segundo <span class="op">=</span> [p <span class="cf">for</span> p <span class="kw">in</span> pares <span class="cf">if</span> p[<span class="dv">1</span>].startswith(<span class="st">"B"</span>)]</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(pares), Fraction(<span class="bu">len</span>(bug_no_segundo), <span class="bu">len</span>(pares))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="arvore-enumerada" class="cell-output cell-output-display" data-execution_count="5">
-<pre><code>(20, Fraction(2, 5))</code></pre>
-</div>
-</div>
+<p>É a mesma probabilidade de o primeiro ter bug. Faz sentido: sem saber o que saiu no primeiro sorteio, o segundo PR é um PR qualquer entre os 5. Mas, sabendo que o primeiro tinha bug, sobra 1 PR com bug entre 4, e <span class="math inline">\(P(\text{bug no 2º} \mid \text{bug no 1º}) = 1/4\)</span>, abaixo de <span class="math inline">\(2/5\)</span>. Sem reposição, o resultado do primeiro sorteio informa sobre o segundo.</p>
 <p>A regra do produto se estende a mais etapas. Para três eventos,</p>
 <p><span class="math display">\[
 \begin{aligned}
@@ -949,7 +891,7 @@ P(A \cap B \cap C) = {} &amp;P(A)\, P(B \mid A) \\
 <div id="tbl-com-reposicao" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-com-reposicao-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabela&nbsp;1: Dois PRs sorteados com reposição.
+Tabela&nbsp;3: Dois PRs sorteados com reposição.
 </figcaption>
 <div aria-describedby="tbl-com-reposicao-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
@@ -988,25 +930,16 @@ Tabela&nbsp;1: Dois PRs sorteados com reposição.
 P(A \cap B) = P(A)\, P(B).
 \]</span></p>
 </div>
-<p>A definição é simétrica: se <span class="math inline">\(A\)</span> não informa nada sobre <span class="math inline">\(B\)</span>, <span class="math inline">\(B\)</span> também não informa nada sobre <span class="math inline">\(A\)</span>. E ela serve nos dois sentidos. Às vezes a independência é uma <strong>suposição</strong> do modelo, como nos sorteios com reposição, e aí a fórmula permite calcular <span class="math inline">\(P(A \cap B)\)</span>. Outras vezes ela é uma <strong>pergunta</strong> sobre dados, e a fórmula é o teste. No baralho, em que conhecemos as 52 cartas, a conta é exata. Com uma amostra de dados, a igualdade quase nunca vale exatamente, e decidir se a diferença importa exige ferramentas de inferência estatística, que ficam fora deste livro.</p>
-<p>No baralho, ser de copas (<span class="math inline">\(A\)</span>) e ser figura (<span class="math inline">\(B\)</span>) são independentes? Basta comparar os dois lados da igualdade <span class="math inline">\(P(A \cap B) = P(A)\,P(B)\)</span>. Com <code>Fraction</code>, a conta sai exata, sem arredondamento:</p>
-<div id="cell-independencia-copas-figura" class="cell" data-execution_count="6">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>lado_esq <span class="op">=</span> Fraction(<span class="bu">len</span>(A <span class="op">&amp;</span> B), <span class="dv">52</span>)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>lado_dir <span class="op">=</span> Fraction(<span class="bu">len</span>(A), <span class="dv">52</span>) <span class="op">*</span> Fraction(<span class="bu">len</span>(B), <span class="dv">52</span>)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>lado_esq, lado_dir</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="independencia-copas-figura" class="cell-output cell-output-display" data-execution_count="6">
-<pre><code>(Fraction(3, 52), Fraction(3, 52))</code></pre>
-</div>
-</div>
-<p>Os dois lados dão <span class="math inline">\(3/52\)</span>: os eventos são independentes. Cada naipe tem 3 figuras em 13 cartas, a mesma proporção do baralho inteiro, 12 em 52. Saber que a carta é de copas não muda a chance de ela ser figura: <span class="math inline">\(P(B \mid A) = 3/13 = P(B)\)</span>.</p>
-<p>Com figura e rei, a comparação falha:</p>
-<div id="cell-independencia-figura-rei" class="cell" data-execution_count="7">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>Fraction(<span class="bu">len</span>(B <span class="op">&amp;</span> K), <span class="dv">52</span>), Fraction(<span class="bu">len</span>(B), <span class="dv">52</span>) <span class="op">*</span> Fraction(<span class="bu">len</span>(K), <span class="dv">52</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="independencia-figura-rei" class="cell-output cell-output-display" data-execution_count="7">
-<pre><code>(Fraction(1, 13), Fraction(3, 169))</code></pre>
-</div>
-</div>
-<p><span class="math inline">\(P(B \cap K) = 1/13\)</span> é bem maior que <span class="math inline">\(P(B)\,P(K) = 3/169\)</span>. Os eventos não são independentes: saber que a carta é figura leva a chance de rei de <span class="math inline">\(1/13\)</span> para <span class="math inline">\(1/3\)</span>.</p>
+<p>A definição é simétrica: se <span class="math inline">\(A\)</span> não informa nada sobre <span class="math inline">\(B\)</span>, <span class="math inline">\(B\)</span> também não informa nada sobre <span class="math inline">\(A\)</span>. E ela serve nos dois sentidos. Às vezes a independência é uma <strong>suposição</strong> do modelo, como nos sorteios com reposição, e aí a fórmula permite calcular <span class="math inline">\(P(A \cap B)\)</span>. Outras vezes ela é uma <strong>pergunta</strong> sobre dados, e a fórmula é o teste.</p>
+<p>Na turma, os 200 alunos são todo o espaço amostral do sorteio, e a conta é exata. Se fossem uma amostra dos alunos que já cursaram a disciplina, a igualdade quase nunca valeria à risca, e decidir se a diferença importa exigiria ferramentas de inferência estatística.</p>
+<p>Na turma, fazer a lista e ser aprovado são independentes? Basta comparar os dois lados da igualdade:</p>
+<p><span class="math display">\[
+\begin{aligned}
+P(A \cap B) &amp;= \frac{96}{200} = 0{,}48, \\
+P(A)\,P(B) &amp;= 0{,}60 \times 0{,}64 = 0{,}384.
+\end{aligned}
+\]</span></p>
+<p>Os dois lados são diferentes: os eventos não são independentes. Saber que o aluno fez a lista muda a chance de aprovação. Se fossem independentes, a taxa de aprovação seria 0,64 nos dois grupos, e a célula “fez a lista e foi aprovado” teria <span class="math inline">\(120 \times 0{,}64 = 76{,}8\)</span> alunos, e não 96.</p>
 <p>Para três eventos, a independência exige mais do que os três pares. <span class="math inline">\(A\)</span>, <span class="math inline">\(B\)</span> e <span class="math inline">\(C\)</span> são independentes quando</p>
 <p><span class="math display">\[
 \begin{aligned}
@@ -1034,7 +967,7 @@ P(A \cap B \cap C) &amp;= P(A)\,P(B)\,P(C).
 <section id="confiabilidade-de-sistemas" class="level2">
 <h2 class="anchored" data-anchor-id="confiabilidade-de-sistemas">Confiabilidade de sistemas</h2>
 <p>A independência é a suposição central de uma área que interessa a quem opera software: a <strong>confiabilidade</strong> de sistemas. A confiabilidade de um componente é a probabilidade de ele funcionar num período.</p>
-<p>Uma API atende uma requisição só se o serviço de autenticação <strong>e</strong> o banco de dados funcionarem. Os dois estão <strong>em série</strong>: a falha de qualquer um derruba o sistema. Seja <span class="math inline">\(A_1\)</span> o evento “a autenticação funciona” e <span class="math inline">\(A_2\)</span> o evento “o banco funciona”. Se <span class="math inline">\(P(A_1) = p_1\)</span>, <span class="math inline">\(P(A_2) = p_2\)</span>, e os dois falham independentemente, o sistema funciona com probabilidade</p>
+<p>Uma API atende uma requisição só se o serviço de autenticação <strong>e</strong> o banco de dados funcionarem. Os dois estão <strong>em série</strong>: a falha de qualquer um derruba o sistema. Seja <span class="math inline">\(A_1\)</span> o evento “a autenticação funciona” e <span class="math inline">\(A_2\)</span> o evento “o banco funciona”. Se <span class="math inline">\(P(A_1) = p_1\)</span>, <span class="math inline">\(P(A_2) = p_2\)</span> e os dois falham independentemente, o sistema funciona com probabilidade</p>
 <p><span class="math display">\[
 P(\text{sistema}) = P(A_1 \cap A_2) = p_1\, p_2.
 \]</span></p>
@@ -1042,18 +975,15 @@ P(\text{sistema}) = P(A_1 \cap A_2) = p_1\, p_2.
 <p><span class="math display">\[
 P(R_1 \cup R_2) = p + p - p^2 = 1 - (1 - p)^2.
 \]</span></p>
-<div id="cell-confiabilidade" class="cell" data-execution_count="8">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>p_auth, p_banco <span class="op">=</span> <span class="fl">0.99</span>, <span class="fl">0.98</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>serie <span class="op">=</span> p_auth <span class="op">*</span> p_banco</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>banco_replicado <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> (<span class="dv">1</span> <span class="op">-</span> p_banco) <span class="op">**</span> <span class="dv">2</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>com_replica <span class="op">=</span> p_auth <span class="op">*</span> banco_replicado</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="bu">round</span>(serie, <span class="dv">4</span>), <span class="bu">round</span>(banco_replicado, <span class="dv">4</span>), <span class="bu">round</span>(com_replica, <span class="dv">4</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="confiabilidade" class="cell-output cell-output-display" data-execution_count="8">
-<pre><code>(0.9702, 0.9996, 0.9896)</code></pre>
-</div>
-</div>
+<p>A segunda forma vem do complementar: as duas cópias falham com probabilidade <span class="math inline">\((1 - p)^2\)</span>, porque, se <span class="math inline">\(R_1\)</span> e <span class="math inline">\(R_2\)</span> são independentes, as falhas <span class="math inline">\(R_1^c\)</span> e <span class="math inline">\(R_2^c\)</span> também são.</p>
+<p>Com <span class="math inline">\(p_1 = 0{,}99\)</span> para a autenticação e <span class="math inline">\(p = 0{,}98\)</span> para cada cópia do banco:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\text{em série:}\quad &amp; 0{,}99 \times 0{,}98 = 0{,}9702, \\
+\text{banco com réplica:}\quad &amp; 1 - 0{,}02^2 = 0{,}9996, \\
+\text{sistema com réplica:}\quad &amp; 0{,}99 \times 0{,}9996 \approx 0{,}9896.
+\end{aligned}
+\]</span></p>
 <p>Em série, as confiabilidades se multiplicam, e o sistema é <strong>menos</strong> confiável que o pior componente: 0,9702, abaixo de 0,98. A réplica leva o banco de 0,98 a 0,9996, e o sistema passa a depender quase só da autenticação.</p>
 <p>A conta vale se as falhas forem independentes. Duas réplicas no mesmo servidor, na mesma rede ou na mesma região de nuvem tendem a cair juntas, e aí <span class="math inline">\(P(R_1^c \cap R_2^c)\)</span> é maior que <span class="math inline">\((1 - p)^2\)</span>. A redundância protege menos do que a fórmula promete.</p>
 </section>
@@ -1099,27 +1029,6 @@ P(R_1 \cup R_2) = p + p - p^2 = 1 - (1 - p)^2.
 <h2 class="anchored" data-anchor-id="exercícios">Exercícios</h2>
 <p><strong>1.</strong> Uma fila tem 8 tickets de suporte, 3 urgentes e 5 normais. Um atendente pega dois tickets ao acaso, um depois do outro, sem devolver. Calcule: (a) a probabilidade de os dois serem urgentes; (b) a probabilidade de o segundo ser urgente; (c) as mesmas probabilidades, se o primeiro ticket voltar para a fila antes do segundo sorteio.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Dica</span>Resposta
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-3" class="callout-3-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<ol type="a">
-<li><p>Pela regra do produto, <span class="math inline">\(P(U_1 \cap U_2) = \frac{3}{8} \times \frac{2}{7} = \frac{6}{56} = \frac{3}{28}\)</span>.</p></li>
-<li><p>Os caminhos que terminam em urgente são UU e NU: <span class="math inline">\(\frac{3}{8} \times \frac{2}{7} + \frac{5}{8} \times \frac{3}{7} = \frac{6 + 15}{56} = \frac{21}{56} = \frac{3}{8}\)</span>, igual à probabilidade de o primeiro ser urgente.</p></li>
-<li><p>Com reposição, os sorteios são independentes: <span class="math inline">\(P(U_1 \cap U_2) = \frac{3}{8} \times \frac{3}{8} = \frac{9}{64}\)</span>, e <span class="math inline">\(P(U_2) = \frac{3}{8}\)</span>.</p></li>
-</ol>
-</div>
-</div>
-</div>
-<p><strong>2.</strong> Dois desenvolvedores tentam, independentemente, reproduzir um bug. O primeiro consegue com probabilidade 2/3 e o segundo com probabilidade 3/4. Qual a probabilidade de o bug ser reproduzido? (Problema 17 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>.)</p>
-<div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -1131,11 +1040,15 @@ P(R_1 \cup R_2) = p + p - p^2 = 1 - (1 - p)^2.
 </div>
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>O bug é reproduzido se pelo menos um conseguir. Pelo complementar, com independência: <span class="math inline">\(1 - \frac{1}{3} \times \frac{1}{4} = 1 - \frac{1}{12} = \frac{11}{12}\)</span>.</p>
+<ol type="a">
+<li><p>Pela regra do produto, <span class="math inline">\(P(U_1 \cap U_2) = \frac{3}{8} \times \frac{2}{7} = \frac{6}{56} = \frac{3}{28}\)</span>.</p></li>
+<li><p>Os caminhos que terminam em urgente são UU e NU: <span class="math inline">\(\frac{3}{8} \times \frac{2}{7} + \frac{5}{8} \times \frac{3}{7} = \frac{6 + 15}{56} = \frac{21}{56} = \frac{3}{8}\)</span>, igual à probabilidade de o primeiro ser urgente.</p></li>
+<li><p>Com reposição, os sorteios são independentes: <span class="math inline">\(P(U_1 \cap U_2) = \frac{3}{8} \times \frac{3}{8} = \frac{9}{64}\)</span>, e <span class="math inline">\(P(U_2) = \frac{3}{8}\)</span>.</p></li>
+</ol>
 </div>
 </div>
 </div>
-<p><strong>3.</strong> Numa execução de testes, <span class="math inline">\(P(A) = 0{,}3\)</span> e <span class="math inline">\(P(B) = 0{,}4\)</span>. Calcule <span class="math inline">\(P(A \cup B)\)</span> se (a) <span class="math inline">\(A\)</span> e <span class="math inline">\(B\)</span> forem mutuamente exclusivos; (b) <span class="math inline">\(A\)</span> e <span class="math inline">\(B\)</span> forem independentes.</p>
+<p><strong>2.</strong> Dois desenvolvedores tentam, independentemente, reproduzir um bug. O primeiro consegue com probabilidade 2/3 e o segundo com probabilidade 3/4. Qual a probabilidade de o bug ser reproduzido? (Problema 17 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>.)</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1148,14 +1061,11 @@ P(R_1 \cup R_2) = p + p - p^2 = 1 - (1 - p)^2.
 </div>
 <div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<ol type="a">
-<li><p><span class="math inline">\(P(A \cap B) = 0\)</span>, então <span class="math inline">\(P(A \cup B) = 0{,}3 + 0{,}4 = 0{,}7\)</span>.</p></li>
-<li><p><span class="math inline">\(P(A \cap B) = 0{,}3 \times 0{,}4 = 0{,}12\)</span>, então <span class="math inline">\(P(A \cup B) = 0{,}7 - 0{,}12 = 0{,}58\)</span>.</p></li>
-</ol>
+<p>O bug é reproduzido se pelo menos um conseguir. Pelo complementar, com independência: <span class="math inline">\(1 - \frac{1}{3} \times \frac{1}{4} = 1 - \frac{1}{12} = \frac{11}{12}\)</span>.</p>
 </div>
 </div>
 </div>
-<p><strong>4.</strong> No baralho de 52 cartas, seja <span class="math inline">\(V\)</span> o evento “a carta é vermelha” (copas ou ouros). (a) Calcule <span class="math inline">\(P(B \mid V)\)</span>, em que <span class="math inline">\(B\)</span> é “a carta é uma figura”, e compare com <span class="math inline">\(P(B)\)</span>. <span class="math inline">\(V\)</span> e <span class="math inline">\(B\)</span> são independentes? (b) Faça o mesmo com <span class="math inline">\(A\)</span>, “a carta é de copas”: calcule <span class="math inline">\(P(A \mid V)\)</span> e compare com <span class="math inline">\(P(A)\)</span>.</p>
+<p><strong>3.</strong> Numa execução de testes, <span class="math inline">\(P(A) = 0{,}3\)</span> e <span class="math inline">\(P(B) = 0{,}4\)</span>. Calcule <span class="math inline">\(P(A \cup B)\)</span> se (a) <span class="math inline">\(A\)</span> e <span class="math inline">\(B\)</span> forem mutuamente exclusivos; (b) <span class="math inline">\(A\)</span> e <span class="math inline">\(B\)</span> forem independentes.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1168,19 +1078,29 @@ P(R_1 \cup R_2) = p + p - p^2 = 1 - (1 - p)^2.
 </div>
 <div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="cell-ex4-resposta" class="cell" data-execution_count="9">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>V <span class="op">=</span> <span class="bu">set</span>(baralho.loc[baralho[<span class="st">"naipe"</span>].isin([<span class="st">"copas"</span>, <span class="st">"ouros"</span>]), <span class="st">"carta"</span>])</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>p_b_dado_v <span class="op">=</span> Fraction(<span class="bu">len</span>(B <span class="op">&amp;</span> V), <span class="bu">len</span>(V))</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>p_a_dado_v <span class="op">=</span> Fraction(<span class="bu">len</span>(A <span class="op">&amp;</span> V), <span class="bu">len</span>(V))</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>p_b_dado_v, Fraction(<span class="bu">len</span>(B), <span class="dv">52</span>), p_a_dado_v, Fraction(<span class="bu">len</span>(A), <span class="dv">52</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="ex4-resposta" class="cell-output cell-output-display" data-execution_count="9">
-<pre><code>(Fraction(3, 13), Fraction(3, 13), Fraction(1, 2), Fraction(1, 4))</code></pre>
-</div>
-</div>
 <ol type="a">
-<li><p>Entre as 26 cartas vermelhas há 6 figuras: <span class="math inline">\(P(B \mid V) = 6/26 = 3/13\)</span>, igual a <span class="math inline">\(P(B) = 12/52 = 3/13\)</span>. Os eventos são independentes: a cor não diz nada sobre a carta ser figura.</p></li>
-<li><p>Entre as 26 vermelhas, 13 são de copas: <span class="math inline">\(P(A \mid V) = 13/26 = 1/2\)</span>, o dobro de <span class="math inline">\(P(A) = 1/4\)</span>. Os eventos não são independentes: saber que a carta é vermelha elimina espadas e paus.</p></li>
+<li><p><span class="math inline">\(P(A \cap B) = 0\)</span>, então <span class="math inline">\(P(A \cup B) = 0{,}3 + 0{,}4 = 0{,}7\)</span>.</p></li>
+<li><p><span class="math inline">\(P(A \cap B) = 0{,}3 \times 0{,}4 = 0{,}12\)</span>, então <span class="math inline">\(P(A \cup B) = 0{,}7 - 0{,}12 = 0{,}58\)</span>.</p></li>
+</ol>
+</div>
+</div>
+</div>
+<p><strong>4.</strong> Use a <a href="#tbl-turma" class="quarto-xref">Tabela&nbsp;<span>1</span></a>. (a) Calcule <span class="math inline">\(P(A \mid B^c)\)</span>, a probabilidade de um aluno reprovado ter feito a lista, e compare com <span class="math inline">\(P(A)\)</span>. (b) Dos 200 alunos, 80 estudam à noite, e 48 deles fizeram a lista. Os eventos “estuda à noite” e “fez a lista” são independentes?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="a">
+<li><p>Entre os 72 reprovados, 24 fizeram a lista: <span class="math inline">\(P(A \mid B^c) = 24/72 = 1/3\)</span>, contra <span class="math inline">\(P(A) = 0{,}60\)</span>. Saber que o aluno foi reprovado diminui a chance de ele ter feito a lista.</p></li>
+<li><p>Seja <span class="math inline">\(T\)</span> o evento “estuda à noite”. <span class="math inline">\(P(A \mid T) = 48/80 = 0{,}60\)</span>, igual a <span class="math inline">\(P(A) = 120/200 = 0{,}60\)</span>. Os eventos são independentes. Pela definição: <span class="math inline">\(P(A \cap T) = 48/200 = 0{,}24\)</span> e <span class="math inline">\(P(A)\,P(T) = 0{,}60 \times 0{,}40 = 0{,}24\)</span>. Saber o turno do aluno não muda a chance de ele ter feito a lista.</p></li>
 </ol>
 </div>
 </div>
@@ -1362,7 +1282,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/BragaD\.github\.io\/UnDF-Bases3-Estatistica-202602");
+        var filterRegex = new RegExp("https:\/\/bragad\.github\.io\/UnDF-Bases3-Estatistica-202602");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

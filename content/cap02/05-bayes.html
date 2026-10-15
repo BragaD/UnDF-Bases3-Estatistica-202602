@@ -24,41 +24,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 /* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
@@ -694,65 +659,87 @@ Nota
 </div>
 </div>
 <p>Um banco usa um detector automático de fraude em transações com cartão. O fornecedor garante que o detector dispara o alerta em 99% das fraudes, e que só 5% das transações legítimas geram alarme falso. Uma transação acabou de disparar o alerta. Qual a probabilidade de ela ser mesmo uma fraude?</p>
-<p>A resposta intuitiva é algo perto de 95% ou 99%. A resposta certa depende de uma informação que o fornecedor não deu: quantas transações são fraudes. Se 1% das transações forem fraudes, a probabilidade é de apenas 16,7%. Esta seção mostra de onde vem esse número, e por que a intuição erra tanto.</p>
+<p>A resposta intuitiva é algo perto de 95% ou 99%. A resposta certa depende de uma informação que o fornecedor não deu: quantas transações são fraudes. Se 1% das transações forem fraudes, a probabilidade é de apenas 16,7%. Esta seção mostra de onde vem esse número e por que a intuição erra tanto.</p>
 <section id="invertendo-a-condicional" class="level2">
 <h2 class="anchored" data-anchor-id="invertendo-a-condicional">Invertendo a condicional</h2>
-<p>O fornecedor informou <span class="math inline">\(P(\text{alerta} \mid \text{fraude}) = 0{,}99\)</span>. A pergunta do banco é a condicional ao contrário, <span class="math inline">\(P(\text{fraude} \mid \text{alerta})\)</span>. A seção 2.4 mostrou que as duas são diferentes, e a regra do produto liga uma à outra. A interseção pode ser escrita de dois jeitos:</p>
+<p>O fornecedor informou <span class="math inline">\(P(\text{alerta} \mid \text{fraude}) = 0{,}99\)</span>. A pergunta do banco é a condicional ao contrário, <span class="math inline">\(P(\text{fraude} \mid \text{alerta})\)</span>. A <a href="../../content/cap02/04-condicional-independencia.html">seção 2.4</a> mostrou que as duas são diferentes, e a regra do produto liga uma à outra. Chame de <span class="math inline">\(C\)</span> a hipótese, “a transação é fraude”, e de <span class="math inline">\(A\)</span> a informação, “o alerta disparou”. A interseção pode ser escrita de dois jeitos:</p>
 <p><span class="math display">\[
 \begin{aligned}
-P(A \cap B) &amp;= P(A)\,P(B \mid A) \\
-&amp;= P(B)\,P(A \mid B).
+P(A \cap C) &amp;= P(C)\,P(A \mid C) \\
+&amp;= P(A)\,P(C \mid A).
 \end{aligned}
 \]</span></p>
-<p>Isolando <span class="math inline">\(P(A \mid B)\)</span>, sai a forma mais simples do teorema.</p>
+<p>Isolando <span class="math inline">\(P(C \mid A)\)</span>, sai a forma mais simples do teorema.</p>
 <div class="conceito">
-<p><strong>Teorema de Bayes (forma simples).</strong> Se <span class="math inline">\(P(A) &gt; 0\)</span> e <span class="math inline">\(P(B) &gt; 0\)</span>,</p>
+<p><strong>Teorema de Bayes (forma simples).</strong> Se <span class="math inline">\(P(C) &gt; 0\)</span> e <span class="math inline">\(P(A) &gt; 0\)</span>,</p>
 <p><span class="math display">\[
-P(A \mid B) = \frac{P(A)\,P(B \mid A)}{P(B)}.
+P(C \mid A) = \frac{P(C)\,P(A \mid C)}{P(A)}.
 \]</span></p>
 </div>
-<p>Os termos têm nomes. <span class="math inline">\(P(A)\)</span> é a probabilidade <strong>a priori</strong> de <span class="math inline">\(A\)</span>, antes da informação. <span class="math inline">\(P(A \mid B)\)</span> é a probabilidade <strong>a posteriori</strong>, depois de saber que <span class="math inline">\(B\)</span> ocorreu. <span class="math inline">\(P(B \mid A)\)</span> é a <strong>verossimilhança</strong> da hipótese <span class="math inline">\(A\)</span>: o quanto <span class="math inline">\(A\)</span> torna provável a informação observada. O teorema diz como passar da priori à posteriori.</p>
+<p>Os termos têm nomes. <span class="math inline">\(P(C)\)</span> é a probabilidade <strong>a priori</strong> da hipótese <span class="math inline">\(C\)</span>, antes da informação. <span class="math inline">\(P(C \mid A)\)</span> é a probabilidade <strong>a posteriori</strong>, depois de saber que <span class="math inline">\(A\)</span> ocorreu. <span class="math inline">\(P(A \mid C)\)</span> é a <strong>verossimilhança</strong> da hipótese <span class="math inline">\(C\)</span>: o quanto <span class="math inline">\(C\)</span> torna provável a informação observada. O teorema diz como passar da priori à posteriori.</p>
 </section>
 <section id="probabilidade-total" class="level2">
 <h2 class="anchored" data-anchor-id="probabilidade-total">Probabilidade total</h2>
-<p>Falta o denominador <span class="math inline">\(P(B)\)</span>, a probabilidade de um alerta. Um alerta pode vir de uma fraude <strong>ou</strong> de uma transação legítima, e esses dois casos são disjuntos e cobrem todas as transações. Então o alerta se divide em duas partes, e cada parte sai da regra do produto:</p>
+<p>Falta o denominador <span class="math inline">\(P(A)\)</span>, a probabilidade de um alerta. Um alerta pode vir de uma fraude <strong>ou</strong> de uma transação legítima, e esses dois casos são disjuntos e cobrem todas as transações. Então o alerta se divide em duas partes, e cada parte sai da regra do produto:</p>
 <p><span class="math display">\[
 \begin{aligned}
 P(\text{alerta}) = {} &amp;P(\text{fraude})\,P(\text{alerta} \mid \text{fraude}) \\
 + {} &amp;P(\text{legít.})\,P(\text{alerta} \mid \text{legít.}).
 \end{aligned}
 \]</span></p>
-<div id="cell-fraude" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>p_fraude <span class="op">=</span> <span class="fl">0.01</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>p_alerta_dado_fraude <span class="op">=</span> <span class="fl">0.99</span>       <span class="co"># verossimilhança da fraude</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>p_alerta_dado_legitima <span class="op">=</span> <span class="fl">0.05</span>     <span class="co"># alarme falso</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>p_alerta <span class="op">=</span> p_fraude <span class="op">*</span> p_alerta_dado_fraude <span class="op">+</span> (<span class="dv">1</span> <span class="op">-</span> p_fraude) <span class="op">*</span> p_alerta_dado_legitima</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>p_fraude_dado_alerta <span class="op">=</span> p_fraude <span class="op">*</span> p_alerta_dado_fraude <span class="op">/</span> p_alerta</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="bu">round</span>(p_alerta, <span class="dv">4</span>), <span class="bu">round</span>(p_fraude_dado_alerta, <span class="dv">4</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="fraude" class="cell-output cell-output-display" data-execution_count="2">
-<pre><code>(0.0594, 0.1667)</code></pre>
+<p>Com 1% de fraudes, a fórmula dá</p>
+<p><span class="math display">\[
+\begin{aligned}
+P(\text{alerta}) &amp;= 0{,}01 \times 0{,}99 + 0{,}99 \times 0{,}05 \\
+&amp;= 0{,}0099 + 0{,}0495 = 0{,}0594.
+\end{aligned}
+\]</span></p>
+<p>O alerta dispara em 5,94% das transações. O teorema de Bayes dá a fração de fraudes entre elas:</p>
+<p><span class="math display">\[
+P(\text{fraude} \mid \text{alerta}) = \frac{0{,}0099}{0{,}0594} \approx 0{,}167.
+\]</span></p>
+<p>Só 16,7% dos alertas são fraudes: de cada seis alertas, cinco são alarmes falsos.</p>
+<p>O motivo fica claro contando transações em vez de probabilidades. Em 10.000 transações, 100 são fraudes, e o detector pega 99 delas. As outras 9.900 são legítimas, e 5% delas, 495, também disparam o alerta:</p>
+<div id="tbl-fraude" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-fraude-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;1: 10.000 transações com 1% de fraudes.
+</figcaption>
+<div aria-describedby="tbl-fraude-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: center;">Alerta</th>
+<th style="text-align: center;">Sem alerta</th>
+<th style="text-align: center;">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Fraude</td>
+<td style="text-align: center;">99</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">100</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Legítima</td>
+<td style="text-align: center;">495</td>
+<td style="text-align: center;">9.405</td>
+<td style="text-align: center;">9.900</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Total</strong></td>
+<td style="text-align: center;"><strong>594</strong></td>
+<td style="text-align: center;"><strong>9.406</strong></td>
+<td style="text-align: center;"><strong>10.000</strong></td>
+</tr>
+</tbody>
+</table>
 </div>
+</figure>
 </div>
-<p>O alerta dispara em 5,94% das transações. Dessas, só 16,7% são fraudes: de cada seis alertas, cinco são alarmes falsos.</p>
-<p>O motivo fica claro contando transações em vez de probabilidades. Em 10.000 transações, cerca de 100 são fraudes, e o detector pega 99 delas. As outras 9.900 são legítimas, e 5% delas, 495, também disparam o alerta. Os alertas verdadeiros são 99 entre 594. Como as fraudes são raras, até uma taxa pequena de alarme falso, aplicada ao grupo enorme das legítimas, produz mais alertas do que as fraudes.</p>
-<p>Uma simulação com 100.000 transações mostra a mesma coisa:</p>
-<div id="cell-fraude-simulada" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">42</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">100_000</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>fraude <span class="op">=</span> rng.random(n) <span class="op">&lt;</span> p_fraude</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>alerta <span class="op">=</span> np.where(fraude,</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>                  rng.random(n) <span class="op">&lt;</span> p_alerta_dado_fraude,</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>                  rng.random(n) <span class="op">&lt;</span> p_alerta_dado_legitima)</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="bu">int</span>(alerta.<span class="bu">sum</span>()), <span class="bu">int</span>((fraude <span class="op">&amp;</span> alerta).<span class="bu">sum</span>()), <span class="bu">round</span>(<span class="bu">float</span>((fraude <span class="op">&amp;</span> alerta).<span class="bu">sum</span>() <span class="op">/</span> alerta.<span class="bu">sum</span>()), <span class="dv">3</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="fraude-simulada" class="cell-output cell-output-display" data-execution_count="3">
-<pre><code>(5897, 1033, 0.175)</code></pre>
-</div>
-</div>
-<p>Entre as transações que dispararam o alerta, a fração de fraudes fica em 0,175, contra 0,167 da fórmula. A diferença é flutuação de amostragem: são só cerca de mil fraudes simuladas.</p>
+<p>Dos 594 alertas, só 99 são verdadeiros, e <span class="math inline">\(99/594 \approx 0{,}167\)</span>. Como as fraudes são raras, até uma taxa pequena de alarme falso, aplicada ao grupo enorme das legítimas, produz mais alertas do que as próprias fraudes.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -783,14 +770,15 @@ P(C_i \mid A) = \frac{P(C_i)\,P(A \mid C_i)}{\sum_{j=1}^{n} P(C_j)\,P(A \mid C_j
 </div>
 <p>O numerador é uma das parcelas do denominador. Por isso o índice do somatório é <span class="math inline">\(j\)</span>, e não <span class="math inline">\(i\)</span>: o denominador soma todas as hipóteses, e o numerador escolhe uma.</p>
 <p>Outra leitura do teorema: a posteriori é a priori multiplicada pelo fator <span class="math inline">\(P(A \mid C_i)/P(A)\)</span>. A posteriori fica maior que a priori exatamente quando a verossimilhança <span class="math inline">\(P(A \mid C_i)\)</span> supera <span class="math inline">\(P(A)\)</span>, e menor quando fica abaixo.</p>
-<p>O Exemplo 5.15 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span> mostra o teorema em ação. Uma empresa contrata desenvolvedores depois de um curso de uma semana. Ao fim do curso, 25% dos candidatos são avaliados como bons (B), 50% como médios (M) e 25% como fracos (F). Para economizar, a empresa quer trocar o curso por um teste técnico, e sabe que o teste aprova 80% dos bons, 50% dos médios e 20% dos fracos. Entre os aprovados no teste, que fração seria classificada como fraca no curso?</p>
-<div class="cell" data-layout-align="default">
+<p>Considere um processo seletivo (adaptado do Exemplo 5.15 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>). Uma empresa contrata desenvolvedores depois de um curso de uma semana. Ao fim do curso, 25% dos candidatos são avaliados como bons (B), 50% como médios (M) e 25% como fracos (F). Para economizar, a empresa quer trocar o curso por um teste técnico, e sabe que o teste aprova 80% dos bons, 50% dos médios e 20% dos fracos. Entre os aprovados no teste, que fração seria classificada como fraca no curso?</p>
+<p>As hipóteses são os três níveis, <span class="math inline">\(C_1 = B\)</span>, <span class="math inline">\(C_2 = M\)</span> e <span class="math inline">\(C_3 = F\)</span>, e a informação <span class="math inline">\(A\)</span> é “o candidato foi aprovado no teste”.</p>
+<div class="cell" data-fig-width="4.5" data-fig-height="3.7" data-layout-align="default">
 <div class="cell-output-display">
 <div id="fig-arvore-bayes" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-arvore-bayes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div>
-<svg width="672" height="480" viewbox="0.00 0.00 381.86 314.00" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none">
+<svg width="432" height="355" viewbox="0.00 0.00 381.86 314.00" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none">
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 310)">
 <title>G</title>
 <!-- inicio -->
@@ -910,59 +898,45 @@ P(C_i \mid A) = \frac{P(C_i)\,P(A \mid C_i)}{\sum_{j=1}^{n} P(C_j)\,P(A \mid C_j
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-arvore-bayes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;1: Árvore do processo seletivo. Cada caminho termina com sua probabilidade; os caminhos que terminam em aprovação (A) somam P(A).
+Figura&nbsp;1: Árvore do processo seletivo. Cada caminho termina com sua probabilidade; os caminhos que terminam em aprovação (A) somam <span class="math inline">\(P(A)\)</span>; R é reprovação.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p><span class="math inline">\(P(A)\)</span> é a soma dos três caminhos que terminam em aprovação, <span class="math inline">\(0{,}20 + 0{,}25 + 0{,}05 = 0{,}50\)</span>. O numerador de <span class="math inline">\(P(F \mid A)\)</span> é o caminho FA, <span class="math inline">\(0{,}05\)</span>. Em Python, com as hipóteses num dicionário:</p>
-<div id="bayes-selecao" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>priori <span class="op">=</span> {<span class="st">"bom"</span>: <span class="fl">0.25</span>, <span class="st">"médio"</span>: <span class="fl">0.50</span>, <span class="st">"fraco"</span>: <span class="fl">0.25</span>}</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>verossimilhanca <span class="op">=</span> {<span class="st">"bom"</span>: <span class="fl">0.80</span>, <span class="st">"médio"</span>: <span class="fl">0.50</span>, <span class="st">"fraco"</span>: <span class="fl">0.20</span>}   <span class="co"># P(aprovado | nível)</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>p_aprovado <span class="op">=</span> <span class="bu">sum</span>(priori[c] <span class="op">*</span> verossimilhanca[c] <span class="cf">for</span> c <span class="kw">in</span> priori)</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>posteriori <span class="op">=</span> {c: <span class="bu">round</span>(priori[c] <span class="op">*</span> verossimilhanca[c] <span class="op">/</span> p_aprovado, <span class="dv">2</span>) <span class="cf">for</span> c <span class="kw">in</span> priori}</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"P(aprovado) ="</span>, <span class="bu">round</span>(p_aprovado, <span class="dv">2</span>))</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> nivel, valor <span class="kw">in</span> posteriori.items():</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(nivel, valor)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>P(aprovado) = 0.5
-bom 0.4
-médio 0.5
-fraco 0.1</code></pre>
-</div>
-</div>
-<p>Entre os aprovados no teste, 10% seriam fracos, 50% médios e 40% bons. A priori, os bons eram 25%. Entre os aprovados, passam a 40%, porque a verossimilhança dos bons (0,80) é maior que <span class="math inline">\(P(A) = 0{,}50\)</span>. As probabilidades a posteriori somam 1, como devem: dado que o candidato foi aprovado, ele é bom, médio ou fraco.</p>
+<p><span class="math inline">\(P(A)\)</span> é a soma dos três caminhos que terminam em aprovação, <span class="math inline">\(0{,}20 + 0{,}25 + 0{,}05 = 0{,}50\)</span>. O numerador de cada posteriori é o caminho que termina em aprovação:</p>
+<p><span class="math display">\[
+\begin{aligned}
+P(F \mid A) &amp;= \frac{0{,}05}{0{,}50} = 0{,}10, \\[1ex]
+P(M \mid A) &amp;= \frac{0{,}25}{0{,}50} = 0{,}50, \\[1ex]
+P(B \mid A) &amp;= \frac{0{,}20}{0{,}50} = 0{,}40.
+\end{aligned}
+\]</span></p>
+<p>Entre os aprovados no teste, 10% seriam fracos, 50% médios e 40% bons. A priori, os bons são 25%. Entre os aprovados, passam a 40%, porque a verossimilhança dos bons (0,80) é maior que <span class="math inline">\(P(A) = 0{,}50\)</span>. As probabilidades a posteriori somam 1, como devem: dado que o candidato foi aprovado, ele é bom, médio ou fraco.</p>
 </section>
 <section id="atualizando-com-novas-informações" class="level2">
 <h2 class="anchored" data-anchor-id="atualizando-com-novas-informações">Atualizando com novas informações</h2>
-<p>A posteriori de hoje pode ser a priori de amanhã. Quando chega uma segunda informação, aplica-se o teorema de novo, partindo da probabilidade já atualizada. O Exemplo 5.16 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span> faz isso com o mercado de ações; aqui, com os mesmos números, a pergunta é sobre um deploy.</p>
-<p>Um time estima em 10% a chance de um deploy precisar de rollback (evento <span class="math inline">\(E\)</span>). Durante a implantação gradual, o monitoramento mostra um aumento de latência (<span class="math inline">\(B_1\)</span>). O histórico diz que esse aumento aparece em 20% dos deploys que acabaram em rollback e em 5% dos que não acabaram:</p>
+<p>A posteriori de hoje pode ser a priori de amanhã. Quando chega uma segunda informação, aplica-se o teorema de novo, partindo da probabilidade já atualizada.</p>
+<p>Considere um deploy (adaptado do Exemplo 5.16 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>). Um time estima em 10% a chance de um deploy precisar de rollback (evento <span class="math inline">\(E\)</span>). Durante a implantação gradual, o monitoramento mostra um aumento de latência (<span class="math inline">\(B_1\)</span>). O histórico diz que esse aumento aparece em 20% dos deploys que acabaram em rollback e em 5% dos que não acabaram:</p>
 <p><span class="math display">\[
 P(E \mid B_1) = \frac{0{,}020}{0{,}020 + 0{,}045} \approx 0{,}31.
 \]</span></p>
-<p>O numerador é <span class="math inline">\(0{,}10 \times 0{,}20\)</span>, e o denominador soma a ele <span class="math inline">\(0{,}90 \times 0{,}05\)</span>, os deploys sem rollback que também mostram o aumento. A informação triplicou a chance de rollback. Horas depois, chega uma segunda informação: a taxa de erro continua estável (<span class="math inline">\(B_2\)</span>). Entre os deploys com aumento de latência, a taxa de erro ficou estável em 10% dos que acabaram em rollback e em 60% dos que não acabaram. As verossimilhanças agora são condicionais às duas coisas, ao rollback e ao aumento de latência:</p>
+<p>O numerador é <span class="math inline">\(0{,}10 \times 0{,}20\)</span>, e o denominador soma a ele <span class="math inline">\(0{,}90 \times 0{,}05\)</span>, os deploys sem rollback que também mostram o aumento. A informação triplicou a chance de rollback.</p>
+<p>Horas depois, chega uma segunda informação: a taxa de erro continua estável (<span class="math inline">\(B_2\)</span>). Entre os deploys com aumento de latência, a taxa de erro ficou estável em 10% dos que acabaram em rollback e em 60% dos que não acabaram. As verossimilhanças agora são condicionais às duas coisas, ao rollback e ao aumento de latência:</p>
 <p><span class="math display">\[
 \begin{aligned}
 P(B_2 \mid E \cap B_1) &amp;= 0{,}10, \\
 P(B_2 \mid E^c \cap B_1) &amp;= 0{,}60.
 \end{aligned}
 \]</span></p>
-<p>A priori passa a ser 0,31:</p>
-<div id="cell-bayes-sequencial" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> bayes(priori, veross_E, veross_nao_E):</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> priori <span class="op">*</span> veross_E <span class="op">/</span> (priori <span class="op">*</span> veross_E <span class="op">+</span> (<span class="dv">1</span> <span class="op">-</span> priori) <span class="op">*</span> veross_nao_E)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>p1 <span class="op">=</span> bayes(<span class="fl">0.10</span>, <span class="fl">0.20</span>, <span class="fl">0.05</span>)       <span class="co"># depois do aumento de latência</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>p2 <span class="op">=</span> bayes(p1, <span class="fl">0.10</span>, <span class="fl">0.60</span>)         <span class="co"># P(B2 | E∩B1) e P(B2 | Eᶜ∩B1)</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="bu">round</span>(p1, <span class="dv">2</span>), <span class="bu">round</span>(p2, <span class="dv">2</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="bayes-sequencial" class="cell-output cell-output-display" data-execution_count="5">
-<pre><code>(0.31, 0.07)</code></pre>
-</div>
-</div>
-<p>A segunda informação derruba <span class="math inline">\(P(E \mid B_1 \cap B_2)\)</span> para 0,07, abaixo até dos 10% iniciais. A probabilidade sobe quando a informação é mais provável sob rollback do que sem ele (0,20 contra 0,05) e cai no caso contrário (0,10 contra 0,60).</p>
+<p>A priori passa a ser 0,31, e o teorema se aplica de novo:</p>
+<p><span class="math display">\[
+\begin{aligned}
+P(E \mid B_1 \cap B_2) &amp;= \frac{0{,}31 \times 0{,}10}{0{,}31 \times 0{,}10 + 0{,}69 \times 0{,}60} \\
+&amp;= \frac{0{,}031}{0{,}445} \approx 0{,}07.
+\end{aligned}
+\]</span></p>
+<p>A segunda informação derruba a probabilidade de rollback para 0,07, abaixo até dos 10% iniciais. A probabilidade sobe quando a informação é mais provável sob rollback do que sem ele (0,20 contra 0,05) e cai no caso contrário (0,10 contra 0,60).</p>
 </section>
 <section id="resumo" class="level2">
 <h2 class="anchored" data-anchor-id="resumo">Resumo</h2>
@@ -1038,17 +1012,15 @@ P(\text{legítimo} \mid \text{marcado}) = \frac{0{,}014}{0{,}299} \approx 0{,}04
 </div>
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="ex2-resposta" class="cell" data-execution_count="6">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> p <span class="kw">in</span> [<span class="fl">0.10</span>, <span class="fl">0.01</span>, <span class="fl">0.001</span>]:</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    pa <span class="op">=</span> p <span class="op">*</span> <span class="fl">0.99</span> <span class="op">+</span> (<span class="dv">1</span> <span class="op">-</span> p) <span class="op">*</span> <span class="fl">0.05</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(p, <span class="bu">round</span>(p <span class="op">*</span> <span class="fl">0.99</span> <span class="op">/</span> pa, <span class="dv">3</span>))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>0.1 0.688
-0.01 0.167
-0.001 0.019</code></pre>
-</div>
-</div>
-<p>Com 10% de fraudes, a posteriori sobe para cerca de 0,69. Com 0,1%, cai para cerca de 0,019: quase todo alerta é falso. O mesmo detector vale muito ou quase nada, conforme a frequência do que ele procura.</p>
+<p>Com 10% de fraudes, <span class="math inline">\(P(\text{alerta}) = 0{,}10 \times 0{,}99 + 0{,}90 \times 0{,}05 = 0{,}099 + 0{,}045 = 0{,}144\)</span>, e</p>
+<p><span class="math display">\[
+P(\text{fraude} \mid \text{alerta}) = \frac{0{,}099}{0{,}144} \approx 0{,}69.
+\]</span></p>
+<p>Com 0,1%, <span class="math inline">\(P(\text{alerta}) = 0{,}001 \times 0{,}99 + 0{,}999 \times 0{,}05 = 0{,}00099 + 0{,}04995 = 0{,}05094\)</span>, e</p>
+<p><span class="math display">\[
+P(\text{fraude} \mid \text{alerta}) = \frac{0{,}00099}{0{,}05094} \approx 0{,}019.
+\]</span></p>
+<p>A posteriori sobe para cerca de 0,69 no primeiro caso e cai para cerca de 0,019 no segundo, contra 0,167 com 1% de fraudes: quase todo alerta é falso. O mesmo detector vale muito ou quase nada, conforme a frequência do que ele procura.</p>
 </div>
 </div>
 </div>
@@ -1250,7 +1222,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/BragaD\.github\.io\/UnDF-Bases3-Estatistica-202602");
+        var filterRegex = new RegExp("https:\/\/bragad\.github\.io\/UnDF-Bases3-Estatistica-202602");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

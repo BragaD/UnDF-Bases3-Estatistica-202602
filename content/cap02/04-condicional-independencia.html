@@ -658,11 +658,12 @@ Nota
 <p>Esta seção corresponde à seção 5.3 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>.</p>
 </div>
 </div>
-<p>Numa turma de 200 alunos, 120 fizeram a lista de exercícios antes da prova e 80 não fizeram. No fim do semestre, a tabela de contingência cruza as duas informações (os números são inventados para o exemplo):</p>
+<p>Uma disciplina tem 200 alunos. Antes da prova, o professor passou uma lista de exercícios opcional: 120 alunos fizeram a lista e 80 não fizeram. No fim do semestre, cada aluno tem duas informações registradas: se fez a lista e se foi aprovado. Quem fez a lista tem mais chance de ser aprovado?</p>
+<p>Para responder, cruzamos as duas informações numa tabela de contingência, como na seção 2.2. Cada linha é um grupo de alunos (fez ou não fez a lista), cada coluna é um resultado (aprovado ou reprovado), e cada célula conta os alunos que estão nas duas situações ao mesmo tempo. A última linha e a última coluna trazem os totais:</p>
 <div id="tbl-turma" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-turma-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabela&nbsp;1: Alunos de uma turma hipotética, pela lista e pelo resultado.
+Tabela&nbsp;1: Alunos da turma, pela lista e pelo resultado.
 </figcaption>
 <div aria-describedby="tbl-turma-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
@@ -698,8 +699,10 @@ Tabela&nbsp;1: Alunos de uma turma hipotética, pela lista e pelo resultado.
 </div>
 </figure>
 </div>
-<p>Sorteie um aluno da turma, todos com a mesma chance. Sejam <span class="math inline">\(A\)</span> o evento “o aluno fez a lista” e <span class="math inline">\(B\)</span> o evento “o aluno foi aprovado”. Sem saber nada sobre o aluno sorteado, <span class="math inline">\(P(B) = 128/200 = 0{,}64\)</span>.</p>
-<p>Agora suponha que alguém conte só uma coisa sobre o aluno: ele fez a lista. A chance de aprovação continua 0,64? Entre os 120 que fizeram a lista, 96 foram aprovados, e a chance sobe para <span class="math inline">\(96/120 = 0{,}80\)</span>.</p>
+<p>Dos 120 alunos que fizeram a lista, 96 foram aprovados e 24 reprovados. Dos 80 que não fizeram, 32 foram aprovados e 48 reprovados. Na turma inteira, 128 dos 200 alunos foram aprovados.</p>
+<p>Para falar em probabilidade, a tabela vira um experimento: sorteie um aluno da turma, todos com a mesma chance. Sejam <span class="math inline">\(A\)</span> o evento “o aluno fez a lista” e <span class="math inline">\(B\)</span> o evento “o aluno foi aprovado”. Na tabela, <span class="math inline">\(A\)</span> é a linha “Fez a lista” e <span class="math inline">\(B\)</span> é a coluna “Aprovado”. A célula que está nas duas ao mesmo tempo, com 96 alunos, corresponde a <span class="math inline">\(A \cap B\)</span>.</p>
+<p>Sem saber nada sobre o aluno sorteado, a probabilidade de ele ter sido aprovado é a proporção de aprovados na turma, <span class="math inline">\(P(B) = 128/200 = 0{,}64\)</span>.</p>
+<p>Agora suponha que alguém olhe a ficha do aluno sorteado e descubra uma única coisa: ele fez a lista. A chance de aprovação continua 0,64? O aluno sorteado agora só pode ser um dos 120 da primeira linha da tabela, e entre eles 96 foram aprovados. A chance sobe para <span class="math inline">\(96/120 = 0{,}80\)</span>.</p>
 <p>A informação mudou o espaço amostral: dos 200 alunos, só os 120 que fizeram a lista continuam possíveis. Esta seção formaliza essa ideia e mostra quando uma informação <strong>não</strong> muda nada.</p>
 <section id="probabilidade-condicional" class="level2">
 <h2 class="anchored" data-anchor-id="probabilidade-condicional">Probabilidade condicional</h2>
@@ -772,110 +775,114 @@ Tabela&nbsp;2: Probabilidades condicionais do resultado, dado o grupo.
 <p><span class="math display">\[
 P(A \cap B) = P(A)\, P(B \mid A).
 \]</span></p>
-<p>Ela é útil quando o experimento acontece em etapas e a probabilidade de cada etapa depende do que aconteceu antes. É o caso de sortear sem reposição.</p>
-<p>Um repositório tem 5 pull requests abertos, 2 com bug (B) e 3 sem bug (S). Um revisor pega um PR ao acaso, revisa, e depois pega outro entre os que sobraram. O <strong>diagrama em árvore</strong> mostra as etapas. Nos galhos da segunda etapa, as probabilidades são condicionais: dependem de qual PR saiu primeiro.</p>
-<div class="cell" data-fig-width="4.5" data-fig-height="2.6" data-layout-align="default">
+<p>Ela é útil quando o experimento acontece em etapas e a probabilidade de cada etapa depende do que aconteceu antes.</p>
+<p>Você chega em casa à noite com um molho de 5 chaves parecidas, e só uma abre a porta. No escuro, você testa as chaves uma por uma, ao acaso, e separa no bolso cada chave que falha, para não testá-la de novo. Qual a probabilidade de a porta abrir só na segunda tentativa?</p>
+<p>Seja <span class="math inline">\(C_i\)</span> o evento “a <span class="math inline">\(i\)</span>-ésima chave testada é a certa”. A porta abre só na segunda tentativa quando a primeira chave falha e a segunda é a certa, o evento <span class="math inline">\(C_1^c \cap C_2\)</span>. Na primeira tentativa, 4 das 5 chaves falham: <span class="math inline">\(P(C_1^c) = 4/5\)</span>. Se a primeira falhou, sobram 4 chaves no molho, e uma delas é a certa: <span class="math inline">\(P(C_2 \mid C_1^c) = 1/4\)</span>. Pela regra do produto,</p>
+<p><span class="math display">\[
+P(C_1^c \cap C_2) = P(C_1^c)\,P(C_2 \mid C_1^c) = \frac{4}{5} \times \frac{1}{4} = \frac{1}{5}.
+\]</span></p>
+<p>O <strong>diagrama em árvore</strong> organiza as etapas. Cada galho traz a probabilidade daquela etapa, condicional ao caminho que levou até ele, e cada caminho termina com o produto dos seus galhos. Caminhos diferentes não podem ocorrer juntos, então a probabilidade de um evento que reúne vários caminhos é a soma deles:</p>
+<div class="cell" data-fig-width="6" data-fig-height="1.7" data-layout-align="default">
 <div class="cell-output-display">
-<div id="fig-arvore-sem-reposicao" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-arvore-chaves" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-arvore-sem-reposicao-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div aria-describedby="fig-arvore-chaves-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div>
-<svg width="432" height="250" viewbox="0.00 0.00 362.61 206.00" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none">
-<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 202)">
+<svg width="576" height="163" viewbox="0.00 0.00 580.02 180.40" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 176.4)">
 <title>G</title>
 <!-- inicio -->
 <g id="node1" class="node">
 <title>inicio</title>
+<text text-anchor="middle" x="28.9" y="-37.4" font-family="Helvetica,sans-Serif" font-size="16.00">início</text>
 </g>
-<!-- B1 -->
+<!-- F1 -->
 <g id="node2" class="node">
-<title>B1</title>
-<text text-anchor="middle" x="132.29" y="-121.8" font-family="Helvetica,sans-Serif" font-size="14.00">B</text>
+<title>F1</title>
+<text text-anchor="middle" x="152.12" y="-77.4" font-family="Helvetica,sans-Serif" font-size="16.00">1 falha</text>
 </g>
-<!-- inicio&#45;&gt;B1 -->
-<g id="edge1" class="edge">
-<title>inicio-&gt;B1</title>
-<path fill="none" stroke="black" d="M54.06,-105.81C66.54,-109.07 81.69,-113.03 95.24,-116.58"></path>
-<polygon fill="black" stroke="black" points="94.67,-120.05 105.24,-119.19 96.45,-113.27 94.67,-120.05"></polygon>
-<text text-anchor="middle" x="79.65" y="-117.3" font-family="Helvetica,sans-Serif" font-size="11.00">2/5</text>
-</g>
-<!-- S1 -->
-<g id="node3" class="node">
-<title>S1</title>
-<text text-anchor="middle" x="132.29" y="-67.8" font-family="Helvetica,sans-Serif" font-size="14.00">S</text>
-</g>
-<!-- inicio&#45;&gt;S1 -->
+<!-- inicio&#45;&gt;F1 -->
 <g id="edge2" class="edge">
-<title>inicio-&gt;S1</title>
-<path fill="none" stroke="black" d="M54.06,-92.19C66.54,-88.93 81.69,-84.97 95.24,-81.42"></path>
-<polygon fill="black" stroke="black" points="96.45,-84.73 105.24,-78.81 94.67,-77.95 96.45,-84.73"></polygon>
-<text text-anchor="middle" x="79.65" y="-90.3" font-family="Helvetica,sans-Serif" font-size="11.00">3/5</text>
+<title>inicio-&gt;F1</title>
+<path fill="none" stroke="black" d="M57.71,-51.38C73.25,-56.51 92.91,-62.99 110.18,-68.69"></path>
+<polygon fill="black" stroke="black" points="109.43,-72.13 120.03,-71.94 111.63,-65.48 109.43,-72.13"></polygon>
+<text text-anchor="middle" x="81.83" y="-66.1" font-family="Helvetica,sans-Serif" font-size="13.00">4/5</text>
 </g>
-<!-- BB -->
+<!-- A1 -->
 <g id="node4" class="node">
-<title>BB</title>
-<text text-anchor="middle" x="282.6" y="-175.8" font-family="Helvetica,sans-Serif" font-size="14.00">BB &nbsp;&nbsp;2/5 × 1/4 = 2/20</text>
+<title>A1</title>
+<text text-anchor="middle" x="152.12" y="-28" font-family="Helvetica,sans-Serif" font-size="16.00">abre na 1ª</text>
+<text text-anchor="middle" x="152.12" y="-8.8" font-family="Helvetica,sans-Serif" font-size="16.00">1/5</text>
 </g>
-<!-- B1&#45;&gt;BB -->
-<g id="edge3" class="edge">
-<title>B1-&gt;BB</title>
-<path fill="none" stroke="black" d="M159.3,-136.19C165.21,-138.46 171.46,-140.84 177.29,-143 191.13,-148.13 206.04,-153.5 220.15,-158.52"></path>
-<polygon fill="black" stroke="black" points="219.17,-161.89 229.77,-161.93 221.51,-155.29 219.17,-161.89"></polygon>
-<text text-anchor="middle" x="184.94" y="-151.3" font-family="Helvetica,sans-Serif" font-size="11.00">1/4</text>
+<!-- inicio&#45;&gt;A1 -->
+<g id="edge1" class="edge">
+<title>inicio-&gt;A1</title>
+<path fill="none" stroke="black" d="M58.03,-37.09C62.95,-36.23 68.02,-35.37 72.8,-34.6 80.25,-33.4 88.11,-32.19 95.86,-31.03"></path>
+<polygon fill="black" stroke="black" points="96.56,-34.46 105.94,-29.53 95.53,-27.54 96.56,-34.46"></polygon>
+<text text-anchor="middle" x="81.83" y="-39.1" font-family="Helvetica,sans-Serif" font-size="13.00">1/5</text>
 </g>
-<!-- BS -->
-<g id="node5" class="node">
-<title>BS</title>
-<text text-anchor="middle" x="282.6" y="-121.8" font-family="Helvetica,sans-Serif" font-size="14.00">BS &nbsp;&nbsp;2/5 × 3/4 = 6/20</text>
+<!-- F2 -->
+<g id="node3" class="node">
+<title>F2</title>
+<text text-anchor="middle" x="305.81" y="-112.4" font-family="Helvetica,sans-Serif" font-size="16.00">2 falhas</text>
 </g>
-<!-- B1&#45;&gt;BS -->
+<!-- F1&#45;&gt;F2 -->
 <g id="edge4" class="edge">
-<title>B1-&gt;BS</title>
-<path fill="none" stroke="black" d="M159.46,-126C171.09,-126 185.46,-126 200.22,-126"></path>
-<polygon fill="black" stroke="black" points="200.48,-129.5 210.48,-126 200.48,-122.5 200.48,-129.5"></polygon>
-<text text-anchor="middle" x="184.94" y="-129.3" font-family="Helvetica,sans-Serif" font-size="11.00">3/4</text>
+<title>F1-&gt;F2</title>
+<path fill="none" stroke="black" d="M184.18,-89.37C205.87,-94.37 235.18,-101.13 259.47,-106.74"></path>
+<polygon fill="black" stroke="black" points="259.01,-110.22 269.54,-109.06 260.58,-103.4 259.01,-110.22"></polygon>
+<text text-anchor="middle" x="222.4" y="-103.1" font-family="Helvetica,sans-Serif" font-size="13.00">3/4</text>
 </g>
-<!-- SB -->
+<!-- A2 -->
+<g id="node5" class="node">
+<title>A2</title>
+<text text-anchor="middle" x="305.81" y="-63" font-family="Helvetica,sans-Serif" font-size="16.00">abre na 2ª</text>
+<text text-anchor="middle" x="305.81" y="-43.8" font-family="Helvetica,sans-Serif" font-size="16.00">4/5 × 1/4 = 1/5</text>
+</g>
+<!-- F1&#45;&gt;A2 -->
+<g id="edge3" class="edge">
+<title>F1-&gt;A2</title>
+<path fill="none" stroke="black" d="M184.3,-75.17C193.62,-73.21 203.88,-71.18 213.37,-69.6 220.72,-68.38 228.42,-67.22 236.11,-66.15"></path>
+<polygon fill="black" stroke="black" points="236.73,-69.59 246.17,-64.79 235.79,-62.66 236.73,-69.59"></polygon>
+<text text-anchor="middle" x="222.4" y="-74.1" font-family="Helvetica,sans-Serif" font-size="13.00">1/4</text>
+</g>
+<!-- A3 -->
 <g id="node6" class="node">
-<title>SB</title>
-<text text-anchor="middle" x="282.6" y="-67.8" font-family="Helvetica,sans-Serif" font-size="14.00">SB &nbsp;&nbsp;3/5 × 2/4 = 6/20</text>
+<title>A3</title>
+<text text-anchor="middle" x="492.64" y="-154" font-family="Helvetica,sans-Serif" font-size="16.00">abre na 3ª</text>
+<text text-anchor="middle" x="492.64" y="-134.8" font-family="Helvetica,sans-Serif" font-size="16.00">4/5 × 3/4 × 1/3 = 1/5</text>
 </g>
-<!-- S1&#45;&gt;SB -->
+<!-- F2&#45;&gt;A3 -->
 <g id="edge5" class="edge">
-<title>S1-&gt;SB</title>
-<path fill="none" stroke="black" d="M159.46,-72C171.09,-72 185.46,-72 200.22,-72"></path>
-<polygon fill="black" stroke="black" points="200.48,-75.5 210.48,-72 200.48,-68.5 200.48,-75.5"></polygon>
-<text text-anchor="middle" x="184.94" y="-75.3" font-family="Helvetica,sans-Serif" font-size="11.00">2/4</text>
+<title>F2-&gt;A3</title>
+<path fill="none" stroke="black" d="M342.01,-123.29C359.54,-126.33 381.6,-130.15 403.35,-133.91"></path>
+<polygon fill="black" stroke="black" points="402.86,-137.38 413.31,-135.64 404.05,-130.48 402.86,-137.38"></polygon>
+<text text-anchor="middle" x="389.22" y="-136.1" font-family="Helvetica,sans-Serif" font-size="13.00">1/3</text>
 </g>
-<!-- SS -->
+<!-- F3 -->
 <g id="node7" class="node">
-<title>SS</title>
-<text text-anchor="middle" x="282.6" y="-13.8" font-family="Helvetica,sans-Serif" font-size="14.00">SS &nbsp;&nbsp;3/5 × 2/4 = 6/20</text>
+<title>F3</title>
+<text text-anchor="middle" x="492.64" y="-90" font-family="Helvetica,sans-Serif" font-size="16.00">falha nas três</text>
+<text text-anchor="middle" x="492.64" y="-70.8" font-family="Helvetica,sans-Serif" font-size="16.00">4/5 × 3/4 × 2/3 = 2/5</text>
 </g>
-<!-- S1&#45;&gt;SS -->
+<!-- F2&#45;&gt;F3 -->
 <g id="edge6" class="edge">
-<title>S1-&gt;SS</title>
-<path fill="none" stroke="black" d="M159.29,-61.67C165.2,-59.37 171.45,-56.97 177.29,-54.8 191.04,-49.69 205.87,-44.35 219.91,-39.38"></path>
-<polygon fill="black" stroke="black" points="221.21,-42.63 229.48,-36 218.89,-36.03 221.21,-42.63"></polygon>
-<text text-anchor="middle" x="184.94" y="-57.3" font-family="Helvetica,sans-Serif" font-size="11.00">2/4</text>
+<title>F2-&gt;F3</title>
+<path fill="none" stroke="black" d="M342.01,-111.11C359.54,-108.07 381.6,-104.25 403.35,-100.49"></path>
+<polygon fill="black" stroke="black" points="404.05,-103.92 413.31,-98.76 402.86,-97.02 404.05,-103.92"></polygon>
+<text text-anchor="middle" x="389.22" y="-107.1" font-family="Helvetica,sans-Serif" font-size="13.00">2/3</text>
 </g>
 </g>
 </svg>
 </div>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-arvore-sem-reposicao-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;1: Dois PRs sorteados sem reposição entre 5 (2 com bug, 3 sem bug). Nos galhos da direita, as probabilidades são condicionais ao primeiro PR.
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-arvore-chaves-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;1: Tentativas com um molho de 5 chaves, separando as que falham. Depois da primeira etapa, as probabilidades dos galhos são condicionais às falhas anteriores.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>Cada caminho da árvore é um ponto amostral, e sua probabilidade é o produto dos galhos, pela regra do produto. Os quatro caminhos somam <span class="math inline">\(20/20 = 1\)</span>.</p>
-<p>Qual a probabilidade de o <strong>segundo</strong> PR ter bug? Dois caminhos terminam com B na segunda etapa, BB e SB, e eles são disjuntos:</p>
-<p><span class="math display">\[
-P(\text{bug no 2º}) = \frac{2}{20} + \frac{6}{20} = \frac{8}{20} = \frac{2}{5}.
-\]</span></p>
-<p>É a mesma probabilidade de o primeiro ter bug. Faz sentido: sem saber o que saiu no primeiro sorteio, o segundo PR é um PR qualquer entre os 5. Mas, sabendo que o primeiro tinha bug, sobra 1 PR com bug entre 4, e <span class="math inline">\(P(\text{bug no 2º} \mid \text{bug no 1º}) = 1/4\)</span>, abaixo de <span class="math inline">\(2/5\)</span>. Sem reposição, o resultado do primeiro sorteio informa sobre o segundo.</p>
 <p>A regra do produto se estende a mais etapas. Para três eventos,</p>
 <p><span class="math display">\[
 \begin{aligned}
@@ -883,56 +890,28 @@ P(A \cap B \cap C) = {} &amp;P(A)\, P(B \mid A) \\
 &amp;\times P(C \mid A \cap B),
 \end{aligned}
 \]</span></p>
-<p>com <span class="math inline">\(P(A \cap B) &gt; 0\)</span>, e cada fator é condicional a tudo o que veio antes.</p>
+<p>com <span class="math inline">\(P(A \cap B) &gt; 0\)</span>, e cada fator é condicional a tudo o que veio antes. O evento “a porta abre só na terceira tentativa” é o caminho <span class="math inline">\(C_1^c \cap C_2^c \cap C_3\)</span>, que é a fórmula com <span class="math inline">\(A = C_1^c\)</span>, <span class="math inline">\(B = C_2^c\)</span> e <span class="math inline">\(C = C_3\)</span>:</p>
+<p><span class="math display">\[
+P(C_1^c \cap C_2^c \cap C_3) = \frac{4}{5} \times \frac{3}{4} \times \frac{1}{3} = \frac{1}{5}.
+\]</span></p>
+<p>Continuando a árvore, a porta abrir só na quarta ou só na quinta tentativa também tem probabilidade <span class="math inline">\(1/5\)</span>. Testar as chaves ao acaso é o mesmo que embaralhar o molho e testar na ordem, e a chave certa tem a mesma chance de cair em qualquer uma das 5 posições. Assim, sem saber nada da primeira tentativa, <span class="math inline">\(P(C_2) = 1/5\)</span>. Sabendo que a primeira chave falhou, <span class="math inline">\(P(C_2 \mid C_1^c) = 1/4\)</span>: separando as chaves, cada falha informa sobre a próxima tentativa.</p>
 </section>
 <section id="independência" class="level2">
 <h2 class="anchored" data-anchor-id="independência">Independência</h2>
-<p>Agora o revisor devolve o PR à fila depois de revisá-lo, e o segundo sorteio é feito de novo entre os 5. A composição da fila não muda de uma etapa para a outra, e a árvore fica com os mesmos números nas duas etapas:</p>
-<div id="tbl-com-reposicao" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-tbl figure">
-<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-com-reposicao-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabela&nbsp;3: Dois PRs sorteados com reposição.
-</figcaption>
-<div aria-describedby="tbl-com-reposicao-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th style="text-align: center;">Resultado</th>
-<th style="text-align: center;">Probabilidade</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">BB</td>
-<td style="text-align: center;"><span class="math inline">\(2/5 \times 2/5 = 4/25\)</span></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">BS</td>
-<td style="text-align: center;"><span class="math inline">\(2/5 \times 3/5 = 6/25\)</span></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">SB</td>
-<td style="text-align: center;"><span class="math inline">\(3/5 \times 2/5 = 6/25\)</span></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">SS</td>
-<td style="text-align: center;"><span class="math inline">\(3/5 \times 3/5 = 9/25\)</span></td>
-</tr>
-</tbody>
-</table>
-</div>
-</figure>
-</div>
-<p>Aqui <span class="math inline">\(P(\text{bug no 2º} \mid \text{bug no 1º}) = 2/5\)</span>, que é igual a <span class="math inline">\(P(\text{bug no 2º})\)</span>: saber o resultado do primeiro sorteio não muda nada sobre o segundo. Quando isso acontece, os eventos são <strong>independentes</strong>. Chamando de <span class="math inline">\(B_1\)</span> o evento “bug no 1º” e de <span class="math inline">\(B_2\)</span> o evento “bug no 2º”, temos <span class="math inline">\(P(B_2 \mid B_1) = P(B_2)\)</span>, e a regra do produto fica <span class="math inline">\(P(B_1 \cap B_2) = P(B_1)\,P(B_2)\)</span>. Para dois eventos quaisquer:</p>
+<p>Agora suponha que você não separe as chaves que falham: depois de cada tentativa, a chave volta para o molho, e a próxima é sorteada de novo entre as 5. Agora <span class="math inline">\(C_i\)</span> é o evento “o <span class="math inline">\(i\)</span>-ésimo sorteio dá a chave certa” (pense nos sorteios como uma sequência que continua mesmo depois que a porta abre; os seguintes só não são usados). O molho é o mesmo em todos os sorteios, e o primeiro não informa nada sobre o segundo:</p>
+<p><span class="math display">\[
+P(C_2 \mid C_1^c) = \frac{1}{5} = P(C_2).
+\]</span></p>
+<p>Quando isso acontece, os eventos são <strong>independentes</strong>, e a regra do produto fica <span class="math inline">\(P(C_1^c \cap C_2) = P(C_1^c)\,P(C_2) = 4/5 \times 1/5 = 4/25\)</span>. É menos que o <span class="math inline">\(1/5\)</span> de quem separa as chaves: devolver ao molho a chave que falhou desperdiça tentativas. Para dois eventos quaisquer:</p>
 <div class="conceito">
 <p>Os eventos <span class="math inline">\(A\)</span> e <span class="math inline">\(B\)</span> são <strong>independentes</strong> quando</p>
 <p><span class="math display">\[
 P(A \cap B) = P(A)\, P(B).
 \]</span></p>
 </div>
-<p>A definição é simétrica: se <span class="math inline">\(A\)</span> não informa nada sobre <span class="math inline">\(B\)</span>, <span class="math inline">\(B\)</span> também não informa nada sobre <span class="math inline">\(A\)</span>. E ela serve nos dois sentidos. Às vezes a independência é uma <strong>suposição</strong> do modelo, como nos sorteios com reposição, e aí a fórmula permite calcular <span class="math inline">\(P(A \cap B)\)</span>. Outras vezes ela é uma <strong>pergunta</strong> sobre dados, e a fórmula é o teste.</p>
+<p>A definição é simétrica: se <span class="math inline">\(A\)</span> não informa nada sobre <span class="math inline">\(B\)</span>, <span class="math inline">\(B\)</span> também não informa nada sobre <span class="math inline">\(A\)</span>. E ela serve nos dois sentidos. Às vezes a independência é uma <strong>suposição</strong> do modelo, como nas chaves que voltam para o molho, e aí a fórmula permite calcular <span class="math inline">\(P(A \cap B)\)</span>. Outras vezes ela é uma <strong>pergunta</strong> sobre dados, e a fórmula é o teste.</p>
 <p>Na turma, os 200 alunos são todo o espaço amostral do sorteio, e a conta é exata. Se fossem uma amostra dos alunos que já cursaram a disciplina, a igualdade quase nunca valeria à risca, e decidir se a diferença importa exigiria ferramentas de inferência estatística.</p>
-<p>Na turma, fazer a lista e ser aprovado são independentes? Basta comparar os dois lados da igualdade:</p>
+<p>Voltemos à turma: fazer a lista e ser aprovado são independentes? Basta comparar os dois lados da igualdade:</p>
 <p><span class="math display">\[
 \begin{aligned}
 P(A \cap B) &amp;= \frac{96}{200} = 0{,}48, \\

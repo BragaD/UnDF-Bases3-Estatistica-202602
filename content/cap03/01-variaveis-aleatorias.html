@@ -914,7 +914,7 @@ Name: probabilidade, dtype: float64</code></pre>
 </div>
 </div>
 <p>Os pontos amostrais são os mesmos, e suas probabilidades também. O que muda é a função que transforma cada ponto em número, e com ela a função de probabilidade.</p>
-<p>Os exemplos do Capítulo 2 também escondiam variáveis aleatórias. Nas duas moedas da seção 2.1, o <strong>número de caras</strong> é uma variável <span class="math inline">\(W\)</span> com valores 0, 1 e 2. Nos dois PRs sorteados sem reposição da seção 2.4, o <strong>número de PRs com bug</strong> é uma variável <span class="math inline">\(B\)</span> com valores 0, 1 e 2. A enumeração dos 20 pares ordenados dá a função de probabilidade de <span class="math inline">\(B\)</span>, em contagens sobre 20:</p>
+<p>Outros experimentos também guardam variáveis aleatórias. Nas duas moedas da seção 2.1, o <strong>número de caras</strong> é uma variável <span class="math inline">\(W\)</span> com valores 0, 1 e 2. Num repositório com 5 pull requests, 2 deles com bug, um revisor sorteia dois sem reposição; o <strong>número de PRs com bug</strong> entre os dois é uma variável <span class="math inline">\(B\)</span> com valores 0, 1 e 2. A enumeração dos 20 pares ordenados dá a função de probabilidade de <span class="math inline">\(B\)</span>, em contagens sobre 20:</p>
 <div id="cell-fp-bugs" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itertools <span class="im">import</span> permutations</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -930,7 +930,7 @@ Name: probabilidade, dtype: float64</code></pre>
 Name: count, dtype: int64</code></pre>
 </div>
 </div>
-<p><span class="math inline">\(P(B = 0) = 6/20 = 3/10\)</span>, <span class="math inline">\(P(B = 1) = 12/20 = 6/10\)</span> e <span class="math inline">\(P(B = 2) = 2/20 = 1/10\)</span>. O caso <span class="math inline">\(B = 1\)</span> junta dois caminhos da árvore da seção 2.4, BS e SB.</p>
+<p><span class="math inline">\(P(B = 0) = 6/20 = 3/10\)</span>, <span class="math inline">\(P(B = 1) = 12/20 = 6/10\)</span> e <span class="math inline">\(P(B = 2) = 2/20 = 1/10\)</span>. O caso <span class="math inline">\(B = 1\)</span> junta duas ordens, com bug no primeiro ou no segundo PR.</p>
 </section>
 <section id="resumo" class="level2">
 <h2 class="anchored" data-anchor-id="resumo">Resumo</h2>

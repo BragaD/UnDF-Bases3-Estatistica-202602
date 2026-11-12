@@ -7,15 +7,13 @@ Esta seção corresponde às seções 6.1 e 6.2 de @bussab2023.
 ```{python}
 #| label: setup
 #| include: false
-import numpy as np
-import pandas as pd
 import matplotlib.pyplot as plt
-from itertools import product
-from fractions import Fraction
-from formato import num
 
 plt.rcParams["figure.figsize"] = (7, 4)
-np.set_printoptions(legacy="1.25")   # números sem o prefixo np.float64 na saída
+
+# Função de probabilidade do lucro (tabela desta seção), em milhares de reais
+x = [15, 10, 5, -5]
+p = [0.56, 0.23, 0.02, 0.19]
 ```
 
 No Capítulo 2, as perguntas eram sobre eventos: a carta sorteada é de copas? O PR tem bug? A resposta era sim ou não. Muitas perguntas práticas, porém, pedem um **número**: quantos builds falharam, quanto dinheiro um projeto vai dar, quantos PRs com bug o auditor encontrou.
@@ -38,44 +36,70 @@ Uma empresa vende um sistema que integra dois módulos comprados de fornecedores
 
 Os valores, em milhares de reais: cada módulo custa 5, e o sistema é vendido por 25. Cada módulo com retrabalho custa mais 5 para ajustar. Se algum módulo for inutilizável, nenhum ajuste é feito: a empresa entrega uma versão reduzida e recebe só 5. A pergunta do dono da empresa é: quanto ele lucra por sistema vendido?
 
-O experimento é receber os dois módulos. Como os fornecedores são diferentes, é razoável supor que a qualidade de um não influencia a do outro, e a probabilidade de cada par sai da regra do produto para eventos independentes (seção 2.4). O espaço amostral tem $3 \times 3 = 9$ pontos, e cada ponto dá um lucro:
+O experimento é receber os dois módulos. Um resultado é um par de letras, a primeira para o módulo de A e a segunda para o de B: PR quer dizer que o de A chegou pronto e o de B precisa de retrabalho. O espaço amostral tem $3 \times 3 = 9$ pontos.
 
-```{python}
-#| label: omega-modulos
-prob_a = {"P": 0.80, "R": 0.10, "I": 0.10}
-prob_b = {"P": 0.70, "R": 0.20, "I": 0.10}
+Como os fornecedores são diferentes, é razoável supor que a qualidade de um não influencia a do outro. A probabilidade de cada par sai então da regra do produto para eventos independentes (seção 2.4):
 
-def lucro(a, b):
-    if "I" in (a, b):
-        return 5 - 10                          # versão reduzida
-    retrabalho = 5 * ((a == "R") + (b == "R"))
-    return 25 - 10 - retrabalho
+$$
+\begin{aligned}
+P(\text{PR}) &= P(\text{A pronto}) \times P(\text{B com retrabalho}) \\
+&= 0{,}80 \times 0{,}20 = 0{,}16.
+\end{aligned}
+$$
 
-linhas = []
-for a, b in product("PRI", repeat=2):
-    linhas.append((a + b, prob_a[a] * prob_b[b], lucro(a, b)))
+O lucro de cada ponto é a receita menos os custos. Em PP, a empresa recebe 25 e paga os dois módulos: $25 - 5 - 5 = 15$. Em PR, paga também o ajuste do módulo de B: $25 - 10 - 5 = 10$. Em RR, os dois ajustes: $25 - 10 - 10 = 5$. Em qualquer ponto com I, recebe só 5 pela versão reduzida e paga os dois módulos, sem ajustes: $5 - 10 = -5$.
 
-omega = pd.DataFrame(linhas, columns=["resultado", "probabilidade", "lucro"])
-omega.round(2)
-```
+::: {.table-responsive}
+| Ponto $\omega$ | $P(\omega)$ | Lucro |
+|:-:|:-:|:-:|
+| PP | $0{,}80 \times 0{,}70 = 0{,}56$ | 15 |
+| PR | $0{,}80 \times 0{,}20 = 0{,}16$ | 10 |
+| PI | $0{,}80 \times 0{,}10 = 0{,}08$ | $-5$ |
+| RP | $0{,}10 \times 0{,}70 = 0{,}07$ | 10 |
+| RR | $0{,}10 \times 0{,}20 = 0{,}02$ | 5 |
+| RI | $0{,}10 \times 0{,}10 = 0{,}01$ | $-5$ |
+| IP | $0{,}10 \times 0{,}70 = 0{,}07$ | $-5$ |
+| IR | $0{,}10 \times 0{,}20 = 0{,}02$ | $-5$ |
+| II | $0{,}10 \times 0{,}10 = 0{,}01$ | $-5$ |
+| **Total** | **1** | |
 
-A coluna `lucro` associa um número a cada ponto do espaço amostral. É isso que se chama variável aleatória.
+: Espaço amostral do recebimento dos dois módulos, com a probabilidade e o lucro (R\$ mil) de cada ponto. {#tbl-omega-modulos}
+:::
+
+A coluna do lucro associa um número a cada ponto do espaço amostral. É isso que se chama variável aleatória.
 
 ::: {.conceito}
 Uma **variável aleatória discreta** é uma função $X$ que associa a cada ponto amostral $\omega \in \Omega$ um número real $X(\omega)$, e cujos valores possíveis formam um conjunto que pode ser listado (finito ou infinito enumerável).
 :::
 
-O "aleatório" do nome vem do experimento: antes de receber os módulos, não se sabe qual ponto de $\Omega$ vai ocorrer, e por isso não se sabe o valor de $X$. A função em si não tem nada de aleatório. A convenção é usar letra maiúscula para a variável ($X$) e minúscula para um valor que ela assume ($x$).
+O "aleatório" do nome vem do experimento: antes de receber os módulos, não se sabe qual ponto de $\Omega$ vai ocorrer, e por isso não se sabe o valor de $X$. A função em si não tem nada de aleatório: $X(\text{PR}) = 10$ sempre. A convenção é usar letra maiúscula para a variável ($X$) e minúscula para um valor que ela assume ($x$).
 
 ## Função de probabilidade
 
-O lucro $X$ assume só quatro valores: 15, 10, 5 e $-5$. Cada valor corresponde a um evento de $\Omega$. Por exemplo, $X = 10$ ocorre nos pontos PR e RP, e $X = -5$ em todos os cinco pontos com algum I. A probabilidade de cada valor é a probabilidade do evento correspondente, somando os pontos:
+O lucro $X$ assume só quatro valores: 15, 10, 5 e $-5$. Cada valor corresponde a um evento de $\Omega$, formado pelos pontos com aquele lucro. $X = 10$ ocorre nos pontos PR e RP, e como os pontos são resultados disjuntos, as probabilidades se somam:
 
-```{python}
-#| label: fp-lucro
-fp = omega.groupby("lucro")["probabilidade"].sum().sort_index(ascending=False)
-fp.round(2)
-```
+$$
+P(X = 10) = P(\text{PR}) + P(\text{RP}) = 0{,}16 + 0{,}07 = 0{,}23.
+$$
+
+$X = -5$ junta os cinco pontos com algum I:
+
+$$
+\begin{aligned}
+P(X = -5) &= P(\text{PI}) + P(\text{RI}) + P(\text{IP}) \\
+&\quad + P(\text{IR}) + P(\text{II}) \\
+&= 0{,}08 + 0{,}01 + 0{,}07 + 0{,}02 + 0{,}01 \\
+&= 0{,}19.
+\end{aligned}
+$$
+
+Os valores 15 e 5 vêm de um ponto só cada: $P(X = 15) = P(\text{PP}) = 0{,}56$ e $P(X = 5) = P(\text{RR}) = 0{,}02$. O resultado é uma tabela com os valores de $X$ e suas probabilidades:
+
+| $x$ (R\$ mil) | 15 | 10 | 5 | $-5$ |
+|:-:|:-:|:-:|:-:|:-:|
+| $p(x)$ | 0,56 | 0,23 | 0,02 | 0,19 |
+
+: Função de probabilidade do lucro por sistema vendido.
 
 ::: {.conceito}
 A **função de probabilidade** da variável aleatória discreta $X$ associa a cada valor $x_i$ a sua probabilidade:
@@ -85,25 +109,26 @@ p(x_i) = P(X = x_i), \quad i = 1, 2, \dots
 $$
 :::
 
-As probabilidades $p(x_i)$ são números entre 0 e 1 e somam 1, porque os eventos $\{X = x_i\}$ são disjuntos e cobrem $\Omega$. O `groupby` do `pandas` fez exatamente o que a definição pede: juntou os pontos amostrais com o mesmo valor de $X$ e somou suas probabilidades.
+Na fórmula, $x_1, x_2, \dots$ são os valores que $X$ pode assumir, e $\{X = x_i\}$ é o evento formado por todos os pontos de $\Omega$ em que $X$ vale $x_i$. As probabilidades $p(x_i)$ são números entre 0 e 1 e somam 1, porque os eventos $\{X = x_i\}$ são disjuntos e cobrem $\Omega$. No lucro, $0{,}56 + 0{,}23 + 0{,}02 + 0{,}19 = 1$.
 
 O gráfico da função de probabilidade tem uma barra em cada valor possível, com altura igual à probabilidade. Entre os valores não há nada: $X$ não assume 12 nem 7,5.
 
 ```{python}
 #| label: fig-fp-lucro
+#| echo: false
 #| fig-alt: "Gráfico de hastes: probabilidade 0,56 em 15, 0,23 em 10, 0,02 em 5 e 0,19 em -5."
 #| fig-cap: "Função de probabilidade do lucro X por sistema vendido, em milhares de reais."
 fig, ax = plt.subplots(figsize=(6, 3.5))
-ax.vlines(fp.index, 0, fp.values, linewidth=3)
-ax.plot(fp.index, fp.values, "o")
-ax.set_xticks(fp.index)
+ax.vlines(x, 0, p, linewidth=3)
+ax.plot(x, p, "o")
+ax.set_xticks(x)
 ax.set_xlabel("lucro x (R$ mil)")
 ax.set_ylabel("p(x)")
 ax.set_ylim(0, 0.65)
 plt.show()
 ```
 
-Com esse modelo, o dono da empresa já sabe que a chance de prejuízo é $P(X = -5)$, igual a `{python} num(fp[-5], 2)`, quase uma venda em cada cinco. Na seção 3.2, o mesmo modelo vai dizer quanto ele lucra em média.
+Com esse modelo, o dono da empresa já sabe que a chance de prejuízo é $P(X = -5) = 0{,}19$, quase uma venda em cada cinco. Na seção 3.2, o mesmo modelo vai dizer quanto ele lucra em média.
 
 ::: {.callout-important}
 ## O modelo depende das suposições
@@ -114,31 +139,31 @@ A tabela de $X$ só vale se os fornecedores cumprirem as probabilidades do hist�
 
 Um mesmo espaço amostral admite várias variáveis aleatórias. No experimento dos módulos, o gerente de projeto não se importa com o lucro, mas com o **custo de retrabalho** $Y$: 0 se nenhum módulo precisar de ajuste, 5 se um precisar, 10 se os dois precisarem. Se algum módulo for inutilizável, nenhum módulo passa por retrabalho, porque o sistema completo não é entregue.
 
-```{python}
-#| label: fp-retrabalho
-def retrabalho(a, b):
-    if "I" in (a, b):
-        return 0
-    return 5 * ((a == "R") + (b == "R"))
+Na @tbl-omega-modulos, $Y = 5$ nos pontos PR e RP, $Y = 10$ em RR, e $Y = 0$ em PP e nos cinco pontos com I. Somando as probabilidades:
 
-omega["retrabalho"] = [retrabalho(r[0], r[1]) for r in omega["resultado"]]
-omega.groupby("retrabalho")["probabilidade"].sum().round(2)
-```
+$$
+\begin{aligned}
+P(Y = 0) &= 0{,}56 + 0{,}19 = 0{,}75, \\
+P(Y = 5) &= 0{,}16 + 0{,}07 = 0{,}23, \\
+P(Y = 10) &= 0{,}02.
+\end{aligned}
+$$
 
 Os pontos amostrais são os mesmos, e suas probabilidades também. O que muda é a função que transforma cada ponto em número, e com ela a função de probabilidade.
 
-Outros experimentos também guardam variáveis aleatórias. Nas duas moedas da seção 2.1, o **número de caras** é uma variável $W$ com valores 0, 1 e 2. Num repositório com 5 pull requests, 2 deles com bug, um revisor sorteia dois sem reposição; o **número de PRs com bug** entre os dois é uma variável $B$ com valores 0, 1 e 2. A enumeração dos 20 pares ordenados dá a função de probabilidade de $B$, em contagens sobre 20:
+Outros experimentos também guardam variáveis aleatórias. Nas duas moedas da seção 2.1, o **número de caras** é uma variável $W$ com valores 0, 1 e 2. Num repositório com 5 pull requests, 2 deles com bug, um revisor sorteia dois sem reposição; o **número de PRs com bug** entre os dois é uma variável $B$ com valores 0, 1 e 2.
 
-```{python}
-#| label: fp-bugs
-from itertools import permutations
+Pelo princípio multiplicativo (seção 2.3), há $5 \times 4 = 20$ pares ordenados, todos com a mesma probabilidade. Basta contar os pares de cada tipo, chamando de "b" um PR com bug e de "s" um sem bug:
 
-prs = ["B1", "B2", "S1", "S2", "S3"]
-pares = list(permutations(prs, 2))
+| Par | Contagem | $B$ |
+|:-:|:-:|:-:|
+| s, s | $3 \times 2 = 6$ | 0 |
+| b, s | $2 \times 3 = 6$ | 1 |
+| s, b | $3 \times 2 = 6$ | 1 |
+| b, b | $2 \times 1 = 2$ | 2 |
+| **Total** | **20** | |
 
-bugs = pd.Series([sum(p.startswith("B") for p in par) for par in pares])
-bugs.value_counts().sort_index()
-```
+: Pares ordenados de PRs sorteados, pelo tipo de cada um. {#tbl-pares-prs}
 
 $P(B = 0) = 6/20 = 3/10$, $P(B = 1) = 12/20 = 6/10$ e $P(B = 2) = 2/20 = 1/10$. O caso $B = 1$ junta duas ordens, com bug no primeiro ou no segundo PR.
 
@@ -153,7 +178,7 @@ $P(B = 0) = 6/20 = 3/10$, $P(B = 1) = 12/20 = 6/10$ e $P(B = 2) = 2/20 = 1/10$. 
 :::
 
 ::: {.conceito}
-**Regra prática:** para achar a função de probabilidade, liste os pontos de $\Omega$ com suas probabilidades, calcule o valor de $X$ em cada ponto e some as probabilidades dos pontos com o mesmo valor. Em `pandas`, é um `groupby` com `sum`.
+**Regra prática:** para achar a função de probabilidade, liste os pontos de $\Omega$ com suas probabilidades, calcule o valor de $X$ em cada ponto e some as probabilidades dos pontos com o mesmo valor.
 :::
 
 ## Exercícios
@@ -163,15 +188,15 @@ $P(B = 0) = 6/20 = 3/10$, $P(B = 1) = 12/20 = 6/10$ e $P(B = 2) = 2/20 = 1/10$. 
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
-```{python}
-#| label: ex1-resposta
-faces = list(product(range(1, 7), repeat=2))
-pares_dados = pd.DataFrame(faces, columns=["d1", "d2"])
-pares_dados["S"] = pares_dados["d1"] + pares_dados["d2"]
-pares_dados["S"].value_counts().sort_index()   # casos favoráveis, em 36
-```
+Os 36 pares de faces são igualmente prováveis. $S$ vai de 2 a 12, e cada probabilidade é o número de pares com aquela soma dividido por 36. Por exemplo, $S = 4$ nos pares (1, 3), (2, 2) e (3, 1):
 
-$S$ vai de 2 a 12. As contagens sobem de 1 a 6 e depois descem, e cada probabilidade é a contagem dividida por 36: de 1/36 a 6/36 e de volta a 1/36. O valor mais provável é 7, com probabilidade $6/36 = 1/6$.
+::: {.table-responsive}
+| $s$ | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 |
+|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+| pares | 1 | 2 | 3 | 4 | 5 | 6 | 5 | 4 | 3 | 2 | 1 |
+:::
+
+A função de probabilidade é $p(s) = (\text{pares})/36$: de 1/36 a 6/36 e de volta a 1/36, num total de $36/36 = 1$. O valor mais provável é 7, com probabilidade $6/36 = 1/6$.
 :::
 
 **2.** Um servidor recebe requisições até a primeira que falha, e cada requisição falha com probabilidade 0,1, independentemente das outras. Seja $N$ o número de requisições até a primeira falha, contando a que falhou. Encontre $P(N = 1)$, $P(N = 2)$ e $P(N = k)$ para um $k$ qualquer.

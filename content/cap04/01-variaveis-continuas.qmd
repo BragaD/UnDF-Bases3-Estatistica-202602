@@ -8,18 +8,14 @@ Esta seção corresponde à seção 7.1 de @bussab2023.
 #| label: setup
 #| include: false
 import numpy as np
-import pandas as pd
 import matplotlib.pyplot as plt
-from scipy.integrate import quad
-from formato import num
 
 plt.rcParams["figure.figsize"] = (7, 4)
-np.set_printoptions(legacy="1.25")   # números sem o prefixo np.float64 na saída
 ```
 
-Na seção 2.1, o tempo de resposta de uma requisição ficou de fora: ele pode ser qualquer número real não negativo, e os pontos de um intervalo não cabem numa lista. Sem lista, não há como somar probabilidades de pontos, e a fórmula da soma não serve. O texto prometeu outro caminho, com integral, para o Capítulo 4.
+Na seção 2.1, uma medida que pode ser qualquer número real não negativo ficou de fora: os pontos de um intervalo não cabem numa lista. Sem lista, não há como somar probabilidades de pontos, e a fórmula da soma não serve. O texto prometeu outro caminho, com integral, para o Capítulo 4.
 
-Tempo de resposta, duração de um build, latência de rede, temperatura de uma CPU: são medidas, e assumem valores num intervalo de números reais. Este capítulo constrói os modelos para elas.
+Altura, peso, tempo de espera, temperatura, duração de uma lâmpada: são medidas, e assumem valores num intervalo de números reais. Este capítulo constrói os modelos para elas.
 
 ## O relógio que para
 
@@ -46,12 +42,13 @@ para todo $\varepsilon > 0$. A única probabilidade que fica abaixo de todos ess
 
 ## Do histograma à densidade
 
-No Capítulo 1, o histograma de uma variável contínua juntava as observações em faixas, e a altura de cada barra mostrava onde os dados se concentravam. Um histograma de **densidade** ajusta a altura para que a área de cada barra seja a proporção de observações na faixa. Assim, a área total das barras é 1.
+No Capítulo 1, o histograma de uma variável contínua juntava as observações em faixas, e a altura de cada barra mostrava onde os dados se concentravam. Um histograma de **densidade** ajusta a altura para que a área de cada barra seja a proporção de observações na faixa: a altura é a proporção dividida pela largura da faixa. Assim, a área total das barras é 1.
 
-O código simula 100.000 paradas do ponteiro, supondo que nenhuma região é favorecida, e desenha o histograma de densidade com faixas cada vez mais estreitas:
+A @fig-histograma-densidade mostra o histograma de densidade de 100.000 paradas do ponteiro, supondo que nenhuma região do mostrador é favorecida, com faixas cada vez mais estreitas.
 
 ```{python}
 #| label: fig-histograma-densidade
+#| echo: false
 #| fig-cap: "Histogramas de densidade de 100.000 ângulos simulados, com faixas de 30° e de 5°. A linha tracejada é a densidade 1/360."
 #| fig-alt: "Dois histogramas com barras de altura quase constante perto de 1/360, um com 12 barras e outro com 72 barras mais estreitas."
 rng = np.random.default_rng(42)
@@ -68,12 +65,7 @@ plt.tight_layout()
 plt.show()
 ```
 
-Com faixas cada vez mais estreitas e cada vez mais observações, o topo do histograma se aproxima de uma curva, que @bussab2023 chama de histograma alisado e que a próxima subseção chama de **densidade**. No relógio, a curva é a reta horizontal na altura $1/360$, e a área sob ela entre $a$ e $b$ é $(b - a)/360$, a probabilidade do arco. A proporção de ângulos simulados entre 0° e 90° reproduz o valor teórico 1/4:
-
-```{python}
-#| label: proporcao-quarto
-round(float(((angulos >= 0) & (angulos <= 90)).mean()), 4)
-```
+Nos dois painéis, as barras oscilam em torno da mesma altura, $1/360$. Com faixas cada vez mais estreitas e cada vez mais observações, o topo do histograma se aproxima de uma curva, que @bussab2023 chama de histograma alisado e que a próxima subseção chama de **densidade**. No relógio, a curva é a reta horizontal na altura $1/360$, e a área sob ela entre $a$ e $b$ é a de um retângulo de base $b - a$ e altura $1/360$, ou seja, $(b - a)/360$: a probabilidade do arco. Das 100.000 paradas da figura, 24,95% ficaram entre 0° e 90°, perto do valor teórico $1/4$.
 
 ## Função densidade de probabilidade
 
@@ -96,30 +88,64 @@ P(a \le X \le b) = \int_a^b f(x)\, dx.
 $$
 :::
 
-No relógio, $f(x) = 1/360$ para $0 \le x < 360$, e $f(x) = 0$ fora desse intervalo. A integral de $a$ a $b$ é $(b - a)/360$.
+As três condições traduzem o que se espera de uma probabilidade. A primeira, $f(x) \ge 0$, garante que nenhuma área sob $f$ seja negativa: se $f$ ficasse abaixo do eixo em algum trecho, algum intervalo teria probabilidade negativa. A segunda diz que a área total é 1, porque $X$ certamente assume algum valor real, e $P(-\infty < X < \infty) = 1$; é o mesmo papel de $\sum p(x_i) = 1$ no caso discreto. A terceira é a do histograma alisado: a probabilidade de um intervalo é a área sob a curva naquele intervalo, como a proporção de observações numa faixa era a área da barra.
 
-Qualquer função não negativa com área total 1 define uma variável contínua. No Exemplo 7.2 de @bussab2023, $f(x) = 2x$ para $0 \le x \le 1$, e zero fora. A área total é a de um triângulo de base 1 e altura 2, que dá 1. A probabilidade de $X$ ficar na primeira metade do intervalo é
+No relógio, $f(x) = 1/360$ para $0 \le x < 360$, e $f(x) = 0$ fora desse intervalo. A primitiva de $1/360$ é $x/360$, e
+
+$$
+\int_a^b \frac{1}{360}\, dx = \left[\frac{x}{360}\right]_a^b = \frac{b - a}{360},
+$$
+
+a probabilidade do arco que a simetria do mostrador já indicava.
+
+Qualquer função não negativa com área total 1 define uma variável contínua. No Exemplo 7.2 de @bussab2023, $f(x) = 2x$ para $0 \le x \le 1$, e zero fora. Ela é não negativa, e a área total é 1: como $f$ é zero fora de $[0, 1]$, a integral se reduz a esse intervalo, e a primitiva de $2x$ é $x^2$:
 
 $$
 \begin{aligned}
-P\left(0 \le X \le \tfrac{1}{2}\right) &= \int_0^{1/2} 2x\, dx \\
-&= \Big[x^2\Big]_0^{1/2} = \frac{1}{4},
+\int_{-\infty}^{\infty} f(x)\, dx &= \int_0^1 2x\, dx = \Big[x^2\Big]_0^1 \\
+&= 1^2 - 0^2 = 1.
 \end{aligned}
 $$
 
-e na segunda metade, $3/4$. O `scipy.integrate.quad` calcula a mesma integral numericamente, e serve para conferir contas à mão:
+É a área de um triângulo de base 1 e altura 2. A probabilidade de $X$ ficar na primeira metade do intervalo é
+
+$$
+\begin{aligned}
+P\left(0 \le X \le \tfrac{1}{2}\right) &= \int_0^{1/2} 2x\, dx = \Big[x^2\Big]_0^{1/2} \\
+&= \left(\tfrac{1}{2}\right)^2 - 0^2 = \frac{1}{4},
+\end{aligned}
+$$
+
+e na segunda metade,
+
+$$
+\begin{aligned}
+P\left(\tfrac{1}{2} \le X \le 1\right) &= \int_{1/2}^{1} 2x\, dx = \Big[x^2\Big]_{1/2}^{1} \\
+&= 1 - \frac{1}{4} = \frac{3}{4}.
+\end{aligned}
+$$
 
 ```{python}
-#| label: quad
-f = lambda x: 2 * x
-area_1, _ = quad(f, 0, 0.5)
-area_2, _ = quad(f, 0.5, 1)
-round(area_1, 4), round(area_2, 4)
+#| label: fig-densidade-2x
+#| echo: false
+#| fig-cap: "Densidade f(x) = 2x em [0, 1]. A área de 0 a 1/2 é 1/4 e a de 1/2 a 1 é 3/4."
+#| fig-alt: "Reta crescente de (0, 0) a (1, 2). A região sob a reta entre 0 e 0,5 está sombreada em uma cor e tem o rótulo 1/4; a região entre 0,5 e 1 está sombreada em outra cor e tem o rótulo 3/4."
+x = np.linspace(0, 1, 200)
+fig, eixo = plt.subplots(figsize=(5, 2.8))
+eixo.plot(x, 2 * x, color="black")
+eixo.fill_between(x, 2 * x, where=x <= 0.5, alpha=0.3, color="C0")
+eixo.fill_between(x, 2 * x, where=x >= 0.5, alpha=0.3, color="C1")
+eixo.text(0.36, 0.2, "1/4", fontsize=12, ha="center")
+eixo.text(0.75, 0.5, "3/4", fontsize=12, ha="center")
+eixo.set_xlabel("x")
+eixo.set_ylabel("f(x)")
+eixo.set_xlim(-0.05, 1.05)
+eixo.set_ylim(0, 2.1)
+plt.tight_layout()
+plt.show()
 ```
 
-O `quad` devolve dois números: a integral e uma estimativa do erro numérico, que o `_` descarta.
-
-Nos dois intervalos, de mesma largura, as probabilidades são diferentes. No relógio, intervalos de mesma largura sempre têm a mesma probabilidade. A densidade diz onde a probabilidade se concentra: no Exemplo 7.2, perto de 1.
+Nos dois intervalos, de mesma largura, as probabilidades são diferentes, como mostra a @fig-densidade-2x. No relógio, intervalos de mesma largura sempre têm a mesma probabilidade. A densidade diz onde a probabilidade se concentra: no Exemplo 7.2, perto de 1.
 
 ::: {.callout-warning}
 ## A densidade não é uma probabilidade
@@ -146,11 +172,14 @@ Como $P(X = a) = 0$, incluir ou não os extremos não muda nada numa variável c
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
-$f \ge 0$ e $\int_0^1 3x^2\, dx = [x^3]_0^1 = 1$. Então $P(X \le 1/2) = (1/2)^3 = 1/8$ e $P(X > 0{,}9) = 1 - 0{,}9^3 = 0{,}271$.
+$f(x) = 3x^2 \ge 0$, e a primitiva de $3x^2$ é $x^3$, então $\int_0^1 3x^2\, dx = \big[x^3\big]_0^1 = 1$. As probabilidades:
 
-```python
-quad(lambda x: 3 * x**2, 0, 0.5)[0], quad(lambda x: 3 * x**2, 0.9, 1)[0]
-```
+$$
+\begin{aligned}
+P(X \le 1/2) &= \int_0^{1/2} 3x^2\, dx = \Big[x^3\Big]_0^{1/2} = \frac{1}{8}, \\
+P(X > 0{,}9) &= \int_{0{,}9}^{1} 3x^2\, dx = 1 - 0{,}9^3 = 0{,}271.
+\end{aligned}
+$$
 :::
 
 **2.** Para que valor de $c$ a função $f(x) = c$, para $2 \le x \le 7$, e zero fora, é uma densidade? Com esse $c$, calcule $P(3 \le X \le 4)$.
@@ -158,7 +187,7 @@ quad(lambda x: 3 * x**2, 0, 0.5)[0], quad(lambda x: 3 * x**2, 0.9, 1)[0]
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
-A área é $c \times (7 - 2) = 5c$, que tem de ser 1: $c = 1/5$. $P(3 \le X \le 4) = 1 \times 1/5 = 0{,}2$.
+A área é $\int_2^7 c\, dx = c \times (7 - 2) = 5c$, que tem de ser 1: $c = 1/5$. $P(3 \le X \le 4) = \int_3^4 \tfrac{1}{5}\, dx = (4 - 3) \times \tfrac{1}{5} = 0{,}2$.
 :::
 
 **3.** Um colega diz: "como $P(X = 90) = 0$ no relógio, o ponteiro nunca para em 90°". O que está errado no raciocínio?

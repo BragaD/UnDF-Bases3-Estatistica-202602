@@ -19,7 +19,7 @@ Esta seção e as duas seguintes apresentam quatro desses modelos prontos. Os do
 
 ## Uniforme discreta
 
-Um balanceador de carga distribui cada requisição sorteando um entre 10 servidores, numerados de 0 a 9, todos com a mesma chance. O número $X$ do servidor sorteado tem 10 valores possíveis, cada um com probabilidade $1/10$. É a mesma situação do dado equilibrado da seção 2.1, com 10 faces em vez de 6.
+Uma urna tem dez bolas numeradas de 0 a 9, e uma delas é sorteada ao acaso. O número $X$ da bola sorteada tem 10 valores possíveis, cada um com probabilidade $1/10$. É a mesma situação do dado equilibrado da seção 2.1, com 10 faces em vez de 6.
 
 ::: {.conceito}
 A variável aleatória $X$, com $k$ valores distintos $x_1, \dots, x_k$, tem **distribuição uniforme discreta** quando
@@ -64,7 +64,7 @@ $$
 
 É o Exemplo 6.10 de @bussab2023. O valor médio 3,5 nem é uma face do dado: é o centro de equilíbrio dos seis valores, e é para perto dele que vai a média de muitos lançamentos.
 
-Nos servidores de 0 a 9, $k = 10$. As somas dos valores e dos quadrados são $0 + 1 + \dots + 9 = 45$ e $0^2 + 1^2 + \dots + 9^2 = 285$, e cada uma é dividida por 10:
+Na urna com as bolas de 0 a 9, $k = 10$. As somas dos valores e dos quadrados são $0 + 1 + \dots + 9 = 45$ e $0^2 + 1^2 + \dots + 9^2 = 285$, e cada uma é dividida por 10:
 
 $$
 \begin{aligned}
@@ -74,13 +74,13 @@ E(X^2) &= \frac{285}{10} = 28{,}5, \\
 \end{aligned}
 $$
 
-O servidor "médio" fica entre o 4 e o 5, no meio da numeração, e o desvio-padrão é $\sqrt{8{,}25} \approx 2{,}87$.
+O valor médio fica entre o 4 e o 5, no meio da numeração, e o desvio-padrão é $\sqrt{8{,}25} \approx 2{,}87$.
 
 A função de distribuição acumulada da seção 3.3 também tem forma simples. Como cada valor pesa $1/k$, $F(x) = P(X \le x)$ é o número de valores $x_i \le x$ dividido por $k$. No dado, $F(4) = 4/6$: as faces 1, 2, 3 e 4 ficam até o 4.
 
 ## Bernoulli
 
-Muitos experimentos só têm dois resultados de interesse: um build passa ou falha, uma requisição dá certo ou dá erro. Chamamos um dos resultados de **sucesso** e o outro de **fracasso**, sem juízo de valor: se a pergunta é sobre falhas, a falha é o "sucesso".
+Muitos experimentos só têm dois resultados de interesse: uma peça é boa ou defeituosa, um entrevistado é a favor ou contra, uma moeda dá cara ou coroa. Chamamos um dos resultados de **sucesso** e o outro de **fracasso**, sem juízo de valor: se a pergunta é sobre peças defeituosas, a peça defeituosa é o "sucesso".
 
 A variável que vale 1 no sucesso e 0 no fracasso transforma o experimento em número.
 
@@ -108,6 +108,7 @@ $$
 \begin{aligned}
 E(X) &= 0 \times (1 - p) + 1 \times p = p, \\
 \mathrm{Var}(X) &= (0 - p)^2 (1 - p) + (1 - p)^2 p \\
+&= p^2 (1 - p) + (1 - p)^2 p \\
 &= p(1 - p)\,\big[p + (1 - p)\big] = p(1 - p).
 \end{aligned}
 $$
@@ -116,7 +117,7 @@ Na variância, os dois termos têm o fator comum $p(1-p)$, e o que sobra entre c
 
 A média de uma Bernoulli é a própria probabilidade de sucesso. Isso explica um fato visto na seção 2.1: a proporção de cartas de copas no baralho, $13/52$, é também a média de uma coluna que marca 1 nas cartas de copas e 0 nas demais. Tirando uma carta ao acaso, com $X = 1$ se ela for de copas, $X \sim \mathrm{Ber}(13/52)$. A média de uma lista de zeros e uns é a soma (o número de uns) dividida pelo tamanho da lista, ou seja, a proporção de uns.
 
-Uma requisição a um serviço externo falha com probabilidade 0,05. Com $X = 1$ quando a requisição falha, $X \sim \mathrm{Ber}(0{,}05)$, e
+Uma peça sai defeituosa de uma linha de produção com probabilidade 0,05. Escolhida uma peça ao acaso, com $X = 1$ quando ela é defeituosa, $X \sim \mathrm{Ber}(0{,}05)$, e
 
 $$
 \begin{aligned}
@@ -126,7 +127,7 @@ E(X) &= 0{,}05, \\
 \end{aligned}
 $$
 
-Em muitas requisições, a média dos $X$ (a fração de falhas) fica perto de 0,05, uma falha a cada 20 requisições.
+Em muitas peças, a média dos $X$ (a fração de defeituosas) fica perto de 0,05, uma defeituosa a cada 20 peças.
 
 ## Quando a incerteza é máxima
 
@@ -163,7 +164,7 @@ ax.set_ylabel("Var(X) = p(1 − p)")
 plt.show()
 ```
 
-Um serviço que falha em 5% das requisições é mais previsível que uma moeda: a variância é 0,0475, contra 0,25 da moeda. A curva também mostra que $p(1-p)$ é a variância de cada 0 ou 1 que entra numa proporção. Por isso, para estimar uma proporção com a mesma margem de erro em pontos percentuais, o pior caso é $p$ perto de 50%.
+Uma linha de produção com 5% de peças defeituosas é mais previsível que uma moeda: a variância é 0,0475, contra 0,25 da moeda. A curva também mostra que $p(1-p)$ é a variância de cada 0 ou 1 que entra numa proporção. Por isso, para estimar uma proporção com a mesma margem de erro em pontos percentuais, o pior caso é $p$ perto de 50%.
 
 ## Resumo
 
@@ -176,7 +177,7 @@ Um serviço que falha em 5% das requisições é mais previsível que uma moeda:
 
 ## Exercícios
 
-**1.** Um sistema de testes A/B sorteia, para cada usuário, uma entre 4 versões da página (numeradas 1, 2, 3 e 4), todas com a mesma chance. Seja $X$ a versão sorteada. Calcule $E(X)$ e $\mathrm{Var}(X)$ de dois jeitos: pela definição e pelo atalho $E(X^2) - [E(X)]^2$.
+**1.** Um tetraedro equilibrado tem as faces numeradas 1, 2, 3 e 4, e é lançado uma vez. Seja $X$ a face que fica para baixo. Calcule $E(X)$ e $\mathrm{Var}(X)$ de dois jeitos: pela definição e pelo atalho $E(X^2) - [E(X)]^2$.
 
 ::: {.callout-tip collapse="true"}
 ## Resposta

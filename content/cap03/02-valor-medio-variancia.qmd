@@ -4,35 +4,19 @@
 Esta seção corresponde à seção 6.3 de @bussab2023, com dois resultados da seção 6.4.
 :::
 
-```{python}
-#| label: setup
-#| include: false
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-from formato import num
+Na seção 3.1, o empresário montou o modelo do lucro $X$ por unidade montada do produto de cilindro e esfera:
 
-plt.rcParams["figure.figsize"] = (7, 4)
-np.set_printoptions(legacy="1.25")   # números sem o prefixo np.float64 na saída
-
-# Modelo do lucro por sistema vendido (seção 3.1), em milhares de reais
-x = np.array([15, 10, 5, -5])
-p = np.array([0.56, 0.23, 0.02, 0.19])
-```
-
-Na seção 3.1, o dono da empresa de software montou o modelo do lucro $X$ por sistema vendido:
-
-| $x$ (R\$ mil) | 15 | 10 | 5 | $-5$ |
+| $x$ (R\$) | 15 | 10 | 5 | $-5$ |
 |:-:|:-:|:-:|:-:|:-:|
 | $p(x)$ | 0,56 | 0,23 | 0,02 | 0,19 |
 
-: Função de probabilidade do lucro por sistema vendido. {#tbl-fp-lucro}
+: Função de probabilidade do lucro por unidade montada. {#tbl-fp-lucro}
 
-A tabela mostra tudo, mas o dono quer um número só para decidir se o negócio vale a pena: quanto ele lucra, em média, por sistema? E quanto esse lucro varia de uma venda para outra? No Capítulo 1, as respostas para dados eram a média e o desvio-padrão. Esta seção define as versões teóricas das duas medidas.
+A tabela mostra tudo, mas o empresário quer um número só para decidir se o negócio vale a pena: quanto ele lucra, em média, por unidade? E quanto esse lucro varia de uma unidade para outra? No Capítulo 1, as respostas para dados eram a média e o desvio-padrão. Esta seção define as versões teóricas das duas medidas.
 
 ## Valor médio
 
-Imagine que a empresa venda 100 sistemas. Pelo modelo, espera-se que cerca de 56 deem lucro de 15, cerca de 23 deem 10, cerca de 2 deem 5 e cerca de 19 deem prejuízo de 5. A média desses 100 lucros seria
+Imagine que o empresário monte 100 unidades. Pelo modelo, espera-se que cerca de 56 deem lucro de 15, cerca de 23 deem 10, cerca de 2 deem 5 e cerca de 19 deem prejuízo de 5. A média desses 100 lucros seria
 
 $$
 \begin{aligned}
@@ -54,28 +38,40 @@ $$
 Também se escreve $\mu$ ou $\mu(X)$.
 :::
 
-```{python}
-#| label: esperanca
-E = (x * p).sum()
-round(E, 2)
-```
+Os $x_i$ são os valores que $X$ pode assumir, e $p(x_i)$ as suas probabilidades. Cada valor entra na soma com peso igual à sua probabilidade: um valor raro pesa pouco, um valor frequente pesa muito.
 
-O lucro médio é de R\$ `{python} num(E, 2)` mil por sistema. Nenhuma venda dá exatamente esse valor: $X$ só assume 15, 10, 5 ou $-5$. Aqui, o valor médio não é o valor mais provável (que é 15) nem sequer um valor possível. Em geral, ele não precisa ser nenhum dos dois. É o centro da distribuição, no mesmo sentido da média dos dados.
+A conta se organiza numa tabela, com uma linha por valor de $X$ e uma coluna para os produtos $x\,p(x)$. A soma da última coluna é $E(X)$. A coluna $x^2 p(x)$ vai servir para a variância, mais adiante.
 
-A interpretação vem da frequência relativa. Uma simulação de 10.000 vendas, sorteando cada lucro com as probabilidades do modelo, mostra a média das vendas perto de $E(X)$:
+::: {.table-responsive}
+| $x$ | $p(x)$ | $x\,p(x)$ | $x^2 p(x)$ |
+|:-:|:-:|:-:|:-:|
+| 15 | 0,56 | 8,40 | $225 \times 0{,}56 = 126{,}00$ |
+| 10 | 0,23 | 2,30 | $100 \times 0{,}23 = 23{,}00$ |
+| 5 | 0,02 | 0,10 | $25 \times 0{,}02 = 0{,}50$ |
+| $-5$ | 0,19 | $-0{,}95$ | $25 \times 0{,}19 = 4{,}75$ |
+| **Total** | **1** | **9,85** | **154,25** |
 
-```{python}
-#| label: esperanca-simulada
-rng = np.random.default_rng(42)
-vendas = rng.choice(x, size=10_000, p=p)
-round(float(vendas.mean()), 2)
-```
+: Tabela de cálculo do valor médio e da variância do lucro. {#tbl-calculo-lucro}
+:::
 
-A média de `{python} num(float(vendas.mean()), 2)` nas vendas simuladas fica perto de `{python} num(E, 2)`, como as frequências do dado ficaram perto de 1/6 na seção 2.1. Quando o número de vendas cresce, a média das vendas se aproxima de $E(X)$.
+Escrita por extenso, a soma da terceira coluna é
+
+$$
+\begin{aligned}
+E(X) &= 15 \times 0{,}56 + 10 \times 0{,}23 \\
+&\quad + 5 \times 0{,}02 + (-5) \times 0{,}19 \\
+&= 8{,}40 + 2{,}30 + 0{,}10 - 0{,}95 \\
+&= 9{,}85.
+\end{aligned}
+$$
+
+O lucro médio é de R\$ 9,85 por unidade. Nenhuma unidade dá exatamente esse valor: $X$ só assume 15, 10, 5 ou $-5$. Aqui, o valor médio não é o valor mais provável (que é 15) nem sequer um valor possível. Em geral, ele não precisa ser nenhum dos dois. É o centro da distribuição, no mesmo sentido da média dos dados.
+
+A interpretação vem da frequência relativa, como na conta das 100 unidades. Em muitas unidades montadas, cada lucro aparece numa proporção próxima da sua probabilidade, e a média dos lucros observados se aproxima de $E(X) = 9{,}85$.
 
 ## Variância e desvio-padrão
 
-Duas empresas podem ter o mesmo lucro médio com riscos muito diferentes. Para medir o quanto $X$ se afasta de $E(X)$, a ideia é a mesma da variância dos dados: somar os desvios ao quadrado, agora pesados pelas probabilidades.
+Dois negócios podem ter o mesmo lucro médio com riscos muito diferentes. Para medir o quanto $X$ se afasta de $E(X)$, a ideia é a mesma da variância dos dados: somar os desvios ao quadrado, agora pesados pelas probabilidades.
 
 ::: {.conceito}
 A **variância** da variável aleatória discreta $X$, com $\mu = E(X)$, é
@@ -87,41 +83,61 @@ $$
 O **desvio-padrão** é a raiz quadrada positiva: $\mathrm{DP}(X) = \sqrt{\mathrm{Var}(X)}$. Também se escrevem $\sigma^2$ e $\sigma$.
 :::
 
-```{python}
-#| label: variancia
-Var = ((x - E) ** 2 * p).sum()
-DP = np.sqrt(Var)
-round(Var, 2), round(DP, 2)
-```
+Cada $x_i - \mu$ é o desvio do valor em relação à média. O quadrado impede que desvios positivos e negativos se cancelem, e o peso $p(x_i)$ faz os valores frequentes contarem mais. A variância é, portanto, a média dos desvios ao quadrado.
 
-A variância do lucro é `{python} num(Var, 2)` (em mil reais ao quadrado), e o desvio-padrão, `{python} num(DP, 2)` mil reais, na mesma unidade do lucro. Um desvio de mais de 7 mil em torno de uma média de quase 10 mil diz que o lucro de uma venda isolada é bem incerto. O responsável é o prejuízo de 5 mil, que acontece em quase uma venda a cada cinco.
+No lucro, $\mu = 9{,}85$, e os desvios são $15 - 9{,}85 = 5{,}15$, $10 - 9{,}85 = 0{,}15$, $5 - 9{,}85 = -4{,}85$ e $-5 - 9{,}85 = -14{,}85$. Então
+
+$$
+\begin{aligned}
+\mathrm{Var}(X) &= 5{,}15^2 \times 0{,}56 + 0{,}15^2 \times 0{,}23 \\
+&\quad + (-4{,}85)^2 \times 0{,}02 + (-14{,}85)^2 \times 0{,}19 \\
+&\approx 14{,}85 + 0{,}01 + 0{,}47 + 41{,}90 \\
+&\approx 57{,}23,
+\end{aligned}
+$$
+
+e $\mathrm{DP}(X) = \sqrt{57{,}23} \approx 7{,}56$.
+
+A variância do lucro é 57,23 (em reais ao quadrado), e o desvio-padrão, 7,56 reais, na mesma unidade do lucro. Um desvio de mais de 7 reais em torno de uma média de quase 10 diz que o lucro de uma unidade isolada é bem incerto. O responsável é o prejuízo de 5 reais, que acontece em quase uma unidade a cada cinco: sozinho, ele responde por 41,90 dos 57,23 da soma.
 
 ::: {.callout-note}
 ## Sem a dúvida entre $n$ e $n - 1$
-A variância dos dados da seção 1.4 dividia por $n - 1$, como o pandas; a seção 3.2 de @bussab2023 divide por $n$. Na variância de uma variável aleatória não há $n$: os pesos são as probabilidades, que somam 1. Com divisor $n$, a variância dos dados é $\sum (v - \bar{x})^2 f_v$, somando sobre os valores distintos $v$ com frequências relativas $f_v$. Trocando $f_v$ por $p(x)$, sai exatamente $\mathrm{Var}(X)$: a versão teórica corresponde ao divisor $n$.
+A variância dos dados da seção 1.4 dividia por $n - 1$; a seção 3.2 de @bussab2023 divide por $n$. Na variância de uma variável aleatória não há $n$: os pesos são as probabilidades, que somam 1. Com divisor $n$, a variância dos dados é $\sum (v - \bar{x})^2 f_v$, somando sobre os valores distintos $v$ com frequências relativas $f_v$. Trocando $f_v$ por $p(x)$, sai exatamente $\mathrm{Var}(X)$: a versão teórica corresponde ao divisor $n$.
 :::
 
 ## Transformações lineares
 
-A empresa passa a vender o sistema num mercado em que preços e custos são o dobro dos atuais. O novo lucro é $Z = 2X$. As probabilidades não mudam, porque valores diferentes de $X$ dão valores diferentes de $Z$. O lucro médio dobra, mas a variância quadruplica:
+O empresário passa a vender o produto num mercado em que preços e custos são o dobro dos atuais. O novo lucro é $Z = 2X$. Cada valor de $X$ vira um valor de $Z$, com a mesma probabilidade, porque valores diferentes de $X$ dão valores diferentes de $Z$:
 
-```{python}
-#| label: z-2x
-z = 2 * x
-E_z = (z * p).sum()
-Var_z = ((z - E_z) ** 2 * p).sum()
-round(E_z, 2), round(Var_z, 2)
-```
+| $z = 2x$ | 30 | 20 | 10 | $-10$ |
+|:-:|:-:|:-:|:-:|:-:|
+| $p(z)$ | 0,56 | 0,23 | 0,02 | 0,19 |
 
-Agora a empresa passa a pagar uma taxa fixa de 3 mil por sistema, e o lucro vira $W = X - 3$. Todos os valores descem 3, e o centro também. A dispersão em torno do centro não muda:
+: Função de probabilidade do lucro no mercado com valores dobrados.
 
-```{python}
-#| label: w-x-3
-w = x - 3
-E_w = (w * p).sum()
-Var_w = ((w - E_w) ** 2 * p).sum()
-round(E_w, 2), round(Var_w, 2)
-```
+Pela definição,
+
+$$
+\begin{aligned}
+E(Z) &= 30 \times 0{,}56 + 20 \times 0{,}23 \\
+&\quad + 10 \times 0{,}02 + (-10) \times 0{,}19 \\
+&= 16{,}8 + 4{,}6 + 0{,}2 - 1{,}9 = 19{,}7,
+\end{aligned}
+$$
+
+o dobro de 9,85. Os desvios também dobram: $30 - 19{,}7 = 10{,}3 = 2 \times 5{,}15$, e assim por diante. Cada desvio ao quadrado fica multiplicado por 4, e a variância também: $\mathrm{Var}(Z) = 4 \times 57{,}2275 \approx 228{,}91$. O lucro médio dobra, mas a variância quadruplica.
+
+Agora o empresário passa a pagar uma taxa fixa de 3 reais por unidade, e o lucro vira $W = X - 3$, com valores 12, 7, 2 e $-8$ e as mesmas probabilidades. Pela definição,
+
+$$
+\begin{aligned}
+E(W) &= 12 \times 0{,}56 + 7 \times 0{,}23 \\
+&\quad + 2 \times 0{,}02 + (-8) \times 0{,}19 \\
+&= 6{,}72 + 1{,}61 + 0{,}04 - 1{,}52 = 6{,}85,
+\end{aligned}
+$$
+
+que é $9{,}85 - 3$. Todos os valores descem 3, e o centro também. Os desvios não mudam: $12 - 6{,}85 = 5{,}15$, igual a $15 - 9{,}85$. Por isso $\mathrm{Var}(W) = \mathrm{Var}(X) \approx 57{,}23$: a dispersão em torno do centro é a mesma.
 
 As duas contas são casos de uma regra geral, as fórmulas (6.4) e (6.5) de @bussab2023.
 
@@ -136,49 +152,89 @@ E(aX + b) &= a\,E(X) + b, \\
 $$
 :::
 
-Somar uma constante desloca a distribuição inteira e não muda a variância. Multiplicar por $a$ multiplica cada desvio por $a$, e cada desvio ao quadrado por $a^2$. O desvio-padrão fica multiplicado por $|a|$. Essas duas regras vão ser usadas no Capítulo 4, para padronizar a distribuição normal.
+As duas saem da definição em poucas linhas. A variável $aX + b$ assume os valores $a x_i + b$, com as mesmas probabilidades $p(x_i)$. Para o valor médio, separa-se a soma em duas e usa-se $\sum p(x_i) = 1$:
+
+$$
+\begin{aligned}
+E(aX + b) &= \sum_i (a x_i + b)\, p(x_i) \\
+&= a \sum_i x_i\, p(x_i) + b \sum_i p(x_i) \\
+&= a\,E(X) + b.
+\end{aligned}
+$$
+
+Para a variância, o desvio de cada valor em relação à nova média é $(a x_i + b) - (a\mu + b) = a(x_i - \mu)$. O $b$ some, e o $a$ sai da soma ao quadrado:
+
+$$
+\begin{aligned}
+\mathrm{Var}(aX + b) &= \sum_i \big[a(x_i - \mu)\big]^2\, p(x_i) \\
+&= a^2 \sum_i (x_i - \mu)^2\, p(x_i) \\
+&= a^2\,\mathrm{Var}(X).
+\end{aligned}
+$$
+
+Somar uma constante desloca a distribuição inteira e não muda a variância. Multiplicar por $a$ multiplica cada desvio por $a$, e cada desvio ao quadrado por $a^2$. O desvio-padrão fica multiplicado por $|a|$: no mercado dobrado, $\mathrm{DP}(Z) = 2 \times 7{,}56 \approx 15{,}13$. Essas duas regras vão ser usadas no Capítulo 4, para padronizar a distribuição normal.
 
 ::: {.callout-warning}
 ## Em geral, a regra não vale para funções não lineares
-Em geral, a média de uma função de $X$ não é a função da média. Com o lucro, a média de $X^2$ se calcula com a mesma soma, trocando $x_i$ por $x_i^2$: $\sum x_i^2\, p(x_i)$, que dá `{python} num((x**2 * p).sum(), 2)`, enquanto o quadrado da média é $[E(X)]^2$, cerca de `{python} num(E**2, 2)`. A diferença entre os dois é a variância.
+Em geral, a média de uma função de $X$ não é a função da média. Com o lucro, a média de $X^2$ se calcula com a mesma soma, trocando $x_i$ por $x_i^2$: $E(X^2) = \sum x_i^2\, p(x_i) = 154{,}25$, a última coluna da @tbl-calculo-lucro. Já o quadrado da média é $[E(X)]^2 = 9{,}85^2 \approx 97{,}02$. A diferença entre os dois é a variância.
 :::
+
+## Um atalho para a variância
 
 Essa diferença dá um atalho para a variância, a fórmula (6.6) de @bussab2023:
 
+::: {.conceito}
 $$
 \mathrm{Var}(X) = E(X^2) - [E(X)]^2.
 $$
+:::
 
-No lucro, $154{,}25 - 9{,}85^2 = 57{,}23$, o mesmo valor da definição.
+A dedução expande o quadrado da definição, $(x_i - \mu)^2 = x_i^2 - 2\mu x_i + \mu^2$, e separa a soma em três:
+
+$$
+\begin{aligned}
+\mathrm{Var}(X) &= \sum_i x_i^2\, p(x_i) - 2\mu \sum_i x_i\, p(x_i) \\
+&\quad + \mu^2 \sum_i p(x_i) \\
+&= E(X^2) - 2\mu \cdot \mu + \mu^2 \cdot 1 \\
+&= E(X^2) - \mu^2.
+\end{aligned}
+$$
+
+A primeira soma é $E(X^2)$, a segunda é $E(X) = \mu$ e a terceira é 1. O atalho poupa a coluna dos desvios: basta somar a coluna $x^2 p(x)$ da tabela de cálculo. No lucro,
+
+$$
+\mathrm{Var}(X) = 154{,}25 - 9{,}85^2 = 154{,}25 - 97{,}0225 \approx 57{,}23,
+$$
+
+o mesmo valor da definição.
 
 ## Resumo
 
 ::: {.table-responsive}
-| Medida | Fórmula | Lucro por sistema |
+| Medida | Fórmula | Lucro por unidade |
 |---|---|:-:|
-| Valor médio | $E(X) = \sum x_i\, p(x_i)$ | `{python} num(E, 2)` |
-| Variância | $\mathrm{Var}(X) = \sum (x_i - \mu)^2 p(x_i)$ | `{python} num(Var, 2)` |
-| Desvio-padrão | $\sqrt{\mathrm{Var}(X)}$ | `{python} num(DP, 2)` |
+| Valor médio | $E(X) = \sum x_i\, p(x_i)$ | 9,85 |
+| Variância | $\mathrm{Var}(X) = \sum (x_i - \mu)^2 p(x_i)$ | 57,23 |
+| Desvio-padrão | $\sqrt{\mathrm{Var}(X)}$ | 7,56 |
 | Atalho | $\mathrm{Var}(X) = E(X^2) - [E(X)]^2$ | |
 | Transformação linear | $E(aX+b) = aE(X)+b$; $\mathrm{Var}(aX+b) = a^2\mathrm{Var}(X)$ | |
 :::
 
 ## Exercícios
 
-**1.** Na seção 3.1, o custo de retrabalho $Y$ tinha a função de probabilidade $P(Y = 0) = 0{,}75$, $P(Y = 5) = 0{,}23$ e $P(Y = 10) = 0{,}02$. Calcule $E(Y)$ e $\mathrm{DP}(Y)$.
+**1.** Na seção 3.1, o custo de recuperação $Y$ tinha a função de probabilidade $P(Y = 0) = 0{,}75$, $P(Y = 5) = 0{,}23$ e $P(Y = 10) = 0{,}02$. Calcule $E(Y)$ e $\mathrm{DP}(Y)$.
 
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
-```{python}
-#| label: ex1-resposta
-y = np.array([0, 5, 10])
-py = np.array([0.75, 0.23, 0.02])
-E_y = (y * py).sum()
-round(E_y, 2), round(np.sqrt(((y - E_y) ** 2 * py).sum()), 2)
-```
+| $y$ | $p(y)$ | $y\,p(y)$ | $y^2 p(y)$ |
+|:-:|:-:|:-:|:-:|
+| 0 | 0,75 | 0 | 0 |
+| 5 | 0,23 | 1,15 | 5,75 |
+| 10 | 0,02 | 0,20 | 2,00 |
+| **Total** | **1** | **1,35** | **7,75** |
 
-$E(Y) = 0 \times 0{,}75 + 5 \times 0{,}23 + 10 \times 0{,}02 = 1{,}35$ mil reais por sistema, com desvio-padrão de cerca de 2,43 mil.
+$E(Y) = 1{,}35$ reais por unidade. Pelo atalho, $\mathrm{Var}(Y) = 7{,}75 - 1{,}35^2 = 7{,}75 - 1{,}8225 = 5{,}9275$, e $\mathrm{DP}(Y) = \sqrt{5{,}9275} \approx 2{,}43$ reais.
 :::
 
 **2.** Um dado equilibrado é lançado, e $X$ é a face. Calcule $E(X)$ e $\mathrm{Var}(X)$. Um jogo paga, em reais, $G = 2X - 5$. Qual o ganho médio e o desvio-padrão do ganho?
@@ -189,10 +245,10 @@ $E(Y) = 0 \times 0{,}75 + 5 \times 0{,}23 + 10 \times 0{,}02 = 1{,}35$ mil reais
 $E(X) = (1 + 2 + \dots + 6)/6 = 3{,}5$ e $\mathrm{Var}(X) = \sum (x - 3{,}5)^2/6 = 17{,}5/6 \approx 2{,}92$. Pelas regras das transformações lineares, $E(G) = 2 \times 3{,}5 - 5 = 2$ reais e $\mathrm{Var}(G) = 4 \times 17{,}5/6 = 35/3 \approx 11{,}67$, com desvio-padrão de cerca de 3,42 reais.
 :::
 
-**3.** Uma equipe precisa escolher entre dois fornecedores de módulos. Com o fornecedor A, o lucro por sistema tem média 10 e desvio-padrão 2; com o B, média 11 e desvio-padrão 8 (em mil reais). Qual escolher? Justifique.
+**3.** Um empresário precisa escolher entre dois fornecedores de componentes. Com o fornecedor A, o lucro por unidade tem média 10 e desvio-padrão 2; com o B, média 11 e desvio-padrão 8 (em reais). Qual escolher? Justifique.
 
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
-Não há uma resposta única. O B dá lucro médio maior, mas com risco muito maior: um desvio de 8 em torno de 11 deixa margem para prejuízos em algumas vendas. Uma empresa pequena, que não aguenta prejuízo, pode preferir o A. A média sozinha não decide; a dispersão entra na decisão.
+Não há uma resposta única. O B dá lucro médio maior, mas com risco muito maior: um desvio de 8 em torno de 11 deixa margem para prejuízos em algumas unidades. Um negócio pequeno, que não aguenta prejuízo, pode preferir o A. A média sozinha não decide; a dispersão entra na decisão.
 :::

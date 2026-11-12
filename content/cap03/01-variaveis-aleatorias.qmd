@@ -11,59 +11,57 @@ import matplotlib.pyplot as plt
 
 plt.rcParams["figure.figsize"] = (7, 4)
 
-# Função de probabilidade do lucro (tabela desta seção), em milhares de reais
+# Função de probabilidade do lucro por unidade montada (tabela desta seção), em reais
 x = [15, 10, 5, -5]
 p = [0.56, 0.23, 0.02, 0.19]
 ```
 
-No Capítulo 2, as perguntas eram sobre eventos: a carta sorteada é de copas? O PR tem bug? A resposta era sim ou não. Muitas perguntas práticas, porém, pedem um **número**: quantos builds falharam, quanto dinheiro um projeto vai dar, quantos PRs com bug o auditor encontrou.
+No Capítulo 2, as perguntas eram sobre eventos: a carta sorteada é de copas? A moeda deu cara? A resposta era sim ou não. Muitas perguntas práticas, porém, pedem um **número**: quantas peças defeituosas há num lote, quanto dinheiro um produto vai dar, quantas caras saem em dez lançamentos.
 
 No Capítulo 1, esse tipo de pergunta tinha resposta nos dados: média, variância, histograma de uma variável quantitativa. Este capítulo constrói a versão teórica dessas ferramentas. Assim como a probabilidade foi o modelo da frequência relativa, a **variável aleatória** vai ser o modelo de uma variável quantitativa.
 
 ## Do experimento ao número
 
-O Exemplo 6.1 de @bussab2023 trata de uma fábrica que monta um produto com duas peças de fornecedores diferentes. Aqui, as peças são módulos de software.
+O Exemplo 6.1 de @bussab2023 trata de um empresário que pretende montar um produto composto de duas partes: um **cilindro**, comprado da fábrica A, e uma **esfera**, comprada da fábrica B. Cada parte pode chegar **boa** (B), dentro das especificações; **longa** (L), maior que as especificações; ou **curta** (C), menor que as especificações. O histórico das fábricas dá as probabilidades:
 
-Uma empresa vende um sistema que integra dois módulos comprados de fornecedores diferentes: o de pagamentos, do fornecedor A, e o de notificações, do fornecedor B. Cada módulo chega **pronto** (P), **com retrabalho** (R), quando funciona, mas precisa de ajustes, ou **inutilizável** (I). O histórico dos fornecedores dá as probabilidades:
-
-| Estado do módulo | Fornecedor A | Fornecedor B |
+| Estado da parte | Cilindro (fábrica A) | Esfera (fábrica B) |
 |---|:-:|:-:|
-| Pronto (P) | 0,80 | 0,70 |
-| Com retrabalho (R) | 0,10 | 0,20 |
-| Inutilizável (I) | 0,10 | 0,10 |
+| Boa (B) | 0,80 | 0,70 |
+| Longa (L) | 0,10 | 0,20 |
+| Curta (C) | 0,10 | 0,10 |
 
-: Qualidade dos módulos entregues por cada fornecedor. {#tbl-fornecedores}
+: Qualidade das partes entregues por cada fábrica. {#tbl-fabricas}
 
-Os valores, em milhares de reais: cada módulo custa 5, e o sistema é vendido por 25. Cada módulo com retrabalho custa mais 5 para ajustar. Se algum módulo for inutilizável, nenhum ajuste é feito: a empresa entrega uma versão reduzida e recebe só 5. A pergunta do dono da empresa é: quanto ele lucra por sistema vendido?
+Os valores, em reais: cada componente custa 5, e o produto é vendido por 25. Um componente longo pode ser recuperado, a um custo adicional de 5. Se algum componente for curto, o conjunto é irrecuperável e é vendido como sucata por 5. A pergunta do empresário é: quanto ele lucra por unidade montada?
 
-O experimento é receber os dois módulos. Um resultado é um par de letras, a primeira para o módulo de A e a segunda para o de B: PR quer dizer que o de A chegou pronto e o de B precisa de retrabalho. O espaço amostral tem $3 \times 3 = 9$ pontos.
+O experimento é receber as duas partes. Um resultado é um par de letras, a primeira para o cilindro e a segunda para a esfera: BL quer dizer que o cilindro chegou bom e a esfera, longa. O espaço amostral tem $3 \times 3 = 9$ pontos.
 
-Como os fornecedores são diferentes, é razoável supor que a qualidade de um não influencia a do outro. A probabilidade de cada par sai então da regra do produto para eventos independentes (seção 2.4):
+Como as fábricas são diferentes, é razoável supor que a qualidade de uma parte não influencia a da outra. A probabilidade de cada par sai então da regra do produto para eventos independentes (seção 2.4):
 
 $$
 \begin{aligned}
-P(\text{PR}) &= P(\text{A pronto}) \times P(\text{B com retrabalho}) \\
+P(\text{BL}) &= P(\text{cilindro bom}) \times P(\text{esfera longa}) \\
 &= 0{,}80 \times 0{,}20 = 0{,}16.
 \end{aligned}
 $$
 
-O lucro de cada ponto é a receita menos os custos. Em PP, a empresa recebe 25 e paga os dois módulos: $25 - 5 - 5 = 15$. Em PR, paga também o ajuste do módulo de B: $25 - 10 - 5 = 10$. Em RR, os dois ajustes: $25 - 10 - 10 = 5$. Em qualquer ponto com I, recebe só 5 pela versão reduzida e paga os dois módulos, sem ajustes: $5 - 10 = -5$.
+O lucro de cada ponto é a receita menos os custos. Em BB, o empresário recebe 25 e paga os dois componentes: $25 - 5 - 5 = 15$. Em BL, paga também a recuperação da esfera: $25 - 10 - 5 = 10$. Em LL, as duas recuperações: $25 - 10 - 10 = 5$. Em qualquer ponto com C, recebe só os 5 da sucata e paga os dois componentes, sem recuperação: $5 - 10 = -5$.
 
 ::: {.table-responsive}
 | Ponto $\omega$ | $P(\omega)$ | Lucro |
 |:-:|:-:|:-:|
-| PP | $0{,}80 \times 0{,}70 = 0{,}56$ | 15 |
-| PR | $0{,}80 \times 0{,}20 = 0{,}16$ | 10 |
-| PI | $0{,}80 \times 0{,}10 = 0{,}08$ | $-5$ |
-| RP | $0{,}10 \times 0{,}70 = 0{,}07$ | 10 |
-| RR | $0{,}10 \times 0{,}20 = 0{,}02$ | 5 |
-| RI | $0{,}10 \times 0{,}10 = 0{,}01$ | $-5$ |
-| IP | $0{,}10 \times 0{,}70 = 0{,}07$ | $-5$ |
-| IR | $0{,}10 \times 0{,}20 = 0{,}02$ | $-5$ |
-| II | $0{,}10 \times 0{,}10 = 0{,}01$ | $-5$ |
+| BB | $0{,}80 \times 0{,}70 = 0{,}56$ | 15 |
+| BL | $0{,}80 \times 0{,}20 = 0{,}16$ | 10 |
+| BC | $0{,}80 \times 0{,}10 = 0{,}08$ | $-5$ |
+| LB | $0{,}10 \times 0{,}70 = 0{,}07$ | 10 |
+| LL | $0{,}10 \times 0{,}20 = 0{,}02$ | 5 |
+| LC | $0{,}10 \times 0{,}10 = 0{,}01$ | $-5$ |
+| CB | $0{,}10 \times 0{,}70 = 0{,}07$ | $-5$ |
+| CL | $0{,}10 \times 0{,}20 = 0{,}02$ | $-5$ |
+| CC | $0{,}10 \times 0{,}10 = 0{,}01$ | $-5$ |
 | **Total** | **1** | |
 
-: Espaço amostral do recebimento dos dois módulos, com a probabilidade e o lucro (R\$ mil) de cada ponto. {#tbl-omega-modulos}
+: Espaço amostral do recebimento das duas partes, com a probabilidade e o lucro (R\$) de cada ponto. {#tbl-omega-pecas}
 :::
 
 A coluna do lucro associa um número a cada ponto do espaço amostral. É isso que se chama variável aleatória.
@@ -72,34 +70,34 @@ A coluna do lucro associa um número a cada ponto do espaço amostral. É isso q
 Uma **variável aleatória discreta** é uma função $X$ que associa a cada ponto amostral $\omega \in \Omega$ um número real $X(\omega)$, e cujos valores possíveis formam um conjunto que pode ser listado (finito ou infinito enumerável).
 :::
 
-O "aleatório" do nome vem do experimento: antes de receber os módulos, não se sabe qual ponto de $\Omega$ vai ocorrer, e por isso não se sabe o valor de $X$. A função em si não tem nada de aleatório: $X(\text{PR}) = 10$ sempre. A convenção é usar letra maiúscula para a variável ($X$) e minúscula para um valor que ela assume ($x$).
+O "aleatório" do nome vem do experimento: antes de receber as partes, não se sabe qual ponto de $\Omega$ vai ocorrer, e por isso não se sabe o valor de $X$. A função em si não tem nada de aleatório: $X(\text{BL}) = 10$ sempre. A convenção é usar letra maiúscula para a variável ($X$) e minúscula para um valor que ela assume ($x$).
 
 ## Função de probabilidade
 
-O lucro $X$ assume só quatro valores: 15, 10, 5 e $-5$. Cada valor corresponde a um evento de $\Omega$, formado pelos pontos com aquele lucro. $X = 10$ ocorre nos pontos PR e RP, e como os pontos são resultados disjuntos, as probabilidades se somam:
+O lucro $X$ assume só quatro valores: 15, 10, 5 e $-5$. Cada valor corresponde a um evento de $\Omega$, formado pelos pontos com aquele lucro. $X = 10$ ocorre nos pontos BL e LB, e como os pontos são resultados disjuntos, as probabilidades se somam:
 
 $$
-P(X = 10) = P(\text{PR}) + P(\text{RP}) = 0{,}16 + 0{,}07 = 0{,}23.
+P(X = 10) = P(\text{BL}) + P(\text{LB}) = 0{,}16 + 0{,}07 = 0{,}23.
 $$
 
-$X = -5$ junta os cinco pontos com algum I:
+$X = -5$ junta os cinco pontos com algum C:
 
 $$
 \begin{aligned}
-P(X = -5) &= P(\text{PI}) + P(\text{RI}) + P(\text{IP}) \\
-&\quad + P(\text{IR}) + P(\text{II}) \\
+P(X = -5) &= P(\text{BC}) + P(\text{LC}) + P(\text{CB}) \\
+&\quad + P(\text{CL}) + P(\text{CC}) \\
 &= 0{,}08 + 0{,}01 + 0{,}07 + 0{,}02 + 0{,}01 \\
 &= 0{,}19.
 \end{aligned}
 $$
 
-Os valores 15 e 5 vêm de um ponto só cada: $P(X = 15) = P(\text{PP}) = 0{,}56$ e $P(X = 5) = P(\text{RR}) = 0{,}02$. O resultado é uma tabela com os valores de $X$ e suas probabilidades:
+Os valores 15 e 5 vêm de um ponto só cada: $P(X = 15) = P(\text{BB}) = 0{,}56$ e $P(X = 5) = P(\text{LL}) = 0{,}02$. O resultado é uma tabela com os valores de $X$ e suas probabilidades:
 
-| $x$ (R\$ mil) | 15 | 10 | 5 | $-5$ |
+| $x$ (R\$) | 15 | 10 | 5 | $-5$ |
 |:-:|:-:|:-:|:-:|:-:|
 | $p(x)$ | 0,56 | 0,23 | 0,02 | 0,19 |
 
-: Função de probabilidade do lucro por sistema vendido.
+: Função de probabilidade do lucro por unidade montada.
 
 ::: {.conceito}
 A **função de probabilidade** da variável aleatória discreta $X$ associa a cada valor $x_i$ a sua probabilidade:
@@ -117,29 +115,29 @@ O gráfico da função de probabilidade tem uma barra em cada valor possível, c
 #| label: fig-fp-lucro
 #| echo: false
 #| fig-alt: "Gráfico de hastes: probabilidade 0,56 em 15, 0,23 em 10, 0,02 em 5 e 0,19 em -5."
-#| fig-cap: "Função de probabilidade do lucro X por sistema vendido, em milhares de reais."
+#| fig-cap: "Função de probabilidade do lucro X por unidade montada, em reais."
 fig, ax = plt.subplots(figsize=(6, 3.5))
 ax.vlines(x, 0, p, linewidth=3)
 ax.plot(x, p, "o")
 ax.set_xticks(x)
-ax.set_xlabel("lucro x (R$ mil)")
+ax.set_xlabel("lucro x (R$)")
 ax.set_ylabel("p(x)")
 ax.set_ylim(0, 0.65)
 plt.show()
 ```
 
-Com esse modelo, o dono da empresa já sabe que a chance de prejuízo é $P(X = -5) = 0{,}19$, quase uma venda em cada cinco. Na seção 3.2, o mesmo modelo vai dizer quanto ele lucra em média.
+Com esse modelo, o empresário já sabe que a chance de prejuízo é $P(X = -5) = 0{,}19$, quase uma unidade em cada cinco. Na seção 3.2, o mesmo modelo vai dizer quanto ele lucra em média.
 
 ::: {.callout-important}
 ## O modelo depende das suposições
-A tabela de $X$ só vale se os fornecedores cumprirem as probabilidades do histórico e se a qualidade de um módulo não influenciar a do outro. Se os dois fornecedores dependem da mesma biblioteca com defeito, os módulos tendem a falhar juntos, e a probabilidade de prejuízo muda.
+A tabela de $X$ só vale se as fábricas cumprirem as probabilidades do histórico e se a qualidade de uma parte não influenciar a da outra. Se as duas fábricas usam a mesma máquina de corte desregulada, as partes tendem a sair curtas juntas, e a probabilidade de prejuízo muda.
 :::
 
 ## Várias variáveis no mesmo experimento
 
-Um mesmo espaço amostral admite várias variáveis aleatórias. No experimento dos módulos, o gerente de projeto não se importa com o lucro, mas com o **custo de retrabalho** $Y$: 0 se nenhum módulo precisar de ajuste, 5 se um precisar, 10 se os dois precisarem. Se algum módulo for inutilizável, nenhum módulo passa por retrabalho, porque o sistema completo não é entregue.
+Um mesmo espaço amostral admite várias variáveis aleatórias. No experimento das partes, o encarregado da oficina não se importa com o lucro, mas com o **custo de recuperação** $Y$: 0 se nenhum componente for longo, 5 se um for, 10 se os dois forem. Se algum componente for curto, nenhum é recuperado, porque o conjunto vai para a sucata.
 
-Na @tbl-omega-modulos, $Y = 5$ nos pontos PR e RP, $Y = 10$ em RR, e $Y = 0$ em PP e nos cinco pontos com I. Somando as probabilidades:
+Na @tbl-omega-pecas, $Y = 5$ nos pontos BL e LB, $Y = 10$ em LL, e $Y = 0$ em BB e nos cinco pontos com C. Somando as probabilidades:
 
 $$
 \begin{aligned}
@@ -151,21 +149,21 @@ $$
 
 Os pontos amostrais são os mesmos, e suas probabilidades também. O que muda é a função que transforma cada ponto em número, e com ela a função de probabilidade.
 
-Outros experimentos também guardam variáveis aleatórias. Nas duas moedas da seção 2.1, o **número de caras** é uma variável $W$ com valores 0, 1 e 2. Num repositório com 5 pull requests, 2 deles com bug, um revisor sorteia dois sem reposição; o **número de PRs com bug** entre os dois é uma variável $B$ com valores 0, 1 e 2.
+Outros experimentos também guardam variáveis aleatórias. Nas duas moedas da seção 2.1, o **número de caras** é uma variável $W$ com valores 0, 1 e 2. Uma urna tem 5 bolas, 2 vermelhas e 3 brancas, e tiram-se duas, uma depois da outra, sem reposição; o **número de bolas vermelhas** entre as duas é uma variável $V$ com valores 0, 1 e 2.
 
-Pelo princípio multiplicativo (seção 2.3), há $5 \times 4 = 20$ pares ordenados, todos com a mesma probabilidade. Basta contar os pares de cada tipo, chamando de "b" um PR com bug e de "s" um sem bug:
+Pelo princípio multiplicativo (seção 2.3), há $5 \times 4 = 20$ pares ordenados de bolas, todos com a mesma probabilidade. Basta contar os pares de cada tipo, com "v" para vermelha e "b" para branca:
 
-| Par | Contagem | $B$ |
+| Par | Contagem | $V$ |
 |:-:|:-:|:-:|
-| s, s | $3 \times 2 = 6$ | 0 |
-| b, s | $2 \times 3 = 6$ | 1 |
-| s, b | $3 \times 2 = 6$ | 1 |
-| b, b | $2 \times 1 = 2$ | 2 |
+| b, b | $3 \times 2 = 6$ | 0 |
+| v, b | $2 \times 3 = 6$ | 1 |
+| b, v | $3 \times 2 = 6$ | 1 |
+| v, v | $2 \times 1 = 2$ | 2 |
 | **Total** | **20** | |
 
-: Pares ordenados de PRs sorteados, pelo tipo de cada um. {#tbl-pares-prs}
+: Pares ordenados de bolas retiradas da urna, pela cor de cada uma. {#tbl-pares-urna}
 
-$P(B = 0) = 6/20 = 3/10$, $P(B = 1) = 12/20 = 6/10$ e $P(B = 2) = 2/20 = 1/10$. O caso $B = 1$ junta duas ordens, com bug no primeiro ou no segundo PR.
+$P(V = 0) = 6/20 = 3/10$, $P(V = 1) = 12/20 = 6/10$ e $P(V = 2) = 2/20 = 1/10$. O caso $V = 1$ junta duas ordens, com a vermelha na primeira ou na segunda retirada.
 
 ## Resumo
 
@@ -199,24 +197,24 @@ Os 36 pares de faces são igualmente prováveis. $S$ vai de 2 a 12, e cada proba
 A função de probabilidade é $p(s) = (\text{pares})/36$: de 1/36 a 6/36 e de volta a 1/36, num total de $36/36 = 1$. O valor mais provável é 7, com probabilidade $6/36 = 1/6$.
 :::
 
-**2.** Um servidor recebe requisições até a primeira que falha, e cada requisição falha com probabilidade 0,1, independentemente das outras. Seja $N$ o número de requisições até a primeira falha, contando a que falhou. Encontre $P(N = 1)$, $P(N = 2)$ e $P(N = k)$ para um $k$ qualquer.
+**2.** Peças saem de uma linha de produção e são inspecionadas uma a uma, até aparecer a primeira defeituosa. Cada peça é defeituosa com probabilidade 0,1, independentemente das outras. Seja $X$ o número de peças inspecionadas até a primeira defeituosa, contando a defeituosa. Encontre $P(X = 1)$, $P(X = 2)$ e $P(X = k)$ para um $k$ qualquer.
 
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
-$N = k$ quando as $k - 1$ primeiras requisições dão certo e a $k$-ésima falha. Pela independência,
+$X = k$ quando as $k - 1$ primeiras peças são boas e a $k$-ésima é defeituosa. Pela independência,
 
 $$
-P(N = k) = 0{,}9^{\,k-1} \times 0{,}1, \qquad k = 1, 2, 3, \dots
+P(X = k) = 0{,}9^{\,k-1} \times 0{,}1, \qquad k = 1, 2, 3, \dots
 $$
 
-Então $P(N = 1) = 0{,}1$ e $P(N = 2) = 0{,}09$. $N$ é uma variável discreta com infinitos valores possíveis, que podem ser listados.
+Então $P(X = 1) = 0{,}1$ e $P(X = 2) = 0{,}09$. $X$ é uma variável discreta com infinitos valores possíveis, que podem ser listados.
 :::
 
-**3.** No experimento dos módulos, seja $Z$ o número de módulos inutilizáveis (0, 1 ou 2). Encontre a função de probabilidade de $Z$.
+**3.** No experimento das partes, seja $Z$ o número de componentes curtos (0, 1 ou 2). Encontre a função de probabilidade de $Z$.
 
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
-$P(Z = 2) = 0{,}1 \times 0{,}1 = 0{,}01$. $P(Z = 0) = 0{,}9 \times 0{,}9 = 0{,}81$, porque cada módulo é utilizável com probabilidade 0,9. $P(Z = 1) = 1 - 0{,}81 - 0{,}01 = 0{,}18$.
+$P(Z = 2) = 0{,}1 \times 0{,}1 = 0{,}01$. $P(Z = 0) = 0{,}9 \times 0{,}9 = 0{,}81$, porque cada componente deixa de ser curto com probabilidade 0,9. $P(Z = 1) = 1 - 0{,}81 - 0{,}01 = 0{,}18$.
 :::

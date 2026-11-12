@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 plt.rcParams["figure.figsize"] = (7, 4)
 ```
 
-Um sistema tem milhares de clientes que sincronizam dados com o servidor toda hora cheia. Se todos disparassem no mesmo segundo, o servidor cairia. A solução comum é o **jitter**: cada cliente espera um tempo aleatório entre 0 e 60 segundos antes de sincronizar, sem preferência por nenhum instante do intervalo. O tempo de espera de um cliente é o exemplo mais simples de variável contínua, e é a generalização do relógio da seção 4.1 para um intervalo qualquer.
+Um ônibus passa por um ponto de hora em hora, sempre no mesmo minuto. Um passageiro que não conhece o horário chega ao ponto ao acaso. Quanto tempo ele espera? A espera pode ser qualquer valor entre 0 e 60 minutos, sem preferência por nenhum instante do intervalo. É o exemplo mais simples de variável contínua, e é a generalização do relógio da seção 4.1 para um intervalo qualquer.
 
 ## O modelo
 
@@ -31,7 +31,7 @@ f(x) =
 $$
 :::
 
-Os parâmetros $\alpha$ e $\beta$ são as pontas do intervalo, e a altura do retângulo não é livre. A área sob $f$ tem de ser 1, e um retângulo de base $\beta - \alpha$ só tem área 1 com altura $1/(\beta - \alpha)$. No jitter, $X \sim u(0, 60)$, com densidade $1/60$. No relógio, $X \sim u(0, 360)$, com densidade $1/360$.
+Os parâmetros $\alpha$ e $\beta$ são as pontas do intervalo, e a altura do retângulo não é livre. A área sob $f$ tem de ser 1, e um retângulo de base $\beta - \alpha$ só tem área 1 com altura $1/(\beta - \alpha)$. Na espera do ônibus, $X \sim u(0, 60)$, com densidade $1/60$. No relógio, $X \sim u(0, 360)$, com densidade $1/360$.
 
 A probabilidade de um subintervalo $[c, d]$ dentro de $[\alpha, \beta]$ é a área do retângulo de base $d - c$ e altura $1/(\beta - \alpha)$:
 
@@ -39,13 +39,13 @@ $$
 P(c \le X \le d) = (d - c) \times \frac{1}{\beta - \alpha} = \frac{d - c}{\beta - \alpha}.
 $$
 
-É a fração do intervalo ocupada por $[c, d]$: só a largura importa, não a posição. No jitter, a probabilidade de um cliente sincronizar entre 30 e 45 segundos é
+É a fração do intervalo ocupada por $[c, d]$: só a largura importa, não a posição. Na espera do ônibus, a probabilidade de o passageiro esperar entre 30 e 45 minutos é
 
 $$
 P(30 \le X \le 45) = \frac{45 - 30}{60} = \frac{15}{60} = \frac{1}{4},
 $$
 
-a mesma de sincronizar nos primeiros 15 segundos. Em faixas de mesma largura, a carga do servidor se espalha por igual.
+a mesma de esperar no máximo 15 minutos. Em faixas de mesma largura, as esperas se espalham por igual.
 
 ## Valor médio, variância e f.d.a.
 
@@ -96,17 +96,17 @@ E(X) &= \frac{\alpha + \beta}{2}, \\
 $$
 :::
 
-A variância depende só da largura $\beta - \alpha$ do intervalo: deslocar o intervalo muda a média e não muda a dispersão. Esses dois resultados são o Problema 29 de @bussab2023. No jitter, com $\alpha = 0$ e $\beta = 60$:
+A variância depende só da largura $\beta - \alpha$ do intervalo: deslocar o intervalo muda a média e não muda a dispersão. Esses dois resultados são o Problema 29 de @bussab2023. Na espera do ônibus, com $\alpha = 0$ e $\beta = 60$:
 
 $$
 \begin{aligned}
-E(X) &= \frac{0 + 60}{2} = 30 \text{ s}, \\
-\mathrm{Var}(X) &= \frac{60^2}{12} = \frac{3.600}{12} = 300 \text{ s}^2, \\
-\mathrm{DP}(X) &= \sqrt{300} = \frac{60}{\sqrt{12}} \approx 17{,}3 \text{ s}.
+E(X) &= \frac{0 + 60}{2} = 30 \text{ min}, \\
+\mathrm{Var}(X) &= \frac{60^2}{12} = \frac{3.600}{12} = 300 \text{ min}^2, \\
+\mathrm{DP}(X) &= \sqrt{300} = \frac{60}{\sqrt{12}} \approx 17{,}3 \text{ min}.
 \end{aligned}
 $$
 
-A espera média é de meio minuto, e o desvio-padrão, de cerca de 17 segundos.
+A espera média é de meia hora, e o desvio-padrão, de cerca de 17 minutos.
 
 A f.d.a. da seção 4.3 é a integral da densidade de $-\infty$ até $x$. Antes de $\alpha$ não há área nenhuma, e depois de $\beta$ a área já é toda. No meio, a integral de uma constante é a constante vezes a largura:
 
@@ -131,12 +131,12 @@ F(x) =
 $$
 :::
 
-Ela cresce em linha reta de 0 a 1 ao longo do intervalo (@fig-uniforme). No jitter, $F(x) = x/60$ entre 0 e 60, e $F(15) = 15/60 = 1/4$: um quarto dos clientes sincroniza nos primeiros 15 segundos.
+Ela cresce em linha reta de 0 a 1 ao longo do intervalo (@fig-uniforme). Na espera do ônibus, $F(x) = x/60$ entre 0 e 60, e $F(15) = 15/60 = 1/4$: um quarto das chegadas espera até 15 minutos.
 
 ```{python}
 #| label: fig-uniforme
 #| echo: false
-#| fig-cap: "Densidade (à esquerda) e f.d.a. (à direita) da uniforme em [0, 60], o tempo de espera do jitter."
+#| fig-cap: "Densidade (à esquerda) e f.d.a. (à direita) da uniforme em [0, 60], a espera, em minutos, de quem chega ao acaso a um ponto de ônibus com passagens de hora em hora."
 #| fig-alt: "À esquerda, um retângulo de altura 1/60 entre 0 e 60; à direita, uma reta que sobe de 0 em x = 0 até 1 em x = 60."
 x = np.linspace(-10, 70, 401)
 dens = np.where((x >= 0) & (x <= 60), 1 / 60, 0)
@@ -148,7 +148,7 @@ esq.set_title("densidade f(x)")
 dir.plot(x, fda)
 dir.set_title("f.d.a. F(x)")
 for eixo in (esq, dir):
-    eixo.set_xlabel("espera x (s)")
+    eixo.set_xlabel("espera x (min)")
 plt.tight_layout()
 plt.show()
 ```
@@ -171,7 +171,7 @@ P(X \le x) &= P\big(\alpha + (\beta - \alpha)\,U \le x\big) \\
 \end{aligned}
 $$
 
-O último passo usa a f.d.a. de $u(0, 1)$, que é $F(u) = u$ entre 0 e 1. O resultado é a f.d.a. da uniforme em $[\alpha, \beta]$. Para o jitter, $X = 60\,U$: cada número aleatório vira uma espera entre 0 e 60 segundos.
+O último passo usa a f.d.a. de $u(0, 1)$, que é $F(u) = u$ entre 0 e 1. O resultado é a f.d.a. da uniforme em $[\alpha, \beta]$. Para o ônibus, $X = 60\,U$: cada número aleatório vira uma espera entre 0 e 60 minutos.
 
 A média e a variância de $X$ também saem das de $U$, que são $1/2$ e $1/12$ pelas fórmulas acima. As regras da transformação linear (seção 3.2, que valem para contínuas pela seção 4.2), com $a = \beta - \alpha$ e $b = \alpha$, dão
 
@@ -199,12 +199,12 @@ os mesmos valores obtidos pelas integrais. A fórmula 7.16 de @bussab2023 faz a 
 
 ## Exercícios
 
-**1.** O tempo de resposta de um serviço é uniforme entre 100 e 400 ms. Qual a probabilidade de uma resposta levar mais de 300 ms? Qual a média e o desvio-padrão?
+**1.** Uma máquina corta peças cujo comprimento, em milímetros, é uniforme entre 100 e 400 mm. Qual a probabilidade de uma peça ter mais de 300 mm? Qual a média e o desvio-padrão do comprimento?
 
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
-$X \sim u(100, 400)$, um intervalo de largura 300. $P(X > 300) = (400 - 300)/300 = 1/3$. $E(X) = (100 + 400)/2 = 250$ ms e $\mathrm{DP}(X) = 300/\sqrt{12} \approx 86{,}6$ ms.
+$X \sim u(100, 400)$, um intervalo de largura 300. $P(X > 300) = (400 - 300)/300 = 1/3$. $E(X) = (100 + 400)/2 = 250$ mm e $\mathrm{DP}(X) = 300/\sqrt{12} \approx 86{,}6$ mm.
 :::
 
 **2.** No Exemplo 7.8 de @bussab2023, $U \sim u(-1/2, 1/2)$. Calcule $E(U)$, $\mathrm{Var}(U)$ e $P(-1/4 \le U \le 1/4)$.
@@ -215,7 +215,7 @@ $X \sim u(100, 400)$, um intervalo de largura 300. $P(X > 300) = (400 - 300)/300
 $E(U) = (-1/2 + 1/2)/2 = 0$, $\mathrm{Var}(U) = 1^2/12 = 1/12$ e $P(-1/4 \le U \le 1/4) = (1/4 + 1/4)/1 = 1/2$.
 :::
 
-**3.** O jitter de outro serviço é uniforme entre 30 e 90 segundos. (a) Escreva a f.d.a. $F(x)$ dessa espera e use-a para calcular $P(45 < X \le 70)$. (b) Como obter essa espera a partir de um número aleatório $U \sim u(0, 1)$? Qual a média e o desvio-padrão?
+**3.** O tempo, em segundos, que uma máquina de café leva para preparar uma xícara é uniforme entre 30 e 90 segundos. (a) Escreva a f.d.a. $F(x)$ desse tempo e use-a para calcular $P(45 < X \le 70)$. (b) Como obter esse tempo a partir de um número aleatório $U \sim u(0, 1)$? Qual a média e o desvio-padrão?
 
 ::: {.callout-tip collapse="true"}
 ## Resposta
@@ -231,5 +231,5 @@ $$
 
 É a fração $25/60$ do intervalo, como a área do retângulo daria direto.
 
-(b) $X = 30 + 60\,U$. A média é $30 + 60 \times 1/2 = 60$ segundos, e a variância, $60^2 \times 1/12 = 300$, com desvio-padrão $\sqrt{300} \approx 17{,}3$ segundos, igual ao do jitter entre 0 e 60: os dois intervalos têm a mesma largura.
+(b) $X = 30 + 60\,U$. A média é $30 + 60 \times 1/2 = 60$ segundos, e a variância, $60^2 \times 1/12 = 300$, com desvio-padrão $\sqrt{300} \approx 17{,}3$ segundos. O número é o mesmo da espera do ônibus, agora em segundos: os dois intervalos têm largura 60.
 :::

@@ -8,25 +8,21 @@ Esta seção corresponde à seção 6.6.3 de @bussab2023.
 #| label: setup
 #| include: false
 import numpy as np
-import pandas as pd
 import matplotlib.pyplot as plt
 from math import comb
-from scipy import stats
-from formato import num
 
 plt.rcParams["figure.figsize"] = (7, 4)
-np.set_printoptions(legacy="1.25")   # números sem o prefixo np.float64 na saída
 ```
 
-Na seção 2.1, três builds disparados por um pull request podiam passar ou falhar, e o texto avisou: supor os 8 resultados igualmente prováveis exigiria que cada build falhasse metade das vezes. O modelo em que cada build falha com uma probabilidade $p$ qualquer, sem influenciar os outros, ficou para o Capítulo 3. É esta seção, e o fim dela discute quando essa hipótese é razoável.
+Na seção 2.1, três ensaios com dois resultados cada formavam um espaço amostral de 8 pontos, e o texto avisou: supor os 8 resultados igualmente prováveis exigiria que, em cada ensaio, os dois resultados tivessem a mesma chance. O modelo em que cada ensaio dá "sucesso" com uma probabilidade $p$ qualquer, sem influenciar os outros, ficou para o Capítulo 3. É esta seção, e o fim dela discute quando essa hipótese é razoável.
 
-Uma equipe roda 10 jobs de teste por noite. Cada job falha com probabilidade 0,1, e os jobs não dependem uns dos outros. Quantos jobs vão falhar numa noite? A resposta é uma variável aleatória, e ela aparece sempre que um ensaio de Bernoulli (seção 3.4) é repetido várias vezes, de forma independente e nas mesmas condições.
+Um lote tem 10% de peças defeituosas. Extraem-se 10 peças ao acaso, **com reposição**: cada peça é examinada e devolvida ao lote antes da próxima extração. Quantas defeituosas vão aparecer? A resposta é uma variável aleatória, e ela aparece sempre que um ensaio de Bernoulli (seção 3.4) é repetido várias vezes, de forma independente e nas mesmas condições.
 
 ## Contando sucessos
 
-Comecemos com 3 jobs, cada um falhando com probabilidade $p$. Chame a falha de sucesso (S) e o job que passa de fracasso (F), como combinado na seção 3.4. Qual a probabilidade de exatamente 2 falhas?
+Comecemos com 3 peças, cada uma defeituosa com probabilidade $p$. Chame a peça defeituosa de sucesso (S) e a boa de fracasso (F), como combinado na seção 3.4. Qual a probabilidade de exatamente 2 defeituosas?
 
-As sequências com duas falhas são SSF, SFS e FSS. Como os jobs são independentes, a probabilidade de cada sequência é o produto (seção 2.4):
+As sequências com duas defeituosas são SSF, SFS e FSS. Como as extrações são independentes, a probabilidade de cada sequência é o produto (seção 2.4):
 
 $$
 P(\text{SSF}) = p \times p \times (1 - p) = p^2(1 - p),
@@ -35,10 +31,10 @@ $$
 e o mesmo vale para SFS e FSS, porque a ordem dos fatores não muda o produto. As três sequências são disjuntas, então
 
 $$
-P(\text{2 falhas}) = 3\,p^2(1 - p).
+P(\text{2 defeituosas}) = P(\text{SSF}) + P(\text{SFS}) + P(\text{FSS}) = 3\,p^2(1 - p).
 $$
 
-O 3 é o número de sequências com 2 falhas em 3 posições: escolher quais 2 das 3 posições têm falha, $\binom{3}{2} = 3$ (seção 2.3). O raciocínio vale para qualquer $n$ e $k$. Uma sequência com $k$ sucessos e $n - k$ fracassos tem probabilidade $p^k(1-p)^{n-k}$, e existem $\binom{n}{k}$ sequências assim.
+O 3 é o número de sequências com 2 sucessos em 3 posições: escolher quais 2 das 3 posições têm sucesso, $\binom{3}{2} = 3$ (seção 2.3). O raciocínio vale para qualquer $n$ e $k$. Uma sequência com $k$ sucessos e $n - k$ fracassos tem probabilidade $p^k(1-p)^{n-k}$, e existem $\binom{n}{k}$ sequências assim.
 
 ::: {.conceito}
 Um **experimento binomial** tem:
@@ -58,44 +54,81 @@ para $k = 0, 1, \dots, n$.
 A probabilidade $P(X = k)$ também se escreve $b(k; n, p)$.
 :::
 
-## Os jobs da noite
+A fórmula se lê em dois pedaços. O fator $p^k (1-p)^{n-k}$ é a probabilidade de **uma** sequência particular com $k$ sucessos e $n - k$ fracassos: $k$ fatores $p$ e $n - k$ fatores $1 - p$, multiplicados porque os ensaios são independentes. O fator $\binom{n}{k}$ conta **quantas** sequências desse tipo existem, ou seja, de quantas maneiras se escolhem as $k$ posições dos sucessos entre as $n$. Como todas têm a mesma probabilidade e são disjuntas, a soma vira um produto. Os parâmetros são $n$, o número de ensaios, e $p$, a probabilidade de sucesso em cada um.
 
-Com $n = 10$ jobs e $p = 0{,}1$, o número $X$ de falhas tem distribuição $b(10, 1/10)$. A fórmula dá cada probabilidade, e o `math.comb` da seção 2.3 faz a conta:
+## As dez peças do lote
 
-```{python}
-#| label: binomial-formula
-n, p = 10, 0.1
-[round(comb(n, k) * p**k * (1 - p)**(n - k), 4) for k in range(4)]
-```
+Com $n = 10$ peças e $p = 0{,}1$, o número $X$ de defeituosas tem distribuição $b(10, 1/10)$ (Exemplo 6.13 de @bussab2023). Os três primeiros valores, com a substituição inteira:
 
-A `scipy.stats` tem o modelo pronto, a `binom`. O `pmf` dá $P(X = k)$, e o `cdf` dá a função de distribuição acumulada da seção 3.3, $P(X \le k)$:
+$$
+\begin{aligned}
+P(X = 0) &= \binom{10}{0}\, 0{,}1^0\, 0{,}9^{10} = 1 \times 1 \times 0{,}9^{10} \approx 0{,}3487, \\
+P(X = 1) &= \binom{10}{1}\, 0{,}1^1\, 0{,}9^{9} = 10 \times 0{,}1 \times 0{,}9^{9} \\
+&= 0{,}9^9 \approx 0{,}3874, \\
+P(X = 2) &= \binom{10}{2}\, 0{,}1^2\, 0{,}9^{8} = 45 \times 0{,}01 \times 0{,}9^{8} \\
+&\approx 0{,}45 \times 0{,}4305 \approx 0{,}1937.
+\end{aligned}
+$$
 
-```{python}
-#| label: binomial-scipy
-jobs = stats.binom(n, p)
-tabela = pd.DataFrame({"k": range(11), "P(X = k)": jobs.pmf(range(11)), "P(X ≤ k)": jobs.cdf(range(11))})
-tabela.head(5).round(4)
-```
+Os demais saem da mesma conta:
+
+| $k$ | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 a 10 |
+|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+| $P(X = k)$ | 0,3487 | 0,3874 | 0,1937 | 0,0574 | 0,0112 | 0,0015 | 0,0001 | menos de 0,0001 |
+
+: Distribuição de $X \sim b(10, 1/10)$, com quatro casas. {#tbl-binomial-pecas}
 
 ```{python}
 #| label: fig-binomial-jobs
-#| fig-cap: "Distribuição do número de falhas em 10 jobs independentes, cada um com probabilidade 0,1 de falhar."
-#| fig-alt: "Gráfico de hastes com o máximo em 1 falha (cerca de 0,39), seguido de 0 falhas (0,35) e 2 falhas (0,19); de 5 falhas em diante as probabilidades são quase zero."
+#| echo: false
+#| fig-cap: "Distribuição do número de peças defeituosas em 10 extrações com reposição de um lote com 10% de defeituosas."
+#| fig-alt: "Gráfico de hastes com o máximo em 1 defeituosa (cerca de 0,39), seguido de 0 defeituosas (0,35) e 2 defeituosas (0,19); de 5 defeituosas em diante as probabilidades são quase zero."
 k = np.arange(11)
+pk = np.array([comb(10, i) * 0.1**i * 0.9**(10 - i) for i in k])
 fig, ax = plt.subplots(figsize=(6, 3.5))
-ax.vlines(k, 0, jobs.pmf(k), linewidth=3)
-ax.plot(k, jobs.pmf(k), "o")
+ax.vlines(k, 0, pk, linewidth=3)
+ax.plot(k, pk, "o")
 ax.set_xticks(k)
-ax.set_xlabel("número de falhas k")
+ax.set_xlabel("número de peças defeituosas k")
 ax.set_ylabel("P(X = k)")
 plt.show()
 ```
 
-Numa noite típica falham 0 ou 1 jobs: juntos, esses dois casos somam `{python} num(jobs.cdf(1), 3)`. A probabilidade de pelo menos uma falha é, pelo complementar, $1 - P(X = 0)$, cerca de `{python} num(1 - jobs.pmf(0), 3)`. Mais de duas falhas acontecem em `{python} num(100 * jobs.sf(2), 1)`% das noites, e o método `sf` (*survival function*) dá esse $P(X > 2) = 1 - F(2)$ direto. Todos os 10 falharem tem probabilidade $0{,}1^{10} = 10^{-10}$ (Exemplo 6.13 de @bussab2023).
+Na maioria das amostras aparecem 0 ou 1 defeituosas. Juntos, esses dois casos somam $F(1) = P(X = 0) + P(X = 1) \approx 0{,}3487 + 0{,}3874 = 0{,}7361$. A probabilidade de pelo menos uma defeituosa sai do complementar, sem somar os outros dez valores:
+
+$$
+P(X \ge 1) = 1 - P(X = 0) \approx 1 - 0{,}3487 \approx 0{,}651.
+$$
+
+Mais de duas defeituosas também saem do complementar, agora com $F(2)$:
+
+$$
+\begin{aligned}
+P(X > 2) &= 1 - F(2) = 1 - [P(X = 0) + P(X = 1) + P(X = 2)] \\
+&\approx 1 - (0{,}3487 + 0{,}3874 + 0{,}1937) = 1 - 0{,}9298 = 0{,}0702,
+\end{aligned}
+$$
+
+cerca de 7,0% das amostras. Todas as 10 peças defeituosas tem probabilidade $0{,}1^{10} = 10^{-10}$.
 
 ## Valor médio e variância
 
-Em média, quantos jobs falham por noite? A intuição diz 10 × 0,1 = 1, e ela está certa.
+Em média, quantas defeituosas aparecem entre as 10? A intuição diz $10 \times 0{,}1 = 1$, e ela está certa.
+
+Para ver por quê, numere as extrações e marque cada uma com uma Bernoulli: $X_i = 1$ se a $i$-ésima peça é defeituosa e $X_i = 0$ se não é. Somar os $X_i$ conta os uns, que são as defeituosas:
+
+$$
+X = X_1 + X_2 + \dots + X_n.
+$$
+
+Cada $X_i \sim \mathrm{Ber}(p)$ tem $E(X_i) = p$ e $\mathrm{Var}(X_i) = p(1-p)$ (seção 3.4). Dois fatos sobre somas de variáveis aleatórias, que aceitamos aqui sem demonstração, fecham a conta: o valor médio de uma soma é sempre a soma dos valores médios; e a variância de uma soma é a soma das variâncias quando as parcelas são independentes, que é a condição 2 do experimento binomial. Então
+
+$$
+\begin{aligned}
+E(X) &= E(X_1) + \dots + E(X_n) = \underbrace{p + \dots + p}_{n \text{ vezes}} = np, \\
+\mathrm{Var}(X) &= \mathrm{Var}(X_1) + \dots + \mathrm{Var}(X_n) = np(1 - p).
+\end{aligned}
+$$
 
 ::: {.conceito}
 Se $X \sim b(n, p)$,
@@ -108,34 +141,34 @@ E(X) &= np, \\
 $$
 :::
 
-A justificativa: $X$ é a soma de $n$ variáveis de Bernoulli, uma por ensaio, e cada uma tem média $p$ e variância $p(1-p)$ (seção 3.4). As médias de uma soma sempre se somam; as variâncias se somam quando as variáveis são independentes. A simulação abaixo confere as fórmulas somando, em cada noite simulada, 10 variáveis de Bernoulli:
-
-```{python}
-#| label: binomial-simulada
-rng = np.random.default_rng(42)
-ensaios = rng.random((10_000, n)) < p          # 10.000 noites x 10 jobs: True = falha
-noites = ensaios.sum(axis=1)                    # número de falhas em cada noite
-
-round(float(noites.mean()), 3), round(float(noites.var()), 3), jobs.mean(), jobs.var()
-```
+No lote, $E(X) = 10 \times 0{,}1 = 1$ defeituosa e $\mathrm{Var}(X) = 10 \times 0{,}1 \times 0{,}9 = 0{,}9$, com desvio-padrão $\sqrt{0{,}9} \approx 0{,}95$. Repetindo a amostra de 10 peças muitas vezes, a média do número de defeituosas fica perto de 1.
 
 ## Uma pergunta com $n$ grande
 
-Um serviço atende 100 requisições, e cada uma tem sucesso com probabilidade 0,9, independentemente das outras. Qual a probabilidade de pelo menos 80 darem certo? (É a situação (5') de @bussab2023, com requisições no lugar de moradores.)
+Numa cidade, 90% das pessoas são favoráveis a um projeto municipal. Escolhem-se 100 pessoas ao acaso. Qual a probabilidade de pelo menos 80 serem favoráveis? (É a situação (5') de @bussab2023.)
 
-Somar $\binom{100}{k} 0{,}9^k 0{,}1^{100-k}$ para $k$ de 80 a 100 à mão seria longo. Pelo complementar, $P(X \ge 80) = 1 - P(X \le 79) = 1 - F(79)$:
+O número $X$ de favoráveis tem distribuição $b(100, 9/10)$. A resposta é a soma
 
-```{python}
-#| label: binomial-100
-requisicoes = stats.binom(100, 0.9)
-round(1 - requisicoes.cdf(79), 4), requisicoes.mean(), requisicoes.std()
-```
+$$
+P(X \ge 80) = \sum_{k=80}^{100} \binom{100}{k}\, 0{,}9^k\, 0{,}1^{100 - k},
+$$
 
-A probabilidade é `{python} num(1 - requisicoes.cdf(79), 4)`. Faz sentido: o número esperado de sucessos é 90, com desvio-padrão 3, e 80 fica a mais de três desvios-padrão abaixo da média.
+com 21 parcelas. Pelo complementar, $P(X \ge 80) = 1 - P(X \le 79) = 1 - F(79)$, mas $F(79)$ tem ainda mais parcelas. Nenhum dos dois caminhos é conta para fazer à mão: somando as 21 parcelas, o resultado é $P(X \ge 80) \approx 0{,}9992$.
+
+O valor médio e o desvio-padrão mostram por que a resposta fica tão perto de 1, sem conta longa:
+
+$$
+\begin{aligned}
+E(X) &= 100 \times 0{,}9 = 90, \\
+\mathrm{Var}(X) &= 100 \times 0{,}9 \times 0{,}1 = 9, \qquad \mathrm{DP}(X) = 3.
+\end{aligned}
+$$
+
+O valor 80 fica 10 abaixo da média, o que dá mais de três desvios-padrão ($10/3 \approx 3{,}33$). Ter menos de 80 favoráveis exigiria um afastamento muito grande do valor esperado.
 
 ::: {.callout-warning}
 ## Confira as três condições antes de usar a binomial
-O modelo exige ensaios independentes e a mesma probabilidade $p$ em todos. Os builds de um mesmo pull request quase nunca são independentes: se o código quebrou, vários builds falham juntos. E, como costumam rodar em ambientes diferentes, nem o $p$ é o mesmo. Requisições feitas durante uma queda do serviço também falham em bloco. Nesses casos a binomial subestima a chance de muitas falhas ao mesmo tempo.
+O modelo exige ensaios independentes e a mesma probabilidade $p$ em todos. Peças tiradas **sem reposição** de um lote pequeno não são independentes: cada defeituosa retirada muda a proporção das que sobram (esse caso é a seção 3.6). Numa pesquisa de opinião que entrevista várias pessoas da mesma família, as respostas tendem a vir juntas, e a independência também falha. Nesses casos a binomial pode errar bastante a chance de valores muito altos ou muito baixos.
 :::
 
 ## Resumo
@@ -146,7 +179,6 @@ O modelo exige ensaios independentes e a mesma probabilidade $p$ em todos. Os bu
 | Situação | número de sucessos em $n$ ensaios de Bernoulli independentes, com o mesmo $p$ |
 | $P(X = k)$ | $\binom{n}{k} p^k (1-p)^{n-k}$ |
 | $E(X)$, $\mathrm{Var}(X)$ | $np$, $np(1-p)$ |
-| `scipy.stats` | `binom(n, p)`: `pmf`, `cdf`, `sf`, `mean`, `var` |
 :::
 
 ## Exercícios
@@ -164,35 +196,45 @@ $X \sim b(3, 1/2)$: $P(X = 0) = 1/8$, $P(X = 1) = 3/8$, $P(X = 2) = 3/8$, $P(X =
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
-O número de vezes que sai a face 5 tem distribuição $b(5, 1/6)$, e $P(X \le 3) = F(3)$:
+O número de vezes que sai a face 5 tem distribuição $b(5, 1/6)$. Somar $P(X = 0)$ a $P(X = 3)$ dá quatro parcelas; o complementar dá só duas:
 
-```python
-stats.binom(5, 1/6).cdf(3)
-```
+$$
+\begin{aligned}
+P(X = 4) &= \binom{5}{4} \left(\frac{1}{6}\right)^4 \frac{5}{6} = \frac{5 \times 5}{7776} = \frac{25}{7776}, \\
+P(X = 5) &= \left(\frac{1}{6}\right)^5 = \frac{1}{7776}, \\
+P(X \le 3) &= 1 - \frac{25 + 1}{7776} = 1 - \frac{26}{7776} \approx 0{,}9967.
+\end{aligned}
+$$
 
-Dá cerca de 0,9967. Pelo complementar, só em 0,33% das vezes a face 5 aparece 4 ou 5 vezes.
+Só em cerca de 0,33% das vezes a face 5 aparece 4 ou 5 vezes.
 :::
 
-**3.** Um filtro de spam erra a classificação de 2% dos e-mails, independentemente. Numa caixa com 50 e-mails, qual o número esperado de erros? Qual a probabilidade de nenhum erro? E de mais de 3 erros?
+**3.** Uma máquina produz parafusos, e cada parafuso sai defeituoso com probabilidade 0,02, independentemente dos outros. Numa caixa com 50 parafusos, qual o número esperado de defeituosos? Qual a probabilidade de nenhum defeituoso? E de mais de 3?
 
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
-$X \sim b(50, 1/50)$, com $E(X) = 50 \times 0{,}02 = 1$ erro.
+$X \sim b(50, 1/50)$, com $E(X) = 50 \times 0{,}02 = 1$ parafuso defeituoso.
 
-```{python}
-#| label: ex3-resposta
-filtro = stats.binom(50, 0.02)
-round(filtro.pmf(0), 4), round(filtro.sf(3), 4)
-```
+Nenhum defeituoso: $P(X = 0) = 0{,}98^{50} \approx 0{,}3642$.
 
-$P(X = 0) = 0{,}98^{50}$, cerca de `{python} num(filtro.pmf(0), 3)`, e $P(X > 3)$ fica em cerca de `{python} num(filtro.sf(3), 3)`.
+Mais de 3 sai pelo complementar, $P(X > 3) = 1 - [P(X = 0) + P(X = 1) + P(X = 2) + P(X = 3)]$, com
+
+$$
+\begin{aligned}
+P(X = 1) &= 50 \times 0{,}02 \times 0{,}98^{49} \approx 0{,}3716, \\
+P(X = 2) &= 1225 \times 0{,}02^2 \times 0{,}98^{48} \approx 0{,}1858, \\
+P(X = 3) &= 19600 \times 0{,}02^3 \times 0{,}98^{47} \approx 0{,}0607.
+\end{aligned}
+$$
+
+A soma das quatro é cerca de 0,982, e $P(X > 3) \approx 1 - 0{,}982 = 0{,}018$.
 :::
 
-**4.** Por que o número de PRs com bug entre 4 sorteados sem reposição de um lote de 20 (seção 2.3) **não** é binomial?
+**4.** Por que o número de peças defeituosas entre 4 sorteadas sem reposição de um lote de 20, 5 delas defeituosas, **não** é binomial?
 
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
-Sem reposição, os sorteios não são independentes: a probabilidade de o segundo PR ter bug depende do que saiu no primeiro. A condição 2 falha. Esse caso tem modelo próprio, a hipergeométrica, na seção 3.6.
+Sem reposição, os sorteios não são independentes: a probabilidade de a segunda peça ser defeituosa depende do que saiu na primeira. A condição 2 falha. Esse caso tem modelo próprio, a hipergeométrica, na seção 3.6.
 :::

@@ -121,7 +121,7 @@ E(X^2) &= \int_0^{360} x^2 \cdot \tfrac{1}{360}\, dx = \left[\tfrac{x^3}{1080}\r
 \end{aligned}
 $$
 
-O valor médio é 180°, o meio do mostrador, como a simetria sugere. A variância está em graus ao quadrado, e o desvio-padrão, de cerca de 104°, volta à unidade do ângulo: em média, o ponteiro para a pouco mais de um quarto de volta da posição de 180°.
+O valor médio é 180°, o meio do mostrador, como a simetria sugere. A variância está em graus ao quadrado, e o desvio-padrão, de cerca de 104°, volta à unidade do ângulo e mede o quanto as paradas se espalham em torno de 180°.
 
 ## Resumo
 

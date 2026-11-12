@@ -8,18 +8,16 @@ Esta seção corresponde à seção 7.4.1 de @bussab2023.
 #| label: setup
 #| include: false
 import numpy as np
-import pandas as pd
 import matplotlib.pyplot as plt
-from scipy import stats
-from formato import num
 
 plt.rcParams["figure.figsize"] = (7, 4)
-np.set_printoptions(legacy="1.25")   # números sem o prefixo np.float64 na saída
 ```
 
-Um sistema tem milhares de clientes que sincronizam dados com o servidor toda hora cheia. Se todos disparassem no mesmo segundo, o servidor cairia. A solução comum é o **jitter**: cada cliente espera um tempo aleatório entre 0 e 60 segundos antes de sincronizar, sem preferência por nenhum instante do intervalo. O tempo de espera de um cliente é o exemplo mais simples de variável contínua, e é a generalização do relógio da seção 4.1 para um intervalo qualquer.
+Um ônibus passa por um ponto de hora em hora, sempre no mesmo minuto. Um passageiro que não conhece o horário chega ao ponto ao acaso. Quanto tempo ele espera? A espera pode ser qualquer valor entre 0 e 60 minutos, sem preferência por nenhum instante do intervalo. É o exemplo mais simples de variável contínua, e é a generalização do relógio da seção 4.1 para um intervalo qualquer.
 
 ## O modelo
+
+"Sem preferência por nenhum instante" quer dizer que a densidade é a mesma em todo o intervalo: o gráfico de $f$ é um retângulo.
 
 ::: {.conceito}
 A variável aleatória $X$ tem **distribuição uniforme** no intervalo $[\alpha, \beta]$, $X \sim u(\alpha, \beta)$, quando sua densidade é
@@ -33,17 +31,77 @@ f(x) =
 $$
 :::
 
-A altura $1/(\beta - \alpha)$ é a única que dá área 1 a um retângulo de base $\beta - \alpha$. No jitter, $X \sim u(0, 60)$, com densidade $1/60$. No relógio, $X \sim u(0, 360)$.
+Os parâmetros $\alpha$ e $\beta$ são as pontas do intervalo, e a altura do retângulo não é livre. A área sob $f$ tem de ser 1, e um retângulo de base $\beta - \alpha$ só tem área 1 com altura $1/(\beta - \alpha)$. Na espera do ônibus, $X \sim u(0, 60)$, com densidade $1/60$. No relógio, $X \sim u(0, 360)$, com densidade $1/360$.
 
-A probabilidade de um subintervalo é a área de um retângulo, sem precisar de integral: para $\alpha \le c < d \le \beta$,
+A probabilidade de um subintervalo $[c, d]$ dentro de $[\alpha, \beta]$ é a área do retângulo de base $d - c$ e altura $1/(\beta - \alpha)$:
 
 $$
-P(c \le X \le d) = \frac{d - c}{\beta - \alpha}.
+\begin{aligned}
+P(c \le X \le d) &= (d - c) \times \frac{1}{\beta - \alpha} \\
+&= \frac{d - c}{\beta - \alpha}.
+\end{aligned}
 $$
+
+É a fração do intervalo ocupada por $[c, d]$: só a largura importa, não a posição. Na espera do ônibus, a probabilidade de o passageiro esperar entre 30 e 45 minutos é
+
+$$
+\begin{aligned}
+P(30 \le X \le 45) &= \frac{45 - 30}{60} \\
+&= \frac{15}{60} = \frac{1}{4},
+\end{aligned}
+$$
+
+a mesma de esperar no máximo 15 minutos. Em faixas de mesma largura, as esperas se espalham por igual.
 
 ## Valor médio, variância e f.d.a.
 
-Integrando como na seção 4.2 (Problema 29 de @bussab2023):
+As definições da seção 4.2 se aplicam com $f(x) = 1/(\beta - \alpha)$ dentro do intervalo. Como $f$ é zero fora dele, as integrais vão de $\alpha$ a $\beta$. O valor médio é
+
+$$
+\begin{aligned}
+E(X) &= \int_\alpha^\beta x \, \frac{1}{\beta - \alpha}\,dx \\
+&= \frac{1}{\beta - \alpha} \left[\frac{x^2}{2}\right]_\alpha^\beta \\
+&= \frac{\beta^2 - \alpha^2}{2(\beta - \alpha)} \\
+&= \frac{(\beta - \alpha)(\beta + \alpha)}{2(\beta - \alpha)} \\
+&= \frac{\alpha + \beta}{2}.
+\end{aligned}
+$$
+
+A primitiva de $x$ é $x^2/2$, e a diferença de quadrados $\beta^2 - \alpha^2 = (\beta - \alpha)(\beta + \alpha)$ cancela o denominador. A média é o ponto médio do intervalo.
+
+Para a variância, a seção 4.2 usa $\mathrm{Var}(X) = E(X^2) - [E(X)]^2$. A primitiva de $x^2$ é $x^3/3$, e a diferença de cubos se fatora como
+
+$$
+\beta^3 - \alpha^3 = (\beta - \alpha)(\alpha^2 + \alpha\beta + \beta^2).
+$$
+
+Então
+
+$$
+\begin{aligned}
+E(X^2) &= \int_\alpha^\beta x^2 \, \frac{1}{\beta - \alpha}\,dx \\
+&= \frac{1}{\beta - \alpha} \left[\frac{x^3}{3}\right]_\alpha^\beta \\
+&= \frac{\beta^3 - \alpha^3}{3(\beta - \alpha)} \\
+&= \frac{\alpha^2 + \alpha\beta + \beta^2}{3}.
+\end{aligned}
+$$
+
+Subtraindo o quadrado da média, com $(\alpha + \beta)^2 = \alpha^2 + 2\alpha\beta + \beta^2$ e denominador comum 12:
+
+$$
+\begin{aligned}
+\mathrm{Var}(X) &= \frac{\alpha^2 + \alpha\beta + \beta^2}{3} - \frac{(\alpha + \beta)^2}{4} \\
+&= \frac{\alpha^2 + \alpha\beta + \beta^2}{3} \\
+&\qquad - \frac{\alpha^2 + 2\alpha\beta + \beta^2}{4} \\
+&= \frac{4\alpha^2 + 4\alpha\beta + 4\beta^2}{12} \\
+&\qquad - \frac{3\alpha^2 + 6\alpha\beta + 3\beta^2}{12} \\
+&= \frac{\alpha^2 - 2\alpha\beta + \beta^2}{12} \\
+&= \frac{(\beta - \alpha)^2}{12}.
+\end{aligned}
+$$
+
+::: {.conceito}
+Se $X \sim u(\alpha, \beta)$,
 
 $$
 \begin{aligned}
@@ -51,8 +109,32 @@ E(X) &= \frac{\alpha + \beta}{2}, \\
 \mathrm{Var}(X) &= \frac{(\beta - \alpha)^2}{12}.
 \end{aligned}
 $$
+:::
 
-A média é o ponto médio do intervalo, e a variância depende só da largura. A f.d.a. da seção 4.3 cresce em linha reta de 0 a 1 ao longo do intervalo:
+A variância depende só da largura $\beta - \alpha$ do intervalo: deslocar o intervalo muda a média e não muda a dispersão (Problema 29 de @bussab2023). Na espera do ônibus, com $\alpha = 0$ e $\beta = 60$:
+
+$$
+\begin{aligned}
+E(X) &= \frac{0 + 60}{2} = 30 \text{ min}, \\
+\mathrm{Var}(X) &= \frac{60^2}{12} = \frac{3.600}{12} \\
+&= 300 \text{ min}^2, \\
+\mathrm{DP}(X) &= \sqrt{300} = \frac{60}{\sqrt{12}} \\
+&\approx 17{,}3 \text{ min}.
+\end{aligned}
+$$
+
+A f.d.a. da seção 4.3 é a integral da densidade de $-\infty$ até $x$. Antes de $\alpha$ não há área nenhuma, e depois de $\beta$ a área já é toda. No meio, a integral de uma constante é a constante vezes a largura:
+
+$$
+\begin{aligned}
+F(x) &= \int_\alpha^x \frac{1}{\beta - \alpha}\,dt \\
+&= \frac{1}{\beta - \alpha}\Big[\,t\,\Big]_\alpha^x \\
+&= \frac{x - \alpha}{\beta - \alpha}, \quad \alpha \le x < \beta.
+\end{aligned}
+$$
+
+::: {.conceito}
+A f.d.a. de $X \sim u(\alpha, \beta)$ é
 
 $$
 F(x) =
@@ -62,58 +144,66 @@ F(x) =
 1, & x \ge \beta.
 \end{cases}
 $$
+:::
+
+Ela cresce em linha reta de 0 a 1 ao longo do intervalo (@fig-uniforme). Na espera do ônibus, $F(x) = x/60$ entre 0 e 60, e $F(15) = 15/60 = 1/4$: um quarto das chegadas espera até 15 minutos.
 
 ```{python}
 #| label: fig-uniforme
-#| fig-cap: "Densidade (à esquerda) e f.d.a. (à direita) da uniforme em [0, 60], o tempo de espera do jitter."
+#| echo: false
+#| fig-cap: "Densidade (à esquerda) e f.d.a. (à direita) da uniforme em [0, 60], a espera, em minutos, de quem chega ao acaso a um ponto de ônibus com passagens de hora em hora."
 #| fig-alt: "À esquerda, um retângulo de altura 1/60 entre 0 e 60; à direita, uma reta que sobe de 0 em x = 0 até 1 em x = 60."
-jitter = stats.uniform(loc=0, scale=60)
-x = np.linspace(-10, 70, 400)
+x = np.linspace(-10, 70, 401)
+dens = np.where((x >= 0) & (x <= 60), 1 / 60, 0)
+fda = np.clip(x / 60, 0, 1)
 
 fig, (esq, dir) = plt.subplots(1, 2, figsize=(7, 2.8))
-esq.plot(x, jitter.pdf(x))
+esq.plot(x, dens)
 esq.set_title("densidade f(x)")
-dir.plot(x, jitter.cdf(x))
+dir.plot(x, fda)
 dir.set_title("f.d.a. F(x)")
 for eixo in (esq, dir):
-    eixo.set_xlabel("espera x (s)")
+    eixo.set_xlabel("espera x (min)")
 plt.tight_layout()
 plt.show()
 ```
 
-## Em Python
-
-A `scipy.stats.uniform` representa a uniforme, mas com dois parâmetros diferentes dos do livro: `loc` é o início do intervalo ($\alpha$), e `scale` é a **largura** ($\beta - \alpha$), e não o fim.
-
-```{python}
-#| label: jitter
-jitter = stats.uniform(loc=0, scale=60)          # u(0, 60)
-
-print(jitter.mean(), jitter.var(), round(jitter.std(), 2))
-print(jitter.cdf(15), round(jitter.cdf(45) - jitter.cdf(30), 2))
-```
-
-A espera média é de 30 segundos, com desvio-padrão de `{python} num(jitter.std(), 1)` segundos, que é $60/\sqrt{12}$. Um quarto dos clientes sincroniza nos primeiros 15 segundos, e outro quarto entre 30 e 45 segundos: em faixas de mesma largura, a carga se espalha por igual.
-
-::: {.callout-warning}
-## `scale` é a largura, não o fim do intervalo
-Para $u(10, 70)$, o certo é `stats.uniform(loc=10, scale=60)`. Escrever `stats.uniform(10, 70)` modela $u(10, 80)$, e o erro não gera aviso: a média sai 45 em vez de 40.
-:::
-
 ## Números aleatórios
 
-O caso $u(0, 1)$ tem um papel especial: um **número aleatório**, no sentido dos geradores de computador, é um valor simulado de $u(0, 1)$. É o que o `rng.uniform(0, 1)` e o `rng.random()` do numpy devolvem. A uniforme em $[0, 1]$ está na base de quase toda simulação: os geradores das outras distribuições partem dela.
+Um **número aleatório** é um valor de $U \sim u(0, 1)$. As tabelas de números aleatórios fornecem dígitos de 0 a 9 sorteados com igual probabilidade; agrupados (por exemplo, 0,4821), eles dão valores aproximados de $U$. Qualquer outra uniforme sai de $U$ por uma transformação linear.
 
-Uma uniforme qualquer também sai de $u(0, 1)$ por uma transformação linear: se $U \sim u(0, 1)$, então $X = \alpha + (\beta - \alpha)\,U \sim u(\alpha, \beta)$. A f.d.a. da seção 4.3 mostra por quê: $P(X \le x) = P\big(U \le \tfrac{x - \alpha}{\beta - \alpha}\big) = \tfrac{x - \alpha}{\beta - \alpha}$, a f.d.a. da uniforme em $[\alpha, \beta]$. As regras da seção 4.2 (as da 3.2, estendidas às contínuas) dão a média e a variância de $X$ a partir da média e da variância de $U$, que são $1/2$ e $1/12$: $E(X) = \alpha + (\beta - \alpha)/2 = (\alpha + \beta)/2$ e $\mathrm{Var}(X) = (\beta - \alpha)^2/12$. (A fórmula 7.16 de @bussab2023 faz a transformação inversa, levando qualquer uniforme a $u(-1/2, 1/2)$.)
+::: {.conceito}
+Se $U \sim u(0, 1)$, então $X = \alpha + (\beta - \alpha)\,U \sim u(\alpha, \beta)$.
+:::
 
-```{python}
-#| label: transformacao
-rng = np.random.default_rng(42)
-u = rng.random(100_000)
-espera = 0 + (60 - 0) * u
+A f.d.a. mostra por quê. Para $\alpha \le x \le \beta$, como $\beta - \alpha > 0$, a desigualdade se resolve para $U$ sem trocar de sentido:
 
-round(float(espera.mean()), 2), round(float(espera.var()), 1), 60**2 / 12
-```
+$$
+\begin{aligned}
+P(X \le x) &= P\big(\alpha + (\beta - \alpha)\,U \le x\big) \\
+&= P\left(U \le \frac{x - \alpha}{\beta - \alpha}\right) \\
+&= \frac{x - \alpha}{\beta - \alpha}.
+\end{aligned}
+$$
+
+O último passo usa a f.d.a. de $u(0, 1)$, que é $P(U \le y) = y$ para $0 \le y \le 1$, com $y = (x - \alpha)/(\beta - \alpha)$, um número entre 0 e 1. O resultado é a f.d.a. da uniforme em $[\alpha, \beta]$. Para o ônibus, $X = 60\,U$: cada número aleatório vira uma espera entre 0 e 60 minutos.
+
+A média e a variância de $X$ também saem das de $U$, que são $1/2$ e $1/12$ pelas fórmulas acima. As regras da transformação linear da seção 3.2, que valem também para variáveis contínuas (seção 4.2), com $a = \beta - \alpha$ e $b = \alpha$, dão
+
+$$
+\begin{aligned}
+E(X) &= \alpha + (\beta - \alpha)\,\frac{1}{2} \\
+&= \frac{\alpha + \beta}{2}, \\
+\mathrm{Var}(X) &= (\beta - \alpha)^2\,\frac{1}{12} \\
+&= \frac{(\beta - \alpha)^2}{12},
+\end{aligned}
+$$
+
+os mesmos valores obtidos pelas integrais. No sentido contrário, se $X \sim u(\alpha, \beta)$, então (fórmula (7.16) de @bussab2023)
+
+$$
+\frac{X - (\alpha + \beta)/2}{\beta - \alpha} \sim u(-1/2,\ 1/2).
+$$
 
 ## Resumo
 
@@ -121,25 +211,21 @@ round(float(espera.mean()), 2), round(float(espera.var()), 1), 60**2 / 12
 | Item | Uniforme $u(\alpha, \beta)$ |
 |---|---|
 | Densidade | $1/(\beta - \alpha)$ em $[\alpha, \beta]$ |
+| $P(c \le X \le d)$ | $(d - c)/(\beta - \alpha)$, dentro do intervalo |
 | $E(X)$ | $(\alpha + \beta)/2$ |
 | $\mathrm{Var}(X)$ | $(\beta - \alpha)^2/12$ |
 | $F(x)$ | $(x - \alpha)/(\beta - \alpha)$ em $[\alpha, \beta]$ |
-| `scipy.stats` | `uniform(loc=α, scale=β - α)` |
+| A partir de $U \sim u(0, 1)$ | $X = \alpha + (\beta - \alpha)\,U$ |
 :::
 
 ## Exercícios
 
-**1.** O tempo de resposta de um serviço é uniforme entre 100 e 400 ms. Qual a probabilidade de uma resposta levar mais de 300 ms? Qual a média e o desvio-padrão?
+**1.** O comprimento de uma peça cortada é uniforme entre 100 e 400 mm. Qual a probabilidade de uma peça ter mais de 300 mm? Quais são a média e o desvio-padrão?
 
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
-$X \sim u(100, 400)$. $P(X > 300) = (400 - 300)/300 = 1/3$. $E(X) = 250$ ms e $\mathrm{DP}(X) = 300/\sqrt{12} \approx 86{,}6$ ms.
-
-```python
-t = stats.uniform(loc=100, scale=300)
-t.sf(300), t.mean(), t.std()
-```
+$X \sim u(100, 400)$, um intervalo de largura 300. $P(X > 300) = (400 - 300)/300 = 1/3$. $E(X) = (100 + 400)/2 = 250$ mm e $\mathrm{DP}(X) = 300/\sqrt{12} \approx 86{,}6$ mm.
 :::
 
 **2.** No Exemplo 7.8 de @bussab2023, $U \sim u(-1/2, 1/2)$. Calcule $E(U)$, $\mathrm{Var}(U)$ e $P(-1/4 \le U \le 1/4)$.
@@ -147,13 +233,26 @@ t.sf(300), t.mean(), t.std()
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
-$E(U) = 0$, $\mathrm{Var}(U) = 1^2/12 = 1/12$ e $P(-1/4 \le U \le 1/4) = (1/4 + 1/4)/1 = 1/2$.
+$E(U) = (-1/2 + 1/2)/2 = 0$, $\mathrm{Var}(U) = 1^2/12 = 1/12$ e $P(-1/4 \le U \le 1/4) = (1/4 + 1/4)/1 = 1/2$.
 :::
 
-**3.** O jitter de outro serviço é uniforme entre 30 e 90 segundos. Um colega escreveu `stats.uniform(30, 90)`. Que intervalo ele modelou, e que média obteve?
+**3.** O tempo que uma máquina de café leva para preparar uma xícara é uniforme entre 30 e 90 segundos. (a) Escreva a f.d.a. $F(x)$ desse tempo e use-a para calcular $P(45 < X \le 70)$. (b) Como obter esse tempo a partir de um número aleatório $U \sim u(0, 1)$? Quais são a média e o desvio-padrão?
 
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
-Para a `scipy`, o segundo argumento é a largura, então ele modelou $u(30, 120)$, com média 75 segundos em vez de 60. O certo é `stats.uniform(loc=30, scale=60)`. Com `loc=0` o erro não aparece, porque a largura e o fim do intervalo são o mesmo número.
+(a) $X \sim u(30, 90)$, de largura 60. $F(x) = 0$ para $x < 30$, $F(x) = (x - 30)/60$ para $30 \le x < 90$ e $F(x) = 1$ para $x \ge 90$. Então
+
+$$
+\begin{aligned}
+P(45 < X \le 70) &= F(70) - F(45) \\
+&= \frac{40}{60} - \frac{15}{60} \\
+&= \frac{25}{60} = \frac{5}{12} \\
+&\approx 0{,}417.
+\end{aligned}
+$$
+
+É a fração $25/60$ do intervalo, como a área do retângulo daria direto.
+
+(b) $X = 30 + 60\,U$. A média é $30 + 60 \times 1/2 = 60$ segundos, e a variância, $60^2 \times 1/12 = 300$ s², com desvio-padrão $\sqrt{300} \approx 17{,}3$ segundos. O número é o mesmo da espera do ônibus, agora em segundos: os dois intervalos têm largura 60.
 :::

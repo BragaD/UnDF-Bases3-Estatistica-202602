@@ -8,13 +8,9 @@ Esta seção corresponde à seção 7.3 de @bussab2023.
 #| label: setup
 #| include: false
 import numpy as np
-import pandas as pd
 import matplotlib.pyplot as plt
-from scipy.integrate import quad
-from formato import num
 
 plt.rcParams["figure.figsize"] = (7, 4)
-np.set_printoptions(legacy="1.25")   # números sem o prefixo np.float64 na saída
 ```
 
 A função de distribuição acumulada da seção 3.3, $F(x) = P(X \le x)$, não dependia de que a variável fosse discreta: a definição vale para qualquer variável aleatória. O que muda numa variável contínua é o jeito de calcular $F$ e a cara do gráfico. A escada da seção 3.3 vira uma curva sem degraus.
@@ -22,7 +18,7 @@ A função de distribuição acumulada da seção 3.3, $F(x) = P(X \le x)$, não
 ## Definição
 
 ::: {.conceito}
-Se $X$ é contínua com densidade $f$, a **função de distribuição acumulada** é
+Se $X$ é contínua com densidade $f$, a **função de distribuição acumulada** (f.d.a.) é
 
 $$
 F(x) = P(X \le x) = \int_{-\infty}^{x} f(t)\, dt,
@@ -31,13 +27,29 @@ $$
 a área sob a densidade à esquerda de $x$.
 :::
 
-A letra da variável de integração mudou para $t$ porque $x$ já é o limite superior. Para a densidade $f(x) = 2x$ em $[0, 1]$, da seção 4.1 (Exemplo 7.2 de @bussab2023), a f.d.a. é (Exemplo 7.6):
+$F(x)$ acumula a probabilidade de tudo o que fica à esquerda de $x$, inclusive o próprio $x$. A letra da variável de integração mudou para $t$ porque $x$ já é o limite superior: $t$ percorre os valores de $-\infty$ até $x$, e $x$ fica fixo durante a integração.
+
+Para a densidade $f(x) = 2x$ em $[0, 1]$, da seção 4.1 (Exemplo 7.2 de @bussab2023), a conta se divide em três trechos, conforme a posição de $x$ em relação ao intervalo $[0, 1]$, onde a densidade é positiva:
+
+- se $x < 0$, a densidade é zero à esquerda de $x$, e $F(x) = 0$;
+- se $0 \le x < 1$, só o trecho de $0$ a $x$ contribui, e a primitiva de $2t$ é $t^2$:
+
+  $$
+  \begin{aligned}
+  F(x) &= \int_0^x 2t\, dt \\
+  &= \Big[t^2\Big]_0^x = x^2;
+  \end{aligned}
+  $$
+
+- se $x \ge 1$, a área à esquerda de $x$ já inclui toda a área sob $f$, e $F(x) = 1$.
+
+Juntando os três trechos, a f.d.a. é (Exemplo 7.6 de @bussab2023)
 
 $$
 F(x) =
 \begin{cases}
 0, & x < 0, \\
-\int_0^x 2t\, dt = x^2, & 0 \le x < 1, \\
+x^2, & 0 \le x < 1, \\
 1, & x \ge 1.
 \end{cases}
 $$
@@ -46,6 +58,7 @@ $F$ tem as mesmas propriedades da seção 3.3: fica entre 0 e 1, nunca desce, te
 
 ```{python}
 #| label: fig-densidade-fda
+#| echo: false
 #| fig-cap: "Densidade f(x) = 2x (à esquerda) e sua f.d.a. F(x) = x² (à direita). F(0,5) = 0,25 é a área sombreada sob a densidade."
 #| fig-alt: "À esquerda, uma reta crescente de 0 a 2 com a área até x = 0,5 sombreada; à direita, uma parábola de 0 a 1 com um ponto marcado em (0,5; 0,25)."
 x = np.linspace(-0.2, 1.2, 400)
@@ -66,12 +79,14 @@ plt.tight_layout()
 plt.show()
 ```
 
+Os dois painéis da @fig-densidade-fda mostram a mesma distribuição. A altura de $F$ num ponto $x$, no painel da direita, é a área sob $f$ à esquerda de $x$, no painel da esquerda. Em $x = 0{,}5$, a área sombreada é $(0{,}5)^2 = 0{,}25$, e o ponto marcado na curva de $F$ está na altura $0{,}25$. Onde a densidade é alta, perto de 1, a área cresce depressa quando $x$ avança, e a curva de $F$ fica mais íngreme. Perto de 0, onde a densidade é baixa, $F$ cresce devagar.
+
 ## Da f.d.a. de volta à densidade
 
 $F$ é a integral de $f$. Pelo teorema fundamental do cálculo, a derivada de $F$ devolve $f$ nos pontos em que $f$ é contínua.
 
 ::: {.conceito}
-Nos pontos em que $F$ é derivável,
+Nos pontos em que $f$ é contínua,
 
 $$
 f(x) = F'(x).
@@ -88,32 +103,24 @@ $$
 
 ## Probabilidades de intervalos
 
-Como na seção 3.3, $P(a < X \le b) = F(b) - F(a)$. Numa variável contínua, incluir ou não os extremos não muda nada, porque $P(X = a) = P(X = b) = 0$ (seção 4.1). Para $f(x) = 2x$:
+Como na seção 3.3, $P(a < X \le b) = F(b) - F(a)$: a área à esquerda de $b$ menos a área à esquerda de $a$ deixa só a área entre $a$ e $b$. Numa variável contínua, incluir ou não os extremos não muda nada, porque $P(X = a) = P(X = b) = 0$ (seção 4.1). Para $f(x) = 2x$, com $F(x) = x^2$ em $[0, 1]$:
 
 $$
 \begin{aligned}
 P(0{,}3 \le X \le 0{,}8) &= F(0{,}8) - F(0{,}3) \\
+&= 0{,}8^2 - 0{,}3^2 \\
 &= 0{,}64 - 0{,}09 = 0{,}55.
 \end{aligned}
 $$
 
-```{python}
-#| label: fda-intervalo
-F_2x = lambda t: np.clip(t, 0, 1) ** 2
-
-pela_fda = F_2x(0.8) - F_2x(0.3)
-pela_integral, _ = quad(lambda t: 2 * t, 0.3, 0.8)
-round(float(pela_fda), 4), round(pela_integral, 4)
-```
-
-Com a f.d.a. em mãos, não é preciso integrar de novo para cada intervalo: basta subtrair dois valores.
+A integral da densidade no mesmo intervalo dá o mesmo valor, $\int_{0{,}3}^{0{,}8} 2x\, dx = \big[x^2\big]_{0{,}3}^{0{,}8} = 0{,}55$: é a mesma primitiva, avaliada nos mesmos pontos. Com a f.d.a. em mãos, não é preciso integrar de novo para cada intervalo: basta subtrair dois valores.
 
 ## Resumo
 
 ::: {.table-responsive}
 | | Discreta | Contínua |
 |---|---|---|
-| $F(x)$ | soma de $p(x_i)$ com $x_i \le x$ | $\int_{-\infty}^{x} f(t)\, dt$ |
+| $F(x)$ | $\sum_{x_i \le x} p(x_i)$ | $\int_{-\infty}^{x} f(t)\, dt$ |
 | Gráfico | escada | curva sem saltos |
 | Volta ao modelo | altura dos degraus | $f(x) = F'(x)$ |
 | $P(a < X \le b)$ | $F(b) - F(a)$, atenção aos extremos | $F(b) - F(a)$, extremos não importam |
@@ -126,7 +133,14 @@ Com a f.d.a. em mãos, não é preciso integrar de novo para cada intervalo: bas
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
-$F(x) = \int_0^x 3t^2\, dt = x^3$ para $0 \le x \le 1$ (0 antes, 1 depois). $P(0{,}5 < X \le 0{,}9) = 0{,}9^3 - 0{,}5^3 = 0{,}729 - 0{,}125 = 0{,}604$.
+A primitiva de $3t^2$ é $t^3$, então $F(x) = \int_0^x 3t^2\, dt = \big[t^3\big]_0^x = x^3$ para $0 \le x \le 1$ (0 antes, 1 depois). Logo,
+
+$$
+\begin{aligned}
+P(0{,}5 < X \le 0{,}9) &= F(0{,}9) - F(0{,}5) \\
+&= 0{,}729 - 0{,}125 = 0{,}604.
+\end{aligned}
+$$
 :::
 
 **2.** A f.d.a. de uma variável é $F(x) = x/4$ para $0 \le x \le 4$ (0 antes, 1 depois). Qual a densidade? Que modelo é esse?

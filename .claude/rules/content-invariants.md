@@ -18,7 +18,7 @@ de conflito, o `CLAUDE.md` vence.
 
 - **INV-1: Registro no `_quarto.yml`.** Todo `.qmd` novo em `content/` é listado em `book.chapters`. Arquivo não listado não existe para o leitor.
 - **INV-2: Callout de atribuição.** Toda seção abre com um `callout-note` dizendo de onde vem — "Esta seção corresponde à seção 1.3 de @bruce2020", "se baseia na seção 6.6.4 de @bussab2023", "se inspira no Capítulo 10 de @weed" —, com o número **da fonte**, nunca o nosso. Hoje o livro só tem o Cap. 1, que corresponde ao cap. 1 do Bruce, então os dois coincidem — mas a coincidência é temporária.
-- **INV-3: Escopo.** O livro tem a Introdução e os Caps. 1 a 4 (os três últimos de probabilidade); os antigos Caps. 2 a 5 foram removidos em 2.2026. Do Cap. 1 foram cortados: curtose, violino, curva de densidade, convenções de quantil (1.5), valor esperado (1.6) e heatmap (1.7); a 1.8 é leitura complementar, fora do cronograma e do notebook. Probabilidade vem de @bussab2023 caps. 5–7, em três capítulos do livro (2, 3 e 4), com o escopo por seção fixado no `CLAUDE.md` ("Próximo capítulo"); 6.6.5 (Poisson) e 7.4.3 (exponencial) são suplementares, fora do cronograma e do notebook.
+- **INV-3: Escopo.** O livro tem a Introdução e os Caps. 1 a 4 (os três últimos de probabilidade); os antigos Caps. 2 a 5 foram removidos em 2.2026. Do Cap. 1 foram cortados: curtose, violino, curva de densidade, convenções de quantil (1.5), valor esperado (1.6) e heatmap (1.7); a 1.8 é leitura complementar, fora do cronograma e do notebook. Probabilidade vem de @bussab2023 caps. 5–7, em três capítulos do livro (2, 3 e 4), com o escopo por seção fixado no `CLAUDE.md` ("Próximo capítulo"); 6.6.5 (Poisson) e 7.4.3 (exponencial) são suplementares, fora do cronograma. Os Caps. 3 e 4 não têm código visível, notebook nem exemplos de computação (decisão de 12/11/2026, no `CLAUDE.md`).
 - **INV-4: Bibliografia única.** Toda citação resolve em `references.bib`. `@bussab2023` **não** vira 2017.
 
 ## Código
@@ -26,7 +26,7 @@ de conflito, o `CLAUDE.md` vence.
 - **INV-5: Semente explícita.** Todo chunk com aleatoriedade usa `np.random.default_rng(<semente>)` ou `random_state=<semente>`.
 - **INV-6: Caminhos a partir da raiz.** `pd.read_csv("dados/...")`, nunca `../../dados/...` (`execute-dir: project`).
 - **INV-7: Python, não R.** Todo exemplo executável é Python; dependência nova entra no `pyproject.toml` com limite superior de versão.
-- **INV-8: Números da prosa vêm do código.** Valores que dependem dos dados entram por `` `{python} num(...)` `` ou são conferidos contra a saída do chunk. Um número digitado à mão que diverge da saída é erro.
+- **INV-8: Números da prosa vêm do código.** Valores que dependem dos dados entram por `` `{python} num(...)` `` ou são conferidos contra a saída do chunk. Um número digitado à mão que diverge da saída é erro. Nas seções sem código (2.4, 2.5 e os Caps. 3 e 4), todo número é digitado e conferido fora do texto, por script descartável e pelo `domain-reviewer`; ali, um `` `{python}` `` em linha ou um chunk visível é que é o erro.
 
 ## Widgets (OJS)
 

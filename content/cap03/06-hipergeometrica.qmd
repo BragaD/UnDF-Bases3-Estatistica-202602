@@ -4,27 +4,16 @@
 Esta seção corresponde à seção 6.6.4 de @bussab2023.
 :::
 
-```{python}
-#| label: setup
-#| include: false
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-from math import comb
-from scipy import stats
-from formato import num
+Na seção 2.3, sortearam-se 4 itens de um total de 20, 5 deles com o atributo de interesse, e a probabilidade de exatamente 2 desses itens na amostra saiu de uma conta com combinações. O exercício 4 da seção 3.5 explicou por que a binomial não serve: sem reposição, os sorteios não são independentes.
 
-plt.rcParams["figure.figsize"] = (7, 4)
-np.set_printoptions(legacy="1.25")   # números sem o prefixo np.float64 na saída
-```
-
-Na seção 2.3, um auditor sorteou 4 entre 20 pull requests, 5 deles com bug, e a probabilidade de achar exatamente 2 bugs saiu de uma conta com combinações. No fim, o texto avisou que a estrutura da conta reapareceria no Capítulo 3. O exercício 4 da seção 3.5 explicou por que a binomial não serve: sem reposição, os sorteios não são independentes.
-
-Esta seção dá nome a essa estrutura. Ela aparece sempre que se sorteiam elementos **sem reposição** de uma população dividida em dois grupos, como os PRs com e sem bug ou as peças boas e defeituosas de um lote.
+Essa estrutura é a distribuição hipergeométrica. Ela aparece sempre que se sorteiam elementos **sem reposição** de uma população dividida em dois grupos, como as peças boas e defeituosas de um lote ou as bolas brancas e pretas de uma urna.
 
 ## O modelo
 
-Uma população tem $N$ elementos, e $r$ deles têm um atributo de interesse (o "sucesso"). Sorteiam-se $n$ elementos ao acaso, sem reposição, e $X$ é o número de sucessos na amostra. O raciocínio da seção 2.3 vale para qualquer $k$: os casos possíveis são os $\binom{N}{n}$ subconjuntos de tamanho $n$, e um caso favorável escolhe $k$ sucessos entre os $r$ **e** $n - k$ fracassos entre os $N - r$.
+Uma população tem $N$ elementos, e $r$ deles têm um atributo de interesse (o "sucesso"). Sorteiam-se $n$ elementos ao acaso, sem reposição, e $X$ é o número de sucessos na amostra. Todos os subconjuntos de $n$ elementos têm a mesma chance de ser a amostra, então $P(X = k)$ é o número de casos favoráveis dividido pelo número de casos possíveis (seção 2.3):
+
+- os **casos possíveis** são os $\binom{N}{n}$ subconjuntos de tamanho $n$;
+- um **caso favorável** escolhe $k$ sucessos entre os $r$ **e** $n - k$ fracassos entre os $N - r$. Pelo princípio multiplicativo, há $\binom{r}{k}\binom{N-r}{n-k}$ maneiras de fazer as duas escolhas.
 
 ::: {.conceito}
 $X$ tem **distribuição hipergeométrica**, $X \sim \mathrm{hip}(N, r, n)$, quando
@@ -36,31 +25,56 @@ $$
 para os valores de $k$ que fazem sentido: $\max(0,\, n - N + r) \le k \le \min(r, n)$.
 :::
 
-Os limites de $k$ só dizem o óbvio. Não há como sortear mais sucessos do que existem ($k \le r$) nem mais do que o tamanho da amostra ($k \le n$). E, se a amostra for maior que o número de fracassos, alguns sucessos são inevitáveis ($k \ge n - (N - r)$).
+Os três parâmetros são o tamanho da população ($N$), o número de sucessos nela ($r$) e o tamanho da amostra ($n$).
 
-## A auditoria, de novo
+Não há como sortear mais sucessos do que existem ($k \le r$) nem mais do que o tamanho da amostra ($k \le n$). E, se a amostra for maior que o número de fracassos, alguns sucessos são inevitáveis ($k \ge n - (N - r)$).
 
-Na auditoria, $N = 20$ PRs, $r = 5$ com bug e $n = 4$ sorteados, e $X \sim \mathrm{hip}(20, 5, 4)$. A `scipy.stats` tem o modelo pronto, a `hypergeom`. Os argumentos vêm na mesma ordem do livro (população, sucessos, amostra), mas com outros nomes:
+## Um lote de 20 peças
 
-```{python}
-#| label: hipergeometrica-auditoria
-# scipy.stats.hypergeom(M, n, N): M = tamanho da população (nosso N),
-# n = número de sucessos na população (nosso r), N = tamanho da amostra (nosso n)
-auditoria = stats.hypergeom(M=20, n=5, N=4)
+Um lote tem $N = 20$ peças, $r = 5$ delas defeituosas, e escolhem-se $n = 4$ ao acaso, sem reposição (Exemplo 5.8 de @bussab2023; é a mesma conta da seção 2.3, que sorteou 4 itens de 20, 5 deles com o atributo de interesse). O número $X$ de defeituosas na amostra tem distribuição $\mathrm{hip}(20, 5, 4)$, e os casos possíveis são $\binom{20}{4} = 4{.}845$.
 
-pd.DataFrame({"k": range(5), "P(X = k)": auditoria.pmf(range(5))}).round(4)
-```
+Ter duas defeituosas na amostra significa 2 das 5 defeituosas e 2 das 15 boas:
 
-$P(X = 2)$ é o `{python} num(auditoria.pmf(2), 3)` da seção 2.3, e $P(X = 0)$ é o `{python} num(auditoria.pmf(0), 3)` que deu, pelo complementar, a chance de pelo menos um bug. A tabela inteira mostra o resto: achar 3 ou 4 bugs é raro.
+$$
+\begin{aligned}
+P(X = 2) &= \frac{\binom{5}{2}\binom{15}{2}}{\binom{20}{4}} \\
+&= \frac{10 \times 105}{4{.}845} \\
+&= \frac{1{.}050}{4{.}845} \approx 0{,}217.
+\end{aligned}
+$$
 
-::: {.callout-warning}
-## As letras da `scipy` não são as do livro
-Na `scipy.stats.hypergeom`, `M` é o tamanho da população, `n` é o número de sucessos na população e `N` é o tamanho da amostra. No Bussab, $N$ é a população, $r$ os sucessos e $n$ a amostra. A mesma letra $N$ quer dizer população num e amostra no outro. Quem escreve `hypergeom(N=20, n=4, M=5)` pensando nas letras do livro recebe `nan` em todas as probabilidades, sem mensagem de erro. Escreva os nomes da `scipy` (`M=`, `n=`, `N=`) com um comentário da correspondência.
+Nenhuma defeituosa significa as 4 peças entre as 15 boas, e nenhuma escolha entre as defeituosas ($\binom{5}{0} = 1$):
+
+$$
+\begin{aligned}
+P(X = 0) &= \frac{\binom{5}{0}\binom{15}{4}}{\binom{20}{4}} \\
+&= \frac{1 \times 1{.}365}{4{.}845} \approx 0{,}282.
+\end{aligned}
+$$
+
+Os outros valores de $k$ seguem a mesma conta:
+
+::: {.table-responsive}
+| $k$ | $\binom{5}{k}\binom{15}{4-k}$ | $P(X = k)$ |
+|:-:|:-:|:-:|
+| 0 | $1 \times 1{.}365 = 1{.}365$ | 0,2817 |
+| 1 | $5 \times 455 = 2{.}275$ | 0,4696 |
+| 2 | $10 \times 105 = 1{.}050$ | 0,2167 |
+| 3 | $10 \times 15 = 150$ | 0,0310 |
+| 4 | $5 \times 1 = 5$ | 0,0010 |
+| **Total** | **4.845** | **1** |
+
+: Distribuição de $X \sim \mathrm{hip}(20, 5, 4)$; cada probabilidade é a segunda coluna dividida por 4.845. {#tbl-hip-lote}
 :::
+
+Os casos favoráveis somam 4.845, o total de casos possíveis: cada amostra tem algum número de defeituosas entre 0 e 4. $P(X = 2)$ é o 0,217 da seção 2.3, e $P(X = 0)$ é o 0,282 que, na seção 2.3, deu pelo complementar a chance de pelo menos um item com o atributo, 0,718. Achar 3 ou 4 defeituosas é raro.
 
 ## Valor médio e variância
 
-Com $p = r/N$, a proporção de sucessos na população, o Bussab dá (fórmulas 6.20 e 6.21):
+Com $p = r/N$, a proporção de sucessos na população, o valor médio e a variância são as fórmulas (6.20) e (6.21) de @bussab2023:
+
+::: {.conceito}
+Se $X \sim \mathrm{hip}(N, r, n)$ e $p = r/N$,
 
 $$
 \begin{aligned}
@@ -68,35 +82,60 @@ E(X) &= np, \\
 \mathrm{Var}(X) &= np(1 - p)\,\frac{N - n}{N - 1}.
 \end{aligned}
 $$
+:::
 
 O valor médio é o mesmo da binomial: em média, a amostra tem a mesma proporção de sucessos que a população. A variância é a da binomial multiplicada pelo fator $(N - n)/(N - 1)$, que é menor que 1 sempre que $n \ge 2$. Sem reposição, cada sorteio "gasta" um elemento, e a amostra fica mais parecida com a população do que ficaria com reposição.
 
-```{python}
-#| label: hipergeometrica-media
-p_bug = 5 / 20
-auditoria.mean(), round(auditoria.var(), 4), round(4 * p_bug * (1 - p_bug), 4)
-```
+No lote, $p = 5/20 = 1/4$ e o fator vale $(20 - 4)/(20 - 1) = 16/19$:
 
-Na auditoria, $E(X) = 4 \times 5/20 = 1$ bug por amostra. A variância, `{python} num(auditoria.var(), 3)`, fica abaixo do `{python} num(4 * p_bug * (1 - p_bug), 3)` que uma binomial $b(4, 1/4)$ daria.
+$$
+\begin{aligned}
+E(X) &= 4 \times \frac{1}{4} = 1, \\[4pt]
+\mathrm{Var}(X) &= 4 \times \frac{1}{4} \times \frac{3}{4} \times \frac{16}{19} \\
+&= \frac{3}{4} \times \frac{16}{19} \\
+&= \frac{12}{19} \approx 0{,}632.
+\end{aligned}
+$$
+
+Com reposição, o número de defeituosas seria $b(4, 1/4)$, com o mesmo valor médio e variância $4 \times \frac{1}{4} \times \frac{3}{4} = 0{,}75$. Sem reposição, a variância cai para 0,632.
 
 ## População grande: quase binomial
 
-Quando a população é grande perto da amostra, tirar um elemento quase não muda a proporção dos que sobram, e sortear com ou sem reposição dá quase no mesmo. Aí a hipergeométrica fica muito perto da binomial com $p = r/N$, e o fator $(N - n)/(N - 1)$ fica perto de 1.
+Quando a população é grande em relação à amostra, tirar um elemento quase não muda a proporção dos que sobram, e sortear com ou sem reposição dá quase o mesmo resultado. Aí a hipergeométrica fica muito perto da binomial com $p = r/N$, e o fator $(N - n)/(N - 1)$ fica perto de 1.
 
-O Exemplo 6.15 de @bussab2023 é um lote de $N = 100$ peças com $r = 10$ defeituosas, do qual se sorteiam $n = 5$. A tabela compara, para populações cada vez maiores com os mesmos 10% de defeituosas, a probabilidade de a amostra não ter nenhuma defeituosa:
+Considere um lote de $N = 100$ peças com $r = 10$ defeituosas, do qual se sorteiam $n = 5$ (Exemplo 6.15 de @bussab2023). A probabilidade de a amostra não ter nenhuma defeituosa é
 
-```{python}
-#| label: hipergeometrica-binomial
-tamanhos = [20, 100, 1_000, 10_000]
-comparacao = pd.DataFrame({
-    "N": tamanhos,
-    "hipergeométrica": [stats.hypergeom(M=N, n=N // 10, N=5).pmf(0) for N in tamanhos],
-    "binomial b(5, 1/10)": stats.binom(5, 0.1).pmf(0),
-})
-comparacao.round(4)
-```
+$$
+P(X = 0) = \frac{\binom{10}{0}\binom{90}{5}}{\binom{100}{5}}.
+$$
 
-Com o lote de 100 peças, a chance de nenhuma defeituosa é `{python} num(stats.hypergeom(M=100, n=10, N=5).pmf(0), 3)`, e a de pelo menos uma, `{python} num(1 - stats.hypergeom(M=100, n=10, N=5).pmf(0), 3)`. Com 10.000 peças, a hipergeométrica e a binomial já coincidem até a terceira casa e diferem em menos de 0,0001. Por isso, numa pesquisa com 1.000 entrevistados numa cidade de milhões de habitantes, usa-se a binomial mesmo sem reposição.
+Escrevendo as combinações, os $5!$ dos denominadores se cancelam:
+
+$$
+\begin{aligned}
+P(X = 0) &= \frac{90 \cdot 89 \cdot 88 \cdot 87 \cdot 86}{100 \cdot 99 \cdot 98 \cdot 97 \cdot 96} \\
+&= \frac{90}{100} \times \frac{89}{99} \times \frac{88}{98} \\
+&\quad \times \frac{87}{97} \times \frac{86}{96} \\
+&\approx 0{,}584.
+\end{aligned}
+$$
+
+Cada fração $90/100$, $89/99$, … é a chance de a próxima peça ser boa, dadas as anteriores boas, e todas ficam perto de $0{,}9$. Com reposição, as cinco frações seriam exatamente $0{,}9$, e a binomial $b(5, 1/10)$ daria $0{,}9^5 \approx 0{,}5905$.
+
+A tabela repete a conta para populações cada vez maiores, com os mesmos 10% de defeituosas:
+
+::: {.table-responsive}
+| $N$ | $r$ | hipergeométrica | binomial $b(5, 1/10)$ |
+|:-:|:-:|:-:|:-:|
+| 20 | 2 | 0,5526 | 0,5905 |
+| 100 | 10 | 0,5838 | 0,5905 |
+| 1.000 | 100 | 0,5898 | 0,5905 |
+| 10.000 | 1.000 | 0,5904 | 0,5905 |
+
+: $P(X = 0)$ numa amostra de $n = 5$, sem reposição (hipergeométrica) e com reposição (binomial). {#tbl-hip-binomial}
+:::
+
+Com o lote de 100 peças, a chance de nenhuma defeituosa é 0,584, e a de pelo menos uma, 0,416. Com 10.000 peças, a hipergeométrica e a binomial já coincidem até a terceira casa e diferem em menos de 0,0001. Por isso, numa pesquisa com 1.000 entrevistados numa cidade de milhões de habitantes, usa-se a binomial mesmo sem reposição.
 
 ## Resumo
 
@@ -107,22 +146,25 @@ Com o lote de 100 peças, a chance de nenhuma defeituosa é `{python} num(stats.
 | $P(X = k)$ | $\binom{r}{k}\binom{N-r}{n-k} / \binom{N}{n}$ |
 | $E(X)$ | $np$, com $p = r/N$ |
 | $\mathrm{Var}(X)$ | $np(1-p)(N-n)/(N-1)$ |
-| `scipy.stats` | `hypergeom(M=N, n=r, N=n)` |
-| Aproximação | $b(n, r/N)$ quando $N$ é grande perto de $n$ |
+| Aproximação | $b(n, r/N)$ quando $N$ é grande em relação a $n$ |
 :::
 
 ## Exercícios
 
-**1.** Um time tem 12 desenvolvedores, 4 deles seniores. Sorteiam-se 3 para uma força-tarefa. Qual a probabilidade de a força-tarefa ter pelo menos um sênior?
+**1.** Um grupo tem 12 pessoas, 4 delas mulheres. Sorteia-se uma comissão de 3 pessoas. Qual a probabilidade de a comissão ter pelo menos uma mulher?
 
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
-$X \sim \mathrm{hip}(12, 4, 3)$. Pelo complementar, $P(X \ge 1) = 1 - P(X = 0) = 1 - \binom{8}{3}/\binom{12}{3} = 1 - 56/220 \approx 0{,}745$.
+O número $X$ de mulheres na comissão tem distribuição $\mathrm{hip}(12, 4, 3)$. Pelo complementar,
 
-```python
-1 - stats.hypergeom(M=12, n=4, N=3).pmf(0)
-```
+$$
+\begin{aligned}
+P(X \ge 1) &= 1 - P(X = 0) \\
+&= 1 - \frac{\binom{4}{0}\binom{8}{3}}{\binom{12}{3}} \\
+&= 1 - \frac{56}{220} \approx 0{,}745.
+\end{aligned}
+$$
 :::
 
 **2.** Na Mega-Sena (seção 2.3), o jogador marca 6 dos 60 números, e são sorteados 6. Seja $X$ o número de acertos. Qual a distribuição de $X$? Use-a para calcular a probabilidade da quadra.
@@ -130,17 +172,46 @@ $X \sim \mathrm{hip}(12, 4, 3)$. Pelo complementar, $P(X \ge 1) = 1 - P(X = 0) =
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
-Os 6 números marcados são os "sucessos" entre os 60, e o sorteio é a amostra de 6, sem reposição: $X \sim \mathrm{hip}(60, 6, 6)$. A quadra é $P(X = 4) = \binom{6}{4}\binom{54}{2}/\binom{60}{6}$, 1 em cerca de 2.332, como na seção 2.3.
+Os 6 números marcados são os "sucessos" entre os 60, e o sorteio é a amostra de 6, sem reposição: $X \sim \mathrm{hip}(60, 6, 6)$. A quadra é
 
-```python
-1 / stats.hypergeom(M=60, n=6, N=6).pmf(4)
-```
+$$
+\begin{aligned}
+P(X = 4) &= \frac{\binom{6}{4}\binom{54}{2}}{\binom{60}{6}} \\
+&= \frac{15 \times 1{.}431}{50{.}063{.}860},
+\end{aligned}
+$$
+
+1 em cerca de 2.332, como na seção 2.3.
 :::
 
-**3.** Para o caso da auditoria (20 PRs, 5 com bug, 4 sorteados), um colega escreveu `stats.hypergeom(N=20, n=4, M=5).pmf(2)` e recebeu `nan`. O que aconteceu? Como corrigir?
+**3.** Uma urna tem 10 bolas, 7 brancas e 3 pretas. Retiram-se 5 bolas, sem reposição, e $X$ é o número de bolas brancas na amostra. (a) Quais os valores possíveis de $X$? (b) Calcule $P(X = 2)$. (c) Calcule $E(X)$ e $\mathrm{Var}(X)$ e compare a variância com a de uma binomial $b(5, 7/10)$.
 
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
-Ele usou as letras do Bussab como nomes dos argumentos. Para a `scipy`, `M=5` é a população, `n=4` são os sucessos e `N=20` é a amostra: uma amostra de 20 tirada de uma população de 5 é impossível, e a `scipy` devolve `nan` sem avisar. O certo é `stats.hypergeom(M=20, n=5, N=4).pmf(2)`, que dá o 0,217 da seção 2.3.
+$X \sim \mathrm{hip}(10, 7, 5)$.
+
+(a) Só há 3 bolas pretas, e a amostra tem 5: pelo menos 2 são brancas. O limite inferior é $\max(0,\, 5 - 10 + 7) = 2$ e o superior é $\min(7, 5) = 5$, então $X$ assume 2, 3, 4 ou 5.
+
+(b) Duas brancas obrigam as 3 pretas na amostra:
+
+$$
+\begin{aligned}
+P(X = 2) &= \frac{\binom{7}{2}\binom{3}{3}}{\binom{10}{5}} \\
+&= \frac{21 \times 1}{252} \\
+&= \frac{1}{12} \approx 0{,}083.
+\end{aligned}
+$$
+
+(c) Com $p = 7/10$ e fator $(10 - 5)/(10 - 1) = 5/9$,
+
+$$
+\begin{aligned}
+E(X) &= 5 \times 0{,}7 = 3{,}5, \\[4pt]
+\mathrm{Var}(X) &= 5 \times 0{,}7 \times 0{,}3 \times \frac{5}{9} \\
+&= 1{,}05 \times \frac{5}{9} \approx 0{,}583.
+\end{aligned}
+$$
+
+A binomial $b(5, 7/10)$, que corresponde a retirar com reposição, tem a mesma média, 3,5, e variância 1,05. Como a amostra tira metade da urna, o fator $5/9$ reduz a variância quase à metade.
 :::

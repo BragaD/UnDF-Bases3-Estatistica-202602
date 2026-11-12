@@ -4,8 +4,6 @@
 Este capítulo é baseado no Capítulo 6 de @bussab2023.
 :::
 
-📓 [**Abrir o notebook deste capítulo no Colab ↗**](https://colab.research.google.com/github/BragaD/UnDF-Bases3-Estatistica-202602/blob/main/notebooks/capitulo-03.ipynb): só o código, pronto para rodar.
-
 ## Seções
 
 | Seção | Tópico |

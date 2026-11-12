@@ -32,15 +32,16 @@ $$
 e zero para $t < 0$. Seu valor médio é $E(T) = \beta$ e sua variância é $\mathrm{Var}(T) = \beta^2$.
 :::
 
-A densidade começa em $1/\beta$ no instante $t = 0$ e decresce sem nunca zerar: tempos curtos são os mais prováveis, e tempos longos vão ficando cada vez mais raros. O parâmetro $\beta$ é o tempo médio, e o desvio-padrão é igual a ele. As duas fórmulas, $E(T) = \beta$ e $\mathrm{Var}(T) = \beta^2$, saem das integrais da seção 4.2 por integração por partes, que aqui fica sem desenvolver.
+A densidade começa em $1/\beta$ no instante $t = 0$ e decresce sem nunca zerar: intervalos perto de 0 são mais prováveis que intervalos de mesma largura mais adiante, e tempos longos vão ficando cada vez mais raros. O parâmetro $\beta$ é o tempo médio, e o desvio-padrão é igual a ele. As duas fórmulas, $E(T) = \beta$ e $\mathrm{Var}(T) = \beta^2$, saem das integrais da seção 4.2 por integração por partes; as contas não são feitas aqui.
 
 A f.d.a. sai pela integral da seção 4.3. Como $f$ é zero antes de 0, a integral começa em 0, e a primitiva de $\frac{1}{\beta} e^{-s/\beta}$ é $-e^{-s/\beta}$:
 
 $$
 \begin{aligned}
-F(t) &= \int_0^t \frac{1}{\beta}\, e^{-s/\beta}\,ds
-= \Big[-e^{-s/\beta}\Big]_0^t \\
-&= -e^{-t/\beta} - (-e^{0}) = 1 - e^{-t/\beta}, \quad t \ge 0.
+F(t) &= \int_0^t \frac{1}{\beta}\, e^{-s/\beta}\,ds \\
+&= \Big[-e^{-s/\beta}\Big]_0^t \\
+&= -e^{-t/\beta} - (-e^{0}) \\
+&= 1 - e^{-t/\beta}, \quad t \ge 0.
 \end{aligned}
 $$
 
@@ -52,7 +53,8 @@ Se $T \sim \mathrm{Exp}(\beta)$, então, para $t \ge 0$,
 $$
 \begin{aligned}
 F(t) &= 1 - e^{-t/\beta}, \\
-P(T > t) &= 1 - F(t) = e^{-t/\beta}.
+P(T > t) &= 1 - F(t) \\
+&= e^{-t/\beta}.
 \end{aligned}
 $$
 :::
@@ -61,10 +63,13 @@ Com $\beta = 1$, é o Exemplo 7.7 de @bussab2023, visto na seção 4.3.
 
 ## Tempo até a falha
 
-O Exemplo 7.10 de @bussab2023 trata o tempo de vida de um transistor, em horas, como $\mathrm{Exp}(500)$: em média, o transistor dura 500 horas. Qual a probabilidade de ele durar mais que a média?
+O Exemplo 7.10 de @bussab2023 trata o tempo de vida de um transistor, em horas, como $\mathrm{Exp}(500)$: em média, o transistor dura 500 horas. Para esse transistor, qual a probabilidade de durar mais que a média?
 
 $$
-P(T > 500) = e^{-500/500} = e^{-1} \approx 0{,}368.
+\begin{aligned}
+P(T > 500) &= e^{-500/500} \\
+&= e^{-1} \approx 0{,}368.
+\end{aligned}
 $$
 
 Pouco menos de 37% dos transistores passam da média. Numa distribuição simétrica, como a normal, metade passaria. Na exponencial, os muitos tempos curtos e os poucos muito longos deixam a média acima da mediana.
@@ -73,20 +78,24 @@ A mediana $m$ é o tempo que metade dos transistores não alcança, $F(m) = 1/2$
 
 $$
 \begin{aligned}
-1 - e^{-m/500} = \frac{1}{2}
-\;&\Longrightarrow\; e^{-m/500} = \frac{1}{2} \\
+& 1 - e^{-m/500} = \frac{1}{2} \\
+&\Longrightarrow\; e^{-m/500} = \frac{1}{2} \\
 &\Longrightarrow\; -\frac{m}{500} = \ln \frac{1}{2} = -\ln 2 \\
-&\Longrightarrow\; m = 500 \ln 2 \approx 347 \text{ horas}.
+&\Longrightarrow\; m = 500 \ln 2 \\
+&\phantom{\Longrightarrow}\;\; \approx 347 \text{ horas}.
 \end{aligned}
 $$
 
-Metade dos transistores queima antes de 347 horas, bem antes da média de 500 (@fig-exponencial). Nas primeiras 100 horas, a fração que já queimou é
+Metade dos transistores queima antes de 347 horas, bem antes da média de 500 (@fig-exponencial). A fração que já queimou nas primeiras 100 horas é
 
 $$
-F(100) = 1 - e^{-100/500} = 1 - e^{-0{,}2} \approx 1 - 0{,}819 = 0{,}181,
+\begin{aligned}
+F(100) &= 1 - e^{-100/500} \\
+&= 1 - e^{-0{,}2} \\
+&\approx 1 - 0{,}819 \\
+&= 0{,}181, \text{ ou } 18{,}1\%.
+\end{aligned}
 $$
-
-ou seja, cerca de 18,1% dos transistores.
 
 ```{python}
 #| label: fig-exponencial
@@ -109,7 +118,7 @@ plt.show()
 Aqui, e na seção 7.4.3 de @bussab2023, o parâmetro $\beta$ é a **média**. Muitos livros usam a **taxa** $\lambda = 1/\beta$, o número médio de ocorrências por unidade de tempo, com densidade $\lambda e^{-\lambda t}$. É o mesmo modelo escrito de outro jeito: para o transistor, $\beta = 500$ horas e $\lambda = 1/500 = 0{,}002$ falha por hora. Antes de usar uma fórmula, confira qual dos dois parâmetros ela usa.
 :::
 
-Se as ocorrências acontecem ao acaso, a uma taxa constante, o número de ocorrências num intervalo de duração $t$ segue a Poisson da seção 3.7, com média $t/\beta$, e o tempo entre ocorrências consecutivas segue a exponencial. É o caso das chamadas que chegam a uma central telefônica: a contagem por minuto é Poisson, e o tempo entre duas chamadas é exponencial. O processo de Poisson, que produz essas contagens, é assunto da seção 6.7 de @bussab2023.
+Se as ocorrências acontecem ao acaso, a uma taxa constante, o número de ocorrências num intervalo de duração $t$ segue a Poisson da seção 3.7, com média $t/\beta$, e o tempo entre ocorrências consecutivas segue a exponencial. É o caso das chamadas que chegam a uma central telefônica: a contagem por minuto é Poisson, e o tempo entre duas chamadas é exponencial. Esse mecanismo se chama processo de Poisson (seção 6.7 de @bussab2023).
 
 ## Exercícios
 
@@ -121,7 +130,10 @@ Se as ocorrências acontecem ao acaso, a uma taxa constante, o número de ocorr�
 $T \sim \mathrm{Exp}(0{,}5)$, e
 
 $$
-P(T > 2) = e^{-2/0{,}5} = e^{-4} \approx 0{,}018.
+\begin{aligned}
+P(T > 2) &= e^{-2/0{,}5} \\
+&= e^{-4} \approx 0{,}018.
+\end{aligned}
 $$
 
 Um intervalo de 2 minutos sem chamadas acontece em menos de 2% das vezes.

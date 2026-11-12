@@ -16,32 +16,34 @@ x = [15, 10, 5, -5]
 p = [0.56, 0.23, 0.02, 0.19]
 ```
 
-No Capítulo 2, as perguntas eram sobre eventos: a carta sorteada é de copas? A moeda deu cara? A resposta era sim ou não. Muitas perguntas práticas, porém, pedem um **número**: quantas peças defeituosas há num lote, quanto dinheiro um produto vai dar, quantas caras saem em dez lançamentos.
+No Capítulo 2, as perguntas eram sobre eventos: a carta sorteada é de copas? A resposta era sim ou não. Muitas perguntas práticas, porém, pedem um **número**: quanto dinheiro um produto vai dar, quantas peças defeituosas há num lote.
 
-No Capítulo 1, esse tipo de pergunta tinha resposta nos dados: média, variância, histograma de uma variável quantitativa. Este capítulo constrói a versão teórica dessas ferramentas. Assim como a probabilidade foi o modelo da frequência relativa, a **variável aleatória** vai ser o modelo de uma variável quantitativa.
+No Capítulo 1, esse tipo de pergunta tinha resposta nos dados: a média e a variância de uma variável quantitativa. Este capítulo constrói a versão teórica dessas ferramentas. Assim como a probabilidade foi o modelo da frequência relativa, a **variável aleatória** vai ser o modelo de uma variável quantitativa.
 
 ## Do experimento ao número
 
-O Exemplo 6.1 de @bussab2023 trata de um empresário que pretende montar um produto composto de duas partes: um **cilindro**, comprado da fábrica A, e uma **esfera**, comprada da fábrica B. Cada parte pode chegar **boa** (B), dentro das especificações; **longa** (L), maior que as especificações; ou **curta** (C), menor que as especificações. O histórico das fábricas dá as probabilidades:
+Um empresário pretende montar um produto composto de dois componentes, um **cilindro** e uma **esfera**, comprados de fábricas diferentes (Exemplo 6.1 de @bussab2023). Cada componente pode chegar **bom** (B), dentro das especificações; **longo** (L), maior que as especificações; ou **curto** (C), menor que as especificações. O histórico das fábricas dá as probabilidades:
 
-| Estado da parte | Cilindro (fábrica A) | Esfera (fábrica B) |
+| Estado do componente | Cilindro | Esfera |
 |---|:-:|:-:|
-| Boa (B) | 0,80 | 0,70 |
-| Longa (L) | 0,10 | 0,20 |
-| Curta (C) | 0,10 | 0,10 |
+| Bom (B) | 0,80 | 0,70 |
+| Longo (L) | 0,10 | 0,20 |
+| Curto (C) | 0,10 | 0,10 |
 
-: Qualidade das partes entregues por cada fábrica. {#tbl-fabricas}
+: Qualidade dos componentes entregues por cada fábrica. {#tbl-fabricas}
 
 Os valores, em reais: cada componente custa 5, e o produto é vendido por 25. Um componente longo pode ser recuperado, a um custo adicional de 5. Se algum componente for curto, o conjunto é irrecuperável e é vendido como sucata por 5. A pergunta do empresário é: quanto ele lucra por unidade montada?
 
-O experimento é receber as duas partes. Um resultado é um par de letras, a primeira para o cilindro e a segunda para a esfera: BL quer dizer que o cilindro chegou bom e a esfera, longa. O espaço amostral tem $3 \times 3 = 9$ pontos.
+O experimento é receber os dois componentes. Um resultado é um par de letras, a primeira para o cilindro e a segunda para a esfera: BL quer dizer que o cilindro chegou bom e a esfera, longa. O espaço amostral tem $3 \times 3 = 9$ pontos.
 
-Como as fábricas são diferentes, é razoável supor que a qualidade de uma parte não influencia a da outra. A probabilidade de cada par sai então da regra do produto para eventos independentes (seção 2.4):
+Como as fábricas são diferentes, é razoável supor que a qualidade de um componente não influencia a do outro. A probabilidade de cada par sai então da regra do produto para eventos independentes (seção 2.4):
 
 $$
 \begin{aligned}
-P(\text{BL}) &= P(\text{cilindro bom}) \times P(\text{esfera longa}) \\
-&= 0{,}80 \times 0{,}20 = 0{,}16.
+P(\text{BL}) &= P(\text{cilindro bom}) \\
+&\quad \times P(\text{esfera longa}) \\
+&= 0{,}80 \times 0{,}20 \\
+&= 0{,}16.
 \end{aligned}
 $$
 
@@ -61,7 +63,7 @@ O lucro de cada ponto é a receita menos os custos. Em BB, o empresário recebe 
 | CC | $0{,}10 \times 0{,}10 = 0{,}01$ | $-5$ |
 | **Total** | **1** | |
 
-: Espaço amostral do recebimento das duas partes, com a probabilidade e o lucro (R\$) de cada ponto. {#tbl-omega-pecas}
+: Espaço amostral do recebimento dos dois componentes, com a probabilidade e o lucro (R\$) de cada ponto. {#tbl-omega-pecas}
 :::
 
 A coluna do lucro associa um número a cada ponto do espaço amostral. É isso que se chama variável aleatória.
@@ -70,23 +72,29 @@ A coluna do lucro associa um número a cada ponto do espaço amostral. É isso q
 Uma **variável aleatória discreta** é uma função $X$ que associa a cada ponto amostral $\omega \in \Omega$ um número real $X(\omega)$, e cujos valores possíveis formam um conjunto que pode ser listado (finito ou infinito enumerável).
 :::
 
-O "aleatório" do nome vem do experimento: antes de receber as partes, não se sabe qual ponto de $\Omega$ vai ocorrer, e por isso não se sabe o valor de $X$. A função em si não tem nada de aleatório: $X(\text{BL}) = 10$ sempre. A convenção é usar letra maiúscula para a variável ($X$) e minúscula para um valor que ela assume ($x$).
+O "aleatório" do nome vem do experimento: antes de receber os componentes, não se sabe qual ponto de $\Omega$ vai ocorrer, e por isso não se sabe o valor de $X$. A função em si não tem nada de aleatório: $X(\text{BL}) = 10$ sempre. A convenção é usar letra maiúscula para a variável ($X$) e minúscula para um valor que ela assume ($x$).
 
 ## Função de probabilidade
 
 O lucro $X$ assume só quatro valores: 15, 10, 5 e $-5$. Cada valor corresponde a um evento de $\Omega$, formado pelos pontos com aquele lucro. $X = 10$ ocorre nos pontos BL e LB, e como os pontos são resultados disjuntos, as probabilidades se somam:
 
 $$
-P(X = 10) = P(\text{BL}) + P(\text{LB}) = 0{,}16 + 0{,}07 = 0{,}23.
+\begin{aligned}
+P(X = 10) &= P(\text{BL}) + P(\text{LB}) \\
+&= 0{,}16 + 0{,}07 \\
+&= 0{,}23.
+\end{aligned}
 $$
 
 $X = -5$ junta os cinco pontos com algum C:
 
 $$
 \begin{aligned}
-P(X = -5) &= P(\text{BC}) + P(\text{LC}) + P(\text{CB}) \\
-&\quad + P(\text{CL}) + P(\text{CC}) \\
-&= 0{,}08 + 0{,}01 + 0{,}07 + 0{,}02 + 0{,}01 \\
+P(X = -5) &= P(\text{BC}) + P(\text{LC}) \\
+&\quad + P(\text{CB}) + P(\text{CL}) \\
+&\quad + P(\text{CC}) \\
+&= 0{,}08 + 0{,}01 + 0{,}07 \\
+&\quad + 0{,}02 + 0{,}01 \\
 &= 0{,}19.
 \end{aligned}
 $$
@@ -130,12 +138,12 @@ Com esse modelo, o empresário já sabe que a chance de prejuízo é $P(X = -5) 
 
 ::: {.callout-important}
 ## O modelo depende das suposições
-A tabela de $X$ só vale se as fábricas cumprirem as probabilidades do histórico e se a qualidade de uma parte não influenciar a da outra. Se as duas fábricas usam a mesma máquina de corte desregulada, as partes tendem a sair curtas juntas, e a probabilidade de prejuízo muda.
+A tabela de $X$ só vale se as fábricas cumprirem as probabilidades do histórico e se a qualidade de um componente não influenciar a do outro. Se as duas fábricas compram a matéria-prima do mesmo fornecedor e um lote vem fora do padrão, os componentes tendem a sair com defeito juntos, e a probabilidade de prejuízo muda.
 :::
 
 ## Várias variáveis no mesmo experimento
 
-Um mesmo espaço amostral admite várias variáveis aleatórias. No experimento das partes, o encarregado da oficina não se importa com o lucro, mas com o **custo de recuperação** $Y$: 0 se nenhum componente for longo, 5 se um for, 10 se os dois forem. Se algum componente for curto, nenhum é recuperado, porque o conjunto vai para a sucata.
+Um mesmo espaço amostral admite várias variáveis aleatórias. No experimento dos componentes, o encarregado da oficina não se importa com o lucro, mas com o **custo de recuperação** $Y$: 0 se nenhum componente for longo, 5 se um for, 10 se os dois forem. Se algum componente for curto, nenhum é recuperado, porque o conjunto vai para a sucata.
 
 Na @tbl-omega-pecas, $Y = 5$ nos pontos BL e LB, $Y = 10$ em LL, e $Y = 0$ em BB e nos cinco pontos com C. Somando as probabilidades:
 
@@ -202,16 +210,16 @@ A função de probabilidade é $p(s) = (\text{pares})/36$: de 1/36 a 6/36 e de v
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
-$X = k$ quando as $k - 1$ primeiras peças são boas e a $k$-ésima é defeituosa. Pela independência,
+$X = k$ quando as $k - 1$ primeiras peças são boas e a $k$-ésima é defeituosa. Pela independência, para $k = 1, 2, 3, \dots$,
 
 $$
-P(X = k) = 0{,}9^{\,k-1} \times 0{,}1, \qquad k = 1, 2, 3, \dots
+P(X = k) = 0{,}9^{\,k-1} \times 0{,}1.
 $$
 
 Então $P(X = 1) = 0{,}1$ e $P(X = 2) = 0{,}09$. $X$ é uma variável discreta com infinitos valores possíveis, que podem ser listados.
 :::
 
-**3.** No experimento das partes, seja $Z$ o número de componentes curtos (0, 1 ou 2). Encontre a função de probabilidade de $Z$.
+**3.** No experimento dos componentes, seja $Z$ o número de componentes curtos (0, 1 ou 2). Encontre a função de probabilidade de $Z$.
 
 ::: {.callout-tip collapse="true"}
 ## Resposta

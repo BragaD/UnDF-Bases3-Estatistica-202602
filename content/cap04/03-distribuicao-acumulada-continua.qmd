@@ -18,7 +18,7 @@ A função de distribuição acumulada da seção 3.3, $F(x) = P(X \le x)$, não
 ## Definição
 
 ::: {.conceito}
-Se $X$ é contínua com densidade $f$, a **função de distribuição acumulada** é
+Se $X$ é contínua com densidade $f$, a **função de distribuição acumulada** (f.d.a.) é
 
 $$
 F(x) = P(X \le x) = \int_{-\infty}^{x} f(t)\, dt,
@@ -35,7 +35,10 @@ Para a densidade $f(x) = 2x$ em $[0, 1]$, da seção 4.1 (Exemplo 7.2 de @bussab
 - se $0 \le x < 1$, só o trecho de $0$ a $x$ contribui, e a primitiva de $2t$ é $t^2$:
 
   $$
-  F(x) = \int_0^x 2t\, dt = \Big[t^2\Big]_0^x = x^2;
+  \begin{aligned}
+  F(x) &= \int_0^x 2t\, dt \\
+  &= \Big[t^2\Big]_0^x = x^2;
+  \end{aligned}
   $$
 
 - se $x \ge 1$, a área à esquerda de $x$ já inclui toda a área sob $f$, e $F(x) = 1$.
@@ -83,7 +86,7 @@ Os dois painéis da @fig-densidade-fda mostram a mesma distribuição. A altura 
 $F$ é a integral de $f$. Pelo teorema fundamental do cálculo, a derivada de $F$ devolve $f$ nos pontos em que $f$ é contínua.
 
 ::: {.conceito}
-Nos pontos em que $F$ é derivável,
+Nos pontos em que $f$ é contínua,
 
 $$
 f(x) = F'(x).
@@ -117,7 +120,7 @@ A integral da densidade no mesmo intervalo dá o mesmo valor, $\int_{0{,}3}^{0{,
 ::: {.table-responsive}
 | | Discreta | Contínua |
 |---|---|---|
-| $F(x)$ | soma de $p(x_i)$ com $x_i \le x$ | $\int_{-\infty}^{x} f(t)\, dt$ |
+| $F(x)$ | $\sum_{x_i \le x} p(x_i)$ | $\int_{-\infty}^{x} f(t)\, dt$ |
 | Gráfico | escada | curva sem saltos |
 | Volta ao modelo | altura dos degraus | $f(x) = F'(x)$ |
 | $P(a < X \le b)$ | $F(b) - F(a)$, atenção aos extremos | $F(b) - F(a)$, extremos não importam |

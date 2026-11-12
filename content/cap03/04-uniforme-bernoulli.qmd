@@ -15,7 +15,7 @@ plt.rcParams["figure.figsize"] = (7, 4)
 
 Nas seções anteriores, cada problema pedia um modelo construído do zero: listar o espaço amostral, calcular o valor da variável em cada ponto, somar probabilidades. Mas algumas situações se repetem tanto que o modelo já está pronto. Basta reconhecer a situação e usar a fórmula.
 
-Esta seção e as duas seguintes apresentam quatro desses modelos prontos. Os dois primeiros são os mais simples: a uniforme discreta, em que todos os valores têm a mesma chance, e a Bernoulli, em que só há dois resultados.
+Os dois modelos prontos mais simples são a uniforme discreta, em que todos os valores têm a mesma chance, e a Bernoulli, em que só há dois resultados.
 
 ## Uniforme discreta
 
@@ -33,7 +33,8 @@ O único parâmetro é a lista de valores: sabendo quantos são, sabe-se a proba
 
 $$
 \begin{aligned}
-E(X) &= \sum_{i=1}^{k} x_i \cdot \frac{1}{k} = \frac{1}{k} \sum_{i=1}^{k} x_i, \\
+E(X) &= \sum_{i=1}^{k} x_i \cdot \frac{1}{k} \\
+&= \frac{1}{k} \sum_{i=1}^{k} x_i, \\
 \mathrm{Var}(X) &= \frac{1}{k} \sum_{i=1}^{k} \big(x_i - E(X)\big)^2.
 \end{aligned}
 $$
@@ -52,17 +53,18 @@ No dado, $k = 6$ e cada face tem probabilidade $1/6$. A tabela de cálculo traz,
 
 : Cálculo do valor médio e da variância do dado. {#tbl-dado}
 
-A soma da terceira coluna é o valor médio, e a da quarta é $E(X^2)$. Pelo atalho da seção 3.2, $\mathrm{Var}(X) = E(X^2) - [E(X)]^2$:
+A soma da terceira coluna é o valor médio, e a da quarta é $E(X^2)$. Pelo atalho da seção 3.2, $\mathrm{Var}(X) = E(X^2) - [E(X)]^2$ (Exemplo 6.10 de @bussab2023):
 
 $$
 \begin{aligned}
 E(X) &= \frac{21}{6} = 3{,}5, \\
-\mathrm{Var}(X) &= \frac{91}{6} - \left(\frac{21}{6}\right)^2 = \frac{182}{12} - \frac{147}{12} \\
+\mathrm{Var}(X) &= \frac{91}{6} - \left(\frac{21}{6}\right)^2 \\
+&= \frac{182}{12} - \frac{147}{12} \\
 &= \frac{35}{12} \approx 2{,}92.
 \end{aligned}
 $$
 
-É o Exemplo 6.10 de @bussab2023. O valor médio 3,5 nem é uma face do dado: é o centro de equilíbrio dos seis valores, e é para perto dele que vai a média de muitos lançamentos.
+O valor médio 3,5 é o centro de equilíbrio das seis faces.
 
 Na urna com as bolas de 0 a 9, $k = 10$. As somas dos valores e dos quadrados são $0 + 1 + \dots + 9 = 45$ e $0^2 + 1^2 + \dots + 9^2 = 285$, e cada uma é dividida por 10:
 
@@ -70,17 +72,19 @@ $$
 \begin{aligned}
 E(X) &= \frac{45}{10} = 4{,}5, \\
 E(X^2) &= \frac{285}{10} = 28{,}5, \\
-\mathrm{Var}(X) &= 28{,}5 - 4{,}5^2 = 28{,}5 - 20{,}25 = 8{,}25.
+\mathrm{Var}(X) &= 28{,}5 - 4{,}5^2 \\
+&= 28{,}5 - 20{,}25 \\
+&= 8{,}25.
 \end{aligned}
 $$
 
 O valor médio fica entre o 4 e o 5, no meio da numeração, e o desvio-padrão é $\sqrt{8{,}25} \approx 2{,}87$.
 
-A função de distribuição acumulada da seção 3.3 também tem forma simples. Como cada valor pesa $1/k$, $F(x) = P(X \le x)$ é o número de valores $x_i \le x$ dividido por $k$. No dado, $F(4) = 4/6$: as faces 1, 2, 3 e 4 ficam até o 4.
+A função de distribuição acumulada da seção 3.3 também tem forma simples. Como cada valor pesa $1/k$, $F(x) = P(X \le x)$ é o número de valores $x_i \le x$ dividido por $k$. No dado, $F(4) = 4/6$: são as faces menores ou iguais a 4.
 
 ## Bernoulli
 
-Muitos experimentos só têm dois resultados de interesse: uma peça é boa ou defeituosa, um entrevistado é a favor ou contra, uma moeda dá cara ou coroa. Chamamos um dos resultados de **sucesso** e o outro de **fracasso**, sem juízo de valor: se a pergunta é sobre peças defeituosas, a peça defeituosa é o "sucesso".
+Muitos experimentos só têm dois resultados de interesse: uma peça é boa ou defeituosa, um entrevistado é a favor ou contra, uma moeda dá cara ou coroa. Um dos resultados se chama **sucesso** e o outro **fracasso**, sem juízo de valor: se a pergunta é sobre peças defeituosas, a peça defeituosa é o "sucesso".
 
 A variável que vale 1 no sucesso e 0 no fracasso transforma o experimento em número.
 
@@ -88,7 +92,10 @@ A variável que vale 1 no sucesso e 0 no fracasso transforma o experimento em n�
 A variável aleatória $X$ tem **distribuição de Bernoulli** com parâmetro $p$, $0 < p < 1$, quando assume só os valores 0 e 1, com
 
 $$
-P(X = 1) = p, \qquad P(X = 0) = 1 - p.
+\begin{aligned}
+P(X = 1) &= p, \\
+P(X = 0) &= 1 - p.
+\end{aligned}
 $$
 
 Escreve-se $X \sim \mathrm{Ber}(p)$. Um experimento assim se chama **ensaio de Bernoulli**.
@@ -100,51 +107,58 @@ O parâmetro $p$ é a probabilidade de sucesso, e $1 - p$ sobra para o fracasso,
 |:-:|:-:|:-:|:-:|
 | 0 | $1 - p$ | 0 | 0 |
 | 1 | $p$ | $p$ | $p$ |
-| **Total** | **1** | $p$ | $p$ |
+| **Total** | **1** | $\boldsymbol{p}$ | $\boldsymbol{p}$ |
 
 : Cálculo do valor médio e da variância da Bernoulli. {#tbl-bernoulli}
 
 $$
 \begin{aligned}
-E(X) &= 0 \times (1 - p) + 1 \times p = p, \\
+E(X) &= 0 \times (1 - p) + 1 \times p \\
+&= p, \\
 \mathrm{Var}(X) &= (0 - p)^2 (1 - p) + (1 - p)^2 p \\
 &= p^2 (1 - p) + (1 - p)^2 p \\
-&= p(1 - p)\,\big[p + (1 - p)\big] = p(1 - p).
+&= p(1 - p)\,\big[p + (1 - p)\big] \\
+&= p(1 - p).
 \end{aligned}
 $$
 
 Na variância, os dois termos têm o fator comum $p(1-p)$, e o que sobra entre colchetes é $p + (1 - p) = 1$. O atalho dá o mesmo resultado em uma linha: como $0^2 = 0$ e $1^2 = 1$, $X^2 = X$, e então $E(X^2) = p$ e $\mathrm{Var}(X) = p - p^2 = p(1 - p)$.
 
-A média de uma Bernoulli é a própria probabilidade de sucesso. Isso explica um fato visto na seção 2.1: a proporção de cartas de copas no baralho, $13/52$, é também a média de uma coluna que marca 1 nas cartas de copas e 0 nas demais. Tirando uma carta ao acaso, com $X = 1$ se ela for de copas, $X \sim \mathrm{Ber}(13/52)$. A média de uma lista de zeros e uns é a soma (o número de uns) dividida pelo tamanho da lista, ou seja, a proporção de uns.
+A média de uma Bernoulli é a própria probabilidade de sucesso. Isso explica um fato visto na seção 2.1: a proporção de cartas de copas no baralho, $13/52$, é também a média de uma lista de 52 números que marca 1 nas cartas de copas e 0 nas outras. A soma da lista é o número de uns, e dividir pelo tamanho dá a proporção de uns. Tirando uma carta ao acaso, com $X = 1$ se ela for de copas, $X \sim \mathrm{Ber}(13/52)$.
 
 Uma peça sai defeituosa de uma linha de produção com probabilidade 0,05. Escolhida uma peça ao acaso, com $X = 1$ quando ela é defeituosa, $X \sim \mathrm{Ber}(0{,}05)$, e
 
 $$
 \begin{aligned}
-P(X = 1) &= 0{,}05, \qquad P(X = 0) = 0{,}95, \\
+P(X = 1) &= 0{,}05, \\
+P(X = 0) &= 0{,}95, \\
 E(X) &= 0{,}05, \\
-\mathrm{Var}(X) &= 0{,}05 \times 0{,}95 = 0{,}0475.
+\mathrm{Var}(X) &= 0{,}05 \times 0{,}95 \\
+&= 0{,}0475.
 \end{aligned}
 $$
-
-Em muitas peças, a média dos $X$ (a fração de defeituosas) fica perto de 0,05, uma defeituosa a cada 20 peças.
 
 ## Quando a incerteza é máxima
 
 A variância $p(1 - p)$ depende só de $p$. Alguns valores mostram o comportamento:
 
+::: {.table-responsive}
 | $p$ | 0,05 | 0,1 | 0,3 | 0,5 | 0,7 | 0,9 |
 |:-:|:-:|:-:|:-:|:-:|:-:|:-:|
 | $p(1-p)$ | 0,0475 | 0,09 | 0,21 | 0,25 | 0,21 | 0,09 |
 
 : Variância da Bernoulli para alguns valores de $p$. {#tbl-var-bernoulli}
+:::
 
 A tabela é simétrica: $p$ e $1 - p$ dão a mesma variância, porque trocar sucesso por fracasso não muda a incerteza. Perto dos extremos ela quase se anula: com $p$ perto de 0 ou de 1, o resultado é quase certo. (Nos extremos, $p(1-p)$ vale 0, mas $p = 0$ e $p = 1$ ficam fora da definição, porque ali não há incerteza.)
 
 O máximo fica em $p = 1/2$. Completando o quadrado,
 
 $$
-p(1 - p) = p - p^2 = \frac{1}{4} - \left(p - \frac{1}{2}\right)^2.
+\begin{aligned}
+p(1 - p) &= p - p^2 \\
+&= \frac{1}{4} - \left(p - \frac{1}{2}\right)^2.
+\end{aligned}
 $$
 
 O termo $\left(p - \frac{1}{2}\right)^2$ nunca é negativo e só vale 0 em $p = 1/2$. Então $p(1-p)$ nunca passa de $1/4$, e chega a $1/4$ só quando sucesso e fracasso têm a mesma chance. Quanto mais $p$ se afasta de $1/2$, maior o quadrado subtraído e menor a variância.
@@ -164,7 +178,7 @@ ax.set_ylabel("Var(X) = p(1 − p)")
 plt.show()
 ```
 
-Uma linha de produção com 5% de peças defeituosas é mais previsível que uma moeda: a variância é 0,0475, contra 0,25 da moeda. A curva também mostra que $p(1-p)$ é a variância de cada 0 ou 1 que entra numa proporção. Por isso, para estimar uma proporção com a mesma margem de erro em pontos percentuais, o pior caso é $p$ perto de 50%.
+Uma linha de produção com 5% de peças defeituosas é mais previsível que uma moeda: a variância é 0,0475, contra 0,25 da moeda. Por isso, entre as Bernoulli, a moeda equilibrada, com $p = 1/2$, é a de resultado mais incerto.
 
 ## Resumo
 
@@ -184,9 +198,25 @@ Uma linha de produção com 5% de peças defeituosas é mais previsível que uma
 
 $X$ é uniforme discreta com $k = 4$, e $E(X) = (1 + 2 + 3 + 4)/4 = 10/4 = 2{,}5$.
 
-Pela definição, $\mathrm{Var}(X) = [(1 - 2{,}5)^2 + (2 - 2{,}5)^2 + (3 - 2{,}5)^2 + (4 - 2{,}5)^2]/4 = (2{,}25 + 0{,}25 + 0{,}25 + 2{,}25)/4 = 5/4 = 1{,}25$.
+Pela definição,
 
-Pelo atalho, $E(X^2) = (1 + 4 + 9 + 16)/4 = 7{,}5$, e $\mathrm{Var}(X) = 7{,}5 - 2{,}5^2 = 7{,}5 - 6{,}25 = 1{,}25$.
+$$
+\begin{aligned}
+\mathrm{Var}(X) &= \tfrac{1}{4}\big[(1 - 2{,}5)^2 + (2 - 2{,}5)^2 \\
+&\qquad + (3 - 2{,}5)^2 + (4 - 2{,}5)^2\big] \\
+&= \tfrac{1}{4}(2{,}25 + 0{,}25 + 0{,}25 + 2{,}25) \\
+&= \tfrac{5}{4} = 1{,}25.
+\end{aligned}
+$$
+
+Pelo atalho, $E(X^2) = (1 + 4 + 9 + 16)/4 = 7{,}5$, e
+
+$$
+\begin{aligned}
+\mathrm{Var}(X) &= 7{,}5 - 2{,}5^2 \\
+&= 7{,}5 - 6{,}25 = 1{,}25.
+\end{aligned}
+$$
 :::
 
 **2.** Um dado equilibrado é lançado, e $X = 1$ se sair a face 5 e $X = 0$ caso contrário. Qual a distribuição de $X$? Calcule $E(X)$ e $\mathrm{Var}(X)$.

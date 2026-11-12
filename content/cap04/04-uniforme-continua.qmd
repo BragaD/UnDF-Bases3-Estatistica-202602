@@ -36,13 +36,19 @@ Os parâmetros $\alpha$ e $\beta$ são as pontas do intervalo, e a altura do ret
 A probabilidade de um subintervalo $[c, d]$ dentro de $[\alpha, \beta]$ é a área do retângulo de base $d - c$ e altura $1/(\beta - \alpha)$:
 
 $$
-P(c \le X \le d) = (d - c) \times \frac{1}{\beta - \alpha} = \frac{d - c}{\beta - \alpha}.
+\begin{aligned}
+P(c \le X \le d) &= (d - c) \times \frac{1}{\beta - \alpha} \\
+&= \frac{d - c}{\beta - \alpha}.
+\end{aligned}
 $$
 
 É a fração do intervalo ocupada por $[c, d]$: só a largura importa, não a posição. Na espera do ônibus, a probabilidade de o passageiro esperar entre 30 e 45 minutos é
 
 $$
-P(30 \le X \le 45) = \frac{45 - 30}{60} = \frac{15}{60} = \frac{1}{4},
+\begin{aligned}
+P(30 \le X \le 45) &= \frac{45 - 30}{60} \\
+&= \frac{15}{60} = \frac{1}{4},
+\end{aligned}
 $$
 
 a mesma de esperar no máximo 15 minutos. Em faixas de mesma largura, as esperas se espalham por igual.
@@ -53,35 +59,38 @@ As definições da seção 4.2 se aplicam com $f(x) = 1/(\beta - \alpha)$ dentro
 
 $$
 \begin{aligned}
-E(X) &= \int_\alpha^\beta x \, \frac{1}{\beta - \alpha}\,dx
-= \frac{1}{\beta - \alpha} \left[\frac{x^2}{2}\right]_\alpha^\beta \\
-&= \frac{\beta^2 - \alpha^2}{2(\beta - \alpha)}
-= \frac{(\beta - \alpha)(\beta + \alpha)}{2(\beta - \alpha)}
-= \frac{\alpha + \beta}{2}.
+E(X) &= \int_\alpha^\beta x \, \frac{1}{\beta - \alpha}\,dx \\
+&= \frac{1}{\beta - \alpha} \left[\frac{x^2}{2}\right]_\alpha^\beta \\
+&= \frac{\beta^2 - \alpha^2}{2(\beta - \alpha)} \\
+&= \frac{(\beta - \alpha)(\beta + \alpha)}{2(\beta - \alpha)} \\
+&= \frac{\alpha + \beta}{2}.
 \end{aligned}
 $$
 
-A primitiva de $x$ é $x^2/2$, e a diferença de quadrados $\beta^2 - \alpha^2 = (\beta - \alpha)(\beta + \alpha)$ cancela o denominador. A média é o ponto médio do intervalo, como a simetria do retângulo sugere.
+A primitiva de $x$ é $x^2/2$, e a diferença de quadrados $\beta^2 - \alpha^2 = (\beta - \alpha)(\beta + \alpha)$ cancela o denominador. A média é o ponto médio do intervalo.
 
 Para a variância, a seção 4.2 usa $\mathrm{Var}(X) = E(X^2) - [E(X)]^2$. A primitiva de $x^2$ é $x^3/3$, e a diferença de cubos é $\beta^3 - \alpha^3 = (\beta - \alpha)(\alpha^2 + \alpha\beta + \beta^2)$:
 
 $$
 \begin{aligned}
-E(X^2) &= \int_\alpha^\beta x^2 \, \frac{1}{\beta - \alpha}\,dx
-= \frac{1}{\beta - \alpha} \left[\frac{x^3}{3}\right]_\alpha^\beta \\
-&= \frac{\beta^3 - \alpha^3}{3(\beta - \alpha)}
-= \frac{\alpha^2 + \alpha\beta + \beta^2}{3}.
+E(X^2) &= \int_\alpha^\beta x^2 \, \frac{1}{\beta - \alpha}\,dx \\
+&= \frac{1}{\beta - \alpha} \left[\frac{x^3}{3}\right]_\alpha^\beta \\
+&= \frac{\beta^3 - \alpha^3}{3(\beta - \alpha)} \\
+&= \frac{\alpha^2 + \alpha\beta + \beta^2}{3}.
 \end{aligned}
 $$
 
-Subtraindo o quadrado da média, com denominador comum 12:
+Subtraindo o quadrado da média, com $(\alpha + \beta)^2 = \alpha^2 + 2\alpha\beta + \beta^2$ e denominador comum 12:
 
 $$
 \begin{aligned}
 \mathrm{Var}(X) &= \frac{\alpha^2 + \alpha\beta + \beta^2}{3} - \frac{(\alpha + \beta)^2}{4} \\
-&= \frac{4\alpha^2 + 4\alpha\beta + 4\beta^2 - 3\alpha^2 - 6\alpha\beta - 3\beta^2}{12} \\
-&= \frac{\alpha^2 - 2\alpha\beta + \beta^2}{12}
-= \frac{(\beta - \alpha)^2}{12}.
+&= \frac{\alpha^2 + \alpha\beta + \beta^2}{3} \\
+&\qquad - \frac{\alpha^2 + 2\alpha\beta + \beta^2}{4} \\
+&= \frac{4\alpha^2 + 4\alpha\beta + 4\beta^2}{12} \\
+&\qquad - \frac{3\alpha^2 + 6\alpha\beta + 3\beta^2}{12} \\
+&= \frac{\alpha^2 - 2\alpha\beta + \beta^2}{12} \\
+&= \frac{(\beta - \alpha)^2}{12}.
 \end{aligned}
 $$
 
@@ -96,24 +105,24 @@ E(X) &= \frac{\alpha + \beta}{2}, \\
 $$
 :::
 
-A variância depende só da largura $\beta - \alpha$ do intervalo: deslocar o intervalo muda a média e não muda a dispersão. Esses dois resultados são o Problema 29 de @bussab2023. Na espera do ônibus, com $\alpha = 0$ e $\beta = 60$:
+A variância depende só da largura $\beta - \alpha$ do intervalo: deslocar o intervalo muda a média e não muda a dispersão (Problema 29 de @bussab2023). Na espera do ônibus, com $\alpha = 0$ e $\beta = 60$:
 
 $$
 \begin{aligned}
 E(X) &= \frac{0 + 60}{2} = 30 \text{ min}, \\
-\mathrm{Var}(X) &= \frac{60^2}{12} = \frac{3.600}{12} = 300 \text{ min}^2, \\
-\mathrm{DP}(X) &= \sqrt{300} = \frac{60}{\sqrt{12}} \approx 17{,}3 \text{ min}.
+\mathrm{Var}(X) &= \frac{60^2}{12} = \frac{3.600}{12} \\
+&= 300 \text{ min}^2, \\
+\mathrm{DP}(X) &= \sqrt{300} = \frac{60}{\sqrt{12}} \\
+&\approx 17{,}3 \text{ min}.
 \end{aligned}
 $$
-
-A espera média é de meia hora, e o desvio-padrão, de cerca de 17 minutos.
 
 A f.d.a. da seção 4.3 é a integral da densidade de $-\infty$ até $x$. Antes de $\alpha$ não há área nenhuma, e depois de $\beta$ a área já é toda. No meio, a integral de uma constante é a constante vezes a largura:
 
 $$
 \begin{aligned}
-F(x) &= \int_\alpha^x \frac{1}{\beta - \alpha}\,dt
-= \frac{1}{\beta - \alpha}\Big[\,t\,\Big]_\alpha^x \\
+F(x) &= \int_\alpha^x \frac{1}{\beta - \alpha}\,dt \\
+&= \frac{1}{\beta - \alpha}\Big[\,t\,\Big]_\alpha^x \\
 &= \frac{x - \alpha}{\beta - \alpha}, \quad \alpha \le x < \beta.
 \end{aligned}
 $$
@@ -155,7 +164,7 @@ plt.show()
 
 ## Números aleatórios
 
-O caso $u(0, 1)$ tem um papel especial. Um **número aleatório** é um valor de $U \sim u(0, 1)$, e as tabelas de números aleatórios fornecem justamente esses valores. Qualquer outra uniforme sai de $U$ por uma transformação linear.
+Um **número aleatório** é um valor de $U \sim u(0, 1)$. As tabelas de números aleatórios fornecem dígitos de 0 a 9 sorteados com igual probabilidade; agrupados (por exemplo, 0,4821), eles dão valores aproximados de $U$. Qualquer outra uniforme sai de $U$ por uma transformação linear.
 
 ::: {.conceito}
 Se $U \sim u(0, 1)$, então $X = \alpha + (\beta - \alpha)\,U \sim u(\alpha, \beta)$.
@@ -166,23 +175,29 @@ A f.d.a. mostra por quê. Para $\alpha \le x \le \beta$, como $\beta - \alpha > 
 $$
 \begin{aligned}
 P(X \le x) &= P\big(\alpha + (\beta - \alpha)\,U \le x\big) \\
-&= P\left(U \le \frac{x - \alpha}{\beta - \alpha}\right)
-= \frac{x - \alpha}{\beta - \alpha}.
+&= P\left(U \le \frac{x - \alpha}{\beta - \alpha}\right) \\
+&= \frac{x - \alpha}{\beta - \alpha}.
 \end{aligned}
 $$
 
-O último passo usa a f.d.a. de $u(0, 1)$, que é $F(u) = u$ entre 0 e 1. O resultado é a f.d.a. da uniforme em $[\alpha, \beta]$. Para o ônibus, $X = 60\,U$: cada número aleatório vira uma espera entre 0 e 60 minutos.
+O último passo usa a f.d.a. de $u(0, 1)$, que é $P(U \le y) = y$ para $0 \le y \le 1$, com $y = (x - \alpha)/(\beta - \alpha)$, um número entre 0 e 1. O resultado é a f.d.a. da uniforme em $[\alpha, \beta]$. Para o ônibus, $X = 60\,U$: cada número aleatório vira uma espera entre 0 e 60 minutos.
 
-A média e a variância de $X$ também saem das de $U$, que são $1/2$ e $1/12$ pelas fórmulas acima. As regras da transformação linear (seção 3.2, que valem para contínuas pela seção 4.2), com $a = \beta - \alpha$ e $b = \alpha$, dão
+A média e a variância de $X$ também saem das de $U$, que são $1/2$ e $1/12$ pelas fórmulas acima. As regras da transformação linear da seção 3.2, que valem também para variáveis contínuas (seção 4.2), com $a = \beta - \alpha$ e $b = \alpha$, dão
 
 $$
 \begin{aligned}
-E(X) &= \alpha + (\beta - \alpha)\,\frac{1}{2} = \frac{\alpha + \beta}{2}, \\
-\mathrm{Var}(X) &= (\beta - \alpha)^2\,\frac{1}{12} = \frac{(\beta - \alpha)^2}{12},
+E(X) &= \alpha + (\beta - \alpha)\,\frac{1}{2} \\
+&= \frac{\alpha + \beta}{2}, \\
+\mathrm{Var}(X) &= (\beta - \alpha)^2\,\frac{1}{12} \\
+&= \frac{(\beta - \alpha)^2}{12},
 \end{aligned}
 $$
 
-os mesmos valores obtidos pelas integrais. A fórmula 7.16 de @bussab2023 faz a transformação no sentido contrário, levando qualquer uniforme a $u(-1/2, 1/2)$.
+os mesmos valores obtidos pelas integrais. No sentido contrário, se $X \sim u(\alpha, \beta)$, então (fórmula (7.16) de @bussab2023)
+
+$$
+\frac{X - (\alpha + \beta)/2}{\beta - \alpha} \sim u(-1/2,\ 1/2).
+$$
 
 ## Resumo
 
@@ -199,7 +214,7 @@ os mesmos valores obtidos pelas integrais. A fórmula 7.16 de @bussab2023 faz a 
 
 ## Exercícios
 
-**1.** Uma máquina corta peças cujo comprimento, em milímetros, é uniforme entre 100 e 400 mm. Qual a probabilidade de uma peça ter mais de 300 mm? Qual a média e o desvio-padrão do comprimento?
+**1.** O comprimento de uma peça cortada é uniforme entre 100 e 400 mm. Qual a probabilidade de uma peça ter mais de 300 mm? Quais são a média e o desvio-padrão?
 
 ::: {.callout-tip collapse="true"}
 ## Resposta
@@ -215,7 +230,7 @@ $X \sim u(100, 400)$, um intervalo de largura 300. $P(X > 300) = (400 - 300)/300
 $E(U) = (-1/2 + 1/2)/2 = 0$, $\mathrm{Var}(U) = 1^2/12 = 1/12$ e $P(-1/4 \le U \le 1/4) = (1/4 + 1/4)/1 = 1/2$.
 :::
 
-**3.** O tempo, em segundos, que uma máquina de café leva para preparar uma xícara é uniforme entre 30 e 90 segundos. (a) Escreva a f.d.a. $F(x)$ desse tempo e use-a para calcular $P(45 < X \le 70)$. (b) Como obter esse tempo a partir de um número aleatório $U \sim u(0, 1)$? Qual a média e o desvio-padrão?
+**3.** O tempo que uma máquina de café leva para preparar uma xícara é uniforme entre 30 e 90 segundos. (a) Escreva a f.d.a. $F(x)$ desse tempo e use-a para calcular $P(45 < X \le 70)$. (b) Como obter esse tempo a partir de um número aleatório $U \sim u(0, 1)$? Quais são a média e o desvio-padrão?
 
 ::: {.callout-tip collapse="true"}
 ## Resposta
@@ -224,12 +239,13 @@ $E(U) = (-1/2 + 1/2)/2 = 0$, $\mathrm{Var}(U) = 1^2/12 = 1/12$ e $P(-1/4 \le U \
 
 $$
 \begin{aligned}
-P(45 < X \le 70) &= F(70) - F(45) = \frac{40}{60} - \frac{15}{60} \\
+P(45 < X \le 70) &= F(70) - F(45) \\
+&= \frac{40}{60} - \frac{15}{60} \\
 &= \frac{25}{60} = \frac{5}{12} \approx 0{,}417.
 \end{aligned}
 $$
 
 É a fração $25/60$ do intervalo, como a área do retângulo daria direto.
 
-(b) $X = 30 + 60\,U$. A média é $30 + 60 \times 1/2 = 60$ segundos, e a variância, $60^2 \times 1/12 = 300$, com desvio-padrão $\sqrt{300} \approx 17{,}3$ segundos. O número é o mesmo da espera do ônibus, agora em segundos: os dois intervalos têm largura 60.
+(b) $X = 30 + 60\,U$. A média é $30 + 60 \times 1/2 = 60$ segundos, e a variância, $60^2 \times 1/12 = 300$ s², com desvio-padrão $\sqrt{300} \approx 17{,}3$ segundos. O número é o mesmo da espera do ônibus, agora em segundos: os dois intervalos têm largura 60.
 :::

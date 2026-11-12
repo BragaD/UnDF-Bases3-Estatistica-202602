@@ -10,7 +10,7 @@ Uma ideia simples resolve: dividir os valores em faixas, como no histograma da s
 
 ## Da soma à integral
 
-Divida o intervalo limitado $[A, B]$, onde a densidade é positiva, em $n$ faixas de largura $h$, com pontos médios $x_1, \dots, x_n$. A probabilidade de $X$ cair na faixa $i$ é a área sob $f$ naquela faixa, que é aproximadamente a de um retângulo de base $h$ e altura $f(x_i)$:
+Divida o intervalo limitado $[a, b]$, onde a densidade é positiva, em $n$ faixas de largura $h$, com pontos médios $x_1, \dots, x_n$. A probabilidade de $X$ cair na faixa $i$ é a área sob $f$ naquela faixa, que é aproximadamente a de um retângulo de base $h$ e altura $f(x_i)$:
 
 $$
 P(X \text{ na faixa } i) \approx f(x_i)\, h.
@@ -41,9 +41,9 @@ As probabilidades aproximadas das faixas somam 1, como numa distribuição discr
 | 4 | 0,65625 |
 | 10 | 0,665 |
 | 100 | 0,66665 |
-| 1.000 | 0,666667 |
+| 1.000 | 0,6666665 |
 
-A aproximação se estabiliza em $2/3 \approx 0{,}6667$ conforme as faixas estreitam. No limite, com $h \to 0$, a soma $\sum x_i\, f(x_i)\, h$ vira a integral de $x\, f(x)$ (Exemplo 7.3 de @bussab2023), e o resultado é exatamente $2/3$, como a próxima subseção calcula.
+A aproximação se estabiliza em $2/3 \approx 0{,}6667$ conforme as faixas estreitam. No limite, com $h \to 0$, a soma $\sum x_i\, f(x_i)\, h$ vira a integral de $x\, f(x)$ (Exemplo 7.3 de @bussab2023), e o resultado é exatamente $2/3$, como se calcula adiante, em "Os dois exemplos da seção 4.1".
 
 ## Definições
 
@@ -60,7 +60,7 @@ $$
 com $\mu = E(X)$. O desvio-padrão é $\mathrm{DP}(X) = \sqrt{\mathrm{Var}(X)}$, na mesma unidade de $X$.
 :::
 
-As duas integrais se leem termo a termo contra as somas da seção 3.2. Na soma $\sum x_i\, p(x_i)$, cada valor possível $x_i$ entra com peso $p(x_i)$. Na integral, o valor $x$ percorre todo o intervalo, e o peso de um trecho pequeno em torno de $x$ é $f(x)\,dx$, a probabilidade aproximada daquele trecho (o $f(x_i)\,h$ da tabela acima). A soma $\sum$ vira a integral $\int$. Na variância, o que se pondera é o quadrado da distância até a média, $(x - \mu)^2$, com o mesmo peso $f(x)\,dx$: a variância é a média dos desvios quadráticos.
+As duas integrais se comparam termo a termo com as somas da seção 3.2:
 
 | Discreta | | Contínua |
 |:-:|:-:|:-:|
@@ -68,9 +68,11 @@ As duas integrais se leem termo a termo contra as somas da seção 3.2. Na soma 
 | $p(x_i)$ | $\to$ | $f(x)\,dx$ |
 | $\sum$ | $\to$ | $\int$ |
 
+O peso $f(x)\,dx$ é a probabilidade aproximada de um trecho pequeno em torno de $x$, o $f(x_i)\,h$ da tabela de faixas.
+
 Pela linearidade da integral, e porque a área total sob $f$ é 1, as propriedades da seção 3.2 também valem: $E(aX + b) = a\,E(X) + b$ e $\mathrm{Var}(aX + b) = a^2\,\mathrm{Var}(X)$.
 
-Na prática, a variância costuma ser mais fácil de calcular por outro caminho, a fórmula (7.8) de @bussab2023.
+Na prática, a variância costuma ser mais fácil de calcular pelo atalho da seção 3.2, que no caso contínuo é a fórmula (7.8) de @bussab2023.
 
 ::: {.conceito}
 Se $X$ é contínua com densidade $f$,
@@ -88,40 +90,49 @@ $E(X^2)$ é a média do quadrado de $X$: cada $x^2$ pesado por $f(x)\,dx$. A fó
 $$
 \begin{aligned}
 \mathrm{Var}(X) &= \int (x^2 - 2\mu x + \mu^2)\, f(x)\, dx \\
-&= \int x^2 f(x)\, dx - 2\mu \int x\, f(x)\, dx + \mu^2 \int f(x)\, dx \\
+&= \int x^2 f(x)\, dx - 2\mu \int x\, f(x)\, dx \\
+&\quad + \mu^2 \int f(x)\, dx \\
 &= E(X^2) - 2\mu \cdot \mu + \mu^2 \cdot 1 \\
 &= E(X^2) - \mu^2.
 \end{aligned}
 $$
 
-Na segunda linha, $\mu$ é uma constante e sai da integral. Na terceira, cada integral é reconhecida: a primeira é $E(X^2)$, a segunda é $\int x\, f(x)\, dx = \mu$ e a terceira é a área total, $\int f(x)\, dx = 1$. É a mesma dedução da seção 3.2, com integrais no lugar das somas.
+Na segunda e na terceira linhas, $\mu$ é uma constante e sai da integral. Na quarta, cada integral é reconhecida: a primeira é $E(X^2)$, a segunda é $\int x\, f(x)\, dx = \mu$ e a terceira é a área total, $\int f(x)\, dx = 1$.
 
 ## Os dois exemplos da seção 4.1
 
-Para $f(x) = 2x$ em $[0, 1]$, as integrais ficam restritas a $[0, 1]$, onde $f$ é positiva. As primitivas de $2x^2$ e de $2x^3$ são $2x^3/3$ e $x^4/2$:
+Para $f(x) = 2x$ em $[0, 1]$, as integrais ficam restritas a $[0, 1]$, onde $f$ é positiva:
 
 $$
 \begin{aligned}
-E(X) &= \int_0^1 x \cdot 2x\, dx = \left[\tfrac{2x^3}{3}\right]_0^1 = \tfrac{2}{3}, \\
-E(X^2) &= \int_0^1 x^2 \cdot 2x\, dx = \left[\tfrac{x^4}{2}\right]_0^1 = \tfrac{1}{2}, \\
-\mathrm{Var}(X) &= \tfrac{1}{2} - \left(\tfrac{2}{3}\right)^2 = \tfrac{1}{2} - \tfrac{4}{9} = \tfrac{1}{18}.
+E(X) &= \int_0^1 x \cdot 2x\, dx \\
+&= \left[\tfrac{2x^3}{3}\right]_0^1 = \tfrac{2}{3}, \\
+E(X^2) &= \int_0^1 x^2 \cdot 2x\, dx \\
+&= \left[\tfrac{x^4}{2}\right]_0^1 = \tfrac{1}{2}, \\
+\mathrm{Var}(X) &= \tfrac{1}{2} - \left(\tfrac{2}{3}\right)^2 \\
+&= \tfrac{1}{2} - \tfrac{4}{9} = \tfrac{1}{18}.
 \end{aligned}
 $$
 
 O desvio-padrão é $\mathrm{DP}(X) = \sqrt{1/18} \approx 0{,}236$. A média fica em $2/3$, puxada para a direita, onde a densidade é maior: a média é o ponto de equilíbrio da área sob a curva.
 
-Para o relógio, com $f(x) = 1/360$ em $[0, 360)$, as primitivas de $x/360$ e de $x^2/360$ são $x^2/720$ e $x^3/1080$:
+Para o relógio, com $f(x) = 1/360$ em $[0, 360)$:
 
 $$
 \begin{aligned}
-E(X) &= \int_0^{360} x \cdot \tfrac{1}{360}\, dx = \left[\tfrac{x^2}{720}\right]_0^{360} = \tfrac{360^2}{720} = 180, \\
-E(X^2) &= \int_0^{360} x^2 \cdot \tfrac{1}{360}\, dx = \left[\tfrac{x^3}{1080}\right]_0^{360} = \tfrac{360^2}{3} = 43.200, \\
-\mathrm{Var}(X) &= 43.200 - 180^2 = 43.200 - 32.400 = 10.800, \\
+E(X) &= \int_0^{360} x \cdot \tfrac{1}{360}\, dx \\
+&= \left[\tfrac{x^2}{720}\right]_0^{360} \\
+&= \tfrac{360^2}{720} = 180, \\
+E(X^2) &= \int_0^{360} x^2 \cdot \tfrac{1}{360}\, dx \\
+&= \left[\tfrac{x^3}{1080}\right]_0^{360} \\
+&= \tfrac{360^2}{3} = 43.200, \\
+\mathrm{Var}(X) &= 43.200 - 180^2 \\
+&= 43.200 - 32.400 = 10.800, \\
 \mathrm{DP}(X) &= \sqrt{10.800} \approx 103{,}92.
 \end{aligned}
 $$
 
-O valor médio é 180°, o meio do mostrador, como a simetria sugere. A variância está em graus ao quadrado, e o desvio-padrão, de cerca de 104°, volta à unidade do ângulo e mede o quanto as paradas se espalham em torno de 180°.
+O valor médio é 180°, o meio do mostrador. A variância está em graus ao quadrado, e o desvio-padrão, de cerca de 104°, volta à unidade do ângulo e mede o quanto as paradas se espalham em torno de 180°.
 
 ## Resumo
 
@@ -130,7 +141,7 @@ O valor médio é 180°, o meio do mostrador, como a simetria sugere. A variânc
 |---|---|---|
 | $E(X)$ | $\sum x_i\, p(x_i)$ | $\int x\, f(x)\, dx$ |
 | $\mathrm{Var}(X)$ | $\sum (x_i - \mu)^2 p(x_i)$ | $\int (x - \mu)^2 f(x)\, dx$ |
-| Atalho | o mesmo | $E(X^2) - [E(X)]^2$ |
+| Atalho | $E(X^2) - [E(X)]^2$ | $E(X^2) - [E(X)]^2$ |
 :::
 
 ## Exercícios
@@ -140,18 +151,19 @@ O valor médio é 180°, o meio do mostrador, como a simetria sugere. A variânc
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
-As primitivas de $3x^3$ e de $3x^4$ são $3x^4/4$ e $3x^5/5$:
-
 $$
 \begin{aligned}
-E(X) &= \int_0^1 3x^3\, dx = \left[\tfrac{3x^4}{4}\right]_0^1 = \tfrac{3}{4}, \\
-E(X^2) &= \int_0^1 3x^4\, dx = \left[\tfrac{3x^5}{5}\right]_0^1 = \tfrac{3}{5}, \\
-\mathrm{Var}(X) &= \tfrac{3}{5} - \tfrac{9}{16} = \tfrac{3}{80} = 0{,}0375.
+E(X) &= \int_0^1 3x^3\, dx \\
+&= \left[\tfrac{3x^4}{4}\right]_0^1 = \tfrac{3}{4}, \\
+E(X^2) &= \int_0^1 3x^4\, dx \\
+&= \left[\tfrac{3x^5}{5}\right]_0^1 = \tfrac{3}{5}, \\
+\mathrm{Var}(X) &= \tfrac{3}{5} - \left(\tfrac{3}{4}\right)^2 \\
+&= \tfrac{3}{5} - \tfrac{9}{16} = \tfrac{3}{80} = 0{,}0375.
 \end{aligned}
 $$
 :::
 
-**2.** O ângulo do relógio está em graus. Se ele for convertido para radianos, $Y = \pi X / 180$, qual a média e o desvio-padrão de $Y$?
+**2.** O ângulo do relógio está em graus. Se ele for convertido para radianos, $Y = \pi X / 180$, quais são a média e o desvio-padrão de $Y$?
 
 ::: {.callout-tip collapse="true"}
 ## Resposta

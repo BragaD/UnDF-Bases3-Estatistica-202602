@@ -13,13 +13,13 @@ import matplotlib.pyplot as plt
 plt.rcParams["figure.figsize"] = (7, 4)
 ```
 
-Na seção 2.1, uma medida que pode ser qualquer número real não negativo ficou de fora: os pontos de um intervalo não cabem numa lista. Sem lista, não há como somar probabilidades de pontos, e a fórmula da soma não serve. O texto prometeu outro caminho, com integral, para o Capítulo 4.
+Na seção 2.1, uma medida que pode ser qualquer número real não negativo ficou de fora: os pontos de um intervalo não cabem numa lista. Sem lista, não há como somar probabilidades de pontos, e a fórmula da soma não serve. A integral resolve esse caso, e é o assunto deste capítulo.
 
 Altura, peso, tempo de espera, temperatura, duração de uma lâmpada: são medidas, e assumem valores num intervalo de números reais. Este capítulo constrói os modelos para elas.
 
 ## O relógio que para
 
-O Exemplo 7.1 de @bussab2023 é o relógio do exercício 3 da seção 2.1. O ponteiro dos segundos para por falha num instante qualquer, e $X$ é o ângulo que ele forma com a posição das 12 horas, em graus.
+Volte ao relógio do exercício 3 da seção 2.1 (Exemplo 7.1 de @bussab2023). O ponteiro dos segundos para por falha num instante qualquer, e $X$ é o ângulo que ele forma com a posição das 12 horas, em graus.
 
 Num relógio cujo ponteiro anda aos saltos, um por segundo, $X$ assume 60 valores (0°, 6°, 12°, ..., 354°), e, se nenhuma posição for favorecida, cada um tem probabilidade $1/60$: é a uniforme discreta da seção 3.4.
 
@@ -44,12 +44,12 @@ para todo $\varepsilon > 0$. A única probabilidade que fica abaixo de todos ess
 
 No Capítulo 1, o histograma de uma variável contínua juntava as observações em faixas, e a altura de cada barra mostrava onde os dados se concentravam. Um histograma de **densidade** ajusta a altura para que a área de cada barra seja a proporção de observações na faixa: a altura é a proporção dividida pela largura da faixa. Assim, a área total das barras é 1.
 
-A @fig-histograma-densidade mostra o histograma de densidade de 100.000 paradas do ponteiro, supondo que nenhuma região do mostrador é favorecida, com faixas cada vez mais estreitas.
+A @fig-histograma-densidade mostra o histograma de densidade de 100.000 paradas simuladas do ponteiro, supondo que nenhuma região do mostrador seja favorecida, com faixas de 30° e de 5°.
 
 ```{python}
 #| label: fig-histograma-densidade
 #| echo: false
-#| fig-cap: "Histogramas de densidade de 100.000 ângulos simulados, com faixas de 30° e de 5°. A linha tracejada é a densidade 1/360."
+#| fig-cap: "Histogramas de densidade de 100.000 paradas simuladas do ponteiro, supondo que nenhuma região do mostrador seja favorecida, com faixas de 30° e de 5°. A linha tracejada é a densidade 1/360."
 #| fig-alt: "Dois histogramas com barras de altura quase constante perto de 1/360, um com 12 barras e outro com 72 barras mais estreitas."
 rng = np.random.default_rng(42)
 angulos = rng.uniform(0, 360, size=100_000)
@@ -65,7 +65,7 @@ plt.tight_layout()
 plt.show()
 ```
 
-Nos dois painéis, as barras oscilam em torno da mesma altura, $1/360$. Com faixas cada vez mais estreitas e cada vez mais observações, o topo do histograma se aproxima de uma curva, que @bussab2023 chama de histograma alisado e que a próxima subseção chama de **densidade**. No relógio, a curva é a reta horizontal na altura $1/360$, e a área sob ela entre $a$ e $b$ é a de um retângulo de base $b - a$ e altura $1/360$, ou seja, $(b - a)/360$: a probabilidade do arco. Das 100.000 paradas da figura, 24,95% ficaram entre 0° e 90°, perto do valor teórico $1/4$.
+Nos dois painéis, as barras oscilam em torno da mesma altura, $1/360$. Com faixas cada vez mais estreitas e cada vez mais observações, o topo do histograma se aproxima de uma curva, que @bussab2023 chamam de histograma alisado e que a próxima subseção chama de **densidade**. No relógio, a curva é a reta horizontal na altura $1/360$, e a área sob ela entre $a$ e $b$ é a de um retângulo de base $b - a$ e altura $1/360$, ou seja, $(b - a)/360$: a probabilidade do arco. Das 100.000 paradas da figura, 24,95% ficaram entre 0° e 90°, perto do valor teórico $1/4$.
 
 ## Função densidade de probabilidade
 
@@ -88,7 +88,7 @@ P(a \le X \le b) = \int_a^b f(x)\, dx.
 $$
 :::
 
-As três condições traduzem o que se espera de uma probabilidade. A primeira, $f(x) \ge 0$, garante que nenhuma área sob $f$ seja negativa: se $f$ ficasse abaixo do eixo em algum trecho, algum intervalo teria probabilidade negativa. A segunda diz que a área total é 1, porque $X$ certamente assume algum valor real, e $P(-\infty < X < \infty) = 1$; é o mesmo papel de $\sum p(x_i) = 1$ no caso discreto. A terceira é a do histograma alisado: a probabilidade de um intervalo é a área sob a curva naquele intervalo, como a proporção de observações numa faixa era a área da barra.
+$f(x) \ge 0$ garante que nenhuma área sob $f$ seja negativa: se $f$ ficasse abaixo do eixo em algum trecho, algum intervalo teria probabilidade negativa. A área total é 1 porque $X$ certamente assume algum valor real, e $P(-\infty < X < \infty) = 1$; é o mesmo papel de $\sum p(x_i) = 1$ no caso discreto. E a regra que define a probabilidade vem do histograma alisado: a probabilidade de um intervalo é a área sob a curva naquele intervalo, como a proporção de observações numa faixa era a área da barra.
 
 No relógio, $f(x) = 1/360$ para $0 \le x < 360$, e $f(x) = 0$ fora desse intervalo. A primitiva de $1/360$ é $x/360$, e
 
@@ -98,11 +98,12 @@ $$
 
 a probabilidade do arco que a simetria do mostrador já indicava.
 
-Qualquer função não negativa com área total 1 define uma variável contínua. No Exemplo 7.2 de @bussab2023, $f(x) = 2x$ para $0 \le x \le 1$, e zero fora. Ela é não negativa, e a área total é 1: como $f$ é zero fora de $[0, 1]$, a integral se reduz a esse intervalo, e a primitiva de $2x$ é $x^2$:
+Qualquer função não negativa com área total 1 é a densidade de alguma variável contínua. No Exemplo 7.2 de @bussab2023, $f(x) = 2x$ para $0 \le x \le 1$, e zero fora. Ela é não negativa, e a área total é 1: como $f$ é zero fora de $[0, 1]$, a integral se reduz a esse intervalo, e a primitiva de $2x$ é $x^2$:
 
 $$
 \begin{aligned}
-\int_{-\infty}^{\infty} f(x)\, dx &= \int_0^1 2x\, dx = \Big[x^2\Big]_0^1 \\
+\int_{-\infty}^{\infty} f(x)\, dx &= \int_0^1 2x\, dx \\
+&= \Big[x^2\Big]_0^1 \\
 &= 1^2 - 0^2 = 1.
 \end{aligned}
 $$
@@ -111,7 +112,8 @@ $$
 
 $$
 \begin{aligned}
-P\left(0 \le X \le \tfrac{1}{2}\right) &= \int_0^{1/2} 2x\, dx = \Big[x^2\Big]_0^{1/2} \\
+P\left(0 \le X \le \tfrac{1}{2}\right) &= \int_0^{1/2} 2x\, dx \\
+&= \Big[x^2\Big]_0^{1/2} \\
 &= \left(\tfrac{1}{2}\right)^2 - 0^2 = \frac{1}{4},
 \end{aligned}
 $$
@@ -120,7 +122,8 @@ e na segunda metade,
 
 $$
 \begin{aligned}
-P\left(\tfrac{1}{2} \le X \le 1\right) &= \int_{1/2}^{1} 2x\, dx = \Big[x^2\Big]_{1/2}^{1} \\
+P\left(\tfrac{1}{2} \le X \le 1\right) &= \int_{1/2}^{1} 2x\, dx \\
+&= \Big[x^2\Big]_{1/2}^{1} \\
 &= 1 - \frac{1}{4} = \frac{3}{4}.
 \end{aligned}
 $$
@@ -152,7 +155,7 @@ Nos dois intervalos, de mesma largura, as probabilidades são diferentes, como m
 $f(x)$ não é $P(X = x)$, que vale zero para qualquer $x$. Por isso $f$ pode passar de 1: no Exemplo 7.2, $f(1) = 2$. O que tem de ficar entre 0 e 1 é a **área** sob $f$ em qualquer intervalo, e a área total tem de ser 1.
 :::
 
-Como $P(X = a) = 0$, incluir ou não os extremos não muda nada numa variável contínua: $P(a \le X \le b) = P(a < X < b)$. É o oposto do que a seção 3.3 alertou para as variáveis discretas.
+Como $P(X = a) = 0$, incluir ou não os extremos não muda nada numa variável contínua: $P(a \le X \le b) = P(a < X < b)$. É o oposto do alerta da seção 3.3 para as variáveis discretas.
 
 ## Resumo
 
@@ -176,8 +179,10 @@ $f(x) = 3x^2 \ge 0$, e a primitiva de $3x^2$ é $x^3$, então $\int_0^1 3x^2\, d
 
 $$
 \begin{aligned}
-P(X \le 1/2) &= \int_0^{1/2} 3x^2\, dx = \Big[x^3\Big]_0^{1/2} = \frac{1}{8}, \\
-P(X > 0{,}9) &= \int_{0{,}9}^{1} 3x^2\, dx = 1 - 0{,}9^3 = 0{,}271.
+P(X \le 1/2) &= \int_0^{1/2} 3x^2\, dx \\
+&= \Big[x^3\Big]_0^{1/2} = \frac{1}{8}, \\
+P(X > 0{,}9) &= \int_{0{,}9}^{1} 3x^2\, dx \\
+&= \Big[x^3\Big]_{0{,}9}^{1} = 1 - 0{,}9^3 = 0{,}271.
 \end{aligned}
 $$
 :::

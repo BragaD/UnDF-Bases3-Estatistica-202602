@@ -24,41 +24,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 /* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
@@ -102,9 +67,9 @@ div.csl-indent {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-96de93aeef37c2f55637d13965bee670.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-fa5a435faa8b3fd8ba2c629fc35ba32a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-96de93aeef37c2f55637d13965bee670.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-64fc88c462144c19fa71a709d9434c23.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-244db57ca546911734af8129e7c854c8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-64fc88c462144c19fa71a709d9434c23.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -645,6 +610,7 @@ window.Quarto = {
   <li><a href="#valor-médio" id="toc-valor-médio" class="nav-link active" data-scroll-target="#valor-médio">Valor médio</a></li>
   <li><a href="#variância-e-desvio-padrão" id="toc-variância-e-desvio-padrão" class="nav-link" data-scroll-target="#variância-e-desvio-padrão">Variância e desvio-padrão</a></li>
   <li><a href="#transformações-lineares" id="toc-transformações-lineares" class="nav-link" data-scroll-target="#transformações-lineares">Transformações lineares</a></li>
+  <li><a href="#um-atalho-para-a-variância" id="toc-um-atalho-para-a-variância" class="nav-link" data-scroll-target="#um-atalho-para-a-variância">Um atalho para a variância</a></li>
   <li><a href="#resumo" id="toc-resumo" class="nav-link" data-scroll-target="#resumo">Resumo</a></li>
   <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios">Exercícios</a></li>
   </ul>
@@ -692,17 +658,17 @@ Nota
 <p>Esta seção corresponde à seção 6.3 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>, com dois resultados da seção 6.4.</p>
 </div>
 </div>
-<p>Na seção 3.1, o dono da empresa de software montou o modelo do lucro <span class="math inline">\(X\)</span> por sistema vendido:</p>
+<p>Na seção 3.1, o empresário construiu o modelo do lucro <span class="math inline">\(X\)</span> por unidade montada do produto de cilindro e esfera:</p>
 <div id="tbl-fp-lucro" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-fp-lucro-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabela&nbsp;1: Função de probabilidade do lucro por sistema vendido.
+Tabela&nbsp;1: Função de probabilidade do lucro por unidade montada.
 </figcaption>
 <div aria-describedby="tbl-fp-lucro-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
 <thead>
 <tr class="header">
-<th style="text-align: center;"><span class="math inline">\(x\)</span> (R$ mil)</th>
+<th style="text-align: center;"><span class="math inline">\(x\)</span> (R$)</th>
 <th style="text-align: center;">15</th>
 <th style="text-align: center;">10</th>
 <th style="text-align: center;">5</th>
@@ -722,10 +688,10 @@ Tabela&nbsp;1: Função de probabilidade do lucro por sistema vendido.
 </div>
 </figure>
 </div>
-<p>A tabela mostra tudo, mas o dono quer um número só para decidir se o negócio vale a pena: quanto ele lucra, em média, por sistema? E quanto esse lucro varia de uma venda para outra? No Capítulo 1, as respostas para dados eram a média e o desvio-padrão. Esta seção define as versões teóricas das duas medidas.</p>
+<p>A tabela mostra tudo, mas o empresário quer um número só para decidir se o negócio vale a pena: quanto ele lucra, em média, por unidade? E quanto esse lucro varia de uma unidade para outra? No Capítulo 1, as respostas para dados eram a média e o desvio-padrão. Esta seção define as versões teóricas das duas medidas.</p>
 <section id="valor-médio" class="level2">
 <h2 class="anchored" data-anchor-id="valor-médio">Valor médio</h2>
-<p>Imagine que a empresa venda 100 sistemas. Pelo modelo, espera-se que cerca de 56 deem lucro de 15, cerca de 23 deem 10, cerca de 2 deem 5 e cerca de 19 deem prejuízo de 5. A média desses 100 lucros seria</p>
+<p>Imagine que o empresário monte 100 unidades. Pelo modelo, espera-se que cerca de 56 deem lucro de 15, cerca de 23 deem 10, cerca de 2 deem 5 e cerca de 19 deem prejuízo de 5. A média desses 100 lucros seria</p>
 <p><span class="math display">\[
 \begin{aligned}
 &amp;\frac{56 \times 15 + 23 \times 10 + 2 \times 5 + 19 \times (-5)}{100} \\
@@ -733,7 +699,7 @@ Tabela&nbsp;1: Função de probabilidade do lucro por sistema vendido.
 &amp;\quad + 0{,}02 \times 5 + 0{,}19 \times (-5).
 \end{aligned}
 \]</span></p>
-<p>É uma média ponderada, como a da seção 1.3, com pesos <span class="math inline">\(p(x_i)\)</span> no lugar das frequências relativas. Como os pesos somam 1, não é preciso dividir pela soma deles.</p>
+<p>É uma média ponderada, como a da seção 1.3, com pesos <span class="math inline">\(p(x_i)\)</span> no lugar das frequências relativas: um valor raro pesa pouco, um valor frequente pesa muito. Como os pesos somam 1, não é preciso dividir pela soma deles.</p>
 <div class="conceito">
 <p>O <strong>valor médio</strong>, ou <strong>esperança</strong>, da variável aleatória discreta <span class="math inline">\(X\)</span> é</p>
 <p><span class="math display">\[
@@ -741,28 +707,76 @@ E(X) = \sum_{i} x_i\, p(x_i).
 \]</span></p>
 <p>Também se escreve <span class="math inline">\(\mu\)</span> ou <span class="math inline">\(\mu(X)\)</span>.</p>
 </div>
-<div id="cell-esperanca" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>E <span class="op">=</span> (x <span class="op">*</span> p).<span class="bu">sum</span>()</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">round</span>(E, <span class="dv">2</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="esperanca" class="cell-output cell-output-display" data-execution_count="2">
-<pre><code>9.85</code></pre>
+<p>Os <span class="math inline">\(x_i\)</span> são os valores que <span class="math inline">\(X\)</span> pode assumir, e <span class="math inline">\(p(x_i)\)</span> as suas probabilidades.</p>
+<p>A conta se organiza numa tabela, com uma linha por valor de <span class="math inline">\(X\)</span> e uma coluna para os produtos <span class="math inline">\(x\,p(x)\)</span>. A soma dessa coluna (a terceira) é <span class="math inline">\(E(X)\)</span>. A coluna <span class="math inline">\(x^2 p(x)\)</span> vai servir para a variância, mais adiante.</p>
+<div class="table-responsive">
+<div id="tbl-calculo-lucro" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-calculo-lucro-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;2: Tabela de cálculo do valor médio e da variância do lucro.
+</figcaption>
+<div aria-describedby="tbl-calculo-lucro-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;"><span class="math inline">\(x\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(p(x)\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(x\,p(x)\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(x^2 p(x)\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">15</td>
+<td style="text-align: center;">0,56</td>
+<td style="text-align: center;">8,40</td>
+<td style="text-align: center;"><span class="math inline">\(225 \times 0{,}56 = 126{,}00\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">0,23</td>
+<td style="text-align: center;">2,30</td>
+<td style="text-align: center;"><span class="math inline">\(100 \times 0{,}23 = 23{,}00\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">0,02</td>
+<td style="text-align: center;">0,10</td>
+<td style="text-align: center;"><span class="math inline">\(25 \times 0{,}02 = 0{,}50\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(-5\)</span></td>
+<td style="text-align: center;">0,19</td>
+<td style="text-align: center;"><span class="math inline">\(-0{,}95\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(25 \times 0{,}19 = 4{,}75\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><strong>Total</strong></td>
+<td style="text-align: center;"><strong>1</strong></td>
+<td style="text-align: center;"><strong>9,85</strong></td>
+<td style="text-align: center;"><strong>154,25</strong></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
 </div>
 </div>
-<p>O lucro médio é de R$ 9,85 mil por sistema. Nenhuma venda dá exatamente esse valor: <span class="math inline">\(X\)</span> só assume 15, 10, 5 ou <span class="math inline">\(-5\)</span>. Aqui, o valor médio não é o valor mais provável (que é 15) nem sequer um valor possível. Em geral, ele não precisa ser nenhum dos dois. É o centro da distribuição, no mesmo sentido da média dos dados.</p>
-<p>A interpretação vem da frequência relativa. Uma simulação de 10.000 vendas, sorteando cada lucro com as probabilidades do modelo, mostra a média das vendas perto de <span class="math inline">\(E(X)\)</span>:</p>
-<div id="cell-esperanca-simulada" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">42</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>vendas <span class="op">=</span> rng.choice(x, size<span class="op">=</span><span class="dv">10_000</span>, p<span class="op">=</span>p)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="bu">round</span>(<span class="bu">float</span>(vendas.mean()), <span class="dv">2</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="esperanca-simulada" class="cell-output cell-output-display" data-execution_count="3">
-<pre><code>9.92</code></pre>
-</div>
-</div>
-<p>A média de 9,92 nas vendas simuladas fica perto de 9,85, como as frequências do dado ficaram perto de 1/6 na seção 2.1. Quando o número de vendas cresce, a média das vendas se aproxima de <span class="math inline">\(E(X)\)</span>.</p>
+<p>Escrita por extenso, a soma da terceira coluna é</p>
+<p><span class="math display">\[
+\begin{aligned}
+E(X) &amp;= 15 \times 0{,}56 + 10 \times 0{,}23 \\
+&amp;\quad + 5 \times 0{,}02 + (-5) \times 0{,}19 \\
+&amp;= 8{,}40 + 2{,}30 + 0{,}10 - 0{,}95 \\
+&amp;= 9{,}85.
+\end{aligned}
+\]</span></p>
+<p>O lucro médio é de R$ 9,85 por unidade. Nenhuma unidade dá exatamente esse valor: <span class="math inline">\(X\)</span> só assume 15, 10, 5 ou <span class="math inline">\(-5\)</span>. O valor médio não precisa ser um valor possível nem o mais provável (que aqui é 15). É o centro da distribuição, no mesmo sentido da média dos dados.</p>
+<p>A interpretação vem da frequência relativa, como na conta das 100 unidades. Em muitas unidades montadas, cada lucro aparece numa proporção próxima da sua probabilidade, e a média dos lucros observados se aproxima de <span class="math inline">\(E(X) = 9{,}85\)</span>.</p>
 </section>
 <section id="variância-e-desvio-padrão" class="level2">
 <h2 class="anchored" data-anchor-id="variância-e-desvio-padrão">Variância e desvio-padrão</h2>
-<p>Duas empresas podem ter o mesmo lucro médio com riscos muito diferentes. Para medir o quanto <span class="math inline">\(X\)</span> se afasta de <span class="math inline">\(E(X)\)</span>, a ideia é a mesma da variância dos dados: somar os desvios ao quadrado, agora pesados pelas probabilidades.</p>
+<p>Dois negócios podem ter o mesmo lucro médio com riscos muito diferentes. Para medir o quanto <span class="math inline">\(X\)</span> se afasta de <span class="math inline">\(E(X)\)</span>, a ideia é a mesma da variância dos dados: somar os desvios ao quadrado, agora ponderados pelas probabilidades.</p>
 <div class="conceito">
 <p>A <strong>variância</strong> da variável aleatória discreta <span class="math inline">\(X\)</span>, com <span class="math inline">\(\mu = E(X)\)</span>, é</p>
 <p><span class="math display">\[
@@ -770,15 +784,22 @@ E(X) = \sum_{i} x_i\, p(x_i).
 \]</span></p>
 <p>O <strong>desvio-padrão</strong> é a raiz quadrada positiva: <span class="math inline">\(\mathrm{DP}(X) = \sqrt{\mathrm{Var}(X)}\)</span>. Também se escrevem <span class="math inline">\(\sigma^2\)</span> e <span class="math inline">\(\sigma\)</span>.</p>
 </div>
-<div id="cell-variancia" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>Var <span class="op">=</span> ((x <span class="op">-</span> E) <span class="op">**</span> <span class="dv">2</span> <span class="op">*</span> p).<span class="bu">sum</span>()</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>DP <span class="op">=</span> np.sqrt(Var)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="bu">round</span>(Var, <span class="dv">2</span>), <span class="bu">round</span>(DP, <span class="dv">2</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="variancia" class="cell-output cell-output-display" data-execution_count="4">
-<pre><code>(57.23, 7.56)</code></pre>
-</div>
-</div>
-<p>A variância do lucro é 57,23 (em mil reais ao quadrado), e o desvio-padrão, 7,56 mil reais, na mesma unidade do lucro. Um desvio de mais de 7 mil em torno de uma média de quase 10 mil diz que o lucro de uma venda isolada é bem incerto. O responsável é o prejuízo de 5 mil, que acontece em quase uma venda a cada cinco.</p>
+<p>Cada <span class="math inline">\(x_i - \mu\)</span> é o desvio do valor em relação à média. O quadrado impede que desvios positivos e negativos se cancelem, e o peso <span class="math inline">\(p(x_i)\)</span> faz os valores frequentes contarem mais. A variância é, portanto, a média dos desvios ao quadrado.</p>
+<p>No lucro, <span class="math inline">\(\mu = 9{,}85\)</span>, e os desvios são <span class="math inline">\(15 - 9{,}85 = 5{,}15\)</span>, <span class="math inline">\(10 - 9{,}85 = 0{,}15\)</span>, <span class="math inline">\(5 - 9{,}85 = -4{,}85\)</span> e <span class="math inline">\(-5 - 9{,}85 = -14{,}85\)</span>. Então</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathrm{Var}(X) &amp;= 5{,}15^2 \times 0{,}56 \\
+&amp;\quad + 0{,}15^2 \times 0{,}23 \\
+&amp;\quad + (-4{,}85)^2 \times 0{,}02 \\
+&amp;\quad + (-14{,}85)^2 \times 0{,}19 \\
+&amp;= 14{,}8526 + 0{,}005175 \\
+&amp;\quad + 0{,}47045 + 41{,}899275 \\
+&amp;= 57{,}2275 \\
+&amp;\approx 57{,}23,
+\end{aligned}
+\]</span></p>
+<p>e <span class="math inline">\(\mathrm{DP}(X) = \sqrt{57{,}2275} \approx 7{,}56\)</span>.</p>
+<p>A variância do lucro é 57,23 (em reais ao quadrado), e o desvio-padrão, 7,56 reais, na mesma unidade do lucro. Um desvio de mais de 7 reais em torno de uma média de quase 10 diz que o lucro de uma unidade isolada é bem incerto. O responsável é o prejuízo de 5 reais, que acontece em quase uma unidade a cada cinco: sozinho, ele responde por cerca de 41,90 dos 57,23 da soma.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -789,32 +810,54 @@ E(X) = \sum_{i} x_i\, p(x_i).
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>A variância dos dados da seção 1.4 dividia por <span class="math inline">\(n - 1\)</span>, como o pandas; a seção 3.2 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span> divide por <span class="math inline">\(n\)</span>. Na variância de uma variável aleatória não há <span class="math inline">\(n\)</span>: os pesos são as probabilidades, que somam 1. Com divisor <span class="math inline">\(n\)</span>, a variância dos dados é <span class="math inline">\(\sum (v - \bar{x})^2 f_v\)</span>, somando sobre os valores distintos <span class="math inline">\(v\)</span> com frequências relativas <span class="math inline">\(f_v\)</span>. Trocando <span class="math inline">\(f_v\)</span> por <span class="math inline">\(p(x)\)</span>, sai exatamente <span class="math inline">\(\mathrm{Var}(X)\)</span>: a versão teórica corresponde ao divisor <span class="math inline">\(n\)</span>.</p>
+<p>A variância dos dados da seção 1.4 dividia por <span class="math inline">\(n - 1\)</span>; a seção 3.2 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span> divide por <span class="math inline">\(n\)</span>. Na variância de uma variável aleatória não há <span class="math inline">\(n\)</span>: os pesos são as probabilidades, que somam 1. Com divisor <span class="math inline">\(n\)</span>, a variância dos dados é <span class="math inline">\(\sum (v - \bar{x})^2 f_v\)</span>, somando sobre os valores distintos <span class="math inline">\(v\)</span> com frequências relativas <span class="math inline">\(f_v\)</span>. Trocando <span class="math inline">\(v\)</span> por <span class="math inline">\(x_i\)</span>, <span class="math inline">\(f_v\)</span> por <span class="math inline">\(p(x_i)\)</span> e <span class="math inline">\(\bar{x}\)</span> por <span class="math inline">\(\mu\)</span>, sai exatamente <span class="math inline">\(\mathrm{Var}(X)\)</span>: a versão teórica corresponde ao divisor <span class="math inline">\(n\)</span>.</p>
 </div>
 </div>
 </section>
 <section id="transformações-lineares" class="level2">
 <h2 class="anchored" data-anchor-id="transformações-lineares">Transformações lineares</h2>
-<p>A empresa passa a vender o sistema num mercado em que preços e custos são o dobro dos atuais. O novo lucro é <span class="math inline">\(Z = 2X\)</span>. As probabilidades não mudam, porque valores diferentes de <span class="math inline">\(X\)</span> dão valores diferentes de <span class="math inline">\(Z\)</span>. O lucro médio dobra, mas a variância quadruplica:</p>
-<div id="cell-z-2x" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> x</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>E_z <span class="op">=</span> (z <span class="op">*</span> p).<span class="bu">sum</span>()</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>Var_z <span class="op">=</span> ((z <span class="op">-</span> E_z) <span class="op">**</span> <span class="dv">2</span> <span class="op">*</span> p).<span class="bu">sum</span>()</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="bu">round</span>(E_z, <span class="dv">2</span>), <span class="bu">round</span>(Var_z, <span class="dv">2</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="z-2x" class="cell-output cell-output-display" data-execution_count="5">
-<pre><code>(19.7, 228.91)</code></pre>
-</div>
-</div>
-<p>Agora a empresa passa a pagar uma taxa fixa de 3 mil por sistema, e o lucro vira <span class="math inline">\(W = X - 3\)</span>. Todos os valores descem 3, e o centro também. A dispersão em torno do centro não muda:</p>
-<div id="cell-w-x-3" class="cell" data-execution_count="6">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> x <span class="op">-</span> <span class="dv">3</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>E_w <span class="op">=</span> (w <span class="op">*</span> p).<span class="bu">sum</span>()</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>Var_w <span class="op">=</span> ((w <span class="op">-</span> E_w) <span class="op">**</span> <span class="dv">2</span> <span class="op">*</span> p).<span class="bu">sum</span>()</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="bu">round</span>(E_w, <span class="dv">2</span>), <span class="bu">round</span>(Var_w, <span class="dv">2</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="w-x-3" class="cell-output cell-output-display" data-execution_count="6">
-<pre><code>(6.85, 57.23)</code></pre>
-</div>
-</div>
+<p>O empresário passa a vender o produto num mercado em que preços e custos são o dobro dos atuais. O novo lucro é <span class="math inline">\(Z = 2X\)</span>. Cada valor de <span class="math inline">\(X\)</span> vira um valor de <span class="math inline">\(Z\)</span>, com a mesma probabilidade, porque valores diferentes de <span class="math inline">\(X\)</span> dão valores diferentes de <span class="math inline">\(Z\)</span>:</p>
+<table class="caption-top table">
+<caption>Função de probabilidade do lucro no mercado com valores dobrados.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: center;"><span class="math inline">\(z = 2x\)</span></th>
+<th style="text-align: center;">30</th>
+<th style="text-align: center;">20</th>
+<th style="text-align: center;">10</th>
+<th style="text-align: center;"><span class="math inline">\(-10\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(p(z)\)</span></td>
+<td style="text-align: center;">0,56</td>
+<td style="text-align: center;">0,23</td>
+<td style="text-align: center;">0,02</td>
+<td style="text-align: center;">0,19</td>
+</tr>
+</tbody>
+</table>
+<p>Pela definição,</p>
+<p><span class="math display">\[
+\begin{aligned}
+E(Z) &amp;= 30 \times 0{,}56 + 20 \times 0{,}23 \\
+&amp;\quad + 10 \times 0{,}02 + (-10) \times 0{,}19 \\
+&amp;= 16{,}8 + 4{,}6 + 0{,}2 - 1{,}9 \\
+&amp;= 19{,}7,
+\end{aligned}
+\]</span></p>
+<p>o dobro de 9,85. Os desvios também dobram: <span class="math inline">\(30 - 19{,}7 = 10{,}3 = 2 \times 5{,}15\)</span>, e assim por diante. Cada desvio ao quadrado fica multiplicado por 4, e a variância também: <span class="math inline">\(\mathrm{Var}(Z) = 4 \times 57{,}2275 = 228{,}91\)</span>. O lucro médio dobra, mas a variância quadruplica.</p>
+<p>De volta ao mercado original, suponha que o empresário pague uma taxa fixa de 3 reais por unidade, e o lucro vira <span class="math inline">\(W = X - 3\)</span>, com valores 12, 7, 2 e <span class="math inline">\(-8\)</span> e as mesmas probabilidades. Pela definição,</p>
+<p><span class="math display">\[
+\begin{aligned}
+E(W) &amp;= 12 \times 0{,}56 + 7 \times 0{,}23 \\
+&amp;\quad + 2 \times 0{,}02 + (-8) \times 0{,}19 \\
+&amp;= 6{,}72 + 1{,}61 + 0{,}04 - 1{,}52 \\
+&amp;= 6{,}85,
+\end{aligned}
+\]</span></p>
+<p>que é <span class="math inline">\(9{,}85 - 3\)</span>. Todos os valores descem 3, e o centro também. Os desvios não mudam: <span class="math inline">\(12 - 6{,}85 = 5{,}15\)</span>, igual a <span class="math inline">\(15 - 9{,}85\)</span>. Por isso <span class="math inline">\(\mathrm{Var}(W) = \mathrm{Var}(X) \approx 57{,}23\)</span>: a dispersão em torno do centro é a mesma.</p>
 <p>As duas contas são casos de uma regra geral, as fórmulas (6.4) e (6.5) de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>.</p>
 <div class="conceito">
 <p>Para constantes <span class="math inline">\(a\)</span> e <span class="math inline">\(b\)</span>,</p>
@@ -825,25 +868,65 @@ E(aX + b) &amp;= a\,E(X) + b, \\
 \end{aligned}
 \]</span></p>
 </div>
-<p>Somar uma constante desloca a distribuição inteira e não muda a variância. Multiplicar por <span class="math inline">\(a\)</span> multiplica cada desvio por <span class="math inline">\(a\)</span>, e cada desvio ao quadrado por <span class="math inline">\(a^2\)</span>. O desvio-padrão fica multiplicado por <span class="math inline">\(|a|\)</span>. Essas duas regras vão ser usadas no Capítulo 4, para padronizar a distribuição normal.</p>
+<p>As duas saem da definição em poucas linhas. A variável <span class="math inline">\(aX + b\)</span> assume os valores <span class="math inline">\(a x_i + b\)</span>, com as mesmas probabilidades <span class="math inline">\(p(x_i)\)</span>. Para o valor médio, separa-se a soma em duas e usa-se <span class="math inline">\(\sum p(x_i) = 1\)</span>:</p>
+<p><span class="math display">\[
+\begin{aligned}
+E(aX + b) &amp;= \sum_i (a x_i + b)\, p(x_i) \\
+&amp;= a \sum_i x_i\, p(x_i) \\
+&amp;\quad + b \sum_i p(x_i) \\
+&amp;= a\,E(X) + b.
+\end{aligned}
+\]</span></p>
+<p>Para a variância, o desvio de cada valor em relação à nova média é <span class="math inline">\((a x_i + b) - (a\mu + b) = a(x_i - \mu)\)</span>. O <span class="math inline">\(b\)</span> some, e o <span class="math inline">\(a\)</span> sai da soma ao quadrado:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathrm{Var}(aX + b) &amp;= \sum_i \big[a(x_i - \mu)\big]^2\, p(x_i) \\
+&amp;= a^2 \sum_i (x_i - \mu)^2\, p(x_i) \\
+&amp;= a^2\,\mathrm{Var}(X).
+\end{aligned}
+\]</span></p>
+<p>Somar uma constante desloca a distribuição inteira e não muda a variância. Multiplicar por <span class="math inline">\(a\)</span> multiplica cada desvio por <span class="math inline">\(a\)</span>, e cada desvio ao quadrado por <span class="math inline">\(a^2\)</span>. O desvio-padrão fica multiplicado por <span class="math inline">\(|a|\)</span>: no mercado dobrado, <span class="math inline">\(\mathrm{DP}(Z) = \sqrt{228{,}91} \approx 15{,}13\)</span>, o dobro de <span class="math inline">\(\mathrm{DP}(X)\)</span>. Essas duas regras vão ser usadas no Capítulo 4, para padronizar a distribuição normal.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Aviso</span>Em geral, a regra não vale para funções não lineares
+<span class="screen-reader-only">Aviso</span>A regra não vale para funções não lineares
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Em geral, a média de uma função de <span class="math inline">\(X\)</span> não é a função da média. Com o lucro, a média de <span class="math inline">\(X^2\)</span> se calcula com a mesma soma, trocando <span class="math inline">\(x_i\)</span> por <span class="math inline">\(x_i^2\)</span>: <span class="math inline">\(\sum x_i^2\, p(x_i)\)</span>, que dá 154,25, enquanto o quadrado da média é <span class="math inline">\([E(X)]^2\)</span>, cerca de 97,02. A diferença entre os dois é a variância.</p>
+<p>Em geral, a média de uma função de <span class="math inline">\(X\)</span> não é a função da média. Com o lucro, a média de <span class="math inline">\(X^2\)</span> se calcula com a mesma soma, trocando <span class="math inline">\(x_i\)</span> por <span class="math inline">\(x_i^2\)</span>: <span class="math inline">\(E(X^2) = \sum x_i^2\, p(x_i) = 154{,}25\)</span>, a última coluna da <a href="#tbl-calculo-lucro" class="quarto-xref">Tabela&nbsp;<span>2</span></a>. Já o quadrado da média é <span class="math inline">\([E(X)]^2 = 9{,}85^2 \approx 97{,}02\)</span>. A diferença entre os dois é a variância.</p>
 </div>
 </div>
+</section>
+<section id="um-atalho-para-a-variância" class="level2">
+<h2 class="anchored" data-anchor-id="um-atalho-para-a-variância">Um atalho para a variância</h2>
 <p>Essa diferença dá um atalho para a variância, a fórmula (6.6) de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>:</p>
+<div class="conceito">
 <p><span class="math display">\[
 \mathrm{Var}(X) = E(X^2) - [E(X)]^2.
 \]</span></p>
-<p>No lucro, <span class="math inline">\(154{,}25 - 9{,}85^2 = 57{,}23\)</span>, o mesmo valor da definição.</p>
+</div>
+<p>A dedução expande o quadrado da definição, <span class="math inline">\((x_i - \mu)^2 = x_i^2 - 2\mu x_i + \mu^2\)</span>, e separa a soma em três:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathrm{Var}(X) &amp;= \sum_i x_i^2\, p(x_i) \\
+&amp;\quad - 2\mu \sum_i x_i\, p(x_i) \\
+&amp;\quad + \mu^2 \sum_i p(x_i) \\
+&amp;= E(X^2) - 2\mu \cdot \mu + \mu^2 \cdot 1 \\
+&amp;= E(X^2) - \mu^2.
+\end{aligned}
+\]</span></p>
+<p>A primeira soma é <span class="math inline">\(E(X^2)\)</span>, a segunda é <span class="math inline">\(E(X) = \mu\)</span> e a terceira é 1. O atalho poupa a coluna dos desvios: basta somar a coluna <span class="math inline">\(x^2 p(x)\)</span> da tabela de cálculo. No lucro,</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathrm{Var}(X) &amp;= 154{,}25 - 9{,}85^2 \\
+&amp;= 154{,}25 - 97{,}0225 \\
+&amp;= 57{,}2275 \approx 57{,}23,
+\end{aligned}
+\]</span></p>
+<p>o mesmo valor da definição.</p>
 </section>
 <section id="resumo" class="level2">
 <h2 class="anchored" data-anchor-id="resumo">Resumo</h2>
@@ -858,7 +941,7 @@ E(aX + b) &amp;= a\,E(X) + b, \\
 <tr class="header">
 <th>Medida</th>
 <th>Fórmula</th>
-<th style="text-align: center;">Lucro por sistema</th>
+<th style="text-align: center;">Lucro por unidade</th>
 </tr>
 </thead>
 <tbody>
@@ -874,7 +957,7 @@ E(aX + b) &amp;= a\,E(X) + b, \\
 </tr>
 <tr class="odd">
 <td>Desvio-padrão</td>
-<td><span class="math inline">\(\sqrt{\mathrm{Var}(X)}\)</span></td>
+<td><span class="math inline">\(\mathrm{DP}(X) = \sqrt{\mathrm{Var}(X)}\)</span></td>
 <td style="text-align: center;">7,56</td>
 </tr>
 <tr class="even">
@@ -893,7 +976,7 @@ E(aX + b) &amp;= a\,E(X) + b, \\
 </section>
 <section id="exercícios" class="level2">
 <h2 class="anchored" data-anchor-id="exercícios">Exercícios</h2>
-<p><strong>1.</strong> Na seção 3.1, o custo de retrabalho <span class="math inline">\(Y\)</span> tinha a função de probabilidade <span class="math inline">\(P(Y = 0) = 0{,}75\)</span>, <span class="math inline">\(P(Y = 5) = 0{,}23\)</span> e <span class="math inline">\(P(Y = 10) = 0{,}02\)</span>. Calcule <span class="math inline">\(E(Y)\)</span> e <span class="math inline">\(\mathrm{DP}(Y)\)</span>.</p>
+<p><strong>1.</strong> Na seção 3.1, o custo de recuperação <span class="math inline">\(Y\)</span> tinha a função de probabilidade <span class="math inline">\(P(Y = 0) = 0{,}75\)</span>, <span class="math inline">\(P(Y = 5) = 0{,}23\)</span> e <span class="math inline">\(P(Y = 10) = 0{,}02\)</span>. Calcule <span class="math inline">\(E(Y)\)</span> e <span class="math inline">\(\mathrm{DP}(Y)\)</span>.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -906,20 +989,55 @@ E(aX + b) &amp;= a\,E(X) + b, \\
 </div>
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="cell-ex1-resposta" class="cell" data-execution_count="7">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">5</span>, <span class="dv">10</span>])</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>py <span class="op">=</span> np.array([<span class="fl">0.75</span>, <span class="fl">0.23</span>, <span class="fl">0.02</span>])</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>E_y <span class="op">=</span> (y <span class="op">*</span> py).<span class="bu">sum</span>()</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="bu">round</span>(E_y, <span class="dv">2</span>), <span class="bu">round</span>(np.sqrt(((y <span class="op">-</span> E_y) <span class="op">**</span> <span class="dv">2</span> <span class="op">*</span> py).<span class="bu">sum</span>()), <span class="dv">2</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="ex1-resposta" class="cell-output cell-output-display" data-execution_count="7">
-<pre><code>(1.35, 2.43)</code></pre>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;"><span class="math inline">\(y\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(p(y)\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(y\,p(y)\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(y^2 p(y)\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0,75</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">0,23</td>
+<td style="text-align: center;">1,15</td>
+<td style="text-align: center;">5,75</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">0,02</td>
+<td style="text-align: center;">0,20</td>
+<td style="text-align: center;">2,00</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><strong>Total</strong></td>
+<td style="text-align: center;"><strong>1</strong></td>
+<td style="text-align: center;"><strong>1,35</strong></td>
+<td style="text-align: center;"><strong>7,75</strong></td>
+</tr>
+</tbody>
+</table>
+<p><span class="math inline">\(E(Y) = 1{,}35\)</span> reais por unidade. Pelo atalho,</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathrm{Var}(Y) &amp;= 7{,}75 - 1{,}35^2 \\
+&amp;= 7{,}75 - 1{,}8225 \\
+&amp;= 5{,}9275,
+\end{aligned}
+\]</span></p>
+<p>e <span class="math inline">\(\mathrm{DP}(Y) = \sqrt{5{,}9275} \approx 2{,}43\)</span> reais.</p>
 </div>
 </div>
-<p><span class="math inline">\(E(Y) = 0 \times 0{,}75 + 5 \times 0{,}23 + 10 \times 0{,}02 = 1{,}35\)</span> mil reais por sistema, com desvio-padrão de cerca de 2,43 mil.</p>
 </div>
-</div>
-</div>
-<p><strong>2.</strong> Um dado equilibrado é lançado, e <span class="math inline">\(X\)</span> é a face. Calcule <span class="math inline">\(E(X)\)</span> e <span class="math inline">\(\mathrm{Var}(X)\)</span>. Um jogo paga, em reais, <span class="math inline">\(G = 2X - 5\)</span>. Qual o ganho médio e o desvio-padrão do ganho?</p>
+<p><strong>2.</strong> Um dado equilibrado é lançado, e <span class="math inline">\(X\)</span> é a face. Calcule <span class="math inline">\(E(X)\)</span> e <span class="math inline">\(\mathrm{Var}(X)\)</span>. Um jogo paga, em reais, <span class="math inline">\(G = 2X - 5\)</span>. Quais são o ganho médio e o desvio-padrão do ganho?</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -936,7 +1054,7 @@ E(aX + b) &amp;= a\,E(X) + b, \\
 </div>
 </div>
 </div>
-<p><strong>3.</strong> Uma equipe precisa escolher entre dois fornecedores de módulos. Com o fornecedor A, o lucro por sistema tem média 10 e desvio-padrão 2; com o B, média 11 e desvio-padrão 8 (em mil reais). Qual escolher? Justifique.</p>
+<p><strong>3.</strong> Um empresário precisa escolher entre dois fornecedores de componentes. Com o fornecedor A, o lucro por unidade tem média 10 e desvio-padrão 2; com o B, média 11 e desvio-padrão 8 (em reais). Qual escolher? Justifique.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -949,7 +1067,7 @@ E(aX + b) &amp;= a\,E(X) + b, \\
 </div>
 <div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Não há uma resposta única. O B dá lucro médio maior, mas com risco muito maior: um desvio de 8 em torno de 11 deixa margem para prejuízos em algumas vendas. Uma empresa pequena, que não aguenta prejuízo, pode preferir o A. A média sozinha não decide; a dispersão entra na decisão.</p>
+<p>Não há uma resposta única. O B dá lucro médio maior, mas com risco muito maior: um desvio de 8 em torno de 11 deixa margem para prejuízos em algumas unidades. Um negócio pequeno, que não aguenta prejuízo, pode preferir o A.</p>
 </div>
 </div>
 </div>

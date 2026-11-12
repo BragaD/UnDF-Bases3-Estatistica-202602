@@ -24,41 +24,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 /* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
@@ -102,9 +67,9 @@ div.csl-indent {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-96de93aeef37c2f55637d13965bee670.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-fa5a435faa8b3fd8ba2c629fc35ba32a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-96de93aeef37c2f55637d13965bee670.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-64fc88c462144c19fa71a709d9434c23.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-244db57ca546911734af8129e7c854c8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-64fc88c462144c19fa71a709d9434c23.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -692,11 +657,11 @@ Nota
 <p>Esta seção corresponde à seção 7.1 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>.</p>
 </div>
 </div>
-<p>Na seção 2.1, o tempo de resposta de uma requisição ficou de fora: ele pode ser qualquer número real não negativo, e os pontos de um intervalo não cabem numa lista. Sem lista, não há como somar probabilidades de pontos, e a fórmula da soma não serve. O texto prometeu outro caminho, com integral, para o Capítulo 4.</p>
-<p>Tempo de resposta, duração de um build, latência de rede, temperatura de uma CPU: são medidas, e assumem valores num intervalo de números reais. Este capítulo constrói os modelos para elas.</p>
+<p>Na seção 2.1, uma medida que pode ser qualquer número real não negativo ficou de fora: os pontos de um intervalo não cabem numa lista. Sem lista, não há como somar probabilidades de pontos, e a fórmula da soma não serve. A integral resolve esse caso, e é o assunto deste capítulo.</p>
+<p>Altura, peso, tempo de espera, temperatura, duração de uma lâmpada: são medidas, e assumem valores num intervalo de números reais. Este capítulo constrói os modelos para elas.</p>
 <section id="o-relógio-que-para" class="level2">
 <h2 class="anchored" data-anchor-id="o-relógio-que-para">O relógio que para</h2>
-<p>O Exemplo 7.1 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span> é o relógio do exercício 3 da seção 2.1. O ponteiro dos segundos para por falha num instante qualquer, e <span class="math inline">\(X\)</span> é o ângulo que ele forma com a posição das 12 horas, em graus.</p>
+<p>Volte ao relógio do exercício 3 da seção 2.1 (Exemplo 7.1 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>). O ponteiro dos segundos para por falha num instante qualquer, e <span class="math inline">\(X\)</span> é o ângulo que ele forma com a posição das 12 horas, em graus.</p>
 <p>Num relógio cujo ponteiro anda aos saltos, um por segundo, <span class="math inline">\(X\)</span> assume 60 valores (0°, 6°, 12°, …, 354°), e, se nenhuma posição for favorecida, cada um tem probabilidade <span class="math inline">\(1/60\)</span>: é a uniforme discreta da seção 3.4.</p>
 <p>Agora suponha um ponteiro que se move continuamente, sem saltos. <span class="math inline">\(X\)</span> pode ser qualquer valor em <span class="math inline">\([0°, 360°)\)</span>, e nenhuma região do mostrador é favorecida. A probabilidade de o ponteiro parar num quarto do mostrador, entre 0° e 90°, deve ser <span class="math inline">\(1/4\)</span>. Entre 120° e 150°, um arco de 30°, deve ser <span class="math inline">\(30/360 = 1/12\)</span>. Em geral, a probabilidade de um arco é proporcional ao seu comprimento: para <span class="math inline">\(0 \le a &lt; b &lt; 360\)</span>,</p>
 <p><span class="math display">\[
@@ -713,21 +678,9 @@ P(X = 90) &amp;\le P(90 \le X \le 90 + \varepsilon) \\
 </section>
 <section id="do-histograma-à-densidade" class="level2">
 <h2 class="anchored" data-anchor-id="do-histograma-à-densidade">Do histograma à densidade</h2>
-<p>No Capítulo 1, o histograma de uma variável contínua juntava as observações em faixas, e a altura de cada barra mostrava onde os dados se concentravam. Um histograma de <strong>densidade</strong> ajusta a altura para que a área de cada barra seja a proporção de observações na faixa. Assim, a área total das barras é 1.</p>
-<p>O código simula 100.000 paradas do ponteiro, supondo que nenhuma região é favorecida, e desenha o histograma de densidade com faixas cada vez mais estreitas:</p>
+<p>No Capítulo 1, o histograma de uma variável contínua juntava as observações em faixas, e a altura de cada barra mostrava onde os dados se concentravam. Um histograma de <strong>densidade</strong> ajusta a altura para que a área de cada barra seja a proporção de observações na faixa: a altura é a proporção dividida pela largura da faixa. Assim, a área total das barras é 1.</p>
+<p>A <a href="#fig-histograma-densidade" class="quarto-xref">Figura&nbsp;<span>1</span></a> mostra o histograma de densidade de 100.000 paradas simuladas do ponteiro, supondo que nenhuma região do mostrador seja favorecida, com faixas de 30° e de 5°.</p>
 <div id="cell-fig-histograma-densidade" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">42</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>angulos <span class="op">=</span> rng.uniform(<span class="dv">0</span>, <span class="dv">360</span>, size<span class="op">=</span><span class="dv">100_000</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>fig, eixos <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, sharey<span class="op">=</span><span class="va">True</span>, figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="fl">2.8</span>))</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> eixo, largura <span class="kw">in</span> <span class="bu">zip</span>(eixos, [<span class="dv">30</span>, <span class="dv">5</span>]):</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    eixo.hist(angulos, bins<span class="op">=</span>np.arange(<span class="dv">0</span>, <span class="dv">361</span>, largura), density<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    eixo.axhline(<span class="dv">1</span><span class="op">/</span><span class="dv">360</span>, color<span class="op">=</span><span class="st">"black"</span>, linestyle<span class="op">=</span><span class="st">"--"</span>, linewidth<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    eixo.set_title(<span class="ss">f"faixas de </span><span class="sc">{</span>largura<span class="sc">}</span><span class="ss">°"</span>)</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    eixo.set_xlabel(<span class="st">"ângulo x"</span>)</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>eixos[<span class="dv">0</span>].set_ylabel(<span class="st">"densidade"</span>)</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div id="fig-histograma-densidade" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Dois histogramas com barras de altura quase constante perto de 1/360, um com 12 barras e outro com 72 barras mais estreitas.">
 <figure class="quarto-float quarto-float-fig figure">
@@ -735,19 +688,13 @@ P(X = 90) &amp;\le P(90 \le X \le 90 + \varepsilon) \\
 <img src="01-variaveis-continuas_files/figure-html/fig-histograma-densidade-output-1.png" alt="Dois histogramas com barras de altura quase constante perto de 1/360, um com 12 barras e outro com 72 barras mais estreitas." width="656" height="259" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-histograma-densidade-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;1: Histogramas de densidade de 100.000 ângulos simulados, com faixas de 30° e de 5°. A linha tracejada é a densidade 1/360.
+Figura&nbsp;1: Histogramas de densidade de 100.000 paradas simuladas do ponteiro, supondo que nenhuma região do mostrador seja favorecida, com faixas de 30° e de 5°. A linha tracejada é a densidade 1/360.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>Com faixas cada vez mais estreitas e cada vez mais observações, o topo do histograma se aproxima de uma curva, que <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span> chama de histograma alisado e que a próxima subseção chama de <strong>densidade</strong>. No relógio, a curva é a reta horizontal na altura <span class="math inline">\(1/360\)</span>, e a área sob ela entre <span class="math inline">\(a\)</span> e <span class="math inline">\(b\)</span> é <span class="math inline">\((b - a)/360\)</span>, a probabilidade do arco. A proporção de ângulos simulados entre 0° e 90° reproduz o valor teórico 1/4:</p>
-<div id="cell-proporcao-quarto" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">round</span>(<span class="bu">float</span>(((angulos <span class="op">&gt;=</span> <span class="dv">0</span>) <span class="op">&amp;</span> (angulos <span class="op">&lt;=</span> <span class="dv">90</span>)).mean()), <span class="dv">4</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="proporcao-quarto" class="cell-output cell-output-display" data-execution_count="3">
-<pre><code>0.2495</code></pre>
-</div>
-</div>
+<p>Nos dois painéis, as barras oscilam em torno da mesma altura, <span class="math inline">\(1/360\)</span>. Com faixas cada vez mais estreitas e cada vez mais observações, o topo do histograma se aproxima de uma curva, que <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span> chamam de histograma alisado e que a próxima subseção chama de <strong>densidade</strong>. No relógio, a curva é a reta horizontal na altura <span class="math inline">\(1/360\)</span>, e a área sob ela entre <span class="math inline">\(a\)</span> e <span class="math inline">\(b\)</span> é a de um retângulo de base <span class="math inline">\(b - a\)</span> e altura <span class="math inline">\(1/360\)</span>, ou seja, <span class="math inline">\((b - a)/360\)</span>: a probabilidade do arco. Das 100.000 paradas da figura, 24,95% ficaram entre 0° e 90°, perto do valor teórico <span class="math inline">\(1/4\)</span>.</p>
 </section>
 <section id="função-densidade-de-probabilidade" class="level2">
 <h2 class="anchored" data-anchor-id="função-densidade-de-probabilidade">Função densidade de probabilidade</h2>
@@ -765,26 +712,51 @@ Figura&nbsp;1: Histogramas de densidade de 100.000 ângulos simulados, com faixa
 P(a \le X \le b) = \int_a^b f(x)\, dx.
 \]</span></p>
 </div>
-<p>No relógio, <span class="math inline">\(f(x) = 1/360\)</span> para <span class="math inline">\(0 \le x &lt; 360\)</span>, e <span class="math inline">\(f(x) = 0\)</span> fora desse intervalo. A integral de <span class="math inline">\(a\)</span> a <span class="math inline">\(b\)</span> é <span class="math inline">\((b - a)/360\)</span>.</p>
-<p>Qualquer função não negativa com área total 1 define uma variável contínua. No Exemplo 7.2 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>, <span class="math inline">\(f(x) = 2x\)</span> para <span class="math inline">\(0 \le x \le 1\)</span>, e zero fora. A área total é a de um triângulo de base 1 e altura 2, que dá 1. A probabilidade de <span class="math inline">\(X\)</span> ficar na primeira metade do intervalo é</p>
+<p><span class="math inline">\(f(x) \ge 0\)</span> garante que nenhuma área sob <span class="math inline">\(f\)</span> seja negativa: se <span class="math inline">\(f\)</span> ficasse abaixo do eixo em algum trecho, algum intervalo teria probabilidade negativa. A área total é 1 porque <span class="math inline">\(X\)</span> certamente assume algum valor real, e <span class="math inline">\(P(-\infty &lt; X &lt; \infty) = 1\)</span>; é o mesmo papel de <span class="math inline">\(\sum p(x_i) = 1\)</span> no caso discreto. E a regra que define a probabilidade vem do histograma alisado: a probabilidade de um intervalo é a área sob a curva naquele intervalo, como a proporção de observações numa faixa era a área da barra.</p>
+<p>No relógio, <span class="math inline">\(f(x) = 1/360\)</span> para <span class="math inline">\(0 \le x &lt; 360\)</span>, e <span class="math inline">\(f(x) = 0\)</span> fora desse intervalo. A primitiva de <span class="math inline">\(1/360\)</span> é <span class="math inline">\(x/360\)</span>, e</p>
+<p><span class="math display">\[
+\int_a^b \frac{1}{360}\, dx = \left[\frac{x}{360}\right]_a^b = \frac{b - a}{360},
+\]</span></p>
+<p>a probabilidade do arco que a simetria do mostrador já indicava.</p>
+<p>Qualquer função não negativa com área total 1 é a densidade de alguma variável contínua. No Exemplo 7.2 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>, <span class="math inline">\(f(x) = 2x\)</span> para <span class="math inline">\(0 \le x \le 1\)</span>, e zero fora. Ela é não negativa, e a área total é 1: como <span class="math inline">\(f\)</span> é zero fora de <span class="math inline">\([0, 1]\)</span>, a integral se reduz a esse intervalo, e a primitiva de <span class="math inline">\(2x\)</span> é <span class="math inline">\(x^2\)</span>:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\int_{-\infty}^{\infty} f(x)\, dx &amp;= \int_0^1 2x\, dx \\
+&amp;= \Big[x^2\Big]_0^1 \\
+&amp;= 1^2 - 0^2 = 1.
+\end{aligned}
+\]</span></p>
+<p>É a área de um triângulo de base 1 e altura 2. A probabilidade de <span class="math inline">\(X\)</span> ficar na primeira metade do intervalo é</p>
 <p><span class="math display">\[
 \begin{aligned}
 P\left(0 \le X \le \tfrac{1}{2}\right) &amp;= \int_0^{1/2} 2x\, dx \\
-&amp;= \Big[x^2\Big]_0^{1/2} = \frac{1}{4},
+&amp;= \Big[x^2\Big]_0^{1/2} \\
+&amp;= \left(\tfrac{1}{2}\right)^2 - 0^2 = \frac{1}{4},
 \end{aligned}
 \]</span></p>
-<p>e na segunda metade, <span class="math inline">\(3/4\)</span>. O <code>scipy.integrate.quad</code> calcula a mesma integral numericamente, e serve para conferir contas à mão:</p>
-<div id="cell-quad" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> <span class="kw">lambda</span> x: <span class="dv">2</span> <span class="op">*</span> x</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>area_1, _ <span class="op">=</span> quad(f, <span class="dv">0</span>, <span class="fl">0.5</span>)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>area_2, _ <span class="op">=</span> quad(f, <span class="fl">0.5</span>, <span class="dv">1</span>)</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="bu">round</span>(area_1, <span class="dv">4</span>), <span class="bu">round</span>(area_2, <span class="dv">4</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="quad" class="cell-output cell-output-display" data-execution_count="4">
-<pre><code>(0.25, 0.75)</code></pre>
+<p>e na segunda metade,</p>
+<p><span class="math display">\[
+\begin{aligned}
+P\left(\tfrac{1}{2} \le X \le 1\right) &amp;= \int_{1/2}^{1} 2x\, dx \\
+&amp;= \Big[x^2\Big]_{1/2}^{1} \\
+&amp;= 1 - \frac{1}{4} = \frac{3}{4}.
+\end{aligned}
+\]</span></p>
+<div id="cell-fig-densidade-2x" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display">
+<div id="fig-densidade-2x" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Reta crescente de (0, 0) a (1, 2). A região sob a reta entre 0 e 0,5 está sombreada em uma cor e tem o rótulo 1/4; a região entre 0,5 e 1 está sombreada em outra cor e tem o rótulo 3/4.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-densidade-2x-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="01-variaveis-continuas_files/figure-html/fig-densidade-2x-output-1.png" alt="Reta crescente de (0, 0) a (1, 2). A região sob a reta entre 0 e 0,5 está sombreada em uma cor e tem o rótulo 1/4; a região entre 0,5 e 1 está sombreada em outra cor e tem o rótulo 3/4." width="471" height="259" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-densidade-2x-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;2: Densidade f(x) = 2x em [0, 1]. A área de 0 a 1/2 é 1/4 e a de 1/2 a 1 é 3/4.
+</figcaption>
+</figure>
 </div>
 </div>
-<p>O <code>quad</code> devolve dois números: a integral e uma estimativa do erro numérico, que o <code>_</code> descarta.</p>
-<p>Nos dois intervalos, de mesma largura, as probabilidades são diferentes. No relógio, intervalos de mesma largura sempre têm a mesma probabilidade. A densidade diz onde a probabilidade se concentra: no Exemplo 7.2, perto de 1.</p>
+</div>
+<p>Nos dois intervalos, de mesma largura, as probabilidades são diferentes, como mostra a <a href="#fig-densidade-2x" class="quarto-xref">Figura&nbsp;<span>2</span></a>. No relógio, intervalos de mesma largura sempre têm a mesma probabilidade. A densidade diz onde a probabilidade se concentra: no Exemplo 7.2, perto de 1.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -798,7 +770,7 @@ P\left(0 \le X \le \tfrac{1}{2}\right) &amp;= \int_0^{1/2} 2x\, dx \\
 <p><span class="math inline">\(f(x)\)</span> não é <span class="math inline">\(P(X = x)\)</span>, que vale zero para qualquer <span class="math inline">\(x\)</span>. Por isso <span class="math inline">\(f\)</span> pode passar de 1: no Exemplo 7.2, <span class="math inline">\(f(1) = 2\)</span>. O que tem de ficar entre 0 e 1 é a <strong>área</strong> sob <span class="math inline">\(f\)</span> em qualquer intervalo, e a área total tem de ser 1.</p>
 </div>
 </div>
-<p>Como <span class="math inline">\(P(X = a) = 0\)</span>, incluir ou não os extremos não muda nada numa variável contínua: <span class="math inline">\(P(a \le X \le b) = P(a &lt; X &lt; b)\)</span>. É o oposto do que a seção 3.3 alertou para as variáveis discretas.</p>
+<p>Como <span class="math inline">\(P(X = a) = 0\)</span>, incluir ou não os extremos não muda nada numa variável contínua: <span class="math inline">\(P(a \le X \le b) = P(a &lt; X &lt; b)\)</span>. É o oposto do alerta da seção 3.3 para as variáveis discretas.</p>
 </section>
 <section id="resumo" class="level2">
 <h2 class="anchored" data-anchor-id="resumo">Resumo</h2>
@@ -851,8 +823,15 @@ P\left(0 \le X \le \tfrac{1}{2}\right) &amp;= \int_0^{1/2} 2x\, dx \\
 </div>
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><span class="math inline">\(f \ge 0\)</span> e <span class="math inline">\(\int_0^1 3x^2\, dx = [x^3]_0^1 = 1\)</span>. Então <span class="math inline">\(P(X \le 1/2) = (1/2)^3 = 1/8\)</span> e <span class="math inline">\(P(X &gt; 0{,}9) = 1 - 0{,}9^3 = 0{,}271\)</span>.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>quad(<span class="kw">lambda</span> x: <span class="dv">3</span> <span class="op">*</span> x<span class="op">**</span><span class="dv">2</span>, <span class="dv">0</span>, <span class="fl">0.5</span>)[<span class="dv">0</span>], quad(<span class="kw">lambda</span> x: <span class="dv">3</span> <span class="op">*</span> x<span class="op">**</span><span class="dv">2</span>, <span class="fl">0.9</span>, <span class="dv">1</span>)[<span class="dv">0</span>]</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<p><span class="math inline">\(f(x) = 3x^2 \ge 0\)</span>, e a primitiva de <span class="math inline">\(3x^2\)</span> é <span class="math inline">\(x^3\)</span>, então <span class="math inline">\(\int_0^1 3x^2\, dx = \big[x^3\big]_0^1 = 1\)</span>. As probabilidades:</p>
+<p><span class="math display">\[
+\begin{aligned}
+P(X \le 1/2) &amp;= \int_0^{1/2} 3x^2\, dx \\
+&amp;= \Big[x^3\Big]_0^{1/2} = \frac{1}{8}, \\
+P(X &gt; 0{,}9) &amp;= \int_{0{,}9}^{1} 3x^2\, dx \\
+&amp;= \Big[x^3\Big]_{0{,}9}^{1} = 1 - 0{,}9^3 = 0{,}271.
+\end{aligned}
+\]</span></p>
 </div>
 </div>
 </div>
@@ -869,7 +848,7 @@ P\left(0 \le X \le \tfrac{1}{2}\right) &amp;= \int_0^{1/2} 2x\, dx \\
 </div>
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>A área é <span class="math inline">\(c \times (7 - 2) = 5c\)</span>, que tem de ser 1: <span class="math inline">\(c = 1/5\)</span>. <span class="math inline">\(P(3 \le X \le 4) = 1 \times 1/5 = 0{,}2\)</span>.</p>
+<p>A área é <span class="math inline">\(\int_2^7 c\, dx = c \times (7 - 2) = 5c\)</span>, que tem de ser 1: <span class="math inline">\(c = 1/5\)</span>. <span class="math inline">\(P(3 \le X \le 4) = \int_3^4 \tfrac{1}{5}\, dx = (4 - 3) \times \tfrac{1}{5} = 0{,}2\)</span>.</p>
 </div>
 </div>
 </div>

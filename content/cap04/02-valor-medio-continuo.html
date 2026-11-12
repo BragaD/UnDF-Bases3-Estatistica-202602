@@ -24,41 +24,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 /* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
@@ -81,7 +46,7 @@ div.csl-indent {
 }</style>
 
 
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -102,9 +67,9 @@ div.csl-indent {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-96de93aeef37c2f55637d13965bee670.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-fa5a435faa8b3fd8ba2c629fc35ba32a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-96de93aeef37c2f55637d13965bee670.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-64fc88c462144c19fa71a709d9434c23.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-244db57ca546911734af8129e7c854c8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-64fc88c462144c19fa71a709d9434c23.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -176,9 +141,6 @@ div.csl-indent {
   });
 })();
 </script>
-<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
-
-<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -648,7 +610,6 @@ window.Quarto = {
   <li><a href="#da-soma-à-integral" id="toc-da-soma-à-integral" class="nav-link active" data-scroll-target="#da-soma-à-integral">Da soma à integral</a></li>
   <li><a href="#definições" id="toc-definições" class="nav-link" data-scroll-target="#definições">Definições</a></li>
   <li><a href="#os-dois-exemplos-da-seção-4.1" id="toc-os-dois-exemplos-da-seção-4.1" class="nav-link" data-scroll-target="#os-dois-exemplos-da-seção-4.1">Os dois exemplos da seção 4.1</a></li>
-  <li><a href="#a-média-de-uma-simulação" id="toc-a-média-de-uma-simulação" class="nav-link" data-scroll-target="#a-média-de-uma-simulação">A média de uma simulação</a></li>
   <li><a href="#resumo" id="toc-resumo" class="nav-link" data-scroll-target="#resumo">Resumo</a></li>
   <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios">Exercícios</a></li>
   </ul>
@@ -696,63 +657,91 @@ Nota
 <p>Esta seção corresponde à seção 7.2 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>.</p>
 </div>
 </div>
-<p>Na seção 3.2, o valor médio de uma variável discreta era a soma dos valores pesados pelas probabilidades, <span class="math inline">\(\sum x_i\, p(x_i)\)</span>. Numa variável contínua não há lista de valores para somar, e cada valor isolado tem probabilidade zero. Como definir a média do tempo de resposta de um servidor, ou do ângulo do relógio da seção 4.1?</p>
+<p>Na seção 3.2, o valor médio de uma variável discreta era a soma dos valores pesados pelas probabilidades, <span class="math inline">\(\sum x_i\, p(x_i)\)</span>. Numa variável contínua não há lista de valores para somar, e cada valor isolado tem probabilidade zero. Como definir a média da duração de uma lâmpada, ou do ângulo do relógio da seção 4.1?</p>
 <p>Uma ideia simples resolve: dividir os valores em faixas, como no histograma da seção 4.1, trocar cada faixa pelo seu ponto médio e tratar a variável como se fosse discreta. Com faixas cada vez mais estreitas, a soma vira uma integral.</p>
 <section id="da-soma-à-integral" class="level2">
 <h2 class="anchored" data-anchor-id="da-soma-à-integral">Da soma à integral</h2>
-<p>Divida o intervalo limitado <span class="math inline">\([A, B]\)</span>, onde a densidade é positiva, em <span class="math inline">\(n\)</span> faixas de largura <span class="math inline">\(h\)</span>, com pontos médios <span class="math inline">\(x_1, \dots, x_n\)</span>. A probabilidade de <span class="math inline">\(X\)</span> cair na faixa <span class="math inline">\(i\)</span> é a área sob <span class="math inline">\(f\)</span> naquela faixa, que é aproximadamente a de um retângulo de base <span class="math inline">\(h\)</span> e altura <span class="math inline">\(f(x_i)\)</span>:</p>
+<p>Divida o intervalo limitado <span class="math inline">\([a, b]\)</span>, onde a densidade é positiva, em <span class="math inline">\(n\)</span> faixas de largura <span class="math inline">\(h\)</span>, com pontos médios <span class="math inline">\(x_1, \dots, x_n\)</span>. A probabilidade de <span class="math inline">\(X\)</span> cair na faixa <span class="math inline">\(i\)</span> é a área sob <span class="math inline">\(f\)</span> naquela faixa, que é aproximadamente a de um retângulo de base <span class="math inline">\(h\)</span> e altura <span class="math inline">\(f(x_i)\)</span>:</p>
 <p><span class="math display">\[
 P(X \text{ na faixa } i) \approx f(x_i)\, h.
 \]</span></p>
-<p>Trocando <span class="math inline">\(X\)</span> pelo ponto médio da faixa em que ela cai, sai aproximadamente uma variável discreta, cujo valor médio é <span class="math inline">\(\sum x_i\, f(x_i)\, h\)</span>. Para a densidade <span class="math inline">\(f(x) = 2x\)</span> em <span class="math inline">\([0, 1]\)</span>, da seção 4.1:</p>
-<div id="cell-soma-riemann" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> media_aproximada(n):</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    h <span class="op">=</span> <span class="dv">1</span> <span class="op">/</span> n</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    pontos_medios <span class="op">=</span> (np.arange(n) <span class="op">+</span> <span class="fl">0.5</span>) <span class="op">*</span> h</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (pontos_medios <span class="op">*</span> <span class="dv">2</span> <span class="op">*</span> pontos_medios <span class="op">*</span> h).<span class="bu">sum</span>()</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({<span class="st">"faixas"</span>: [<span class="dv">4</span>, <span class="dv">10</span>, <span class="dv">100</span>, <span class="dv">1000</span>],</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>              <span class="st">"aproximação"</span>: [media_aproximada(n) <span class="cf">for</span> n <span class="kw">in</span> [<span class="dv">4</span>, <span class="dv">10</span>, <span class="dv">100</span>, <span class="dv">1000</span>]]}).<span class="bu">round</span>(<span class="dv">6</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="soma-riemann" class="cell-output cell-output-display" data-execution_count="2">
-<div>
-
-
-<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<p>Trocando <span class="math inline">\(X\)</span> pelo ponto médio da faixa em que ela cai, sai aproximadamente uma variável discreta, que assume o valor <span class="math inline">\(x_i\)</span> com probabilidade <span class="math inline">\(f(x_i)\,h\)</span>. O valor médio dela, pela definição da seção 3.2, é</p>
+<p><span class="math display">\[
+\sum_{i=1}^{n} x_i\, f(x_i)\, h.
+\]</span></p>
+<p>Para a densidade <span class="math inline">\(f(x) = 2x\)</span> em <span class="math inline">\([0, 1]\)</span>, da seção 4.1, com <span class="math inline">\(n = 4\)</span> faixas, a largura é <span class="math inline">\(h = 1/4\)</span> e os pontos médios são <span class="math inline">\(1/8\)</span>, <span class="math inline">\(3/8\)</span>, <span class="math inline">\(5/8\)</span> e <span class="math inline">\(7/8\)</span>. Cada parcela é <span class="math inline">\(x_i \cdot 2x_i \cdot \tfrac{1}{4} = x_i^2/2\)</span>:</p>
+<div class="table-responsive">
+<table class="caption-top table">
 <thead>
 <tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">faixas</th>
-<th data-quarto-table-cell-role="th">aproximação</th>
+<th style="text-align: center;">Faixa</th>
+<th style="text-align: center;"><span class="math inline">\(x_i\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(f(x_i)\,h\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(x_i\, f(x_i)\, h\)</span></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">0</th>
-<td>4</td>
-<td>0.656250</td>
+<td style="text-align: center;"><span class="math inline">\([0, 1/4)\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(1/8\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(1/16\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(1/128\)</span></td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">1</th>
-<td>10</td>
-<td>0.665000</td>
+<td style="text-align: center;"><span class="math inline">\([1/4, 1/2)\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(3/8\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(3/16\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(9/128\)</span></td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">2</th>
-<td>100</td>
-<td>0.666650</td>
+<td style="text-align: center;"><span class="math inline">\([1/2, 3/4)\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(5/8\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(5/16\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(25/128\)</span></td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">3</th>
-<td>1000</td>
-<td>0.666666</td>
+<td style="text-align: center;"><span class="math inline">\([3/4, 1]\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(7/8\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(7/16\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(49/128\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><strong>Total</strong></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"><span class="math inline">\(1\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(84/128\)</span></td>
 </tr>
 </tbody>
 </table>
-
 </div>
-</div>
-</div>
-<p>A aproximação se estabiliza em <span class="math inline">\(2/3 \approx 0{,}6667\)</span> conforme as faixas estreitam. No limite, a soma <span class="math inline">\(\sum x_i\, f(x_i)\, h\)</span> vira a integral de <span class="math inline">\(x\, f(x)\)</span> (Exemplo 7.3 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>).</p>
+<p>As probabilidades aproximadas das faixas somam 1, como numa distribuição discreta, e o valor médio aproximado é <span class="math inline">\(84/128 = 21/32 = 0{,}65625\)</span>. Com mais faixas, a conta é a mesma, só mais longa:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Número de faixas <span class="math inline">\(n\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(\sum x_i\, f(x_i)\, h\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">0,65625</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">0,665</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">100</td>
+<td style="text-align: center;">0,66665</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">1.000</td>
+<td style="text-align: center;">0,6666665</td>
+</tr>
+</tbody>
+</table>
+<p>A aproximação se estabiliza em <span class="math inline">\(2/3 \approx 0{,}6667\)</span> conforme as faixas estreitam. No limite, com <span class="math inline">\(h \to 0\)</span>, a soma <span class="math inline">\(\sum x_i\, f(x_i)\, h\)</span> vira a integral de <span class="math inline">\(x\, f(x)\)</span> (Exemplo 7.3 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>), e o resultado é exatamente <span class="math inline">\(2/3\)</span>, como se calcula adiante, em “Os dois exemplos da seção 4.1”.</p>
 </section>
 <section id="definições" class="level2">
 <h2 class="anchored" data-anchor-id="definições">Definições</h2>
@@ -766,55 +755,86 @@ E(X) &amp;= \int_{-\infty}^{\infty} x\, f(x)\, dx, \\
 \]</span></p>
 <p>com <span class="math inline">\(\mu = E(X)\)</span>. O desvio-padrão é <span class="math inline">\(\mathrm{DP}(X) = \sqrt{\mathrm{Var}(X)}\)</span>, na mesma unidade de <span class="math inline">\(X\)</span>.</p>
 </div>
-<p>As fórmulas são as da seção 3.2, com a soma trocada pela integral e <span class="math inline">\(p(x_i)\)</span> trocado por <span class="math inline">\(f(x)\,dx\)</span>. Pela linearidade da integral, e porque a área total sob <span class="math inline">\(f\)</span> é 1, as propriedades também valem: <span class="math inline">\(E(aX + b) = a\,E(X) + b\)</span> e <span class="math inline">\(\mathrm{Var}(aX + b) = a^2\,\mathrm{Var}(X)\)</span>.</p>
-<p>Na prática, a variância costuma ser mais fácil de calcular por outro caminho, a fórmula (7.8) de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>:</p>
+<p>As duas integrais se comparam termo a termo com as somas da seção 3.2:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Discreta</th>
+<th style="text-align: center;"></th>
+<th style="text-align: center;">Contínua</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(x_i\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\to\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(x\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(p(x_i)\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\to\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(f(x)\,dx\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(\sum\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\to\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\int\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>O peso <span class="math inline">\(f(x)\,dx\)</span> é a probabilidade aproximada de um trecho pequeno em torno de <span class="math inline">\(x\)</span>, o <span class="math inline">\(f(x_i)\,h\)</span> da tabela de faixas.</p>
+<p>Pela linearidade da integral, e porque a área total sob <span class="math inline">\(f\)</span> é 1, as propriedades da seção 3.2 também valem: <span class="math inline">\(E(aX + b) = a\,E(X) + b\)</span> e <span class="math inline">\(\mathrm{Var}(aX + b) = a^2\,\mathrm{Var}(X)\)</span>.</p>
+<p>Na prática, a variância costuma ser mais fácil de calcular pelo atalho da seção 3.2, que no caso contínuo é a fórmula (7.8) de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>.</p>
+<div class="conceito">
+<p>Se <span class="math inline">\(X\)</span> é contínua com densidade <span class="math inline">\(f\)</span>,</p>
 <p><span class="math display">\[
 \begin{aligned}
 \mathrm{Var}(X) &amp;= E(X^2) - [E(X)]^2, \\
 E(X^2) &amp;= \int_{-\infty}^{\infty} x^2 f(x)\, dx.
 \end{aligned}
 \]</span></p>
-<p>Ela sai de expandir <span class="math inline">\((x - \mu)^2 = x^2 - 2\mu x + \mu^2\)</span> dentro da integral.</p>
+</div>
+<p><span class="math inline">\(E(X^2)\)</span> é a média do quadrado de <span class="math inline">\(X\)</span>: cada <span class="math inline">\(x^2\)</span> pesado por <span class="math inline">\(f(x)\,dx\)</span>. A fórmula sai de expandir o quadrado, <span class="math inline">\((x - \mu)^2 = x^2 - 2\mu x + \mu^2\)</span>, e separar a integral em três:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathrm{Var}(X) &amp;= \int (x^2 - 2\mu x + \mu^2)\, f(x)\, dx \\
+&amp;= \int x^2 f(x)\, dx - 2\mu \int x\, f(x)\, dx \\
+&amp;\quad + \mu^2 \int f(x)\, dx \\
+&amp;= E(X^2) - 2\mu \cdot \mu + \mu^2 \cdot 1 \\
+&amp;= E(X^2) - \mu^2.
+\end{aligned}
+\]</span></p>
+<p>Na segunda e na terceira linhas, <span class="math inline">\(\mu\)</span> é uma constante e sai da integral. Na quarta, cada integral é reconhecida: a primeira é <span class="math inline">\(E(X^2)\)</span>, a segunda é <span class="math inline">\(\int x\, f(x)\, dx = \mu\)</span> e a terceira é a área total, <span class="math inline">\(\int f(x)\, dx = 1\)</span>.</p>
 </section>
 <section id="os-dois-exemplos-da-seção-4.1" class="level2">
 <h2 class="anchored" data-anchor-id="os-dois-exemplos-da-seção-4.1">Os dois exemplos da seção 4.1</h2>
-<p>Para <span class="math inline">\(f(x) = 2x\)</span> em <span class="math inline">\([0, 1]\)</span>:</p>
+<p>Para <span class="math inline">\(f(x) = 2x\)</span> em <span class="math inline">\([0, 1]\)</span>, as integrais ficam restritas a <span class="math inline">\([0, 1]\)</span>, onde <span class="math inline">\(f\)</span> é positiva:</p>
 <p><span class="math display">\[
 \begin{aligned}
-E(X) &amp;= \int_0^1 x \cdot 2x\, dx = \left[\tfrac{2x^3}{3}\right]_0^1 = \tfrac{2}{3}, \\
-E(X^2) &amp;= \int_0^1 x^2 \cdot 2x\, dx = \left[\tfrac{x^4}{2}\right]_0^1 = \tfrac{1}{2}, \\
-\mathrm{Var}(X) &amp;= \tfrac{1}{2} - \left(\tfrac{2}{3}\right)^2 = \tfrac{1}{18}.
+E(X) &amp;= \int_0^1 x \cdot 2x\, dx \\
+&amp;= \left[\tfrac{2x^3}{3}\right]_0^1 = \tfrac{2}{3}, \\
+E(X^2) &amp;= \int_0^1 x^2 \cdot 2x\, dx \\
+&amp;= \left[\tfrac{x^4}{2}\right]_0^1 = \tfrac{1}{2}, \\
+\mathrm{Var}(X) &amp;= \tfrac{1}{2} - \left(\tfrac{2}{3}\right)^2 \\
+&amp;= \tfrac{1}{2} - \tfrac{4}{9} = \tfrac{1}{18}.
 \end{aligned}
 \]</span></p>
-<p>Para o relógio, com <span class="math inline">\(f(x) = 1/360\)</span> em <span class="math inline">\([0, 360)\)</span>, o valor médio é 180°, o meio do mostrador, como a simetria sugere. O <code>quad</code> confere as quatro contas:</p>
-<div id="momentos-quad" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>E_2x, _ <span class="op">=</span> quad(<span class="kw">lambda</span> x: x <span class="op">*</span> <span class="dv">2</span> <span class="op">*</span> x, <span class="dv">0</span>, <span class="dv">1</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>E2_2x, _ <span class="op">=</span> quad(<span class="kw">lambda</span> x: x<span class="op">**</span><span class="dv">2</span> <span class="op">*</span> <span class="dv">2</span> <span class="op">*</span> x, <span class="dv">0</span>, <span class="dv">1</span>)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>E_relogio, _ <span class="op">=</span> quad(<span class="kw">lambda</span> x: x <span class="op">/</span> <span class="dv">360</span>, <span class="dv">0</span>, <span class="dv">360</span>)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>Var_relogio, _ <span class="op">=</span> quad(<span class="kw">lambda</span> x: (x <span class="op">-</span> <span class="dv">180</span>) <span class="op">**</span> <span class="dv">2</span> <span class="op">/</span> <span class="dv">360</span>, <span class="dv">0</span>, <span class="dv">360</span>)</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">round</span>(E_2x, <span class="dv">4</span>), <span class="bu">round</span>(E2_2x <span class="op">-</span> E_2x<span class="op">**</span><span class="dv">2</span>, <span class="dv">4</span>))</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">round</span>(E_relogio, <span class="dv">2</span>), <span class="bu">round</span>(Var_relogio, <span class="dv">2</span>), <span class="bu">round</span>(np.sqrt(Var_relogio), <span class="dv">2</span>))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>0.6667 0.0556
-180.0 10800.0 103.92</code></pre>
-</div>
-</div>
-<p>O ângulo do relógio tem média 180° e desvio-padrão de cerca de 103,9°. Na densidade <span class="math inline">\(2x\)</span>, a média fica em <span class="math inline">\(2/3\)</span>, puxada para a direita, onde a densidade é maior: a média é o ponto de equilíbrio da área sob a curva.</p>
-</section>
-<section id="a-média-de-uma-simulação" class="level2">
-<h2 class="anchored" data-anchor-id="a-média-de-uma-simulação">A média de uma simulação</h2>
-<p>Como na seção 3.2, a média de muitas observações simuladas se aproxima de <span class="math inline">\(E(X)\)</span>. O numpy tem um gerador pronto para a densidade <span class="math inline">\(2x\)</span> em <span class="math inline">\([0, 1]\)</span>: é um caso particular da distribuição triangular, com o pico em 1.</p>
-<div id="cell-simulacao-2x" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">42</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> rng.triangular(left<span class="op">=</span><span class="dv">0</span>, mode<span class="op">=</span><span class="dv">1</span>, right<span class="op">=</span><span class="dv">1</span>, size<span class="op">=</span><span class="dv">100_000</span>)   <span class="co"># densidade 2x em [0, 1]</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="bu">round</span>(<span class="bu">float</span>(x.mean()), <span class="dv">4</span>), <span class="bu">round</span>(<span class="bu">float</span>(x.var()), <span class="dv">4</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="simulacao-2x" class="cell-output cell-output-display" data-execution_count="4">
-<pre><code>(0.6671, 0.0556)</code></pre>
-</div>
-</div>
-<p>A média simulada fica perto de <span class="math inline">\(2/3 \approx 0{,}6667\)</span>, e a variância perto de <span class="math inline">\(1/18 \approx 0{,}0556\)</span>.</p>
+<p>O desvio-padrão é <span class="math inline">\(\mathrm{DP}(X) = \sqrt{1/18} \approx 0{,}236\)</span>. A média fica em <span class="math inline">\(2/3\)</span>, puxada para a direita, onde a densidade é maior: a média é o ponto de equilíbrio da área sob a curva.</p>
+<p>Para o relógio, com <span class="math inline">\(f(x) = 1/360\)</span> em <span class="math inline">\([0, 360)\)</span>:</p>
+<p><span class="math display">\[
+\begin{aligned}
+E(X) &amp;= \int_0^{360} x \cdot \tfrac{1}{360}\, dx \\
+&amp;= \left[\tfrac{x^2}{720}\right]_0^{360} \\
+&amp;= \tfrac{360^2}{720} = 180, \\
+E(X^2) &amp;= \int_0^{360} x^2 \cdot \tfrac{1}{360}\, dx \\
+&amp;= \left[\tfrac{x^3}{1080}\right]_0^{360} \\
+&amp;= \tfrac{360^2}{3} = 43.200, \\
+\mathrm{Var}(X) &amp;= 43.200 - 180^2 \\
+&amp;= 43.200 - 32.400 = 10.800, \\
+\mathrm{DP}(X) &amp;= \sqrt{10.800} \approx 103{,}92.
+\end{aligned}
+\]</span></p>
+<p>O valor médio é 180°, o meio do mostrador. A variância está em graus ao quadrado, e o desvio-padrão, de cerca de 104°, volta à unidade do ângulo e mede o quanto as paradas se espalham em torno de 180°.</p>
 </section>
 <section id="resumo" class="level2">
 <h2 class="anchored" data-anchor-id="resumo">Resumo</h2>
@@ -845,7 +865,7 @@ E(X^2) &amp;= \int_0^1 x^2 \cdot 2x\, dx = \left[\tfrac{x^4}{2}\right]_0^1 = \tf
 </tr>
 <tr class="odd">
 <td>Atalho</td>
-<td>o mesmo</td>
+<td><span class="math inline">\(E(X^2) - [E(X)]^2\)</span></td>
 <td><span class="math inline">\(E(X^2) - [E(X)]^2\)</span></td>
 </tr>
 </tbody>
@@ -867,12 +887,20 @@ E(X^2) &amp;= \int_0^1 x^2 \cdot 2x\, dx = \left[\tfrac{x^4}{2}\right]_0^1 = \tf
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><span class="math inline">\(E(X) = \int_0^1 3x^3\, dx = 3/4\)</span> e <span class="math inline">\(E(X^2) = \int_0^1 3x^4\, dx = 3/5\)</span>. <span class="math inline">\(\mathrm{Var}(X) = 3/5 - 9/16 = 3/80 = 0{,}0375\)</span>.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>quad(<span class="kw">lambda</span> x: x <span class="op">*</span> <span class="dv">3</span> <span class="op">*</span> x<span class="op">**</span><span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">1</span>)[<span class="dv">0</span>], quad(<span class="kw">lambda</span> x: x<span class="op">**</span><span class="dv">2</span> <span class="op">*</span> <span class="dv">3</span> <span class="op">*</span> x<span class="op">**</span><span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">1</span>)[<span class="dv">0</span>] <span class="op">-</span> <span class="fl">0.75</span><span class="op">**</span><span class="dv">2</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<p><span class="math display">\[
+\begin{aligned}
+E(X) &amp;= \int_0^1 3x^3\, dx \\
+&amp;= \left[\tfrac{3x^4}{4}\right]_0^1 = \tfrac{3}{4}, \\
+E(X^2) &amp;= \int_0^1 3x^4\, dx \\
+&amp;= \left[\tfrac{3x^5}{5}\right]_0^1 = \tfrac{3}{5}, \\
+\mathrm{Var}(X) &amp;= \tfrac{3}{5} - \left(\tfrac{3}{4}\right)^2 \\
+&amp;= \tfrac{3}{5} - \tfrac{9}{16} = \tfrac{3}{80} = 0{,}0375.
+\end{aligned}
+\]</span></p>
 </div>
 </div>
 </div>
-<p><strong>2.</strong> O ângulo do relógio está em graus. Se ele for convertido para radianos, <span class="math inline">\(Y = \pi X / 180\)</span>, qual a média e o desvio-padrão de <span class="math inline">\(Y\)</span>?</p>
+<p><strong>2.</strong> O ângulo do relógio está em graus. Se ele for convertido para radianos, <span class="math inline">\(Y = \pi X / 180\)</span>, quais são a média e o desvio-padrão de <span class="math inline">\(Y\)</span>?</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">

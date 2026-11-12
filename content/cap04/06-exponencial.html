@@ -24,41 +24,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 /* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
@@ -101,9 +66,9 @@ div.csl-indent {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-96de93aeef37c2f55637d13965bee670.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-fa5a435faa8b3fd8ba2c629fc35ba32a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-96de93aeef37c2f55637d13965bee670.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-64fc88c462144c19fa71a709d9434c23.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-244db57ca546911734af8129e7c854c8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-64fc88c462144c19fa71a709d9434c23.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -699,10 +664,10 @@ Nota
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Esta seção <strong>está fora do cronograma</strong> do semestre 2.2026: não é dada em aula, não entra no notebook do capítulo e não cai em prova nem em lista. Fica aqui para quem quiser ir além.</p>
+<p>Esta seção <strong>está fora do cronograma</strong> do semestre 2.2026: não é dada em aula e não cai em prova nem em lista. Fica aqui para quem quiser ir além.</p>
 </div>
 </div>
-<p>Quanto tempo um servidor funciona até a próxima falha? Quanto tempo passa entre duas requisições? Tempos de espera como esses são contínuos, não negativos, e em geral têm muitos valores pequenos e alguns muito grandes. O modelo mais simples para eles é a distribuição <strong>exponencial</strong>, que já apareceu na seção 4.3 como exemplo de densidade obtida derivando a f.d.a.</p>
+<p>Quanto tempo um componente eletrônico funciona até queimar? Quanto tempo passa entre a chegada de dois clientes a um caixa? Tempos de espera como esses são contínuos, não negativos, e em geral têm muitos valores pequenos e alguns muito grandes. O modelo mais simples para eles é a distribuição <strong>exponencial</strong>, que já apareceu na seção 4.3 como exemplo de densidade obtida derivando a f.d.a.</p>
 <section id="o-modelo" class="level2">
 <h2 class="anchored" data-anchor-id="o-modelo">O modelo</h2>
 <div class="conceito">
@@ -712,39 +677,60 @@ f(t) = \frac{1}{\beta}\, e^{-t/\beta}, \quad t \ge 0,
 \]</span></p>
 <p>e zero para <span class="math inline">\(t &lt; 0\)</span>. Seu valor médio é <span class="math inline">\(E(T) = \beta\)</span> e sua variância é <span class="math inline">\(\mathrm{Var}(T) = \beta^2\)</span>.</p>
 </div>
-<p>Integrando a densidade como na seção 4.3, a f.d.a. é</p>
+<p>A densidade começa em <span class="math inline">\(1/\beta\)</span> no instante <span class="math inline">\(t = 0\)</span> e decresce sem nunca zerar: intervalos perto de 0 são mais prováveis que intervalos de mesma largura mais adiante, e tempos longos vão ficando cada vez mais raros. O parâmetro <span class="math inline">\(\beta\)</span> é o tempo médio, e o desvio-padrão é igual a ele. As duas fórmulas, <span class="math inline">\(E(T) = \beta\)</span> e <span class="math inline">\(\mathrm{Var}(T) = \beta^2\)</span>, saem das integrais da seção 4.2 por integração por partes; as contas não são feitas aqui.</p>
+<p>A f.d.a. sai pela integral da seção 4.3. Como <span class="math inline">\(f\)</span> é zero antes de 0, a integral começa em 0, e a primitiva de <span class="math inline">\(\frac{1}{\beta} e^{-s/\beta}\)</span> é <span class="math inline">\(-e^{-s/\beta}\)</span>:</p>
 <p><span class="math display">\[
-F(t) = 1 - e^{-t/\beta}, \quad t \ge 0,
+\begin{aligned}
+F(t) &amp;= \int_0^t \frac{1}{\beta}\, e^{-s/\beta}\,ds \\
+&amp;= \Big[-e^{-s/\beta}\Big]_0^t \\
+&amp;= -e^{-t/\beta} - (-e^{0}) \\
+&amp;= 1 - e^{-t/\beta}, \quad t \ge 0.
+\end{aligned}
 \]</span></p>
-<p>e a probabilidade de a espera passar de um valor <span class="math inline">\(t\)</span> tem forma simples: <span class="math inline">\(P(T &gt; t) = e^{-t/\beta}\)</span>. Com <span class="math inline">\(\beta = 1\)</span>, é o Exemplo 7.7 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>, visto na seção 4.3.</p>
+<p>A probabilidade de a espera passar de um valor <span class="math inline">\(t\)</span> é o complementar, e tem forma simples:</p>
+<div class="conceito">
+<p>Se <span class="math inline">\(T \sim \mathrm{Exp}(\beta)\)</span>, então, para <span class="math inline">\(t \ge 0\)</span>,</p>
+<p><span class="math display">\[
+\begin{aligned}
+F(t) &amp;= 1 - e^{-t/\beta}, \\
+P(T &gt; t) &amp;= 1 - F(t) \\
+&amp;= e^{-t/\beta}.
+\end{aligned}
+\]</span></p>
+</div>
+<p>Com <span class="math inline">\(\beta = 1\)</span>, é o Exemplo 7.7 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>, visto na seção 4.3.</p>
 </section>
 <section id="tempo-até-a-falha" class="level2">
 <h2 class="anchored" data-anchor-id="tempo-até-a-falha">Tempo até a falha</h2>
-<p>O Exemplo 7.10 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span> trata o tempo de vida de um transistor, em horas, como <span class="math inline">\(\mathrm{Exp}(500)\)</span>. Aqui, o tempo até a primeira falha de um servidor novo é <span class="math inline">\(\mathrm{Exp}(500)\)</span>, com média de 500 horas. Qual a probabilidade de ele passar da média sem falhar?</p>
+<p>O Exemplo 7.10 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span> trata o tempo de vida de um transistor, em horas, como <span class="math inline">\(\mathrm{Exp}(500)\)</span>: em média, o transistor dura 500 horas. Para esse transistor, qual a probabilidade de durar mais que a média?</p>
 <p><span class="math display">\[
-P(T &gt; 500) = e^{-500/500} = e^{-1} \approx 0{,}368.
+\begin{aligned}
+P(T &gt; 500) &amp;= e^{-500/500} \\
+&amp;= e^{-1} \approx 0{,}368.
+\end{aligned}
 \]</span></p>
-<p>Pouco menos de 37% dos servidores passam da média. Numa distribuição simétrica, como a normal, metade passaria. Na exponencial, os muitos tempos curtos e os poucos muito longos deixam a média acima da mediana.</p>
-<div id="exponencial" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>vida <span class="op">=</span> stats.expon(scale<span class="op">=</span><span class="dv">500</span>)        <span class="co"># Exp(β = 500): scale é a média β</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">round</span>(vida.sf(<span class="dv">500</span>), <span class="dv">4</span>), vida.mean(), vida.std())</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">round</span>(vida.median(), <span class="dv">1</span>), <span class="bu">round</span>(vida.cdf(<span class="dv">100</span>), <span class="dv">4</span>))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>0.3679 500.0 500.0
-346.6 0.1813</code></pre>
-</div>
-</div>
-<p>A mediana <span class="math inline">\(m\)</span> sai de <span class="math inline">\(F(m) = 1 - e^{-m/500} = 1/2\)</span>, o que dá <span class="math inline">\(m = 500 \ln 2\)</span>, cerca de 347 horas: metade dos servidores falha antes disso. Nas primeiras 100 horas, 18,1% já falham.</p>
-<div id="cell-fig-exponencial" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">2500</span>, <span class="dv">400</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="fl">3.5</span>))</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>ax.plot(t, vida.pdf(t))</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>ax.axvline(vida.mean(), color<span class="op">=</span><span class="st">"black"</span>, linestyle<span class="op">=</span><span class="st">"--"</span>, linewidth<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>ax.axvline(vida.median(), color<span class="op">=</span><span class="st">"gray"</span>, linestyle<span class="op">=</span><span class="st">":"</span>, linewidth<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"tempo até a falha t (h)"</span>)</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"densidade"</span>)</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Pouco menos de 37% dos transistores passam da média. Numa distribuição simétrica, como a normal, metade passaria. Na exponencial, os muitos tempos curtos e os poucos muito longos deixam a média acima da mediana.</p>
+<p>A mediana <span class="math inline">\(m\)</span> é o tempo que metade dos transistores não alcança, <span class="math inline">\(F(m) = 1/2\)</span>. Resolvendo:</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp; 1 - e^{-m/500} = \frac{1}{2} \\
+&amp;\Longrightarrow\; e^{-m/500} = \frac{1}{2} \\
+&amp;\Longrightarrow\; -\frac{m}{500} = \ln \frac{1}{2} \\
+&amp;\Longrightarrow\; \frac{m}{500} = \ln 2 \\
+&amp;\Longrightarrow\; m = 500 \ln 2 \\
+&amp;\phantom{\Longrightarrow}\;\; \approx 347 \text{ horas}.
+\end{aligned}
+\]</span></p>
+<p>Metade dos transistores queima antes de 347 horas, bem antes da média de 500 (<a href="#fig-exponencial" class="quarto-xref">Figura&nbsp;<span>1</span></a>). A fração que já queimou nas primeiras 100 horas é</p>
+<p><span class="math display">\[
+\begin{aligned}
+F(100) &amp;= 1 - e^{-100/500} \\
+&amp;= 1 - e^{-0{,}2} \\
+&amp;\approx 1 - 0{,}819 \\
+&amp;= 0{,}181, \text{ ou } 18{,}1\%.
+\end{aligned}
+\]</span></p>
+<div id="cell-fig-exponencial" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div id="fig-exponencial" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Curva que começa alta em t = 0 e decresce suavemente, com a mediana perto de 347 e a média em 500.">
 <figure class="quarto-float quarto-float-fig figure">
@@ -752,7 +738,7 @@ P(T &gt; 500) = e^{-500/500} = e^{-1} \approx 0{,}368.
 <img src="06-exponencial_files/figure-html/fig-exponencial-output-1.png" alt="Curva que começa alta em t = 0 e decresce suavemente, com a mediana perto de 347 e a média em 500." width="549" height="320" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-exponencial-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;1: Densidade exponencial com média β = 500 horas. A linha tracejada marca a média; a pontilhada, a mediana.
+Figura&nbsp;1: Densidade exponencial com média β = 500 horas, o tempo de vida do transistor. A linha tracejada marca a média; a pontilhada, a mediana.
 </figcaption>
 </figure>
 </div>
@@ -768,14 +754,14 @@ Figura&nbsp;1: Densidade exponencial com média β = 500 horas. A linha tracejad
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Aqui, e na seção 7.4.3 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>, o parâmetro <span class="math inline">\(\beta\)</span> é a <strong>média</strong>. Muitos livros e bibliotecas usam a <strong>taxa</strong> <span class="math inline">\(\lambda = 1/\beta\)</span> (falhas por hora), com densidade <span class="math inline">\(\lambda e^{-\lambda t}\)</span>. Na <code>scipy.stats.expon</code>, <code>scale</code> é a média: para uma taxa de 0,002 falha por hora, o certo é <code>expon(scale=1/0.002)</code>. Passar a taxa em <code>scale</code> dá um modelo com média 0,002 hora.</p>
+<p>Aqui, e na seção 7.4.3 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>, o parâmetro <span class="math inline">\(\beta\)</span> é a <strong>média</strong>. Muitos livros usam a <strong>taxa</strong> <span class="math inline">\(\lambda = 1/\beta\)</span>, o número médio de ocorrências por unidade de tempo, com densidade <span class="math inline">\(\lambda e^{-\lambda t}\)</span>. É o mesmo modelo escrito de outro jeito: para o transistor, <span class="math inline">\(\beta = 500\)</span> horas e <span class="math inline">\(\lambda = 1/500 = 0{,}002\)</span> falha por hora. Antes de usar uma fórmula, confira qual dos dois parâmetros ela usa.</p>
 </div>
 </div>
-<p>Se as falhas acontecem ao acaso, a uma taxa constante, o número de falhas num intervalo de duração <span class="math inline">\(t\)</span> segue a Poisson da seção 3.7, com média <span class="math inline">\(t/\beta\)</span>, e o tempo entre falhas consecutivas segue a exponencial. O processo de Poisson, que produz essas contagens, é assunto da seção 6.7 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>.</p>
+<p>Se as ocorrências acontecem ao acaso, a uma taxa constante, o número de ocorrências num intervalo de duração <span class="math inline">\(t\)</span> segue a Poisson da seção 3.7, com média <span class="math inline">\(t/\beta\)</span>, e o tempo entre ocorrências consecutivas segue a exponencial. É o caso das chamadas que chegam a uma central telefônica: a contagem por minuto é Poisson, e o tempo entre duas chamadas é exponencial. Esse mecanismo se chama processo de Poisson (seção 6.7 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>).</p>
 </section>
 <section id="exercícios" class="level2">
 <h2 class="anchored" data-anchor-id="exercícios">Exercícios</h2>
-<p><strong>1.</strong> O tempo entre duas requisições a um endpoint é exponencial com média de 0,5 segundo. Qual a probabilidade de passar mais de 2 segundos sem nenhuma requisição?</p>
+<p><strong>1.</strong> O tempo entre duas chamadas que chegam a uma central telefônica é exponencial com média de 0,5 minuto. Qual a probabilidade de passar mais de 2 minutos sem nenhuma chamada?</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -788,12 +774,18 @@ Figura&nbsp;1: Densidade exponencial com média β = 500 horas. A linha tracejad
 </div>
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><span class="math inline">\(P(T &gt; 2) = e^{-2/0{,}5} = e^{-4} \approx 0{,}018\)</span>.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>stats.expon(scale<span class="op">=</span><span class="fl">0.5</span>).sf(<span class="dv">2</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<p><span class="math inline">\(T \sim \mathrm{Exp}(0{,}5)\)</span>, e</p>
+<p><span class="math display">\[
+\begin{aligned}
+P(T &gt; 2) &amp;= e^{-2/0{,}5} \\
+&amp;= e^{-4} \approx 0{,}018.
+\end{aligned}
+\]</span></p>
+<p>Um intervalo de 2 minutos sem chamadas acontece em menos de 2% das vezes.</p>
 </div>
 </div>
 </div>
-<p><strong>2.</strong> Para o servidor com <span class="math inline">\(\beta = 500\)</span> horas, calcule a variância e o desvio-padrão do tempo até a falha. O que o desvio-padrão, igual à média, diz sobre a previsibilidade das falhas?</p>
+<p><strong>2.</strong> Para o transistor com <span class="math inline">\(\beta = 500\)</span> horas, calcule a variância e o desvio-padrão do tempo de vida. O que o desvio-padrão, igual à média, diz sobre a previsibilidade da duração?</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -806,7 +798,7 @@ Figura&nbsp;1: Densidade exponencial com média β = 500 horas. A linha tracejad
 </div>
 <div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><span class="math inline">\(\mathrm{Var}(T) = 500^2 = 250.000\)</span> horas² e <span class="math inline">\(\mathrm{DP}(T) = 500\)</span> horas. Um desvio-padrão do tamanho da média indica tempos muito variáveis: falhas logo no começo e servidores que duram muito mais que a média convivem no mesmo modelo.</p>
+<p><span class="math inline">\(\mathrm{Var}(T) = 500^2 = 250.000\)</span> horas² e <span class="math inline">\(\mathrm{DP}(T) = 500\)</span> horas. Um desvio-padrão do tamanho da média indica tempos muito variáveis: transistores que queimam logo no começo e transistores que duram muito mais que a média convivem no mesmo modelo.</p>
 </div>
 </div>
 </div>

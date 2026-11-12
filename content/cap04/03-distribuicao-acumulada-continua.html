@@ -24,41 +24,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 /* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
@@ -102,9 +67,9 @@ div.csl-indent {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-96de93aeef37c2f55637d13965bee670.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-fa5a435faa8b3fd8ba2c629fc35ba32a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-96de93aeef37c2f55637d13965bee670.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-64fc88c462144c19fa71a709d9434c23.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-244db57ca546911734af8129e7c854c8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-64fc88c462144c19fa71a709d9434c23.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -696,39 +661,36 @@ Nota
 <section id="definição" class="level2">
 <h2 class="anchored" data-anchor-id="definição">Definição</h2>
 <div class="conceito">
-<p>Se <span class="math inline">\(X\)</span> é contínua com densidade <span class="math inline">\(f\)</span>, a <strong>função de distribuição acumulada</strong> é</p>
+<p>Se <span class="math inline">\(X\)</span> é contínua com densidade <span class="math inline">\(f\)</span>, a <strong>função de distribuição acumulada</strong> (f.d.a.) é</p>
 <p><span class="math display">\[
 F(x) = P(X \le x) = \int_{-\infty}^{x} f(t)\, dt,
 \]</span></p>
 <p>a área sob a densidade à esquerda de <span class="math inline">\(x\)</span>.</p>
 </div>
-<p>A letra da variável de integração mudou para <span class="math inline">\(t\)</span> porque <span class="math inline">\(x\)</span> já é o limite superior. Para a densidade <span class="math inline">\(f(x) = 2x\)</span> em <span class="math inline">\([0, 1]\)</span>, da seção 4.1 (Exemplo 7.2 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>), a f.d.a. é (Exemplo 7.6):</p>
+<p><span class="math inline">\(F(x)\)</span> acumula a probabilidade de tudo o que fica à esquerda de <span class="math inline">\(x\)</span>, inclusive o próprio <span class="math inline">\(x\)</span>. A letra da variável de integração mudou para <span class="math inline">\(t\)</span> porque <span class="math inline">\(x\)</span> já é o limite superior: <span class="math inline">\(t\)</span> percorre os valores de <span class="math inline">\(-\infty\)</span> até <span class="math inline">\(x\)</span>, e <span class="math inline">\(x\)</span> fica fixo durante a integração.</p>
+<p>Para a densidade <span class="math inline">\(f(x) = 2x\)</span> em <span class="math inline">\([0, 1]\)</span>, da seção 4.1 (Exemplo 7.2 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>), a conta se divide em três trechos, conforme a posição de <span class="math inline">\(x\)</span> em relação ao intervalo <span class="math inline">\([0, 1]\)</span>, onde a densidade é positiva:</p>
+<ul>
+<li><p>se <span class="math inline">\(x &lt; 0\)</span>, a densidade é zero à esquerda de <span class="math inline">\(x\)</span>, e <span class="math inline">\(F(x) = 0\)</span>;</p></li>
+<li><p>se <span class="math inline">\(0 \le x &lt; 1\)</span>, só o trecho de <span class="math inline">\(0\)</span> a <span class="math inline">\(x\)</span> contribui, e a primitiva de <span class="math inline">\(2t\)</span> é <span class="math inline">\(t^2\)</span>:</p>
+<p><span class="math display">\[
+\begin{aligned}
+F(x) &amp;= \int_0^x 2t\, dt \\
+&amp;= \Big[t^2\Big]_0^x = x^2;
+\end{aligned}
+\]</span></p></li>
+<li><p>se <span class="math inline">\(x \ge 1\)</span>, a área à esquerda de <span class="math inline">\(x\)</span> já inclui toda a área sob <span class="math inline">\(f\)</span>, e <span class="math inline">\(F(x) = 1\)</span>.</p></li>
+</ul>
+<p>Juntando os três trechos, a f.d.a. é (Exemplo 7.6 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>)</p>
 <p><span class="math display">\[
 F(x) =
 \begin{cases}
 0, &amp; x &lt; 0, \\
-\int_0^x 2t\, dt = x^2, &amp; 0 \le x &lt; 1, \\
+x^2, &amp; 0 \le x &lt; 1, \\
 1, &amp; x \ge 1.
 \end{cases}
 \]</span></p>
 <p><span class="math inline">\(F\)</span> tem as mesmas propriedades da seção 3.3: fica entre 0 e 1, nunca desce, tende a 0 quando <span class="math inline">\(x \to -\infty\)</span> e a 1 quando <span class="math inline">\(x \to +\infty\)</span>. No exemplo, os limites são atingidos: <span class="math inline">\(F(x) = 0\)</span> para <span class="math inline">\(x &lt; 0\)</span> e <span class="math inline">\(F(x) = 1\)</span> para <span class="math inline">\(x \ge 1\)</span>. A diferença é que agora ela é <strong>contínua</strong>, sem saltos, porque nenhum ponto isolado tem probabilidade positiva.</p>
 <div id="cell-fig-densidade-fda" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="fl">0.2</span>, <span class="fl">1.2</span>, <span class="dv">400</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> np.where((x <span class="op">&gt;=</span> <span class="dv">0</span>) <span class="op">&amp;</span> (x <span class="op">&lt;=</span> <span class="dv">1</span>), <span class="dv">2</span> <span class="op">*</span> x, <span class="dv">0</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>f[np.argmax(x <span class="op">&gt;</span> <span class="dv">1</span>)] <span class="op">=</span> np.nan          <span class="co"># corta o traço vertical no salto em x = 1</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>F <span class="op">=</span> np.clip(x, <span class="dv">0</span>, <span class="dv">1</span>) <span class="op">**</span> <span class="dv">2</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>fig, (esq, <span class="bu">dir</span>) <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="fl">2.8</span>))</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>esq.plot(x, f)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>esq.fill_between(x, f, where<span class="op">=</span>(x <span class="op">&gt;=</span> <span class="dv">0</span>) <span class="op">&amp;</span> (x <span class="op">&lt;=</span> <span class="fl">0.5</span>), alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>esq.set_title(<span class="st">"densidade f(x)"</span>)</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="bu">dir</span>.plot(x, F)</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="bu">dir</span>.plot(<span class="fl">0.5</span>, <span class="fl">0.25</span>, <span class="st">"o"</span>)</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="bu">dir</span>.set_title(<span class="st">"f.d.a. F(x)"</span>)</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> eixo <span class="kw">in</span> (esq, <span class="bu">dir</span>):</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    eixo.set_xlabel(<span class="st">"x"</span>)</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div id="fig-densidade-fda" class="quarto-float quarto-figure quarto-figure-center anchored" alt="À esquerda, uma reta crescente de 0 a 2 com a área até x = 0,5 sombreada; à direita, uma parábola de 0 a 1 com um ponto marcado em (0,5; 0,25).">
 <figure class="quarto-float quarto-float-fig figure">
@@ -742,12 +704,13 @@ Figura&nbsp;1: Densidade f(x) = 2x (à esquerda) e sua f.d.a. F(x) = x² (à dir
 </div>
 </div>
 </div>
+<p>Os dois painéis da <a href="#fig-densidade-fda" class="quarto-xref">Figura&nbsp;<span>1</span></a> mostram a mesma distribuição. A altura de <span class="math inline">\(F\)</span> num ponto <span class="math inline">\(x\)</span>, no painel da direita, é a área sob <span class="math inline">\(f\)</span> à esquerda de <span class="math inline">\(x\)</span>, no painel da esquerda. Em <span class="math inline">\(x = 0{,}5\)</span>, a área sombreada é <span class="math inline">\((0{,}5)^2 = 0{,}25\)</span>, e o ponto marcado na curva de <span class="math inline">\(F\)</span> está na altura <span class="math inline">\(0{,}25\)</span>. Onde a densidade é alta, perto de 1, a área cresce depressa quando <span class="math inline">\(x\)</span> avança, e a curva de <span class="math inline">\(F\)</span> fica mais íngreme. Perto de 0, onde a densidade é baixa, <span class="math inline">\(F\)</span> cresce devagar.</p>
 </section>
 <section id="da-f.d.a.-de-volta-à-densidade" class="level2">
 <h2 class="anchored" data-anchor-id="da-f.d.a.-de-volta-à-densidade">Da f.d.a. de volta à densidade</h2>
 <p><span class="math inline">\(F\)</span> é a integral de <span class="math inline">\(f\)</span>. Pelo teorema fundamental do cálculo, a derivada de <span class="math inline">\(F\)</span> devolve <span class="math inline">\(f\)</span> nos pontos em que <span class="math inline">\(f\)</span> é contínua.</p>
 <div class="conceito">
-<p>Nos pontos em que <span class="math inline">\(F\)</span> é derivável,</p>
+<p>Nos pontos em que <span class="math inline">\(f\)</span> é contínua,</p>
 <p><span class="math display">\[
 f(x) = F'(x).
 \]</span></p>
@@ -760,24 +723,15 @@ f(x) = F'(x) = e^{-x}, \quad x \ge 0.
 </section>
 <section id="probabilidades-de-intervalos" class="level2">
 <h2 class="anchored" data-anchor-id="probabilidades-de-intervalos">Probabilidades de intervalos</h2>
-<p>Como na seção 3.3, <span class="math inline">\(P(a &lt; X \le b) = F(b) - F(a)\)</span>. Numa variável contínua, incluir ou não os extremos não muda nada, porque <span class="math inline">\(P(X = a) = P(X = b) = 0\)</span> (seção 4.1). Para <span class="math inline">\(f(x) = 2x\)</span>:</p>
+<p>Como na seção 3.3, <span class="math inline">\(P(a &lt; X \le b) = F(b) - F(a)\)</span>: a área à esquerda de <span class="math inline">\(b\)</span> menos a área à esquerda de <span class="math inline">\(a\)</span> deixa só a área entre <span class="math inline">\(a\)</span> e <span class="math inline">\(b\)</span>. Numa variável contínua, incluir ou não os extremos não muda nada, porque <span class="math inline">\(P(X = a) = P(X = b) = 0\)</span> (seção 4.1). Para <span class="math inline">\(f(x) = 2x\)</span>, com <span class="math inline">\(F(x) = x^2\)</span> em <span class="math inline">\([0, 1]\)</span>:</p>
 <p><span class="math display">\[
 \begin{aligned}
 P(0{,}3 \le X \le 0{,}8) &amp;= F(0{,}8) - F(0{,}3) \\
+&amp;= 0{,}8^2 - 0{,}3^2 \\
 &amp;= 0{,}64 - 0{,}09 = 0{,}55.
 \end{aligned}
 \]</span></p>
-<div id="cell-fda-intervalo" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>F_2x <span class="op">=</span> <span class="kw">lambda</span> t: np.clip(t, <span class="dv">0</span>, <span class="dv">1</span>) <span class="op">**</span> <span class="dv">2</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>pela_fda <span class="op">=</span> F_2x(<span class="fl">0.8</span>) <span class="op">-</span> F_2x(<span class="fl">0.3</span>)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>pela_integral, _ <span class="op">=</span> quad(<span class="kw">lambda</span> t: <span class="dv">2</span> <span class="op">*</span> t, <span class="fl">0.3</span>, <span class="fl">0.8</span>)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="bu">round</span>(<span class="bu">float</span>(pela_fda), <span class="dv">4</span>), <span class="bu">round</span>(pela_integral, <span class="dv">4</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="fda-intervalo" class="cell-output cell-output-display" data-execution_count="3">
-<pre><code>(0.55, 0.55)</code></pre>
-</div>
-</div>
-<p>Com a f.d.a. em mãos, não é preciso integrar de novo para cada intervalo: basta subtrair dois valores.</p>
+<p>A integral da densidade no mesmo intervalo dá o mesmo valor, <span class="math inline">\(\int_{0{,}3}^{0{,}8} 2x\, dx = \big[x^2\big]_{0{,}3}^{0{,}8} = 0{,}55\)</span>: é a mesma primitiva, avaliada nos mesmos pontos. Com a f.d.a. em mãos, não é preciso integrar de novo para cada intervalo: basta subtrair dois valores.</p>
 </section>
 <section id="resumo" class="level2">
 <h2 class="anchored" data-anchor-id="resumo">Resumo</h2>
@@ -798,7 +752,7 @@ P(0{,}3 \le X \le 0{,}8) &amp;= F(0{,}8) - F(0{,}3) \\
 <tbody>
 <tr class="odd">
 <td><span class="math inline">\(F(x)\)</span></td>
-<td>soma de <span class="math inline">\(p(x_i)\)</span> com <span class="math inline">\(x_i \le x\)</span></td>
+<td><span class="math inline">\(\sum_{x_i \le x} p(x_i)\)</span></td>
 <td><span class="math inline">\(\int_{-\infty}^{x} f(t)\, dt\)</span></td>
 </tr>
 <tr class="even">
@@ -835,7 +789,13 @@ P(0{,}3 \le X \le 0{,}8) &amp;= F(0{,}8) - F(0{,}3) \\
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><span class="math inline">\(F(x) = \int_0^x 3t^2\, dt = x^3\)</span> para <span class="math inline">\(0 \le x \le 1\)</span> (0 antes, 1 depois). <span class="math inline">\(P(0{,}5 &lt; X \le 0{,}9) = 0{,}9^3 - 0{,}5^3 = 0{,}729 - 0{,}125 = 0{,}604\)</span>.</p>
+<p>A primitiva de <span class="math inline">\(3t^2\)</span> é <span class="math inline">\(t^3\)</span>, então <span class="math inline">\(F(x) = \int_0^x 3t^2\, dt = \big[t^3\big]_0^x = x^3\)</span> para <span class="math inline">\(0 \le x \le 1\)</span> (0 antes, 1 depois). Logo,</p>
+<p><span class="math display">\[
+\begin{aligned}
+P(0{,}5 &lt; X \le 0{,}9) &amp;= F(0{,}9) - F(0{,}5) \\
+&amp;= 0{,}729 - 0{,}125 = 0{,}604.
+\end{aligned}
+\]</span></p>
 </div>
 </div>
 </div>

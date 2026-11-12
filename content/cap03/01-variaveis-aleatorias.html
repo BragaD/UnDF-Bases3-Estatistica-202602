@@ -24,41 +24,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 /* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
@@ -81,7 +46,7 @@ div.csl-indent {
 }</style>
 
 
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -102,9 +67,9 @@ div.csl-indent {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-96de93aeef37c2f55637d13965bee670.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-fa5a435faa8b3fd8ba2c629fc35ba32a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-96de93aeef37c2f55637d13965bee670.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-64fc88c462144c19fa71a709d9434c23.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-244db57ca546911734af8129e7c854c8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-64fc88c462144c19fa71a709d9434c23.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -176,9 +141,6 @@ div.csl-indent {
   });
 })();
 </script>
-<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
-
-<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -695,39 +657,38 @@ Nota
 <p>Esta seção corresponde às seções 6.1 e 6.2 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>.</p>
 </div>
 </div>
-<p>No Capítulo 2, as perguntas eram sobre eventos: a carta sorteada é de copas? O PR tem bug? A resposta era sim ou não. Muitas perguntas práticas, porém, pedem um <strong>número</strong>: quantos builds falharam, quanto dinheiro um projeto vai dar, quantos PRs com bug o auditor encontrou.</p>
-<p>No Capítulo 1, esse tipo de pergunta tinha resposta nos dados: média, variância, histograma de uma variável quantitativa. Este capítulo constrói a versão teórica dessas ferramentas. Assim como a probabilidade foi o modelo da frequência relativa, a <strong>variável aleatória</strong> vai ser o modelo de uma variável quantitativa.</p>
+<p>No Capítulo 2, as perguntas eram sobre eventos: a carta sorteada é de copas? A resposta era sim ou não. Muitas perguntas práticas, porém, pedem um <strong>número</strong>: quanto dinheiro um produto vai dar, quantas peças defeituosas há num lote.</p>
+<p>No Capítulo 1, esse tipo de pergunta tinha resposta nos dados: a média e a variância de uma variável quantitativa. Este capítulo constrói a versão teórica dessas ferramentas. Assim como a probabilidade foi o modelo da frequência relativa, a <strong>variável aleatória</strong> vai ser o modelo de uma variável quantitativa.</p>
 <section id="do-experimento-ao-número" class="level2">
 <h2 class="anchored" data-anchor-id="do-experimento-ao-número">Do experimento ao número</h2>
-<p>O Exemplo 6.1 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span> trata de uma fábrica que monta um produto com duas peças de fornecedores diferentes. Aqui, as peças são módulos de software.</p>
-<p>Uma empresa vende um sistema que integra dois módulos comprados de fornecedores diferentes: o de pagamentos, do fornecedor A, e o de notificações, do fornecedor B. Cada módulo chega <strong>pronto</strong> (P), <strong>com retrabalho</strong> (R), quando funciona, mas precisa de ajustes, ou <strong>inutilizável</strong> (I). O histórico dos fornecedores dá as probabilidades:</p>
-<div id="tbl-fornecedores" class="quarto-float quarto-figure quarto-figure-center anchored">
+<p>Um empresário pretende montar um produto composto de dois componentes, um <strong>cilindro</strong> e uma <strong>esfera</strong>, comprados de fábricas diferentes (Exemplo 6.1 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>). Cada componente pode chegar <strong>bom</strong> (B), dentro das especificações; <strong>longo</strong> (L), maior que as especificações; ou <strong>curto</strong> (C), menor que as especificações. O histórico das fábricas dá as probabilidades:</p>
+<div id="tbl-fabricas" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
-<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-fornecedores-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabela&nbsp;1: Qualidade dos módulos entregues por cada fornecedor.
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-fabricas-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;1: Qualidade dos componentes entregues por cada fábrica.
 </figcaption>
-<div aria-describedby="tbl-fornecedores-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div aria-describedby="tbl-fabricas-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
 <thead>
 <tr class="header">
-<th>Estado do módulo</th>
-<th style="text-align: center;">Fornecedor A</th>
-<th style="text-align: center;">Fornecedor B</th>
+<th>Estado do componente</th>
+<th style="text-align: center;">Cilindro</th>
+<th style="text-align: center;">Esfera</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Pronto (P)</td>
+<td>Bom (B)</td>
 <td style="text-align: center;">0,80</td>
 <td style="text-align: center;">0,70</td>
 </tr>
 <tr class="even">
-<td>Com retrabalho (R)</td>
+<td>Longo (L)</td>
 <td style="text-align: center;">0,10</td>
 <td style="text-align: center;">0,20</td>
 </tr>
 <tr class="odd">
-<td>Inutilizável (I)</td>
+<td>Curto (C)</td>
 <td style="text-align: center;">0,10</td>
 <td style="text-align: center;">0,10</td>
 </tr>
@@ -736,136 +697,148 @@ Tabela&nbsp;1: Qualidade dos módulos entregues por cada fornecedor.
 </div>
 </figure>
 </div>
-<p>Os valores, em milhares de reais: cada módulo custa 5, e o sistema é vendido por 25. Cada módulo com retrabalho custa mais 5 para ajustar. Se algum módulo for inutilizável, nenhum ajuste é feito: a empresa entrega uma versão reduzida e recebe só 5. A pergunta do dono da empresa é: quanto ele lucra por sistema vendido?</p>
-<p>O experimento é receber os dois módulos. Como os fornecedores são diferentes, é razoável supor que a qualidade de um não influencia a do outro, e a probabilidade de cada par sai da regra do produto para eventos independentes (seção 2.4). O espaço amostral tem <span class="math inline">\(3 \times 3 = 9\)</span> pontos, e cada ponto dá um lucro:</p>
-<div id="cell-omega-modulos" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>prob_a <span class="op">=</span> {<span class="st">"P"</span>: <span class="fl">0.80</span>, <span class="st">"R"</span>: <span class="fl">0.10</span>, <span class="st">"I"</span>: <span class="fl">0.10</span>}</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>prob_b <span class="op">=</span> {<span class="st">"P"</span>: <span class="fl">0.70</span>, <span class="st">"R"</span>: <span class="fl">0.20</span>, <span class="st">"I"</span>: <span class="fl">0.10</span>}</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> lucro(a, b):</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="st">"I"</span> <span class="kw">in</span> (a, b):</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">5</span> <span class="op">-</span> <span class="dv">10</span>                          <span class="co"># versão reduzida</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    retrabalho <span class="op">=</span> <span class="dv">5</span> <span class="op">*</span> ((a <span class="op">==</span> <span class="st">"R"</span>) <span class="op">+</span> (b <span class="op">==</span> <span class="st">"R"</span>))</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">25</span> <span class="op">-</span> <span class="dv">10</span> <span class="op">-</span> retrabalho</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>linhas <span class="op">=</span> []</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> a, b <span class="kw">in</span> product(<span class="st">"PRI"</span>, repeat<span class="op">=</span><span class="dv">2</span>):</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    linhas.append((a <span class="op">+</span> b, prob_a[a] <span class="op">*</span> prob_b[b], lucro(a, b)))</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>omega <span class="op">=</span> pd.DataFrame(linhas, columns<span class="op">=</span>[<span class="st">"resultado"</span>, <span class="st">"probabilidade"</span>, <span class="st">"lucro"</span>])</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>omega.<span class="bu">round</span>(<span class="dv">2</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="omega-modulos" class="cell-output cell-output-display" data-execution_count="2">
-<div>
-
-
-<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<p>Os valores, em reais: cada componente custa 5, e o produto é vendido por 25. Um componente longo pode ser recuperado, a um custo adicional de 5. Se algum componente for curto, o conjunto é irrecuperável e é vendido como sucata por 5. A pergunta do empresário é: quanto ele lucra por unidade montada?</p>
+<p>O experimento é receber os dois componentes. Um resultado é um par de letras, a primeira para o cilindro e a segunda para a esfera: BL quer dizer que o cilindro chegou bom e a esfera, longa. O espaço amostral tem <span class="math inline">\(3 \times 3 = 9\)</span> pontos.</p>
+<p>Como as fábricas são diferentes, é razoável supor que a qualidade de um componente não influencia a do outro. A probabilidade de cada par sai então da regra do produto para eventos independentes (seção 2.4):</p>
+<p><span class="math display">\[
+\begin{aligned}
+P(\text{BL}) &amp;= P(\text{cilindro bom}) \\
+&amp;\quad \times P(\text{esfera longa}) \\
+&amp;= 0{,}80 \times 0{,}20 \\
+&amp;= 0{,}16.
+\end{aligned}
+\]</span></p>
+<p>O lucro de cada ponto é a receita menos os custos. Em BB, o empresário recebe 25 e paga os dois componentes: <span class="math inline">\(25 - 5 - 5 = 15\)</span>. Em BL, paga também a recuperação da esfera: <span class="math inline">\(25 - 10 - 5 = 10\)</span>. Em LL, as duas recuperações: <span class="math inline">\(25 - 10 - 10 = 5\)</span>. Em qualquer ponto com C, recebe só os 5 da sucata e paga os dois componentes, sem recuperação: <span class="math inline">\(5 - 10 = -5\)</span>.</p>
+<div class="table-responsive">
+<div id="tbl-omega-pecas" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-omega-pecas-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;2: Espaço amostral do recebimento dos dois componentes, com a probabilidade e o lucro (R$) de cada ponto.
+</figcaption>
+<div aria-describedby="tbl-omega-pecas-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
 <thead>
 <tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">resultado</th>
-<th data-quarto-table-cell-role="th">probabilidade</th>
-<th data-quarto-table-cell-role="th">lucro</th>
+<th style="text-align: center;">Ponto <span class="math inline">\(\omega\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(P(\omega)\)</span></th>
+<th style="text-align: center;">Lucro</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">0</th>
-<td>PP</td>
-<td>0.56</td>
-<td>15</td>
+<td style="text-align: center;">BB</td>
+<td style="text-align: center;"><span class="math inline">\(0{,}80 \times 0{,}70 = 0{,}56\)</span></td>
+<td style="text-align: center;">15</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">1</th>
-<td>PR</td>
-<td>0.16</td>
-<td>10</td>
+<td style="text-align: center;">BL</td>
+<td style="text-align: center;"><span class="math inline">\(0{,}80 \times 0{,}20 = 0{,}16\)</span></td>
+<td style="text-align: center;">10</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">2</th>
-<td>PI</td>
-<td>0.08</td>
-<td>-5</td>
+<td style="text-align: center;">BC</td>
+<td style="text-align: center;"><span class="math inline">\(0{,}80 \times 0{,}10 = 0{,}08\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(-5\)</span></td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">3</th>
-<td>RP</td>
-<td>0.07</td>
-<td>10</td>
+<td style="text-align: center;">LB</td>
+<td style="text-align: center;"><span class="math inline">\(0{,}10 \times 0{,}70 = 0{,}07\)</span></td>
+<td style="text-align: center;">10</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">4</th>
-<td>RR</td>
-<td>0.02</td>
-<td>5</td>
+<td style="text-align: center;">LL</td>
+<td style="text-align: center;"><span class="math inline">\(0{,}10 \times 0{,}20 = 0{,}02\)</span></td>
+<td style="text-align: center;">5</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">5</th>
-<td>RI</td>
-<td>0.01</td>
-<td>-5</td>
+<td style="text-align: center;">LC</td>
+<td style="text-align: center;"><span class="math inline">\(0{,}10 \times 0{,}10 = 0{,}01\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(-5\)</span></td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">6</th>
-<td>IP</td>
-<td>0.07</td>
-<td>-5</td>
+<td style="text-align: center;">CB</td>
+<td style="text-align: center;"><span class="math inline">\(0{,}10 \times 0{,}70 = 0{,}07\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(-5\)</span></td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">7</th>
-<td>IR</td>
-<td>0.02</td>
-<td>-5</td>
+<td style="text-align: center;">CL</td>
+<td style="text-align: center;"><span class="math inline">\(0{,}10 \times 0{,}20 = 0{,}02\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(-5\)</span></td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">8</th>
-<td>II</td>
-<td>0.01</td>
-<td>-5</td>
+<td style="text-align: center;">CC</td>
+<td style="text-align: center;"><span class="math inline">\(0{,}10 \times 0{,}10 = 0{,}01\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(-5\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><strong>Total</strong></td>
+<td style="text-align: center;"><strong>1</strong></td>
+<td style="text-align: center;"></td>
 </tr>
 </tbody>
 </table>
-
+</div>
+</figure>
 </div>
 </div>
-</div>
-<p>A coluna <code>lucro</code> associa um número a cada ponto do espaço amostral. É isso que se chama variável aleatória.</p>
+<p>A coluna do lucro associa um número a cada ponto do espaço amostral. É isso que se chama variável aleatória.</p>
 <div class="conceito">
 <p>Uma <strong>variável aleatória discreta</strong> é uma função <span class="math inline">\(X\)</span> que associa a cada ponto amostral <span class="math inline">\(\omega \in \Omega\)</span> um número real <span class="math inline">\(X(\omega)\)</span>, e cujos valores possíveis formam um conjunto que pode ser listado (finito ou infinito enumerável).</p>
 </div>
-<p>O “aleatório” do nome vem do experimento: antes de receber os módulos, não se sabe qual ponto de <span class="math inline">\(\Omega\)</span> vai ocorrer, e por isso não se sabe o valor de <span class="math inline">\(X\)</span>. A função em si não tem nada de aleatório. A convenção é usar letra maiúscula para a variável (<span class="math inline">\(X\)</span>) e minúscula para um valor que ela assume (<span class="math inline">\(x\)</span>).</p>
+<p>O “aleatório” do nome vem do experimento: antes de receber os componentes, não se sabe qual ponto de <span class="math inline">\(\Omega\)</span> vai ocorrer, e por isso não se sabe o valor de <span class="math inline">\(X\)</span>. A função em si não tem nada de aleatório: <span class="math inline">\(X(\text{BL}) = 10\)</span> sempre. A convenção é usar letra maiúscula para a variável (<span class="math inline">\(X\)</span>) e minúscula para um valor que ela assume (<span class="math inline">\(x\)</span>).</p>
 </section>
 <section id="função-de-probabilidade" class="level2">
 <h2 class="anchored" data-anchor-id="função-de-probabilidade">Função de probabilidade</h2>
-<p>O lucro <span class="math inline">\(X\)</span> assume só quatro valores: 15, 10, 5 e <span class="math inline">\(-5\)</span>. Cada valor corresponde a um evento de <span class="math inline">\(\Omega\)</span>. Por exemplo, <span class="math inline">\(X = 10\)</span> ocorre nos pontos PR e RP, e <span class="math inline">\(X = -5\)</span> em todos os cinco pontos com algum I. A probabilidade de cada valor é a probabilidade do evento correspondente, somando os pontos:</p>
-<div id="cell-fp-lucro" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>fp <span class="op">=</span> omega.groupby(<span class="st">"lucro"</span>)[<span class="st">"probabilidade"</span>].<span class="bu">sum</span>().sort_index(ascending<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>fp.<span class="bu">round</span>(<span class="dv">2</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="fp-lucro" class="cell-output cell-output-display" data-execution_count="3">
-<pre><code>lucro
- 15    0.56
- 10    0.23
- 5     0.02
--5     0.19
-Name: probabilidade, dtype: float64</code></pre>
-</div>
-</div>
+<p>O lucro <span class="math inline">\(X\)</span> assume só quatro valores: 15, 10, 5 e <span class="math inline">\(-5\)</span>. Cada valor corresponde a um evento de <span class="math inline">\(\Omega\)</span>, formado pelos pontos com aquele lucro. <span class="math inline">\(X = 10\)</span> ocorre nos pontos BL e LB, e como os pontos são resultados disjuntos, as probabilidades se somam:</p>
+<p><span class="math display">\[
+\begin{aligned}
+P(X = 10) &amp;= P(\text{BL}) + P(\text{LB}) \\
+&amp;= 0{,}16 + 0{,}07 \\
+&amp;= 0{,}23.
+\end{aligned}
+\]</span></p>
+<p><span class="math inline">\(X = -5\)</span> junta os cinco pontos com algum C:</p>
+<p><span class="math display">\[
+\begin{aligned}
+P(X = -5) &amp;= P(\text{BC}) + P(\text{LC}) \\
+&amp;\quad + P(\text{CB}) + P(\text{CL}) \\
+&amp;\quad + P(\text{CC}) \\
+&amp;= 0{,}08 + 0{,}01 + 0{,}07 \\
+&amp;\quad + 0{,}02 + 0{,}01 \\
+&amp;= 0{,}19.
+\end{aligned}
+\]</span></p>
+<p>Os valores 15 e 5 vêm de um ponto só cada: <span class="math inline">\(P(X = 15) = P(\text{BB}) = 0{,}56\)</span> e <span class="math inline">\(P(X = 5) = P(\text{LL}) = 0{,}02\)</span>. O resultado é uma tabela com os valores de <span class="math inline">\(X\)</span> e suas probabilidades:</p>
+<table class="caption-top table">
+<caption>Função de probabilidade do lucro por unidade montada.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: center;"><span class="math inline">\(x\)</span> (R$)</th>
+<th style="text-align: center;">15</th>
+<th style="text-align: center;">10</th>
+<th style="text-align: center;">5</th>
+<th style="text-align: center;"><span class="math inline">\(-5\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(p(x)\)</span></td>
+<td style="text-align: center;">0,56</td>
+<td style="text-align: center;">0,23</td>
+<td style="text-align: center;">0,02</td>
+<td style="text-align: center;">0,19</td>
+</tr>
+</tbody>
+</table>
 <div class="conceito">
 <p>A <strong>função de probabilidade</strong> da variável aleatória discreta <span class="math inline">\(X\)</span> associa a cada valor <span class="math inline">\(x_i\)</span> a sua probabilidade:</p>
 <p><span class="math display">\[
 p(x_i) = P(X = x_i), \quad i = 1, 2, \dots
 \]</span></p>
 </div>
-<p>As probabilidades <span class="math inline">\(p(x_i)\)</span> são números entre 0 e 1 e somam 1, porque os eventos <span class="math inline">\(\{X = x_i\}\)</span> são disjuntos e cobrem <span class="math inline">\(\Omega\)</span>. O <code>groupby</code> do <code>pandas</code> fez exatamente o que a definição pede: juntou os pontos amostrais com o mesmo valor de <span class="math inline">\(X\)</span> e somou suas probabilidades.</p>
+<p>Na fórmula, <span class="math inline">\(x_1, x_2, \dots\)</span> são os valores que <span class="math inline">\(X\)</span> pode assumir, e <span class="math inline">\(\{X = x_i\}\)</span> é o evento formado por todos os pontos de <span class="math inline">\(\Omega\)</span> em que <span class="math inline">\(X\)</span> vale <span class="math inline">\(x_i\)</span>. As probabilidades <span class="math inline">\(p(x_i)\)</span> são números entre 0 e 1 e somam 1, porque os eventos <span class="math inline">\(\{X = x_i\}\)</span> são disjuntos e cobrem <span class="math inline">\(\Omega\)</span>. No lucro, <span class="math inline">\(0{,}56 + 0{,}23 + 0{,}02 + 0{,}19 = 1\)</span>.</p>
 <p>O gráfico da função de probabilidade tem uma barra em cada valor possível, com altura igual à probabilidade. Entre os valores não há nada: <span class="math inline">\(X\)</span> não assume 12 nem 7,5.</p>
-<div id="cell-fig-fp-lucro" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="fl">3.5</span>))</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>ax.vlines(fp.index, <span class="dv">0</span>, fp.values, linewidth<span class="op">=</span><span class="dv">3</span>)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>ax.plot(fp.index, fp.values, <span class="st">"o"</span>)</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>ax.set_xticks(fp.index)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"lucro x (R$ mil)"</span>)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"p(x)"</span>)</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>ax.set_ylim(<span class="dv">0</span>, <span class="fl">0.65</span>)</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-fig-fp-lucro" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div id="fig-fp-lucro" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Gráfico de hastes: probabilidade 0,56 em 15, 0,23 em 10, 0,02 em 5 e 0,19 em -5.">
 <figure class="quarto-float quarto-float-fig figure">
@@ -873,13 +846,13 @@ p(x_i) = P(X = x_i), \quad i = 1, 2, \dots
 <img src="01-variaveis-aleatorias_files/figure-html/fig-fp-lucro-output-1.png" alt="Gráfico de hastes: probabilidade 0,56 em 15, 0,23 em 10, 0,02 em 5 e 0,19 em -5." width="515" height="320" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fp-lucro-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;1: Função de probabilidade do lucro X por sistema vendido, em milhares de reais.
+Figura&nbsp;1: Função de probabilidade do lucro X por unidade montada, em reais.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>Com esse modelo, o dono da empresa já sabe que a chance de prejuízo é <span class="math inline">\(P(X = -5)\)</span>, igual a 0,19, quase uma venda em cada cinco. Na seção 3.2, o mesmo modelo vai dizer quanto ele lucra em média.</p>
+<p>Com esse modelo, o empresário já sabe que a chance de prejuízo é <span class="math inline">\(P(X = -5) = 0{,}19\)</span>, quase uma unidade em cada cinco. Na seção 3.2, o mesmo modelo vai dizer quanto ele lucra em média.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -890,47 +863,70 @@ Figura&nbsp;1: Função de probabilidade do lucro X por sistema vendido, em milh
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>A tabela de <span class="math inline">\(X\)</span> só vale se os fornecedores cumprirem as probabilidades do histórico e se a qualidade de um módulo não influenciar a do outro. Se os dois fornecedores dependem da mesma biblioteca com defeito, os módulos tendem a falhar juntos, e a probabilidade de prejuízo muda.</p>
+<p>A tabela de <span class="math inline">\(X\)</span> só vale se as fábricas cumprirem as probabilidades do histórico e se a qualidade de um componente não influenciar a do outro. Se as duas fábricas compram a matéria-prima do mesmo fornecedor e um lote vem fora do padrão, os componentes tendem a sair com defeito juntos, e a probabilidade de prejuízo muda.</p>
 </div>
 </div>
 </section>
 <section id="várias-variáveis-no-mesmo-experimento" class="level2">
 <h2 class="anchored" data-anchor-id="várias-variáveis-no-mesmo-experimento">Várias variáveis no mesmo experimento</h2>
-<p>Um mesmo espaço amostral admite várias variáveis aleatórias. No experimento dos módulos, o gerente de projeto não se importa com o lucro, mas com o <strong>custo de retrabalho</strong> <span class="math inline">\(Y\)</span>: 0 se nenhum módulo precisar de ajuste, 5 se um precisar, 10 se os dois precisarem. Se algum módulo for inutilizável, nenhum módulo passa por retrabalho, porque o sistema completo não é entregue.</p>
-<div id="cell-fp-retrabalho" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> retrabalho(a, b):</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="st">"I"</span> <span class="kw">in</span> (a, b):</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">0</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">5</span> <span class="op">*</span> ((a <span class="op">==</span> <span class="st">"R"</span>) <span class="op">+</span> (b <span class="op">==</span> <span class="st">"R"</span>))</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>omega[<span class="st">"retrabalho"</span>] <span class="op">=</span> [retrabalho(r[<span class="dv">0</span>], r[<span class="dv">1</span>]) <span class="cf">for</span> r <span class="kw">in</span> omega[<span class="st">"resultado"</span>]]</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>omega.groupby(<span class="st">"retrabalho"</span>)[<span class="st">"probabilidade"</span>].<span class="bu">sum</span>().<span class="bu">round</span>(<span class="dv">2</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="fp-retrabalho" class="cell-output cell-output-display" data-execution_count="5">
-<pre><code>retrabalho
-0     0.75
-5     0.23
-10    0.02
-Name: probabilidade, dtype: float64</code></pre>
-</div>
-</div>
+<p>Um mesmo espaço amostral admite várias variáveis aleatórias. No experimento dos componentes, o encarregado da oficina não se importa com o lucro, mas com o <strong>custo de recuperação</strong> <span class="math inline">\(Y\)</span>: 0 se nenhum componente for longo, 5 se um for, 10 se os dois forem. Se algum componente for curto, nenhum é recuperado, porque o conjunto vai para a sucata.</p>
+<p>Na <a href="#tbl-omega-pecas" class="quarto-xref">Tabela&nbsp;<span>2</span></a>, <span class="math inline">\(Y = 5\)</span> nos pontos BL e LB, <span class="math inline">\(Y = 10\)</span> em LL, e <span class="math inline">\(Y = 0\)</span> em BB e nos cinco pontos com C. Somando as probabilidades:</p>
+<p><span class="math display">\[
+\begin{aligned}
+P(Y = 0) &amp;= 0{,}56 + 0{,}19 = 0{,}75, \\
+P(Y = 5) &amp;= 0{,}16 + 0{,}07 = 0{,}23, \\
+P(Y = 10) &amp;= 0{,}02.
+\end{aligned}
+\]</span></p>
 <p>Os pontos amostrais são os mesmos, e suas probabilidades também. O que muda é a função que transforma cada ponto em número, e com ela a função de probabilidade.</p>
-<p>Outros experimentos também guardam variáveis aleatórias. Nas duas moedas da seção 2.1, o <strong>número de caras</strong> é uma variável <span class="math inline">\(W\)</span> com valores 0, 1 e 2. Num repositório com 5 pull requests, 2 deles com bug, um revisor sorteia dois sem reposição; o <strong>número de PRs com bug</strong> entre os dois é uma variável <span class="math inline">\(B\)</span> com valores 0, 1 e 2. A enumeração dos 20 pares ordenados dá a função de probabilidade de <span class="math inline">\(B\)</span>, em contagens sobre 20:</p>
-<div id="cell-fp-bugs" class="cell" data-execution_count="6">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itertools <span class="im">import</span> permutations</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>prs <span class="op">=</span> [<span class="st">"B1"</span>, <span class="st">"B2"</span>, <span class="st">"S1"</span>, <span class="st">"S2"</span>, <span class="st">"S3"</span>]</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>pares <span class="op">=</span> <span class="bu">list</span>(permutations(prs, <span class="dv">2</span>))</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>bugs <span class="op">=</span> pd.Series([<span class="bu">sum</span>(p.startswith(<span class="st">"B"</span>) <span class="cf">for</span> p <span class="kw">in</span> par) <span class="cf">for</span> par <span class="kw">in</span> pares])</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>bugs.value_counts().sort_index()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="fp-bugs" class="cell-output cell-output-display" data-execution_count="6">
-<pre><code>0     6
-1    12
-2     2
-Name: count, dtype: int64</code></pre>
+<p>Outros experimentos também guardam variáveis aleatórias. Nas duas moedas da seção 2.1, o <strong>número de caras</strong> é uma variável <span class="math inline">\(W\)</span> com valores 0, 1 e 2. Uma urna tem 5 bolas, 2 vermelhas e 3 brancas, e tiram-se duas, uma depois da outra, sem reposição; o <strong>número de bolas vermelhas</strong> entre as duas é uma variável <span class="math inline">\(V\)</span> com valores 0, 1 e 2.</p>
+<p>Pelo princípio multiplicativo (seção 2.3), há <span class="math inline">\(5 \times 4 = 20\)</span> pares ordenados de bolas, todos com a mesma probabilidade. Basta contar os pares de cada tipo, com “v” para vermelha e “b” para branca:</p>
+<div id="tbl-pares-urna" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-pares-urna-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;3: Pares ordenados de bolas retiradas da urna, pela cor de cada uma.
+</figcaption>
+<div aria-describedby="tbl-pares-urna-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Par</th>
+<th style="text-align: center;">Contagem</th>
+<th style="text-align: center;"><span class="math inline">\(V\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">b, b</td>
+<td style="text-align: center;"><span class="math inline">\(3 \times 2 = 6\)</span></td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">v, b</td>
+<td style="text-align: center;"><span class="math inline">\(2 \times 3 = 6\)</span></td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">b, v</td>
+<td style="text-align: center;"><span class="math inline">\(3 \times 2 = 6\)</span></td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">v, v</td>
+<td style="text-align: center;"><span class="math inline">\(2 \times 1 = 2\)</span></td>
+<td style="text-align: center;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><strong>Total</strong></td>
+<td style="text-align: center;"><strong>20</strong></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
 </div>
+</figure>
 </div>
-<p><span class="math inline">\(P(B = 0) = 6/20 = 3/10\)</span>, <span class="math inline">\(P(B = 1) = 12/20 = 6/10\)</span> e <span class="math inline">\(P(B = 2) = 2/20 = 1/10\)</span>. O caso <span class="math inline">\(B = 1\)</span> junta duas ordens, com bug no primeiro ou no segundo PR.</p>
+<p><span class="math inline">\(P(V = 0) = 6/20 = 3/10\)</span>, <span class="math inline">\(P(V = 1) = 12/20 = 6/10\)</span> e <span class="math inline">\(P(V = 2) = 2/20 = 1/10\)</span>. O caso <span class="math inline">\(V = 1\)</span> junta duas ordens, com a vermelha na primeira ou na segunda retirada.</p>
 </section>
 <section id="resumo" class="level2">
 <h2 class="anchored" data-anchor-id="resumo">Resumo</h2>
@@ -963,7 +959,7 @@ Name: count, dtype: int64</code></pre>
 </table>
 </div>
 <div class="conceito">
-<p><strong>Regra prática:</strong> para achar a função de probabilidade, liste os pontos de <span class="math inline">\(\Omega\)</span> com suas probabilidades, calcule o valor de <span class="math inline">\(X\)</span> em cada ponto e some as probabilidades dos pontos com o mesmo valor. Em <code>pandas</code>, é um <code>groupby</code> com <code>sum</code>.</p>
+<p><strong>Regra prática:</strong> para achar a função de probabilidade, liste os pontos de <span class="math inline">\(\Omega\)</span> com suas probabilidades, calcule o valor de <span class="math inline">\(X\)</span> em cada ponto e some as probabilidades dos pontos com o mesmo valor.</p>
 </div>
 </section>
 <section id="exercícios" class="level2">
@@ -981,32 +977,48 @@ Name: count, dtype: int64</code></pre>
 </div>
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="cell-ex1-resposta" class="cell" data-execution_count="7">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>faces <span class="op">=</span> <span class="bu">list</span>(product(<span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">7</span>), repeat<span class="op">=</span><span class="dv">2</span>))</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>pares_dados <span class="op">=</span> pd.DataFrame(faces, columns<span class="op">=</span>[<span class="st">"d1"</span>, <span class="st">"d2"</span>])</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>pares_dados[<span class="st">"S"</span>] <span class="op">=</span> pares_dados[<span class="st">"d1"</span>] <span class="op">+</span> pares_dados[<span class="st">"d2"</span>]</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>pares_dados[<span class="st">"S"</span>].value_counts().sort_index()   <span class="co"># casos favoráveis, em 36</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="ex1-resposta" class="cell-output cell-output-display" data-execution_count="7">
-<pre><code>S
-2     1
-3     2
-4     3
-5     4
-6     5
-7     6
-8     5
-9     4
-10    3
-11    2
-12    1
-Name: count, dtype: int64</code></pre>
+<p>Os 36 pares de faces são igualmente prováveis. <span class="math inline">\(S\)</span> vai de 2 a 12, e cada probabilidade é o número de pares com aquela soma dividido por 36. Por exemplo, <span class="math inline">\(S = 4\)</span> nos pares (1, 3), (2, 2) e (3, 1):</p>
+<div class="table-responsive">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;"><span class="math inline">\(s\)</span></th>
+<th style="text-align: center;">2</th>
+<th style="text-align: center;">3</th>
+<th style="text-align: center;">4</th>
+<th style="text-align: center;">5</th>
+<th style="text-align: center;">6</th>
+<th style="text-align: center;">7</th>
+<th style="text-align: center;">8</th>
+<th style="text-align: center;">9</th>
+<th style="text-align: center;">10</th>
+<th style="text-align: center;">11</th>
+<th style="text-align: center;">12</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">pares</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>A função de probabilidade é <span class="math inline">\(p(s) = (\text{pares})/36\)</span>: de 1/36 a 6/36 e de volta a 1/36, num total de <span class="math inline">\(36/36 = 1\)</span>. O valor mais provável é 7, com probabilidade <span class="math inline">\(6/36 = 1/6\)</span>.</p>
 </div>
 </div>
-<p><span class="math inline">\(S\)</span> vai de 2 a 12. As contagens sobem de 1 a 6 e depois descem, e cada probabilidade é a contagem dividida por 36: de 1/36 a 6/36 e de volta a 1/36. O valor mais provável é 7, com probabilidade <span class="math inline">\(6/36 = 1/6\)</span>.</p>
 </div>
-</div>
-</div>
-<p><strong>2.</strong> Um servidor recebe requisições até a primeira que falha, e cada requisição falha com probabilidade 0,1, independentemente das outras. Seja <span class="math inline">\(N\)</span> o número de requisições até a primeira falha, contando a que falhou. Encontre <span class="math inline">\(P(N = 1)\)</span>, <span class="math inline">\(P(N = 2)\)</span> e <span class="math inline">\(P(N = k)\)</span> para um <span class="math inline">\(k\)</span> qualquer.</p>
+<p><strong>2.</strong> Peças saem de uma linha de produção e são inspecionadas uma a uma, até aparecer a primeira defeituosa. Cada peça é defeituosa com probabilidade 0,1, independentemente das outras. Seja <span class="math inline">\(X\)</span> o número de peças inspecionadas até a primeira defeituosa, contando a defeituosa. Encontre <span class="math inline">\(P(X = 1)\)</span>, <span class="math inline">\(P(X = 2)\)</span> e <span class="math inline">\(P(X = k)\)</span> para um <span class="math inline">\(k\)</span> qualquer.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1019,15 +1031,15 @@ Name: count, dtype: int64</code></pre>
 </div>
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><span class="math inline">\(N = k\)</span> quando as <span class="math inline">\(k - 1\)</span> primeiras requisições dão certo e a <span class="math inline">\(k\)</span>-ésima falha. Pela independência,</p>
+<p><span class="math inline">\(X = k\)</span> quando as <span class="math inline">\(k - 1\)</span> primeiras peças são boas e a <span class="math inline">\(k\)</span>-ésima é defeituosa. Pela independência, para <span class="math inline">\(k = 1, 2, 3, \dots\)</span>,</p>
 <p><span class="math display">\[
-P(N = k) = 0{,}9^{\,k-1} \times 0{,}1, \qquad k = 1, 2, 3, \dots
+P(X = k) = 0{,}9^{\,k-1} \times 0{,}1.
 \]</span></p>
-<p>Então <span class="math inline">\(P(N = 1) = 0{,}1\)</span> e <span class="math inline">\(P(N = 2) = 0{,}09\)</span>. <span class="math inline">\(N\)</span> é uma variável discreta com infinitos valores possíveis, que podem ser listados.</p>
+<p>Então <span class="math inline">\(P(X = 1) = 0{,}1\)</span> e <span class="math inline">\(P(X = 2) = 0{,}09\)</span>. <span class="math inline">\(X\)</span> é uma variável discreta com infinitos valores possíveis, que podem ser listados.</p>
 </div>
 </div>
 </div>
-<p><strong>3.</strong> No experimento dos módulos, seja <span class="math inline">\(Z\)</span> o número de módulos inutilizáveis (0, 1 ou 2). Encontre a função de probabilidade de <span class="math inline">\(Z\)</span>.</p>
+<p><strong>3.</strong> No experimento dos componentes, seja <span class="math inline">\(Z\)</span> o número de componentes curtos (0, 1 ou 2). Encontre a função de probabilidade de <span class="math inline">\(Z\)</span>.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1040,7 +1052,7 @@ P(N = k) = 0{,}9^{\,k-1} \times 0{,}1, \qquad k = 1, 2, 3, \dots
 </div>
 <div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><span class="math inline">\(P(Z = 2) = 0{,}1 \times 0{,}1 = 0{,}01\)</span>. <span class="math inline">\(P(Z = 0) = 0{,}9 \times 0{,}9 = 0{,}81\)</span>, porque cada módulo é utilizável com probabilidade 0,9. <span class="math inline">\(P(Z = 1) = 1 - 0{,}81 - 0{,}01 = 0{,}18\)</span>.</p>
+<p><span class="math inline">\(P(Z = 2) = 0{,}1 \times 0{,}1 = 0{,}01\)</span>. <span class="math inline">\(P(Z = 0) = 0{,}9 \times 0{,}9 = 0{,}81\)</span>, porque cada componente deixa de ser curto com probabilidade 0,9. <span class="math inline">\(P(Z = 1) = 1 - 0{,}81 - 0{,}01 = 0{,}18\)</span>.</p>
 </div>
 </div>
 </div>

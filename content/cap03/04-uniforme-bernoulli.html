@@ -24,41 +24,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 /* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
@@ -102,9 +67,9 @@ div.csl-indent {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-96de93aeef37c2f55637d13965bee670.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-fa5a435faa8b3fd8ba2c629fc35ba32a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-96de93aeef37c2f55637d13965bee670.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-64fc88c462144c19fa71a709d9434c23.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-244db57ca546911734af8129e7c854c8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-64fc88c462144c19fa71a709d9434c23.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -693,92 +658,236 @@ Nota
 </div>
 </div>
 <p>Nas seções anteriores, cada problema pedia um modelo construído do zero: listar o espaço amostral, calcular o valor da variável em cada ponto, somar probabilidades. Mas algumas situações se repetem tanto que o modelo já está pronto. Basta reconhecer a situação e usar a fórmula.</p>
-<p>Esta seção e as duas seguintes apresentam quatro desses modelos prontos. Os dois primeiros são os mais simples: a uniforme discreta, em que todos os valores têm a mesma chance, e a Bernoulli, em que só há dois resultados.</p>
+<p>Os dois modelos prontos mais simples são a uniforme discreta, em que todos os valores têm a mesma chance, e a Bernoulli, em que só há dois resultados.</p>
 <section id="uniforme-discreta" class="level2">
 <h2 class="anchored" data-anchor-id="uniforme-discreta">Uniforme discreta</h2>
-<p>Um balanceador de carga distribui cada requisição sorteando um entre 10 servidores, numerados de 0 a 9, todos com a mesma chance. O número <span class="math inline">\(X\)</span> do servidor sorteado tem 10 valores possíveis, cada um com probabilidade <span class="math inline">\(1/10\)</span>. É a mesma situação do dado equilibrado da seção 2.1, com 10 faces em vez de 6.</p>
+<p>Uma urna tem dez bolas numeradas de 0 a 9, e uma delas é sorteada ao acaso. O número <span class="math inline">\(X\)</span> da bola sorteada tem 10 valores possíveis, cada um com probabilidade <span class="math inline">\(1/10\)</span>. É a mesma situação do dado equilibrado da seção 2.1, com 10 faces em vez de 6.</p>
 <div class="conceito">
 <p>A variável aleatória <span class="math inline">\(X\)</span>, com <span class="math inline">\(k\)</span> valores distintos <span class="math inline">\(x_1, \dots, x_k\)</span>, tem <strong>distribuição uniforme discreta</strong> quando</p>
 <p><span class="math display">\[
 P(X = x_i) = \frac{1}{k}, \quad i = 1, \dots, k.
 \]</span></p>
 </div>
-<p>Com todos os pesos iguais a <span class="math inline">\(1/k\)</span>, o valor médio da seção 3.2 vira a média simples dos valores, e a variância vira a média simples dos desvios ao quadrado:</p>
+<p>O único parâmetro é a lista de valores: sabendo quantos são, sabe-se a probabilidade de cada um. Com todos os pesos iguais a <span class="math inline">\(1/k\)</span>, o fator <span class="math inline">\(1/k\)</span> sai de dentro das somas da seção 3.2. O valor médio vira a média simples dos valores, e a variância vira a média simples dos desvios ao quadrado:</p>
 <p><span class="math display">\[
 \begin{aligned}
-E(X) &amp;= \frac{1}{k} \sum_{i=1}^{k} x_i, \\
-\mathrm{Var}(X) &amp;= \frac{1}{k} \sum_{i=1}^{k} (x_i - E(X))^2.
+E(X) &amp;= \sum_{i=1}^{k} x_i \cdot \frac{1}{k} \\
+&amp;= \frac{1}{k} \sum_{i=1}^{k} x_i, \\
+\mathrm{Var}(X) &amp;= \frac{1}{k} \sum_{i=1}^{k} \big(x_i - E(X)\big)^2.
 \end{aligned}
 \]</span></p>
-<p>No dado, <span class="math inline">\(E(X) = 21/6 = 3{,}5\)</span> e <span class="math inline">\(\mathrm{Var}(X) = 35/12 \approx 2{,}92\)</span> (Exemplo 6.10 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>). Nos servidores de 0 a 9, <span class="math inline">\(E(X) = 4{,}5\)</span>.</p>
-<p>A biblioteca <code>scipy.stats</code> tem os modelos prontos deste capítulo. A uniforme discreta em inteiros consecutivos é a <code>randint</code>:</p>
-<div id="randint" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>dado <span class="op">=</span> stats.randint(<span class="dv">1</span>, <span class="dv">7</span>)          <span class="co"># valores 1, 2, ..., 6 (o 7 fica de fora)</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>servidor <span class="op">=</span> stats.randint(<span class="dv">0</span>, <span class="dv">10</span>)     <span class="co"># valores 0, 1, ..., 9</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">round</span>(dado.pmf(<span class="dv">6</span>), <span class="dv">4</span>), dado.mean(), <span class="bu">round</span>(dado.var(), <span class="dv">4</span>))</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(servidor.mean(), servidor.var())</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>0.1667 3.5 2.9167
-4.5 8.25</code></pre>
+<p>No dado, <span class="math inline">\(k = 6\)</span> e cada face tem probabilidade <span class="math inline">\(1/6\)</span>. A tabela de cálculo traz, para cada valor, as parcelas de <span class="math inline">\(E(X)\)</span> e de <span class="math inline">\(E(X^2)\)</span>:</p>
+<div id="tbl-dado" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-dado-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;1: Cálculo do valor médio e da variância do dado.
+</figcaption>
+<div aria-describedby="tbl-dado-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;"><span class="math inline">\(x\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(p(x)\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(x\,p(x)\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(x^2\,p(x)\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1/6</td>
+<td style="text-align: center;">1/6</td>
+<td style="text-align: center;">1/6</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">1/6</td>
+<td style="text-align: center;">2/6</td>
+<td style="text-align: center;">4/6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">1/6</td>
+<td style="text-align: center;">3/6</td>
+<td style="text-align: center;">9/6</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">1/6</td>
+<td style="text-align: center;">4/6</td>
+<td style="text-align: center;">16/6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">1/6</td>
+<td style="text-align: center;">5/6</td>
+<td style="text-align: center;">25/6</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">1/6</td>
+<td style="text-align: center;">6/6</td>
+<td style="text-align: center;">36/6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><strong>Total</strong></td>
+<td style="text-align: center;"><strong>1</strong></td>
+<td style="text-align: center;"><strong>21/6</strong></td>
+<td style="text-align: center;"><strong>91/6</strong></td>
+</tr>
+</tbody>
+</table>
 </div>
+</figure>
 </div>
-<p>O método <code>pmf</code> (<em>probability mass function</em>) é a função de probabilidade, e <code>mean</code> e <code>var</code> dão o valor médio e a variância, sem precisar montar a tabela. O <code>cdf</code> dá a f.d.a. da seção 3.3: na uniforme, <span class="math inline">\(F(x)\)</span> é o número de valores <span class="math inline">\(x_i \le x\)</span> dividido por <span class="math inline">\(k\)</span>, e <code>dado.cdf(4)</code> dá <span class="math inline">\(4/6\)</span>.</p>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Aviso</span>O limite superior da <code>randint</code> fica de fora
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><code>stats.randint(1, 7)</code> representa os valores de 1 a 6, como o <code>range(1, 7)</code> do Python, e ao contrário do <code>random.randint(1, 6)</code> da biblioteca padrão, que inclui o 6. Escrever <code>randint(1, 6)</code> modela um dado de cinco faces, e o erro não gera aviso: <code>dado.pmf(6)</code> simplesmente devolve 0.</p>
-</div>
-</div>
+<p>A soma da terceira coluna é o valor médio, e a da quarta é <span class="math inline">\(E(X^2)\)</span>. Pelo atalho da seção 3.2, <span class="math inline">\(\mathrm{Var}(X) = E(X^2) - [E(X)]^2\)</span> (Exemplo 6.10 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>):</p>
+<p><span class="math display">\[
+\begin{aligned}
+E(X) &amp;= \frac{21}{6} = 3{,}5, \\
+\mathrm{Var}(X) &amp;= \frac{91}{6} - \left(\frac{21}{6}\right)^2 \\
+&amp;= \frac{182}{12} - \frac{147}{12} \\
+&amp;= \frac{35}{12} \approx 2{,}92.
+\end{aligned}
+\]</span></p>
+<p>O valor médio 3,5 é o centro de equilíbrio das seis faces.</p>
+<p>Na urna com as bolas de 0 a 9, <span class="math inline">\(k = 10\)</span>. As somas dos valores e dos quadrados são <span class="math inline">\(0 + 1 + \dots + 9 = 45\)</span> e <span class="math inline">\(0^2 + 1^2 + \dots + 9^2 = 285\)</span>, e cada uma é dividida por 10:</p>
+<p><span class="math display">\[
+\begin{aligned}
+E(X) &amp;= \frac{45}{10} = 4{,}5, \\
+E(X^2) &amp;= \frac{285}{10} = 28{,}5, \\
+\mathrm{Var}(X) &amp;= 28{,}5 - 4{,}5^2 \\
+&amp;= 28{,}5 - 20{,}25 \\
+&amp;= 8{,}25.
+\end{aligned}
+\]</span></p>
+<p>O valor médio fica entre o 4 e o 5, no meio da numeração, e o desvio-padrão é <span class="math inline">\(\sqrt{8{,}25} \approx 2{,}87\)</span>.</p>
+<p>A função de distribuição acumulada da seção 3.3 também tem forma simples. Como cada valor pesa <span class="math inline">\(1/k\)</span>, <span class="math inline">\(F(x) = P(X \le x)\)</span> é o número de valores <span class="math inline">\(x_i \le x\)</span> dividido por <span class="math inline">\(k\)</span>. No dado, <span class="math inline">\(F(4) = 4/6\)</span>: são as faces menores ou iguais a 4.</p>
 </section>
 <section id="bernoulli" class="level2">
 <h2 class="anchored" data-anchor-id="bernoulli">Bernoulli</h2>
-<p>Muitos experimentos só têm dois resultados de interesse: um build passa ou falha, uma requisição dá certo ou dá erro. Chamamos um dos resultados de <strong>sucesso</strong> e o outro de <strong>fracasso</strong>, sem juízo de valor: se a pergunta é sobre falhas, a falha é o “sucesso”.</p>
+<p>Muitos experimentos só têm dois resultados de interesse: uma peça é boa ou defeituosa, um entrevistado é a favor ou contra, uma moeda dá cara ou coroa. Um dos resultados se chama <strong>sucesso</strong> e o outro <strong>fracasso</strong>, sem juízo de valor: se a pergunta é sobre peças defeituosas, a peça defeituosa é o “sucesso”.</p>
 <p>A variável que vale 1 no sucesso e 0 no fracasso transforma o experimento em número.</p>
 <div class="conceito">
 <p>A variável aleatória <span class="math inline">\(X\)</span> tem <strong>distribuição de Bernoulli</strong> com parâmetro <span class="math inline">\(p\)</span>, <span class="math inline">\(0 &lt; p &lt; 1\)</span>, quando assume só os valores 0 e 1, com</p>
 <p><span class="math display">\[
-P(X = 1) = p, \qquad P(X = 0) = 1 - p.
+\begin{aligned}
+P(X = 1) &amp;= p, \\
+P(X = 0) &amp;= 1 - p.
+\end{aligned}
 \]</span></p>
 <p>Escreve-se <span class="math inline">\(X \sim \mathrm{Ber}(p)\)</span>. Um experimento assim se chama <strong>ensaio de Bernoulli</strong>.</p>
 </div>
-<p>O valor médio e a variância saem direto das definições da seção 3.2, com só dois valores na soma:</p>
+<p>O parâmetro <span class="math inline">\(p\)</span> é a probabilidade de sucesso, e <span class="math inline">\(1 - p\)</span> sobra para o fracasso, porque as duas têm de somar 1. O valor médio e a variância saem direto das definições da seção 3.2, com só dois valores na soma:</p>
+<div id="tbl-bernoulli" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-bernoulli-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;2: Cálculo do valor médio e da variância da Bernoulli.
+</figcaption>
+<div aria-describedby="tbl-bernoulli-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;"><span class="math inline">\(x\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(p(x)\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(x\,p(x)\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(x^2\,p(x)\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">0</td>
+<td style="text-align: center;"><span class="math inline">\(1 - p\)</span></td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;"><span class="math inline">\(p\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(p\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(p\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><strong>Total</strong></td>
+<td style="text-align: center;"><strong>1</strong></td>
+<td style="text-align: center;"><span class="math inline">\(\boldsymbol{p}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\boldsymbol{p}\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
 <p><span class="math display">\[
 \begin{aligned}
-E(X) &amp;= 0 \times (1 - p) + 1 \times p = p, \\
+E(X) &amp;= 0 \times (1 - p) + 1 \times p \\
+&amp;= p, \\
 \mathrm{Var}(X) &amp;= (0 - p)^2 (1 - p) + (1 - p)^2 p \\
+&amp;= p^2 (1 - p) + (1 - p)^2 p \\
+&amp;= p(1 - p)\,\big[p + (1 - p)\big] \\
 &amp;= p(1 - p).
 \end{aligned}
 \]</span></p>
-<p>A média de uma Bernoulli é a própria probabilidade de sucesso. Isso se liga a um truque que já apareceu no livro: na seção 2.1, a média de uma coluna booleana, <code>(baralho["naipe"] == "copas").mean()</code>, deu a proporção de cartas de copas. Tirando uma carta ao acaso, com <span class="math inline">\(X = 1\)</span> se ela for de copas, <span class="math inline">\(X\)</span> é uma Bernoulli com <span class="math inline">\(p = 13/52\)</span>. Como o sorteio é uniforme sobre as 52 linhas da tabela <code>baralho</code>, <span class="math inline">\(E(X)\)</span> é a média da coluna de zeros e uns, que é a proporção de uns.</p>
-<p>Uma requisição a um serviço externo falha com probabilidade 0,05. Com <span class="math inline">\(X = 1\)</span> quando a requisição falha, <span class="math inline">\(X \sim \mathrm{Ber}(0{,}05)\)</span>:</p>
-<div id="cell-bernoulli" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>falha <span class="op">=</span> stats.bernoulli(<span class="fl">0.05</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>falha.pmf([<span class="dv">0</span>, <span class="dv">1</span>]), falha.mean(), falha.var()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="bernoulli" class="cell-output cell-output-display" data-execution_count="3">
-<pre><code>(array([0.95, 0.05]), 0.05, 0.0475)</code></pre>
-</div>
-</div>
+<p>Na variância, os dois termos têm o fator comum <span class="math inline">\(p(1-p)\)</span>, e o que sobra entre colchetes é <span class="math inline">\(p + (1 - p) = 1\)</span>. O atalho dá o mesmo resultado em uma linha: como <span class="math inline">\(0^2 = 0\)</span> e <span class="math inline">\(1^2 = 1\)</span>, <span class="math inline">\(X^2 = X\)</span>, e então <span class="math inline">\(E(X^2) = p\)</span> e <span class="math inline">\(\mathrm{Var}(X) = p - p^2 = p(1 - p)\)</span>.</p>
+<p>A média de uma Bernoulli é a própria probabilidade de sucesso. Isso explica um fato visto na seção 2.1: a proporção de cartas de copas no baralho, <span class="math inline">\(13/52\)</span>, é também a média de uma lista de 52 números que marca 1 nas cartas de copas e 0 nas outras. A soma da lista é o número de uns, e dividir pelo tamanho dá a proporção de uns. Tirando uma carta ao acaso, com <span class="math inline">\(X = 1\)</span> se ela for de copas, <span class="math inline">\(X \sim \mathrm{Ber}(13/52)\)</span>.</p>
+<p>Uma peça sai defeituosa de uma linha de produção com probabilidade 0,05. Escolhida uma peça ao acaso, com <span class="math inline">\(X = 1\)</span> quando ela é defeituosa, <span class="math inline">\(X \sim \mathrm{Ber}(0{,}05)\)</span>, e</p>
+<p><span class="math display">\[
+\begin{aligned}
+P(X = 1) &amp;= 0{,}05, \\
+P(X = 0) &amp;= 0{,}95, \\
+E(X) &amp;= 0{,}05, \\
+\mathrm{Var}(X) &amp;= 0{,}05 \times 0{,}95 \\
+&amp;= 0{,}0475.
+\end{aligned}
+\]</span></p>
 </section>
 <section id="quando-a-incerteza-é-máxima" class="level2">
 <h2 class="anchored" data-anchor-id="quando-a-incerteza-é-máxima">Quando a incerteza é máxima</h2>
-<p>A variância <span class="math inline">\(p(1 - p)\)</span> depende só de <span class="math inline">\(p\)</span>. Perto dos extremos ela quase se anula: com <span class="math inline">\(p\)</span> perto de 0 ou de 1, o resultado é quase certo. (Nos extremos, <span class="math inline">\(p(1-p)\)</span> vale 0, mas <span class="math inline">\(p = 0\)</span> e <span class="math inline">\(p = 1\)</span> ficam fora da definição, porque ali não há incerteza.) E é máxima em <span class="math inline">\(p = 1/2\)</span>, quando sucesso e fracasso têm a mesma chance.</p>
-<div id="cell-fig-variancia-bernoulli" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>p_grade <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">201</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="fl">3.5</span>))</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>ax.plot(p_grade, p_grade <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> p_grade))</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>ax.axvline(<span class="fl">0.5</span>, color<span class="op">=</span><span class="st">"gray"</span>, linestyle<span class="op">=</span><span class="st">"--"</span>, linewidth<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"p"</span>)</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Var(X) = p(1 − p)"</span>)</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<p>A variância <span class="math inline">\(p(1 - p)\)</span> depende só de <span class="math inline">\(p\)</span>. Alguns valores mostram o comportamento:</p>
+<div class="table-responsive">
+<div id="tbl-var-bernoulli" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-var-bernoulli-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;3: Variância da Bernoulli para alguns valores de <span class="math inline">\(p\)</span>.
+</figcaption>
+<div aria-describedby="tbl-var-bernoulli-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;"><span class="math inline">\(p\)</span></th>
+<th style="text-align: center;">0,05</th>
+<th style="text-align: center;">0,1</th>
+<th style="text-align: center;">0,3</th>
+<th style="text-align: center;">0,5</th>
+<th style="text-align: center;">0,7</th>
+<th style="text-align: center;">0,9</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(p(1-p)\)</span></td>
+<td style="text-align: center;">0,0475</td>
+<td style="text-align: center;">0,09</td>
+<td style="text-align: center;">0,21</td>
+<td style="text-align: center;">0,25</td>
+<td style="text-align: center;">0,21</td>
+<td style="text-align: center;">0,09</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</div>
+<p>A tabela é simétrica: <span class="math inline">\(p\)</span> e <span class="math inline">\(1 - p\)</span> dão a mesma variância, porque trocar sucesso por fracasso não muda a incerteza. Perto dos extremos ela quase se anula: com <span class="math inline">\(p\)</span> perto de 0 ou de 1, o resultado é quase certo. (Nos extremos, <span class="math inline">\(p(1-p)\)</span> vale 0, mas <span class="math inline">\(p = 0\)</span> e <span class="math inline">\(p = 1\)</span> ficam fora da definição, porque ali não há incerteza.)</p>
+<p>O máximo fica em <span class="math inline">\(p = 1/2\)</span>. Completando o quadrado,</p>
+<p><span class="math display">\[
+\begin{aligned}
+p(1 - p) &amp;= p - p^2 \\
+&amp;= \frac{1}{4} - \left(p - \frac{1}{2}\right)^2.
+\end{aligned}
+\]</span></p>
+<p>O termo <span class="math inline">\(\left(p - \frac{1}{2}\right)^2\)</span> nunca é negativo e só vale 0 em <span class="math inline">\(p = 1/2\)</span>. Então <span class="math inline">\(p(1-p)\)</span> nunca passa de <span class="math inline">\(1/4\)</span>, e chega a <span class="math inline">\(1/4\)</span> só quando sucesso e fracasso têm a mesma chance. Quanto mais <span class="math inline">\(p\)</span> se afasta de <span class="math inline">\(1/2\)</span>, maior o quadrado subtraído e menor a variância.</p>
+<div id="cell-fig-variancia-bernoulli" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div id="fig-variancia-bernoulli" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Parábola que vale 0 em p = 0 e p = 1 e atinge 0,25 em p = 0,5.">
 <figure class="quarto-float quarto-float-fig figure">
@@ -792,20 +901,18 @@ Figura&nbsp;1: Variância de uma Bernoulli em função da probabilidade de suces
 </div>
 </div>
 </div>
-<p>Um serviço que falha em 5% das requisições é mais previsível que uma moeda: a variância é 0,0475, contra 0,25 da moeda. A curva também mostra que <span class="math inline">\(p(1-p)\)</span> é a variância de cada 0 ou 1 que entra numa proporção. Por isso, para estimar uma proporção com a mesma margem de erro em pontos percentuais, o pior caso é <span class="math inline">\(p\)</span> perto de 50%.</p>
+<p>Uma linha de produção com 5% de peças defeituosas é mais previsível que uma moeda: a variância é 0,0475, contra 0,25 da moeda. Por isso, entre as Bernoulli, a moeda equilibrada, com <span class="math inline">\(p = 1/2\)</span>, é a de resultado mais incerto.</p>
 </section>
 <section id="resumo" class="level2">
 <h2 class="anchored" data-anchor-id="resumo">Resumo</h2>
 <div class="table-responsive">
 <table class="caption-top table">
-<caption>Modelos desta seção.</caption>
 <colgroup>
-<col style="width: 16%">
-<col style="width: 16%">
-<col style="width: 16%">
-<col style="width: 16%">
-<col style="width: 16%">
-<col style="width: 16%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -814,7 +921,6 @@ Figura&nbsp;1: Variância de uma Bernoulli em função da probabilidade de suces
 <th><span class="math inline">\(P(X = x)\)</span></th>
 <th><span class="math inline">\(E(X)\)</span></th>
 <th><span class="math inline">\(\mathrm{Var}(X)\)</span></th>
-<th><code>scipy.stats</code></th>
 </tr>
 </thead>
 <tbody>
@@ -824,7 +930,6 @@ Figura&nbsp;1: Variância de uma Bernoulli em função da probabilidade de suces
 <td><span class="math inline">\(1/k\)</span></td>
 <td>média dos <span class="math inline">\(x_i\)</span></td>
 <td>média dos desvios ao quadrado</td>
-<td><code>randint(a, b + 1)</code>, para os inteiros de <span class="math inline">\(a\)</span> a <span class="math inline">\(b\)</span></td>
 </tr>
 <tr class="even">
 <td>Bernoulli</td>
@@ -832,7 +937,6 @@ Figura&nbsp;1: Variância de uma Bernoulli em função da probabilidade de suces
 <td><span class="math inline">\(1 - p\)</span>, <span class="math inline">\(p\)</span></td>
 <td><span class="math inline">\(p\)</span></td>
 <td><span class="math inline">\(p(1 - p)\)</span></td>
-<td><code>bernoulli(p)</code></td>
 </tr>
 </tbody>
 </table>
@@ -840,7 +944,40 @@ Figura&nbsp;1: Variância de uma Bernoulli em função da probabilidade de suces
 </section>
 <section id="exercícios" class="level2">
 <h2 class="anchored" data-anchor-id="exercícios">Exercícios</h2>
-<p><strong>1.</strong> Um sistema de testes A/B sorteia, para cada usuário, uma entre 4 versões da página (numeradas 1, 2, 3 e 4), todas com a mesma chance. Seja <span class="math inline">\(X\)</span> a versão sorteada. Calcule <span class="math inline">\(E(X)\)</span> e <span class="math inline">\(\mathrm{Var}(X)\)</span>, à mão e com <code>scipy.stats</code>.</p>
+<p><strong>1.</strong> Um tetraedro equilibrado tem as faces numeradas 1, 2, 3 e 4, e é lançado uma vez. Seja <span class="math inline">\(X\)</span> a face que fica para baixo. Calcule <span class="math inline">\(E(X)\)</span> e <span class="math inline">\(\mathrm{Var}(X)\)</span> de dois jeitos: pela definição e pelo atalho <span class="math inline">\(E(X^2) - [E(X)]^2\)</span>.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(X\)</span> é uniforme discreta com <span class="math inline">\(k = 4\)</span>, e <span class="math inline">\(E(X) = (1 + 2 + 3 + 4)/4 = 10/4 = 2{,}5\)</span>.</p>
+<p>Pela definição,</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathrm{Var}(X) &amp;= \tfrac{1}{4}\big[(1 - 2{,}5)^2 + (2 - 2{,}5)^2 \\
+&amp;\quad + (3 - 2{,}5)^2 + (4 - 2{,}5)^2\big] \\
+&amp;= \tfrac{1}{4}(2{,}25 + 0{,}25 + 0{,}25 + 2{,}25) \\
+&amp;= \tfrac{5}{4} = 1{,}25.
+\end{aligned}
+\]</span></p>
+<p>Pelo atalho, <span class="math inline">\(E(X^2) = (1 + 4 + 9 + 16)/4 = 7{,}5\)</span>, e</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathrm{Var}(X) &amp;= 7{,}5 - 2{,}5^2 \\
+&amp;= 7{,}5 - 6{,}25 = 1{,}25.
+\end{aligned}
+\]</span></p>
+</div>
+</div>
+</div>
+<p><strong>2.</strong> Um dado equilibrado é lançado, e <span class="math inline">\(X = 1\)</span> se sair a face 5 e <span class="math inline">\(X = 0\)</span> caso contrário. Qual a distribuição de <span class="math inline">\(X\)</span>? Calcule <span class="math inline">\(E(X)\)</span> e <span class="math inline">\(\mathrm{Var}(X)\)</span>.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -853,13 +990,11 @@ Figura&nbsp;1: Variância de uma Bernoulli em função da probabilidade de suces
 </div>
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><span class="math inline">\(E(X) = (1 + 2 + 3 + 4)/4 = 2{,}5\)</span>. <span class="math inline">\(\mathrm{Var}(X) = [(1 - 2{,}5)^2 + (2 - 2{,}5)^2 + (3 - 2{,}5)^2 + (4 - 2{,}5)^2]/4 = 5/4 = 1{,}25\)</span>.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>versao <span class="op">=</span> stats.randint(<span class="dv">1</span>, <span class="dv">5</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>versao.mean(), versao.var()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<p><span class="math inline">\(X \sim \mathrm{Ber}(1/6)\)</span>, com <span class="math inline">\(E(X) = 1/6\)</span> e <span class="math inline">\(\mathrm{Var}(X) = (1/6)(5/6) = 5/36\)</span> (Exemplo 6.11 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>).</p>
 </div>
 </div>
 </div>
-<p><strong>2.</strong> Um dado equilibrado é lançado, e <span class="math inline">\(X = 1\)</span> se sair a face 5 e <span class="math inline">\(X = 0\)</span> caso contrário. Qual a distribuição de <span class="math inline">\(X\)</span>? Calcule <span class="math inline">\(E(X)\)</span> e <span class="math inline">\(\mathrm{Var}(X)\)</span>.</p>
+<p><strong>3.</strong> Numa lista de 200 candidatos, cada um marcado com 1 se foi aprovado e 0 se não foi, a média dos 200 números é 0,35. O que esse número significa? Se cada candidato for um ensaio de Bernoulli com essa probabilidade, qual a variância de um ensaio?</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -872,24 +1007,7 @@ Figura&nbsp;1: Variância de uma Bernoulli em função da probabilidade de suces
 </div>
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><span class="math inline">\(X \sim \mathrm{Ber}(1/6)\)</span>, com <span class="math inline">\(E(X) = 1/6\)</span> e <span class="math inline">\(\mathrm{Var}(X) = (1/6)(5/6) = 5/36\)</span> (Exemplo 6.11 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>).</p>
-</div>
-</div>
-</div>
-<p><strong>3.</strong> Numa coluna <code>aprovado</code> com valores <code>True</code> e <code>False</code> de 200 candidatos, <code>df["aprovado"].mean()</code> devolve 0,35. O que esse número significa? Se cada candidato for um ensaio de Bernoulli com essa probabilidade, qual a variância de um ensaio?</p>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Dica</span>Resposta
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>É a proporção de aprovados: 35% dos 200, ou 70 candidatos. A média de uma variável que só vale 0 e 1 é a fração de uns. A variância de um ensaio com <span class="math inline">\(p = 0{,}35\)</span> é <span class="math inline">\(0{,}35 \times 0{,}65 = 0{,}2275\)</span>.</p>
+<p>É a proporção de aprovados: a soma dos 200 números é o número de uns, <span class="math inline">\(0{,}35 \times 200 = 70\)</span> candidatos aprovados. A média de uma variável que só vale 0 e 1 é a fração de uns. A variância de um ensaio com <span class="math inline">\(p = 0{,}35\)</span> é <span class="math inline">\(0{,}35 \times 0{,}65 = 0{,}2275\)</span>.</p>
 </div>
 </div>
 </div>

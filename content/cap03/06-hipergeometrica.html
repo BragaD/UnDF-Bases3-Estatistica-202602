@@ -24,41 +24,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 /* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
@@ -81,7 +46,7 @@ div.csl-indent {
 }</style>
 
 
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -102,9 +67,9 @@ div.csl-indent {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-96de93aeef37c2f55637d13965bee670.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-fa5a435faa8b3fd8ba2c629fc35ba32a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-96de93aeef37c2f55637d13965bee670.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-64fc88c462144c19fa71a709d9434c23.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-244db57ca546911734af8129e7c854c8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-64fc88c462144c19fa71a709d9434c23.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -176,9 +141,6 @@ div.csl-indent {
   });
 })();
 </script>
-<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
-
-<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -646,7 +608,7 @@ window.Quarto = {
    
   <ul>
   <li><a href="#o-modelo" id="toc-o-modelo" class="nav-link active" data-scroll-target="#o-modelo">O modelo</a></li>
-  <li><a href="#a-auditoria-de-novo" id="toc-a-auditoria-de-novo" class="nav-link" data-scroll-target="#a-auditoria-de-novo">A auditoria, de novo</a></li>
+  <li><a href="#um-lote-de-20-peças" id="toc-um-lote-de-20-peças" class="nav-link" data-scroll-target="#um-lote-de-20-peças">Um lote de 20 peças</a></li>
   <li><a href="#valor-médio-e-variância" id="toc-valor-médio-e-variância" class="nav-link" data-scroll-target="#valor-médio-e-variância">Valor médio e variância</a></li>
   <li><a href="#população-grande-quase-binomial" id="toc-população-grande-quase-binomial" class="nav-link" data-scroll-target="#população-grande-quase-binomial">População grande: quase binomial</a></li>
   <li><a href="#resumo" id="toc-resumo" class="nav-link" data-scroll-target="#resumo">Resumo</a></li>
@@ -696,11 +658,15 @@ Nota
 <p>Esta seção corresponde à seção 6.6.4 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>.</p>
 </div>
 </div>
-<p>Na seção 2.3, um auditor sorteou 4 entre 20 pull requests, 5 deles com bug, e a probabilidade de achar exatamente 2 bugs saiu de uma conta com combinações. No fim, o texto avisou que a estrutura da conta reapareceria no Capítulo 3. O exercício 4 da seção 3.5 explicou por que a binomial não serve: sem reposição, os sorteios não são independentes.</p>
-<p>Esta seção dá nome a essa estrutura. Ela aparece sempre que se sorteiam elementos <strong>sem reposição</strong> de uma população dividida em dois grupos, como os PRs com e sem bug ou as peças boas e defeituosas de um lote.</p>
+<p>Na seção 2.3, sortearam-se 4 itens de um total de 20, 5 deles com o atributo de interesse, e a probabilidade de exatamente 2 desses itens na amostra saiu de uma conta com combinações. O exercício 4 da seção 3.5 explicou por que a binomial não serve: sem reposição, os sorteios não são independentes.</p>
+<p>Essa estrutura é a distribuição hipergeométrica. Ela aparece sempre que se sorteiam elementos <strong>sem reposição</strong> de uma população dividida em dois grupos, como as peças boas e defeituosas de um lote ou as bolas brancas e pretas de uma urna.</p>
 <section id="o-modelo" class="level2">
 <h2 class="anchored" data-anchor-id="o-modelo">O modelo</h2>
-<p>Uma população tem <span class="math inline">\(N\)</span> elementos, e <span class="math inline">\(r\)</span> deles têm um atributo de interesse (o “sucesso”). Sorteiam-se <span class="math inline">\(n\)</span> elementos ao acaso, sem reposição, e <span class="math inline">\(X\)</span> é o número de sucessos na amostra. O raciocínio da seção 2.3 vale para qualquer <span class="math inline">\(k\)</span>: os casos possíveis são os <span class="math inline">\(\binom{N}{n}\)</span> subconjuntos de tamanho <span class="math inline">\(n\)</span>, e um caso favorável escolhe <span class="math inline">\(k\)</span> sucessos entre os <span class="math inline">\(r\)</span> <strong>e</strong> <span class="math inline">\(n - k\)</span> fracassos entre os <span class="math inline">\(N - r\)</span>.</p>
+<p>Uma população tem <span class="math inline">\(N\)</span> elementos, e <span class="math inline">\(r\)</span> deles têm um atributo de interesse (o “sucesso”). Sorteiam-se <span class="math inline">\(n\)</span> elementos ao acaso, sem reposição, e <span class="math inline">\(X\)</span> é o número de sucessos na amostra. Todos os subconjuntos de <span class="math inline">\(n\)</span> elementos têm a mesma chance de ser a amostra, então <span class="math inline">\(P(X = k)\)</span> é o número de casos favoráveis dividido pelo número de casos possíveis (seção 2.3):</p>
+<ul>
+<li>os <strong>casos possíveis</strong> são os <span class="math inline">\(\binom{N}{n}\)</span> subconjuntos de tamanho <span class="math inline">\(n\)</span>;</li>
+<li>um <strong>caso favorável</strong> escolhe <span class="math inline">\(k\)</span> sucessos entre os <span class="math inline">\(r\)</span> <strong>e</strong> <span class="math inline">\(n - k\)</span> fracassos entre os <span class="math inline">\(N - r\)</span>. Pelo princípio multiplicativo, há <span class="math inline">\(\binom{r}{k}\binom{N-r}{n-k}\)</span> maneiras de fazer as duas escolhas.</li>
+</ul>
 <div class="conceito">
 <p><span class="math inline">\(X\)</span> tem <strong>distribuição hipergeométrica</strong>, <span class="math inline">\(X \sim \mathrm{hip}(N, r, n)\)</span>, quando</p>
 <p><span class="math display">\[
@@ -708,149 +674,169 @@ P(X = k) = \frac{\binom{r}{k}\binom{N - r}{n - k}}{\binom{N}{n}},
 \]</span></p>
 <p>para os valores de <span class="math inline">\(k\)</span> que fazem sentido: <span class="math inline">\(\max(0,\, n - N + r) \le k \le \min(r, n)\)</span>.</p>
 </div>
-<p>Os limites de <span class="math inline">\(k\)</span> só dizem o óbvio. Não há como sortear mais sucessos do que existem (<span class="math inline">\(k \le r\)</span>) nem mais do que o tamanho da amostra (<span class="math inline">\(k \le n\)</span>). E, se a amostra for maior que o número de fracassos, alguns sucessos são inevitáveis (<span class="math inline">\(k \ge n - (N - r)\)</span>).</p>
+<p>Os três parâmetros são o tamanho da população (<span class="math inline">\(N\)</span>), o número de sucessos nela (<span class="math inline">\(r\)</span>) e o tamanho da amostra (<span class="math inline">\(n\)</span>).</p>
+<p>Não há como sortear mais sucessos do que existem (<span class="math inline">\(k \le r\)</span>) nem mais do que o tamanho da amostra (<span class="math inline">\(k \le n\)</span>). E, se a amostra for maior que o número de fracassos, alguns sucessos são inevitáveis (<span class="math inline">\(k \ge n - (N - r)\)</span>).</p>
 </section>
-<section id="a-auditoria-de-novo" class="level2">
-<h2 class="anchored" data-anchor-id="a-auditoria-de-novo">A auditoria, de novo</h2>
-<p>Na auditoria, <span class="math inline">\(N = 20\)</span> PRs, <span class="math inline">\(r = 5\)</span> com bug e <span class="math inline">\(n = 4\)</span> sorteados, e <span class="math inline">\(X \sim \mathrm{hip}(20, 5, 4)\)</span>. A <code>scipy.stats</code> tem o modelo pronto, a <code>hypergeom</code>. Os argumentos vêm na mesma ordem do livro (população, sucessos, amostra), mas com outros nomes:</p>
-<div id="cell-hipergeometrica-auditoria" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># scipy.stats.hypergeom(M, n, N): M = tamanho da população (nosso N),</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># n = número de sucessos na população (nosso r), N = tamanho da amostra (nosso n)</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>auditoria <span class="op">=</span> stats.hypergeom(M<span class="op">=</span><span class="dv">20</span>, n<span class="op">=</span><span class="dv">5</span>, N<span class="op">=</span><span class="dv">4</span>)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({<span class="st">"k"</span>: <span class="bu">range</span>(<span class="dv">5</span>), <span class="st">"P(X = k)"</span>: auditoria.pmf(<span class="bu">range</span>(<span class="dv">5</span>))}).<span class="bu">round</span>(<span class="dv">4</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="hipergeometrica-auditoria" class="cell-output cell-output-display" data-execution_count="2">
-<div>
-
-
-<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<section id="um-lote-de-20-peças" class="level2">
+<h2 class="anchored" data-anchor-id="um-lote-de-20-peças">Um lote de 20 peças</h2>
+<p>Um lote tem <span class="math inline">\(N = 20\)</span> peças, <span class="math inline">\(r = 5\)</span> delas defeituosas, e escolhem-se <span class="math inline">\(n = 4\)</span> ao acaso, sem reposição (Exemplo 5.8 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>; é a mesma conta da seção 2.3, que sorteou 4 itens de 20, 5 deles com o atributo de interesse). O número <span class="math inline">\(X\)</span> de defeituosas na amostra tem distribuição <span class="math inline">\(\mathrm{hip}(20, 5, 4)\)</span>, e os casos possíveis são <span class="math inline">\(\binom{20}{4} = 4{.}845\)</span>.</p>
+<p>Ter duas defeituosas na amostra significa 2 das 5 defeituosas e 2 das 15 boas:</p>
+<p><span class="math display">\[
+\begin{aligned}
+P(X = 2) &amp;= \frac{\binom{5}{2}\binom{15}{2}}{\binom{20}{4}} \\
+&amp;= \frac{10 \times 105}{4{.}845} \\
+&amp;= \frac{1{.}050}{4{.}845} \approx 0{,}217.
+\end{aligned}
+\]</span></p>
+<p>Nenhuma defeituosa significa as 4 peças entre as 15 boas, e nenhuma escolha entre as defeituosas (<span class="math inline">\(\binom{5}{0} = 1\)</span>):</p>
+<p><span class="math display">\[
+\begin{aligned}
+P(X = 0) &amp;= \frac{\binom{5}{0}\binom{15}{4}}{\binom{20}{4}} \\
+&amp;= \frac{1 \times 1{.}365}{4{.}845} \approx 0{,}282.
+\end{aligned}
+\]</span></p>
+<p>Os outros valores de <span class="math inline">\(k\)</span> seguem a mesma conta:</p>
+<div class="table-responsive">
+<div id="tbl-hip-lote" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-hip-lote-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;1: Distribuição de <span class="math inline">\(X \sim \mathrm{hip}(20, 5, 4)\)</span>; cada probabilidade é a segunda coluna dividida por 4.845.
+</figcaption>
+<div aria-describedby="tbl-hip-lote-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
 <thead>
 <tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">k</th>
-<th data-quarto-table-cell-role="th">P(X = k)</th>
+<th style="text-align: center;"><span class="math inline">\(k\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(\binom{5}{k}\binom{15}{4-k}\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(P(X = k)\)</span></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">0</th>
-<td>0</td>
-<td>0.2817</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;"><span class="math inline">\(1 \times 1{.}365 = 1{.}365\)</span></td>
+<td style="text-align: center;">0,2817</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">1</th>
-<td>1</td>
-<td>0.4696</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;"><span class="math inline">\(5 \times 455 = 2{.}275\)</span></td>
+<td style="text-align: center;">0,4696</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">2</th>
-<td>2</td>
-<td>0.2167</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;"><span class="math inline">\(10 \times 105 = 1{.}050\)</span></td>
+<td style="text-align: center;">0,2167</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">3</th>
-<td>3</td>
-<td>0.0310</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;"><span class="math inline">\(10 \times 15 = 150\)</span></td>
+<td style="text-align: center;">0,0310</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">4</th>
-<td>4</td>
-<td>0.0010</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;"><span class="math inline">\(5 \times 1 = 5\)</span></td>
+<td style="text-align: center;">0,0010</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><strong>Total</strong></td>
+<td style="text-align: center;"><strong>4.845</strong></td>
+<td style="text-align: center;"><strong>1</strong></td>
 </tr>
 </tbody>
 </table>
-
+</div>
+</figure>
 </div>
 </div>
-</div>
-<p><span class="math inline">\(P(X = 2)\)</span> é o 0,217 da seção 2.3, e <span class="math inline">\(P(X = 0)\)</span> é o 0,282 que deu, pelo complementar, a chance de pelo menos um bug. A tabela inteira mostra o resto: achar 3 ou 4 bugs é raro.</p>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Aviso</span>As letras da <code>scipy</code> não são as do livro
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Na <code>scipy.stats.hypergeom</code>, <code>M</code> é o tamanho da população, <code>n</code> é o número de sucessos na população e <code>N</code> é o tamanho da amostra. No Bussab, <span class="math inline">\(N\)</span> é a população, <span class="math inline">\(r\)</span> os sucessos e <span class="math inline">\(n\)</span> a amostra. A mesma letra <span class="math inline">\(N\)</span> quer dizer população num e amostra no outro. Quem escreve <code>hypergeom(N=20, n=4, M=5)</code> pensando nas letras do livro recebe <code>nan</code> em todas as probabilidades, sem mensagem de erro. Escreva os nomes da <code>scipy</code> (<code>M=</code>, <code>n=</code>, <code>N=</code>) com um comentário da correspondência.</p>
-</div>
-</div>
+<p>Os casos favoráveis somam 4.845, o total de casos possíveis: cada amostra tem algum número de defeituosas entre 0 e 4. <span class="math inline">\(P(X = 2)\)</span> é o 0,217 da seção 2.3, e <span class="math inline">\(P(X = 0)\)</span> é o 0,282 que, na seção 2.3, deu pelo complementar a chance de pelo menos um item com o atributo, 0,718. Achar 3 ou 4 defeituosas é raro.</p>
 </section>
 <section id="valor-médio-e-variância" class="level2">
 <h2 class="anchored" data-anchor-id="valor-médio-e-variância">Valor médio e variância</h2>
-<p>Com <span class="math inline">\(p = r/N\)</span>, a proporção de sucessos na população, o Bussab dá (fórmulas 6.20 e 6.21):</p>
+<p>Com <span class="math inline">\(p = r/N\)</span>, a proporção de sucessos na população, o valor médio e a variância são as fórmulas (6.20) e (6.21) de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>:</p>
+<div class="conceito">
+<p>Se <span class="math inline">\(X \sim \mathrm{hip}(N, r, n)\)</span> e <span class="math inline">\(p = r/N\)</span>,</p>
 <p><span class="math display">\[
 \begin{aligned}
 E(X) &amp;= np, \\
 \mathrm{Var}(X) &amp;= np(1 - p)\,\frac{N - n}{N - 1}.
 \end{aligned}
 \]</span></p>
+</div>
 <p>O valor médio é o mesmo da binomial: em média, a amostra tem a mesma proporção de sucessos que a população. A variância é a da binomial multiplicada pelo fator <span class="math inline">\((N - n)/(N - 1)\)</span>, que é menor que 1 sempre que <span class="math inline">\(n \ge 2\)</span>. Sem reposição, cada sorteio “gasta” um elemento, e a amostra fica mais parecida com a população do que ficaria com reposição.</p>
-<div id="cell-hipergeometrica-media" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>p_bug <span class="op">=</span> <span class="dv">5</span> <span class="op">/</span> <span class="dv">20</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>auditoria.mean(), <span class="bu">round</span>(auditoria.var(), <span class="dv">4</span>), <span class="bu">round</span>(<span class="dv">4</span> <span class="op">*</span> p_bug <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> p_bug), <span class="dv">4</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="hipergeometrica-media" class="cell-output cell-output-display" data-execution_count="3">
-<pre><code>(1.0, 0.6316, 0.75)</code></pre>
-</div>
-</div>
-<p>Na auditoria, <span class="math inline">\(E(X) = 4 \times 5/20 = 1\)</span> bug por amostra. A variância, 0,632, fica abaixo do 0,750 que uma binomial <span class="math inline">\(b(4, 1/4)\)</span> daria.</p>
+<p>No lote, <span class="math inline">\(p = 5/20 = 1/4\)</span> e o fator vale <span class="math inline">\((20 - 4)/(20 - 1) = 16/19\)</span>:</p>
+<p><span class="math display">\[
+\begin{aligned}
+E(X) &amp;= 4 \times \frac{1}{4} = 1, \\[4pt]
+\mathrm{Var}(X) &amp;= 4 \times \frac{1}{4} \times \frac{3}{4} \times \frac{16}{19} \\
+&amp;= \frac{3}{4} \times \frac{16}{19} \\
+&amp;= \frac{12}{19} \approx 0{,}632.
+\end{aligned}
+\]</span></p>
+<p>Com reposição, o número de defeituosas seria <span class="math inline">\(b(4, 1/4)\)</span>, com o mesmo valor médio e variância <span class="math inline">\(4 \times \frac{1}{4} \times \frac{3}{4} = 0{,}75\)</span>. Sem reposição, a variância cai para 0,632.</p>
 </section>
 <section id="população-grande-quase-binomial" class="level2">
 <h2 class="anchored" data-anchor-id="população-grande-quase-binomial">População grande: quase binomial</h2>
-<p>Quando a população é grande perto da amostra, tirar um elemento quase não muda a proporção dos que sobram, e sortear com ou sem reposição dá quase no mesmo. Aí a hipergeométrica fica muito perto da binomial com <span class="math inline">\(p = r/N\)</span>, e o fator <span class="math inline">\((N - n)/(N - 1)\)</span> fica perto de 1.</p>
-<p>O Exemplo 6.15 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span> é um lote de <span class="math inline">\(N = 100\)</span> peças com <span class="math inline">\(r = 10\)</span> defeituosas, do qual se sorteiam <span class="math inline">\(n = 5\)</span>. A tabela compara, para populações cada vez maiores com os mesmos 10% de defeituosas, a probabilidade de a amostra não ter nenhuma defeituosa:</p>
-<div id="cell-hipergeometrica-binomial" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>tamanhos <span class="op">=</span> [<span class="dv">20</span>, <span class="dv">100</span>, <span class="dv">1_000</span>, <span class="dv">10_000</span>]</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>comparacao <span class="op">=</span> pd.DataFrame({</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"N"</span>: tamanhos,</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"hipergeométrica"</span>: [stats.hypergeom(M<span class="op">=</span>N, n<span class="op">=</span>N <span class="op">//</span> <span class="dv">10</span>, N<span class="op">=</span><span class="dv">5</span>).pmf(<span class="dv">0</span>) <span class="cf">for</span> N <span class="kw">in</span> tamanhos],</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"binomial b(5, 1/10)"</span>: stats.binom(<span class="dv">5</span>, <span class="fl">0.1</span>).pmf(<span class="dv">0</span>),</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>comparacao.<span class="bu">round</span>(<span class="dv">4</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="hipergeometrica-binomial" class="cell-output cell-output-display" data-execution_count="4">
-<div>
-
-
-<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<p>Quando a população é grande em relação à amostra, tirar um elemento quase não muda a proporção dos que sobram, e sortear com ou sem reposição dá quase o mesmo resultado. Aí a hipergeométrica fica muito perto da binomial com <span class="math inline">\(p = r/N\)</span>, e o fator <span class="math inline">\((N - n)/(N - 1)\)</span> fica perto de 1.</p>
+<p>Considere um lote de <span class="math inline">\(N = 100\)</span> peças com <span class="math inline">\(r = 10\)</span> defeituosas, do qual se sorteiam <span class="math inline">\(n = 5\)</span> (Exemplo 6.15 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>). A probabilidade de a amostra não ter nenhuma defeituosa é</p>
+<p><span class="math display">\[
+P(X = 0) = \frac{\binom{10}{0}\binom{90}{5}}{\binom{100}{5}}.
+\]</span></p>
+<p>Escrevendo as combinações, os <span class="math inline">\(5!\)</span> dos denominadores se cancelam:</p>
+<p><span class="math display">\[
+\begin{aligned}
+P(X = 0) &amp;= \frac{90 \cdot 89 \cdot 88 \cdot 87 \cdot 86}{100 \cdot 99 \cdot 98 \cdot 97 \cdot 96} \\
+&amp;= \frac{90}{100} \times \frac{89}{99} \times \frac{88}{98} \\
+&amp;\quad \times \frac{87}{97} \times \frac{86}{96} \\
+&amp;\approx 0{,}584.
+\end{aligned}
+\]</span></p>
+<p>Cada fração <span class="math inline">\(90/100\)</span>, <span class="math inline">\(89/99\)</span>, … é a chance de a próxima peça ser boa, dadas as anteriores boas, e todas ficam perto de <span class="math inline">\(0{,}9\)</span>. Com reposição, as cinco frações seriam exatamente <span class="math inline">\(0{,}9\)</span>, e a binomial <span class="math inline">\(b(5, 1/10)\)</span> daria <span class="math inline">\(0{,}9^5 \approx 0{,}5905\)</span>.</p>
+<p>A tabela repete a conta para populações cada vez maiores, com os mesmos 10% de defeituosas:</p>
+<div class="table-responsive">
+<div id="tbl-hip-binomial" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-hip-binomial-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;2: <span class="math inline">\(P(X = 0)\)</span> numa amostra de <span class="math inline">\(n = 5\)</span>, sem reposição (hipergeométrica) e com reposição (binomial).
+</figcaption>
+<div aria-describedby="tbl-hip-binomial-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
 <thead>
 <tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">N</th>
-<th data-quarto-table-cell-role="th">hipergeométrica</th>
-<th data-quarto-table-cell-role="th">binomial b(5, 1/10)</th>
+<th style="text-align: center;"><span class="math inline">\(N\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(r\)</span></th>
+<th style="text-align: center;">hipergeométrica</th>
+<th style="text-align: center;">binomial <span class="math inline">\(b(5, 1/10)\)</span></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">0</th>
-<td>20</td>
-<td>0.5526</td>
-<td>0.5905</td>
+<td style="text-align: center;">20</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">0,5526</td>
+<td style="text-align: center;">0,5905</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">1</th>
-<td>100</td>
-<td>0.5838</td>
-<td>0.5905</td>
+<td style="text-align: center;">100</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">0,5838</td>
+<td style="text-align: center;">0,5905</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">2</th>
-<td>1000</td>
-<td>0.5898</td>
-<td>0.5905</td>
+<td style="text-align: center;">1.000</td>
+<td style="text-align: center;">100</td>
+<td style="text-align: center;">0,5898</td>
+<td style="text-align: center;">0,5905</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">3</th>
-<td>10000</td>
-<td>0.5904</td>
-<td>0.5905</td>
+<td style="text-align: center;">10.000</td>
+<td style="text-align: center;">1.000</td>
+<td style="text-align: center;">0,5904</td>
+<td style="text-align: center;">0,5905</td>
 </tr>
 </tbody>
 </table>
-
 </div>
+</figure>
 </div>
 </div>
 <p>Com o lote de 100 peças, a chance de nenhuma defeituosa é 0,584, e a de pelo menos uma, 0,416. Com 10.000 peças, a hipergeométrica e a binomial já coincidem até a terceira casa e diferem em menos de 0,0001. Por isso, numa pesquisa com 1.000 entrevistados numa cidade de milhões de habitantes, usa-se a binomial mesmo sem reposição.</p>
@@ -887,12 +873,8 @@ E(X) &amp;= np, \\
 <td><span class="math inline">\(np(1-p)(N-n)/(N-1)\)</span></td>
 </tr>
 <tr class="odd">
-<td><code>scipy.stats</code></td>
-<td><code>hypergeom(M=N, n=r, N=n)</code></td>
-</tr>
-<tr class="even">
 <td>Aproximação</td>
-<td><span class="math inline">\(b(n, r/N)\)</span> quando <span class="math inline">\(N\)</span> é grande perto de <span class="math inline">\(n\)</span></td>
+<td><span class="math inline">\(b(n, r/N)\)</span> quando <span class="math inline">\(N\)</span> é grande em relação a <span class="math inline">\(n\)</span></td>
 </tr>
 </tbody>
 </table>
@@ -900,7 +882,31 @@ E(X) &amp;= np, \\
 </section>
 <section id="exercícios" class="level2">
 <h2 class="anchored" data-anchor-id="exercícios">Exercícios</h2>
-<p><strong>1.</strong> Um time tem 12 desenvolvedores, 4 deles seniores. Sorteiam-se 3 para uma força-tarefa. Qual a probabilidade de a força-tarefa ter pelo menos um sênior?</p>
+<p><strong>1.</strong> Um grupo tem 12 pessoas, 4 delas mulheres. Sorteia-se uma comissão de 3 pessoas. Qual a probabilidade de a comissão ter pelo menos uma mulher?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>O número <span class="math inline">\(X\)</span> de mulheres na comissão tem distribuição <span class="math inline">\(\mathrm{hip}(12, 4, 3)\)</span>. Pelo complementar,</p>
+<p><span class="math display">\[
+\begin{aligned}
+P(X \ge 1) &amp;= 1 - P(X = 0) \\
+&amp;= 1 - \frac{\binom{4}{0}\binom{8}{3}}{\binom{12}{3}} \\
+&amp;= 1 - \frac{56}{220} \approx 0{,}745.
+\end{aligned}
+\]</span></p>
+</div>
+</div>
+</div>
+<p><strong>2.</strong> Na Mega-Sena (seção 2.3), o jogador marca 6 dos 60 números, e são sorteados 6. Seja <span class="math inline">\(X\)</span> o número de acertos. Qual a distribuição de <span class="math inline">\(X\)</span>? Use-a para calcular a probabilidade da quadra.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -913,12 +919,18 @@ E(X) &amp;= np, \\
 </div>
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><span class="math inline">\(X \sim \mathrm{hip}(12, 4, 3)\)</span>. Pelo complementar, <span class="math inline">\(P(X \ge 1) = 1 - P(X = 0) = 1 - \binom{8}{3}/\binom{12}{3} = 1 - 56/220 \approx 0{,}745\)</span>.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="op">-</span> stats.hypergeom(M<span class="op">=</span><span class="dv">12</span>, n<span class="op">=</span><span class="dv">4</span>, N<span class="op">=</span><span class="dv">3</span>).pmf(<span class="dv">0</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Os 6 números marcados são os “sucessos” entre os 60, e o sorteio é a amostra de 6, sem reposição: <span class="math inline">\(X \sim \mathrm{hip}(60, 6, 6)\)</span>. A quadra é</p>
+<p><span class="math display">\[
+\begin{aligned}
+P(X = 4) &amp;= \frac{\binom{6}{4}\binom{54}{2}}{\binom{60}{6}} \\
+&amp;= \frac{15 \times 1{.}431}{50{.}063{.}860},
+\end{aligned}
+\]</span></p>
+<p>1 em cerca de 2.332, como na seção 2.3.</p>
 </div>
 </div>
 </div>
-<p><strong>2.</strong> Na Mega-Sena (seção 2.3), o jogador marca 6 dos 60 números, e são sorteados 6. Seja <span class="math inline">\(X\)</span> o número de acertos. Qual a distribuição de <span class="math inline">\(X\)</span>? Use-a para calcular a probabilidade da quadra.</p>
+<p><strong>3.</strong> Uma urna tem 10 bolas, 7 brancas e 3 pretas. Retiram-se 5 bolas, sem reposição, e <span class="math inline">\(X\)</span> é o número de bolas brancas na amostra. (a) Quais os valores possíveis de <span class="math inline">\(X\)</span>? (b) Calcule <span class="math inline">\(P(X = 2)\)</span>. (c) Calcule <span class="math inline">\(E(X)\)</span> e <span class="math inline">\(\mathrm{Var}(X)\)</span> e compare a variância com a de uma binomial <span class="math inline">\(b(5, 7/10)\)</span>.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -931,25 +943,29 @@ E(X) &amp;= np, \\
 </div>
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Os 6 números marcados são os “sucessos” entre os 60, e o sorteio é a amostra de 6, sem reposição: <span class="math inline">\(X \sim \mathrm{hip}(60, 6, 6)\)</span>. A quadra é <span class="math inline">\(P(X = 4) = \binom{6}{4}\binom{54}{2}/\binom{60}{6}\)</span>, 1 em cerca de 2.332, como na seção 2.3.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="op">/</span> stats.hypergeom(M<span class="op">=</span><span class="dv">60</span>, n<span class="op">=</span><span class="dv">6</span>, N<span class="op">=</span><span class="dv">6</span>).pmf(<span class="dv">4</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</div>
-</div>
-<p><strong>3.</strong> Para o caso da auditoria (20 PRs, 5 com bug, 4 sorteados), um colega escreveu <code>stats.hypergeom(N=20, n=4, M=5).pmf(2)</code> e recebeu <code>nan</code>. O que aconteceu? Como corrigir?</p>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Dica</span>Resposta
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Ele usou as letras do Bussab como nomes dos argumentos. Para a <code>scipy</code>, <code>M=5</code> é a população, <code>n=4</code> são os sucessos e <code>N=20</code> é a amostra: uma amostra de 20 tirada de uma população de 5 é impossível, e a <code>scipy</code> devolve <code>nan</code> sem avisar. O certo é <code>stats.hypergeom(M=20, n=5, N=4).pmf(2)</code>, que dá o 0,217 da seção 2.3.</p>
+<p><span class="math inline">\(X \sim \mathrm{hip}(10, 7, 5)\)</span>.</p>
+<ol type="a">
+<li><p>Só há 3 bolas pretas, e a amostra tem 5: pelo menos 2 são brancas. O limite inferior é <span class="math inline">\(\max(0,\, 5 - 10 + 7) = 2\)</span> e o superior é <span class="math inline">\(\min(7, 5) = 5\)</span>, então <span class="math inline">\(X\)</span> assume 2, 3, 4 ou 5.</p></li>
+<li><p>Duas brancas obrigam as 3 pretas na amostra:</p></li>
+</ol>
+<p><span class="math display">\[
+\begin{aligned}
+P(X = 2) &amp;= \frac{\binom{7}{2}\binom{3}{3}}{\binom{10}{5}} \\
+&amp;= \frac{21 \times 1}{252} \\
+&amp;= \frac{1}{12} \approx 0{,}083.
+\end{aligned}
+\]</span></p>
+<ol start="3" type="a">
+<li>Com <span class="math inline">\(p = 7/10\)</span> e fator <span class="math inline">\((10 - 5)/(10 - 1) = 5/9\)</span>,</li>
+</ol>
+<p><span class="math display">\[
+\begin{aligned}
+E(X) &amp;= 5 \times 0{,}7 = 3{,}5, \\[4pt]
+\mathrm{Var}(X) &amp;= 5 \times 0{,}7 \times 0{,}3 \times \frac{5}{9} \\
+&amp;= 1{,}05 \times \frac{5}{9} \approx 0{,}583.
+\end{aligned}
+\]</span></p>
+<p>A binomial <span class="math inline">\(b(5, 7/10)\)</span>, que corresponde a retirar com reposição, tem a mesma média, 3,5, e variância 1,05. Como a amostra tira metade da urna, o fator <span class="math inline">\(5/9\)</span> reduz a variância quase à metade.</p>
 </div>
 </div>
 </div>

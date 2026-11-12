@@ -24,41 +24,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 /* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
@@ -102,9 +67,9 @@ div.csl-indent {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-96de93aeef37c2f55637d13965bee670.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-fa5a435faa8b3fd8ba2c629fc35ba32a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-96de93aeef37c2f55637d13965bee670.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-64fc88c462144c19fa71a709d9434c23.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-244db57ca546911734af8129e7c854c8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-64fc88c462144c19fa71a709d9434c23.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -644,7 +609,6 @@ window.Quarto = {
   <ul>
   <li><a href="#o-modelo" id="toc-o-modelo" class="nav-link active" data-scroll-target="#o-modelo">O modelo</a></li>
   <li><a href="#valor-médio-variância-e-f.d.a." id="toc-valor-médio-variância-e-f.d.a." class="nav-link" data-scroll-target="#valor-médio-variância-e-f.d.a.">Valor médio, variância e f.d.a.</a></li>
-  <li><a href="#em-python" id="toc-em-python" class="nav-link" data-scroll-target="#em-python">Em Python</a></li>
   <li><a href="#números-aleatórios" id="toc-números-aleatórios" class="nav-link" data-scroll-target="#números-aleatórios">Números aleatórios</a></li>
   <li><a href="#resumo" id="toc-resumo" class="nav-link" data-scroll-target="#resumo">Resumo</a></li>
   <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios">Exercícios</a></li>
@@ -693,9 +657,10 @@ Nota
 <p>Esta seção corresponde à seção 7.4.1 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>.</p>
 </div>
 </div>
-<p>Um sistema tem milhares de clientes que sincronizam dados com o servidor toda hora cheia. Se todos disparassem no mesmo segundo, o servidor cairia. A solução comum é o <strong>jitter</strong>: cada cliente espera um tempo aleatório entre 0 e 60 segundos antes de sincronizar, sem preferência por nenhum instante do intervalo. O tempo de espera de um cliente é o exemplo mais simples de variável contínua, e é a generalização do relógio da seção 4.1 para um intervalo qualquer.</p>
+<p>Um ônibus passa por um ponto de hora em hora, sempre no mesmo minuto. Um passageiro que não conhece o horário chega ao ponto ao acaso. Quanto tempo ele espera? A espera pode ser qualquer valor entre 0 e 60 minutos, sem preferência por nenhum instante do intervalo. É o exemplo mais simples de variável contínua, e é a generalização do relógio da seção 4.1 para um intervalo qualquer.</p>
 <section id="o-modelo" class="level2">
 <h2 class="anchored" data-anchor-id="o-modelo">O modelo</h2>
+<p>“Sem preferência por nenhum instante” quer dizer que a densidade é a mesma em todo o intervalo: o gráfico de <span class="math inline">\(f\)</span> é um retângulo.</p>
 <div class="conceito">
 <p>A variável aleatória <span class="math inline">\(X\)</span> tem <strong>distribuição uniforme</strong> no intervalo <span class="math inline">\([\alpha, \beta]\)</span>, <span class="math inline">\(X \sim u(\alpha, \beta)\)</span>, quando sua densidade é</p>
 <p><span class="math display">\[
@@ -706,22 +671,90 @@ f(x) =
 \end{cases}
 \]</span></p>
 </div>
-<p>A altura <span class="math inline">\(1/(\beta - \alpha)\)</span> é a única que dá área 1 a um retângulo de base <span class="math inline">\(\beta - \alpha\)</span>. No jitter, <span class="math inline">\(X \sim u(0, 60)\)</span>, com densidade <span class="math inline">\(1/60\)</span>. No relógio, <span class="math inline">\(X \sim u(0, 360)\)</span>.</p>
-<p>A probabilidade de um subintervalo é a área de um retângulo, sem precisar de integral: para <span class="math inline">\(\alpha \le c &lt; d \le \beta\)</span>,</p>
+<p>Os parâmetros <span class="math inline">\(\alpha\)</span> e <span class="math inline">\(\beta\)</span> são as pontas do intervalo, e a altura do retângulo não é livre. A área sob <span class="math inline">\(f\)</span> tem de ser 1, e um retângulo de base <span class="math inline">\(\beta - \alpha\)</span> só tem área 1 com altura <span class="math inline">\(1/(\beta - \alpha)\)</span>. Na espera do ônibus, <span class="math inline">\(X \sim u(0, 60)\)</span>, com densidade <span class="math inline">\(1/60\)</span>. No relógio, <span class="math inline">\(X \sim u(0, 360)\)</span>, com densidade <span class="math inline">\(1/360\)</span>.</p>
+<p>A probabilidade de um subintervalo <span class="math inline">\([c, d]\)</span> dentro de <span class="math inline">\([\alpha, \beta]\)</span> é a área do retângulo de base <span class="math inline">\(d - c\)</span> e altura <span class="math inline">\(1/(\beta - \alpha)\)</span>:</p>
 <p><span class="math display">\[
-P(c \le X \le d) = \frac{d - c}{\beta - \alpha}.
+\begin{aligned}
+P(c \le X \le d) &amp;= (d - c) \times \frac{1}{\beta - \alpha} \\
+&amp;= \frac{d - c}{\beta - \alpha}.
+\end{aligned}
 \]</span></p>
+<p>É a fração do intervalo ocupada por <span class="math inline">\([c, d]\)</span>: só a largura importa, não a posição. Na espera do ônibus, a probabilidade de o passageiro esperar entre 30 e 45 minutos é</p>
+<p><span class="math display">\[
+\begin{aligned}
+P(30 \le X \le 45) &amp;= \frac{45 - 30}{60} \\
+&amp;= \frac{15}{60} = \frac{1}{4},
+\end{aligned}
+\]</span></p>
+<p>a mesma de esperar no máximo 15 minutos. Em faixas de mesma largura, as esperas se espalham por igual.</p>
 </section>
 <section id="valor-médio-variância-e-f.d.a." class="level2">
 <h2 class="anchored" data-anchor-id="valor-médio-variância-e-f.d.a.">Valor médio, variância e f.d.a.</h2>
-<p>Integrando como na seção 4.2 (Problema 29 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>):</p>
+<p>As definições da seção 4.2 se aplicam com <span class="math inline">\(f(x) = 1/(\beta - \alpha)\)</span> dentro do intervalo. Como <span class="math inline">\(f\)</span> é zero fora dele, as integrais vão de <span class="math inline">\(\alpha\)</span> a <span class="math inline">\(\beta\)</span>. O valor médio é</p>
+<p><span class="math display">\[
+\begin{aligned}
+E(X) &amp;= \int_\alpha^\beta x \, \frac{1}{\beta - \alpha}\,dx \\
+&amp;= \frac{1}{\beta - \alpha} \left[\frac{x^2}{2}\right]_\alpha^\beta \\
+&amp;= \frac{\beta^2 - \alpha^2}{2(\beta - \alpha)} \\
+&amp;= \frac{(\beta - \alpha)(\beta + \alpha)}{2(\beta - \alpha)} \\
+&amp;= \frac{\alpha + \beta}{2}.
+\end{aligned}
+\]</span></p>
+<p>A primitiva de <span class="math inline">\(x\)</span> é <span class="math inline">\(x^2/2\)</span>, e a diferença de quadrados <span class="math inline">\(\beta^2 - \alpha^2 = (\beta - \alpha)(\beta + \alpha)\)</span> cancela o denominador. A média é o ponto médio do intervalo.</p>
+<p>Para a variância, a seção 4.2 usa <span class="math inline">\(\mathrm{Var}(X) = E(X^2) - [E(X)]^2\)</span>. A primitiva de <span class="math inline">\(x^2\)</span> é <span class="math inline">\(x^3/3\)</span>, e a diferença de cubos se fatora como</p>
+<p><span class="math display">\[
+\beta^3 - \alpha^3 = (\beta - \alpha)(\alpha^2 + \alpha\beta + \beta^2).
+\]</span></p>
+<p>Então</p>
+<p><span class="math display">\[
+\begin{aligned}
+E(X^2) &amp;= \int_\alpha^\beta x^2 \, \frac{1}{\beta - \alpha}\,dx \\
+&amp;= \frac{1}{\beta - \alpha} \left[\frac{x^3}{3}\right]_\alpha^\beta \\
+&amp;= \frac{\beta^3 - \alpha^3}{3(\beta - \alpha)} \\
+&amp;= \frac{\alpha^2 + \alpha\beta + \beta^2}{3}.
+\end{aligned}
+\]</span></p>
+<p>Subtraindo o quadrado da média, com <span class="math inline">\((\alpha + \beta)^2 = \alpha^2 + 2\alpha\beta + \beta^2\)</span> e denominador comum 12:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathrm{Var}(X) &amp;= \frac{\alpha^2 + \alpha\beta + \beta^2}{3} - \frac{(\alpha + \beta)^2}{4} \\
+&amp;= \frac{\alpha^2 + \alpha\beta + \beta^2}{3} \\
+&amp;\qquad - \frac{\alpha^2 + 2\alpha\beta + \beta^2}{4} \\
+&amp;= \frac{4\alpha^2 + 4\alpha\beta + 4\beta^2}{12} \\
+&amp;\qquad - \frac{3\alpha^2 + 6\alpha\beta + 3\beta^2}{12} \\
+&amp;= \frac{\alpha^2 - 2\alpha\beta + \beta^2}{12} \\
+&amp;= \frac{(\beta - \alpha)^2}{12}.
+\end{aligned}
+\]</span></p>
+<div class="conceito">
+<p>Se <span class="math inline">\(X \sim u(\alpha, \beta)\)</span>,</p>
 <p><span class="math display">\[
 \begin{aligned}
 E(X) &amp;= \frac{\alpha + \beta}{2}, \\
 \mathrm{Var}(X) &amp;= \frac{(\beta - \alpha)^2}{12}.
 \end{aligned}
 \]</span></p>
-<p>A média é o ponto médio do intervalo, e a variância depende só da largura. A f.d.a. da seção 4.3 cresce em linha reta de 0 a 1 ao longo do intervalo:</p>
+</div>
+<p>A variância depende só da largura <span class="math inline">\(\beta - \alpha\)</span> do intervalo: deslocar o intervalo muda a média e não muda a dispersão (Problema 29 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>). Na espera do ônibus, com <span class="math inline">\(\alpha = 0\)</span> e <span class="math inline">\(\beta = 60\)</span>:</p>
+<p><span class="math display">\[
+\begin{aligned}
+E(X) &amp;= \frac{0 + 60}{2} = 30 \text{ min}, \\
+\mathrm{Var}(X) &amp;= \frac{60^2}{12} = \frac{3.600}{12} \\
+&amp;= 300 \text{ min}^2, \\
+\mathrm{DP}(X) &amp;= \sqrt{300} = \frac{60}{\sqrt{12}} \\
+&amp;\approx 17{,}3 \text{ min}.
+\end{aligned}
+\]</span></p>
+<p>A f.d.a. da seção 4.3 é a integral da densidade de <span class="math inline">\(-\infty\)</span> até <span class="math inline">\(x\)</span>. Antes de <span class="math inline">\(\alpha\)</span> não há área nenhuma, e depois de <span class="math inline">\(\beta\)</span> a área já é toda. No meio, a integral de uma constante é a constante vezes a largura:</p>
+<p><span class="math display">\[
+\begin{aligned}
+F(x) &amp;= \int_\alpha^x \frac{1}{\beta - \alpha}\,dt \\
+&amp;= \frac{1}{\beta - \alpha}\Big[\,t\,\Big]_\alpha^x \\
+&amp;= \frac{x - \alpha}{\beta - \alpha}, \quad \alpha \le x &lt; \beta.
+\end{aligned}
+\]</span></p>
+<div class="conceito">
+<p>A f.d.a. de <span class="math inline">\(X \sim u(\alpha, \beta)\)</span> é</p>
 <p><span class="math display">\[
 F(x) =
 \begin{cases}
@@ -730,19 +763,9 @@ F(x) =
 1, &amp; x \ge \beta.
 \end{cases}
 \]</span></p>
+</div>
+<p>Ela cresce em linha reta de 0 a 1 ao longo do intervalo (<a href="#fig-uniforme" class="quarto-xref">Figura&nbsp;<span>1</span></a>). Na espera do ônibus, <span class="math inline">\(F(x) = x/60\)</span> entre 0 e 60, e <span class="math inline">\(F(15) = 15/60 = 1/4\)</span>: um quarto das chegadas espera até 15 minutos.</p>
 <div id="cell-fig-uniforme" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>jitter <span class="op">=</span> stats.uniform(loc<span class="op">=</span><span class="dv">0</span>, scale<span class="op">=</span><span class="dv">60</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">10</span>, <span class="dv">70</span>, <span class="dv">400</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>fig, (esq, <span class="bu">dir</span>) <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="fl">2.8</span>))</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>esq.plot(x, jitter.pdf(x))</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>esq.set_title(<span class="st">"densidade f(x)"</span>)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="bu">dir</span>.plot(x, jitter.cdf(x))</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="bu">dir</span>.set_title(<span class="st">"f.d.a. F(x)"</span>)</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> eixo <span class="kw">in</span> (esq, <span class="bu">dir</span>):</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    eixo.set_xlabel(<span class="st">"espera x (s)"</span>)</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div id="fig-uniforme" class="quarto-float quarto-figure quarto-figure-center anchored" alt="À esquerda, um retângulo de altura 1/60 entre 0 e 60; à direita, uma reta que sobe de 0 em x = 0 até 1 em x = 60.">
 <figure class="quarto-float quarto-float-fig figure">
@@ -750,55 +773,41 @@ F(x) =
 <img src="04-uniforme-continua_files/figure-html/fig-uniforme-output-1.png" alt="À esquerda, um retângulo de altura 1/60 entre 0 e 60; à direita, uma reta que sobe de 0 em x = 0 até 1 em x = 60." width="665" height="259" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-uniforme-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;1: Densidade (à esquerda) e f.d.a. (à direita) da uniforme em [0, 60], o tempo de espera do jitter.
+Figura&nbsp;1: Densidade (à esquerda) e f.d.a. (à direita) da uniforme em [0, 60], a espera, em minutos, de quem chega ao acaso a um ponto de ônibus com passagens de hora em hora.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="em-python" class="level2">
-<h2 class="anchored" data-anchor-id="em-python">Em Python</h2>
-<p>A <code>scipy.stats.uniform</code> representa a uniforme, mas com dois parâmetros diferentes dos do livro: <code>loc</code> é o início do intervalo (<span class="math inline">\(\alpha\)</span>), e <code>scale</code> é a <strong>largura</strong> (<span class="math inline">\(\beta - \alpha\)</span>), e não o fim.</p>
-<div id="jitter" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>jitter <span class="op">=</span> stats.uniform(loc<span class="op">=</span><span class="dv">0</span>, scale<span class="op">=</span><span class="dv">60</span>)          <span class="co"># u(0, 60)</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(jitter.mean(), jitter.var(), <span class="bu">round</span>(jitter.std(), <span class="dv">2</span>))</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(jitter.cdf(<span class="dv">15</span>), <span class="bu">round</span>(jitter.cdf(<span class="dv">45</span>) <span class="op">-</span> jitter.cdf(<span class="dv">30</span>), <span class="dv">2</span>))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>30.0 300.0 17.32
-0.25 0.25</code></pre>
-</div>
-</div>
-<p>A espera média é de 30 segundos, com desvio-padrão de 17,3 segundos, que é <span class="math inline">\(60/\sqrt{12}\)</span>. Um quarto dos clientes sincroniza nos primeiros 15 segundos, e outro quarto entre 30 e 45 segundos: em faixas de mesma largura, a carga se espalha por igual.</p>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Aviso</span><code>scale</code> é a largura, não o fim do intervalo
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Para <span class="math inline">\(u(10, 70)\)</span>, o certo é <code>stats.uniform(loc=10, scale=60)</code>. Escrever <code>stats.uniform(10, 70)</code> modela <span class="math inline">\(u(10, 80)\)</span>, e o erro não gera aviso: a média sai 45 em vez de 40.</p>
-</div>
-</div>
-</section>
 <section id="números-aleatórios" class="level2">
 <h2 class="anchored" data-anchor-id="números-aleatórios">Números aleatórios</h2>
-<p>O caso <span class="math inline">\(u(0, 1)\)</span> tem um papel especial: um <strong>número aleatório</strong>, no sentido dos geradores de computador, é um valor simulado de <span class="math inline">\(u(0, 1)\)</span>. É o que o <code>rng.uniform(0, 1)</code> e o <code>rng.random()</code> do numpy devolvem. A uniforme em <span class="math inline">\([0, 1]\)</span> está na base de quase toda simulação: os geradores das outras distribuições partem dela.</p>
-<p>Uma uniforme qualquer também sai de <span class="math inline">\(u(0, 1)\)</span> por uma transformação linear: se <span class="math inline">\(U \sim u(0, 1)\)</span>, então <span class="math inline">\(X = \alpha + (\beta - \alpha)\,U \sim u(\alpha, \beta)\)</span>. A f.d.a. da seção 4.3 mostra por quê: <span class="math inline">\(P(X \le x) = P\big(U \le \tfrac{x - \alpha}{\beta - \alpha}\big) = \tfrac{x - \alpha}{\beta - \alpha}\)</span>, a f.d.a. da uniforme em <span class="math inline">\([\alpha, \beta]\)</span>. As regras da seção 4.2 (as da 3.2, estendidas às contínuas) dão a média e a variância de <span class="math inline">\(X\)</span> a partir da média e da variância de <span class="math inline">\(U\)</span>, que são <span class="math inline">\(1/2\)</span> e <span class="math inline">\(1/12\)</span>: <span class="math inline">\(E(X) = \alpha + (\beta - \alpha)/2 = (\alpha + \beta)/2\)</span> e <span class="math inline">\(\mathrm{Var}(X) = (\beta - \alpha)^2/12\)</span>. (A fórmula 7.16 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span> faz a transformação inversa, levando qualquer uniforme a <span class="math inline">\(u(-1/2, 1/2)\)</span>.)</p>
-<div id="cell-transformacao" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">42</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>u <span class="op">=</span> rng.random(<span class="dv">100_000</span>)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>espera <span class="op">=</span> <span class="dv">0</span> <span class="op">+</span> (<span class="dv">60</span> <span class="op">-</span> <span class="dv">0</span>) <span class="op">*</span> u</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="bu">round</span>(<span class="bu">float</span>(espera.mean()), <span class="dv">2</span>), <span class="bu">round</span>(<span class="bu">float</span>(espera.var()), <span class="dv">1</span>), <span class="dv">60</span><span class="op">**</span><span class="dv">2</span> <span class="op">/</span> <span class="dv">12</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="transformacao" class="cell-output cell-output-display" data-execution_count="4">
-<pre><code>(30.04, 299.7, 300.0)</code></pre>
+<p>Um <strong>número aleatório</strong> é um valor de <span class="math inline">\(U \sim u(0, 1)\)</span>. As tabelas de números aleatórios fornecem dígitos de 0 a 9 sorteados com igual probabilidade; agrupados (por exemplo, 0,4821), eles dão valores aproximados de <span class="math inline">\(U\)</span>. Qualquer outra uniforme sai de <span class="math inline">\(U\)</span> por uma transformação linear.</p>
+<div class="conceito">
+<p>Se <span class="math inline">\(U \sim u(0, 1)\)</span>, então <span class="math inline">\(X = \alpha + (\beta - \alpha)\,U \sim u(\alpha, \beta)\)</span>.</p>
 </div>
-</div>
+<p>A f.d.a. mostra por quê. Para <span class="math inline">\(\alpha \le x \le \beta\)</span>, como <span class="math inline">\(\beta - \alpha &gt; 0\)</span>, a desigualdade se resolve para <span class="math inline">\(U\)</span> sem trocar de sentido:</p>
+<p><span class="math display">\[
+\begin{aligned}
+P(X \le x) &amp;= P\big(\alpha + (\beta - \alpha)\,U \le x\big) \\
+&amp;= P\left(U \le \frac{x - \alpha}{\beta - \alpha}\right) \\
+&amp;= \frac{x - \alpha}{\beta - \alpha}.
+\end{aligned}
+\]</span></p>
+<p>O último passo usa a f.d.a. de <span class="math inline">\(u(0, 1)\)</span>, que é <span class="math inline">\(P(U \le y) = y\)</span> para <span class="math inline">\(0 \le y \le 1\)</span>, com <span class="math inline">\(y = (x - \alpha)/(\beta - \alpha)\)</span>, um número entre 0 e 1. O resultado é a f.d.a. da uniforme em <span class="math inline">\([\alpha, \beta]\)</span>. Para o ônibus, <span class="math inline">\(X = 60\,U\)</span>: cada número aleatório vira uma espera entre 0 e 60 minutos.</p>
+<p>A média e a variância de <span class="math inline">\(X\)</span> também saem das de <span class="math inline">\(U\)</span>, que são <span class="math inline">\(1/2\)</span> e <span class="math inline">\(1/12\)</span> pelas fórmulas acima. As regras da transformação linear da seção 3.2, que valem também para variáveis contínuas (seção 4.2), com <span class="math inline">\(a = \beta - \alpha\)</span> e <span class="math inline">\(b = \alpha\)</span>, dão</p>
+<p><span class="math display">\[
+\begin{aligned}
+E(X) &amp;= \alpha + (\beta - \alpha)\,\frac{1}{2} \\
+&amp;= \frac{\alpha + \beta}{2}, \\
+\mathrm{Var}(X) &amp;= (\beta - \alpha)^2\,\frac{1}{12} \\
+&amp;= \frac{(\beta - \alpha)^2}{12},
+\end{aligned}
+\]</span></p>
+<p>os mesmos valores obtidos pelas integrais. No sentido contrário, se <span class="math inline">\(X \sim u(\alpha, \beta)\)</span>, então (fórmula (7.16) de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>)</p>
+<p><span class="math display">\[
+\frac{X - (\alpha + \beta)/2}{\beta - \alpha} \sim u(-1/2,\ 1/2).
+\]</span></p>
 </section>
 <section id="resumo" class="level2">
 <h2 class="anchored" data-anchor-id="resumo">Resumo</h2>
@@ -816,20 +825,24 @@ Figura&nbsp;1: Densidade (à esquerda) e f.d.a. (à direita) da uniforme em [0, 
 <td><span class="math inline">\(1/(\beta - \alpha)\)</span> em <span class="math inline">\([\alpha, \beta]\)</span></td>
 </tr>
 <tr class="even">
+<td><span class="math inline">\(P(c \le X \le d)\)</span></td>
+<td><span class="math inline">\((d - c)/(\beta - \alpha)\)</span>, dentro do intervalo</td>
+</tr>
+<tr class="odd">
 <td><span class="math inline">\(E(X)\)</span></td>
 <td><span class="math inline">\((\alpha + \beta)/2\)</span></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><span class="math inline">\(\mathrm{Var}(X)\)</span></td>
 <td><span class="math inline">\((\beta - \alpha)^2/12\)</span></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><span class="math inline">\(F(x)\)</span></td>
 <td><span class="math inline">\((x - \alpha)/(\beta - \alpha)\)</span> em <span class="math inline">\([\alpha, \beta]\)</span></td>
 </tr>
-<tr class="odd">
-<td><code>scipy.stats</code></td>
-<td><code>uniform(loc=α, scale=β - α)</code></td>
+<tr class="even">
+<td>A partir de <span class="math inline">\(U \sim u(0, 1)\)</span></td>
+<td><span class="math inline">\(X = \alpha + (\beta - \alpha)\,U\)</span></td>
 </tr>
 </tbody>
 </table>
@@ -837,7 +850,24 @@ Figura&nbsp;1: Densidade (à esquerda) e f.d.a. (à direita) da uniforme em [0, 
 </section>
 <section id="exercícios" class="level2">
 <h2 class="anchored" data-anchor-id="exercícios">Exercícios</h2>
-<p><strong>1.</strong> O tempo de resposta de um serviço é uniforme entre 100 e 400 ms. Qual a probabilidade de uma resposta levar mais de 300 ms? Qual a média e o desvio-padrão?</p>
+<p><strong>1.</strong> O comprimento de uma peça cortada é uniforme entre 100 e 400 mm. Qual a probabilidade de uma peça ter mais de 300 mm? Quais são a média e o desvio-padrão?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Resposta
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(X \sim u(100, 400)\)</span>, um intervalo de largura 300. <span class="math inline">\(P(X &gt; 300) = (400 - 300)/300 = 1/3\)</span>. <span class="math inline">\(E(X) = (100 + 400)/2 = 250\)</span> mm e <span class="math inline">\(\mathrm{DP}(X) = 300/\sqrt{12} \approx 86{,}6\)</span> mm.</p>
+</div>
+</div>
+</div>
+<p><strong>2.</strong> No Exemplo 7.8 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>, <span class="math inline">\(U \sim u(-1/2, 1/2)\)</span>. Calcule <span class="math inline">\(E(U)\)</span>, <span class="math inline">\(\mathrm{Var}(U)\)</span> e <span class="math inline">\(P(-1/4 \le U \le 1/4)\)</span>.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -850,13 +880,11 @@ Figura&nbsp;1: Densidade (à esquerda) e f.d.a. (à direita) da uniforme em [0, 
 </div>
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><span class="math inline">\(X \sim u(100, 400)\)</span>. <span class="math inline">\(P(X &gt; 300) = (400 - 300)/300 = 1/3\)</span>. <span class="math inline">\(E(X) = 250\)</span> ms e <span class="math inline">\(\mathrm{DP}(X) = 300/\sqrt{12} \approx 86{,}6\)</span> ms.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> stats.uniform(loc<span class="op">=</span><span class="dv">100</span>, scale<span class="op">=</span><span class="dv">300</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>t.sf(<span class="dv">300</span>), t.mean(), t.std()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<p><span class="math inline">\(E(U) = (-1/2 + 1/2)/2 = 0\)</span>, <span class="math inline">\(\mathrm{Var}(U) = 1^2/12 = 1/12\)</span> e <span class="math inline">\(P(-1/4 \le U \le 1/4) = (1/4 + 1/4)/1 = 1/2\)</span>.</p>
 </div>
 </div>
 </div>
-<p><strong>2.</strong> No Exemplo 7.8 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>, <span class="math inline">\(U \sim u(-1/2, 1/2)\)</span>. Calcule <span class="math inline">\(E(U)\)</span>, <span class="math inline">\(\mathrm{Var}(U)\)</span> e <span class="math inline">\(P(-1/4 \le U \le 1/4)\)</span>.</p>
+<p><strong>3.</strong> O tempo que uma máquina de café leva para preparar uma xícara é uniforme entre 30 e 90 segundos. (a) Escreva a f.d.a. <span class="math inline">\(F(x)\)</span> desse tempo e use-a para calcular <span class="math inline">\(P(45 &lt; X \le 70)\)</span>. (b) Como obter esse tempo a partir de um número aleatório <span class="math inline">\(U \sim u(0, 1)\)</span>? Quais são a média e o desvio-padrão?</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -869,24 +897,21 @@ Figura&nbsp;1: Densidade (à esquerda) e f.d.a. (à direita) da uniforme em [0, 
 </div>
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><span class="math inline">\(E(U) = 0\)</span>, <span class="math inline">\(\mathrm{Var}(U) = 1^2/12 = 1/12\)</span> e <span class="math inline">\(P(-1/4 \le U \le 1/4) = (1/4 + 1/4)/1 = 1/2\)</span>.</p>
-</div>
-</div>
-</div>
-<p><strong>3.</strong> O jitter de outro serviço é uniforme entre 30 e 90 segundos. Um colega escreveu <code>stats.uniform(30, 90)</code>. Que intervalo ele modelou, e que média obteve?</p>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Dica</span>Resposta
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Para a <code>scipy</code>, o segundo argumento é a largura, então ele modelou <span class="math inline">\(u(30, 120)\)</span>, com média 75 segundos em vez de 60. O certo é <code>stats.uniform(loc=30, scale=60)</code>. Com <code>loc=0</code> o erro não aparece, porque a largura e o fim do intervalo são o mesmo número.</p>
+<ol type="a">
+<li><span class="math inline">\(X \sim u(30, 90)\)</span>, de largura 60. <span class="math inline">\(F(x) = 0\)</span> para <span class="math inline">\(x &lt; 30\)</span>, <span class="math inline">\(F(x) = (x - 30)/60\)</span> para <span class="math inline">\(30 \le x &lt; 90\)</span> e <span class="math inline">\(F(x) = 1\)</span> para <span class="math inline">\(x \ge 90\)</span>. Então</li>
+</ol>
+<p><span class="math display">\[
+\begin{aligned}
+P(45 &lt; X \le 70) &amp;= F(70) - F(45) \\
+&amp;= \frac{40}{60} - \frac{15}{60} \\
+&amp;= \frac{25}{60} = \frac{5}{12} \\
+&amp;\approx 0{,}417.
+\end{aligned}
+\]</span></p>
+<p>É a fração <span class="math inline">\(25/60\)</span> do intervalo, como a área do retângulo daria direto.</p>
+<ol start="2" type="a">
+<li><span class="math inline">\(X = 30 + 60\,U\)</span>. A média é <span class="math inline">\(30 + 60 \times 1/2 = 60\)</span> segundos, e a variância, <span class="math inline">\(60^2 \times 1/12 = 300\)</span> s², com desvio-padrão <span class="math inline">\(\sqrt{300} \approx 17{,}3\)</span> segundos. O número é o mesmo da espera do ônibus, agora em segundos: os dois intervalos têm largura 60.</li>
+</ol>
 </div>
 </div>
 </div>

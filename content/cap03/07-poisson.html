@@ -24,41 +24,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 /* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
@@ -81,7 +46,7 @@ div.csl-indent {
 }</style>
 
 
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -102,9 +67,9 @@ div.csl-indent {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-96de93aeef37c2f55637d13965bee670.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-fa5a435faa8b3fd8ba2c629fc35ba32a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-96de93aeef37c2f55637d13965bee670.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-64fc88c462144c19fa71a709d9434c23.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-244db57ca546911734af8129e7c854c8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-64fc88c462144c19fa71a709d9434c23.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -176,9 +141,6 @@ div.csl-indent {
   });
 })();
 </script>
-<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
-
-<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -647,7 +609,7 @@ window.Quarto = {
   <ul>
   <li><a href="#da-binomial-à-poisson" id="toc-da-binomial-à-poisson" class="nav-link active" data-scroll-target="#da-binomial-à-poisson">Da binomial à Poisson</a></li>
   <li><a href="#o-modelo" id="toc-o-modelo" class="nav-link" data-scroll-target="#o-modelo">O modelo</a></li>
-  <li><a href="#erros-por-hora" id="toc-erros-por-hora" class="nav-link" data-scroll-target="#erros-por-hora">Erros por hora</a></li>
+  <li><a href="#chamadas-por-minuto" id="toc-chamadas-por-minuto" class="nav-link" data-scroll-target="#chamadas-por-minuto">Chamadas por minuto</a></li>
   <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios">Exercícios</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/BragaD/UnDF-Bases3-Estatistica-202602/issues/new" class="toc-action"><i class="bi bi-github"></i>Criar uma issue</a></li></ul></div></nav>
@@ -704,89 +666,88 @@ Nota
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Esta seção <strong>está fora do cronograma</strong> do semestre 2.2026: não é dada em aula, não entra no notebook do capítulo e não cai em prova nem em lista. Fica aqui para quem quiser ir além.</p>
+<p>Esta seção <strong>está fora do cronograma</strong> do semestre 2.2026: não é dada em aula e não cai em prova nem em lista. Fica aqui para quem quiser ir além.</p>
 </div>
 </div>
-<p>Quantas requisições chegam a um servidor num segundo? Quantos erros um serviço registra por hora? As duas perguntas pedem a contagem de <strong>eventos num intervalo</strong>, e nenhuma tem um número máximo natural de “ensaios”. O modelo mais usado para esse tipo de contagem é a distribuição de Poisson.</p>
+<p>Quantas chamadas chegam a uma central telefônica num minuto? Quantos carros passam por um pedágio em dez minutos? As duas perguntas pedem a contagem de <strong>eventos num intervalo</strong>, e nenhuma tem um número máximo natural de “ensaios”. O modelo mais usado para esse tipo de contagem é a distribuição de Poisson.</p>
 <section id="da-binomial-à-poisson" class="level2">
 <h2 class="anchored" data-anchor-id="da-binomial-à-poisson">Da binomial à Poisson</h2>
-<p>Um serviço atende 2.000 requisições por dia, e cada uma dá erro com probabilidade 0,002, independentemente das outras. O número de erros no dia tem distribuição <span class="math inline">\(b(2.000, 1/500)\)</span>, com média <span class="math inline">\(np = 4\)</span>. Com <span class="math inline">\(n\)</span> tão grande e <span class="math inline">\(p\)</span> tão pequeno, a fórmula da binomial fica difícil de calcular à mão. Mas ela se aproxima de uma fórmula mais simples, que depende só da média <span class="math inline">\(\lambda = np\)</span>:</p>
+<p>Uma fábrica produz 2.000 peças por dia, e cada uma sai defeituosa com probabilidade 0,002, independentemente das outras. O número de peças defeituosas no dia tem distribuição <span class="math inline">\(b(2{.}000, 1/500)\)</span>, com média <span class="math inline">\(np = 2{.}000 \times 0{,}002 = 4\)</span>. Com <span class="math inline">\(n\)</span> tão grande e <span class="math inline">\(p\)</span> tão pequeno, a fórmula da binomial fica difícil de calcular à mão: <span class="math inline">\(\binom{2{.}000}{k}\)</span> é enorme e <span class="math inline">\(0{,}998^{2{.}000-k}\)</span> é minúsculo. Mas ela se aproxima de uma fórmula mais simples, que depende só da média <span class="math inline">\(\lambda = np\)</span>:</p>
 <p><span class="math display">\[
 \binom{n}{k} p^k (1 - p)^{n - k} \approx \frac{e^{-\lambda} \lambda^k}{k!}.
 \]</span></p>
-<p>A aproximação é boa quando <span class="math inline">\(n\)</span> é grande e <span class="math inline">\(p\)</span> é pequeno, com <span class="math inline">\(np \le 7\)</span> como regra prática <span class="citation" data-cites="bussab2023">(<a href="#ref-bussab2023" role="doc-biblioref">Bussab e Morettin 2023</a>)</span>. A tabela compara as duas para os erros do dia:</p>
-<div id="cell-binomial-poisson" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>k <span class="op">=</span> np.arange(<span class="dv">8</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>comparacao <span class="op">=</span> pd.DataFrame({</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"k"</span>: k,</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"binomial"</span>: stats.binom(<span class="dv">2000</span>, <span class="fl">0.002</span>).pmf(k),</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Poisson (λ = 4)"</span>: stats.poisson(<span class="dv">4</span>).pmf(k),</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>comparacao.set_index(<span class="st">"k"</span>).rename_axis(<span class="va">None</span>).<span class="bu">round</span>(<span class="dv">4</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="binomial-poisson" class="cell-output cell-output-display" data-execution_count="2">
-<div>
-
-
-<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<p>A aproximação é boa quando <span class="math inline">\(n\)</span> é grande e <span class="math inline">\(p\)</span> é pequeno, com <span class="math inline">\(np \le 7\)</span> como regra prática <span class="citation" data-cites="bussab2023">(<a href="#ref-bussab2023" role="doc-biblioref">Bussab e Morettin 2023</a>)</span>. A tabela compara as duas para as peças do dia:</p>
+<div class="table-responsive">
+<div id="tbl-binomial-poisson" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-binomial-poisson-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;1: Probabilidade de <span class="math inline">\(k\)</span> peças defeituosas no dia, pela binomial exata e pela aproximação de Poisson.
+</figcaption>
+<div aria-describedby="tbl-binomial-poisson-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
 <thead>
 <tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">binomial</th>
-<th data-quarto-table-cell-role="th">Poisson (λ = 4)</th>
+<th style="text-align: center;"><span class="math inline">\(k\)</span></th>
+<th style="text-align: center;">binomial <span class="math inline">\(b(2{.}000, 1/500)\)</span></th>
+<th style="text-align: center;">Poisson, <span class="math inline">\(\lambda = 4\)</span></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">0</th>
-<td>0.0182</td>
-<td>0.0183</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0,0182</td>
+<td style="text-align: center;">0,0183</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">1</th>
-<td>0.0731</td>
-<td>0.0733</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0,0731</td>
+<td style="text-align: center;">0,0733</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">2</th>
-<td>0.1465</td>
-<td>0.1465</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">0,1465</td>
+<td style="text-align: center;">0,1465</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">3</th>
-<td>0.1955</td>
-<td>0.1954</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">0,1955</td>
+<td style="text-align: center;">0,1954</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">4</th>
-<td>0.1956</td>
-<td>0.1954</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">0,1956</td>
+<td style="text-align: center;">0,1954</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">5</th>
-<td>0.1564</td>
-<td>0.1563</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">0,1564</td>
+<td style="text-align: center;">0,1563</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">6</th>
-<td>0.1042</td>
-<td>0.1042</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">0,1042</td>
+<td style="text-align: center;">0,1042</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">7</th>
-<td>0.0595</td>
-<td>0.0595</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">0,0595</td>
+<td style="text-align: center;">0,0595</td>
 </tr>
 </tbody>
 </table>
-
+</div>
+</figure>
 </div>
 </div>
-</div>
-<p>As duas colunas diferem em no máximo 0,0002. O Exemplo 6.16 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span> usa a aproximação para <span class="math inline">\(b(2; 1.000, 1/10.000)\)</span>, a probabilidade de 2 sucessos em 1.000 ensaios com <span class="math inline">\(p = 0{,}0001\)</span>, e obtém cerca de 0,0045. A binomial exata dá 0,0045.</p>
+<p>As duas colunas diferem em no máximo 0,0002. Para <span class="math inline">\(b(2; 1{.}000, 1/10{.}000)\)</span>, a probabilidade de 2 sucessos em 1.000 ensaios com <span class="math inline">\(p = 0{,}0001\)</span>, a aproximação usa <span class="math inline">\(\lambda = 1{.}000 \times 0{,}0001 = 0{,}1\)</span> e dá</p>
+<p><span class="math display">\[
+\frac{e^{-0{,}1}\, 0{,}1^2}{2!} \approx 0{,}0045
+\]</span></p>
+<p>(Exemplo 6.16 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>). A binomial exata dá o mesmo valor nas quatro primeiras casas.</p>
 </section>
 <section id="o-modelo" class="level2">
 <h2 class="anchored" data-anchor-id="o-modelo">O modelo</h2>
-<p>A fórmula da direita vale por si só, sem precisar de <span class="math inline">\(n\)</span> e <span class="math inline">\(p\)</span>: ela descreve contagens de eventos que acontecem ao acaso num intervalo de tempo (ou de espaço), independentes entre si, a uma taxa média constante <span class="math inline">\(\lambda\)</span>, e com probabilidade desprezível de dois eventos no mesmo instante.</p>
+<p>A fórmula de Poisson, o lado direito da aproximação, vale por si só, sem precisar de <span class="math inline">\(n\)</span> e <span class="math inline">\(p\)</span>: ela descreve contagens de eventos que acontecem ao acaso num intervalo de tempo (ou de espaço), independentes entre si, a uma taxa média constante <span class="math inline">\(\lambda\)</span>, e com probabilidade desprezível de dois eventos no mesmo instante.</p>
 <div class="conceito">
 <p>A variável aleatória <span class="math inline">\(X\)</span> tem <strong>distribuição de Poisson</strong> com parâmetro <span class="math inline">\(\lambda &gt; 0\)</span>, <span class="math inline">\(X \sim \mathrm{Pois}(\lambda)\)</span>, quando</p>
 <p><span class="math display">\[
@@ -794,36 +755,37 @@ P(X = k) = \frac{e^{-\lambda} \lambda^k}{k!}, \quad k = 0, 1, 2, \dots
 \]</span></p>
 <p>Seu valor médio e sua variância são iguais: <span class="math inline">\(E(X) = \mathrm{Var}(X) = \lambda\)</span>.</p>
 </div>
-<p><span class="math inline">\(\lambda\)</span> é o número médio de eventos no intervalo considerado. Se o intervalo muda, <span class="math inline">\(\lambda\)</span> muda na mesma proporção: um telefone que recebe em média 5 chamadas por minuto recebe em média 20 em quatro minutos (Exemplo 6.18 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>).</p>
+<p><span class="math inline">\(\lambda\)</span> é o número médio de eventos no intervalo considerado. O fator <span class="math inline">\(\lambda^k/k!\)</span> cresce enquanto <span class="math inline">\(k\)</span> é menor que <span class="math inline">\(\lambda\)</span> e depois despenca, porque o fatorial cresce mais rápido que a potência. O fator <span class="math inline">\(e^{-\lambda}\)</span> é o mesmo para todo <span class="math inline">\(k\)</span>, e garante que as probabilidades somem 1. Se o intervalo muda, <span class="math inline">\(\lambda\)</span> muda na mesma proporção: um telefone que recebe em média 5 chamadas por minuto recebe em média 20 em quatro minutos (Exemplo 6.18 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>).</p>
 </section>
-<section id="erros-por-hora" class="level2">
-<h2 class="anchored" data-anchor-id="erros-por-hora">Erros por hora</h2>
-<p>Um serviço registra, em média, 3 erros por hora. Supondo que o número de erros numa hora seja <span class="math inline">\(\mathrm{Pois}(3)\)</span>:</p>
-<div id="cell-poisson-erros" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>erros <span class="op">=</span> stats.poisson(<span class="dv">3</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">round</span>(erros.pmf(<span class="dv">0</span>), <span class="dv">4</span>), <span class="bu">round</span>(erros.sf(<span class="dv">5</span>), <span class="dv">4</span>), erros.mean(), erros.var()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="poisson-erros" class="cell-output cell-output-display" data-execution_count="3">
-<pre><code>(0.0498, 0.0839, 3.0, 3.0)</code></pre>
-</div>
-</div>
-<p>Uma hora sem nenhum erro tem probabilidade <span class="math inline">\(e^{-3}\)</span>, cerca de 0,050. Mais de 5 erros numa hora tem probabilidade 0,084, pouco mais de 8% das horas. Um alerta configurado para disparar acima de 5 erros por hora vai tocar, sem nada anormal, em média em cerca de duas das 24 horas do dia.</p>
-<div id="cell-fig-poisson" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>kk <span class="op">=</span> np.arange(<span class="dv">12</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="fl">3.5</span>))</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>ax.vlines(kk, <span class="dv">0</span>, erros.pmf(kk), linewidth<span class="op">=</span><span class="dv">3</span>)</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>ax.plot(kk, erros.pmf(kk), <span class="st">"o"</span>)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>ax.set_xticks(kk)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"erros numa hora k"</span>)</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"P(X = k)"</span>)</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="chamadas-por-minuto" class="level2">
+<h2 class="anchored" data-anchor-id="chamadas-por-minuto">Chamadas por minuto</h2>
+<p>Uma central telefônica recebe, em média, 3 chamadas por minuto. Supondo que o número <span class="math inline">\(X\)</span> de chamadas num minuto seja <span class="math inline">\(\mathrm{Pois}(3)\)</span>, um minuto sem nenhuma chamada tem probabilidade</p>
+<p><span class="math display">\[
+\begin{aligned}
+P(X = 0) &amp;= \frac{e^{-3}\, 3^0}{0!} \\
+&amp;= e^{-3} \approx 0{,}050.
+\end{aligned}
+\]</span></p>
+<p>A probabilidade de mais de 5 chamadas num minuto sai do complementar, <span class="math inline">\(P(X &gt; 5) = 1 - P(X \le 5)\)</span>. Pondo <span class="math inline">\(e^{-3}\)</span> em evidência,</p>
+<p><span class="math display">\[
+\begin{aligned}
+P(X \le 5) &amp;= e^{-3}\Big(1 + 3 + \frac{3^2}{2!} + \frac{3^3}{3!} \\
+&amp;\quad + \frac{3^4}{4!} + \frac{3^5}{5!}\Big) \\
+&amp;= e^{-3}\,(1 + 3 + 4{,}5 + 4{,}5 \\
+&amp;\quad + 3{,}375 + 2{,}025) \\
+&amp;= 18{,}4\, e^{-3} \approx 0{,}9161,
+\end{aligned}
+\]</span></p>
+<p>e <span class="math inline">\(P(X &gt; 5) \approx 1 - 0{,}9161 = 0{,}0839\)</span>, pouco mais de 8% dos minutos. Se a central só dá conta de 5 chamadas por minuto, numa hora ela fica sobrecarregada, em média, em cerca de 5 minutos, sem nada de anormal acontecer.</p>
+<div id="cell-fig-poisson" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
-<div id="fig-poisson" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Gráfico de hastes com máximo em 2 e 3 erros (cerca de 0,22 cada), decaindo para quase zero a partir de 9 erros.">
+<div id="fig-poisson" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Gráfico de hastes com máximo em 2 e 3 chamadas (cerca de 0,22 cada), decaindo para quase zero a partir de 9 chamadas.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-poisson-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="07-poisson_files/figure-html/fig-poisson-output-1.png" alt="Gráfico de hastes com máximo em 2 e 3 erros (cerca de 0,22 cada), decaindo para quase zero a partir de 9 erros." width="524" height="320" class="figure-img">
+<img src="07-poisson_files/figure-html/fig-poisson-output-1.png" alt="Gráfico de hastes com máximo em 2 e 3 chamadas (cerca de 0,22 cada), decaindo para quase zero a partir de 9 chamadas." width="524" height="320" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-poisson-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;1: Distribuição de Poisson com λ = 3: número de erros por hora de um serviço.
+Figura&nbsp;1: Distribuição de Poisson com λ = 3: número de chamadas por minuto numa central telefônica.
 </figcaption>
 </figure>
 </div>
@@ -839,13 +801,13 @@ Figura&nbsp;1: Distribuição de Poisson com λ = 3: número de erros por hora d
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>O modelo supõe eventos independentes a uma taxa constante. Erros de software costumam chegar em rajadas: uma queda de banco de dados gera dezenas de erros no mesmo minuto. Nesse caso a variância observada fica bem maior que a média, e a Poisson subestima a chance de horas muito ruins. Comparar a média e a variância dos dados é um primeiro teste barato.</p>
+<p>O modelo supõe eventos independentes a uma taxa constante. Chamadas para uma central costumam chegar em rajadas quando algo acontece ao mesmo tempo para muita gente, como uma falta de energia num bairro: dezenas de pessoas ligam no mesmo minuto. Nesse caso a variância observada fica bem maior que a média, e a Poisson subestima a chance de minutos muito cheios. Comparar a média e a variância dos dados é um primeiro teste barato.</p>
 </div>
 </div>
 </section>
 <section id="exercícios" class="level2">
 <h2 class="anchored" data-anchor-id="exercícios">Exercícios</h2>
-<p><strong>1.</strong> Um endpoint recebe, em média, 2 requisições por segundo. Qual a probabilidade de um segundo sem nenhuma requisição? E de pelo menos 5 requisições num segundo?</p>
+<p><strong>1.</strong> Chegam a um caixa de banco, em média, 2 clientes por minuto. Qual a probabilidade de um minuto sem nenhuma chegada? E de pelo menos 5 chegadas num minuto?</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -858,12 +820,19 @@ Figura&nbsp;1: Distribuição de Poisson com λ = 3: número de erros por hora d
 </div>
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Com <span class="math inline">\(X \sim \mathrm{Pois}(2)\)</span>: <span class="math inline">\(P(X = 0) = e^{-2} \approx 0{,}135\)</span> e <span class="math inline">\(P(X \ge 5) = 1 - P(X \le 4) \approx 0{,}053\)</span>.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>stats.poisson(<span class="dv">2</span>).pmf(<span class="dv">0</span>), stats.poisson(<span class="dv">2</span>).sf(<span class="dv">4</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Com <span class="math inline">\(X \sim \mathrm{Pois}(2)\)</span>: <span class="math inline">\(P(X = 0) = e^{-2} \approx 0{,}135\)</span>. Pelo complementar,</p>
+<p><span class="math display">\[
+\begin{aligned}
+P(X \ge 5) &amp;= 1 - P(X \le 4) \\
+&amp;= 1 - e^{-2}\Big(1 + 2 + \frac{2^2}{2!} \\
+&amp;\quad + \frac{2^3}{3!} + \frac{2^4}{4!}\Big) \\
+&amp;= 1 - 7\,e^{-2} \approx 0{,}053.
+\end{aligned}
+\]</span></p>
 </div>
 </div>
 </div>
-<p><strong>2.</strong> No mesmo endpoint, qual a probabilidade de no máximo 2 requisições em 4 segundos?</p>
+<p><strong>2.</strong> No mesmo caixa, qual a probabilidade de no máximo 2 chegadas em 4 minutos?</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -876,7 +845,13 @@ Figura&nbsp;1: Distribuição de Poisson com λ = 3: número de erros por hora d
 </div>
 <div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Em 4 segundos, a média é <span class="math inline">\(\lambda = 8\)</span>. <span class="math inline">\(P(X \le 2) = e^{-8}(1 + 8 + 32) = 41\,e^{-8} \approx 0{,}014\)</span>.</p>
+<p>Em 4 minutos, a média é <span class="math inline">\(\lambda = 8\)</span>, e</p>
+<p><span class="math display">\[
+\begin{aligned}
+P(X \le 2) &amp;= e^{-8}(1 + 8 + 32) \\
+&amp;= 41\,e^{-8} \approx 0{,}014.
+\end{aligned}
+\]</span></p>
 </div>
 </div>
 </div>

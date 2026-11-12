@@ -24,41 +24,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 /* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
@@ -81,7 +46,7 @@ div.csl-indent {
 }</style>
 
 
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -102,9 +67,9 @@ div.csl-indent {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-96de93aeef37c2f55637d13965bee670.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-fa5a435faa8b3fd8ba2c629fc35ba32a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-96de93aeef37c2f55637d13965bee670.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-64fc88c462144c19fa71a709d9434c23.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-244db57ca546911734af8129e7c854c8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-64fc88c462144c19fa71a709d9434c23.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -176,9 +141,6 @@ div.csl-indent {
   });
 })();
 </script>
-<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
-
-<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -698,7 +660,7 @@ Nota
 <p>Esta seção corresponde à seção 7.4.2 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>.</p>
 </div>
 </div>
-<p>Muitas medidas se distribuem em forma de sino: a maior parte dos valores perto do centro, cada vez menos valores à medida que se afastam, e mais ou menos a mesma quantidade dos dois lados. Segundo <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>, as origens do modelo estão nos trabalhos de Gauss sobre erros de observações astronômicas, por volta de 1810. Em software, o tempo de execução de uma suíte de testes estável costuma ter essa forma: quase sempre perto de um valor típico, raramente muito acima ou muito abaixo.</p>
+<p>Muitas medidas se distribuem em forma de sino: a maior parte dos valores perto do centro, cada vez menos valores à medida que se afastam, e mais ou menos a mesma quantidade dos dois lados. Segundo <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>, as origens do modelo estão nos trabalhos de Gauss sobre erros de observações astronômicas, por volta de 1810. Os erros de medida repetida de uma mesma grandeza têm essa forma, e o mesmo acontece com as alturas dos adultos de uma população ou com o peso de pacotes enchidos por uma máquina.</p>
 <p>O modelo para esse sino é a distribuição <strong>normal</strong>, ou gaussiana. É o modelo contínuo mais importante da estatística, e a base de boa parte da inferência.</p>
 <section id="o-modelo" class="level2">
 <h2 class="anchored" data-anchor-id="o-modelo">O modelo</h2>
@@ -709,7 +671,7 @@ f(x) = \frac{1}{\sigma\sqrt{2\pi}}\, e^{-(x - \mu)^2 / (2\sigma^2)}.
 \]</span></p>
 <p>Seu valor médio é <span class="math inline">\(E(X) = \mu\)</span> e sua variância é <span class="math inline">\(\mathrm{Var}(X) = \sigma^2\)</span>.</p>
 </div>
-<p>A fórmula tem muitas letras, mas o formato do gráfico se lê direto nela:</p>
+<p>A fórmula tem duas partes. A exponencial <span class="math inline">\(e^{-(x - \mu)^2/(2\sigma^2)}\)</span> dá a forma do sino. A constante <span class="math inline">\(1/(\sigma\sqrt{2\pi})\)</span> na frente só ajusta a escala: é o número que faz a área total sob a curva ser 1. Que essa constante seja a certa é um fato do cálculo, que aqui fica sem demonstração. O formato do gráfico se lê direto no expoente:</p>
 <ul>
 <li><strong>Máximo em <span class="math inline">\(\mu\)</span>.</strong> O expoente <span class="math inline">\(-(x - \mu)^2/(2\sigma^2)\)</span> é zero em <span class="math inline">\(x = \mu\)</span> e negativo em qualquer outro ponto.</li>
 <li><strong>Simetria em torno de <span class="math inline">\(\mu\)</span>.</strong> O expoente só depende de <span class="math inline">\((x - \mu)^2\)</span>: um ponto a uma distância <span class="math inline">\(d\)</span> à direita de <span class="math inline">\(\mu\)</span> tem a mesma densidade que um à distância <span class="math inline">\(d\)</span> à esquerda.</li>
@@ -717,15 +679,6 @@ f(x) = \frac{1}{\sigma\sqrt{2\pi}}\, e^{-(x - \mu)^2 / (2\sigma^2)}.
 <li><strong>Caudas que nunca zeram.</strong> A densidade é positiva em toda a reta, mas cai muito rápido longe de <span class="math inline">\(\mu\)</span>.</li>
 </ul>
 <div id="cell-fig-normais" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">600</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="fl">6.5</span>, <span class="fl">3.5</span>))</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> mu, sigma <span class="kw">in</span> [(<span class="dv">0</span>, <span class="dv">1</span>), (<span class="dv">3</span>, <span class="dv">1</span>), (<span class="dv">0</span>, <span class="dv">2</span>)]:</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    ax.plot(x, stats.norm(loc<span class="op">=</span>mu, scale<span class="op">=</span>sigma).pdf(x), label<span class="op">=</span><span class="ss">f"N(</span><span class="sc">{</span>mu<span class="sc">}</span><span class="ss">, </span><span class="sc">{</span>sigma<span class="op">**</span><span class="dv">2</span><span class="sc">}</span><span class="ss">)"</span>)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"x"</span>)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"densidade"</span>)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>ax.legend()</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div id="fig-normais" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Três curvas em forma de sino: N(0, 1) centrada em 0; N(3, 1) igual, deslocada para 3; N(0, 4) centrada em 0, mais baixa e mais larga.">
 <figure class="quarto-float quarto-float-fig figure">
@@ -739,148 +692,214 @@ Figura&nbsp;1: Três densidades normais. Mudar μ desloca o sino; aumentar σ o 
 </div>
 </div>
 </div>
+<p>Quanto maior <span class="math inline">\(\sigma\)</span>, mais baixo o pico: a altura máxima, em <span class="math inline">\(x = \mu\)</span>, é <span class="math inline">\(1/(\sigma\sqrt{2\pi})\)</span>. O sino alarga e abaixa na mesma proporção, para a área continuar igual a 1.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Aviso</span>A <code>scipy</code> recebe o desvio-padrão, não a variância
+<span class="screen-reader-only">Aviso</span>O segundo argumento é a variância
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span> escreve <span class="math inline">\(N(\mu, \sigma^2)\)</span>, com a <strong>variância</strong> no segundo argumento. A <code>scipy.stats.norm(loc, scale)</code> recebe o <strong>desvio-padrão</strong> em <code>scale</code>. Para <span class="math inline">\(N(3, 16)\)</span>, o certo é <code>stats.norm(loc=3, scale=4)</code>. Escrever <code>scale=16</code> dá outra distribuição, quatro vezes mais espalhada, sem nenhum aviso.</p>
+<p>Em <span class="math inline">\(N(\mu, \sigma^2)\)</span>, o segundo número é a <strong>variância</strong>, não o desvio-padrão. Em <span class="math inline">\(N(3, 16)\)</span>, a variância é 16 e o desvio-padrão é <span class="math inline">\(\sigma = \sqrt{16} = 4\)</span>. Para padronizar, como se faz adiante, tire a raiz antes: dividir por 16 é calcular como se o desvio-padrão fosse 16, numa normal quatro vezes mais espalhada que a verdadeira.</p>
 </div>
 </div>
 </section>
 <section id="a-normal-padrão" class="level2">
 <h2 class="anchored" data-anchor-id="a-normal-padrão">A normal padrão</h2>
-<p>Entre todas as normais, uma serve de referência: a de média 0 e variância 1, a <strong>normal padrão</strong> <span class="math inline">\(Z \sim N(0, 1)\)</span>. Sua f.d.a. tem notação própria, universal:</p>
+<p>Entre todas as normais, uma serve de referência: a de média 0 e variância 1, a <strong>normal padrão</strong> <span class="math inline">\(Z \sim N(0, 1)\)</span>, com densidade <span class="math inline">\(e^{-z^2/2}/\sqrt{2\pi}\)</span>. Sua f.d.a. tem notação própria:</p>
 <p><span class="math display">\[
-\Phi(z) = P(Z \le z).
+\begin{aligned}
+\Phi(z) &amp;= P(Z \le z) \\
+&amp;= \int_{-\infty}^{z} \frac{1}{\sqrt{2\pi}}\, e^{-t^2/2}\,dt.
+\end{aligned}
 \]</span></p>
-<p>A integral da densidade normal não tem fórmula fechada: <span class="math inline">\(\Phi\)</span> só se calcula numericamente. Por isso o Bussab traz uma tabela (a Tabela III, com <span class="math inline">\(P(0 \le Z \le z)\)</span>), e por isso a <code>scipy</code> tem a <code>norm.cdf</code>. Qualquer probabilidade sai de <span class="math inline">\(\Phi\)</span> por diferença, <span class="math inline">\(P(a \le Z \le b) = \Phi(b) - \Phi(a)\)</span>. A simetria em torno de 0 dá <span class="math inline">\(\Phi(-z) = 1 - \Phi(z)\)</span>, e por isso basta tabelar <span class="math inline">\(z \ge 0\)</span>. Os exemplos da seção 7.4.2 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>, com <span class="math inline">\(z = 1{,}73\)</span>:</p>
-<div id="normal-padrao" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>Z <span class="op">=</span> stats.norm(loc<span class="op">=</span><span class="dv">0</span>, scale<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">round</span>(Z.cdf(<span class="fl">1.73</span>) <span class="op">-</span> <span class="fl">0.5</span>, <span class="dv">4</span>))           <span class="co"># P(0 ≤ Z ≤ 1,73), o valor da Tabela III</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">round</span>(Z.sf(<span class="fl">1.73</span>), <span class="dv">4</span>))                  <span class="co"># P(Z ≥ 1,73)</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">round</span>(Z.cdf(<span class="op">-</span><span class="fl">1.73</span>), <span class="dv">4</span>))                <span class="co"># P(Z ≤ -1,73), igual pela simetria</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">round</span>(Z.cdf(<span class="fl">1.73</span>) <span class="op">-</span> Z.cdf(<span class="fl">0.47</span>), <span class="dv">4</span>))   <span class="co"># P(0,47 ≤ Z ≤ 1,73)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>0.4582
-0.0418
-0.0418
-0.2774</code></pre>
-</div>
-</div>
+<p>A função <span class="math inline">\(e^{-t^2/2}\)</span> não tem primitiva em termos de funções elementares: não existe uma fórmula fechada para <span class="math inline">\(\Phi\)</span>. Os valores de <span class="math inline">\(\Phi\)</span> foram calculados numericamente uma vez e reunidos numa <strong>tabela</strong>, e é com ela que se calculam as probabilidades da normal. Três regras levam qualquer pergunta à tabela. A cauda à direita é o complementar da área acumulada:</p>
+<p><span class="math display">\[
+P(Z &gt; z) = 1 - \Phi(z).
+\]</span></p>
+<p>A curva é simétrica em torno de 0, e a área à esquerda de <span class="math inline">\(-z\)</span> é igual à área à direita de <span class="math inline">\(z\)</span>. Por isso basta tabelar <span class="math inline">\(z \ge 0\)</span>:</p>
+<p><span class="math display">\[
+\Phi(-z) = 1 - \Phi(z).
+\]</span></p>
+<p>A área entre <span class="math inline">\(a\)</span> e <span class="math inline">\(b\)</span> é a área até <span class="math inline">\(b\)</span> menos a área até <span class="math inline">\(a\)</span>, como na f.d.a. da seção 4.3:</p>
+<p><span class="math display">\[
+P(a \le Z \le b) = \Phi(b) - \Phi(a).
+\]</span></p>
+<p>Como <span class="math inline">\(Z\)</span> é contínua, tanto faz <span class="math inline">\(&lt;\)</span> ou <span class="math inline">\(\le\)</span> em qualquer uma delas.</p>
 </section>
 <section id="usando-a-tabela-da-normal" class="level2">
 <h2 class="anchored" data-anchor-id="usando-a-tabela-da-normal">Usando a tabela da normal</h2>
-<p>Numa prova feita à mão não há <code>scipy</code>. Por isso existe a <a href="../../downloads/tabela-normal-padrao.pdf"><strong>tabela da normal padrão</strong> (PDF)</a>, para imprimir ou consultar. Ela dá <span class="math inline">\(\Phi(z) = P(Z \le z)\)</span> para <span class="math inline">\(z\)</span> de 0,00 a 3,49. A linha é o valor de <span class="math inline">\(z\)</span> até a primeira casa decimal, e a coluna é a segunda casa.</p>
-<p>Para achar <span class="math inline">\(\Phi(1{,}73)\)</span>, desça até a linha <strong>1,7</strong> e siga até a coluna <strong>0,03</strong>: o valor é 0,9582. As outras probabilidades saem desse número:</p>
+<p>A <a href="../../downloads/tabela-normal-padrao.pdf"><strong>tabela da normal padrão</strong> (PDF)</a>, para imprimir ou consultar, dá <span class="math inline">\(\Phi(z) = P(Z \le z)\)</span> para <span class="math inline">\(z\)</span> de 0,00 a 3,49, com quatro casas decimais. A linha é o valor de <span class="math inline">\(z\)</span> até a primeira casa decimal, e a coluna é a segunda casa. Antes de consultar, arredonde <span class="math inline">\(z\)</span> para duas casas.</p>
+<p>Para achar <span class="math inline">\(\Phi(1{,}73)\)</span>, desça até a linha <strong>1,7</strong> e siga até a coluna <strong>0,03</strong>: o valor é 0,9582. As outras probabilidades saem desse número pelas três regras, como na <a href="#fig-areas" class="quarto-xref">Figura&nbsp;<span>2</span></a>. Três exemplos, todos com <span class="math inline">\(z = 1{,}73\)</span> (seção 7.4.2 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>):</p>
 <ul>
-<li><strong>Cauda à direita:</strong> <span class="math inline">\(P(Z &gt; 1{,}73) = 1 - \Phi(1{,}73) = 0{,}0418\)</span>.</li>
-<li><strong><span class="math inline">\(z\)</span> negativo:</strong> a tabela só tem <span class="math inline">\(z \ge 0\)</span>, e a simetria resolve o resto. <span class="math inline">\(\Phi(-1{,}73) = 1 - \Phi(1{,}73) = 0{,}0418\)</span>.</li>
-<li><strong>Intervalo:</strong> <span class="math inline">\(P(0{,}47 \le Z \le 1{,}73)\)</span> é a diferença <span class="math inline">\(\Phi(1{,}73) - \Phi(0{,}47)\)</span>, ou seja, <span class="math inline">\(0{,}9582 - 0{,}6808 = 0{,}2774\)</span>.</li>
+<li><p><strong>Cauda à direita:</strong></p>
+<p><span class="math display">\[
+\begin{aligned}
+P(Z &gt; 1{,}73) &amp;= 1 - \Phi(1{,}73) \\
+&amp;= 1 - 0{,}9582 = 0{,}0418.
+\end{aligned}
+\]</span></p></li>
+<li><p><strong><span class="math inline">\(z\)</span> negativo:</strong> pela simetria, <span class="math inline">\(\Phi(-1{,}73) = 1 - \Phi(1{,}73)\)</span>, o mesmo valor <span class="math inline">\(0{,}0418\)</span>.</p></li>
+<li><p><strong>Intervalo:</strong> na linha 0,4 e coluna 0,07, <span class="math inline">\(\Phi(0{,}47) = 0{,}6808\)</span>. Então</p>
+<p><span class="math display">\[
+\begin{aligned}
+P(0{,}47 \le Z \le 1{,}73) &amp;= \Phi(1{,}73) - \Phi(0{,}47) \\
+&amp;= 0{,}9582 - 0{,}6808 \\
+&amp;= 0{,}2774.
+\end{aligned}
+\]</span></p></li>
 </ul>
-<p>A Tabela III de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span> usa outro formato: dá a área entre 0 e <span class="math inline">\(z\)</span>, <span class="math inline">\(P(0 \le Z \le z)\)</span>, e não a área acumulada desde <span class="math inline">\(-\infty\)</span>. As duas se convertem somando ou tirando 0,5: <span class="math inline">\(P(0 \le Z \le 1{,}73) = 0{,}9582 - 0{,}5 = 0{,}4582\)</span>.</p>
+<div id="cell-fig-areas" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display">
+<div id="fig-areas" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Três curvas normais padrão lado a lado. Na primeira, a área sombreada vai de menos infinito até 1,73; na segunda, só a cauda à direita de 1,73; na terceira, a faixa entre 0,47 e 1,73.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-areas-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="05-normal_files/figure-html/fig-areas-output-1.png" alt="Três curvas normais padrão lado a lado. Na primeira, a área sombreada vai de menos infinito até 1,73; na segunda, só a cauda à direita de 1,73; na terceira, a faixa entre 0,47 e 1,73." width="662" height="211" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-areas-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;2: As três áreas lidas na tabela, com z = 1,73 e a = 0,47. À esquerda, Φ(1,73) = 0,9582; no meio, a cauda 1 − Φ(1,73) = 0,0418; à direita, o intervalo Φ(1,73) − Φ(0,47) = 0,2774.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Algumas tabelas trazem outro formato: a área entre 0 e <span class="math inline">\(z\)</span>, <span class="math inline">\(P(0 \le Z \le z)\)</span>, e não a área acumulada desde <span class="math inline">\(-\infty\)</span>. É o caso da Tabela III de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>. Como a metade à esquerda de 0 tem área 0,5, os dois formatos se convertem somando ou tirando 0,5:</p>
+<p><span class="math display">\[
+\begin{aligned}
+P(0 \le Z \le 1{,}73) &amp;= 0{,}9582 - 0{,}5 \\
+&amp;= 0{,}4582.
+\end{aligned}
+\]</span></p>
 </section>
 <section id="padronização" class="level2">
 <h2 class="anchored" data-anchor-id="padronização">Padronização</h2>
-<p>A normal padrão serve para todas as outras por causa de uma transformação linear. Se <span class="math inline">\(X \sim N(\mu, \sigma^2)\)</span>, defina</p>
+<p>A tabela é só da normal padrão. Ela serve para todas as outras por causa de uma transformação linear.</p>
+<div class="conceito">
+<p>Se <span class="math inline">\(X \sim N(\mu, \sigma^2)\)</span>, a variável padronizada é</p>
 <p><span class="math display">\[
 Z = \frac{X - \mu}{\sigma}.
 \]</span></p>
-<p>Pelas regras da seção 3.2, que valem também para variáveis contínuas (seção 4.2), com <span class="math inline">\(a = 1/\sigma\)</span> e <span class="math inline">\(b = -\mu/\sigma\)</span>:</p>
+</div>
+<p>O valor <span class="math inline">\(z = (x - \mu)/\sigma\)</span> diz a quantos desvios-padrão <span class="math inline">\(x\)</span> está da média: positivo acima dela, negativo abaixo. A média e a variância de <span class="math inline">\(Z\)</span> saem das regras da seção 3.2, que valem também para variáveis contínuas (seção 4.2). Escrevendo <span class="math inline">\(Z = aX + b\)</span> com <span class="math inline">\(a = 1/\sigma\)</span> e <span class="math inline">\(b = -\mu/\sigma\)</span>:</p>
 <p><span class="math display">\[
 \begin{aligned}
-E(Z) &amp;= \frac{E(X) - \mu}{\sigma} = 0, \\
-\mathrm{Var}(Z) &amp;= \frac{\mathrm{Var}(X)}{\sigma^2} = 1.
+E(Z) &amp;= \frac{1}{\sigma}\,E(X) - \frac{\mu}{\sigma} \\
+&amp;= \frac{\mu}{\sigma} - \frac{\mu}{\sigma} = 0, \\
+\mathrm{Var}(Z) &amp;= \frac{1}{\sigma^2}\,\mathrm{Var}(X) \\
+&amp;= \frac{\sigma^2}{\sigma^2} = 1.
 \end{aligned}
 \]</span></p>
-<p>O que as regras não mostram é que <span class="math inline">\(Z\)</span> continua sendo <strong>normal</strong>. Aceitando esse fato, <span class="math inline">\(Z \sim N(0, 1)\)</span>, e toda pergunta sobre <span class="math inline">\(X\)</span> vira uma pergunta sobre <span class="math inline">\(Z\)</span>. O valor <span class="math inline">\(z = (x - \mu)/\sigma\)</span> diz a quantos desvios-padrão <span class="math inline">\(x\)</span> está da média.</p>
-<p>Por exemplo, com <span class="math inline">\(X \sim N(3, 16)\)</span> (ou seja, <span class="math inline">\(\sigma = 4\)</span>):</p>
+<p>Subtrair <span class="math inline">\(\mu\)</span> leva o centro para 0, e dividir por <span class="math inline">\(\sigma\)</span> faz a dispersão virar 1. O que as regras não mostram é que <span class="math inline">\(Z\)</span> continua sendo <strong>normal</strong>. Esse é um fato sobre a normal, aceito aqui sem prova. Com ele, esse fato, <span class="math inline">\(Z \sim N(0, 1)\)</span>, e toda pergunta sobre <span class="math inline">\(X\)</span> vira uma pergunta sobre <span class="math inline">\(Z\)</span>:</p>
+<p><span class="math display">\[
+P(a \le X \le b) = P\left(\frac{a - \mu}{\sigma} \le Z \le \frac{b - \mu}{\sigma}\right).
+\]</span></p>
+<p>Por exemplo, com <span class="math inline">\(X \sim N(3, 16)\)</span>, a variância é 16 e o desvio-padrão é <span class="math inline">\(\sigma = 4\)</span>. Para <span class="math inline">\(P(2 \le X \le 5)\)</span>:</p>
 <p><span class="math display">\[
 \begin{aligned}
 P(2 \le X \le 5) &amp;= P\left(\frac{2 - 3}{4} \le Z \le \frac{5 - 3}{4}\right) \\
-&amp;= P(-0{,}25 \le Z \le 0{,}5).
+&amp;= P(-0{,}25 \le Z \le 0{,}50) \\
+&amp;= \Phi(0{,}50) - \Phi(-0{,}25).
 \end{aligned}
 \]</span></p>
-<div id="cell-padronizacao" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> stats.norm(loc<span class="op">=</span><span class="dv">3</span>, scale<span class="op">=</span><span class="dv">4</span>)                 <span class="co"># N(3, 16): scale é o desvio-padrão</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>pela_padronizacao <span class="op">=</span> Z.cdf(<span class="fl">0.5</span>) <span class="op">-</span> Z.cdf(<span class="op">-</span><span class="fl">0.25</span>)</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>direto <span class="op">=</span> X.cdf(<span class="dv">5</span>) <span class="op">-</span> X.cdf(<span class="dv">2</span>)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="bu">round</span>(pela_padronizacao, <span class="dv">4</span>), <span class="bu">round</span>(direto, <span class="dv">4</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="padronizacao" class="cell-output cell-output-display" data-execution_count="4">
-<pre><code>(0.2902, 0.2902)</code></pre>
-</div>
-</div>
-<p>Os dois caminhos dão 0,2902. Com a tabela: <span class="math inline">\(\Phi(0{,}5) = 0{,}6915\)</span> e, pela simetria, <span class="math inline">\(\Phi(-0{,}25) = 1 - 0{,}5987 = 0{,}4013\)</span>. A diferença é <span class="math inline">\(0{,}2902\)</span>. Com a <code>scipy</code>, <code>stats.norm(loc=μ, scale=σ)</code> faz a conta direto, sem padronizar, mas a padronização continua útil para <strong>interpretar</strong>: dizer que um valor está a 2 desvios-padrão da média significa a mesma coisa em qualquer normal.</p>
+<p>Na tabela, <span class="math inline">\(\Phi(0{,}50) = 0{,}6915\)</span> e <span class="math inline">\(\Phi(0{,}25) = 0{,}5987\)</span>. Pela simetria, <span class="math inline">\(\Phi(-0{,}25) = 1 - 0{,}5987 = 0{,}4013\)</span>. Então</p>
+<p><span class="math display">\[
+\begin{aligned}
+P(2 \le X \le 5) &amp;= 0{,}6915 - 0{,}4013 \\
+&amp;= 0{,}2902.
+\end{aligned}
+\]</span></p>
+<p>Pouco menos de 30% dos valores de <span class="math inline">\(X\)</span> caem entre 2 e 5, um intervalo que vai de um quarto de desvio-padrão abaixo da média até meio desvio-padrão acima.</p>
 </section>
 <section id="a-quantos-desvios-padrão" class="level2">
 <h2 class="anchored" data-anchor-id="a-quantos-desvios-padrão">A quantos desvios-padrão</h2>
-<p>Quanto da probabilidade fica até 1, 2 e 3 desvios-padrão da média? Pela padronização, a resposta é a mesma para qualquer normal:</p>
-<div id="cell-regra-68-95" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"até k desvios"</span>: [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>],</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"P(|Z| ≤ k)"</span>: [Z.cdf(k) <span class="op">-</span> Z.cdf(<span class="op">-</span>k) <span class="cf">for</span> k <span class="kw">in</span> (<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)],</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>}).<span class="bu">round</span>(<span class="dv">4</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="regra-68-95" class="cell-output cell-output-display" data-execution_count="5">
-<div>
-
-
-<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<p>Quanto da probabilidade fica até 1, 2 e 3 desvios-padrão da média? Pela padronização,</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;P(\mu - k\sigma \le X \le \mu + k\sigma) \\
+&amp;\quad = P(-k \le Z \le k),
+\end{aligned}
+\]</span></p>
+<p>e a resposta é a mesma para qualquer normal. Pela regra do intervalo e pela simetria,</p>
+<p><span class="math display">\[
+\begin{aligned}
+P(-k \le Z \le k) &amp;= \Phi(k) - \Phi(-k) \\
+&amp;= \Phi(k) - [1 - \Phi(k)] \\
+&amp;= 2\,\Phi(k) - 1.
+\end{aligned}
+\]</span></p>
+<p>Com os valores da tabela:</p>
+<div class="table-responsive">
+<div id="tbl-desvios" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-desvios-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;1: Probabilidade de ficar a até <span class="math inline">\(k\)</span> desvios-padrão da média, <span class="math inline">\(P(-k \le Z \le k)\)</span>, pela tabela.
+</figcaption>
+<div aria-describedby="tbl-desvios-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
 <thead>
 <tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">até k desvios</th>
-<th data-quarto-table-cell-role="th">P(|Z| ≤ k)</th>
+<th style="text-align: center;"><span class="math inline">\(k\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(\Phi(k)\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(2\,\Phi(k) - 1\)</span></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">0</th>
-<td>1</td>
-<td>0.6827</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0,8413</td>
+<td style="text-align: center;">0,6826</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">1</th>
-<td>2</td>
-<td>0.9545</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">0,9772</td>
+<td style="text-align: center;">0,9544</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">2</th>
-<td>3</td>
-<td>0.9973</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">0,9987</td>
+<td style="text-align: center;">0,9974</td>
 </tr>
 </tbody>
 </table>
-
+</div>
+</figure>
 </div>
 </div>
-</div>
-<p>Cerca de 68% dos valores ficam a menos de um desvio-padrão da média, 95% a menos de dois, e 99,7% a menos de três. Numa normal qualquer, um valor a mais de 3 desvios-padrão da média é raro: fica fora dessa faixa só 0,3% da probabilidade, somando os dois lados.</p>
+<p>Cerca de 68% dos valores ficam a menos de um desvio-padrão da média, 95% a menos de dois, e 99,7% a menos de três. Numa normal qualquer, um valor a mais de três desvios-padrão da média é raro: fora dessa faixa fica só <span class="math inline">\(1 - 0{,}9974 = 0{,}0026\)</span> da probabilidade, somando os dois lados.</p>
 </section>
 <section id="um-exemplo-completo" class="level2">
 <h2 class="anchored" data-anchor-id="um-exemplo-completo">Um exemplo completo</h2>
-<p>O Exemplo 7.9 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>: os depósitos num banco durante janeiro seguem uma normal com média R$ 10.000 e desvio-padrão R$ 1.500. Sorteado um depósito ao acaso, qual a probabilidade de ele ser (a) de até R$ 10.000; (b) de pelo menos R$ 10.000; (c) entre R$ 12.000 e R$ 15.000; (d) maior que R$ 20.000?</p>
-<div id="depositos" class="cell" data-execution_count="6">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>deposito <span class="op">=</span> stats.norm(loc<span class="op">=</span><span class="dv">10_000</span>, scale<span class="op">=</span><span class="dv">1_500</span>)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(deposito.cdf(<span class="dv">10_000</span>), deposito.sf(<span class="dv">10_000</span>))</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">round</span>(deposito.cdf(<span class="dv">15_000</span>) <span class="op">-</span> deposito.cdf(<span class="dv">12_000</span>), <span class="dv">4</span>))</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>deposito<span class="sc">.</span>sf(<span class="dv">20_000</span>)<span class="sc">:.1e}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>0.5 0.5
-0.0908
-1.3e-11</code></pre>
-</div>
-</div>
-<ol type="a">
-<li>e (b) dão 0,5 cada, pela simetria em torno da média. (c) é cerca de 0,0908. (d) é praticamente zero: R$ 20.000 fica a <span class="math inline">\((20.000 - 10.000)/1.500 \approx 6{,}7\)</span> desvios-padrão da média.</li>
-</ol>
+<p>No Exemplo 7.9 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>, os depósitos num banco durante janeiro seguem uma normal com média R$ 10.000 e desvio-padrão R$ 1.500, ou seja, <span class="math inline">\(X \sim N(10.000,\ 1.500^2)\)</span>. Sorteado um depósito ao acaso, qual a probabilidade de ele ser (a) de até R$ 10.000; (b) de pelo menos R$ 10.000; (c) entre R$ 12.000 e R$ 15.000; (d) maior que R$ 20.000?</p>
+<p><strong>(a) e (b).</strong> O valor 10.000 é a própria média, e <span class="math inline">\(z = 0\)</span>. Então <span class="math inline">\(P(X \le 10.000) = \Phi(0) = 0{,}5\)</span> e, pela simetria em torno da média, <span class="math inline">\(P(X \ge 10.000) = 0{,}5\)</span>.</p>
+<p><strong>(c).</strong> Padronizando as duas pontas e arredondando <span class="math inline">\(z\)</span> para duas casas:</p>
+<p><span class="math display">\[
+\begin{aligned}
+z_1 &amp;= \frac{12.000 - 10.000}{1.500} \\
+&amp;= \frac{2.000}{1.500} \approx 1{,}33, \\
+z_2 &amp;= \frac{15.000 - 10.000}{1.500} \\
+&amp;= \frac{5.000}{1.500} \approx 3{,}33.
+\end{aligned}
+\]</span></p>
+<p>Na tabela, <span class="math inline">\(\Phi(3{,}33) = 0{,}9996\)</span> e <span class="math inline">\(\Phi(1{,}33) = 0{,}9082\)</span>. Então</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;P(12.000 \le X \le 15.000) \\
+&amp;\quad = \Phi(3{,}33) - \Phi(1{,}33) \\
+&amp;\quad = 0{,}9996 - 0{,}9082 \\
+&amp;\quad = 0{,}0914.
+\end{aligned}
+\]</span></p>
+<p><strong>(d).</strong> Padronizando,</p>
+<p><span class="math display">\[
+\begin{aligned}
+z &amp;= \frac{20.000 - 10.000}{1.500} \\
+&amp;= \frac{10.000}{1.500} \approx 6{,}67.
+\end{aligned}
+\]</span></p>
+<p>A tabela para em 3,49, onde <span class="math inline">\(\Phi\)</span> já vale 0,9998. Para <span class="math inline">\(z \approx 6{,}67\)</span>, <span class="math inline">\(P(X &gt; 20.000) = 1 - \Phi(6{,}67)\)</span> é praticamente zero: um depósito a quase 7 desvios-padrão da média quase nunca ocorre neste modelo.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -891,7 +910,7 @@ P(2 \le X \le 5) &amp;= P\left(\frac{2 - 3}{4} \le Z \le \frac{5 - 3}{4}\right) 
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Dados com cauda longa à direita, como tempo de resposta de servidores ou renda, <strong>não</strong> são normais (até a suíte “estável” dos exercícios é uma idealização), e usar a normal para eles subestima a chance de valores muito altos. Antes de usar o modelo, olhe o histograma dos dados (seção 1.5) e desconfie de assimetria.</p>
+<p>Dados com cauda longa à direita, como renda, tempo de espera numa fila ou valor de indenizações de seguro, <strong>não</strong> são normais, e usar a normal para eles subestima a chance de valores muito altos. Antes de usar o modelo, olhe o histograma dos dados (seção 1.5) e desconfie de assimetria.</p>
 </div>
 </div>
 </section>
@@ -916,7 +935,7 @@ P(2 \le X \le 5) &amp;= P\left(\frac{2 - 3}{4} \le Z \le \frac{5 - 3}{4}\right) 
 </tr>
 <tr class="even">
 <td><span class="math inline">\(E(X)\)</span>, <span class="math inline">\(\mathrm{Var}(X)\)</span></td>
-<td><span class="math inline">\(\mu\)</span>, <span class="math inline">\(\sigma^2\)</span></td>
+<td><span class="math inline">\(\mu\)</span>, <span class="math inline">\(\sigma^2\)</span> (o segundo argumento é a variância)</td>
 </tr>
 <tr class="odd">
 <td>Padronização</td>
@@ -924,15 +943,15 @@ P(2 \le X \le 5) &amp;= P\left(\frac{2 - 3}{4} \le Z \le \frac{5 - 3}{4}\right) 
 </tr>
 <tr class="even">
 <td>f.d.a. padrão</td>
-<td><span class="math inline">\(\Phi(z) = P(Z \le z)\)</span>, sem fórmula fechada</td>
+<td><span class="math inline">\(\Phi(z) = P(Z \le z)\)</span>, sem fórmula fechada: valores na tabela</td>
 </tr>
 <tr class="odd">
-<td>A 1, 2 e 3 desvios</td>
-<td>cerca de 68%, 95% e 99,7%</td>
+<td>Regras da tabela</td>
+<td><span class="math inline">\(P(Z &gt; z) = 1 - \Phi(z)\)</span>;<br><span class="math inline">\(\Phi(-z) = 1 - \Phi(z)\)</span>;<br><span class="math inline">\(P(a \le Z \le b) = \Phi(b) - \Phi(a)\)</span></td>
 </tr>
 <tr class="even">
-<td><code>scipy.stats</code></td>
-<td><code>norm(loc=μ, scale=σ)</code>: <code>pdf</code>, <code>cdf</code>, <code>sf</code></td>
+<td>A 1, 2 e 3 desvios</td>
+<td>0,6826, 0,9544 e 0,9974, pela tabela (cerca de 68%, 95% e 99,7%)</td>
 </tr>
 </tbody>
 </table>
@@ -940,7 +959,7 @@ P(2 \le X \le 5) &amp;= P\left(\frac{2 - 3}{4} \le Z \le \frac{5 - 3}{4}\right) 
 </section>
 <section id="exercícios" class="level2">
 <h2 class="anchored" data-anchor-id="exercícios">Exercícios</h2>
-<p><strong>1.</strong> O tempo de execução de uma suíte de testes é normal com média 12 minutos e desvio-padrão 2 minutos. Qual a probabilidade de uma execução levar mais de 15 minutos? E de ficar entre 10 e 14 minutos?</p>
+<p><strong>1.</strong> O tempo que um operário leva para montar uma peça é normal com média 12 minutos e desvio-padrão 2 minutos. Qual a probabilidade de uma montagem levar mais de 15 minutos? E de ficar entre 10 e 14 minutos?</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -953,13 +972,26 @@ P(2 \le X \le 5) &amp;= P\left(\frac{2 - 3}{4} \le Z \le \frac{5 - 3}{4}\right) 
 </div>
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><span class="math inline">\(X \sim N(12, 4)\)</span>. <span class="math inline">\(P(X &gt; 15) = P(Z &gt; 1{,}5) \approx 0{,}067\)</span>. <span class="math inline">\(P(10 \le X \le 14) = P(-1 \le Z \le 1) \approx 0{,}683\)</span>, a faixa de um desvio-padrão.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> stats.norm(loc<span class="op">=</span><span class="dv">12</span>, scale<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>t.sf(<span class="dv">15</span>), t.cdf(<span class="dv">14</span>) <span class="op">-</span> t.cdf(<span class="dv">10</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<p><span class="math inline">\(X \sim N(12, 4)\)</span>, com <span class="math inline">\(\sigma = 2\)</span>. Para 15 minutos, <span class="math inline">\(z = (15 - 12)/2 = 1{,}5\)</span>, e</p>
+<p><span class="math display">\[
+\begin{aligned}
+P(X &gt; 15) &amp;= 1 - \Phi(1{,}50) \\
+&amp;= 1 - 0{,}9332 = 0{,}0668.
+\end{aligned}
+\]</span></p>
+<p>Para o intervalo, <span class="math inline">\(z = (10 - 12)/2 = -1\)</span> e <span class="math inline">\(z = (14 - 12)/2 = 1\)</span>:</p>
+<p><span class="math display">\[
+\begin{aligned}
+P(10 \le X \le 14) &amp;= P(-1 \le Z \le 1) \\
+&amp;= 2\,\Phi(1) - 1 \\
+&amp;= 2 \times 0{,}8413 - 1 = 0{,}6826,
+\end{aligned}
+\]</span></p>
+<p>a faixa de um desvio-padrão.</p>
 </div>
 </div>
 </div>
-<p><strong>2.</strong> Com a mesma suíte, a equipe usa um tempo limite (<em>timeout</em>) de 16 minutos. Que fração das execuções normais ultrapassa o limite? E se o limite fosse de 18 minutos?</p>
+<p><strong>2.</strong> Na mesma montagem, o supervisor marca como atrasada toda montagem que passa de 16 minutos. Que fração das montagens fica atrasada? E se o limite fosse de 18 minutos?</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -972,11 +1004,21 @@ P(2 \le X \le 5) &amp;= P\left(\frac{2 - 3}{4} \le Z \le \frac{5 - 3}{4}\right) 
 </div>
 <div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>16 minutos ficam a <span class="math inline">\((16 - 12)/2 = 2\)</span> desvios-padrão da média: <span class="math inline">\(P(X &gt; 16) = P(Z &gt; 2) \approx 0{,}023\)</span>, pouco mais de 2% das execuções. Com 18 minutos, 3 desvios-padrão, <span class="math inline">\(P(Z &gt; 3) \approx 0{,}0013\)</span>. A faixa de 2 desvios contém 95,45% da probabilidade (os 95% da regra são arredondamento) e deixa 4,55% de fora, metade de cada lado: 2,3%. Da mesma forma, 0,0013 é metade dos 0,27% que ficam fora da faixa de 3 desvios.</p>
+<p>16 minutos ficam a <span class="math inline">\((16 - 12)/2 = 2\)</span> desvios-padrão da média, e 18 minutos, a <span class="math inline">\((18 - 12)/2 = 3\)</span>:</p>
+<p><span class="math display">\[
+\begin{aligned}
+P(X &gt; 16) &amp;= 1 - \Phi(2) \\
+&amp;= 1 - 0{,}9772 = 0{,}0228, \\
+P(X &gt; 18) &amp;= 1 - \Phi(3) \\
+&amp;= 1 - 0{,}9987 = 0{,}0013.
+\end{aligned}
+\]</span></p>
+<p>Pouco mais de 2% das montagens passam de 16 minutos.</p>
+<p>Compare com a <a href="#tbl-desvios" class="quarto-xref">Tabela&nbsp;<span>1</span></a>. A faixa de 2 desvios contém 0,9544 da probabilidade (os 95% da regra são arredondamento) e deixa <span class="math inline">\(0{,}0456\)</span> de fora, metade de cada lado: <span class="math inline">\(0{,}0228\)</span>. Da mesma forma, <span class="math inline">\(0{,}0013\)</span> é metade dos <span class="math inline">\(0{,}0026\)</span> que ficam fora da faixa de 3 desvios.</p>
 </div>
 </div>
 </div>
-<p><strong>3.</strong> Um colega calculou <span class="math inline">\(P(X \le 5)\)</span> para <span class="math inline">\(X \sim N(3, 16)\)</span> com <code>stats.norm(3, 16).cdf(5)</code> e obteve 0,55. O valor certo é maior ou menor? Por quê?</p>
+<p><strong>3.</strong> Para <span class="math inline">\(X \sim N(3, 16)\)</span>, um colega calculou <span class="math inline">\(P(X &gt; 7)\)</span> padronizando com <span class="math inline">\(z = (7 - 3)/16\)</span>. Que valor ele obteve? Qual o valor certo? Explique a diferença.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -989,7 +1031,21 @@ P(2 \le X \le 5) &amp;= P\left(\frac{2 - 3}{4} \le Z \le \frac{5 - 3}{4}\right) 
 </div>
 <div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Ele passou a variância, 16, como <code>scale</code>, que é o desvio-padrão. Modelou uma normal com <span class="math inline">\(\sigma = 16\)</span>, muito mais espalhada, em que 5 fica a só <span class="math inline">\(2/16 = 0{,}125\)</span> desvio-padrão da média. O certo é <code>stats.norm(3, 4).cdf(5)</code>, cerca de 0,69: com <span class="math inline">\(\sigma = 4\)</span>, o valor 5 está a meio desvio-padrão acima da média, e a probabilidade acumulada é maior.</p>
+<p>Ele dividiu pela variância. Com <span class="math inline">\(z = 4/16 = 0{,}25\)</span>, obteve</p>
+<p><span class="math display">\[
+\begin{aligned}
+1 - \Phi(0{,}25) &amp;= 1 - 0{,}5987 \\
+&amp;= 0{,}4013.
+\end{aligned}
+\]</span></p>
+<p>O desvio-padrão é <span class="math inline">\(\sigma = \sqrt{16} = 4\)</span>, então o certo é <span class="math inline">\(z = (7 - 3)/4 = 1\)</span> e</p>
+<p><span class="math display">\[
+\begin{aligned}
+P(X &gt; 7) &amp;= 1 - \Phi(1) \\
+&amp;= 1 - 0{,}8413 = 0{,}1587.
+\end{aligned}
+\]</span></p>
+<p>O valor 7 está a um desvio-padrão acima da média. Dividindo por 16, o colega tratou a distribuição como se tivesse <span class="math inline">\(\sigma = 16\)</span>, quatro vezes mais espalhada: nela, 7 fica a só um quarto de desvio-padrão da média, e a cauda acima dele parece bem maior do que é.</p>
 </div>
 </div>
 </div>

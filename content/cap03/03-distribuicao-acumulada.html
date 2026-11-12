@@ -24,41 +24,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 /* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
@@ -81,7 +46,7 @@ div.csl-indent {
 }</style>
 
 
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -102,9 +67,9 @@ div.csl-indent {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-96de93aeef37c2f55637d13965bee670.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-fa5a435faa8b3fd8ba2c629fc35ba32a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-96de93aeef37c2f55637d13965bee670.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-64fc88c462144c19fa71a709d9434c23.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-244db57ca546911734af8129e7c854c8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-64fc88c462144c19fa71a709d9434c23.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -176,9 +141,6 @@ div.csl-indent {
   });
 })();
 </script>
-<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
-
-<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -648,7 +610,7 @@ window.Quarto = {
   <li><a href="#definição" id="toc-definição" class="nav-link active" data-scroll-target="#definição">Definição</a></li>
   <li><a href="#o-gráfico-em-escada" id="toc-o-gráfico-em-escada" class="nav-link" data-scroll-target="#o-gráfico-em-escada">O gráfico em escada</a></li>
   <li><a href="#probabilidades-de-intervalos" id="toc-probabilidades-de-intervalos" class="nav-link" data-scroll-target="#probabilidades-de-intervalos">Probabilidades de intervalos</a></li>
-  <li><a href="#a-versão-teórica-da-acumulada-empírica" id="toc-a-versão-teórica-da-acumulada-empírica" class="nav-link" data-scroll-target="#a-versão-teórica-da-acumulada-empírica">A versão teórica da acumulada empírica</a></li>
+  <li><a href="#a-f.d.a.-e-a-frequência-relativa-acumulada" id="toc-a-f.d.a.-e-a-frequência-relativa-acumulada" class="nav-link" data-scroll-target="#a-f.d.a.-e-a-frequência-relativa-acumulada">A f.d.a. e a frequência relativa acumulada</a></li>
   <li><a href="#resumo" id="toc-resumo" class="nav-link" data-scroll-target="#resumo">Resumo</a></li>
   <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios">Exercícios</a></li>
   </ul>
@@ -696,8 +658,8 @@ Nota
 <p>Esta seção corresponde à seção 6.5 de <span class="citation" data-cites="bussab2023">Bussab e Morettin (<a href="#ref-bussab2023" role="doc-biblioref">2023</a>)</span>.</p>
 </div>
 </div>
-<p>Muitas perguntas sobre uma variável aleatória não são “qual a chance de <span class="math inline">\(X\)</span> valer exatamente <span class="math inline">\(x\)</span>?”, mas “qual a chance de <span class="math inline">\(X\)</span> <strong>não passar</strong> de <span class="math inline">\(x\)</span>?”. Qual a probabilidade de o lucro de uma venda ficar em até 5 mil? De um servidor receber no máximo 3 requisições por segundo? De no máximo 2 builds falharem num dia?</p>
-<p>Para uma variável discreta, basta somar as probabilidades de todos os valores até <span class="math inline">\(x\)</span>. A função que faz essa soma para cada <span class="math inline">\(x\)</span> tem nome próprio e aparece em quase tudo o que vem depois neste livro.</p>
+<p>Qual a probabilidade de o lucro de uma unidade montada ficar em até 5 reais? E de um lote ter no máximo 3 peças defeituosas? As duas perguntas pedem a chance de uma variável aleatória <strong>não passar</strong> de um valor.</p>
+<p>Para uma variável discreta, basta somar as probabilidades de todos os valores até esse limite. A função que faz essa soma para cada valor tem nome próprio e volta no Capítulo 4, na tabela da distribuição normal.</p>
 <section id="definição" class="level2">
 <h2 class="anchored" data-anchor-id="definição">Definição</h2>
 <div class="conceito">
@@ -707,56 +669,49 @@ F(x) = P(X \le x),
 \]</span></p>
 <p>definida para todo número real <span class="math inline">\(x\)</span>.</p>
 </div>
-<p><span class="math inline">\(F(x)\)</span> é uma probabilidade, então fica entre 0 e 1. Diferente da função de probabilidade, que só é positiva nos valores que <span class="math inline">\(X\)</span> assume, <span class="math inline">\(F\)</span> está definida em toda a reta: <span class="math inline">\(F(7{,}3)\)</span> faz sentido, e é a probabilidade de <span class="math inline">\(X\)</span> ser no máximo 7,3.</p>
-<p>No lucro por sistema vendido, os valores em ordem crescente são <span class="math inline">\(-5\)</span>, 5, 10 e 15. A acumulada soma as probabilidades da esquerda para a direita, e o <code>np.cumsum</code> faz essa soma:</p>
-<div id="cell-fda-tabela" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>fda <span class="op">=</span> pd.DataFrame({<span class="st">"x"</span>: x, <span class="st">"p(x)"</span>: p, <span class="st">"F(x)"</span>: np.cumsum(p)})</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>fda.<span class="bu">round</span>(<span class="dv">2</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="fda-tabela" class="cell-output cell-output-display" data-execution_count="2">
-<div>
-
-
-<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<p><span class="math inline">\(F(x)\)</span> é uma probabilidade, então fica entre 0 e 1. Diferentemente da função de probabilidade, que só é positiva nos valores que <span class="math inline">\(X\)</span> assume, <span class="math inline">\(F\)</span> está definida em toda a reta: <span class="math inline">\(F(7{,}3)\)</span> faz sentido, e é a probabilidade de <span class="math inline">\(X\)</span> ser no máximo 7,3.</p>
+<p>No lucro por unidade montada, os valores em ordem crescente são <span class="math inline">\(-5\)</span>, 5, 10 e 15. A f.d.a. soma as probabilidades da esquerda para a direita: cada <span class="math inline">\(F(x_i)\)</span> é o valor anterior mais <span class="math inline">\(p(x_i)\)</span>.</p>
+<div id="tbl-fda-lucro" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-fda-lucro-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;1: Função de probabilidade e f.d.a. do lucro por unidade montada (R$).
+</figcaption>
+<div aria-describedby="tbl-fda-lucro-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
 <thead>
 <tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">x</th>
-<th data-quarto-table-cell-role="th">p(x)</th>
-<th data-quarto-table-cell-role="th">F(x)</th>
+<th style="text-align: center;"><span class="math inline">\(x\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(p(x)\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(F(x) = P(X \le x)\)</span></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">0</th>
-<td>-5</td>
-<td>0.19</td>
-<td>0.19</td>
+<td style="text-align: center;"><span class="math inline">\(-5\)</span></td>
+<td style="text-align: center;">0,19</td>
+<td style="text-align: center;">0,19</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">1</th>
-<td>5</td>
-<td>0.02</td>
-<td>0.21</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">0,02</td>
+<td style="text-align: center;"><span class="math inline">\(0{,}19 + 0{,}02 = 0{,}21\)</span></td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">2</th>
-<td>10</td>
-<td>0.23</td>
-<td>0.44</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">0,23</td>
+<td style="text-align: center;"><span class="math inline">\(0{,}21 + 0{,}23 = 0{,}44\)</span></td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">3</th>
-<td>15</td>
-<td>0.56</td>
-<td>1.00</td>
+<td style="text-align: center;">15</td>
+<td style="text-align: center;">0,56</td>
+<td style="text-align: center;"><span class="math inline">\(0{,}44 + 0{,}56 = 1\)</span></td>
 </tr>
 </tbody>
 </table>
-
 </div>
+</figure>
 </div>
-</div>
-<p>Entre dois valores possíveis, <span class="math inline">\(F\)</span> não muda. Para qualquer <span class="math inline">\(x\)</span> com <span class="math inline">\(5 \le x &lt; 10\)</span>, por exemplo, <span class="math inline">\(P(X \le x) = P(X \le 5)\)</span>, porque <span class="math inline">\(X\)</span> não assume nenhum valor nesse intervalo. Escrevendo por intervalos:</p>
+<p>Entre dois valores possíveis, <span class="math inline">\(F\)</span> não muda. Para qualquer <span class="math inline">\(x\)</span> com <span class="math inline">\(5 \le x &lt; 10\)</span>, por exemplo, <span class="math inline">\(P(X \le x) = P(X \le 5)\)</span>, porque <span class="math inline">\(X\)</span> não assume nenhum valor nesse intervalo. Por isso <span class="math inline">\(F(7{,}3) = F(5) = 0{,}21\)</span>. Escrevendo por intervalos:</p>
 <p><span class="math display">\[
 F(x) =
 \begin{cases}
@@ -771,18 +726,7 @@ F(x) =
 <section id="o-gráfico-em-escada" class="level2">
 <h2 class="anchored" data-anchor-id="o-gráfico-em-escada">O gráfico em escada</h2>
 <p>O gráfico de <span class="math inline">\(F\)</span> para uma variável discreta é uma <strong>escada</strong>: constante entre os valores possíveis, com um degrau em cada um deles.</p>
-<div id="cell-fig-fda-lucro" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>F <span class="op">=</span> np.cumsum(p)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>bordas <span class="op">=</span> np.concatenate(([<span class="op">-</span><span class="dv">10</span>], x, [<span class="dv">20</span>]))</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>alturas <span class="op">=</span> np.concatenate(([<span class="dv">0</span>], F))</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="fl">3.5</span>))</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>ax.hlines(alturas, bordas[:<span class="op">-</span><span class="dv">1</span>], bordas[<span class="dv">1</span>:], linewidth<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>ax.plot(x, F, <span class="st">"o"</span>, color<span class="op">=</span><span class="st">"C0"</span>)                        <span class="co"># ponto fechado: F(x) inclui x</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>ax.plot(x, alturas[:<span class="op">-</span><span class="dv">1</span>], <span class="st">"o"</span>, mfc<span class="op">=</span><span class="st">"white"</span>, color<span class="op">=</span><span class="st">"C0"</span>) <span class="co"># ponto aberto: valor antes do degrau</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"lucro x (R$ mil)"</span>)</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"F(x)"</span>)</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-fig-fda-lucro" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div id="fig-fda-lucro" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Gráfico em escada que começa em 0, sobe para 0,19 em -5, 0,21 em 5, 0,44 em 10 e 1 em 15.">
 <figure class="quarto-float quarto-float-fig figure">
@@ -790,7 +734,7 @@ F(x) =
 <img src="03-distribuicao-acumulada_files/figure-html/fig-fda-lucro-output-1.png" alt="Gráfico em escada que começa em 0, sobe para 0,19 em -5, 0,21 em 5, 0,44 em 10 e 1 em 15." width="515" height="320" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fda-lucro-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;1: Função de distribuição acumulada do lucro por sistema vendido. Cada degrau fica num valor possível de X, e a altura do degrau é a probabilidade desse valor.
+Figura&nbsp;1: Função de distribuição acumulada do lucro por unidade montada. Cada degrau fica num valor possível de X, e a altura do degrau é a probabilidade desse valor.
 </figcaption>
 </figure>
 </div>
@@ -800,25 +744,34 @@ Figura&nbsp;1: Função de distribuição acumulada do lucro por sistema vendido
 <ul>
 <li><strong>Ele nunca desce.</strong> Aumentar <span class="math inline">\(x\)</span> só acrescenta valores à soma. <span class="math inline">\(F\)</span> é não decrescente.</li>
 <li><strong>Começa em 0 e termina em 1.</strong> À esquerda de todos os valores, nada foi acumulado; à direita de todos, tudo foi.</li>
-<li><strong>A altura de cada degrau é a probabilidade daquele valor.</strong> O degrau em 10 vai de 0,21 a 0,44, e <span class="math inline">\(P(X = 10) = 0{,}23\)</span>. Conhecendo <span class="math inline">\(F\)</span>, recupera-se a função de probabilidade, e vice-versa: as duas descrevem o mesmo modelo.</li>
+<li><strong>A altura de cada degrau é a probabilidade daquele valor.</strong> O degrau em 10 vai de 0,21 a 0,44, e <span class="math inline">\(P(X = 10) = 0{,}44 - 0{,}21 = 0{,}23\)</span>. Conhecendo <span class="math inline">\(F\)</span>, recupera-se a função de probabilidade, e vice-versa: as duas descrevem o mesmo modelo.</li>
 </ul>
 </section>
 <section id="probabilidades-de-intervalos" class="level2">
 <h2 class="anchored" data-anchor-id="probabilidades-de-intervalos">Probabilidades de intervalos</h2>
-<p>A f.d.a. dá a probabilidade de qualquer intervalo com uma subtração. Para <span class="math inline">\(a &lt; b\)</span>, o evento <span class="math inline">\(\{X \le b\}\)</span> é a união disjunta de <span class="math inline">\(\{X \le a\}\)</span> e <span class="math inline">\(\{a &lt; X \le b\}\)</span>, então</p>
+<p>A f.d.a. dá a probabilidade de qualquer intervalo com uma subtração. Para <span class="math inline">\(a &lt; b\)</span>, o evento <span class="math inline">\(\{X \le b\}\)</span> é a união disjunta de <span class="math inline">\(\{X \le a\}\)</span> e <span class="math inline">\(\{a &lt; X \le b\}\)</span>. Pela regra da adição, <span class="math inline">\(F(b) = F(a) + P(a &lt; X \le b)\)</span>, e então</p>
+<div class="conceito">
 <p><span class="math display">\[
 P(a &lt; X \le b) = F(b) - F(a).
 \]</span></p>
-<p>A probabilidade de o lucro ficar acima de 0 e no máximo 10 é <span class="math inline">\(F(10) - F(0) = 0{,}44 - 0{,}19 = 0{,}25\)</span>: são os valores 5 e 10. E a probabilidade de lucro acima de 5 mil é, pelo complementar, <span class="math inline">\(1 - F(5) = 1 - 0{,}21 = 0{,}79\)</span>.</p>
-<div id="cell-fda-funcao" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> F_lucro(t):</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> p[x <span class="op">&lt;=</span> t].<span class="bu">sum</span>()</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="bu">round</span>(F_lucro(<span class="dv">10</span>) <span class="op">-</span> F_lucro(<span class="dv">0</span>), <span class="dv">2</span>), <span class="bu">round</span>(<span class="dv">1</span> <span class="op">-</span> F_lucro(<span class="dv">5</span>), <span class="dv">2</span>), <span class="bu">round</span>(F_lucro(<span class="fl">7.3</span>), <span class="dv">2</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="fda-funcao" class="cell-output cell-output-display" data-execution_count="4">
-<pre><code>(0.25, 0.79, 0.21)</code></pre>
 </div>
-</div>
+<p>A probabilidade de o lucro ficar acima de 0 e no máximo 10 reais é</p>
+<p><span class="math display">\[
+\begin{aligned}
+P(0 &lt; X \le 10) &amp;= F(10) - F(0) \\
+&amp;= 0{,}44 - 0{,}19 \\
+&amp;= 0{,}25.
+\end{aligned}
+\]</span></p>
+<p>São os valores 5 e 10: <span class="math inline">\(0{,}02 + 0{,}23 = 0{,}25\)</span>. A probabilidade de lucro acima de 5 reais sai pelo complementar:</p>
+<p><span class="math display">\[
+\begin{aligned}
+P(X &gt; 5) &amp;= 1 - P(X \le 5) \\
+&amp;= 1 - F(5) \\
+&amp;= 1 - 0{,}21 \\
+&amp;= 0{,}79.
+\end{aligned}
+\]</span></p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -833,59 +786,9 @@ P(a &lt; X \le b) = F(b) - F(a).
 </div>
 </div>
 </section>
-<section id="a-versão-teórica-da-acumulada-empírica" class="level2">
-<h2 class="anchored" data-anchor-id="a-versão-teórica-da-acumulada-empírica">A versão teórica da acumulada empírica</h2>
-<p>Num conjunto de dados, a proporção de observações menores ou iguais a <span class="math inline">\(x\)</span> é a <strong>acumulada empírica</strong>. A f.d.a. é a sua versão teórica. Refazendo a simulação de 10.000 vendas da seção 3.2, com a mesma semente, a proporção de vendas com lucro até <span class="math inline">\(x\)</span> fica perto de <span class="math inline">\(F(x)\)</span> em cada valor:</p>
-<div id="cell-fda-empirica" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">42</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>vendas <span class="op">=</span> rng.choice(x[::<span class="op">-</span><span class="dv">1</span>], size<span class="op">=</span><span class="dv">10_000</span>, p<span class="op">=</span>p[::<span class="op">-</span><span class="dv">1</span>])   <span class="co"># mesma ordem da seção 3.2</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>empirica <span class="op">=</span> [(vendas <span class="op">&lt;=</span> v).mean() <span class="cf">for</span> v <span class="kw">in</span> x]</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({<span class="st">"x"</span>: x, <span class="st">"F(x)"</span>: np.cumsum(p), <span class="st">"proporção nas vendas"</span>: empirica}).<span class="bu">round</span>(<span class="dv">3</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="fda-empirica" class="cell-output cell-output-display" data-execution_count="5">
-<div>
-
-
-<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">x</th>
-<th data-quarto-table-cell-role="th">F(x)</th>
-<th data-quarto-table-cell-role="th">proporção nas vendas</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">0</th>
-<td>-5</td>
-<td>0.19</td>
-<td>0.187</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">1</th>
-<td>5</td>
-<td>0.21</td>
-<td>0.206</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">2</th>
-<td>10</td>
-<td>0.44</td>
-<td>0.436</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">3</th>
-<td>15</td>
-<td>1.00</td>
-<td>1.000</td>
-</tr>
-</tbody>
-</table>
-
-</div>
-</div>
-</div>
+<section id="a-f.d.a.-e-a-frequência-relativa-acumulada" class="level2">
+<h2 class="anchored" data-anchor-id="a-f.d.a.-e-a-frequência-relativa-acumulada">A f.d.a. e a frequência relativa acumulada</h2>
+<p>Num conjunto de dados, a frequência relativa acumulada até <span class="math inline">\(x\)</span> é a proporção de observações menores ou iguais a <span class="math inline">\(x\)</span>. A f.d.a. faz para o modelo o que a frequência relativa acumulada faz para os dados, do mesmo jeito que <span class="math inline">\(p(x)\)</span> corresponde à frequência relativa. No lucro, <span class="math inline">\(F(5) = 0{,}21\)</span> é a proporção de unidades com lucro de até 5 reais que o modelo prevê.</p>
 </section>
 <section id="resumo" class="level2">
 <h2 class="anchored" data-anchor-id="resumo">Resumo</h2>
@@ -937,7 +840,7 @@ P(a &lt; X \le b) = F(b) - F(a).
 </div>
 </div>
 </div>
-<p><strong>2.</strong> O número <span class="math inline">\(N\)</span> de deploys por dia de uma equipe tem f.d.a. <span class="math inline">\(F(0) = 0{,}1\)</span>, <span class="math inline">\(F(1) = 0{,}4\)</span>, <span class="math inline">\(F(2) = 0{,}8\)</span> e <span class="math inline">\(F(3) = 1\)</span> (e <span class="math inline">\(N\)</span> só assume os valores 0, 1, 2 e 3). Encontre a função de probabilidade de <span class="math inline">\(N\)</span>.</p>
+<p><strong>2.</strong> O número <span class="math inline">\(X\)</span> de peças defeituosas numa caixa com 3 peças tem f.d.a. <span class="math inline">\(F(0) = 0{,}1\)</span>, <span class="math inline">\(F(1) = 0{,}4\)</span>, <span class="math inline">\(F(2) = 0{,}8\)</span> e <span class="math inline">\(F(3) = 1\)</span> (e <span class="math inline">\(X\)</span> só assume os valores 0, 1, 2 e 3). Encontre a função de probabilidade de <span class="math inline">\(X\)</span>.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -950,11 +853,11 @@ P(a &lt; X \le b) = F(b) - F(a).
 </div>
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>As probabilidades são as alturas dos degraus: <span class="math inline">\(P(N = 0) = 0{,}1\)</span>, <span class="math inline">\(P(N = 1) = 0{,}4 - 0{,}1 = 0{,}3\)</span>, <span class="math inline">\(P(N = 2) = 0{,}8 - 0{,}4 = 0{,}4\)</span> e <span class="math inline">\(P(N = 3) = 1 - 0{,}8 = 0{,}2\)</span>.</p>
+<p>As probabilidades são as alturas dos degraus: <span class="math inline">\(P(X = 0) = 0{,}1\)</span>, <span class="math inline">\(P(X = 1) = 0{,}4 - 0{,}1 = 0{,}3\)</span>, <span class="math inline">\(P(X = 2) = 0{,}8 - 0{,}4 = 0{,}4\)</span> e <span class="math inline">\(P(X = 3) = 1 - 0{,}8 = 0{,}2\)</span>.</p>
 </div>
 </div>
 </div>
-<p><strong>3.</strong> Com o <span class="math inline">\(N\)</span> do exercício 2, calcule <span class="math inline">\(P(N \ge 2)\)</span> e <span class="math inline">\(P(N &gt; 2)\)</span>.</p>
+<p><strong>3.</strong> Com o <span class="math inline">\(X\)</span> do exercício 2, calcule <span class="math inline">\(P(X \ge 2)\)</span> e <span class="math inline">\(P(X &gt; 2)\)</span>.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -967,7 +870,7 @@ P(a &lt; X \le b) = F(b) - F(a).
 </div>
 <div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><span class="math inline">\(P(N \ge 2) = 1 - P(N \le 1) = 1 - F(1) = 0{,}6\)</span>. <span class="math inline">\(P(N &gt; 2) = 1 - F(2) = 0{,}2\)</span>. A diferença entre as duas, 0,4, é <span class="math inline">\(P(N = 2)\)</span>.</p>
+<p><span class="math inline">\(P(X \ge 2) = 1 - P(X \le 1) = 1 - F(1) = 0{,}6\)</span>. <span class="math inline">\(P(X &gt; 2) = 1 - F(2) = 0{,}2\)</span>. A diferença entre as duas, 0,4, é <span class="math inline">\(P(X = 2)\)</span>.</p>
 </div>
 </div>
 </div>

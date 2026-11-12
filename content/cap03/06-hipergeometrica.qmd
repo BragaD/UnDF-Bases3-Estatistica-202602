@@ -4,9 +4,9 @@
 Esta seção corresponde à seção 6.6.4 de @bussab2023.
 :::
 
-Na seção 2.3, sortearam-se 4 itens de um total de 20, 5 deles com o atributo de interesse, e a probabilidade de exatamente 2 desses itens na amostra saiu de uma conta com combinações. No fim, o texto avisou que a estrutura da conta reapareceria no Capítulo 3. O exercício 4 da seção 3.5 explicou por que a binomial não serve: sem reposição, os sorteios não são independentes.
+Na seção 2.3, sortearam-se 4 itens de um total de 20, 5 deles com o atributo de interesse, e a probabilidade de exatamente 2 desses itens na amostra saiu de uma conta com combinações. O exercício 4 da seção 3.5 explicou por que a binomial não serve: sem reposição, os sorteios não são independentes.
 
-Esta seção dá nome a essa estrutura. Ela aparece sempre que se sorteiam elementos **sem reposição** de uma população dividida em dois grupos, como as peças boas e defeituosas de um lote ou as bolas brancas e pretas de uma urna.
+Essa estrutura é a distribuição hipergeométrica. Ela aparece sempre que se sorteiam elementos **sem reposição** de uma população dividida em dois grupos, como as peças boas e defeituosas de um lote ou as bolas brancas e pretas de uma urna.
 
 ## O modelo
 
@@ -25,24 +25,31 @@ $$
 para os valores de $k$ que fazem sentido: $\max(0,\, n - N + r) \le k \le \min(r, n)$.
 :::
 
-Os três parâmetros são o tamanho da população ($N$), o número de sucessos nela ($r$) e o tamanho da amostra ($n$). No numerador, o primeiro fator conta as escolhas dentro do grupo dos sucessos e o segundo, dentro do grupo dos fracassos; o produto aparece porque as duas escolhas são feitas juntas. As duas partes da amostra somam $k + (n - k) = n$ elementos, e os dois grupos somam $r + (N - r) = N$.
+Os três parâmetros são o tamanho da população ($N$), o número de sucessos nela ($r$) e o tamanho da amostra ($n$).
 
-Os limites de $k$ só dizem o óbvio. Não há como sortear mais sucessos do que existem ($k \le r$) nem mais do que o tamanho da amostra ($k \le n$). E, se a amostra for maior que o número de fracassos, alguns sucessos são inevitáveis ($k \ge n - (N - r)$).
+Não há como sortear mais sucessos do que existem ($k \le r$) nem mais do que o tamanho da amostra ($k \le n$). E, se a amostra for maior que o número de fracassos, alguns sucessos são inevitáveis ($k \ge n - (N - r)$).
 
-## O lote de 20 peças, de novo
+## Um lote de 20 peças
 
-Um lote tem $N = 20$ peças, $r = 5$ delas defeituosas, e escolhem-se $n = 4$ ao acaso, sem reposição (Exemplo 5.8 de @bussab2023, a conta da seção 2.3). O número $X$ de defeituosas na amostra tem distribuição $\mathrm{hip}(20, 5, 4)$, e os casos possíveis são $\binom{20}{4} = 4{.}845$.
+Um lote tem $N = 20$ peças, $r = 5$ delas defeituosas, e escolhem-se $n = 4$ ao acaso, sem reposição (Exemplo 5.8 de @bussab2023; é a mesma conta da seção 2.3, que sorteou 4 itens de 20, 5 deles com o atributo de interesse). O número $X$ de defeituosas na amostra tem distribuição $\mathrm{hip}(20, 5, 4)$, e os casos possíveis são $\binom{20}{4} = 4{.}845$.
 
-Duas defeituosas na amostra significa 2 das 5 defeituosas e 2 das 15 boas:
+Ter duas defeituosas na amostra significa 2 das 5 defeituosas e 2 das 15 boas:
 
 $$
-P(X = 2) = \frac{\binom{5}{2}\binom{15}{2}}{\binom{20}{4}} = \frac{10 \times 105}{4{.}845} = \frac{1{.}050}{4{.}845} \approx 0{,}217.
+\begin{aligned}
+P(X = 2) &= \frac{\binom{5}{2}\binom{15}{2}}{\binom{20}{4}} \\
+&= \frac{10 \times 105}{4{.}845} \\
+&= \frac{1{.}050}{4{.}845} \approx 0{,}217.
+\end{aligned}
 $$
 
 Nenhuma defeituosa significa as 4 peças entre as 15 boas, e nenhuma escolha entre as defeituosas ($\binom{5}{0} = 1$):
 
 $$
-P(X = 0) = \frac{\binom{5}{0}\binom{15}{4}}{\binom{20}{4}} = \frac{1 \times 1{.}365}{4{.}845} \approx 0{,}282.
+\begin{aligned}
+P(X = 0) &= \frac{\binom{5}{0}\binom{15}{4}}{\binom{20}{4}} \\
+&= \frac{1 \times 1{.}365}{4{.}845} \approx 0{,}282.
+\end{aligned}
 $$
 
 Os outros valores de $k$ seguem a mesma conta:
@@ -60,7 +67,7 @@ Os outros valores de $k$ seguem a mesma conta:
 : Distribuição de $X \sim \mathrm{hip}(20, 5, 4)$; cada probabilidade é a segunda coluna dividida por 4.845. {#tbl-hip-lote}
 :::
 
-Os casos favoráveis somam 4.845, o total de casos possíveis: cada amostra tem algum número de defeituosas entre 0 e 4. $P(X = 2)$ é o 0,217 da seção 2.3, e $P(X = 0)$ é o 0,282 que deu, pelo complementar, a chance de pelo menos uma defeituosa, $1 - 0{,}282 = 0{,}718$. Achar 3 ou 4 defeituosas é raro.
+Os casos favoráveis somam 4.845, o total de casos possíveis: cada amostra tem algum número de defeituosas entre 0 e 4. $P(X = 2)$ é o 0,217 da seção 2.3, e $P(X = 0)$ é o 0,282 que, na seção 2.3, deu pelo complementar a chance de pelo menos um item com o atributo, 0,718. Achar 3 ou 4 defeituosas é raro.
 
 ## Valor médio e variância
 
@@ -83,30 +90,41 @@ No lote, $p = 5/20 = 1/4$ e o fator vale $(20 - 4)/(20 - 1) = 16/19$:
 
 $$
 \begin{aligned}
-E(X) &= 4 \times \frac{1}{4} = 1, \\
-\mathrm{Var}(X) &= 4 \times \frac{1}{4} \times \frac{3}{4} \times \frac{16}{19} = \frac{3}{4} \times \frac{16}{19} = \frac{12}{19} \approx 0{,}632.
+E(X) &= 4 \times \frac{1}{4} = 1, \\[4pt]
+\mathrm{Var}(X) &= 4 \times \frac{1}{4} \times \frac{3}{4} \times \frac{16}{19} \\
+&= \frac{3}{4} \times \frac{16}{19} \\
+&= \frac{12}{19} \approx 0{,}632.
 \end{aligned}
 $$
 
-Em média, a amostra tem 1 peça defeituosa. Com reposição, o número de defeituosas seria $b(4, 1/4)$, com o mesmo valor médio e variância $4 \times \frac{1}{4} \times \frac{3}{4} = 0{,}75$. Sem reposição, a variância cai para 0,632.
+Com reposição, o número de defeituosas seria $b(4, 1/4)$, com o mesmo valor médio e variância $4 \times \frac{1}{4} \times \frac{3}{4} = 0{,}75$. Sem reposição, a variância cai para 0,632.
 
 ## População grande: quase binomial
 
-Quando a população é grande perto da amostra, tirar um elemento quase não muda a proporção dos que sobram, e sortear com ou sem reposição dá quase no mesmo. Aí a hipergeométrica fica muito perto da binomial com $p = r/N$, e o fator $(N - n)/(N - 1)$ fica perto de 1.
+Quando a população é grande em relação à amostra, tirar um elemento quase não muda a proporção dos que sobram, e sortear com ou sem reposição dá quase o mesmo resultado. Aí a hipergeométrica fica muito perto da binomial com $p = r/N$, e o fator $(N - n)/(N - 1)$ fica perto de 1.
 
-O Exemplo 6.15 de @bussab2023 é um lote de $N = 100$ peças com $r = 10$ defeituosas, do qual se sorteiam $n = 5$. A probabilidade de a amostra não ter nenhuma defeituosa é
+Considere um lote de $N = 100$ peças com $r = 10$ defeituosas, do qual se sorteiam $n = 5$ (Exemplo 6.15 de @bussab2023). A probabilidade de a amostra não ter nenhuma defeituosa é
+
+$$
+P(X = 0) = \frac{\binom{10}{0}\binom{90}{5}}{\binom{100}{5}}.
+$$
+
+Escrevendo as combinações, os $5!$ dos denominadores se cancelam:
 
 $$
 \begin{aligned}
-P(X = 0) &= \frac{\binom{10}{0}\binom{90}{5}}{\binom{100}{5}} = \frac{90 \times 89 \times 88 \times 87 \times 86}{100 \times 99 \times 98 \times 97 \times 96} \\
+P(X = 0) &= \frac{90 \cdot 89 \cdot 88 \cdot 87 \cdot 86}{100 \cdot 99 \cdot 98 \cdot 97 \cdot 96} \\
+&= \frac{90}{100} \times \frac{89}{99} \times \frac{88}{98} \\
+&\quad \times \frac{87}{97} \times \frac{86}{96} \\
 &\approx 0{,}584.
 \end{aligned}
 $$
 
-Os $5!$ do denominador das duas combinações se cancelam. Cada fração $90/100$, $89/99$, … é a chance de a próxima peça ser boa, dadas as anteriores boas, e todas ficam perto de $0{,}9$. Com reposição, as cinco frações seriam exatamente $0{,}9$, e a binomial $b(5, 1/10)$ daria $0{,}9^5 \approx 0{,}5905$.
+Cada fração $90/100$, $89/99$, … é a chance de a próxima peça ser boa, dadas as anteriores boas, e todas ficam perto de $0{,}9$. Com reposição, as cinco frações seriam exatamente $0{,}9$, e a binomial $b(5, 1/10)$ daria $0{,}9^5 \approx 0{,}5905$.
 
 A tabela repete a conta para populações cada vez maiores, com os mesmos 10% de defeituosas:
 
+::: {.table-responsive}
 | $N$ | $r$ | hipergeométrica | binomial $b(5, 1/10)$ |
 |:-:|:-:|:-:|:-:|
 | 20 | 2 | 0,5526 | 0,5905 |
@@ -115,6 +133,7 @@ A tabela repete a conta para populações cada vez maiores, com os mesmos 10% de
 | 10.000 | 1.000 | 0,5904 | 0,5905 |
 
 : $P(X = 0)$ numa amostra de $n = 5$, sem reposição (hipergeométrica) e com reposição (binomial). {#tbl-hip-binomial}
+:::
 
 Com o lote de 100 peças, a chance de nenhuma defeituosa é 0,584, e a de pelo menos uma, 0,416. Com 10.000 peças, a hipergeométrica e a binomial já coincidem até a terceira casa e diferem em menos de 0,0001. Por isso, numa pesquisa com 1.000 entrevistados numa cidade de milhões de habitantes, usa-se a binomial mesmo sem reposição.
 
@@ -127,7 +146,7 @@ Com o lote de 100 peças, a chance de nenhuma defeituosa é 0,584, e a de pelo m
 | $P(X = k)$ | $\binom{r}{k}\binom{N-r}{n-k} / \binom{N}{n}$ |
 | $E(X)$ | $np$, com $p = r/N$ |
 | $\mathrm{Var}(X)$ | $np(1-p)(N-n)/(N-1)$ |
-| Aproximação | $b(n, r/N)$ quando $N$ é grande perto de $n$ |
+| Aproximação | $b(n, r/N)$ quando $N$ é grande em relação a $n$ |
 :::
 
 ## Exercícios
@@ -140,7 +159,11 @@ Com o lote de 100 peças, a chance de nenhuma defeituosa é 0,584, e a de pelo m
 O número $X$ de mulheres na comissão tem distribuição $\mathrm{hip}(12, 4, 3)$. Pelo complementar,
 
 $$
-P(X \ge 1) = 1 - P(X = 0) = 1 - \frac{\binom{4}{0}\binom{8}{3}}{\binom{12}{3}} = 1 - \frac{56}{220} \approx 0{,}745.
+\begin{aligned}
+P(X \ge 1) &= 1 - P(X = 0) \\
+&= 1 - \frac{\binom{4}{0}\binom{8}{3}}{\binom{12}{3}} \\
+&= 1 - \frac{56}{220} \approx 0{,}745.
+\end{aligned}
 $$
 :::
 
@@ -152,7 +175,10 @@ $$
 Os 6 números marcados são os "sucessos" entre os 60, e o sorteio é a amostra de 6, sem reposição: $X \sim \mathrm{hip}(60, 6, 6)$. A quadra é
 
 $$
-P(X = 4) = \frac{\binom{6}{4}\binom{54}{2}}{\binom{60}{6}} = \frac{15 \times 1{.}431}{50{.}063{.}860},
+\begin{aligned}
+P(X = 4) &= \frac{\binom{6}{4}\binom{54}{2}}{\binom{60}{6}} \\
+&= \frac{15 \times 1{.}431}{50{.}063{.}860},
+\end{aligned}
 $$
 
 1 em cerca de 2.332, como na seção 2.3.
@@ -170,17 +196,22 @@ $X \sim \mathrm{hip}(10, 7, 5)$.
 (b) Duas brancas obrigam as 3 pretas na amostra:
 
 $$
-P(X = 2) = \frac{\binom{7}{2}\binom{3}{3}}{\binom{10}{5}} = \frac{21 \times 1}{252} = \frac{1}{12} \approx 0{,}083.
+\begin{aligned}
+P(X = 2) &= \frac{\binom{7}{2}\binom{3}{3}}{\binom{10}{5}} \\
+&= \frac{21 \times 1}{252} \\
+&= \frac{1}{12} \approx 0{,}083.
+\end{aligned}
 $$
 
 (c) Com $p = 7/10$ e fator $(10 - 5)/(10 - 1) = 5/9$,
 
 $$
 \begin{aligned}
-E(X) &= 5 \times 0{,}7 = 3{,}5, \\
-\mathrm{Var}(X) &= 5 \times 0{,}7 \times 0{,}3 \times \frac{5}{9} = 1{,}05 \times \frac{5}{9} \approx 0{,}583.
+E(X) &= 5 \times 0{,}7 = 3{,}5, \\[4pt]
+\mathrm{Var}(X) &= 5 \times 0{,}7 \times 0{,}3 \times \frac{5}{9} \\
+&= 1{,}05 \times \frac{5}{9} \approx 0{,}583.
 \end{aligned}
 $$
 
-A binomial $b(5, 7/10)$, que corresponde a retirar com reposição, tem a mesma média e variância 1,05. Como a amostra tira metade da urna, o fator $5/9$ reduz a variância quase à metade.
+A binomial $b(5, 7/10)$, que corresponde a retirar com reposição, tem a mesma média, 3,5, e variância 1,05. Como a amostra tira metade da urna, o fator $5/9$ reduz a variância quase à metade.
 :::

@@ -17,9 +17,9 @@ x = np.array([-5, 5, 10, 15])
 p = np.array([0.19, 0.02, 0.23, 0.56])
 ```
 
-Muitas perguntas sobre uma variável aleatória não são "qual a chance de $X$ valer exatamente $x$?", mas "qual a chance de $X$ **não passar** de $x$?". Qual a probabilidade de o lucro de uma unidade montada ficar em até 5 reais? De um lote ter no máximo 3 peças defeituosas? De saírem no máximo 2 caras em cinco lançamentos de uma moeda?
+Qual a probabilidade de o lucro de uma unidade montada ficar em até 5 reais? E de um lote ter no máximo 3 peças defeituosas? As duas perguntas pedem a chance de uma variável aleatória **não passar** de um valor.
 
-Para uma variável discreta, basta somar as probabilidades de todos os valores até $x$. A função que faz essa soma para cada $x$ tem nome próprio e aparece em quase tudo o que vem depois neste livro.
+Para uma variável discreta, basta somar as probabilidades de todos os valores até esse limite. A função que faz essa soma para cada valor tem nome próprio e volta no Capítulo 4, na tabela da distribuição normal.
 
 ## Definição
 
@@ -33,9 +33,9 @@ $$
 definida para todo número real $x$.
 :::
 
-$F(x)$ é uma probabilidade, então fica entre 0 e 1. Diferente da função de probabilidade, que só é positiva nos valores que $X$ assume, $F$ está definida em toda a reta: $F(7{,}3)$ faz sentido, e é a probabilidade de $X$ ser no máximo 7,3.
+$F(x)$ é uma probabilidade, então fica entre 0 e 1. Diferentemente da função de probabilidade, que só é positiva nos valores que $X$ assume, $F$ está definida em toda a reta: $F(7{,}3)$ faz sentido, e é a probabilidade de $X$ ser no máximo 7,3.
 
-No lucro por unidade montada, os valores em ordem crescente são $-5$, 5, 10 e 15. A acumulada soma as probabilidades da esquerda para a direita: cada $F(x_i)$ é o valor anterior mais $p(x_i)$.
+No lucro por unidade montada, os valores em ordem crescente são $-5$, 5, 10 e 15. A f.d.a. soma as probabilidades da esquerda para a direita: cada $F(x_i)$ é o valor anterior mais $p(x_i)$.
 
 | $x$ | $p(x)$ | $F(x) = P(X \le x)$ |
 |:-:|:-:|:-:|
@@ -100,13 +100,22 @@ $$
 A probabilidade de o lucro ficar acima de 0 e no máximo 10 reais é
 
 $$
-P(0 < X \le 10) = F(10) - F(0) = 0{,}44 - 0{,}19 = 0{,}25.
+\begin{aligned}
+P(0 < X \le 10) &= F(10) - F(0) \\
+&= 0{,}44 - 0{,}19 \\
+&= 0{,}25.
+\end{aligned}
 $$
 
 São os valores 5 e 10: $0{,}02 + 0{,}23 = 0{,}25$. A probabilidade de lucro acima de 5 reais sai pelo complementar:
 
 $$
-P(X > 5) = 1 - P(X \le 5) = 1 - F(5) = 1 - 0{,}21 = 0{,}79.
+\begin{aligned}
+P(X > 5) &= 1 - P(X \le 5) \\
+&= 1 - F(5) \\
+&= 1 - 0{,}21 \\
+&= 0{,}79.
+\end{aligned}
 $$
 
 ::: {.callout-warning}
@@ -114,9 +123,9 @@ $$
 Numa variável discreta, $\le$ e $<$ dão resultados diferentes quando o limite é um valor possível. $P(X \le 10) = 0{,}44$, mas $P(X < 10) = 0{,}21$: a diferença é $P(X = 10) = 0{,}23$, o degrau. Leia o enunciado com atenção antes de subtrair valores de $F$.
 :::
 
-## A versão teórica da acumulada empírica
+## A f.d.a. e a frequência relativa acumulada
 
-Num conjunto de dados, a frequência relativa acumulada até $x$ é a proporção de observações menores ou iguais a $x$. A f.d.a. é a sua versão teórica, assim como $p(x)$ é a versão teórica da frequência relativa. Se o empresário anotar o lucro de muitas unidades montadas, a proporção delas com lucro de até 5 reais deve ficar perto de $F(5) = 0{,}21$.
+Num conjunto de dados, a frequência relativa acumulada até $x$ é a proporção de observações menores ou iguais a $x$. A f.d.a. faz para o modelo o que a frequência relativa acumulada faz para os dados, do mesmo jeito que $p(x)$ corresponde à frequência relativa. No lucro, $F(5) = 0{,}21$ é a proporção de unidades com lucro de até 5 reais que o modelo prevê.
 
 ## Resumo
 

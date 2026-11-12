@@ -65,7 +65,10 @@ Em $N(\mu, \sigma^2)$, o segundo número é a **variância**, não o desvio-padr
 Entre todas as normais, uma serve de referência: a de média 0 e variância 1, a **normal padrão** $Z \sim N(0, 1)$, com densidade $e^{-z^2/2}/\sqrt{2\pi}$. Sua f.d.a. tem notação própria:
 
 $$
-\Phi(z) = P(Z \le z) = \int_{-\infty}^{z} \frac{1}{\sqrt{2\pi}}\, e^{-t^2/2}\,dt.
+\begin{aligned}
+\Phi(z) &= P(Z \le z) \\
+&= \int_{-\infty}^{z} \frac{1}{\sqrt{2\pi}}\, e^{-t^2/2}\,dt.
+\end{aligned}
 $$
 
 A função $e^{-t^2/2}$ não tem primitiva em termos de funções elementares: não existe uma fórmula fechada para $\Phi$. Os valores de $\Phi$ foram calculados numericamente uma vez e reunidos numa **tabela**, e é com ela que se calculam as probabilidades da normal. Três regras levam qualquer pergunta à tabela. A cauda à direita é o complementar da área acumulada:
@@ -189,7 +192,10 @@ $$
 Na tabela, $\Phi(0{,}50) = 0{,}6915$ e $\Phi(0{,}25) = 0{,}5987$. Pela simetria, $\Phi(-0{,}25) = 1 - 0{,}5987 = 0{,}4013$. Então
 
 $$
-P(2 \le X \le 5) = 0{,}6915 - 0{,}4013 = 0{,}2902.
+\begin{aligned}
+P(2 \le X \le 5) &= 0{,}6915 - 0{,}4013 \\
+&= 0{,}2902.
+\end{aligned}
 $$
 
 Pouco menos de 30% dos valores de $X$ caem entre 2 e 5, um intervalo que vai de um quarto de desvio-padrão abaixo da média até meio desvio-padrão acima.
@@ -296,7 +302,10 @@ Dados com cauda longa à direita, como renda, tempo de espera numa fila ou valor
 $X \sim N(12, 4)$, com $\sigma = 2$. Para 15 minutos, $z = (15 - 12)/2 = 1{,}5$, e
 
 $$
-P(X > 15) = 1 - \Phi(1{,}50) = 1 - 0{,}9332 = 0{,}0668.
+\begin{aligned}
+P(X > 15) &= 1 - \Phi(1{,}50) \\
+&= 1 - 0{,}9332 = 0{,}0668.
+\end{aligned}
 $$
 
 Para o intervalo, $z = (10 - 12)/2 = -1$ e $z = (14 - 12)/2 = 1$:
@@ -350,7 +359,10 @@ $$
 O desvio-padrão é $\sigma = \sqrt{16} = 4$, então o certo é $z = (7 - 3)/4 = 1$ e
 
 $$
-P(X > 7) = 1 - \Phi(1) = 1 - 0{,}8413 = 0{,}1587.
+\begin{aligned}
+P(X > 7) &= 1 - \Phi(1) \\
+&= 1 - 0{,}8413 = 0{,}1587.
+\end{aligned}
 $$
 
 O valor 7 está a um desvio-padrão acima da média. Dividindo por 16, o colega tratou a distribuição como se tivesse $\sigma = 16$, quatro vezes mais espalhada: nela, 7 fica a só um quarto de desvio-padrão da média, e a cauda acima dele parece bem maior do que é.

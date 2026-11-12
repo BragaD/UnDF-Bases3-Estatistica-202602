@@ -69,7 +69,13 @@ $$
 
 A primitiva de $x$ é $x^2/2$, e a diferença de quadrados $\beta^2 - \alpha^2 = (\beta - \alpha)(\beta + \alpha)$ cancela o denominador. A média é o ponto médio do intervalo.
 
-Para a variância, a seção 4.2 usa $\mathrm{Var}(X) = E(X^2) - [E(X)]^2$. A primitiva de $x^2$ é $x^3/3$, e a diferença de cubos é $\beta^3 - \alpha^3 = (\beta - \alpha)(\alpha^2 + \alpha\beta + \beta^2)$:
+Para a variância, a seção 4.2 usa $\mathrm{Var}(X) = E(X^2) - [E(X)]^2$. A primitiva de $x^2$ é $x^3/3$, e a diferença de cubos se fatora como
+
+$$
+\beta^3 - \alpha^3 = (\beta - \alpha)(\alpha^2 + \alpha\beta + \beta^2).
+$$
+
+Então
 
 $$
 \begin{aligned}
@@ -241,7 +247,8 @@ $$
 \begin{aligned}
 P(45 < X \le 70) &= F(70) - F(45) \\
 &= \frac{40}{60} - \frac{15}{60} \\
-&= \frac{25}{60} = \frac{5}{12} \approx 0{,}417.
+&= \frac{25}{60} = \frac{5}{12} \\
+&\approx 0{,}417.
 \end{aligned}
 $$
 

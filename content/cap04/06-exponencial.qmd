@@ -80,7 +80,8 @@ $$
 \begin{aligned}
 & 1 - e^{-m/500} = \frac{1}{2} \\
 &\Longrightarrow\; e^{-m/500} = \frac{1}{2} \\
-&\Longrightarrow\; -\frac{m}{500} = \ln \frac{1}{2} = -\ln 2 \\
+&\Longrightarrow\; -\frac{m}{500} = \ln \frac{1}{2} \\
+&\Longrightarrow\; \frac{m}{500} = \ln 2 \\
 &\Longrightarrow\; m = 500 \ln 2 \\
 &\phantom{\Longrightarrow}\;\; \approx 347 \text{ horas}.
 \end{aligned}

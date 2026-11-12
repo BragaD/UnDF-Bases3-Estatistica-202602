@@ -16,7 +16,7 @@ Terceira fonte: **Bussab & Morettin — *Estatística Básica*** entra onde o Br
 
 Regra de atribuição: callouts `de @bruce2020` marcam conteúdo do livro-texto; `de @weed`, do pythonbook; `de @bussab2023`, do Bussab & Morettin. Como nos callouts do Bruce, o número citado é sempre o **da fonte**, não o nosso.
 
-**Estrutura atual:** uma Introdução (motivacional, sem número), o Cap. 1 (Análise Exploratória de Dados), o Cap. 2 (Probabilidade, 2.1–2.5), o Cap. 3 (Variáveis Aleatórias Discretas, 3.1–3.7) e o Cap. 4 (Variáveis Aleatórias Contínuas, 4.1–4.6), todos escritos. As seções 3.7 (Poisson) e 4.6 (exponencial) são leitura complementar, com `callout-warning` como a 1.8, como a 1.8. Os Caps. 1 e 2 têm `notebooks/capitulo-NN.ipynb` (o do Cap. 2 termina na 2.3); **os Caps. 3 e 4 não têm código visível nem notebook** (decisão de 12/11/2026, abaixo).
+**Estrutura atual:** uma Introdução (motivacional, sem número), o Cap. 1 (Análise Exploratória de Dados), o Cap. 2 (Probabilidade, 2.1–2.5), o Cap. 3 (Variáveis Aleatórias Discretas, 3.1–3.7) e o Cap. 4 (Variáveis Aleatórias Contínuas, 4.1–4.6), todos escritos. As seções 3.7 (Poisson) e 4.6 (exponencial) são leitura complementar, com `callout-warning` como a 1.8. Os Caps. 1 e 2 têm `notebooks/capitulo-NN.ipynb` (o do Cap. 2 termina na 2.3); **os Caps. 3 e 4 não têm código visível nem notebook** (decisão de 12/11/2026, abaixo).
 
 O Cap. 1 corresponde ao **capítulo 1 de @bruce2020**. Como o número citado no callout é sempre o **da fonte**, e não o nosso, os dois coincidem no Cap. 1. No Cap. 2 já divergem: a seção 2.1 corresponde à 5.1 do Bussab.
 

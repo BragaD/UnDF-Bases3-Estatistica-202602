@@ -6,46 +6,45 @@ Esta seção corresponde à seção 6.6.5 de @bussab2023.
 
 ::: {.callout-warning}
 ## Leitura complementar
-Esta seção **está fora do cronograma** do semestre 2.2026: não é dada em aula, não entra no notebook do capítulo e não cai em prova nem em lista. Fica aqui para quem quiser ir além.
+Esta seção **está fora do cronograma** do semestre 2.2026: não é dada em aula e não cai em prova nem em lista. Fica aqui para quem quiser ir além.
 :::
 
 ```{python}
 #| label: setup
 #| include: false
 import numpy as np
-import pandas as pd
 import matplotlib.pyplot as plt
-from scipy import stats
-from formato import num
+from math import exp, factorial
 
 plt.rcParams["figure.figsize"] = (7, 4)
-np.set_printoptions(legacy="1.25")   # números sem o prefixo np.float64 na saída
 ```
 
-Quantas requisições chegam a um servidor num segundo? Quantos erros um serviço registra por hora? As duas perguntas pedem a contagem de **eventos num intervalo**, e nenhuma tem um número máximo natural de "ensaios". O modelo mais usado para esse tipo de contagem é a distribuição de Poisson.
+Quantas chamadas chegam a uma central telefônica num minuto? Quantos carros passam por um pedágio em dez minutos? As duas perguntas pedem a contagem de **eventos num intervalo**, e nenhuma tem um número máximo natural de "ensaios". O modelo mais usado para esse tipo de contagem é a distribuição de Poisson.
 
 ## Da binomial à Poisson
 
-Um serviço atende 2.000 requisições por dia, e cada uma dá erro com probabilidade 0,002, independentemente das outras. O número de erros no dia tem distribuição $b(2.000, 1/500)$, com média $np = 4$. Com $n$ tão grande e $p$ tão pequeno, a fórmula da binomial fica difícil de calcular à mão. Mas ela se aproxima de uma fórmula mais simples, que depende só da média $\lambda = np$:
+Uma fábrica produz 2.000 peças por dia, e cada uma sai defeituosa com probabilidade 0,002, independentemente das outras. O número de peças defeituosas no dia tem distribuição $b(2.000, 1/500)$, com média $np = 2.000 \times 0{,}002 = 4$. Com $n$ tão grande e $p$ tão pequeno, a fórmula da binomial fica difícil de calcular à mão: $\binom{2.000}{k}$ é enorme e $0{,}998^{2.000-k}$ é minúsculo. Mas ela se aproxima de uma fórmula mais simples, que depende só da média $\lambda = np$:
 
 $$
 \binom{n}{k} p^k (1 - p)^{n - k} \approx \frac{e^{-\lambda} \lambda^k}{k!}.
 $$
 
-A aproximação é boa quando $n$ é grande e $p$ é pequeno, com $np \le 7$ como regra prática [@bussab2023]. A tabela compara as duas para os erros do dia:
+A aproximação é boa quando $n$ é grande e $p$ é pequeno, com $np \le 7$ como regra prática [@bussab2023]. A tabela compara as duas para as peças do dia:
 
-```{python}
-#| label: binomial-poisson
-k = np.arange(8)
-comparacao = pd.DataFrame({
-    "k": k,
-    "binomial": stats.binom(2000, 0.002).pmf(k),
-    "Poisson (λ = 4)": stats.poisson(4).pmf(k),
-})
-comparacao.set_index("k").rename_axis(None).round(4)
-```
+| $k$ | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
+|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+| binomial $b(2.000, 1/500)$ | 0,0182 | 0,0731 | 0,1465 | 0,1955 | 0,1956 | 0,1564 | 0,1042 | 0,0595 |
+| Poisson, $\lambda = 4$ | 0,0183 | 0,0733 | 0,1465 | 0,1954 | 0,1954 | 0,1563 | 0,1042 | 0,0595 |
 
-As duas colunas diferem em no máximo 0,0002. O Exemplo 6.16 de @bussab2023 usa a aproximação para $b(2; 1.000, 1/10.000)$, a probabilidade de 2 sucessos em 1.000 ensaios com $p = 0{,}0001$, e obtém cerca de `{python} num(stats.poisson(0.1).pmf(2), 4)`. A binomial exata dá `{python} num(stats.binom(1000, 1/10000).pmf(2), 4)`.
+: Probabilidade de $k$ peças defeituosas no dia, pela binomial exata e pela aproximação de Poisson. {#tbl-binomial-poisson}
+
+As duas linhas diferem em no máximo 0,0002. O Exemplo 6.16 de @bussab2023 usa a aproximação para $b(2; 1.000, 1/10.000)$, a probabilidade de 2 sucessos em 1.000 ensaios com $p = 0{,}0001$. Com $\lambda = 1.000 \times 0{,}0001 = 0{,}1$,
+
+$$
+\frac{e^{-0{,}1}\, 0{,}1^2}{2!} \approx 0{,}0045,
+$$
+
+e a binomial exata dá o mesmo valor nas quatro primeiras casas.
 
 ## O modelo
 
@@ -61,57 +60,70 @@ $$
 Seu valor médio e sua variância são iguais: $E(X) = \mathrm{Var}(X) = \lambda$.
 :::
 
-$\lambda$ é o número médio de eventos no intervalo considerado. Se o intervalo muda, $\lambda$ muda na mesma proporção: um telefone que recebe em média 5 chamadas por minuto recebe em média 20 em quatro minutos (Exemplo 6.18 de @bussab2023).
+$\lambda$ é o número médio de eventos no intervalo considerado. O fator $\lambda^k/k!$ cresce enquanto $k$ é menor que $\lambda$ e depois despenca, porque o fatorial cresce mais rápido que a potência. O fator $e^{-\lambda}$ é o mesmo para todo $k$, e garante que as probabilidades somem 1. Se o intervalo muda, $\lambda$ muda na mesma proporção: um telefone que recebe em média 5 chamadas por minuto recebe em média 20 em quatro minutos (Exemplo 6.18 de @bussab2023).
 
-## Erros por hora
+## Chamadas por minuto
 
-Um serviço registra, em média, 3 erros por hora. Supondo que o número de erros numa hora seja $\mathrm{Pois}(3)$:
+Uma central telefônica recebe, em média, 3 chamadas por minuto. Supondo que o número $X$ de chamadas num minuto seja $\mathrm{Pois}(3)$, um minuto sem nenhuma chamada tem probabilidade
 
-```{python}
-#| label: poisson-erros
-erros = stats.poisson(3)
-round(erros.pmf(0), 4), round(erros.sf(5), 4), erros.mean(), erros.var()
-```
+$$
+P(X = 0) = \frac{e^{-3}\, 3^0}{0!} = e^{-3} \approx 0{,}050.
+$$
 
-Uma hora sem nenhum erro tem probabilidade $e^{-3}$, cerca de `{python} num(erros.pmf(0), 3)`. Mais de 5 erros numa hora tem probabilidade `{python} num(erros.sf(5), 3)`, pouco mais de 8% das horas. Um alerta configurado para disparar acima de 5 erros por hora vai tocar, sem nada anormal, em média em cerca de duas das 24 horas do dia.
+Mais de 5 chamadas num minuto sai do complementar, $P(X > 5) = 1 - P(X \le 5)$. Pondo $e^{-3}$ em evidência,
+
+$$
+\begin{aligned}
+P(X \le 5) &= e^{-3}\left(1 + 3 + \frac{3^2}{2!} + \frac{3^3}{3!} + \frac{3^4}{4!} + \frac{3^5}{5!}\right) \\
+&= e^{-3}\,(1 + 3 + 4{,}5 + 4{,}5 + 3{,}375 + 2{,}025) \\
+&= 18{,}4\, e^{-3} \approx 0{,}9161,
+\end{aligned}
+$$
+
+e $P(X > 5) \approx 1 - 0{,}9161 = 0{,}0839$, pouco mais de 8% dos minutos. Se a central só dá conta de 5 chamadas por minuto, numa hora de 60 minutos ela fica sobrecarregada, em média, em cerca de 5 minutos, sem nada de anormal acontecer.
 
 ```{python}
 #| label: fig-poisson
-#| fig-cap: "Distribuição de Poisson com λ = 3: número de erros por hora de um serviço."
-#| fig-alt: "Gráfico de hastes com máximo em 2 e 3 erros (cerca de 0,22 cada), decaindo para quase zero a partir de 9 erros."
+#| echo: false
+#| fig-cap: "Distribuição de Poisson com λ = 3: número de chamadas por minuto numa central telefônica."
+#| fig-alt: "Gráfico de hastes com máximo em 2 e 3 chamadas (cerca de 0,22 cada), decaindo para quase zero a partir de 9 chamadas."
 kk = np.arange(12)
+pk = np.array([exp(-3) * 3**k / factorial(k) for k in kk])
 fig, ax = plt.subplots(figsize=(6, 3.5))
-ax.vlines(kk, 0, erros.pmf(kk), linewidth=3)
-ax.plot(kk, erros.pmf(kk), "o")
+ax.vlines(kk, 0, pk, linewidth=3)
+ax.plot(kk, pk, "o")
 ax.set_xticks(kk)
-ax.set_xlabel("erros numa hora k")
+ax.set_xlabel("chamadas num minuto k")
 ax.set_ylabel("P(X = k)")
 plt.show()
 ```
 
 ::: {.callout-important}
 ## Quando a Poisson não serve
-O modelo supõe eventos independentes a uma taxa constante. Erros de software costumam chegar em rajadas: uma queda de banco de dados gera dezenas de erros no mesmo minuto. Nesse caso a variância observada fica bem maior que a média, e a Poisson subestima a chance de horas muito ruins. Comparar a média e a variância dos dados é um primeiro teste barato.
+O modelo supõe eventos independentes a uma taxa constante. Chamadas para uma central costumam chegar em rajadas quando algo acontece ao mesmo tempo para muita gente, como uma falta de energia num bairro: dezenas de pessoas ligam no mesmo minuto. Nesse caso a variância observada fica bem maior que a média, e a Poisson subestima a chance de minutos muito cheios. Comparar a média e a variância dos dados é um primeiro teste barato.
 :::
 
 ## Exercícios
 
-**1.** Um endpoint recebe, em média, 2 requisições por segundo. Qual a probabilidade de um segundo sem nenhuma requisição? E de pelo menos 5 requisições num segundo?
+**1.** Chegam a um caixa de banco, em média, 2 clientes por minuto. Qual a probabilidade de um minuto sem nenhuma chegada? E de pelo menos 5 chegadas num minuto?
 
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
-Com $X \sim \mathrm{Pois}(2)$: $P(X = 0) = e^{-2} \approx 0{,}135$ e $P(X \ge 5) = 1 - P(X \le 4) \approx 0{,}053$.
+Com $X \sim \mathrm{Pois}(2)$: $P(X = 0) = e^{-2} \approx 0{,}135$. Pelo complementar,
 
-```python
-stats.poisson(2).pmf(0), stats.poisson(2).sf(4)
-```
+$$
+\begin{aligned}
+P(X \ge 5) &= 1 - P(X \le 4) = 1 - e^{-2}\left(1 + 2 + \frac{2^2}{2!} + \frac{2^3}{3!} + \frac{2^4}{4!}\right) \\
+&= 1 - 7\,e^{-2} \approx 0{,}053.
+\end{aligned}
+$$
 :::
 
-**2.** No mesmo endpoint, qual a probabilidade de no máximo 2 requisições em 4 segundos?
+**2.** No mesmo caixa, qual a probabilidade de no máximo 2 chegadas em 4 minutos?
 
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
-Em 4 segundos, a média é $\lambda = 8$. $P(X \le 2) = e^{-8}(1 + 8 + 32) = 41\,e^{-8} \approx 0{,}014$.
+Em 4 minutos, a média é $\lambda = 8$. $P(X \le 2) = e^{-8}(1 + 8 + 32) = 41\,e^{-8} \approx 0{,}014$.
 :::

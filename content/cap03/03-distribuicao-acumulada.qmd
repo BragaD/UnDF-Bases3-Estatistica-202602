@@ -8,19 +8,16 @@ Esta seção corresponde à seção 6.5 de @bussab2023.
 #| label: setup
 #| include: false
 import numpy as np
-import pandas as pd
 import matplotlib.pyplot as plt
-from formato import num
 
 plt.rcParams["figure.figsize"] = (7, 4)
-np.set_printoptions(legacy="1.25")   # números sem o prefixo np.float64 na saída
 
-# Modelo do lucro por sistema vendido (seção 3.1), em milhares de reais
+# Modelo do lucro por unidade montada (seção 3.1), em reais
 x = np.array([-5, 5, 10, 15])
 p = np.array([0.19, 0.02, 0.23, 0.56])
 ```
 
-Muitas perguntas sobre uma variável aleatória não são "qual a chance de $X$ valer exatamente $x$?", mas "qual a chance de $X$ **não passar** de $x$?". Qual a probabilidade de o lucro de uma venda ficar em até 5 mil? De um servidor receber no máximo 3 requisições por segundo? De no máximo 2 builds falharem num dia?
+Muitas perguntas sobre uma variável aleatória não são "qual a chance de $X$ valer exatamente $x$?", mas "qual a chance de $X$ **não passar** de $x$?". Qual a probabilidade de o lucro de uma unidade montada ficar em até 5 reais? De um lote ter no máximo 3 peças defeituosas? De saírem no máximo 2 caras em cinco lançamentos de uma moeda?
 
 Para uma variável discreta, basta somar as probabilidades de todos os valores até $x$. A função que faz essa soma para cada $x$ tem nome próprio e aparece em quase tudo o que vem depois neste livro.
 
@@ -38,15 +35,18 @@ definida para todo número real $x$.
 
 $F(x)$ é uma probabilidade, então fica entre 0 e 1. Diferente da função de probabilidade, que só é positiva nos valores que $X$ assume, $F$ está definida em toda a reta: $F(7{,}3)$ faz sentido, e é a probabilidade de $X$ ser no máximo 7,3.
 
-No lucro por sistema vendido, os valores em ordem crescente são $-5$, 5, 10 e 15. A acumulada soma as probabilidades da esquerda para a direita, e o `np.cumsum` faz essa soma:
+No lucro por unidade montada, os valores em ordem crescente são $-5$, 5, 10 e 15. A acumulada soma as probabilidades da esquerda para a direita: cada $F(x_i)$ é o valor anterior mais $p(x_i)$.
 
-```{python}
-#| label: fda-tabela
-fda = pd.DataFrame({"x": x, "p(x)": p, "F(x)": np.cumsum(p)})
-fda.round(2)
-```
+| $x$ | $p(x)$ | $F(x) = P(X \le x)$ |
+|:-:|:-:|:-:|
+| $-5$ | 0,19 | 0,19 |
+| 5 | 0,02 | $0{,}19 + 0{,}02 = 0{,}21$ |
+| 10 | 0,23 | $0{,}21 + 0{,}23 = 0{,}44$ |
+| 15 | 0,56 | $0{,}44 + 0{,}56 = 1$ |
 
-Entre dois valores possíveis, $F$ não muda. Para qualquer $x$ com $5 \le x < 10$, por exemplo, $P(X \le x) = P(X \le 5)$, porque $X$ não assume nenhum valor nesse intervalo. Escrevendo por intervalos:
+: Função de probabilidade e f.d.a. do lucro por unidade montada (R\$). {#tbl-fda-lucro}
+
+Entre dois valores possíveis, $F$ não muda. Para qualquer $x$ com $5 \le x < 10$, por exemplo, $P(X \le x) = P(X \le 5)$, porque $X$ não assume nenhum valor nesse intervalo. Por isso $F(7{,}3) = F(5) = 0{,}21$. Escrevendo por intervalos:
 
 $$
 F(x) =
@@ -65,7 +65,8 @@ O gráfico de $F$ para uma variável discreta é uma **escada**: constante entre
 
 ```{python}
 #| label: fig-fda-lucro
-#| fig-cap: "Função de distribuição acumulada do lucro por sistema vendido. Cada degrau fica num valor possível de X, e a altura do degrau é a probabilidade desse valor."
+#| echo: false
+#| fig-cap: "Função de distribuição acumulada do lucro por unidade montada. Cada degrau fica num valor possível de X, e a altura do degrau é a probabilidade desse valor."
 #| fig-alt: "Gráfico em escada que começa em 0, sobe para 0,19 em -5, 0,21 em 5, 0,44 em 10 e 1 em 15."
 F = np.cumsum(p)
 bordas = np.concatenate(([-10], x, [20]))
@@ -75,7 +76,7 @@ fig, ax = plt.subplots(figsize=(6, 3.5))
 ax.hlines(alturas, bordas[:-1], bordas[1:], linewidth=2)
 ax.plot(x, F, "o", color="C0")                        # ponto fechado: F(x) inclui x
 ax.plot(x, alturas[:-1], "o", mfc="white", color="C0") # ponto aberto: valor antes do degrau
-ax.set_xlabel("lucro x (R$ mil)")
+ax.set_xlabel("lucro x (R$)")
 ax.set_ylabel("F(x)")
 plt.show()
 ```
@@ -84,25 +85,29 @@ Três leituras do gráfico:
 
 - **Ele nunca desce.** Aumentar $x$ só acrescenta valores à soma. $F$ é não decrescente.
 - **Começa em 0 e termina em 1.** À esquerda de todos os valores, nada foi acumulado; à direita de todos, tudo foi.
-- **A altura de cada degrau é a probabilidade daquele valor.** O degrau em 10 vai de 0,21 a 0,44, e $P(X = 10) = 0{,}23$. Conhecendo $F$, recupera-se a função de probabilidade, e vice-versa: as duas descrevem o mesmo modelo.
+- **A altura de cada degrau é a probabilidade daquele valor.** O degrau em 10 vai de 0,21 a 0,44, e $P(X = 10) = 0{,}44 - 0{,}21 = 0{,}23$. Conhecendo $F$, recupera-se a função de probabilidade, e vice-versa: as duas descrevem o mesmo modelo.
 
 ## Probabilidades de intervalos
 
-A f.d.a. dá a probabilidade de qualquer intervalo com uma subtração. Para $a < b$, o evento $\{X \le b\}$ é a união disjunta de $\{X \le a\}$ e $\{a < X \le b\}$, então
+A f.d.a. dá a probabilidade de qualquer intervalo com uma subtração. Para $a < b$, o evento $\{X \le b\}$ é a união disjunta de $\{X \le a\}$ e $\{a < X \le b\}$. Pela regra da adição, $F(b) = F(a) + P(a < X \le b)$, e então
 
+::: {.conceito}
 $$
 P(a < X \le b) = F(b) - F(a).
 $$
+:::
 
-A probabilidade de o lucro ficar acima de 0 e no máximo 10 é $F(10) - F(0) = 0{,}44 - 0{,}19 = 0{,}25$: são os valores 5 e 10. E a probabilidade de lucro acima de 5 mil é, pelo complementar, $1 - F(5) = 1 - 0{,}21 = 0{,}79$.
+A probabilidade de o lucro ficar acima de 0 e no máximo 10 reais é
 
-```{python}
-#| label: fda-funcao
-def F_lucro(t):
-    return p[x <= t].sum()
+$$
+P(0 < X \le 10) = F(10) - F(0) = 0{,}44 - 0{,}19 = 0{,}25.
+$$
 
-round(F_lucro(10) - F_lucro(0), 2), round(1 - F_lucro(5), 2), round(F_lucro(7.3), 2)
-```
+São os valores 5 e 10: $0{,}02 + 0{,}23 = 0{,}25$. A probabilidade de lucro acima de 5 reais sai pelo complementar:
+
+$$
+P(X > 5) = 1 - P(X \le 5) = 1 - F(5) = 1 - 0{,}21 = 0{,}79.
+$$
 
 ::: {.callout-warning}
 ## $<$ ou $\le$?
@@ -111,16 +116,7 @@ Numa variável discreta, $\le$ e $<$ dão resultados diferentes quando o limite 
 
 ## A versão teórica da acumulada empírica
 
-Num conjunto de dados, a proporção de observações menores ou iguais a $x$ é a **acumulada empírica**. A f.d.a. é a sua versão teórica. Refazendo a simulação de 10.000 vendas da seção 3.2, com a mesma semente, a proporção de vendas com lucro até $x$ fica perto de $F(x)$ em cada valor:
-
-```{python}
-#| label: fda-empirica
-rng = np.random.default_rng(42)
-vendas = rng.choice(x[::-1], size=10_000, p=p[::-1])   # mesma ordem da seção 3.2
-
-empirica = [(vendas <= v).mean() for v in x]
-pd.DataFrame({"x": x, "F(x)": np.cumsum(p), "proporção nas vendas": empirica}).round(3)
-```
+Num conjunto de dados, a frequência relativa acumulada até $x$ é a proporção de observações menores ou iguais a $x$. A f.d.a. é a sua versão teórica, assim como $p(x)$ é a versão teórica da frequência relativa. Se o empresário anotar o lucro de muitas unidades montadas, a proporção delas com lucro de até 5 reais deve ficar perto de $F(5) = 0{,}21$.
 
 ## Resumo
 
@@ -143,18 +139,18 @@ pd.DataFrame({"x": x, "F(x)": np.cumsum(p), "proporção nas vendas": empirica})
 $F(3) = 3/6 = 1/2$; $F(3{,}5) = 1/2$ também, porque não há face entre 3 e 3,5; $F(6) = 1$. $P(2 < X \le 5) = F(5) - F(2) = 5/6 - 2/6 = 1/2$.
 :::
 
-**2.** O número $N$ de deploys por dia de uma equipe tem f.d.a. $F(0) = 0{,}1$, $F(1) = 0{,}4$, $F(2) = 0{,}8$ e $F(3) = 1$ (e $N$ só assume os valores 0, 1, 2 e 3). Encontre a função de probabilidade de $N$.
+**2.** O número $X$ de peças defeituosas numa caixa com 3 peças tem f.d.a. $F(0) = 0{,}1$, $F(1) = 0{,}4$, $F(2) = 0{,}8$ e $F(3) = 1$ (e $X$ só assume os valores 0, 1, 2 e 3). Encontre a função de probabilidade de $X$.
 
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
-As probabilidades são as alturas dos degraus: $P(N = 0) = 0{,}1$, $P(N = 1) = 0{,}4 - 0{,}1 = 0{,}3$, $P(N = 2) = 0{,}8 - 0{,}4 = 0{,}4$ e $P(N = 3) = 1 - 0{,}8 = 0{,}2$.
+As probabilidades são as alturas dos degraus: $P(X = 0) = 0{,}1$, $P(X = 1) = 0{,}4 - 0{,}1 = 0{,}3$, $P(X = 2) = 0{,}8 - 0{,}4 = 0{,}4$ e $P(X = 3) = 1 - 0{,}8 = 0{,}2$.
 :::
 
-**3.** Com o $N$ do exercício 2, calcule $P(N \ge 2)$ e $P(N > 2)$.
+**3.** Com o $X$ do exercício 2, calcule $P(X \ge 2)$ e $P(X > 2)$.
 
 ::: {.callout-tip collapse="true"}
 ## Resposta
 
-$P(N \ge 2) = 1 - P(N \le 1) = 1 - F(1) = 0{,}6$. $P(N > 2) = 1 - F(2) = 0{,}2$. A diferença entre as duas, 0,4, é $P(N = 2)$.
+$P(X \ge 2) = 1 - P(X \le 1) = 1 - F(1) = 0{,}6$. $P(X > 2) = 1 - F(2) = 0{,}2$. A diferença entre as duas, 0,4, é $P(X = 2)$.
 :::

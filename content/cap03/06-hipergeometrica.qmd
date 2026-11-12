@@ -31,7 +31,7 @@ Os limites de $k$ só dizem o óbvio. Não há como sortear mais sucessos do que
 
 ## O lote de 20 peças, de novo
 
-Um lote tem $N = 20$ peças, $r = 5$ delas defeituosas, e escolhem-se $n = 4$ ao acaso, sem reposição (Exemplo 5.8 de @bussab2023, a conta da seção 2.3). O número $X$ de defeituosas na amostra tem distribuição $\mathrm{hip}(20, 5, 4)$, e os casos possíveis são $\binom{20}{4} = 4.845$.
+Um lote tem $N = 20$ peças, $r = 5$ delas defeituosas, e escolhem-se $n = 4$ ao acaso, sem reposição (Exemplo 5.8 de @bussab2023, a conta da seção 2.3). O número $X$ de defeituosas na amostra tem distribuição $\mathrm{hip}(20, 5, 4)$, e os casos possíveis são $\binom{20}{4} = 4{.}845$.
 
 Duas defeituosas na amostra significa 2 das 5 defeituosas e 2 das 15 boas:
 

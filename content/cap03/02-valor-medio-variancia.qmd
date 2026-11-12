@@ -4,7 +4,7 @@
 Esta seção corresponde à seção 6.3 de @bussab2023, com dois resultados da seção 6.4.
 :::
 
-Na seção 3.1, o empresário montou o modelo do lucro $X$ por unidade montada do produto de cilindro e esfera:
+Na seção 3.1, o empresário construiu o modelo do lucro $X$ por unidade montada do produto de cilindro e esfera:
 
 | $x$ (R\$) | 15 | 10 | 5 | $-5$ |
 |:-:|:-:|:-:|:-:|:-:|

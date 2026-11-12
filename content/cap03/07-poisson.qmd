@@ -23,7 +23,7 @@ Quantas chamadas chegam a uma central telefônica num minuto? Quantos carros pas
 
 ## Da binomial à Poisson
 
-Uma fábrica produz 2.000 peças por dia, e cada uma sai defeituosa com probabilidade 0,002, independentemente das outras. O número de peças defeituosas no dia tem distribuição $b(2.000, 1/500)$, com média $np = 2.000 \times 0{,}002 = 4$. Com $n$ tão grande e $p$ tão pequeno, a fórmula da binomial fica difícil de calcular à mão: $\binom{2.000}{k}$ é enorme e $0{,}998^{2.000-k}$ é minúsculo. Mas ela se aproxima de uma fórmula mais simples, que depende só da média $\lambda = np$:
+Uma fábrica produz 2.000 peças por dia, e cada uma sai defeituosa com probabilidade 0,002, independentemente das outras. O número de peças defeituosas no dia tem distribuição $b(2{.}000, 1/500)$, com média $np = 2{.}000 \times 0{,}002 = 4$. Com $n$ tão grande e $p$ tão pequeno, a fórmula da binomial fica difícil de calcular à mão: $\binom{2{.}000}{k}$ é enorme e $0{,}998^{2{.}000-k}$ é minúsculo. Mas ela se aproxima de uma fórmula mais simples, que depende só da média $\lambda = np$:
 
 $$
 \binom{n}{k} p^k (1 - p)^{n - k} \approx \frac{e^{-\lambda} \lambda^k}{k!}.
@@ -33,12 +33,12 @@ A aproximação é boa quando $n$ é grande e $p$ é pequeno, com $np \le 7$ com
 
 | $k$ | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
 |:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
-| binomial $b(2.000, 1/500)$ | 0,0182 | 0,0731 | 0,1465 | 0,1955 | 0,1956 | 0,1564 | 0,1042 | 0,0595 |
+| binomial $b(2{.}000, 1/500)$ | 0,0182 | 0,0731 | 0,1465 | 0,1955 | 0,1956 | 0,1564 | 0,1042 | 0,0595 |
 | Poisson, $\lambda = 4$ | 0,0183 | 0,0733 | 0,1465 | 0,1954 | 0,1954 | 0,1563 | 0,1042 | 0,0595 |
 
 : Probabilidade de $k$ peças defeituosas no dia, pela binomial exata e pela aproximação de Poisson. {#tbl-binomial-poisson}
 
-As duas linhas diferem em no máximo 0,0002. O Exemplo 6.16 de @bussab2023 usa a aproximação para $b(2; 1.000, 1/10.000)$, a probabilidade de 2 sucessos em 1.000 ensaios com $p = 0{,}0001$. Com $\lambda = 1.000 \times 0{,}0001 = 0{,}1$,
+As duas linhas diferem em no máximo 0,0002. O Exemplo 6.16 de @bussab2023 usa a aproximação para $b(2; 1{.}000, 1/10{.}000)$, a probabilidade de 2 sucessos em 1.000 ensaios com $p = 0{,}0001$. Com $\lambda = 1{.}000 \times 0{,}0001 = 0{,}1$,
 
 $$
 \frac{e^{-0{,}1}\, 0{,}1^2}{2!} \approx 0{,}0045,
